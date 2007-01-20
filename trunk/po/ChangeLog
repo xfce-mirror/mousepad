@@ -1,0 +1,468 @@
+2007-01-20  Benedikt Meurer <benny@xfce.org>
+
+	* === Released 0.2.12 ===
+	* *.po: Update Project-Id-Version.
+
+2007-01-20  Alexander Nyakhaychyk  <nyakhaychyk@gmail.com>
+
+	* be.po: Updated Belarusian Translation
+
+2007-01-20  Benedikt Meurer <benny@xfce.org>
+
+	* mousepad.pot, *.po: Merge new strings.
+
+2007-01-20  Alexander Nyakhaychyk  <nyakhaychyk@gmail.com>
+
+	* be.po: Added Belarusian Translation
+	* LINGUAS: Added "be"
+
+2007-01-18  Alexander Toresson <alexander.toresson@gmail.com>
+
+	* sv.po: Updated Swedish translation.
+
+2007-01-14  Maximilian Schleiss <maxschleiss@bluewin.ch>
+
+	* fr.po: Fixed accelerators in the French translation
+
+2007-01-11  Maximilian Schleiss <maxschleiss@bluewin.ch>
+
+	* pl.po: Updated the Polish translation by
+	Piotr Maliński <admin@rk.edu.pl>
+
+2006-12-28  Adriano Winter Bess  <adriano@xfce.org>
+
+	* pt_BR.po: Updated brazilian portuguese translations.
+
+2006-12-28  A S Alam <apbrar@gmail.com>
+
+	* pa.po: Punjabi Translation file added
+	* LINGUAS: pa is added for Punjabi locale
+
+2006-12-25  Maximilian Schleiss <maxschleiss@bluewin.ch>
+
+	* mk.po: Added the Macedonian translation by
+	Tome Boshevski <tome@lugola.net>
+
+2006-12-20  Maximilian Schleiss <maxschleiss@bluewin.ch>
+
+	* ru.po: Updated the Russian translation by
+	Andrey Fedoseev <andrey.fedoseev@gmail.com>
+
+2006-11-26  Pau Rul-lan Ferragut <paurullan@bulma.net>
+
+	* ca.po: Catalan Update by Carles Muñoz Gorriz <carlesmu@ya.com>
+
+2006-11-14  Maximilian Schleiss <maxschleiss@bluewin.ch>
+
+	* cy.po: Modified description text
+	* fr.po: Modified description text
+
+2006-11-14  Jean-François Wauthy <pollux@xfce.org>
+
+	* cy.po: Add Welsh translations by Geraint Rowlands <ansbaradigeidfran@gmail.com>
+
+2006-11-11  Stavros Giannouris <stavrosg@serverhive.com>
+
+	* el.po: Greek translation update
+
+2006-11-11  Maximilian Schleiss <maxschleiss@bluewin.ch>
+
+	* cs.po: Updated the Czech translation
+	by Michal Várady <miko.vaji@gmail.com>.
+	* ko.po: Updated the Korean translation
+	by ByungHyun Choi <byunghyun.choi@debianusers.org>.
+
+2006-11-09  Jari Rahkonen <jari.rahkonen@pp1.inet.fi>
+
+	* fi.po: Updated Finnish translation.
+
+2006-11-08  Maximilian Schleiss <maxschleiss@bluewin.ch>
+
+	* fr.po: Updated the French translation.
+
+2006-11-06  Piarres Beobide <pi@beobide.net>
+
+	* eu.po: Basque translation update
+
+2006-11-04  Benedikt Meurer <benny@xfce.org>
+
+	* mousepad.pot, *.po: Merge new strings.
+	* de.po: Updated german translations.
+
+2006-11-04  Benedikt Meurer <benny@xfce.org>
+
+	* *.po: Update Project-Id-Version.
+
+2006-10-28  Pau Rul-lan Ferragut <paurullan@bulma.net>
+
+	* dz.po: add Dzongkha translation by Dzongkha team
+	Tenzin <tdendup@dit.gov.bt>
+
+2006-10-26  Pau Rul-lan Ferragut <paurullan@bulma.net>
+
+	* pl.po: Updated Polish translation by Szymon Kałasz
+	<szymon_maestro@gazeta.pl>
+
+2006-10-17  Maximilian Schleiss <maxschleiss@bluewin.ch>
+
+	* ko.po: Updated Korean translation by ByungHyun Choi
+	<byunghyun.choi@gmail.com>
+
+2006-10-13  Pau Rul-lan Ferragut <paurullan@bulma.net>
+
+	* nl.po: Updated Dutch translation by Stephan Arts
+	<psybsd@gmail.com>
+
+2006-10-10  Alexander Toresson <alexander.toresson@gmail.com>
+
+	* sv.po: Updated Swedish translation by Daniel Nylander
+	<po@danielnylander.se>
+
+2006-09-18  Pau Rul-lan Ferragut <paurullan@bulma.net>
+
+	* ca.po: Update Catalan update
+
+2006-09-03  Jean-François Wauthy <pollux@xfce.org>
+
+	* nl.po: Add Dutch translations
+
+2006-09-02  Benedikt Meurer <benny@xfce.org>
+
+	* de.po: Updated german translations by Enrico Tröger
+	  <enrico.troeger@uvena.de>.
+
+2006-08-29  Piarres Beobide <pi@beobide.net>
+
+	* eu.po: Basque translation update
+
+2006-08-27  Jean-François Wauthy <pollux@xfce.org>
+
+	* cs.po: Updated Czech translations
+	* ka.po: Add Georgian translations
+
+2006-08-20  Jean-François Wauthy <pollux@xfce.org>
+
+	* gl.po: Add Galician translations
+
+2006-08-05  Jari Rahkonen <jari.rahkonen@pp1.inet.fi>
+
+	* fi.po: Updated Finnish translation.
+
+2006-08-01  Sylvain Vedrenne <gnu_sylvain@xfce.org>
+
+	* LINGUAS, eo.po: Added Esperanto translations
+	from Jarbas Araujo Jr. <jarbasaraujojr@yahoo.com.br>
+
+2006-07-30  Hydonsingore Cia <hydonsingore@educities.edu.tw>
+
+	* zh_TW.po: Updated traditional Chinese translations.
+
+2006-07-22  Stavros Giannouris
+
+	* el.po: Updated greek translations
+
+2006-07-15  Jean-François Wauthy
+
+	* fr.po: Updated French translations by Maximilian Schleiss
+	 <maxschleiss@bluewin.ch>
+
+2006-06-12  Hydonsingore Cia <hydonsingore@educities.edu.tw>
+
+	* zh_TW.po: Modify the translator's e-mail address.
+
+2006-05-14  Daichi Kawahata <daichi@xfce.org>
+
+	* fr.po: Updated French translations by Maximilian Schleiss
+	  <maxschleiss@bluewin.ch>.
+
+2006-05-13  Daichi Kawahata <daichi@xfce.org>
+
+	* pl.po: Updated Polish translations by Szymon Kalasz
+	  <szymon_maestro@gazeta.pl>.
+
+2006-05-10  Jari Rahkonen <jari.rahkonen@pp2.inet.fi>
+
+	* LINGUAS, fi.po: A new translation for mousepad added.
+
+2006-05-05  Daichi Kawahata <daichi@xfce.org>
+
+	* sk.po: Updated Slovak translations by Roman Moravcik
+	  <roman.moravcik@gmail.com>.
+
+2006-05-04  Daichi Kawahata <daichi@xfce.org>
+
+	* cs.po: Updated Czech translations by Michal Varady
+	  <miko.vaji@gmail.com>.
+
+2006-05-01  Daichi Kawahata <daichi@xfce.org>
+
+	* ru.po: Updated Russian translations by Sergey Fedoseev
+	  <fedoseev.sergey@gmail.com>.
+
+2006-04-30  Daichi Kawahata <daichi@xfce.org>
+
+	* pl.po: Updated Polish translations by Piotr Malinski
+	  <admin@rk.edu.pl>.
+
+2006-04-29  Daichi Kawahata <daichi@xfce.org>
+
+	* *.po: Bump.
+	* LINGUAS: Added a last missing language code.
+	* LINGUAS: Added missing language codes.
+
+2006-04-29  Stavros Giannouris <stavrosg@serverhive.com>
+
+	* el.po: Greek translation update.
+	* LINGUAS: Added `el'.
+
+2006-04-29  Daichi Kawahata <daichi@xfce.org>
+
+	* ko.po: Updated.
+	* pl.po: Updated Polish translations by Piotr Malinski
+	<riklaunim@gmail.com>.
+
+2006-04-28  Hydonsingore Cia <hydonsingore@mail.educities.edu.tw>
+
+	* zh_TW.po: Updated traditional Chinese translations.
+
+2006-04-26  Peeter Vois <Peeter.Vois@mail.ee>
+
+	* LINGUAS: .
+	* et.po: .
+
+2006-04-24  Szervac Attila <sas@321.hu>
+
+	* hu.po: hu trunk: mousepad update
+
+2006-04-23  Daichi Kawahata <daichi@xfce.org>
+
+	* ru.po: Updated Russian translations by Sergey Fedoseev
+	  <fedoseev.sergey@gmail.com>.
+	* ja.po: Updated Japanese translations.
+	* LINGUAS: Added `ko'.
+	* LINGUAS: Added `uk'.
+
+2006-04-22  Daichi Kawahata <daichi@xfce.org>
+
+	* zh_CN.po: Updated Simplified Chinese translations by Jick Nan
+	<jick.nan@gmail.com>.
+
+2006-04-20  Maxim V. Dziumanenko <mvd@mylinux.ua>
+
+	* uk.po: Updated Ukrainian translation.
+
+2006-04-19  Szervac Attila <sas@321.hu>
+
+	* hu.po: hu trunk: updates
+
+2006-04-18  Yuval Tanny <tanai@int.gov.il>
+
+	* LINGUAS, he.po: Hebrew translation for Mousepad.
+
+2006-04-17  Benedikt Meurer <benny@xfce.org>
+
+	* LINGUAS: Added.
+	* Makevars, POTFILES, POTFILES.in, Rules-quot, boldquot.sed,
+	  en@boldquot.header, en@quot.header, insert-header.sin, quot.sed,
+	  remove-potcdate.sin: Removed.
+	* mousepad.pot, *.po: Updated.
+
+2006-04-15  Daichi Kawahata <daichi@xfce.org>
+
+	* ko.po: Added Korean translations by ByungHyun Choi
+	  <byunghyun.choi@gmail.com>.
+
+2006-04-02  Pau Rullan Ferragut <paurullan@bulma.net>
+
+	* ca.po: catalan little of work on catalan translations
+
+2006-04-01  Stavros Giannouris <stavrosg@serverhive.com>
+
+	* el.po: Greek translations update & polish by Stathis Kamperis
+	  <ekamperi@auth.gr>.
+
+2006-03-19  Pau Rullan Ferragut <paurullan@bulma.net>
+
+	* ca.po: catalan seems a lot of work but they all are fuzzy
+
+2006-03-18  Daichi Kawahata <daichi@xfce.org>
+
+	* ru.po: Updated Russian translations by Sergey Fedoseev
+	  <fedoseev.sergey@gmail.com>.
+
+2006-01-08  Pau Rullan Ferragut <paurullan@bulma.net>
+
+	* ca.po: little heading fixing
+
+2006-01-07  Daichi Kawahata <daichi@xfce.org>
+
+	* ca.po, cs.po, de.po, el.po, es.po, eu.po, fr.po, gu.po, hu.po,
+	  it.po, ja.po, lt.po, pl.po, pt_BR.po, ru.po, sk.po, sv.po,
+	  ta.po, zh_CN.po, zh_TW.po: Updated copyright information.
+
+2005-11-21  Daichi Kawahata <daichi@xfce.org>
+
+	* pt_BR.po: Updated Brazilian Portuguese translations by Adriano
+	  Winter Bess <awbess@gmail.com>.
+
+2005-10-27  Piarres Beobide <pi@beobide.net>
+
+	* eu.po: Adding basque translation
+
+2005-10-21  Daichi Kawahata <daichi@xfce.org>
+
+	* ca.po, cs.po, de.po, el.po, es.po, fr.po, gu.po, hu.po, it.po,
+	  ja.po, lt.po, pl.po, pt_BR.po, ru.po, sk.po, sv.po, ta.po,
+	  zh_CN.po, zh_TW.po: Discarded obsolete translations.
+
+2005-10-20  Alex Dupre <ale@FreeBSD.org>
+
+	* it.po: Update Italian translations.
+
+2005-10-16  Daichi Kawahata <daichi@xfce.org>
+
+	* ca.po, cs.po, de.po, el.po, es.po, fr.po, gu.po, hu.po, it.po,
+	  ja.po, lt.po, mousepad.pot, pl.po, pt_BR.po, ru.po, sk.po,
+	  sv.po, ta.po, zh_CN.po, zh_TW.po: Updated.
+
+2005-10-09  Daichi Kawahata <daichi@xfce.org>
+
+	* ja.po: Keyword `Id' expansion, hope this works.
+
+2005-10-07  Daichi Kawahata <daichi@xfce.org>
+
+	* sk.po: Corrected file encoding by Roman Moravcik
+	  <roman.moravcik@gmail.com>.
+	* ca.po, cs.po, de.po, el.po, es.po, fr.po, gu.po, hu.po, it.po,
+	  ja.po, lt.po, pl.po, pt_BR.po, ru.po, sv.po, ta.po, zh_CN.po,
+	  zh_TW.po: Modified initial comment strings. Changed package
+	  name/version number.
+
+2005-09-26  Hydonsingore Cia <hydonsingore@mail.educities.edu.tw>
+
+	* ChangeLog, zh_TW.po: zh_TW.po translation update
+
+2005-09-24  Daichi Kawahata <daichi@xfce.org>
+
+	* ja.po: Updated some translations.
+
+2005-09-12  Daichi Kawahata <daichi@xfce.org>
+
+	* LINGUAS, pt_BR.po: Added Brazilian Portuguese translations by
+	  Tomas Schertel <tschertel@gmail.com>.
+
+2005-08-26  Ankitkumar Rameshchandra Patel <ankit@redhat.com>
+
+	* gu.po: Added Gujarati Translations
+
+2005-08-20  Daichi Kawahata <daichi@xfce.org>
+
+	* cs.po: Fixed typo. at the header.
+
+2005-08-18  Daichi Kawahata <daichi@xfce.org>
+
+	* ja.po: Updated Japanese translations.
+
+2005-08-06  Stavros Giannouris <StavrosG2002@freemail.gr>
+
+	* el.po: Initial addition of Greek language files for mousepad
+	  in trunk.
+
+2005-08-04  Jean-Francois Wauthy <pollux@xfce.org>
+
+	* hu.po: update HU translations
+
+2005-05-31  Jean-Francois Wauthy <pollux@xfce.org>
+
+	* ja.po: update JA translations
+
+2005-03-07  Erik Harrison <erikharrison@gmail.com>
+
+	* Makefile, leafpad.pot: Removed some autogenerated files that
+	  snuck into the import
+	* ChangeLog, LINGUAS, Makefile, Makevars, POTFILES, POTFILES.in,
+	  Rules-quot, boldquot.sed, ca.po, cs.po, de.po,
+	  en@boldquot.header, en@quot.header, es.po, fr.po, hu.po,
+	  insert-header.sin, it.po, ja.po, leafpad.pot, lt.po,
+	  mousepad.pot, pl.po, quot.sed, remove-potcdate.sin, ru.po,
+	  sk.po, sv.po, ta.po, zh_CN.po, zh_TW.po: Initial import in SVN
+
+2004-12-21  Michal Wrobel <wrobel@task.gda.pl>
+
+	* pl.po: Added Polish translation.
+
+2004-12-18  Isak Savo <iso01001@student.mdh.se>
+
+	* sv.po: Updated Swedish translation.
+
+2004-12-07  Lech Jankovski <godgard@gmail.com>
+
+	* lt.po: Added Lithuanian translation.
+
+2004-11-29  Alessio D'Ascanio <g3ntaro@gmail.com>
+
+	* it.po: Added Italian translation.
+
+2004-11-25  Vijay Durairaj <vjd81@yahoo.com>
+
+	* ta.po: Added Tamil translation.
+
+2004-11-23  David Rosal <davidrr@users.sourceforge.net>
+
+	* ca.po: Added Catalan translation.
+
+2004-11-20  Reviczky Adam Janos <reviczky@freemail.hu>
+
+	* hu.po: Added Hungarian translation.
+
+2004-11-19  Petr Vyslouzil <evyslouz@volny.cz>
+
+	* cs.po: Added Czech translation.
+
+2004-11-14  Ruediger Arp <ruediger@gmx.net>
+
+	* de.po: Updated German translation.
+
+2004-11-09  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.in.in: Downgrade to gettext-0.11.4.
+
+2004-11-09  Lucas Vieites <lucas@asixinformatica.com>
+
+	* es.po: Added Spanish translation.
+
+2004-11-03  Luc Pionchon <luc@handhelds.org>
+
+	* fr.po: Added French translation.
+
+2004-10-28  Sebastian Stach <sebsta@t-online.de>
+
+	* de.po: Added German translation.
+
+2004-10-28  Isak Savo <iso01001@student.mdh.se>
+
+	* sv.po: Added Swedish translation.
+
+2004-10-24  Artem Vakhitov <temcat@mail.ru>
+
+	* ru.po: Added Russian translation.
+
+2004-10-04  OLS3 <ols3@lxer.idv.tw>
+
+	* zh_TW.po: Added Traditional Chinese translation.
+
+2004-09-28  Carlos Z.F. Liu <carlos_liu@yahoo.com>
+
+	* zh_CN.po: Added Simplified Chinese translation.
+
+2004-09-11  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.in.in: New file, from gettext-0.12.1.
+	* Rules-quot: New file, from gettext-0.12.1.
+	* boldquot.sed: New file, from gettext-0.12.1.
+	* en@boldquot.header: New file, from gettext-0.12.1.
+	* en@quot.header: New file, from gettext-0.12.1.
+	* insert-header.sin: New file, from gettext-0.12.1.
+	* quot.sed: New file, from gettext-0.12.1.
+	* remove-potcdate.sin: New file, from gettext-0.12.1.
+
