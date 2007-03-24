@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-20 12:34+0100\n"
 "PO-Revision-Date: 2006-11-04 17:10+0100\n"
-"Last-Translator: Benedikt Meurer <benny@xfce.org>\n"
+"Last-Translator: Nico Schümann <nico@prog.nico22.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,12 +20,12 @@ msgstr ""
 #: ../src/callback.c:37
 #, c-format
 msgid "Save changes to '%s'?"
-msgstr "Änderungen an '%s' speichern?"
+msgstr "Änderungen an »%s« speichern?"
 
 #: ../src/callback.c:213 ../src/file.c:174
 #, c-format
 msgid "Can't convert codeset to '%s'"
-msgstr "Der Zeichensatz kann nicht nach '%s' konvertiert werden"
+msgstr "Der Zeichensatz kann nicht nach »%s« konvertiert werden"
 
 #: ../src/callback.c:240
 msgid "Can't open pipe to process"
@@ -237,7 +237,7 @@ msgstr "_Zeichensatz:"
 #: ../src/selector.c:207
 #, c-format
 msgid "'%s' is not supported"
-msgstr "'%s' wird nicht unterstützt"
+msgstr "»%s« wird nicht unterstützt"
 
 #: ../src/selector.c:271
 msgid "Auto Detect"
@@ -258,7 +258,7 @@ msgstr "Zeichen_kodierung: "
 #: ../src/selector.c:403
 #, c-format
 msgid "'%s' already exists. Overwrite?"
-msgstr "'%s' existiert bereits. Überschreiben?"
+msgstr "»%s« existiert bereits. Überschreiben?"
 
 #. add the label with the root warning
 #: ../src/window.c:110
