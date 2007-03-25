@@ -1,17 +1,17 @@
 # $Id$
 #
 # Japanese translations for Mousepad package.
-# Copyright (C) 2005-2006 Erik Harrison.
+# Copyright (C) 2005-2007 Erik Harrison.
 # This file is distributed under the same license as the Mousepad package.
 # Tarot Osuji <tarot@sdf.lonestar.org>, 2004.
-# Daichi Kawahata <daichi@xfce.org>, 2005.
+# Daichi Kawahata <daichi@xfce.org>, 2005-2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: mousepad 0.2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-20 12:34+0100\n"
-"PO-Revision-Date: 2006-04-23 16:34+0900\n"
+"POT-Creation-Date: 2007-03-26 01:42+0900\n"
+"PO-Revision-Date: 2007-03-25 22:32+0900\n"
 "Last-Translator: Daichi Kawahata <daichi@xfce.org>\n"
 "Language-Team: Japanese <xfce-users-jp@ml.fdiary.net>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "ファイルに書き込めませんでした"
 
 #: ../src/font.c:49
 msgid "Font"
-msgstr "フォントを選んで下さい"
+msgstr "フォントを選んでください"
 
 #: ../src/menu.c:61
 msgid "/_File"
@@ -62,18 +62,16 @@ msgid "/File/_New"
 msgstr "/ファイル/新規(_N)"
 
 #: ../src/menu.c:66
-#, fuzzy
 msgid "/File/New _Window"
-msgstr "/ファイル/新規(_N)"
+msgstr "/ファイル/新規ウィンドウ(_W)"
 
 #: ../src/menu.c:69
 msgid "/File/_Open..."
 msgstr "/ファイル/開く(_O)..."
 
 #: ../src/menu.c:72
-#, fuzzy
 msgid "/File/Open _Recent"
-msgstr "/ファイル/開く(_O)..."
+msgstr "/ファイル/最近開いたファイル(_R)"
 
 #: ../src/menu.c:77
 msgid "/File/_Save"
@@ -267,6 +265,7 @@ msgstr "'%s' は既に存在します。上書きしますか？"
 #: ../src/window.c:110
 msgid "Warning, you are using the root account, you may harm your system."
 msgstr ""
+"root アカウントで利用しています、システムに害を与える可能性があります。"
 
 #: ../src/window.c:169
 msgid "Untitled"
