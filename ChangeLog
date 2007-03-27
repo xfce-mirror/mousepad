@@ -1,3 +1,8 @@
+2007-03-27	Nick Schermer <nick@xfce.org>
+
+	* configure.in.in: Apply patch from bug 2921 to check the -Wall,
+         -Werror and -errwarn=%all flags before compiling.
+
 2007-01-20	Benedikt Meurer <benny@xfce.org>
 
 	* configure.in.in: Post-release version bump.
