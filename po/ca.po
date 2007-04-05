@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: mousepad 0.2.12\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-20 12:34+0100\n"
-"PO-Revision-Date: 2007-02-05 13:07+0100\n"
+"PO-Revision-Date: 2007-04-05 12:35+0200\n"
 "Last-Translator: Carles Muñoz Gorriz <carlesmu@internautas.org>\n"
 "Language-Team: Catalan <xfce-i18n@xfce.org>\n"
 "MIME-Version: 1.0\n"
@@ -71,11 +71,11 @@ msgstr "/Fitxer/Nova _Finesta"
 
 #: ../src/menu.c:69
 msgid "/File/_Open..."
-msgstr "/Fitxer/_Obre…"
+msgstr "/Fitxer/_Obre"
 
 #: ../src/menu.c:72
 msgid "/File/Open _Recent"
-msgstr "/Fitxer/Obre _recent…"
+msgstr "/Fitxer/Obre _recent"
 
 #: ../src/menu.c:77
 msgid "/File/_Save"
@@ -87,7 +87,7 @@ msgstr "/Fitxer/_Anomena i desa"
 
 #: ../src/menu.c:83
 msgid "/File/_Print..."
-msgstr "/Fitxer/Im_primeix…"
+msgstr "/Fitxer/Im_primeix"
 
 #: ../src/menu.c:87
 msgid "/File/_Quit"
@@ -131,7 +131,7 @@ msgstr "/_Cerca"
 
 #: ../src/menu.c:111
 msgid "/Search/_Find..."
-msgstr "/Cerca/_Cercar…"
+msgstr "/Cerca/_Cercar"
 
 #: ../src/menu.c:113
 msgid "/Search/Find _Next"
@@ -147,7 +147,7 @@ msgstr "/Cerca/_Substitueix"
 
 #: ../src/menu.c:121
 msgid "/Search/_Jump To..."
-msgstr "/Cerca/Vés a la _línia…"
+msgstr "/Cerca/Vés a la _línia"
 
 #: ../src/menu.c:123
 msgid "/_Options"
@@ -175,7 +175,7 @@ msgstr "/A_juda"
 
 #: ../src/menu.c:137
 msgid "/Help/_About"
-msgstr "/Ajuda/_Quant a…"
+msgstr "/Ajuda/_Quant a"
 
 #: ../src/search.c:73
 msgid "Search string not found"
