@@ -1,5 +1,5 @@
 # French translation of the mousepad package.
-# Copyright (C) 2005-2006 Erik Harrison.
+# Copyright (C) 2005-2007 Erik Harrison.
 # This file is distributed under the same license as the mousepad package.
 # Luc Pionchon <luc@handhelds.org>, 2004.
 # Maximilian Schleiss <maxschleiss@solnet.ch>, 2006-2007.

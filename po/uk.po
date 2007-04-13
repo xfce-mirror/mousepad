@@ -1,11 +1,11 @@
-# Ukrainian translation to mousepad.
-# Copyright (C) 2002-2006 The Xfce development team.
-# This file is distributed under the same license as the libxfcegui4 package.
+# Ukrainian translation of the mousepad package.
+# Copyright (C) 2005-2007 Erik Harrison.
+# This file is distributed under the same license as the mousepad package.
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2006-2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: mousepad\n"
+"Project-Id-Version: mousepad 0.2.12\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-20 12:34+0100\n"
 "PO-Revision-Date: 2007-03-03 21:06+0900\n"
