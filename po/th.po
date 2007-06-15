@@ -1,0 +1,281 @@
+# Thai translation of mousepad.
+# Copyright (C) 2005-2007 Erik Harrison.
+# This file is distributed under the same license as the mousepad package.
+# Thai Linux Working Group
+# Manatsawin <manatsawin@gmail.com>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mousepad 0.2.12\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-01-20 12:34+0100\n"
+"PO-Revision-Date: 2007-05-30 18:10+0700\n"
+"Last-Translator: Manatsawin <manatsawin@gmail.com>\n"
+"Language-Team: Thai <l10n@opentle.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/callback.c:37
+#, c-format
+msgid "Save changes to '%s'?"
+msgstr "บันทึกการแก้ไขไปยัง '%s'?"
+
+#: ../src/callback.c:213 ../src/file.c:174
+#, c-format
+msgid "Can't convert codeset to '%s'"
+msgstr "ไม่สามารถแปลงรหัสเป็น '%s' ได้"
+
+#: ../src/callback.c:240
+msgid "Can't open pipe to process"
+msgstr "ไม่สามารถเปิดไปป์ไปยังโพรเซส"
+
+#: ../src/callback.c:397
+msgid "A text editor for Xfce"
+msgstr "โปรแกรมแก้ไขข้อความสำหรับ Xfce"
+
+#: ../src/dialog.c:135
+#, c-format
+msgid "About %s"
+msgstr "เกี่ยวกับ %s"
+
+#: ../src/file.c:187
+msgid "Can't open file to write"
+msgstr "ไม่สามารถเปิดไฟล์ที่จะเขียน"
+
+#: ../src/file.c:192
+msgid "Can't write file"
+msgstr "ไม่สามารถเขียนไฟล์"
+
+#: ../src/font.c:49
+msgid "Font"
+msgstr "ฟอนต์"
+
+#: ../src/menu.c:61
+msgid "/_File"
+msgstr "/_ไฟล์"
+
+#: ../src/menu.c:63
+msgid "/File/_New"
+msgstr "/ไฟล์/_ใหม่"
+
+#: ../src/menu.c:66
+msgid "/File/New _Window"
+msgstr "/ไฟล์/หน้าต่างใ_หม่"
+
+#: ../src/menu.c:69
+msgid "/File/_Open..."
+msgstr "/ไฟล์/_เปิด..."
+
+#: ../src/menu.c:72
+msgid "/File/Open _Recent"
+msgstr "/ไฟล์/เปิดเอ_กสารก่อนหน้า"
+
+#: ../src/menu.c:77
+msgid "/File/_Save"
+msgstr "/ไฟล์/_บันทึก"
+
+#: ../src/menu.c:79
+msgid "/File/Save _As..."
+msgstr "/ไฟล์/บันทึก_เป็น"
+
+#: ../src/menu.c:83
+msgid "/File/_Print..."
+msgstr "/ไฟล์/_พิมพ์..."
+
+#: ../src/menu.c:87
+msgid "/File/_Quit"
+msgstr "/ไฟล์/_ออก"
+
+#: ../src/menu.c:89
+msgid "/_Edit"
+msgstr "/_แก้ไข"
+
+#: ../src/menu.c:91
+msgid "/Edit/_Undo"
+msgstr "/แก้ไข/_ยกเลิก"
+
+#: ../src/menu.c:93
+msgid "/Edit/_Redo"
+msgstr "/แก้ไข/_ทำซ้ำ"
+
+#: ../src/menu.c:97
+msgid "/Edit/Cu_t"
+msgstr "/แก้ไข/ตั_ด"
+
+#: ../src/menu.c:99
+msgid "/Edit/_Copy"
+msgstr "/แก้ไข/_คัดลอก"
+
+#: ../src/menu.c:101
+msgid "/Edit/_Paste"
+msgstr "/แก้ไข/_วาง"
+
+#: ../src/menu.c:103
+msgid "/Edit/_Delete"
+msgstr "/แก้ไข/_ลบ"
+
+#: ../src/menu.c:107
+msgid "/Edit/Select _All"
+msgstr "/แก้ไข/เลือกทั้_งหมด"
+
+#: ../src/menu.c:109
+msgid "/_Search"
+msgstr "/_ค้นหา"
+
+#: ../src/menu.c:111
+msgid "/Search/_Find..."
+msgstr "/ค้นหา/_ค้นหา..."
+
+#: ../src/menu.c:113
+msgid "/Search/Find _Next"
+msgstr "/ค้นหา/หาต่_อ"
+
+#: ../src/menu.c:115
+msgid "/Search/Find _Previous"
+msgstr "/ค้นหา/หาก่_อนหน้า"
+
+#: ../src/menu.c:117
+msgid "/Search/_Replace..."
+msgstr "/ค้นหา/_แทนที่..."
+
+#: ../src/menu.c:121
+msgid "/Search/_Jump To..."
+msgstr "/ค้นหา/_โดดไป..."
+
+#: ../src/menu.c:123
+msgid "/_Options"
+msgstr "/_ตัวเลือก"
+
+#: ../src/menu.c:125
+msgid "/Options/_Font..."
+msgstr "/ตัวเลือก/_ฟอนต์..."
+
+#: ../src/menu.c:127
+msgid "/Options/_Word Wrap"
+msgstr "/ตัวเลือก/_ตัดคำ"
+
+#: ../src/menu.c:129
+msgid "/Options/_Line Numbers"
+msgstr "/ตัวเลือก/_หมายเลขบรรทัด"
+
+#: ../src/menu.c:133
+msgid "/Options/_Auto Indent"
+msgstr "/ตัวเลือก/_จัดย่อหน้าอัตโนมัติ"
+
+#: ../src/menu.c:135
+msgid "/_Help"
+msgstr "/_ช่วยเหลือ"
+
+#: ../src/menu.c:137
+msgid "/Help/_About"
+msgstr "/ช่วยเหลือ/_เกี่ยวกับ"
+
+#: ../src/search.c:73
+msgid "Search string not found"
+msgstr "ไม่พบคำค้น"
+
+#: ../src/search.c:115
+msgid "Replace?"
+msgstr "แทนที่?"
+
+#: ../src/search.c:143
+#, c-format
+msgid "%d strings replaced"
+msgstr "ข้อความ %d ประโยคถูกแทนที่"
+
+#: ../src/search.c:188
+msgid "Find"
+msgstr "ค้นหา"
+
+#: ../src/search.c:200 ../src/search.c:265
+msgid "Fi_nd what: "
+msgstr "ค้_นหาอะไร: "
+
+#: ../src/search.c:219 ../src/search.c:292
+msgid "_Match case"
+msgstr "_แยกตัวพิมพ์ใหญ่-เล็ก"
+
+#: ../src/search.c:253
+msgid "Replace"
+msgstr "แทนที่"
+
+#: ../src/search.c:280
+msgid "Re_place with: "
+msgstr "แท_นที่ด้วย: "
+
+#: ../src/search.c:296
+msgid "Replace _all at once"
+msgstr "แทนที่_ทั้งหมดในครั้งเดียว"
+
+#: ../src/search.c:342
+msgid "Jump To"
+msgstr "กระโดดไป"
+
+#: ../src/search.c:347
+msgid "_Jump"
+msgstr "_กระโดด"
+
+#: ../src/search.c:353
+msgid "_Line number: "
+msgstr "_เลขบรรทัด: "
+
+#: ../src/selector.c:103
+#, c-format
+msgid "Current Locale (%s)"
+msgstr "ภาษาปัจจุบัน (%s)"
+
+#: ../src/selector.c:147
+msgid "Other Codeset"
+msgstr "รหัสอื่น"
+
+#: ../src/selector.c:186
+msgid "Code_set:"
+msgstr "_รหัส:"
+
+#: ../src/selector.c:207
+#, c-format
+msgid "'%s' is not supported"
+msgstr "ยังไม่สนับสนุน '%s'"
+
+#: ../src/selector.c:271
+msgid "Auto Detect"
+msgstr "ตรวจพบอัตโนมัติ"
+
+#: ../src/selector.c:325
+msgid "Open"
+msgstr "เปิด"
+
+#: ../src/selector.c:325
+msgid "Save As"
+msgstr "บันทึกเป็น"
+
+#: ../src/selector.c:347
+msgid "Ch_aracter Coding: "
+msgstr "การเข้าร_หัสอักษร: "
+
+#: ../src/selector.c:403
+#, c-format
+msgid "'%s' already exists. Overwrite?"
+msgstr "'%s' มีอยู่แล้ว แทนที่?"
+
+#. add the label with the root warning
+#: ../src/window.c:110
+msgid "Warning, you are using the root account, you may harm your system."
+msgstr "คำเตือน คุณใช้แอคเคานท์ผู้ดูแลระบบ คุณอาจจะทำความเสียหายให้กับระบบของคุณ"
+
+#: ../src/window.c:169
+msgid "Untitled"
+msgstr "ไร้ชื่อ"
+
+#: ../mousepad.desktop.in.h:1
+msgid "Mousepad"
+msgstr "Mousepad"
+
+#: ../mousepad.desktop.in.h:2
+msgid "Simple text editor"
+msgstr "โปรแกรมแก้ไขข้อความเรียบง่าย"
+
+#: ../mousepad.desktop.in.h:3
+msgid "Text Editor"
+msgstr "ตัวแก้ไขข้อความ"
