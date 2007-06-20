@@ -3,45 +3,45 @@ msgstr ""
 "Project-Id-Version: mousepad 0.2.12\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-20 12:34+0100\n"
-"PO-Revision-Date: 2006-08-24 23:36+0400\n"
+"PO-Revision-Date: 2007-06-18 21:54+0400\n"
 "Last-Translator: Dimitri Gogelia <delphi.knight@gmail.com>\n"
 "Language-Team: Georgian <delphi.knight@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Georgian\n"
 "X-Poedit-Country: GEORGIA\n"
 
 #: ../src/callback.c:37
 #, c-format
 msgid "Save changes to '%s'?"
-msgstr ""
+msgstr "შევინახო ცვლილებები: '%s'-ში?"
 
-#: ../src/callback.c:213 ../src/file.c:174
+#: ../src/callback.c:213
+#: ../src/file.c:174
 #, c-format
 msgid "Can't convert codeset to '%s'"
-msgstr ""
+msgstr "ვერ მოხერხდა კოდირების გარდაქმნა '%s'-ში"
 
 #: ../src/callback.c:240
 msgid "Can't open pipe to process"
-msgstr ""
+msgstr "ვერ მოხერხდა არხის გახსნა პროცესისკენ"
 
 #: ../src/callback.c:397
 msgid "A text editor for Xfce"
-msgstr ""
+msgstr "ტექსტური რედაქტორი Xfce-სათვის"
 
 #: ../src/dialog.c:135
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "%s-ის შესახებ"
 
 #: ../src/file.c:187
 msgid "Can't open file to write"
-msgstr ""
+msgstr "ვერ მოხერხდა ფაილის გახსნა ჩაწერაზე"
 
 #: ../src/file.c:192
 msgid "Can't write file"
-msgstr ""
+msgstr "ფაილი ჩაწერა ვერ მოხერხდა"
 
 #: ../src/font.c:49
 msgid "Font"
@@ -49,194 +49,196 @@ msgstr "შრიფტი"
 
 #: ../src/menu.c:61
 msgid "/_File"
-msgstr ""
+msgstr "/_ფაილი"
 
 #: ../src/menu.c:63
 msgid "/File/_New"
-msgstr ""
+msgstr "/ფაილი/_ახალი"
 
 #: ../src/menu.c:66
 msgid "/File/New _Window"
-msgstr ""
+msgstr "/ფაილი/ახალი _ფანჯარა"
 
 #: ../src/menu.c:69
 msgid "/File/_Open..."
-msgstr ""
+msgstr "/ფაილი/_გახსნა..."
 
 #: ../src/menu.c:72
 msgid "/File/Open _Recent"
-msgstr ""
+msgstr "/ფაილი/ბოლოს _გახსნა"
 
 #: ../src/menu.c:77
 msgid "/File/_Save"
-msgstr ""
+msgstr "/ფაილი/_დამახსოვრება"
 
 #: ../src/menu.c:79
 msgid "/File/Save _As..."
-msgstr ""
+msgstr "/ფაილი/დამახსოვრება _როგორც..."
 
 #: ../src/menu.c:83
 msgid "/File/_Print..."
-msgstr ""
+msgstr "/ფაილი/_ბეჭდვა..."
 
 #: ../src/menu.c:87
 msgid "/File/_Quit"
-msgstr ""
+msgstr "/ფაილი/_გამოსვლა"
 
 #: ../src/menu.c:89
 msgid "/_Edit"
-msgstr ""
+msgstr "_რედაქტირება"
 
 #: ../src/menu.c:91
 msgid "/Edit/_Undo"
-msgstr ""
+msgstr "/რედაქტირება/_მოქმედების გაუქმება"
 
 #: ../src/menu.c:93
 msgid "/Edit/_Redo"
-msgstr ""
+msgstr "/რედაქტირება/_მოქმედების დაბრუნება"
 
 #: ../src/menu.c:97
 msgid "/Edit/Cu_t"
-msgstr ""
+msgstr "/რედაქტირება/ამ_ოჭრა"
 
 #: ../src/menu.c:99
 msgid "/Edit/_Copy"
-msgstr ""
+msgstr "/რედაქტირება/_კოპირება"
 
 #: ../src/menu.c:101
 msgid "/Edit/_Paste"
-msgstr ""
+msgstr "/რედაქტირება/ჩ_ასმა"
 
 #: ../src/menu.c:103
 msgid "/Edit/_Delete"
-msgstr ""
+msgstr "/რედაქტირება/_წაშლა"
 
 #: ../src/menu.c:107
 msgid "/Edit/Select _All"
-msgstr ""
+msgstr "/რედაქტირება/ყველაფრის _მონიშვნა"
 
 #: ../src/menu.c:109
 msgid "/_Search"
-msgstr ""
+msgstr "/ძ_ებნა"
 
 #: ../src/menu.c:111
 msgid "/Search/_Find..."
-msgstr ""
+msgstr "/ძებნა/_პოვნა..."
 
 #: ../src/menu.c:113
 msgid "/Search/Find _Next"
-msgstr ""
+msgstr "/ძებნა/შემდეგის _პოვნა"
 
 #: ../src/menu.c:115
 msgid "/Search/Find _Previous"
-msgstr ""
+msgstr "/ძებნა/წინას _პოვნა"
 
 #: ../src/menu.c:117
 msgid "/Search/_Replace..."
-msgstr ""
+msgstr "/ძებნა/ჩ_ანაცვლება..."
 
 #: ../src/menu.c:121
 msgid "/Search/_Jump To..."
-msgstr ""
+msgstr "/ძებნა/_გადასვლა..."
 
 #: ../src/menu.c:123
 msgid "/_Options"
-msgstr ""
+msgstr "_პარამეტრები"
 
 #: ../src/menu.c:125
 msgid "/Options/_Font..."
-msgstr ""
+msgstr "/პარამეტრები/_შრიფტი..."
 
 #: ../src/menu.c:127
 msgid "/Options/_Word Wrap"
-msgstr ""
+msgstr "/პარამეტრები/_სიტყვების გადატანა"
 
 #: ../src/menu.c:129
 msgid "/Options/_Line Numbers"
-msgstr ""
+msgstr "/პარამეტრები/_სტრიქონთა ნომრები"
 
 #: ../src/menu.c:133
 msgid "/Options/_Auto Indent"
-msgstr ""
+msgstr "/პარამეტრები/_ავტომატური შეწევა"
 
 #: ../src/menu.c:135
 msgid "/_Help"
-msgstr ""
+msgstr "/_დახმარება"
 
 #: ../src/menu.c:137
 msgid "/Help/_About"
-msgstr ""
+msgstr "/დახმარება/_პროგრამის შესახებ"
 
 #: ../src/search.c:73
 msgid "Search string not found"
-msgstr ""
+msgstr "სტრიქონი ვერ მოიძებნა"
 
 #: ../src/search.c:115
 msgid "Replace?"
-msgstr ""
+msgstr "ჩავანაცვლო?"
 
 #: ../src/search.c:143
 #, c-format
 msgid "%d strings replaced"
-msgstr ""
+msgstr "ჩაენაცვლა %d სტრიქონი"
 
 #: ../src/search.c:188
 msgid "Find"
-msgstr ""
+msgstr "ძებნა"
 
-#: ../src/search.c:200 ../src/search.c:265
+#: ../src/search.c:200
+#: ../src/search.c:265
 msgid "Fi_nd what: "
-msgstr ""
+msgstr "ძე_ბნა: "
 
-#: ../src/search.c:219 ../src/search.c:292
+#: ../src/search.c:219
+#: ../src/search.c:292
 msgid "_Match case"
-msgstr ""
+msgstr "_რეგისტრის გათვალისწინებით"
 
 #: ../src/search.c:253
 msgid "Replace"
-msgstr ""
+msgstr "ჩანაცვლება"
 
 #: ../src/search.c:280
 msgid "Re_place with: "
-msgstr ""
+msgstr "ჩა_ნაცვლება: "
 
 #: ../src/search.c:296
 msgid "Replace _all at once"
-msgstr ""
+msgstr "ყველაფრის ჩ _ანაცვლება"
 
 #: ../src/search.c:342
 msgid "Jump To"
-msgstr ""
+msgstr "გადასვლა"
 
 #: ../src/search.c:347
 msgid "_Jump"
-msgstr ""
+msgstr "_გადასვლა"
 
 #: ../src/search.c:353
 msgid "_Line number: "
-msgstr ""
+msgstr "_ხაზის ნომერი: "
 
 #: ../src/selector.c:103
 #, c-format
 msgid "Current Locale (%s)"
-msgstr ""
+msgstr "მიმდინარე კოდირება (%s)"
 
 #: ../src/selector.c:147
 msgid "Other Codeset"
-msgstr ""
+msgstr "სხვა კოდირება"
 
 #: ../src/selector.c:186
 msgid "Code_set:"
-msgstr ""
+msgstr "კოდი_რება:"
 
 #: ../src/selector.c:207
 #, c-format
 msgid "'%s' is not supported"
-msgstr ""
+msgstr "'%s' არ არის მხარდაჭერილი"
 
 #: ../src/selector.c:271
 msgid "Auto Detect"
-msgstr ""
+msgstr "ავტომატური ამოცნობა"
 
 #: ../src/selector.c:325
 msgid "Open"
@@ -244,34 +246,35 @@ msgstr "გახსნა"
 
 #: ../src/selector.c:325
 msgid "Save As"
-msgstr ""
+msgstr "დამახსოვრება როგორც"
 
 #: ../src/selector.c:347
 msgid "Ch_aracter Coding: "
-msgstr ""
+msgstr "სი_მბოლოთა კოდირება: "
 
 #: ../src/selector.c:403
 #, c-format
 msgid "'%s' already exists. Overwrite?"
-msgstr ""
+msgstr "'%s' უკვე არსებობს. ჩავანაცვლო?"
 
 #. add the label with the root warning
 #: ../src/window.c:110
 msgid "Warning, you are using the root account, you may harm your system."
-msgstr ""
+msgstr "ყურადღება, თქვენ იყენებთ სუპერმომხმარებლის ანგარიშს იყენებთ, რითაც შეიძლება დააზიანოთ სისტემა."
 
 #: ../src/window.c:169
 msgid "Untitled"
-msgstr ""
+msgstr "უსათაურო"
 
 #: ../mousepad.desktop.in.h:1
 msgid "Mousepad"
-msgstr ""
+msgstr "Mousepad"
 
 #: ../mousepad.desktop.in.h:2
 msgid "Simple text editor"
-msgstr ""
+msgstr "მარტივი ტექსტური რედაქტორი"
 
 #: ../mousepad.desktop.in.h:3
 msgid "Text Editor"
-msgstr ""
+msgstr "ტექსტური რედაქტორი"
+
