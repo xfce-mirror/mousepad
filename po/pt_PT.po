@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: mousepad 0.2.12\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-20 12:34+0100\n"
-"PO-Revision-Date: 2007-06-14 17:06+0100\n"
+"PO-Revision-Date: 2007-09-11 14:53+0100\n"
 "Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "/Ficheiro/_Abrir..."
 
 #: ../src/menu.c:72
 msgid "/File/Open _Recent"
-msgstr "/Ficheiro/_Abrir..."
+msgstr "/Ficheiro/Abrir _Recente"
 
 #: ../src/menu.c:77
 msgid "/File/_Save"
@@ -81,11 +81,11 @@ msgstr "/Ficheiro/Gravar _Como..."
 
 #: ../src/menu.c:83
 msgid "/File/_Print..."
-msgstr "/Ficheiro/_Imprimir..."
+msgstr "/Ficheiro/Im_primir..."
 
 #: ../src/menu.c:87
 msgid "/File/_Quit"
-msgstr "/Ficheiro/Sai_r"
+msgstr "/Ficheiro/_Sair"
 
 #: ../src/menu.c:89
 msgid "/_Edit"
@@ -93,7 +93,7 @@ msgstr "/_Editar"
 
 #: ../src/menu.c:91
 msgid "/Edit/_Undo"
-msgstr "/Editar/_Desfazer"
+msgstr "/Editar/Desfa_zer"
 
 #: ../src/menu.c:93
 msgid "/Edit/_Redo"
@@ -101,11 +101,11 @@ msgstr "/Editar/_Refazer"
 
 #: ../src/menu.c:97
 msgid "/Edit/Cu_t"
-msgstr "/Editar/_Cortar"
+msgstr "/Editar/Cor_tar"
 
 #: ../src/menu.c:99
 msgid "/Edit/_Copy"
-msgstr "/Editar/Co_piar"
+msgstr "/Editar/_Copiar"
 
 #: ../src/menu.c:101
 msgid "/Edit/_Paste"
@@ -165,7 +165,7 @@ msgstr "/Opções/Identação _Automática"
 
 #: ../src/menu.c:135
 msgid "/_Help"
-msgstr "/A_juda"
+msgstr "/_Ajuda"
 
 #: ../src/menu.c:137
 msgid "/Help/_About"
@@ -233,7 +233,7 @@ msgstr "Outra Codificação"
 
 #: ../src/selector.c:186
 msgid "Code_set:"
-msgstr "Codif_ição:"
+msgstr "Codif_icação:"
 
 #: ../src/selector.c:207
 #, c-format
