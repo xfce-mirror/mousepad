@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: mousepad 0.2.12\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-20 12:34+0100\n"
-"PO-Revision-Date: 2007-09-11 14:53+0100\n"
+"PO-Revision-Date: 2007-11-14 17:16+0100\n"
 "Last-Translator: Nuno Miguel <nunis@netcabo.pt>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "/Editar/Seleccionar _Tudo"
 
 #: ../src/menu.c:109
 msgid "/_Search"
-msgstr "/_Pesquisar"
+msgstr "/Pesq_uisar"
 
 #: ../src/menu.c:111
 msgid "/Search/_Find..."
@@ -129,11 +129,11 @@ msgstr "/Pesquisar/_Procurar..."
 
 #: ../src/menu.c:113
 msgid "/Search/Find _Next"
-msgstr "/Pesquisar/Procurar _Próxima"
+msgstr "/Pesquisar/Procurar P_róxima"
 
 #: ../src/menu.c:115
 msgid "/Search/Find _Previous"
-msgstr "/Pesquisar/Procurar _Anterior"
+msgstr "/Pesquisar/Procurar A_nterior"
 
 #: ../src/menu.c:117
 msgid "/Search/_Replace..."
@@ -153,7 +153,7 @@ msgstr "/Opções/_Fonte..."
 
 #: ../src/menu.c:127
 msgid "/Options/_Word Wrap"
-msgstr "/Opções/_Quebra de Palavra"
+msgstr "/Opções/_Mudança de linha automática"
 
 #: ../src/menu.c:129
 msgid "/Options/_Line Numbers"
@@ -191,12 +191,12 @@ msgstr "Procurar"
 #: ../src/search.c:200
 #: ../src/search.c:265
 msgid "Fi_nd what: "
-msgstr "_Procurar por:"
+msgstr "P_rocurar por:"
 
 #: ../src/search.c:219
 #: ../src/search.c:292
 msgid "_Match case"
-msgstr "Diferenciar _maiúsculas e minúsculas"
+msgstr "_Distinguir capitalização"
 
 #: ../src/search.c:253
 msgid "Replace"
@@ -204,7 +204,7 @@ msgstr "Substituir"
 
 #: ../src/search.c:280
 msgid "Re_place with: "
-msgstr "_Substituir por:"
+msgstr "Su_bstituir por:"
 
 #: ../src/search.c:296
 msgid "Replace _all at once"
