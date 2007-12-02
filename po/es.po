@@ -2,15 +2,16 @@
 # Copyright (C) 2005-2006 Erik Harrison.
 # This file is distributed under the same license as the Mousepad package.
 # Lucas Vieites <lucas@asixinformatica.com>, 2004.
+# Cristian Othón Martínez Vera <cfuga@itam.mx>, 2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: mousepad 0.2.12\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-20 12:34+0100\n"
-"PO-Revision-Date: 2005-10-07 18:39+0900\n"
-"Last-Translator: Lucas Vieites <lucas@asixinformatica.com>\n"
-"Language-Team: Spanish/Spain <es@li.org>\n"
+"PO-Revision-Date: 2007-11-24 16:32-0600\n"
+"Last-Translator: Cristian Othón Martínez Vera <cfuga@itam.mx>\n"
+"Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,13 +27,12 @@ msgid "Can't convert codeset to '%s'"
 msgstr "No se puede convertir el conjunto de códigos a «%s»"
 
 #: ../src/callback.c:240
-#, fuzzy
 msgid "Can't open pipe to process"
-msgstr "No se puede abrir el archivo para escritura"
+msgstr "No se puede abrir la tubería para procesar"
 
 #: ../src/callback.c:397
 msgid "A text editor for Xfce"
-msgstr ""
+msgstr "Un editor de texto para Xfce"
 
 #: ../src/dialog.c:135
 #, c-format
@@ -60,18 +60,16 @@ msgid "/File/_New"
 msgstr "/Archivo/_Nuevo"
 
 #: ../src/menu.c:66
-#, fuzzy
 msgid "/File/New _Window"
-msgstr "/Archivo/_Nuevo"
+msgstr "/Archivo/_Ventana Nueva"
 
 #: ../src/menu.c:69
 msgid "/File/_Open..."
 msgstr "/Archivo/_Abrir..."
 
 #: ../src/menu.c:72
-#, fuzzy
 msgid "/File/Open _Recent"
-msgstr "/Archivo/_Abrir..."
+msgstr "/Archivo/Abrir _Reciente"
 
 #: ../src/menu.c:77
 msgid "/File/_Save"
@@ -82,9 +80,8 @@ msgid "/File/Save _As..."
 msgstr "/Archivo/Guardar _como..."
 
 #: ../src/menu.c:83
-#, fuzzy
 msgid "/File/_Print..."
-msgstr "/Archivo/_Abrir..."
+msgstr "/Archivo/_Imprimir..."
 
 #: ../src/menu.c:87
 msgid "/File/_Quit"
@@ -144,7 +141,7 @@ msgstr "/Buscar/_Reemplazar"
 
 #: ../src/menu.c:121
 msgid "/Search/_Jump To..."
-msgstr "/Buscar/Ira a la _línea"
+msgstr "/Buscar/Ir a a la _línea..."
 
 #: ../src/menu.c:123
 msgid "/_Options"
@@ -185,7 +182,7 @@ msgstr "¿Desea reemplazar?"
 #: ../src/search.c:143
 #, c-format
 msgid "%d strings replaced"
-msgstr "Se han reemplazado %d cadenas"
+msgstr "Se reemplazaron %d cadenas"
 
 #: ../src/search.c:188
 msgid "Find"
@@ -193,7 +190,7 @@ msgstr "Buscar"
 
 #: ../src/search.c:200 ../src/search.c:265
 msgid "Fi_nd what: "
-msgstr "Buscar: "
+msgstr "_Buscar: "
 
 #: ../src/search.c:219 ../src/search.c:292
 msgid "_Match case"
@@ -239,7 +236,7 @@ msgstr "Con_junto de códigos:"
 #: ../src/selector.c:207
 #, c-format
 msgid "'%s' is not supported"
-msgstr "No se soporta «%s»"
+msgstr "No se admite «%s»"
 
 #: ../src/selector.c:271
 msgid "Auto Detect"
@@ -265,7 +262,7 @@ msgstr "«%s» ya existe. ¿Desea sobrescribirlo?"
 #. add the label with the root warning
 #: ../src/window.c:110
 msgid "Warning, you are using the root account, you may harm your system."
-msgstr ""
+msgstr "Aviso, está usando la cuenta root, puede dañar su sistema."
 
 #: ../src/window.c:169
 msgid "Untitled"
@@ -273,13 +270,12 @@ msgstr "Sin nombre"
 
 #: ../mousepad.desktop.in.h:1
 msgid "Mousepad"
-msgstr ""
+msgstr "Mousepad"
 
 #: ../mousepad.desktop.in.h:2
 msgid "Simple text editor"
 msgstr "Editor de texto simple"
 
 #: ../mousepad.desktop.in.h:3
-#, fuzzy
 msgid "Text Editor"
-msgstr "Editor de texto simple"
+msgstr "Editor de Texto"
