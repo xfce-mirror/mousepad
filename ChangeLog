@@ -1,3 +1,7 @@
+2008-02-13 21:22  nick
+
+  * src/menu.c, NEWS: Sort recent items by most recently used.
+
 2007-11-17 18:30  kelnos
 
 	* configure.in.in: forgot to commit one more version bump
