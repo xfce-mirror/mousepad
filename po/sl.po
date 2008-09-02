@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Mousepad 0.2.13\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-20 12:34+0100\n"
-"PO-Revision-Date: 2008-08-28 18:52+0100\n"
+"PO-Revision-Date: 2008-08-30 12:07+0100\n"
 "Last-Translator: Alan Pepelko <alan.pepelko@gmail.com>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,6 @@ msgid "About %s"
 msgstr "O %s"
 
 #: ../src/file.c:187
-#, fuzzy
 msgid "Can't open file to write"
 msgstr "Ne morem odpreti datoteke"
 
@@ -96,7 +95,7 @@ msgstr "/Datoteka/Iz_hod"
 
 #: ../src/menu.c:89
 msgid "/_Edit"
-msgstr "/Uredi"
+msgstr "/_Uredi"
 
 #: ../src/menu.c:91
 msgid "/Edit/_Undo"
@@ -169,7 +168,7 @@ msgstr "/Možnosti/_Številke vrstic"
 #: ../src/menu.c:133
 #, fuzzy
 msgid "/Options/_Auto Indent"
-msgstr "/Možnosti/Avtoidentificiraj"
+msgstr "/Možnosti/Samoidentificiraj"
 
 #: ../src/menu.c:135
 msgid "/_Help"
@@ -181,7 +180,7 @@ msgstr "/Pomoč/_O Mousepadu"
 
 #: ../src/search.c:73
 msgid "Search string not found"
-msgstr "Iskalni niz ni bil najden"
+msgstr "Ne najdem iskanega niza"
 
 #: ../src/search.c:115
 msgid "Replace?"
@@ -204,7 +203,7 @@ msgstr "_Najdi kaj:"
 #: ../src/search.c:219
 #: ../src/search.c:292
 msgid "_Match case"
-msgstr "Razlikovanje malih/velikih črk"
+msgstr "_Upoštevaj velikost črk"
 
 #: ../src/search.c:253
 msgid "Replace"
@@ -212,11 +211,11 @@ msgstr "Zamenjaj"
 
 #: ../src/search.c:280
 msgid "Re_place with: "
-msgstr "Zamenjaj z:"
+msgstr "Zamenjaj _z:"
 
 #: ../src/search.c:296
 msgid "Replace _all at once"
-msgstr "Zamenjaj vse naenkrat"
+msgstr "Zamenjaj _vse naenkrat"
 
 #: ../src/search.c:342
 msgid "Jump To"
@@ -231,9 +230,9 @@ msgid "_Line number: "
 msgstr "Števi_lka vrstice:"
 
 #: ../src/selector.c:103
-#, c-format
+#, fuzzy, c-format
 msgid "Current Locale (%s)"
-msgstr "Trenutna lokacija (%s)"
+msgstr "Trenutni local (%s)"
 
 #: ../src/selector.c:147
 msgid "Other Codeset"
@@ -241,7 +240,7 @@ msgstr "Drug nabor znakov"
 
 #: ../src/selector.c:186
 msgid "Code_set:"
-msgstr "Nabor znakov:"
+msgstr "Nabor _znakov:"
 
 #: ../src/selector.c:207
 #, c-format
@@ -262,7 +261,7 @@ msgstr "Shrani kot"
 
 #: ../src/selector.c:347
 msgid "Ch_aracter Coding: "
-msgstr "Kodiranje besedila:"
+msgstr "_Kodiranje besedila:"
 
 #: ../src/selector.c:403
 #, c-format
