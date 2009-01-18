@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the Mousepad package.
 # Carlos Z.F. Liu <carlos_liu@yahoo.com>, 2004.
 # Jick Nan <jick.nan@gmail.com>, 2006.
+# Chris K Zhang <plutino@gmail.com>, 2009.
 #
 msgid ""
 msgstr ""
@@ -60,18 +61,16 @@ msgid "/File/_New"
 msgstr "/文件(F)/新建(_N)"
 
 #: ../src/menu.c:66
-#, fuzzy
 msgid "/File/New _Window"
-msgstr "/文件(F)/新建(_N)"
+msgstr "/文件(F)/在新窗口打开(_W)"
 
 #: ../src/menu.c:69
 msgid "/File/_Open..."
 msgstr "/文件(F)/打开(_O)..."
 
 #: ../src/menu.c:72
-#, fuzzy
 msgid "/File/Open _Recent"
-msgstr "/文件(F)/打开(_O)..."
+msgstr "/文件(F)/打开最近使用过的(_R)"
 
 #: ../src/menu.c:77
 msgid "/File/_Save"
@@ -264,7 +263,7 @@ msgstr "文件“%s”已经存在。覆盖它吗？"
 #. add the label with the root warning
 #: ../src/window.c:110
 msgid "Warning, you are using the root account, you may harm your system."
-msgstr ""
+msgstr "警告：你使用的是 root 帐号，任何改动都可能对系统有害。"
 
 #: ../src/window.c:169
 msgid "Untitled"
