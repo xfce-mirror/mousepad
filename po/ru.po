@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the Mousepad package.
 # Artem Vakhitov <temcat@mail.ru>, 2004.
 # Sergey Fedoseev <fedoseev.sergey@gmail.com>, 2006.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: mousepad 0.2.12\n"
@@ -68,9 +68,8 @@ msgid "/File/_Open..."
 msgstr "/Файл/_Открыть..."
 
 #: ../src/menu.c:72
-#, fuzzy
 msgid "/File/Open _Recent"
-msgstr "/Файл/_Открыть..."
+msgstr "/Файл/Открыть_недавние"
 
 #: ../src/menu.c:77
 msgid "/File/_Save"
@@ -263,9 +262,7 @@ msgstr "'%s' уже существует. Переписать?"
 #. add the label with the root warning
 #: ../src/window.c:110
 msgid "Warning, you are using the root account, you may harm your system."
-msgstr ""
-"Внимание, вы используете учетную запись суперпользователя, при этом вы "
-"можете повредить вашу систему."
+msgstr "Внимание, вы используете учетную запись суперпользователя, при этом вы можете повредить вашу систему."
 
 #: ../src/window.c:169
 msgid "Untitled"
