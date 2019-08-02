@@ -920,6 +920,10 @@ mousepad_window_create_statusbar (MousepadWindow *window)
   gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), active);
   gtk_widget_set_visible (window->statusbar, active);
 
+  /* make the statusbar smaller */
+  gtk_widget_set_margin_top (window->statusbar, 0);
+  gtk_widget_set_margin_bottom (window->statusbar, 0);
+
   /* pack the statusbar into the window UI */
   gtk_box_pack_end (GTK_BOX (window->box), window->statusbar, FALSE, FALSE, 0);
 
