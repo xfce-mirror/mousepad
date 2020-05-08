@@ -328,6 +328,8 @@ static void              mousepad_window_action_statusbar             (GtkToggle
                                                                        MousepadWindow         *window);
 static void              mousepad_window_action_fullscreen            (GtkToggleAction        *action,
                                                                        MousepadWindow         *window);
+static void              mousepad_window_action_spell_check           (GtkToggleAction        *action,
+                                                                       MousepadWindow         *window);
 static void              mousepad_window_action_auto_indent           (GtkToggleAction        *action,
                                                                        MousepadWindow         *window);
 static void              mousepad_window_action_line_ending           (GtkRadioAction         *action,
@@ -476,6 +478,7 @@ static const GtkToggleActionEntry toggle_action_entries[] =
   { "toolbar", NULL, N_("_Toolbar"), NULL, N_("Change the visibility of the toolbar"), G_CALLBACK (mousepad_window_action_toolbar), FALSE, },
   { "statusbar", NULL, N_("St_atusbar"), NULL, N_("Change the visibility of the statusbar"), G_CALLBACK (mousepad_window_action_statusbar), FALSE, },
   { "fullscreen", GTK_STOCK_FULLSCREEN, N_("_Fullscreen"), "F11", N_("Make the window fullscreen"), G_CALLBACK (mousepad_window_action_fullscreen), FALSE, },
+  { "spell-check", NULL, N_("_Spell Check"), NULL, N_("Toggle spell check"), G_CALLBACK (mousepad_window_action_spell_check), FALSE, },
   { "auto-indent", NULL, N_("_Auto Indent"), NULL, N_("Auto indent a new line"), G_CALLBACK (mousepad_window_action_auto_indent), FALSE, },
   { "insert-spaces", NULL, N_("Insert _Spaces"), NULL, N_("Insert spaces when the tab button is pressed"), G_CALLBACK (mousepad_window_action_insert_spaces), FALSE, },
   { "word-wrap", NULL, N_("_Word Wrap"), NULL, N_("Toggle breaking lines in between words"), G_CALLBACK (mousepad_window_action_word_wrap), FALSE, },
@@ -976,6 +979,9 @@ mousepad_window_init (MousepadWindow *window)
 {
   GtkAccelGroup *accel_group;
   GtkWidget     *item;
+#if HAVE_GSPELL
+  GtkWidget     *menu;
+#endif
 
   /* initialize stuff */
   window->save_geometry_timer_id = 0;
@@ -1065,6 +1071,14 @@ mousepad_window_init (MousepadWindow *window)
                           item,            "visible",
                           G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
+#if HAVE_GSPELL
+  /* prepend a separator as gspell menu delimiter */
+  item = gtk_separator_menu_item_new ();
+  menu = gtk_ui_manager_get_widget (window->ui_manager, "/textview-menu");
+  gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
+  gtk_widget_show (item);
+#endif
+
   /* update the window title when 'path-in-title' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE,
                                    G_CALLBACK (mousepad_window_update_window_title),
@@ -1097,6 +1111,12 @@ mousepad_window_init (MousepadWindow *window)
                                    G_CALLBACK (mousepad_window_update_document_actions),
                                    window,
                                    G_CONNECT_SWAPPED);
+#if HAVE_GSPELL
+  MOUSEPAD_SETTING_CONNECT_OBJECT (SPELL_CHECK,
+                                   G_CALLBACK (mousepad_window_update_document_actions),
+                                   window,
+                                   G_CONNECT_SWAPPED);
+#endif
   MOUSEPAD_SETTING_CONNECT_OBJECT (AUTO_INDENT,
                                    G_CALLBACK (mousepad_window_update_document_actions),
                                    window,
@@ -2618,6 +2638,9 @@ mousepad_window_menu_textview_shown (GtkMenu        *menu,
                                      MousepadWindow *window)
 {
   GtkWidget *our_menu;
+#if HAVE_GSPELL
+  GtkWidget *temp_menu, *item;
+#endif
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -2627,8 +2650,41 @@ mousepad_window_menu_textview_shown (GtkMenu        *menu,
   /* empty the original menu */
   mousepad_util_container_clear (GTK_CONTAINER (menu));
 
+#if HAVE_GSPELL
+  /* retrieve the gspell menu by comparison: send the "populate-popup" signal with gspell
+   * enabled / disabled and subtract the resulting menus */
+  if (mousepad_view_get_spell_check (window->active->textview))
+    {
+      g_signal_emit (G_OBJECT (window->active->textview),
+                     g_signal_lookup ("populate-popup", g_type_from_name ("GtkTextView")), 0, menu);
+      mousepad_view_set_spell_check (window->active->textview, FALSE, FALSE);
+      temp_menu = gtk_menu_new ();
+      g_signal_emit (G_OBJECT (window->active->textview),
+                     g_signal_lookup ("populate-popup", g_type_from_name ("GtkTextView")), 0, temp_menu);
+      g_signal_connect (G_OBJECT (window->active->textview), "populate-popup",
+                        G_CALLBACK (mousepad_window_menu_textview_popup), window);
+      mousepad_view_set_spell_check (window->active->textview, TRUE, FALSE);
+      mousepad_util_menu_subtract (GTK_MENU (menu), GTK_MENU (temp_menu));
+      gtk_widget_destroy (temp_menu);
+    }
+#endif
+
   /* get the ui manager menu and move its children into the other menu */
   our_menu = gtk_ui_manager_get_widget (window->ui_manager, "/textview-menu");
+
+#if HAVE_GSPELL
+  /* remove the old gspell menu from the ui manager menu
+   * this must be done here (not in mousepad_window_menu_textview_deactivate()), because the new
+   * gspell menu must be added before to remove the old one, to not break the feature */
+  mousepad_util_menu_subtract (GTK_MENU (our_menu), NULL);
+  
+  /* prepend the gspell menu delimiter, visible only if there is a gspell menu */
+  item = gtk_separator_menu_item_new ();
+  gtk_menu_shell_prepend (GTK_MENU_SHELL (our_menu), item);
+  if (mousepad_util_container_has_children (GTK_CONTAINER (menu)))
+    gtk_widget_show (item);
+#endif
+
   mousepad_util_container_move_children (GTK_CONTAINER (our_menu), GTK_CONTAINER (menu));
 }
 
@@ -2661,6 +2717,12 @@ mousepad_window_menu_textview_popup (GtkTextView    *textview,
   g_return_if_fail (GTK_IS_MENU (menu));
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+#if HAVE_GSPELL
+  /* disconnect this signal while retrieving the gspell menu (see mousepad_window_menu_textview_shown) */
+  if (mousepad_view_get_spell_check (MOUSEPAD_VIEW (textview)))
+    mousepad_disconnect_by_func (G_OBJECT (textview), mousepad_window_menu_textview_popup, window);
+#endif
 
   /* connect signal */
   g_signal_connect (G_OBJECT (menu), "show", G_CALLBACK (mousepad_window_menu_textview_shown), window);
@@ -2731,6 +2793,12 @@ mousepad_window_update_document_actions (MousepadWindow *window)
       active = MOUSEPAD_SETTING_GET_BOOLEAN (WORD_WRAP);
       action = gtk_action_group_get_action (window->action_group, "word-wrap");
       gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), active);
+
+#if HAVE_GSPELL
+      active = MOUSEPAD_SETTING_GET_BOOLEAN (SPELL_CHECK);
+      action = gtk_action_group_get_action (window->action_group, "spell-check");
+      gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), active);
+#endif
 
       active = MOUSEPAD_SETTING_GET_BOOLEAN (AUTO_INDENT);
       action = gtk_action_group_get_action (window->action_group, "auto-indent");
@@ -5171,6 +5239,26 @@ mousepad_window_action_fullscreen (GtkToggleAction *action,
                                                              mousepad_window_fullscreen_bars_timer,
                                                              window, NULL);
     }
+}
+
+
+
+static void
+mousepad_window_action_spell_check (GtkToggleAction *action,
+                                    MousepadWindow  *window)
+{
+#if HAVE_GSPELL
+  gboolean active;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+  /* get the current state */
+  active = gtk_toggle_action_get_active (action);
+
+  /* save as the last spell check mode */
+  MOUSEPAD_SETTING_SET_BOOLEAN (SPELL_CHECK, active);
+#endif
 }
 
 

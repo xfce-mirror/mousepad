@@ -119,6 +119,23 @@ AS_IF([test "x$enable_dbus" = "xyes"],
   AC_DEFINE([HAVE_DBUS], [1], [Define if DBUS support is enabled])
 ])
 
+dnl ************************
+dnl *** Check for gspell ***
+dnl ************************
+AC_ARG_ENABLE([gspell],
+              [AS_HELP_STRING([--enable-gspell],
+                              [Enable gspell support])],
+              [enable_gspell=$enableval],
+              [enable_gspell="no"])
+
+AM_CONDITIONAL([HAVE_GSPELL], [test "x$enable_gspell" = "xyes"])
+
+AS_IF([test "x$enable_gspell" = "xyes"],
+[
+  XDT_CHECK_PACKAGE([GSPELL], [gspell-1], [1.8.0])
+  AC_DEFINE([HAVE_GSPELL], [1], [Define if gspell support is enabled])
+])
+
 dnl ***********************************
 dnl *** Check for debugging support ***
 dnl ***********************************
@@ -155,6 +172,7 @@ echo
 echo "Build Configuration:"
 echo
 echo "* D-BUS support:             $enable_dbus"
+echo "* gspell support:            $enable_gspell"
 echo "* Debug Support:             $enable_debug"
 echo "* Use keyfile backend:       $enable_keyfile_settings"
 echo
