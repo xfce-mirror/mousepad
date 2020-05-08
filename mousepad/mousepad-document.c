@@ -198,6 +198,11 @@ mousepad_document_init (MousepadDocument *document)
 
   /* setup the textview */
   document->textview = g_object_new (MOUSEPAD_TYPE_VIEW, "buffer", document->buffer, NULL);
+#if HAVE_GSPELL
+  /* now that the view - buffer pair is properly set, also spell checking can be */
+  if (mousepad_view_get_spell_check (document->textview))
+    mousepad_view_set_spell_check (document->textview, TRUE, TRUE);
+#endif
   gtk_container_add (GTK_CONTAINER (document), GTK_WIDGET (document->textview));
   gtk_widget_show (GTK_WIDGET (document->textview));
 
