@@ -22,6 +22,9 @@
 G_BEGIN_DECLS
 
 /* Setting names */
+#ifdef HAVE_GSPELL
+#define MOUSEPAD_SETTING_SPELL_CHECK                  "/preferences/view/spell-check"
+#endif
 #define MOUSEPAD_SETTING_AUTO_INDENT                  "/preferences/view/auto-indent"
 #define MOUSEPAD_SETTING_FONT_NAME                    "/preferences/view/font-name"
 #define MOUSEPAD_SETTING_USE_DEFAULT_FONT             "/preferences/view/use-default-monospace-font"

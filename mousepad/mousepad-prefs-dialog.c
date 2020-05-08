@@ -45,6 +45,9 @@
 #define WID_TAB_MODE_COMBO                  "/prefs/editor/tab-mode-combo"
 #define WID_AUTO_INDENT_CHECK               "/prefs/editor/auto-indent-check"
 #define WID_SMART_HOME_END_COMBO            "/prefs/editor/smart-home-end-combo"
+#ifdef HAVE_GSPELL
+#define WID_SPELL_CHECK_CHECK               "/prefs/editor/spell-check-check"
+#endif
 
 /* Window page */
 #define WID_STATUSBAR_VISIBLE_CHECK         "/prefs/window/general/show-statusbar-check"
@@ -488,6 +491,9 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 
   /* Editor */
   BIND_CHECKBOX (AUTO_INDENT);
+#ifdef HAVE_GSPELL
+  BIND_CHECKBOX (SPELL_CHECK);
+#endif
 
   /* Window */
   BIND_CHECKBOX (STATUSBAR_VISIBLE);

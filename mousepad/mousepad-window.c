@@ -408,6 +408,9 @@ static void              mousepad_window_action_contents              (GSimpleAc
 static void              mousepad_window_action_about                 (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
+static void              mousepad_window_action_spell_check           (GSimpleAction          *action,
+                                                                       GVariant               *value,
+                                                                       gpointer                data);
 
 
 
@@ -437,6 +440,13 @@ struct _MousepadWindow
   GtkWidget           *textview_menu;
   GtkWidget           *tab_menu;
   GtkWidget           *languages_menu;
+
+#ifdef HAVE_GSPELL
+  /* separate gspell menu, to concatenate on demand in the "populate-popup" menu with
+   * the textview menu, to not break the binding between the GMenu-textview-menu and the
+   * the GtkMenu-textview-menu */
+  GtkWidget           *gspell_menu;
+#endif
 
   /* menubar related */
   GtkRecentManager    *recent_manager;
@@ -541,6 +551,7 @@ static const GActionEntry action_entries[] =
 
   /* "Document" menu */
   { "document", NULL, NULL, "false", mousepad_window_update_gomenu },
+    { "document.spell-check", NULL, NULL, "false", mousepad_window_action_spell_check },
     { "document.word-wrap", NULL, NULL, "false", mousepad_window_action_word_wrap },
     { "document.auto-indent", NULL, NULL, "false", mousepad_window_action_auto_indent },
     /* "Tab Size" submenu */
@@ -1133,6 +1144,9 @@ mousepad_window_init (MousepadWindow *window)
   window->recent_manager = NULL;
   window->gtkmenu_key = NULL;
   window->offset_key = NULL;
+#ifdef HAVE_GSPELL
+  window->gspell_menu = gtk_menu_new ();
+#endif
 
   /* increase clipboard history ref count */
   clipboard_history_ref_count++;
@@ -1211,6 +1225,13 @@ mousepad_window_init (MousepadWindow *window)
   MOUSEPAD_SETTING_CONNECT_OBJECT (WORD_WRAP,
                                    G_CALLBACK (mousepad_window_update_document_actions),
                                    window, G_CONNECT_SWAPPED);
+
+#ifdef HAVE_GSPELL
+  MOUSEPAD_SETTING_CONNECT_OBJECT (SPELL_CHECK,
+                                   G_CALLBACK (mousepad_window_update_document_actions),
+                                   window, G_CONNECT_SWAPPED);
+#endif
+
   MOUSEPAD_SETTING_CONNECT_OBJECT (AUTO_INDENT,
                                    G_CALLBACK (mousepad_window_update_document_actions),
                                    window, G_CONNECT_SWAPPED);
@@ -2819,6 +2840,11 @@ static void
 mousepad_window_menu_textview_shown (GtkMenu        *menu,
                                      MousepadWindow *window)
 {
+#ifdef HAVE_GSPELL
+  GtkWidget *item;
+  guint      signal_id;
+#endif
+
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* disconnect this signal */
@@ -2827,7 +2853,40 @@ mousepad_window_menu_textview_shown (GtkMenu        *menu,
   /* empty the original menu */
   mousepad_util_container_clear (GTK_CONTAINER (menu));
 
-  /* move the textview menu children into the other menu */
+#ifdef HAVE_GSPELL
+  if (mousepad_view_get_spell_check (window->active->textview))
+    {
+      /* retrieve the gspell menu by comparison: send the "populate-popup" signal with gspell
+       * enabled / disabled and subtract the resulting menus */
+      signal_id = g_signal_lookup ("populate-popup", g_type_from_name ("GtkTextView"));
+
+      /* the gspell menu must not be cleared before being repopulated */
+      mousepad_util_container_move_children (GTK_CONTAINER (window->gspell_menu),
+                                             GTK_CONTAINER (menu));
+      g_signal_emit (window->active->textview, signal_id, 0, window->gspell_menu);
+      mousepad_util_container_clear (GTK_CONTAINER (menu));
+
+      mousepad_view_set_spell_check (window->active->textview, FALSE, FALSE);
+      g_signal_emit (window->active->textview, signal_id, 0, menu);
+      mousepad_view_set_spell_check (window->active->textview, TRUE, FALSE);
+
+      mousepad_util_menu_subtract (GTK_CONTAINER (window->gspell_menu), GTK_CONTAINER (menu));
+      mousepad_util_container_clear (GTK_CONTAINER (menu));
+
+      /* prepend the gspell menu to the menu to be shown */
+      mousepad_util_container_move_children (GTK_CONTAINER (window->gspell_menu),
+                                             GTK_CONTAINER (menu));
+      item = gtk_separator_menu_item_new ();
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      gtk_widget_show (item);
+
+      /* reconnect handler to the "populate-popup" signal */
+      g_signal_connect (window->active->textview, "populate-popup",
+                        G_CALLBACK (mousepad_window_menu_textview_popup), window);
+    }
+#endif
+
+  /* append the textview menu to the menu to be shown */
   mousepad_util_container_move_children (GTK_CONTAINER (window->textview_menu),
                                          GTK_CONTAINER (menu));
 }
@@ -2842,6 +2901,12 @@ mousepad_window_menu_textview_deactivate (GtkWidget      *menu,
 
   /* disconnect this signal */
   mousepad_disconnect_by_func (G_OBJECT (menu), mousepad_window_menu_textview_deactivate, window);
+
+#ifdef HAVE_GSPELL
+  /* copy the menu children back into the gspell menu */
+  if (mousepad_view_get_spell_check (window->active->textview))
+    mousepad_util_menu_move_sections (GTK_CONTAINER (menu), GTK_CONTAINER (window->gspell_menu), 1);
+#endif
 
   /* copy the menu children back into the textview menu */
   mousepad_util_container_move_children (GTK_CONTAINER (menu),
@@ -2859,6 +2924,12 @@ mousepad_window_menu_textview_popup (GtkTextView    *textview,
   g_return_if_fail (GTK_IS_MENU (menu));
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+#ifdef HAVE_GSPELL
+  /* disconnect this signal while retrieving the gspell menu (see mousepad_window_menu_textview_shown) */
+  if (mousepad_view_get_spell_check (MOUSEPAD_VIEW (textview)))
+    mousepad_disconnect_by_func (G_OBJECT (textview), mousepad_window_menu_textview_popup, window);
+#endif
 
   /* connect signal */
   g_signal_connect (G_OBJECT (menu), "show",
@@ -2931,6 +3002,12 @@ mousepad_window_update_document_actions (MousepadWindow *window)
       active = MOUSEPAD_SETTING_GET_BOOLEAN (WORD_WRAP);
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "document.word-wrap");
       g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (active));
+
+#ifdef HAVE_GSPELL
+      active = MOUSEPAD_SETTING_GET_BOOLEAN (SPELL_CHECK);
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "document.spell-check");
+      g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (active));
+#endif
 
       active = MOUSEPAD_SETTING_GET_BOOLEAN (AUTO_INDENT);
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "document.auto-indent");
@@ -5472,6 +5549,21 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
 
   /* allow menu updates again */
   lock_menu_updates--;
+}
+
+
+
+static void
+mousepad_window_action_spell_check (GSimpleAction *action,
+                                    GVariant      *value,
+                                    gpointer       data)
+{
+#ifdef HAVE_GSPELL
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
+
+  /* save as the last spell check mode */
+  MOUSEPAD_SETTING_SET_BOOLEAN (SPELL_CHECK, g_variant_get_boolean (value));
+#endif
 }
 
 
