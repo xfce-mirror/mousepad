@@ -118,6 +118,14 @@ gboolean   mousepad_util_container_has_children           (GtkContainer        *
 
 void       mousepad_util_container_clear                  (GtkContainer        *container);
 
+#if HAVE_GSPELL
+void       mousepad_util_menu_move_sections               (GtkContainer        *source,
+                                                           GtkContainer        *destination,
+                                                           gint                 sections);
+void       mousepad_util_menu_subtract                    (GtkContainer        *menu_1,
+                                                           GtkContainer        *menu_2);
+#endif
+
 void       mousepad_util_container_move_children          (GtkContainer        *source,
                                                            GtkContainer        *destination);
 

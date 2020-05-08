@@ -894,6 +894,68 @@ mousepad_util_container_move_children (GtkContainer *source,
 
 
 
+#if HAVE_GSPELL
+void
+mousepad_util_menu_move_sections (GtkContainer *source,
+                                  GtkContainer *destination,
+                                  gint          sections)
+{
+  GList     *list, *iter;
+  GtkWidget *tmp;
+
+  list = gtk_container_get_children (source);
+
+  for (iter = list; iter != NULL; iter = g_list_next (iter))
+    {
+      tmp = g_object_ref (iter->data);
+
+      gtk_container_remove (source, tmp);
+      gtk_container_add (destination, tmp);
+      g_object_unref (tmp);
+
+      if (GTK_IS_SEPARATOR_MENU_ITEM (iter->data) && ! --sections)
+        break;
+    }
+
+  g_list_free (list);
+}
+
+
+
+/* Subtract menu_2 from menu_1 */
+void
+mousepad_util_menu_subtract (GtkContainer *menu_1,
+                             GtkContainer *menu_2)
+{
+  GList       *list_1, *list_2, *iter_1, *iter_2;
+  const gchar *label;
+
+  g_return_if_fail (GTK_IS_CONTAINER (menu_1));
+  g_return_if_fail (GTK_IS_CONTAINER (menu_2));
+
+  list_1 = gtk_container_get_children (menu_1);
+  list_2 = gtk_container_get_children (menu_2);
+
+  for (iter_1 = list_1; iter_1 != NULL; iter_1 = g_list_next (iter_1))
+    {
+      label = gtk_menu_item_get_label (iter_1->data);
+      for (iter_2 = list_2; iter_2 != NULL; iter_2 = g_list_next (iter_2))
+        {
+          if (g_strcmp0 (label, gtk_menu_item_get_label (iter_2->data)) == 0)
+            {
+              gtk_container_remove (menu_1, iter_1->data);
+              break;
+            }
+        }
+    }
+
+  g_list_free (list_1);
+  g_list_free (list_2);
+}
+#endif
+
+
+
 static gint
 mousepad_util_style_schemes_name_compare (gconstpointer a,
                                                   gconstpointer b)
