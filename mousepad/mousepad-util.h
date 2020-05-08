@@ -77,6 +77,14 @@ void       mousepad_util_container_clear                  (GtkContainer         
 void       mousepad_util_container_move_children          (GtkContainer               *source,
                                                            GtkContainer               *destination);
 
+#ifdef HAVE_GSPELL
+void       mousepad_util_menu_move_sections               (GtkContainer               *source,
+                                                           GtkContainer               *destination,
+                                                           gint                        sections);
+void       mousepad_util_menu_subtract                    (GtkContainer               *menu_1,
+                                                           GtkContainer               *menu_2);
+#endif
+
 GSList    *mousepad_util_get_sorted_style_schemes         (void);
 
 GSList    *mousepad_util_get_sorted_language_sections     (void);

@@ -171,6 +171,9 @@ static const GActionEntry dialog_actions[] =
   /* "Editor" tab */
   { MOUSEPAD_SETTING_INSERT_SPACES, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_AUTO_INDENT, mousepad_application_toggle_activate, NULL, "false", NULL },
+#ifdef HAVE_GSPELL
+  { MOUSEPAD_SETTING_SPELL_CHECK, mousepad_application_toggle_activate, NULL, "false", NULL },
+#endif
 
   /* "Window" tab */
   { MOUSEPAD_SETTING_STATUSBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
@@ -504,6 +507,7 @@ mousepad_application_set_accels (MousepadApplication *application)
     { "win.preferences.window.menubar-visible", "<Control>M" }, { "win.view.fullscreen", "F11" },
 
     /* "Document" menu */
+    { "app.preferences.view.spell-check", "<Control>K" },
     { "win.document.previous-tab", "<Control>Page_Up" }, { "win.document.next-tab", "<Control>Page_Down" },
     { "win.document.go-to-tab(0)", "<Alt>1" }, { "win.document.go-to-tab(1)", "<Alt>2" },
     { "win.document.go-to-tab(2)", "<Alt>3" }, { "win.document.go-to-tab(3)", "<Alt>4" },
