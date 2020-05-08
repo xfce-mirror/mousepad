@@ -65,6 +65,7 @@ mousepad_CFLAGS = \
 	$(GTK_CFLAGS) \
 	$(GTHREAD_CFLAGS) \
 	$(GTKSOURCEVIEW_CFLAGS) \
+	$(GSPELL_CFLAGS) \
 	$(PLATFORM_CFLAGS) \
 	$(XFCONF_CFLAGS) \
 	-DMOUSEPAD_GSETTINGS_SCHEMA_DIR=\""$(datadir)/glib-2.0/schemas"\"
@@ -78,6 +79,7 @@ mousepad_LDADD = \
 	$(GTK_LIBS)	\
 	$(GTHREAD_LIBS) \
 	$(GTKSOURCEVIEW_LIBS) \
+	$(GSPELL_LIBS) \
 	$(XFCONF_LIBS)
 
 if HAVE_DBUS
