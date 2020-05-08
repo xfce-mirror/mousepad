@@ -217,6 +217,10 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   g_settings_unbind (dialog->document->textview, "show-line-numbers");
   gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (dialog->document->textview), FALSE);
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (dialog->document->textview), GTK_WRAP_NONE);
+#ifdef HAVE_GSPELL
+  g_settings_unbind (dialog->document->textview, "spell-check");
+  mousepad_view_set_spell_check (dialog->document->textview, FALSE, TRUE);
+#endif
   gtk_widget_show (GTK_WIDGET (dialog->document));
 }
 
