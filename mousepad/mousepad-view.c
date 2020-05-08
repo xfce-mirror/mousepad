@@ -29,6 +29,10 @@
 #include <gtksourceview/gtksourcestyleschememanager.h>
 #endif
 
+#if HAVE_GSPELL
+#include <gspell/gspell.h>
+#endif
+
 #include <xfconf/xfconf.h>
 
 /* GTK+ 3 removed textview->im_context which is used for multi-selection and
@@ -150,6 +154,13 @@ struct _MousepadView
   gchar                *color_scheme;
 
   gboolean              match_braces;
+
+#if HAVE_GSPELL
+  GspellTextView       *gspell_view;
+  GspellChecker        *gspell_checker;
+  GspellTextBuffer     *gspell_buffer;
+  gboolean              spell_check;
+#endif
 };
 
 
@@ -162,6 +173,9 @@ enum
   PROP_SHOW_LINE_ENDINGS,
   PROP_COLOR_SCHEME,
   PROP_WORD_WRAP,
+#if HAVE_GSPELL
+  PROP_SPELL_CHECK,
+#endif
   PROP_MATCH_BRACES,
   NUM_PROPERTIES
 };
@@ -236,6 +250,17 @@ mousepad_view_class_init (MousepadViewClass *klass)
                           "Whether to virtually wrap long lines in the view",
                           FALSE,
                           G_PARAM_READWRITE));
+
+#if HAVE_GSPELL
+  g_object_class_install_property (
+    gobject_class,
+    PROP_SPELL_CHECK,
+    g_param_spec_boolean ("spell-check",
+                          "SpellCheck",
+                          "Whether to enable spell checking",
+                          FALSE,
+                          G_PARAM_READWRITE));
+#endif
 
   g_object_class_install_property (
     gobject_class,
@@ -328,6 +353,9 @@ mousepad_view_init (MousepadView *view)
 #define BIND_(setting, prop) \
   MOUSEPAD_SETTING_BIND (setting, view, prop, G_SETTINGS_BIND_DEFAULT)
 
+#if HAVE_GSPELL
+  BIND_ (SPELL_CHECK,            "spell-check");
+#endif
   BIND_ (AUTO_INDENT,            "auto-indent");
   BIND_ (FONT_NAME,              "font-name");
   BIND_ (SHOW_WHITESPACE,        "show-whitespace");
@@ -373,6 +401,11 @@ mousepad_view_finalize (GObject *object)
   /* cleanup color scheme name */
   g_free (view->color_scheme);
 
+#if HAVE_GSPELL
+  if (G_LIKELY (view->gspell_checker != NULL))
+    g_object_unref (view->gspell_checker);
+#endif
+
   (*G_OBJECT_CLASS (mousepad_view_parent_class)->finalize) (object);
 }
 
@@ -403,6 +436,11 @@ mousepad_view_set_property (GObject      *object,
     case PROP_WORD_WRAP:
       mousepad_view_set_word_wrap (view, g_value_get_boolean (value));
       break;
+#if HAVE_GSPELL
+    case PROP_SPELL_CHECK:
+      mousepad_view_set_spell_check (view, g_value_get_boolean (value), TRUE);
+      break;
+#endif
     case PROP_MATCH_BRACES:
       mousepad_view_set_match_braces (view, g_value_get_boolean (value));
       break;
@@ -439,6 +477,11 @@ mousepad_view_get_property (GObject    *object,
     case PROP_WORD_WRAP:
       g_value_set_boolean (value, mousepad_view_get_word_wrap (view));
       break;
+#if HAVE_GSPELL
+    case PROP_SPELL_CHECK:
+      g_value_set_boolean (value, mousepad_view_get_spell_check (view));
+      break;
+#endif
     case PROP_MATCH_BRACES:
       g_value_set_boolean (value, mousepad_view_get_match_braces (view));
       break;
@@ -2860,3 +2903,48 @@ mousepad_view_get_match_braces (MousepadView *view)
 
   return view->match_braces;
 }
+
+
+
+#if HAVE_GSPELL
+void
+mousepad_view_set_spell_check (MousepadView *view,
+                               gboolean      enabled,
+                               gboolean      external)
+{
+  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
+
+  view->spell_check = enabled;
+
+  /* Don't slow Mousepad when spell checking is disabled at startup */
+  if (view->gspell_view == NULL && ! enabled)
+    return;
+
+  /* The function call comes from the GUI (normal call), not from 
+   * mousepad_window_menu_textview_shown to retrieve the gspell menu */
+  if (external)
+    {
+      if (view->gspell_view == NULL)
+        {
+          view->gspell_view = gspell_text_view_get_from_gtk_text_view (GTK_TEXT_VIEW (view));
+          view->gspell_checker = gspell_checker_new (NULL);
+        }
+      view->gspell_buffer = gspell_text_buffer_get_from_gtk_text_buffer (
+                              gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
+      gspell_text_view_set_inline_spell_checking (view->gspell_view, enabled);
+    }
+
+  gspell_text_buffer_set_spell_checker (view->gspell_buffer, enabled ? view->gspell_checker : NULL);
+  gspell_text_view_set_enable_language_menu (view->gspell_view, enabled);
+}
+
+
+
+gboolean
+mousepad_view_get_spell_check (MousepadView *view)
+{
+  g_return_val_if_fail (MOUSEPAD_IS_VIEW (view), FALSE);
+
+  return view->spell_check;
+}
+#endif

@@ -1164,3 +1164,54 @@ mousepad_util_container_move_children (GtkContainer *source,
 
   g_list_free (list);
 }
+
+
+
+#if HAVE_GSPELL
+/* Subtract menu_2 from menu_1 if menu_2 != NULL, or menu items above the first separator otherwise */
+void
+mousepad_util_menu_subtract (GtkMenu *menu_1,
+                             GtkMenu *menu_2)
+{
+  GtkContainer *container_1, *container_2;
+  GList        *list_1, *list_2, *iter_1, *iter_2;
+  const gchar  *label;
+
+  g_return_if_fail (GTK_IS_MENU (menu_1));
+
+  container_1 = GTK_CONTAINER (menu_1);
+  list_1 = gtk_container_get_children (container_1);
+
+  if (menu_2 != NULL)
+    {
+      g_return_if_fail (GTK_IS_MENU (menu_2));
+      container_2 = GTK_CONTAINER (menu_2);
+      list_2 = gtk_container_get_children (container_2);
+      for (iter_1 = list_1; iter_1 != NULL; iter_1 = g_list_next (iter_1))
+        {
+          label = gtk_menu_item_get_label (iter_1->data);
+          for (iter_2 = list_2; iter_2 != NULL; iter_2 = g_list_next (iter_2))
+            {
+              if (g_strcmp0 (label, gtk_menu_item_get_label (iter_2->data)) == 0)
+                {
+                  gtk_container_remove (container_1, iter_1->data);
+                  break;
+                }
+            }
+        }
+      g_list_free (list_2);
+    }
+  else
+    {
+      for (iter_1 = list_1; iter_1 != NULL; iter_1 = g_list_next (iter_1))
+        {
+          if (g_strcmp0 (gtk_menu_item_get_label (iter_1->data), "") == 0)
+            break;
+          gtk_container_remove (container_1, iter_1->data);
+        }
+      gtk_container_remove (container_1, iter_1->data);
+    }
+
+  g_list_free (list_1);
+}
+#endif
