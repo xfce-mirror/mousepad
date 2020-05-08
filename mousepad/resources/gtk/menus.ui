@@ -330,6 +330,10 @@
       <attribute name="submenu-action">win.document</attribute>
       <section>
         <item>
+          <attribute name="label" translatable="yes">Spell _Check</attribute>
+          <attribute name="action">win.document.spell-check</attribute>
+        </item>
+        <item>
           <attribute name="label" translatable="yes">_Word Wrap</attribute>
           <attribute name="action">win.document.word-wrap</attribute>
         </item>
