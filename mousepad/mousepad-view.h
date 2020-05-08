@@ -87,6 +87,12 @@ void            mousepad_view_indent                    (MousepadView      *view
 
 gint            mousepad_view_get_selection_length      (MousepadView      *view);
 
+#ifdef HAVE_GSPELL
+void            mousepad_view_set_spell_check           (MousepadView      *view,
+                                                         gboolean           enabled,
+                                                         gboolean           external);
+#endif
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_VIEW_H__ */
