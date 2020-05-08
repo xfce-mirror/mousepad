@@ -107,6 +107,7 @@
     </menu>
 
     <menu action="document-menu">
+      <menuitem action="spell-check" />
       <menuitem action="word-wrap" />
       <menuitem action="auto-indent" />
       <menu action="tab-size-menu">
