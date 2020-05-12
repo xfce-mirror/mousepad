@@ -2235,6 +2235,10 @@ mousepad_window_selection_changed (MousepadDocument *document,
       action = gtk_action_group_get_action (window->action_group, action_names3[i]);
       gtk_action_set_sensitive (action, selection > 0);
     }
+
+  /* persistent X clipboard */
+  if (mousepad_view_get_persistent_x_clipboard (document->textview))
+    mousepad_view_persistent_x_clipboard (selection, document->textview);
 }
 
 

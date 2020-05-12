@@ -107,6 +107,10 @@ static void      mousepad_view_transpose_words               (GtkTextBuffer     
                                                               GtkTextIter         *iter);
 static void      mousepad_view_update_font                   (MousepadView        *view);
 
+static void      mousepad_view_selection_extended            (GtkTextBuffer       *buffer,
+                                                              GParamSpec          *pspec,
+                                                              MousepadView        *view);
+
 
 
 struct _MousepadViewClass
@@ -150,6 +154,7 @@ struct _MousepadView
   gchar                *color_scheme;
 
   gboolean              match_braces;
+  gboolean              persistent_x_clipboard;
 };
 
 
@@ -162,6 +167,7 @@ enum
   PROP_SHOW_LINE_ENDINGS,
   PROP_COLOR_SCHEME,
   PROP_WORD_WRAP,
+  PROP_PERSISTENT_X_CLIPBOARD,
   PROP_MATCH_BRACES,
   NUM_PROPERTIES
 };
@@ -234,6 +240,15 @@ mousepad_view_class_init (MousepadViewClass *klass)
     g_param_spec_boolean ("word-wrap",
                           "WordWrap",
                           "Whether to virtually wrap long lines in the view",
+                          FALSE,
+                          G_PARAM_READWRITE));
+
+  g_object_class_install_property (
+    gobject_class,
+    PROP_PERSISTENT_X_CLIPBOARD,
+    g_param_spec_boolean ("persistent-x-clipboard",
+                          "PersistentXClipboard",
+                          "Whether to enable X clipboard persistence",
                           FALSE,
                           G_PARAM_READWRITE));
 
@@ -328,6 +343,7 @@ mousepad_view_init (MousepadView *view)
 #define BIND_(setting, prop) \
   MOUSEPAD_SETTING_BIND (setting, view, prop, G_SETTINGS_BIND_DEFAULT)
 
+  BIND_ (PERSISTENT_X_CLIPBOARD, "persistent-x-clipboard");
   BIND_ (AUTO_INDENT,            "auto-indent");
   BIND_ (FONT_NAME,              "font-name");
   BIND_ (SHOW_WHITESPACE,        "show-whitespace");
@@ -403,6 +419,9 @@ mousepad_view_set_property (GObject      *object,
     case PROP_WORD_WRAP:
       mousepad_view_set_word_wrap (view, g_value_get_boolean (value));
       break;
+    case PROP_PERSISTENT_X_CLIPBOARD:
+      mousepad_view_set_persistent_x_clipboard (view, g_value_get_boolean (value));
+      break;
     case PROP_MATCH_BRACES:
       mousepad_view_set_match_braces (view, g_value_get_boolean (value));
       break;
@@ -438,6 +457,9 @@ mousepad_view_get_property (GObject    *object,
       break;
     case PROP_WORD_WRAP:
       g_value_set_boolean (value, mousepad_view_get_word_wrap (view));
+      break;
+    case PROP_PERSISTENT_X_CLIPBOARD:
+      g_value_set_boolean (value, mousepad_view_get_persistent_x_clipboard (view));
       break;
     case PROP_MATCH_BRACES:
       g_value_set_boolean (value, mousepad_view_get_match_braces (view));
@@ -2859,4 +2881,89 @@ mousepad_view_get_match_braces (MousepadView *view)
   g_return_val_if_fail (MOUSEPAD_IS_VIEW (view), FALSE);
 
   return view->match_braces;
+}
+
+
+
+void
+mousepad_view_set_persistent_x_clipboard (MousepadView *view,
+                                          gboolean      enabled)
+{
+  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
+
+  view->persistent_x_clipboard = enabled;
+}
+
+
+
+gboolean
+mousepad_view_get_persistent_x_clipboard (MousepadView *view)
+{
+  g_return_val_if_fail (MOUSEPAD_IS_VIEW (view), FALSE);
+
+  return view->persistent_x_clipboard;
+}
+
+
+
+void
+mousepad_view_persistent_x_clipboard (gint          selection,
+                                      MousepadView *view)
+{
+  GtkTextBuffer *buffer;
+  GtkTextIter    cursor, insert, selection_bound;
+
+  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
+
+  buffer = mousepad_view_get_buffer (view);
+  if (selection)
+    {
+      /* new selection: backup selection marks, following cursor until selection vanishes */
+      gtk_text_buffer_get_iter_at_mark (buffer, &insert, gtk_text_buffer_get_insert (buffer));
+      gtk_text_buffer_create_mark (buffer, "persistent_insert", &insert, FALSE);
+      gtk_text_buffer_get_iter_at_mark (buffer, &selection_bound,
+                                        gtk_text_buffer_get_selection_bound (buffer));
+      gtk_text_buffer_create_mark (buffer, "persistent_selection_bound", &selection_bound, FALSE);
+      g_signal_connect (G_OBJECT (buffer), "notify::cursor-position",
+                        G_CALLBACK (mousepad_view_selection_extended), view);
+    }
+  else if (gtk_text_buffer_get_mark (buffer, "persistent_insert"))
+    {
+      /* selection vanished without losing focus: restore and copy it to X clipboard */
+      if (gtk_widget_has_focus (GTK_WIDGET (view)))
+        {
+          gtk_text_buffer_get_iter_at_mark (buffer, &cursor, gtk_text_buffer_get_insert (buffer));
+          gtk_text_buffer_get_iter_at_mark (buffer, &insert,
+                                            gtk_text_buffer_get_mark (buffer, "persistent_insert"));
+          gtk_text_buffer_get_iter_at_mark (buffer, &selection_bound,
+                                            gtk_text_buffer_get_mark (buffer, "persistent_selection_bound"));
+          gtk_text_buffer_select_range (buffer, &insert, &selection_bound);
+          gtk_text_buffer_copy_clipboard (buffer,
+                                          gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_PRIMARY));
+          gtk_text_buffer_place_cursor (buffer, &cursor);
+        }
+
+      /* cleanup */
+      gtk_text_buffer_delete_mark_by_name (buffer, "persistent_insert");
+      gtk_text_buffer_delete_mark_by_name (buffer, "persistent_selection_bound");
+      mousepad_disconnect_by_func (G_OBJECT (buffer), mousepad_view_selection_extended, view);
+    }
+}
+
+
+
+static void
+mousepad_view_selection_extended (GtkTextBuffer *buffer,
+                                  GParamSpec    *pspec,
+                                  MousepadView  *view)
+{
+  GtkTextIter insert, selection_bound;
+
+  g_return_if_fail (GTK_IS_TEXT_BUFFER (buffer));
+  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
+
+  gtk_text_buffer_get_iter_at_mark (buffer, &insert, gtk_text_buffer_get_insert (buffer));
+  gtk_text_buffer_move_mark_by_name (buffer, "persistent_insert", &insert);
+  gtk_text_buffer_get_iter_at_mark (buffer, &selection_bound, gtk_text_buffer_get_selection_bound (buffer));
+  gtk_text_buffer_move_mark_by_name (buffer, "persistent_selection_bound", &selection_bound);
 }
