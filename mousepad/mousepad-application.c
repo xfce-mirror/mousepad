@@ -278,6 +278,7 @@ mousepad_application_new_window_with_files (MousepadApplication  *application,
 {
   GtkWidget        *window;
   gboolean          succeed = FALSE;
+  MousepadDocument *document;
   GtkWindowGroup   *window_group;
 
   g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), succeed);
@@ -294,9 +295,18 @@ mousepad_application_new_window_with_files (MousepadApplication  *application,
   /* place the window on the right screen */
   gtk_window_set_screen (GTK_WINDOW (window), screen ? screen : gdk_screen_get_default ());
 
-  /* try to open the files */
+  /* try to open the files if any, or open an empty document */
   if (working_directory && filenames && g_strv_length (filenames))
     succeed = mousepad_window_open_files (MOUSEPAD_WINDOW (window), working_directory, filenames);
+  else
+    {
+      /* create a new document */
+      document = mousepad_document_new ();
+
+      /* add the document to the new window */
+      mousepad_window_add (MOUSEPAD_WINDOW (window), document);
+      succeed = TRUE;
+    }
 
   /* show the window */
   if (succeed == TRUE)
