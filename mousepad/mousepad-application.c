@@ -270,7 +270,7 @@ mousepad_application_new_window (MousepadWindow      *existing,
 
 
 
-void
+gboolean
 mousepad_application_new_window_with_files (MousepadApplication  *application,
                                             GdkScreen            *screen,
                                             const gchar          *working_directory,
@@ -278,11 +278,10 @@ mousepad_application_new_window_with_files (MousepadApplication  *application,
 {
   GtkWidget        *window;
   gboolean          succeed = FALSE;
-  MousepadDocument *document;
   GtkWindowGroup   *window_group;
 
-  g_return_if_fail (MOUSEPAD_IS_APPLICATION (application));
-  g_return_if_fail (screen == NULL || GDK_IS_SCREEN (screen));
+  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), succeed);
+  g_return_val_if_fail (screen == NULL || GDK_IS_SCREEN (screen), succeed);
 
   /* create a new window (signals added and already hooked up) */
   window = mousepad_application_create_window (application);
@@ -299,18 +298,11 @@ mousepad_application_new_window_with_files (MousepadApplication  *application,
   if (working_directory && filenames && g_strv_length (filenames))
     succeed = mousepad_window_open_files (MOUSEPAD_WINDOW (window), working_directory, filenames);
 
-  /* open an empty document */
-  if (succeed == FALSE)
-    {
-      /* create a new document */
-      document = mousepad_document_new ();
-
-      /* add the document to the new window */
-      mousepad_window_add (MOUSEPAD_WINDOW (window), document);
-    }
-
   /* show the window */
-  gtk_widget_show (window);
+  if (succeed == TRUE)
+    gtk_widget_show (window);
+
+  return succeed;
 }
 
 
