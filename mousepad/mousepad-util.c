@@ -383,11 +383,14 @@ void
 mousepad_util_entry_error (GtkWidget *widget,
                            gboolean   error)
 {
-  const GdkColor red   = {0, 0xffff, 0x6666, 0x6666};
-  const GdkColor white = {0, 0xffff, 0xffff, 0xffff};
-  gpointer       pointer;
+  GdkRGBA  red, white;
+  gpointer pointer;
 
   g_return_if_fail (GTK_IS_WIDGET (widget));
+
+  /* set colors */
+  gdk_rgba_parse (&red, "#f66");
+  gdk_rgba_parse (&white, "#fff");
 
   /* get the current error state */
   pointer = mousepad_object_get_data (G_OBJECT (widget), "error-state");
@@ -396,8 +399,8 @@ mousepad_util_entry_error (GtkWidget *widget,
   if (GPOINTER_TO_INT (pointer) != error)
     {
       /* set the widget style */
-      gtk_widget_modify_base (widget, GTK_STATE_NORMAL, error ? &red : NULL);
-      gtk_widget_modify_text (widget, GTK_STATE_NORMAL, error ? &white : NULL);
+      gtk_widget_override_background_color (widget, GTK_STATE_FLAG_NORMAL, error ? &red : NULL);
+      gtk_widget_override_color (widget, GTK_STATE_FLAG_NORMAL, error ? &white : NULL);
 
       /* set the new state */
       mousepad_object_set_data (G_OBJECT (widget), "error-state", GINT_TO_POINTER (error));
