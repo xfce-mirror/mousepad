@@ -636,7 +636,7 @@ mousepad_util_search (GtkSourceSearchContext *search_context,
   GtkSourceSearchSettings *search_settings;
   GtkTextBuffer           *buffer, *selection_buffer;
   GtkTextIter              start, end, iter, bstart, fend, biter, fiter;
-  const gchar             *selected_text;
+  gchar                   *selected_text;
   gint                     counter = 0;
   gboolean                 found;
 
@@ -752,6 +752,14 @@ mousepad_util_search (GtkSourceSearchContext *search_context,
 
   /* thawn buffer notifications */
   g_object_thaw_notify (G_OBJECT (buffer));
+
+  /* cleanup */
+  if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION)
+    {
+      g_object_unref (G_OBJECT (selection_buffer));
+      g_object_unref (G_OBJECT (search_context));
+      g_free (selected_text);
+    }
 
   return counter;
 }

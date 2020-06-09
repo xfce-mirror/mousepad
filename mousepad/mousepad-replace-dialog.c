@@ -372,6 +372,17 @@ mousepad_replace_dialog_response (GtkWidget *widget,
       else
         flags |= MOUSEPAD_SEARCH_FLAGS_ITER_SEL_END;
     }
+  else if (response_id == MOUSEPAD_RESPONSE_ENTRY_CHANGED)
+    {
+      /* select the first match */
+      flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
+
+      /* start at the 'beginning' of the selection */
+      if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
+        flags |= MOUSEPAD_SEARCH_FLAGS_ITER_SEL_END;
+      else
+        flags |= MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START;
+    }
   else if (response_id == MOUSEPAD_RESPONSE_REPLACE)
     {
       /* replace matches */
@@ -429,8 +440,9 @@ mousepad_replace_dialog_changed (MousepadReplaceDialog *dialog)
 
   if (text != NULL && *text != '\0')
     {
-      /* do an invisible search to give the user some visible feedback */
-      gtk_dialog_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_FIND);
+      /* if the search entry text has changed, behaves like the search bar entry: find as you type
+       * else, it is likely to be an invisible search */
+      gtk_dialog_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_ENTRY_CHANGED);
 
       /* buttons are sensitive */
       sensitive = TRUE;
