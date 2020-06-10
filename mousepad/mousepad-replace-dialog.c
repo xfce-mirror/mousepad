@@ -48,12 +48,16 @@ struct _MousepadReplaceDialog
   GtkDialog __parent__;
 
   /* dialog widgets */
-  GtkWidget           *search_entry;
-  GtkWidget           *replace_entry;
-  GtkWidget           *find_button;
-  GtkWidget           *replace_button;
-  GtkWidget           *search_location_combo;
-  GtkWidget           *hits_label;
+  GtkWidget *search_entry;
+  GtkWidget *replace_entry;
+  GtkWidget *find_button;
+  GtkWidget *replace_button;
+  GtkWidget *search_location_combo;
+  GtkWidget *hits_label;
+
+  /* signal handler ids */
+  gulong     search_direction_handler_id, match_case_handler_id, enable_regex_handler_id,
+             match_whole_word_handler_id, replace_all_handler_id, replace_all_location_handler_id;
 };
 
 enum
@@ -111,7 +115,7 @@ mousepad_replace_dialog_class_init (MousepadReplaceDialogClass *klass)
 
 
 
-static void
+static gulong
 mousepad_replace_dialog_bind_setting (MousepadReplaceDialog *dialog,
                                       const gchar           *path,
                                       gpointer               object,
@@ -119,10 +123,10 @@ mousepad_replace_dialog_bind_setting (MousepadReplaceDialog *dialog,
 {
   mousepad_setting_bind (path, object, property, G_SETTINGS_BIND_DEFAULT);
 
-  mousepad_setting_connect (path,
-                            G_CALLBACK (mousepad_replace_dialog_settings_changed),
-                            dialog,
-                            G_CONNECT_SWAPPED);
+  return mousepad_setting_connect (path,
+                                   G_CALLBACK (mousepad_replace_dialog_settings_changed),
+                                   dialog,
+                                   G_CONNECT_SWAPPED);
 }
 
 
@@ -214,7 +218,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("Both"));
   gtk_widget_show (combo);
 
-  mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_DIRECTION, combo, "active");
+  dialog->search_direction_handler_id = mousepad_replace_dialog_bind_setting (dialog,
+                                          MOUSEPAD_SETTING_SEARCH_DIRECTION, combo, "active");
 
   /* release size group */
   g_object_unref (G_OBJECT (size_group));
@@ -224,21 +229,24 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
   gtk_widget_show (check);
 
-  mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_MATCH_CASE, check, "active");
+  dialog->match_case_handler_id = mousepad_replace_dialog_bind_setting (dialog,
+                                    MOUSEPAD_SETTING_SEARCH_MATCH_CASE, check, "active");
 
   /* enable regex search */
   check = gtk_check_button_new_with_mnemonic (_("_Enable Regex"));
   gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
   gtk_widget_show (check);
 
-  mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_ENABLE_REGEX, check, "active");
+  dialog->enable_regex_handler_id = mousepad_replace_dialog_bind_setting (dialog,
+                                      MOUSEPAD_SETTING_SEARCH_ENABLE_REGEX, check, "active");
 
   /* match whole word */
   check = gtk_check_button_new_with_mnemonic (_("_Match whole word"));
   gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
   gtk_widget_show (check);
 
-  mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_MATCH_WHOLE_WORD, check, "active");
+  dialog->match_whole_word_handler_id = mousepad_replace_dialog_bind_setting (dialog,
+                                          MOUSEPAD_SETTING_SEARCH_MATCH_WHOLE_WORD, check, "active");
 
   /* horizontal box for the replace all options */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
@@ -249,7 +257,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_box_pack_start (GTK_BOX (hbox), check, FALSE, FALSE, 0);
   gtk_widget_show (check);
 
-  mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_REPLACE_ALL, check, "active");
+  dialog->replace_all_handler_id = mousepad_replace_dialog_bind_setting (dialog,
+                                     MOUSEPAD_SETTING_SEARCH_REPLACE_ALL, check, "active");
 
   combo = dialog->search_location_combo = gtk_combo_box_text_new ();
   gtk_box_pack_start (GTK_BOX (hbox), combo, FALSE, FALSE, 0);
@@ -259,7 +268,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_widget_set_sensitive (combo, FALSE);
   gtk_widget_show (combo);
 
-  mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_REPLACE_ALL_LOCATION, combo, "active");
+  dialog->replace_all_location_handler_id = mousepad_replace_dialog_bind_setting (dialog,
+                                              MOUSEPAD_SETTING_SEARCH_REPLACE_ALL_LOCATION, combo, "active");
 
   label = dialog->hits_label = gtk_label_new (NULL);
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
@@ -285,6 +295,14 @@ mousepad_replace_dialog_unrealize (GtkWidget *widget)
 
   text = gtk_entry_get_text (GTK_ENTRY (dialog->replace_entry));
   mousepad_replace_dialog_history_insert_text (text);
+
+  mousepad_setting_disconnect (MOUSEPAD_SETTING_SEARCH_DIRECTION, dialog->search_direction_handler_id);
+  mousepad_setting_disconnect (MOUSEPAD_SETTING_SEARCH_MATCH_CASE, dialog->match_case_handler_id);
+  mousepad_setting_disconnect (MOUSEPAD_SETTING_SEARCH_ENABLE_REGEX, dialog->enable_regex_handler_id);
+  mousepad_setting_disconnect (MOUSEPAD_SETTING_SEARCH_MATCH_WHOLE_WORD, dialog->match_whole_word_handler_id);
+  mousepad_setting_disconnect (MOUSEPAD_SETTING_SEARCH_REPLACE_ALL, dialog->replace_all_handler_id);
+  mousepad_setting_disconnect (MOUSEPAD_SETTING_SEARCH_REPLACE_ALL_LOCATION,
+                               dialog->replace_all_location_handler_id);
 
   (*GTK_WIDGET_CLASS (mousepad_replace_dialog_parent_class)->unrealize) (widget);
 }
