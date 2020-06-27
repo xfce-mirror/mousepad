@@ -211,15 +211,11 @@ mousepad_view_buffer_changed (MousepadView *view,
       scheme = gtk_source_style_scheme_manager_get_scheme (manager,
         view->color_scheme ? view->color_scheme : "");
 
-#ifdef GTK_SOURCE_CHECK_VERSION
-#if GTK_SOURCE_CHECK_VERSION (3, 21, 0)
       if (!GTK_SOURCE_IS_STYLE_SCHEME (scheme))
       {
         scheme = gtk_source_style_scheme_manager_get_scheme (manager, "classic");
         enable_highlight = FALSE;
       }
-#endif
-#endif
 
       gtk_source_buffer_set_style_scheme (buffer, scheme);
       gtk_source_buffer_set_highlight_syntax (buffer, enable_highlight);
@@ -1704,22 +1700,22 @@ mousepad_view_set_font_name (MousepadView *view,
 static void
 mousepad_view_update_draw_spaces (MousepadView *view)
 {
-  GtkSourceDrawSpacesFlags flags = 0;
+  GtkSourceSpaceDrawer *space_drawer = gtk_source_view_get_space_drawer (GTK_SOURCE_VIEW (view));
+  GtkSourceSpaceTypeFlags types = GTK_SOURCE_SPACE_TYPE_NONE;
 
   if (view->show_whitespace)
     {
-      flags |= GTK_SOURCE_DRAW_SPACES_SPACE |
-               GTK_SOURCE_DRAW_SPACES_TAB |
-               GTK_SOURCE_DRAW_SPACES_NBSP |
-               GTK_SOURCE_DRAW_SPACES_LEADING |
-               GTK_SOURCE_DRAW_SPACES_TEXT |
-               GTK_SOURCE_DRAW_SPACES_TRAILING;
+      types |= GTK_SOURCE_SPACE_TYPE_SPACE |
+               GTK_SOURCE_SPACE_TYPE_TAB |
+               GTK_SOURCE_SPACE_TYPE_NBSP;
+
     }
 
   if (view->show_line_endings)
-    flags |= GTK_SOURCE_DRAW_SPACES_NEWLINE;
+    types |= GTK_SOURCE_SPACE_TYPE_NEWLINE;
 
-  gtk_source_view_set_draw_spaces (GTK_SOURCE_VIEW (view), flags);
+  gtk_source_space_drawer_set_types_for_locations (space_drawer, GTK_SOURCE_SPACE_LOCATION_ALL, types);
+  gtk_source_space_drawer_set_enable_matrix (space_drawer, TRUE);
 }
 
 

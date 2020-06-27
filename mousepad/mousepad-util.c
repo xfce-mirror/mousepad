@@ -679,9 +679,9 @@ mousepad_util_search (GtkSourceSearchContext *search_context,
 
   /* search the string */
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
-    found = gtk_source_search_context_backward2 (search_context, &iter, &start, &end, NULL);
+    found = gtk_source_search_context_backward (search_context, &iter, &start, &end, NULL);
   else
-    found = gtk_source_search_context_forward2 (search_context, &iter, &start, &end, NULL);
+    found = gtk_source_search_context_forward (search_context, &iter, &start, &end, NULL);
 
   /* set the counter, ensuring the buffer is fully scanned if needed (searching in both
    * directions leads faster to a full scan) */
@@ -698,8 +698,8 @@ mousepad_util_search (GtkSourceSearchContext *search_context,
       fiter = end;
       do
         {
-          gtk_source_search_context_backward2 (search_context, &biter, &bstart, NULL, NULL);
-          gtk_source_search_context_forward2 (search_context, &fiter, NULL, &fend, NULL);
+          gtk_source_search_context_backward (search_context, &biter, &bstart, NULL, NULL);
+          gtk_source_search_context_forward (search_context, &fiter, NULL, &fend, NULL);
           counter = gtk_source_search_context_get_occurrences_count (search_context);
           biter = bstart;
           fiter = fend;
@@ -721,7 +721,7 @@ mousepad_util_search (GtkSourceSearchContext *search_context,
       if (found && ! (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA))
         {
           /* replace selected occurrence */
-          gtk_source_search_context_replace2 (search_context, &start, &end, replace, -1, NULL);
+          gtk_source_search_context_replace (search_context, &start, &end, replace, -1, NULL);
           
           /* select next occurrence */
           flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
