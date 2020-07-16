@@ -48,6 +48,13 @@
 
   <!-- Textview preferences -->
   <schema id="org.xfce.mousepad.preferences.view" path="/org/xfce/mousepad/preferences/view/" gettext-domain="mousepad">
+    <key name="persistent-x-clipboard" type="b">
+      <default>false</default>
+      <summary>Persistent X clipboard</summary>
+      <description>
+        When true, X clipboard persistence after text deselection is enabled, when false it is not.
+      </description>
+    </key>
     <key name="auto-indent" type="b">
       <default>false</default>
       <summary>Auto-indentation</summary>

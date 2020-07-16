@@ -122,6 +122,14 @@ void            mousepad_view_set_match_braces          (MousepadView      *view
 
 gboolean        mousepad_view_get_match_braces          (MousepadView      *view);
 
+void            mousepad_view_set_persistent_x_clipboard (MousepadView     *view,
+                                                          gboolean          enabled);
+
+gboolean        mousepad_view_get_persistent_x_clipboard (MousepadView     *view);
+
+void            mousepad_view_persistent_x_clipboard    (gint               selection,
+                                                         MousepadView      *view);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_VIEW_H__ */
