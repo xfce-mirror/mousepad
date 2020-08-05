@@ -3404,10 +3404,10 @@ mousepad_window_search (MousepadWindow      *window,
       /* search or replace in the active document */
       nmatches = mousepad_util_search (window->active->search_context, string, replacement, flags);
 
-      /* make sure the selection is visible */
+      /* make sure the selection is visible whenever idle */
       if (flags & (MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT | MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE)
           && nmatches > 0)
-        mousepad_view_scroll_to_cursor (window->active->textview);
+        g_idle_add (G_SOURCE_FUNC (mousepad_view_scroll_to_cursor), window->active->textview);
     }
   else
     {
