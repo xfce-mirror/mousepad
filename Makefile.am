@@ -9,7 +9,7 @@ distclean-local:
 	rm -rf *.cache *~
 
 distuninstallcheck_listfiles = 						\
-	find . -type f -print | grep -v ./share/icons/hicolor/icon-theme.cache
+	find . -type f \! -path ./share/icons/hicolor/icon-theme.cache
 
 desktopdir = $(datadir)/applications
 desktop_in_in_files = 								\
