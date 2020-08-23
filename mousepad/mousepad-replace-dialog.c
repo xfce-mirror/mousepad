@@ -259,19 +259,19 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_MATCH_CASE, check, "active");
 
-  /* enable regex search */
-  check = gtk_check_button_new_with_mnemonic (_("_Enable Regex"));
-  gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
-  gtk_widget_show (check);
-
-  mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_ENABLE_REGEX, check, "active");
-
   /* match whole word */
   check = gtk_check_button_new_with_mnemonic (_("_Match whole word"));
   gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
   gtk_widget_show (check);
 
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_MATCH_WHOLE_WORD, check, "active");
+
+  /* enable regex search */
+  check = gtk_check_button_new_with_mnemonic (_("Regular e_xpression"));
+  gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
+  gtk_widget_show (check);
+
+  mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_ENABLE_REGEX, check, "active");
 
   /* horizontal box for the replace all options */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
