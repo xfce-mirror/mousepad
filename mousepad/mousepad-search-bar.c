@@ -281,7 +281,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
   gtk_widget_show (GTK_WIDGET (item));
 
-  check = gtk_check_button_new_with_mnemonic (_("_Enable Regex"));
+  check = gtk_check_button_new_with_mnemonic (_("Regular e_xpression"));
   g_signal_connect_object (G_OBJECT (bar), "destroy", G_CALLBACK (gtk_widget_destroy), item, G_CONNECT_SWAPPED);
   gtk_container_add (GTK_CONTAINER (item), check);
   g_signal_connect (G_OBJECT (check), "toggled", G_CALLBACK (mousepad_search_bar_enable_regex_toggled), bar);
