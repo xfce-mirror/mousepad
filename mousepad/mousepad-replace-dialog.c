@@ -253,7 +253,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_WRAP_AROUND, check, "active");
 
   /* case sensitive */
-  check = gtk_check_button_new_with_mnemonic (_("Case sensi_tive"));
+  check = gtk_check_button_new_with_mnemonic (_("Match _case"));
   gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
   gtk_widget_show (check);
 
