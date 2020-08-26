@@ -651,7 +651,8 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_show (print->widget_line_numbers_hbox);
 
   label = gtk_label_new (_("Numbering interval:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_box_pack_start (GTK_BOX (print->widget_line_numbers_hbox), label, FALSE, TRUE, 0);
   gtk_widget_show (label);
 
@@ -712,7 +713,8 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_show (table);
 
   label = gtk_label_new (_("Header:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 0, 1);
   gtk_widget_show (label);
 
@@ -722,7 +724,8 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_show (print->widget_header_font);
 
   label = gtk_label_new (_("Body:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 1, 2);
   gtk_widget_show (label);
 
@@ -732,7 +735,8 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_show (print->widget_body_font);
 
   label = gtk_label_new (_("Line numbers:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 2, 3);
   gtk_widget_show (label);
 

@@ -184,7 +184,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   label = gtk_label_new_with_mnemonic (_("_Search for:"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   gtk_size_group_add_widget (size_group, label);
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_widget_show (label);
 
   combo = gtk_combo_box_text_new_with_entry ();
@@ -210,7 +211,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   label = gtk_label_new_with_mnemonic (_("Replace _with:"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   gtk_size_group_add_widget (size_group, label);
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_widget_show (label);
 
   combo = gtk_combo_box_text_new_with_entry ();
@@ -230,7 +232,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   label = gtk_label_new_with_mnemonic (_("Search _direction:"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   gtk_size_group_add_widget (size_group, label);
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_widget_show (label);
 
   combo = gtk_combo_box_text_new ();
