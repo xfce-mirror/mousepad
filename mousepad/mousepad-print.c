@@ -579,7 +579,6 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   GtkWidget     *button;
   GtkWidget     *vbox, *vbox2;
   GtkWidget     *frame;
-  GtkWidget     *alignment;
   GtkWidget     *label;
   GtkWidget     *table;
   GtkAdjustment *adjustment;
@@ -597,14 +596,14 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_frame_set_label_widget (GTK_FRAME (frame), label);
   gtk_widget_show (label);
 
-  alignment = gtk_alignment_new (0.0, 0.5, 0.0, 1.0);
-  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 6, 6, 12, 6);
-  gtk_container_add (GTK_CONTAINER (frame), alignment);
-  gtk_widget_show (alignment);
-
   button = mousepad_util_image_button ("document-properties", _("_Adjust page size and orientation"));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (mousepad_print_page_setup_dialog), operation);
-  gtk_container_add (GTK_CONTAINER (alignment), button);
+  gtk_widget_set_halign (button, GTK_ALIGN_START);
+  gtk_widget_set_margin_start (button, 12);
+  gtk_widget_set_margin_end (button, 6);
+  gtk_widget_set_margin_top (button, 6);
+  gtk_widget_set_margin_bottom (button, 6);
+  gtk_container_add (GTK_CONTAINER (frame), button);
   gtk_widget_show (button);
 
   frame = gtk_frame_new (NULL);
@@ -617,13 +616,13 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_frame_set_label_widget (GTK_FRAME (frame), label);
   gtk_widget_show (label);
 
-  alignment = gtk_alignment_new (0.5, 0.5, 1.0, 1.0);
-  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 6, 6, 12, 6);
-  gtk_container_add (GTK_CONTAINER (frame), alignment);
-  gtk_widget_show (alignment);
-
   vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-  gtk_container_add (GTK_CONTAINER (alignment), vbox2);
+  gtk_widget_set_halign (vbox2, GTK_ALIGN_START);
+  gtk_widget_set_margin_start (vbox2, 12);
+  gtk_widget_set_margin_end (vbox2, 6);
+  gtk_widget_set_margin_top (vbox2, 6);
+  gtk_widget_set_margin_bottom (vbox2, 6);
+  gtk_container_add (GTK_CONTAINER (frame), vbox2);
   gtk_widget_show (vbox2);
 
   button = print->widget_page_headers = gtk_check_button_new_with_mnemonic (_("Print page _headers"));
@@ -640,14 +639,14 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
   gtk_widget_show (button);
 
-  alignment = gtk_alignment_new (0.0, 0.5, 0.0, 1.0);
-  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 24, 0);
-  gtk_box_pack_start (GTK_BOX (vbox2), alignment, FALSE, FALSE, 0);
-  gtk_widget_show (alignment);
-
   print->widget_line_numbers_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_widget_set_sensitive (print->widget_line_numbers_hbox, print->print_line_numbers);
-  gtk_container_add (GTK_CONTAINER (alignment), print->widget_line_numbers_hbox);
+  gtk_widget_set_halign (print->widget_line_numbers_hbox, GTK_ALIGN_START);
+  gtk_widget_set_margin_start (print->widget_line_numbers_hbox, 24);
+  gtk_widget_set_margin_end (print->widget_line_numbers_hbox, 0);
+  gtk_widget_set_margin_top (print->widget_line_numbers_hbox, 0);
+  gtk_widget_set_margin_bottom (print->widget_line_numbers_hbox, 0);
+  gtk_container_add (GTK_CONTAINER (vbox2), print->widget_line_numbers_hbox);
   gtk_widget_show (print->widget_line_numbers_hbox);
 
   label = gtk_label_new (_("Numbering interval:"));
@@ -695,11 +694,6 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_frame_set_label_widget (GTK_FRAME (frame), label);
   gtk_widget_show (label);
 
-  alignment = gtk_alignment_new (0.0, 0.5, 0.0, 1.0);
-  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 6, 6, 12, 6);
-  gtk_container_add (GTK_CONTAINER (frame), alignment);
-  gtk_widget_show (alignment);
-
   /* In GTK3, GtkTable is deprecated */
 #if G_GNUC_CHECK_VERSION (4, 3)
 # pragma GCC diagnostic push
@@ -709,7 +703,12 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   table = gtk_table_new (3, 2, FALSE);
   gtk_table_set_col_spacings (GTK_TABLE (table), 6);
   gtk_table_set_row_spacings (GTK_TABLE (table), 6);
-  gtk_container_add (GTK_CONTAINER (alignment), table);
+  gtk_widget_set_halign (table, GTK_ALIGN_START);
+  gtk_widget_set_margin_start (table, 12);
+  gtk_widget_set_margin_end (table, 6);
+  gtk_widget_set_margin_top (table, 6);
+  gtk_widget_set_margin_bottom (table, 6);
+  gtk_container_add (GTK_CONTAINER (frame), table);
   gtk_widget_show (table);
 
   label = gtk_label_new (_("Header:"));
