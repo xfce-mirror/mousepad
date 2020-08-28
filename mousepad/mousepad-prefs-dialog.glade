@@ -132,9 +132,10 @@
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <child>
-      <object class="GtkVBox" id="/prefs/view/content-area">
+      <object class="GtkBox" id="/prefs/view/content-area">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <property name="border_width">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/view/display/frame">
@@ -143,9 +144,10 @@
             <property name="label_xalign">0</property>
             <property name="shadow_type">none</property>
             <child>
-              <object class="GtkVBox" id="/prefs/view/display/content-area">
+              <object class="GtkBox" id="/prefs/view/display/content-area">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin_top">6</property>
                 <property name="margin_bottom">6</property>
                 <property name="margin_start">12</property>
@@ -308,9 +310,10 @@
             <property name="label_xalign">0</property>
             <property name="shadow_type">none</property>
             <child>
-              <object class="GtkVBox" id="/prefs/view/font/box">
+              <object class="GtkBox" id="/prefs/view/font/box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin_top">6</property>
                 <property name="margin_bottom">6</property>
                 <property name="margin_start">12</property>
@@ -366,9 +369,10 @@
             <property name="label_xalign">0</property>
             <property name="shadow_type">none</property>
             <child>
-              <object class="GtkVBox" id="/prefs/view/color-scheme-box">
+              <object class="GtkBox" id="/prefs/view/color-scheme-box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin_top">6</property>
                 <property name="margin_bottom">6</property>
                 <property name="margin_start">12</property>
@@ -423,9 +427,10 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="/prefs/editor/content-area">
+      <object class="GtkBox" id="/prefs/editor/content-area">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <property name="border_width">6</property>
         <property name="spacing">6</property>
         <child>
@@ -615,9 +620,10 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="/prefs/window/content-area">
+      <object class="GtkBox" id="/prefs/window/content-area">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <property name="border_width">6</property>
         <property name="spacing">6</property>
         <child>
@@ -627,13 +633,14 @@
             <property name="label_xalign">0</property>
             <property name="shadow_type">none</property>
             <child>
-              <object class="GtkVBox" id="/prefs/window/general/box">
+              <object class="GtkBox" id="/prefs/window/general/box">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin_top">6</property>
                 <property name="margin_bottom">6</property>
                 <property name="margin_start">12</property>
                 <property name="margin_end">6</property>
-                <property name="can_focus">False</property>
                 <property name="spacing">2</property>
                 <child>
                   <object class="GtkCheckButton" id="/prefs/window/general/show-statusbar-check">
@@ -836,9 +843,10 @@
             <property name="label_xalign">0</property>
             <property name="shadow_type">none</property>
             <child>
-              <object class="GtkVBox" id="/prefs/window/notebook/box">
+              <object class="GtkBox" id="/prefs/window/notebook/box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin_top">6</property>
                 <property name="margin_bottom">6</property>
                 <property name="margin_start">12</property>
