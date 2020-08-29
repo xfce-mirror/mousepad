@@ -1009,8 +1009,6 @@ mousepad_window_init (MousepadWindow *window)
   window->active = NULL;
   window->recent_manager = NULL;
 
-  gtk_window_set_has_resize_grip (GTK_WINDOW (window), TRUE);
-
   /* increase clipboard history ref count */
   clipboard_history_ref_count++;
 
