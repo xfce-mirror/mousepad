@@ -82,9 +82,26 @@ mousepad_dialogs_show_help (GtkWindow   *parent,
                             const gchar *page,
                             const gchar *offset)
 {
+#if !GTK_CHECK_VERSION (3, 22, 0)
   GdkScreen   *screen;
+#endif
   GError      *error = NULL;
-  const gchar *uri;
+  const gchar *uri = "https://docs.xfce.org/apps/mousepad/start";
+
+  /* try to run the documentation browser */
+#if GTK_CHECK_VERSION (3, 22, 0)
+  if (!gtk_show_uri_on_window (parent, uri, gtk_get_current_event_time (), &error))
+    {
+      /* display an error message to the user */
+      mousepad_dialogs_show_error (parent, error, _("Failed to open the documentation browser"));
+      g_error_free (error);
+    }
+#else
+
+#if G_GNUC_CHECK_VERSION (4, 3)
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 
   /* get screen */
   if (G_LIKELY (parent))
@@ -92,15 +109,18 @@ mousepad_dialogs_show_help (GtkWindow   *parent,
   else
     screen = gdk_screen_get_default ();
 
-  uri = "https://docs.xfce.org/apps/mousepad/start";
-
-  /* try to run the documentation browser */
   if (!gtk_show_uri (screen, uri, gtk_get_current_event_time (), &error))
     {
       /* display an error message to the user */
       mousepad_dialogs_show_error (parent, error, _("Failed to open the documentation browser"));
       g_error_free (error);
     }
+
+#if G_GNUC_CHECK_VERSION (4, 3)
+# pragma GCC diagnostic pop
+#endif
+
+#endif
 }
 
 
