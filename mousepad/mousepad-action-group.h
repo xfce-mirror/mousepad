@@ -51,6 +51,12 @@ GtkSourceStyleScheme *mousepad_action_group_get_active_style_scheme  (MousepadAc
 
 GtkWidget            *mousepad_action_group_create_style_scheme_menu (MousepadActionGroup *group);
 
+GSList               *mousepad_action_group_style_schemes_get_sorted (void);
+
+GSList               *mousepad_action_group_get_sorted_section_names (void);
+
+GSList               *mousepad_action_group_get_sorted_languages_for_section (const gchar *section);
+
 G_END_DECLS
 
 #endif /* __MOUSEPAD_ACTION_GROUP_H__ */
