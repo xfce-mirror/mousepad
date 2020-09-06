@@ -48,6 +48,8 @@ gboolean             mousepad_application_new_window_with_files  (MousepadApplic
 void                 mousepad_application_show_preferences       (MousepadApplication  *application,
                                                                   GtkWindow            *transient_for);
 
+GtkBuilder          *mousepad_application_get_builder            (MousepadApplication  *application);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_APPLICATION_H__ */
