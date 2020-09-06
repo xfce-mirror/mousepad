@@ -69,15 +69,12 @@ static GtkAction *mousepad_action_group_get_language_action              (Mousep
                                                                           GtkSourceLanguage      *language);
 static gint       mousepad_action_group_languages_name_compare           (gconstpointer           a,
                                                                           gconstpointer           b);
-static GSList    *mousepad_action_group_get_sorted_languages_for_section (const gchar            *section);
-static GSList    *mousepad_action_group_get_sorted_section_names         (void);
 static void       mousepad_action_group_add_style_scheme_actions         (MousepadActionGroup    *self);
 static GtkAction *mousepad_action_group_get_style_scheme_action          (MousepadActionGroup    *self,
                                                                           GtkSourceStyleScheme   *scheme);
 static gint       mousepad_action_group_style_schemes_name_compare       (gconstpointer           a,
                                                                           gconstpointer           b);
 static GSList    *mousepad_action_group_get_style_schemes                (void);
-static GSList    *mousepad_action_group_style_schemes_get_sorted         (void);
 static void       mousepad_action_group_color_scheme_setting_changed     (MousepadActionGroup    *self,
                                                                           gchar                  *key,
                                                                           GSettings              *settings);
@@ -602,7 +599,7 @@ mousepad_action_group_languages_name_compare (gconstpointer a,
 
 
 
-static GSList *
+GSList *
 mousepad_action_group_get_sorted_section_names (void)
 {
   GSList                   *list = NULL;
@@ -641,7 +638,7 @@ mousepad_action_group_get_sorted_section_names (void)
 
 
 
-static GSList *
+GSList *
 mousepad_action_group_get_sorted_languages_for_section (const gchar *section)
 {
   GSList                   *list = NULL;
@@ -781,7 +778,7 @@ mousepad_action_group_get_style_schemes (void)
 
 
 
-static GSList *
+GSList *
 mousepad_action_group_style_schemes_get_sorted (void)
 {
   return g_slist_sort (mousepad_action_group_get_style_schemes (),
