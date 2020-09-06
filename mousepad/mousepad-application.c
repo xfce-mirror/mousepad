@@ -21,6 +21,7 @@
 #include <mousepad/mousepad-prefs-dialog.h>
 #include <mousepad/mousepad-replace-dialog.h>
 #include <mousepad/mousepad-window.h>
+#include <mousepad/mousepad-window-ui-ui.h>
 
 
 
@@ -40,23 +41,26 @@ static void        mousepad_application_new_window                (MousepadWindo
 
 struct _MousepadApplicationClass
 {
-  GObjectClass __parent__;
+  GtkApplicationClass __parent__;
 };
 
 struct _MousepadApplication
 {
-  GObject    __parent__;
+  GtkApplication      __parent__;
 
   /* internal list of all the opened windows */
-  GSList    *windows;
+  GSList     *windows;
 
   /* the preferences dialog when shown */
-  GtkWidget *prefs_dialog;
+  GtkWidget  *prefs_dialog;
+
+  /* the menu builder */
+  GtkBuilder *builder;
 };
 
 
 
-G_DEFINE_TYPE (MousepadApplication, mousepad_application, G_TYPE_OBJECT)
+G_DEFINE_TYPE (MousepadApplication, mousepad_application, GTK_TYPE_APPLICATION)
 
 
 
@@ -75,6 +79,26 @@ static void
 mousepad_application_init (MousepadApplication *application)
 {
   gchar *filename;
+
+  /* GApplication properties */
+  /* Defining the application_id seems useless, since the uniqueness is not handled at this level
+   * for now, and this would cause a GLib-GIO-CRITICAL from g_application_set_application_id() below,
+   * complaining that the application is already registered, although it isn't
+   * A possible TODO: make full use of GApplication features, by launching Mousepad with
+   * g_application_run() from main()
+   * See https://developer.gnome.org/gio/stable/GApplication.html
+   */
+  /* g_application_set_application_id (G_APPLICATION (application), "org.xfce.mousepad"); */
+  g_application_set_flags (G_APPLICATION (application), G_APPLICATION_FLAGS_NONE);
+
+  /* TODO: error handling (related to the TODO above) */
+  g_application_register (G_APPLICATION (application), NULL, NULL);
+
+  /* build the menubar */
+  application->builder = gtk_builder_new_from_string (mousepad_window_ui_ui,
+                                                      mousepad_window_ui_ui_length);
+  gtk_application_set_menubar (GTK_APPLICATION (application),
+                               G_MENU_MODEL (gtk_builder_get_object (application->builder, "menubar")));
 
   mousepad_settings_init ();
   application->prefs_dialog = NULL;
@@ -130,6 +154,10 @@ mousepad_application_finalize (GObject *object)
   g_slist_free (application->windows);
 
   mousepad_settings_finalize ();
+
+  /* destroy the GtkBuilder instance */
+  if (G_IS_OBJECT (application->builder))
+    g_object_unref (application->builder);
 
   (*G_OBJECT_CLASS (mousepad_application_parent_class)->finalize) (object);
 }
@@ -205,16 +233,42 @@ static GtkWidget *
 mousepad_application_create_window (MousepadApplication *application)
 {
   GtkWidget *window;
+  GAction   *action;
+  gint       show_fullscreen;
+  gboolean   show;
 
   /* create a new window */
   window = mousepad_window_new ();
+
+  /* TODO: to put or to do in a better place? (window post-init stuff) */
+  gtk_window_set_application (GTK_WINDOW (window), GTK_APPLICATION (application));
+  nousepad_window_create_style_schemes_menu (MOUSEPAD_WINDOW (window));
+  nousepad_window_create_languages_menu (MOUSEPAD_WINDOW (window));
+
+  /* set the menubar visibility */
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
+    {
+      show_fullscreen = MOUSEPAD_SETTING_GET_ENUM (MENUBAR_VISIBLE_FULLSCREEN);
+      if (! show_fullscreen)
+        show = MOUSEPAD_SETTING_GET_BOOLEAN (MENUBAR_VISIBLE);
+      else
+        show = (show_fullscreen == 2);
+    }
+  else
+    show = MOUSEPAD_SETTING_GET_BOOLEAN (MENUBAR_VISIBLE);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.menubar");
+  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (show));
+  gtk_application_window_set_show_menubar (GTK_APPLICATION_WINDOW (window), show);
 
   /* hook up the new window */
   mousepad_application_take_window (application, GTK_WINDOW (window));
 
   /* connect signals */
-  g_signal_connect (G_OBJECT (window), "new-window-with-document", G_CALLBACK (mousepad_application_new_window_with_document), application);
-  g_signal_connect (G_OBJECT (window), "new-window", G_CALLBACK (mousepad_application_new_window), application);
+  g_signal_connect (G_OBJECT (window), "new-window-with-document",
+                    G_CALLBACK (mousepad_application_new_window_with_document), application);
+  g_signal_connect (G_OBJECT (window), "new-window",
+                    G_CALLBACK (mousepad_application_new_window), application);
 
   return window;
 }
@@ -359,4 +413,14 @@ mousepad_application_show_preferences (MousepadApplication  *application,
 
   /* show it to the user */
   gtk_window_present (GTK_WINDOW (application->prefs_dialog));
+}
+
+
+
+GtkBuilder*
+mousepad_application_get_builder (MousepadApplication *application)
+{
+  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), NULL);
+
+  return application->builder;
 }
