@@ -23,6 +23,7 @@ mousepad/mousepad-style-scheme-action.c
 mousepad/mousepad-util.c
 mousepad/mousepad-view.c
 mousepad/mousepad-window.c
+mousepad/mousepad-window.ui
 
 
 
