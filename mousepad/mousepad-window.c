@@ -253,6 +253,11 @@ static void              mousepad_window_button_close_tab             (MousepadD
 static gboolean          mousepad_window_delete_event                 (MousepadWindow         *window,
                                                                        GdkEvent               *event);
 
+/* toolbar handler */
+static void              mousepad_window_toolbar_handler              (MousepadWindow         *window,
+                                                                       GParamSpec             *param,
+                                                                       GObject                *data);
+
 /* actions */
 static void              mousepad_window_action_new                   (GtkAction              *action,
                                                                        MousepadWindow         *window);
@@ -592,6 +597,8 @@ struct _MousepadWindow
   GtkWidget           *statusbar;
   GtkWidget           *replace_dialog;
   GtkWidget           *toolbar;
+  GtkWidget           *ttoolbar;
+  GtkWidget           *toolbar_box;
   GtkWidget           *menubar;
 
   /* support to remember window geometry */
@@ -943,6 +950,23 @@ mousepad_window_update_toolbar (MousepadWindow *window,
 
 
 static void
+nousepad_window_update_toolbar (MousepadWindow *window,
+                                gchar          *key,
+                                GSettings      *settings)
+{
+  GtkToolbarStyle style;
+  GtkIconSize     size;
+
+  style = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE);
+  size = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_ICON_SIZE);
+
+  gtk_toolbar_set_style (GTK_TOOLBAR (window->ttoolbar), style);
+  gtk_toolbar_set_icon_size (GTK_TOOLBAR (window->ttoolbar), size);
+}
+
+
+
+static void
 mousepad_window_restore (MousepadWindow *window)
 {
   gboolean remember_size, remember_position, remember_state;
@@ -1253,6 +1277,70 @@ mousepad_window_create_toolbar (MousepadWindow *window)
 
 
 
+void
+nousepad_window_create_toolbar (MousepadWindow *window)
+{
+  GtkBuilder  *builder;
+  GtkToolItem *item;
+  GAction     *action;
+  gboolean     active;
+
+  /* get the toolbar widget */
+  builder = mousepad_application_get_builder (MOUSEPAD_APPLICATION (
+              gtk_window_get_application (GTK_WINDOW (window))));
+  window->ttoolbar = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar"));
+
+  /* insert the toolbar in its previously reserved space and connect the toolabr handler */
+  gtk_box_pack_start (GTK_BOX (window->toolbar_box), window->ttoolbar, TRUE, TRUE, 0);
+  gtk_widget_show_all (window->ttoolbar);
+  gtk_builder_add_callback_symbol (builder, "mousepad_window_toolbar_handler",
+                                   G_CALLBACK (mousepad_window_toolbar_handler));
+  gtk_builder_connect_signals (builder, window);
+
+  /* make the last toolbar separator so it expands properly (setting the "hexpand" property
+   * to "TRUE" in the builder XML file does not have the desired effect) */
+  item = GTK_TOOL_ITEM (gtk_builder_get_object (builder, "toolbar.last-separator"));
+  gtk_tool_item_set_expand (item, TRUE);
+
+  /* sync the toolbar visibility and action state to the setting */
+  action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.toolbar");
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
+    {
+      gint value = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_VISIBLE_FULLSCREEN);
+      active = (value == 0) ? MOUSEPAD_SETTING_GET_BOOLEAN (TOOLBAR_VISIBLE) : (value == 2);
+    }
+  else
+    active = MOUSEPAD_SETTING_GET_BOOLEAN (TOOLBAR_VISIBLE);
+  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (active));
+  gtk_widget_set_visible (window->ttoolbar, active);
+
+  /* update the toolbar with the settings */
+  nousepad_window_update_toolbar (window, NULL, NULL);
+
+  /* connect to some signals to keep in sync */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_VISIBLE,
+                                   G_CALLBACK (mousepad_window_update_main_widgets),
+                                   window,
+                                   G_CONNECT_SWAPPED);
+
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_VISIBLE_FULLSCREEN,
+                                   G_CALLBACK (mousepad_window_update_main_widgets),
+                                   window,
+                                   G_CONNECT_SWAPPED);
+
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_STYLE,
+                                   G_CALLBACK (nousepad_window_update_toolbar),
+                                   window,
+                                   G_CONNECT_SWAPPED);
+
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_ICON_SIZE,
+                                   G_CALLBACK (nousepad_window_update_toolbar),
+                                   window,
+                                   G_CONNECT_SWAPPED);
+}
+
+
+
 static void
 mousepad_window_create_root_warning (MousepadWindow *window)
 {
@@ -1500,6 +1588,11 @@ mousepad_window_init (MousepadWindow *window)
 
   /* create the main menu from the ui manager */
   mousepad_window_create_menubar (window);
+
+  /* keep a place for the toolbar created from the gtkbuilder later */
+  window->toolbar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_box_pack_start (GTK_BOX (window->box), window->toolbar_box, FALSE, FALSE, 0);
+  gtk_widget_show (window->toolbar_box);
 
   /* create the toolbar from the ui manager */
   mousepad_window_create_toolbar (window);
@@ -2755,8 +2848,11 @@ nousepad_window_selection_changed (MousepadDocument *document,
                                    gint              selection,
                                    MousepadWindow   *window)
 {
+  GtkBuilder  *builder;
+  GtkWidget   *button;
   GAction     *action;
   guint        i;
+  gboolean     sensitive;
   const gchar *action_names_1[] = { "edit.convert.tabs-to-spaces",
                                     "edit.convert.spaces-to-tabs",
                                     "edit.duplicate-line-selection",
@@ -2772,25 +2868,36 @@ nousepad_window_selection_changed (MousepadDocument *document,
                                     "edit.convert.to-opposite-case" };
 
   /* actions that are unsensitive during a column selection */
+  sensitive = (selection == 0 || selection == 1);
   for (i = 0; i < G_N_ELEMENTS (action_names_1); i++)
     {
       action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names_1[i]);
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), selection == 0 || selection == 1);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), sensitive);
     }
 
   /* action that are only sensitive for normal selections */
+  sensitive = (selection == 1);
   for (i = 0; i < G_N_ELEMENTS (action_names_2); i++)
     {
       action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names_2[i]);
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), selection == 1);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), sensitive);
     }
 
   /* actions that are sensitive for all selections with content */
+  sensitive = (selection > 0);
   for (i = 0; i < G_N_ELEMENTS (action_names_3); i++)
     {
       action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names_3[i]);
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), selection > 0);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), sensitive);
     }
+
+  /* set the sensitivity of some toolbar buttons */
+  builder = mousepad_application_get_builder (MOUSEPAD_APPLICATION (
+              gtk_window_get_application (GTK_WINDOW (window))));
+  button = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar.cut"));
+  gtk_widget_set_sensitive (button, sensitive);
+  button = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar.copy"));
+  gtk_widget_set_sensitive (button, sensitive);
 }
 
 
@@ -2829,9 +2936,11 @@ mousepad_window_can_undo (MousepadWindow *window,
                           GParamSpec     *unused,
                           GObject        *buffer)
 {
-  GtkAction *action;
-  GAction   *gaction;
-  gboolean   can_undo;
+  GtkBuilder *builder;
+  GtkWidget  *button;
+  GtkAction  *action;
+  GAction    *gaction;
+  gboolean    can_undo;
 
   can_undo = gtk_source_buffer_can_undo (GTK_SOURCE_BUFFER (buffer));
 
@@ -2840,6 +2949,12 @@ mousepad_window_can_undo (MousepadWindow *window,
 
   gaction = g_action_map_lookup_action (G_ACTION_MAP (window), "edit.undo");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (gaction), can_undo);
+
+  /* set the sensitivity of the toolbar button */
+  builder = mousepad_application_get_builder (MOUSEPAD_APPLICATION (
+              gtk_window_get_application (GTK_WINDOW (window))));
+  button = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar.undo"));
+  gtk_widget_set_sensitive (button, can_undo);
 }
 
 
@@ -2849,9 +2964,11 @@ mousepad_window_can_redo (MousepadWindow *window,
                           GParamSpec     *unused,
                           GObject        *buffer)
 {
-  GtkAction *action;
-  GAction   *gaction;
-  gboolean   can_redo;
+  GtkBuilder *builder;
+  GtkWidget  *button;
+  GtkAction  *action;
+  GAction    *gaction;
+  gboolean    can_redo;
 
   can_redo = gtk_source_buffer_can_redo (GTK_SOURCE_BUFFER (buffer));
 
@@ -2860,6 +2977,12 @@ mousepad_window_can_redo (MousepadWindow *window,
 
   gaction = g_action_map_lookup_action (G_ACTION_MAP (window), "edit.redo");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (gaction), can_redo);
+
+  /* set the sensitivity of the toolbar button */
+  builder = mousepad_application_get_builder (MOUSEPAD_APPLICATION (
+              gtk_window_get_application (GTK_WINDOW (window))));
+  button = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar.redo"));
+  gtk_widget_set_sensitive (button, can_redo);
 }
 
 
@@ -4996,6 +5119,24 @@ mousepad_window_delete_event (MousepadWindow *window,
 
   /* we will close the window when all the tabs are closed */
   return TRUE;
+}
+
+
+
+/* toolbar handler */
+static void
+mousepad_window_toolbar_handler (MousepadWindow *window,
+                                 GParamSpec     *param,
+                                 GObject        *data)
+{
+  GAction   *action;
+  GtkWidget *button;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  button = GTK_WIDGET (data);
+  action = g_action_map_lookup_action (G_ACTION_MAP (window), gtk_widget_get_name (button));
+  g_action_activate (action, NULL);
 }
 
 
@@ -7868,10 +8009,12 @@ mousepad_window_update_main_widgets (MousepadWindow *window)
   gtk_widget_set_visible (window->menubar, mb_active);
   gtk_application_window_set_show_menubar (GTK_APPLICATION_WINDOW (window), mb_active);
   gtk_widget_set_visible (window->toolbar, tb_active);
+  gtk_widget_set_visible (window->ttoolbar, tb_active);
   gtk_widget_set_visible (window->statusbar, sb_active);
 
   /* update the toolbar with the settings */
   mousepad_window_update_toolbar (window, NULL, NULL);
+  nousepad_window_update_toolbar (window, NULL, NULL);
 
   /* avoid menu actions */
   lock_menu_updates++;
