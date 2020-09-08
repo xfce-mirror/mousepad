@@ -118,6 +118,12 @@ void       mousepad_util_container_clear                  (GtkContainer        *
 void       mousepad_util_container_move_children          (GtkContainer        *source,
                                                            GtkContainer        *destination);
 
+GSList    *mousepad_util_style_schemes_get_sorted         (void);
+
+GSList    *mousepad_util_get_sorted_section_names         (void);
+
+GSList    *mousepad_util_get_sorted_languages_for_section (const gchar *section);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_UTIL_H__ */

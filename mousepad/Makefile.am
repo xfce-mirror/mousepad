@@ -21,8 +21,6 @@ mousepad_SOURCES = \
 	$(mousepad_built_sources) \
 	$(mousepad_dbus_sources) \
 	main.c \
-	mousepad-action-group.c \
-	mousepad-action-group.h \
 	mousepad-application.c \
 	mousepad-application.h \
 	mousepad-close-button.c \
@@ -37,8 +35,6 @@ mousepad_SOURCES = \
 	mousepad-encoding-dialog.h \
 	mousepad-file.c \
 	mousepad-file.h \
-	mousepad-language-action.c \
-	mousepad-language-action.h \
 	mousepad-prefs-dialog.c \
 	mousepad-prefs-dialog.h \
 	mousepad-prefs-dialog-ui.h \
@@ -55,17 +51,14 @@ mousepad_SOURCES = \
 	mousepad-settings-store.h \
 	mousepad-statusbar.c \
 	mousepad-statusbar.h \
-	mousepad-style-scheme-action.c \
-	mousepad-style-scheme-action.h \
 	mousepad-view.c \
 	mousepad-view.h \
 	mousepad-util.c \
 	mousepad-util.h \
 	mousepad-window.c \
 	mousepad-window.h \
-	mousepad-window-ui.h \
 	mousepad-window.ui \
-	mousepad-window-ui-ui.h
+	mousepad-window-ui.h
 
 mousepad_CFLAGS = \
 	$(GLIB_CFLAGS) \
@@ -115,13 +108,11 @@ if MAINTAINER_MODE
 DISTCLEANFILES = \
 	$(mousepad_built_sources) \
 	mousepad-window-ui.h \
-	mousepad-window-ui-ui.h \
 	mousepad-prefs-dialog-ui.h
 
 BUILT_SOURCES = \
 	$(mousepad_built_sources) \
 	mousepad-window-ui.h \
-	mousepad-window-ui-ui.h \
 	mousepad-prefs-dialog-ui.h
 
 if HAVE_DBUS
@@ -129,11 +120,8 @@ mousepad-dbus-infos.c mousepad-dbus-infos.h: mousepad-dbus-infos.xml Makefile
 	$(AM_V_GEN) gdbus-codegen --interface-prefix org.xfce. --generate-c-code mousepad-dbus-infos $<
 endif
 
-mousepad-window-ui.h: mousepad-window-ui.xml Makefile
+mousepad-window-ui.h: mousepad-window.ui Makefile
 	$(AM_V_GEN) xdt-csource --strip-comments --strip-content --static --name=mousepad_window_ui $< > $@
-
-mousepad-window-ui-ui.h: mousepad-window.ui Makefile
-	$(AM_V_GEN) xdt-csource --strip-comments --strip-content --static --name=mousepad_window_ui_ui $< > $@
 
 mousepad-prefs-dialog-ui.h: mousepad-prefs-dialog.glade Makefile
 	$(AM_V_GEN) xdt-csource --strip-comments --strip-content --static --name=mousepad_prefs_dialog_ui $< > $@
@@ -149,7 +137,6 @@ endif
 EXTRA_DIST = \
 	mousepad-dbus-infos.xml \
 	mousepad-marshal.list \
-	mousepad-window-ui.xml \
 	mousepad-window.ui \
 	mousepad-prefs-dialog.glade \
 	org.xfce.mousepad.gschema.xml
