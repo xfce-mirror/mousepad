@@ -598,7 +598,6 @@ struct _MousepadWindow
   GtkWidget           *replace_dialog;
   GtkWidget           *toolbar;
   GtkWidget           *ttoolbar;
-  GtkWidget           *toolbar_box;
   GtkWidget           *menubar;
 
   /* support to remember window geometry */
@@ -1276,30 +1275,93 @@ mousepad_window_create_toolbar (MousepadWindow *window)
 
 
 
-void
+static void
+mousepad_window_toolbar_insert (MousepadWindow *window,
+                                const gchar    *label,
+                                const gchar    *icon_name,
+                                const gchar    *tooltip,
+                                const gchar    *name)
+{
+  GtkToolItem *item;
+
+  item = gtk_tool_button_new (NULL, label);
+  gtk_tool_button_set_use_underline (GTK_TOOL_BUTTON (item), TRUE);
+  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (item), icon_name);
+  gtk_tool_item_set_tooltip_text (item, tooltip);
+
+  /* give the widget the action name used in the handler */
+  gtk_widget_set_name (GTK_WIDGET (item), name);
+  g_signal_connect_swapped (item, "clicked",
+                            G_CALLBACK (mousepad_window_toolbar_handler), window);
+
+  /* append the item to the end of the toolbar */
+  gtk_toolbar_insert (GTK_TOOLBAR (window->ttoolbar), item, -1);
+}
+
+
+
+static void
 nousepad_window_create_toolbar (MousepadWindow *window)
 {
-  GtkBuilder  *builder;
   GtkToolItem *item;
   GAction     *action;
   gboolean     active;
 
-  /* get the toolbar widget */
-  builder = mousepad_application_get_builder (MOUSEPAD_APPLICATION (
-              gtk_window_get_application (GTK_WINDOW (window))));
-  window->ttoolbar = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar"));
+  /* create the toolbar and set the main properties */
+  window->ttoolbar = gtk_toolbar_new ();
+  gtk_toolbar_set_style (GTK_TOOLBAR (window->ttoolbar), GTK_TOOLBAR_ICONS);
+  gtk_toolbar_set_icon_size (GTK_TOOLBAR (window->ttoolbar), GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-  /* insert the toolbar in its previously reserved space and connect the toolabr handler */
-  gtk_box_pack_start (GTK_BOX (window->toolbar_box), window->ttoolbar, TRUE, TRUE, 0);
-  gtk_widget_show_all (window->ttoolbar);
-  gtk_builder_add_callback_symbol (builder, "mousepad_window_toolbar_handler",
-                                   G_CALLBACK (mousepad_window_toolbar_handler));
-  gtk_builder_connect_signals (builder, window);
+  /* insert items */
+  mousepad_window_toolbar_insert (window, _("_New"), "document-new",
+                                  _("Create a new document"), "file.new");
+  mousepad_window_toolbar_insert (window, _("_Open..."), "document-open",
+                                  _("Open a file"), "file.open");
+  mousepad_window_toolbar_insert (window, _("_Save"), "document-save",
+                                  _("Save the current document"), "file.save");
+  mousepad_window_toolbar_insert (window, _("Save _As..."), "document-save-as",
+                                  _("Save current document as another file"), "file.save-as");
+  mousepad_window_toolbar_insert (window, _("Re_vert"), "document-revert",
+                                  _("Revert to the saved version of the file"), "file.revert");
+  mousepad_window_toolbar_insert (window, _("Close _Tab"), "window-close",
+                                  _("Close the current document"), "file.close-tab");
 
-  /* make the last toolbar separator so it expands properly (setting the "hexpand" property
-   * to "TRUE" in the builder XML file does not have the desired effect) */
-  item = GTK_TOOL_ITEM (gtk_builder_get_object (builder, "toolbar.last-separator"));
+  item = gtk_separator_tool_item_new ();
+  gtk_toolbar_insert (GTK_TOOLBAR (window->ttoolbar), item, -1);
+
+  mousepad_window_toolbar_insert (window, _("_Undo"), "edit-undo",
+                                  _("Undo the last action"), "edit.undo");
+  mousepad_window_toolbar_insert (window, _("_Redo"), "edit-redo",
+                                  _("Redo the last undone action"), "edit.redo");
+  mousepad_window_toolbar_insert (window, _("Cu_t"), "edit-cut",
+                                  _("Cut the selection"), "edit.cut");
+  mousepad_window_toolbar_insert (window, _("_Copy"), "edit-copy",
+                                  _("Copy the selection"), "edit.copy");
+  mousepad_window_toolbar_insert (window, _("_Paste"), "edit-paste",
+                                  _("Paste the clipboard"), "edit.paste");
+
+  item = gtk_separator_tool_item_new ();
+  gtk_toolbar_insert (GTK_TOOLBAR (window->ttoolbar), item, -1);
+
+  mousepad_window_toolbar_insert (window, _("_Find"), "edit-find",
+                                  _("Search for text"), "search.find");
+  mousepad_window_toolbar_insert (window, _("Find and Rep_lace..."), "edit-find-replace",
+                                  _("Search for and replace text"), "search.find-and-replace");
+  mousepad_window_toolbar_insert (window, _("_Go to..."), "go-jump",
+                                  _("Go to a specific location in the document"), "search.go-to");
+
+  /* make the last toolbar separator so it expands properly */
+  item = gtk_separator_tool_item_new ();
+  gtk_toolbar_insert (GTK_TOOLBAR (window->ttoolbar), item, -1);
+  gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (item), FALSE);
   gtk_tool_item_set_expand (item, TRUE);
+
+  mousepad_window_toolbar_insert (window, _("_Fullscreen"), "view-fullscreen",
+                                  _("Make the window fullscreen"), "view.fullscreen");
+
+  /* insert the toolbar in the main window box and show all widgets */
+  gtk_box_pack_start (GTK_BOX (window->box), window->ttoolbar, FALSE, FALSE, 0);
+  gtk_widget_show_all (window->ttoolbar);
 
   /* sync the toolbar visibility and action state to the setting */
   action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.toolbar");
@@ -1588,13 +1650,9 @@ mousepad_window_init (MousepadWindow *window)
   /* create the main menu from the ui manager */
   mousepad_window_create_menubar (window);
 
-  /* keep a place for the toolbar created from the gtkbuilder later */
-  window->toolbar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_box_pack_start (GTK_BOX (window->box), window->toolbar_box, FALSE, FALSE, 0);
-  gtk_widget_show (window->toolbar_box);
-
   /* create the toolbar from the ui manager */
   mousepad_window_create_toolbar (window);
+  nousepad_window_create_toolbar (window);
 
   /* create the root-warning bar (if needed) */
   mousepad_window_create_root_warning (window);
@@ -2847,8 +2905,7 @@ nousepad_window_selection_changed (MousepadDocument *document,
                                    gint              selection,
                                    MousepadWindow   *window)
 {
-  GtkBuilder  *builder;
-  GtkWidget   *button;
+  GtkToolItem *button;
   GAction     *action;
   guint        i;
   gboolean     sensitive;
@@ -2890,13 +2947,11 @@ nousepad_window_selection_changed (MousepadDocument *document,
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), sensitive);
     }
 
-  /* set the sensitivity of some toolbar buttons */
-  builder = mousepad_application_get_builder (MOUSEPAD_APPLICATION (
-              gtk_window_get_application (GTK_WINDOW (window))));
-  button = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar.cut"));
-  gtk_widget_set_sensitive (button, sensitive);
-  button = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar.copy"));
-  gtk_widget_set_sensitive (button, sensitive);
+  /* set the sensitivity of the "Cut" and "Copy" toolbar buttons */
+  button = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->ttoolbar), 9);
+  gtk_widget_set_sensitive (GTK_WIDGET (button), sensitive);
+  button = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->ttoolbar), 10);
+  gtk_widget_set_sensitive (GTK_WIDGET (button), sensitive);
 }
 
 
@@ -2935,11 +2990,10 @@ mousepad_window_can_undo (MousepadWindow *window,
                           GParamSpec     *unused,
                           GObject        *buffer)
 {
-  GtkBuilder *builder;
-  GtkWidget  *button;
-  GtkAction  *action;
-  GAction    *gaction;
-  gboolean    can_undo;
+  GtkToolItem *button;
+  GtkAction   *action;
+  GAction     *gaction;
+  gboolean     can_undo;
 
   can_undo = gtk_source_buffer_can_undo (GTK_SOURCE_BUFFER (buffer));
 
@@ -2950,10 +3004,8 @@ mousepad_window_can_undo (MousepadWindow *window,
   g_simple_action_set_enabled (G_SIMPLE_ACTION (gaction), can_undo);
 
   /* set the sensitivity of the toolbar button */
-  builder = mousepad_application_get_builder (MOUSEPAD_APPLICATION (
-              gtk_window_get_application (GTK_WINDOW (window))));
-  button = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar.undo"));
-  gtk_widget_set_sensitive (button, can_undo);
+  button = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->ttoolbar), 7);
+  gtk_widget_set_sensitive (GTK_WIDGET (button), can_undo);
 }
 
 
@@ -2963,11 +3015,10 @@ mousepad_window_can_redo (MousepadWindow *window,
                           GParamSpec     *unused,
                           GObject        *buffer)
 {
-  GtkBuilder *builder;
-  GtkWidget  *button;
-  GtkAction  *action;
-  GAction    *gaction;
-  gboolean    can_redo;
+  GtkToolItem *button;
+  GtkAction   *action;
+  GAction     *gaction;
+  gboolean     can_redo;
 
   can_redo = gtk_source_buffer_can_redo (GTK_SOURCE_BUFFER (buffer));
 
@@ -2978,10 +3029,8 @@ mousepad_window_can_redo (MousepadWindow *window,
   g_simple_action_set_enabled (G_SIMPLE_ACTION (gaction), can_redo);
 
   /* set the sensitivity of the toolbar button */
-  builder = mousepad_application_get_builder (MOUSEPAD_APPLICATION (
-              gtk_window_get_application (GTK_WINDOW (window))));
-  button = GTK_WIDGET (gtk_builder_get_object (builder, "toolbar.redo"));
-  gtk_widget_set_sensitive (button, can_redo);
+  button = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->ttoolbar), 8);
+  gtk_widget_set_sensitive (GTK_WIDGET (button), can_redo);
 }
 
 
