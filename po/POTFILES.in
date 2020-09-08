@@ -2,7 +2,6 @@
 # Sources
 #
 mousepad/main.c
-mousepad/mousepad-action-group.c
 mousepad/mousepad-application.c
 mousepad/mousepad-dbus.c
 mousepad/mousepad-dialogs.c
