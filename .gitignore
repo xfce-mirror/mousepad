@@ -40,7 +40,6 @@ mousepad/mousepad-marshal.h
 /mousepad/mousepad-settings.gschema.valid
 /mousepad/org.xfce.mousepad.gschema.valid
 mousepad/mousepad-window-ui.h
-mousepad/mousepad-window-ui-ui.h
 po/.intltool-merge-cache*
 po/POTFILES
 po/stamp-it

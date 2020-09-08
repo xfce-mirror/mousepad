@@ -21,7 +21,7 @@
 #include <mousepad/mousepad-prefs-dialog.h>
 #include <mousepad/mousepad-replace-dialog.h>
 #include <mousepad/mousepad-window.h>
-#include <mousepad/mousepad-window-ui-ui.h>
+#include <mousepad/mousepad-window-ui.h>
 
 
 
@@ -95,8 +95,8 @@ mousepad_application_init (MousepadApplication *application)
   g_application_register (G_APPLICATION (application), NULL, NULL);
 
   /* build the menubar */
-  application->builder = gtk_builder_new_from_string (mousepad_window_ui_ui,
-                                                      mousepad_window_ui_ui_length);
+  application->builder = gtk_builder_new_from_string (mousepad_window_ui,
+                                                      mousepad_window_ui_length);
   gtk_application_set_menubar (GTK_APPLICATION (application),
                                G_MENU_MODEL (gtk_builder_get_object (application->builder, "menubar")));
 
@@ -242,8 +242,9 @@ mousepad_application_create_window (MousepadApplication *application)
 
   /* TODO: to put or to do in a better place? (window post-init stuff) */
   gtk_window_set_application (GTK_WINDOW (window), GTK_APPLICATION (application));
-  nousepad_window_create_style_schemes_menu (MOUSEPAD_WINDOW (window));
-  nousepad_window_create_languages_menu (MOUSEPAD_WINDOW (window));
+  mousepad_window_create_style_schemes_menu (MOUSEPAD_WINDOW (window));
+  mousepad_window_create_languages_menu (MOUSEPAD_WINDOW (window));
+  mousepad_window_create_contextual_menus (MOUSEPAD_WINDOW (window));
 
   /* set the menubar visibility */
   if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
@@ -259,6 +260,8 @@ mousepad_application_create_window (MousepadApplication *application)
 
   action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.menubar");
   g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (show));
+  action = g_action_map_lookup_action (G_ACTION_MAP (window), "textview.menubar");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), ! show);
   gtk_application_window_set_show_menubar (GTK_APPLICATION_WINDOW (window), show);
 
   /* hook up the new window */
