@@ -60,8 +60,6 @@ void            nousepad_window_create_style_schemes_menu (MousepadWindow *windo
 
 void            nousepad_window_create_languages_menu     (MousepadWindow *window);
 
-void            nousepad_window_create_toolbar            (MousepadWindow *window);
-
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_WINDOW_H__ */
