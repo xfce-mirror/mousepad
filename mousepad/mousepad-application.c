@@ -244,7 +244,6 @@ mousepad_application_create_window (MousepadApplication *application)
   gtk_window_set_application (GTK_WINDOW (window), GTK_APPLICATION (application));
   nousepad_window_create_style_schemes_menu (MOUSEPAD_WINDOW (window));
   nousepad_window_create_languages_menu (MOUSEPAD_WINDOW (window));
-  nousepad_window_create_toolbar (MOUSEPAD_WINDOW (window));
 
   /* set the menubar visibility */
   if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
