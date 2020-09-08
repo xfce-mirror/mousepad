@@ -56,9 +56,13 @@ gboolean        mousepad_window_open_files       (MousepadWindow  *window,
 
 void            mousepad_window_show_preferences (MousepadWindow  *window);
 
-void            nousepad_window_create_style_schemes_menu (MousepadWindow *window);
+void            mousepad_window_create_style_schemes_menu (MousepadWindow *window);
 
-void            nousepad_window_create_languages_menu     (MousepadWindow *window);
+void            mousepad_window_create_languages_menu     (MousepadWindow *window);
+
+void            mousepad_window_create_contextual_menus   (MousepadWindow *window);
+
+GtkWidget      *mousepad_window_get_languages_menu        (MousepadWindow *window);
 
 G_END_DECLS
 
