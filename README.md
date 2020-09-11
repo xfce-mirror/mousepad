@@ -2,7 +2,7 @@
 
 # mousepad
 
-Mousepad is a simple test editor for the [Xfce](https://www.xfce.org).
+Mousepad is a simple text editor for the [Xfce](https://www.xfce.org).
 
 **Mousepad** aims to be an easy-to-use and fast editor. Our target is an
 editor for quickly editing text files, not a development environment or an
@@ -15,11 +15,11 @@ and integrate this new feature in **Mousepad**.
 
 ### Homepage
 
-[mousepad documentation](https://docs.xfce.org/xfce/mousepad/start)
+[mousepad documentation](https://docs.xfce.org/apps/mousepad/start)
 
 ### Changelog
 
-See [NEWS](https://gitlab.xfce.org/xfce/mousepad/-/blob/master/NEWS) for details on changes and fixes made in the current release.
+See [NEWS](https://gitlab.xfce.org/apps/mousepad/-/blob/master/NEWS) for details on changes and fixes made in the current release.
 
 
 ### Required Packages 
@@ -37,17 +37,17 @@ The following packages are optional:
 
 ### Source Code Repository
 
-[mousepad source code](https://gitlab.xfce.org/xfce/mousepad)
+[mousepad source code](https://gitlab.xfce.org/apps/mousepad)
 
 ### Download A Release Tarball
 
-[mousepad archive](https://archive.xfce.org/src/xfce/mousepad)
+[mousepad archive](https://archive.xfce.org/src/apps/mousepad)
     or
-[mousepad tags](https://gitlab.xfce.org/xfce/mousepad/-/tags)
+[mousepad tags](https://gitlab.xfce.org/apps/mousepad/-/tags)
 
 ### Installation
 
-From source: 
+From source code repository: 
 
     % cd mousepad
     % ./autogen.sh
@@ -64,5 +64,5 @@ From release tarball:
 
 ### Reporting Bugs
 
-Visit the [reporting bugs](https://docs.xfce.org/xfce/mousepad/bugs) page to view currently open bug reports and instructions on reporting new bugs or submitting bugfixes.
+Visit the [reporting bugs](https://docs.xfce.org/apps/mousepad/bugs) page to view currently open bug reports and instructions on reporting new bugs or submitting bugfixes.
 
