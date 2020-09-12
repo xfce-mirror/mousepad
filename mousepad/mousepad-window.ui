@@ -378,7 +378,7 @@
           <attribute name="label" translatable="yes">_Filetype</attribute>
           <section>
             <item>
-              <attribute name="label">Plain Text</attribute>
+              <attribute name="label" translatable="yes">Plain Text</attribute>
               <attribute name="action">win.document.filetype</attribute>
               <attribute name="target" type="s">'plain-text'</attribute>
             </item>
