@@ -291,44 +291,24 @@ mousepad_statusbar_set_overwrite (MousepadStatusbar *statusbar,
 }
 
 
-/* TODO: add tooltip support */
-#if FALSE
-
-gboolean
+void
 mousepad_statusbar_push_tooltip (MousepadStatusbar *statusbar,
-                                 GtkWidget         *widget)
+                                 const gchar       *tooltip)
 {
-  GtkAction   *action = NULL;
-  const gchar *tooltip = NULL;
-  gint         id;
+  gint id;
 
-  /* get the widget's related action */
-  action = mousepad_util_find_related_action (widget);
-
-  /* if the action has a tooltip, use it */
-  if (G_LIKELY (action != NULL))
-    tooltip = gtk_action_get_tooltip (action);
-
-  /* if the action doesn't have a tooltip, see if the widget has one */
-  if (G_UNLIKELY (tooltip == NULL) && gtk_widget_get_has_tooltip (widget))
-    tooltip = gtk_widget_get_tooltip_text (widget);
-
-  if (G_LIKELY (tooltip != NULL))
+  if (tooltip != NULL)
     {
       /* show the tooltip */
       id = gtk_statusbar_get_context_id (GTK_STATUSBAR (statusbar), "tooltip");
       gtk_statusbar_push (GTK_STATUSBAR (statusbar), id, tooltip);
-      return TRUE;
     }
-
-  return FALSE;
 }
 
 
 
 void
-mousepad_statusbar_pop_tooltip (MousepadStatusbar *statusbar,
-                                GtkWidget         *widget)
+mousepad_statusbar_pop_tooltip (MousepadStatusbar *statusbar)
 {
   gint id;
 
@@ -336,5 +316,3 @@ mousepad_statusbar_pop_tooltip (MousepadStatusbar *statusbar,
   id = gtk_statusbar_get_context_id (GTK_STATUSBAR (statusbar), "tooltip");
   gtk_statusbar_pop (GTK_STATUSBAR (statusbar), id);
 }
-
-#endif
