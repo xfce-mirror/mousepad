@@ -81,7 +81,8 @@ mousepad_application_init (MousepadApplication *application)
   gchar *filename;
 
   /* GApplication properties */
-  /* Defining the application_id seems useless, since the uniqueness is not handled at this level
+  /*
+   * Defining the application_id seems useless, since the uniqueness is not handled at this level
    * for now, and this would cause a GLib-GIO-CRITICAL from g_application_set_application_id() below,
    * complaining that the application is already registered, although it isn't
    * A possible TODO: make full use of GApplication features, by launching Mousepad with
@@ -94,7 +95,7 @@ mousepad_application_init (MousepadApplication *application)
   /* TODO: error handling (related to the TODO above) */
   g_application_register (G_APPLICATION (application), NULL, NULL);
 
-  /* build the menubar */
+  /* set the builder and the menubar */
   application->builder = gtk_builder_new_from_string (mousepad_window_ui,
                                                       mousepad_window_ui_length);
   gtk_application_set_menubar (GTK_APPLICATION (application),
@@ -233,36 +234,23 @@ static GtkWidget *
 mousepad_application_create_window (MousepadApplication *application)
 {
   GtkWidget *window;
-  GAction   *action;
-  gint       show_fullscreen;
-  gboolean   show;
 
   /* create a new window */
   window = mousepad_window_new ();
 
-  /* TODO: to put or to do in a better place? (window post-init stuff) */
+  /* window post-initialization */
   gtk_window_set_application (GTK_WINDOW (window), GTK_APPLICATION (application));
-  mousepad_window_create_style_schemes_menu (MOUSEPAD_WINDOW (window));
-  mousepad_window_create_languages_menu (MOUSEPAD_WINDOW (window));
-  mousepad_window_create_contextual_menus (MOUSEPAD_WINDOW (window));
 
-  /* set the menubar visibility */
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
-    {
-      show_fullscreen = MOUSEPAD_SETTING_GET_ENUM (MENUBAR_VISIBLE_FULLSCREEN);
-      if (! show_fullscreen)
-        show = MOUSEPAD_SETTING_GET_BOOLEAN (MENUBAR_VISIBLE);
-      else
-        show = (show_fullscreen == 2);
-    }
-  else
-    show = MOUSEPAD_SETTING_GET_BOOLEAN (MENUBAR_VISIBLE);
-
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.menubar");
-  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (show));
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "textview.menubar");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), ! show);
-  gtk_application_window_set_show_menubar (GTK_APPLICATION_WINDOW (window), show);
+  /*
+   * Outsource the creation of the menubar from
+   * gtk/gtk/gtkapplicationwindow.c:gtk_application_window_update_menubar(), to make the menubar
+   * a window attribute, and be able to access its items to show their tooltips in the statusbar.
+   * With GTK+ 3, this leads to use gtk_menu_bar_new_from_model()
+   * With GTK+ 4, this will lead to use gtk_popover_menu_bar_new_from_model()
+   */
+  gtk_application_window_set_show_menubar (GTK_APPLICATION_WINDOW (window), FALSE);
+  mousepad_window_create_menubar (MOUSEPAD_WINDOW (window),
+                                  gtk_application_get_menubar (GTK_APPLICATION (application)));
 
   /* hook up the new window */
   mousepad_application_take_window (application, GTK_WINDOW (window));
