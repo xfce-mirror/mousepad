@@ -107,8 +107,6 @@ gint       mousepad_util_search                           (GtkSourceSearchContex
                                                            const gchar            *replace,
                                                            MousepadSearchFlags     flags);
 
-GtkAction *mousepad_util_find_related_action              (GtkWidget           *widget);
-
 GIcon     *mousepad_util_icon_for_mime_type               (const gchar         *mime_type);
 
 gboolean   mousepad_util_container_has_children           (GtkContainer        *container);
