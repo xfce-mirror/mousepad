@@ -60,7 +60,6 @@ EXTRA_DIST =									\
 	$(polkit_in_in_files)
 
 DISTCLEANFILES =								\
-	README.md									\
 	intltool-extract							\
 	intltool-merge								\
 	intltool-update								\
