@@ -1,8 +1,8 @@
-[![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://gitlab.xfce.org/xfce/mousepad/COPYING)
+[![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://gitlab.xfce.org/apps/mousepad/-/blob/master/COPYING)
 
 # mousepad
 
-Mousepad is a simple text editor for the [Xfce](https://www.xfce.org).
+Mousepad is a simple text editor for the [Xfce](https://www.xfce.org) desktop environment.
 
 **Mousepad** aims to be an easy-to-use and fast editor. Our target is an
 editor for quickly editing text files, not a development environment or an
@@ -33,13 +33,13 @@ Mousepad depends on the following packages:
 
 The following packages are optional:
 
-* [D-BUS](https://www.freedesktop.org/wiki/Software/dbus) >=0.34 (strongly suggested)
+* [D-Bus](https://www.freedesktop.org/wiki/Software/dbus) >=0.34 (strongly suggested)
 
 ### Source Code Repository
 
 [Mousepad source code](https://gitlab.xfce.org/apps/mousepad)
 
-### Download A Release Tarball
+### Download a Release Tarball
 
 [Mousepad archive](https://archive.xfce.org/src/apps/mousepad)
     or
