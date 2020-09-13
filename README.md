@@ -43,7 +43,7 @@ The following packages are optional:
 
 [Mousepad archive](https://archive.xfce.org/src/apps/mousepad)
     or
-[mousepad tags](https://gitlab.xfce.org/apps/mousepad/-/tags)
+[Mousepad tags](https://gitlab.xfce.org/apps/mousepad/-/tags)
 
 ### Installation
 
