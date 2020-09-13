@@ -37,7 +37,7 @@ The following packages are optional:
 
 ### Source Code Repository
 
-[mousepad source code](https://gitlab.xfce.org/apps/mousepad)
+[Mousepad source code](https://gitlab.xfce.org/apps/mousepad)
 
 ### Download A Release Tarball
 
