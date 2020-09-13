@@ -41,7 +41,7 @@ The following packages are optional:
 
 ### Download A Release Tarball
 
-[mousepad archive](https://archive.xfce.org/src/apps/mousepad)
+[Mousepad archive](https://archive.xfce.org/src/apps/mousepad)
     or
 [mousepad tags](https://gitlab.xfce.org/apps/mousepad/-/tags)
 
