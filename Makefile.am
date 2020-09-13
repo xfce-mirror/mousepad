@@ -18,7 +18,7 @@ desktop_in_in_files = 								\
 	org.xfce.mousepad-settings.desktop.in.in
 desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in)
 %.desktop.in: %.desktop.in.in
-	sed -e "s,\@libexecdir\@,$(libexecdir),g" < $< > $@
+	$(SED) -e "s,\@libexecdir\@,$(libexecdir),g" < $< > $@
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
@@ -35,7 +35,7 @@ polkit_in_in_files =			\
 	org.xfce.mousepad.policy.in.in
 polkit_in_files = $(polkit_in_in_files:.policy.in.in=.policy.in)
 %.policy.in: %.policy.in.in
-	sed -e "s,\@bindir\@,$(bindir),g" < $< > $@
+	$(SED) -e "s,\@bindir\@,$(bindir),g" < $< > $@
 polkit_policy_DATA = $(polkit_in_files:.policy.in=.policy)
 @INTLTOOL_POLICY_RULE@
 
