@@ -15,7 +15,7 @@ and integrate this new feature in **Mousepad**.
 
 ### Homepage
 
-[mousepad documentation](https://docs.xfce.org/apps/mousepad/start)
+[Mousepad documentation](https://docs.xfce.org/apps/mousepad/start)
 
 ### Changelog
 
