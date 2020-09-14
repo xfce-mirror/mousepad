@@ -56,8 +56,7 @@ gboolean        mousepad_window_open_files         (MousepadWindow   *window,
 
 void            mousepad_window_show_preferences   (MousepadWindow   *window);
 
-void            mousepad_window_create_menubar     (MousepadWindow   *window,
-                                                    GMenuModel       *model);
+void            mousepad_window_create_menubar     (MousepadWindow   *window);
 
 GtkWidget      *mousepad_window_get_languages_menu (MousepadWindow   *window);
 
