@@ -80,10 +80,9 @@ struct _MousepadDocumentPrivate
 {
   GtkScrolledWindow __parent__;
 
-  /* the tab label, ebox and CSS provider */
+  /* the tab label and ebox */
   GtkWidget           *ebox;
   GtkWidget           *label;
-  GtkCssProvider      *css_provider;
 
   /* utf-8 valid document names */
   gchar               *utf8_filename;
@@ -171,7 +170,6 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->utf8_filename = NULL;
   document->priv->utf8_basename = NULL;
   document->priv->label = NULL;
-  document->priv->css_provider = gtk_css_provider_new ();
 
   /* setup the scolled window */
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (document),
@@ -223,7 +221,6 @@ mousepad_document_finalize (GObject *object)
   /* cleanup */
   g_free (document->priv->utf8_filename);
   g_free (document->priv->utf8_basename);
-  g_object_unref (document->priv->css_provider);
 
   /* release the file */
   g_object_unref (G_OBJECT (document->file));
@@ -401,7 +398,6 @@ static void
 mousepad_document_label_color (MousepadDocument *document)
 {
   GtkStyleContext *context;
-  const gchar     *css_string;
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
   g_return_if_fail (GTK_IS_TEXT_BUFFER (document->buffer));
@@ -411,22 +407,17 @@ mousepad_document_label_color (MousepadDocument *document)
     {
       context = gtk_widget_get_style_context (document->priv->label);
 
-      /* label color */
-      if (gtk_text_buffer_get_modified (document->buffer))
-        css_string = "label { color: red; }";
-      else if (mousepad_file_get_read_only (document->file))
-        css_string = "label { color: green; }";
+      /* grey out the label text */
+      if (mousepad_file_get_read_only (document->file))
+        gtk_style_context_add_class (context, GTK_STYLE_CLASS_DIM_LABEL);
       else
-        {
-          /* fallback to default color */
-          gtk_style_context_remove_provider (context, GTK_STYLE_PROVIDER (document->priv->css_provider));
-          return;
-        }
+        gtk_style_context_remove_class (context, GTK_STYLE_CLASS_DIM_LABEL);
 
-      /* update color */
-      gtk_css_provider_load_from_data (document->priv->css_provider, css_string, -1, NULL);
-      gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (document->priv->css_provider),
-                                      GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+      /* change the label text color */
+      if (gtk_text_buffer_get_modified (document->buffer))
+        gtk_style_context_add_class (context, GTK_STYLE_CLASS_ERROR);
+      else
+        gtk_style_context_remove_class (context, GTK_STYLE_CLASS_ERROR);
     }
 }
 
