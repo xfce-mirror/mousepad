@@ -594,119 +594,119 @@ static const gchar *menubar_tooltips[] =
 {
   /* "File" menu */
   NULL,
-    "Create a new document", /* 1, toolbar item 1 */
-    "Create a new document in a new window",
+    N_("Create a new document"), /* 1, toolbar item 1 */
+    N_("Create a new document in a new window"),
     NULL, /* 3, template menu insertion flag */
 
-    "Open a file", /* 4, toolbar item 2 */
+    N_("Open a file"), /* 4, toolbar item 2 */
     NULL, /* 5, recent menu insertion flag */
-      "Clear the recently used files history",
+      N_("Clear the recently used files history"),
 
-    "Save the current document", /* 7, tab menu start, toolbar item 3 */
-    "Save current document as another file", /* 8, tab menu 2, toolbar item 4 */
-    "Save all document in this window",
-    "Revert to the saved version of the file", /* 10, tab menu 3, toolbar item 5 */
+    N_("Save the current document"), /* 7, tab menu start, toolbar item 3 */
+    N_("Save current document as another file"), /* 8, tab menu 2, toolbar item 4 */
+    N_("Save all document in this window"),
+    N_("Revert to the saved version of the file"), /* 10, tab menu 3, toolbar item 5 */
 
-    "Print the current document",
+    N_("Print the current document"),
 
-    "Move the current document to a new window", /* 12, tab menu 4 */
+    N_("Move the current document to a new window"), /* 12, tab menu 4 */
 
-    "Close the current document", /* 13, tab menu end, toolbar item 6 */
-    "Close this window",
+    N_("Close the current document"), /* 13, tab menu end, toolbar item 6 */
+    N_("Close this window"),
 
   /* "Edit" menu */
   NULL,
-    "Undo the last action", /* 16, textview menu start, toolbar item 7 */
-    "Redo the last undone action", /* 17, toolbar item 8 */
+    N_("Undo the last action"), /* 16, textview menu start, toolbar item 7 */
+    N_("Redo the last undone action"), /* 17, toolbar item 8 */
 
-    "Cut the selection", /* 18, toolbar item 9 */
-    "Copy the selection", /* 19, toolbar item 10 */
-    "Paste the clipboard", /* 20, toolbar item 11 */
+    N_("Cut the selection"), /* 18, toolbar item 9 */
+    N_("Copy the selection"), /* 19, toolbar item 10 */
+    N_("Paste the clipboard"), /* 20, toolbar item 11 */
     /* "Paste Special" submenu */
     NULL,
-      "Paste from the clipboard history",
-      "Paste the clipboard text into a column",
-    "Delete the current selection",
+      N_("Paste from the clipboard history"),
+      N_("Paste the clipboard text into a column"),
+    N_("Delete the current selection"),
 
-    "Select the text in the entire document",
+    N_("Select the text in the entire document"),
 
     /* "Convert" submenu */
     NULL,
-      "Change the case of the selection to lowercase",
-      "Change the case of the selection to uppercase",
-      "Change the case of the selection to title case",
-      "Change the case of the selection opposite case",
+      N_("Change the case of the selection to lowercase"),
+      N_("Change the case of the selection to uppercase"),
+      N_("Change the case of the selection to title case"),
+      N_("Change the case of the selection opposite case"),
 
-      "Convert all tabs to spaces in the selection or document",
-      "Convert all the leading spaces to tabs in the selected line(s) or document",
+      N_("Convert all tabs to spaces in the selection or document"),
+      N_("Convert all the leading spaces to tabs in the selected line(s) or document"),
 
-      "Remove all the trailing spaces from the selected line(s) or document",
+      N_("Remove all the trailing spaces from the selected line(s) or document"),
 
-      "Reverse the order of something",
+      N_("Reverse the order of something"),
     /* "Move selection" submenu */
     NULL,
-      "Move the selection one line up",
-      "Move the selection one line down",
-    "Duplicate the current line or selection",
-    "Increase the indentation of the selection or current line",
-    "Decrease the indentation of the selection or current line", /* 40, textview menu end */
+      N_("Move the selection one line up"),
+      N_("Move the selection one line down"),
+    N_("Duplicate the current line or selection"),
+    N_("Increase the indentation of the selection or current line"),
+    N_("Decrease the indentation of the selection or current line"), /* 40, textview menu end */
 
-    "Show the preferences dialog",
+    N_("Show the preferences dialog"),
 
   /* "Search" menu */
   NULL,
-    "Search for text", /* 43, toolbar item 12 */
-    "Search forwards for the same text",
-    "Search backwards for the same text",
-    "Search for and replace text", /* 46, toolbar item 13 */
+    N_("Search for text"), /* 43, toolbar item 12 */
+    N_("Search forwards for the same text"),
+    N_("Search backwards for the same text"),
+    N_("Search for and replace text"), /* 46, toolbar item 13 */
 
-    "Go to a specific location in the document", /* 47, toolbar item 14 */
+    N_("Go to a specific location in the document"), /* 47, toolbar item 14 */
 
   /* "View" menu */
   NULL, /* 48, view menu insertion flag */
-    "Change the editor font",
+    N_("Change the editor font"),
 
     /* "Color Scheme" submenu */
     NULL, /* 50, style sheme menu insertion flag */
-    "Show line numbers",
+    N_("Show line numbers"),
 
-    "Change the visibility of the main menubar", /* 52, textview menu additional item */
-    "Change the visibility of the toolbar",
-    "Change the visibility of the statusbar",
+    N_("Change the visibility of the main menubar"), /* 52, textview menu additional item */
+    N_("Change the visibility of the toolbar"),
+    N_("Change the visibility of the statusbar"),
 
-    "Make the window fullscreen", /* 55, toolbar item 15 */
+    N_("Make the window fullscreen"), /* 55, toolbar item 15 */
 
   /* "Document" menu */
   NULL, /* 56, document menu insertion flag */
-    "Toggle breaking lines in between words",
-    "Auto indent a new line",
+    N_("Toggle breaking lines in between words"),
+    N_("Auto indent a new line"),
     /* "Tab Size" submenu */
     NULL, /* 59, tab size menu insertion flag */
       NULL,
       NULL,
       NULL,
       NULL,
-      "Set custom tab size", /* 64, custom tab size tooltip */
+      N_("Set custom tab size"), /* 64, custom tab size tooltip */
 
-      "Insert spaces when the tab button is pressed",
+      N_("Insert spaces when the tab button is pressed"),
 
     /* "Filetype" submenu */
     NULL, /* 66, languages menu insertion flag */
     /* "Line Ending" submenu */
     NULL,
-      "Set the line ending of the document to Unix (LF)",
-      "Set the line ending of the document to Mac (CR)",
-      "Set the line ending of the document to DOS / Windows (CR LF)",
+      N_("Set the line ending of the document to Unix (LF)"),
+      N_("Set the line ending of the document to Mac (CR)"),
+      N_("Set the line ending of the document to DOS / Windows (CR LF)"),
 
-    "Store the byte-order mark in the file",
+    N_("Store the byte-order mark in the file"),
 
-    "Select the previous tab",
-    "Select the next tab",
+    N_("Select the previous tab"),
+    N_("Select the next tab"),
 
   /* "Help" menu */
   NULL,
-    "Display the Mousepad user manual",
-    "About this application"
+    N_("Display the Mousepad user manual"),
+    N_("About this application")
 };
 
 
