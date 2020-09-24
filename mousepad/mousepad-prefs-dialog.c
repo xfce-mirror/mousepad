@@ -16,7 +16,6 @@
 
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-prefs-dialog.h>
-#include <mousepad/mousepad-prefs-dialog-ui.h>
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-util.h>
 
@@ -411,10 +410,9 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   self->builder = gtk_builder_new ();
 
   /* load the gtkbuilder xml that is compiled into the binary, or else die */
-  if (! gtk_builder_add_from_string (self->builder,
-                                     mousepad_prefs_dialog_ui,
-                                     mousepad_prefs_dialog_ui_length,
-                                     &error))
+  if (! gtk_builder_add_from_resource (self->builder,
+                                       "/org/xfce/mousepad/ui/mousepad-prefs-dialog.ui",
+                                       &error))
     {
       g_error ("Failed to load the internal preferences dialog: %s", error->message);
       /* not reached */

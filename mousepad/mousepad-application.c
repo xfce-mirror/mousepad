@@ -21,23 +21,38 @@
 #include <mousepad/mousepad-prefs-dialog.h>
 #include <mousepad/mousepad-replace-dialog.h>
 #include <mousepad/mousepad-window.h>
-#include <mousepad/mousepad-window-ui.h>
+
+#include <xfconf/xfconf.h>
 
 
 
-static void        mousepad_application_finalize                  (GObject             *object);
-static void        mousepad_application_window_destroyed          (GtkWidget           *window,
-                                                                   MousepadApplication *application);
-static GtkWidget  *mousepad_application_create_window             (MousepadApplication *application);
-static void        mousepad_application_new_window_with_document  (MousepadWindow      *existing,
-                                                                   MousepadDocument    *document,
-                                                                   gint                 x,
-                                                                   gint                 y,
-                                                                   MousepadApplication *application);
-static void        mousepad_application_new_window                (MousepadWindow      *existing,
-                                                                   MousepadApplication *application);
-static void        mousepad_application_create_languages_menu     (MousepadApplication *application);
-static void        mousepad_application_create_style_schemes_menu (MousepadApplication *application);
+/* GApplication virtual functions, in the order in which they are called on launch */
+static gint        mousepad_application_handle_local_options      (GApplication             *gapplication,
+                                                                   GVariantDict             *options);
+static void        mousepad_application_startup                   (GApplication             *gapplication);
+static gint        mousepad_application_command_line              (GApplication             *gapplication,
+                                                                   GApplicationCommandLine  *command_line);
+static void        mousepad_application_activate                  (GApplication             *gapplication);
+static void        mousepad_application_open                      (GApplication             *gapplication,
+                                                                   GFile                   **files,
+                                                                   gint                      n_files,
+                                                                   const gchar              *hint);
+static void        mousepad_application_shutdown                  (GApplication             *gapplication);
+
+/* MousepadApplication own functions */
+static GtkWidget  *mousepad_application_create_window             (MousepadApplication      *application);
+static void        mousepad_application_new_window_with_document  (MousepadWindow           *existing,
+                                                                   MousepadDocument         *document,
+                                                                   gint                      x,
+                                                                   gint                      y,
+                                                                   MousepadApplication      *application);
+static void        mousepad_application_new_window                (MousepadWindow           *existing,
+                                                                   MousepadApplication      *application);
+static void        mousepad_application_create_languages_menu     (MousepadApplication      *application);
+static void        mousepad_application_create_style_schemes_menu (MousepadApplication      *application);
+static void        mousepad_application_action_quit               (GSimpleAction            *action,
+                                                                   GVariant                 *value,
+                                                                   gpointer                  data);
 
 
 
@@ -50,16 +65,33 @@ struct _MousepadApplication
 {
   GtkApplication      __parent__;
 
-  /* internal list of all the opened windows */
-  GSList      *windows;
-
   /* the preferences dialog when shown */
-  GtkWidget   *prefs_dialog;
+  GtkWidget *prefs_dialog;
 
-  /* the menus builder */
-  GtkBuilder  *builder;
-  GPtrArray   *languages_tooltips, *style_schemes_tooltips;
-  guint        n_style_schemes;
+  /* some static submenus of the application menubar are populated at startup,
+   * but their tooltips will be set later at the window level */
+  GPtrArray *languages_tooltips, *style_schemes_tooltips;
+  guint      n_style_schemes;
+};
+
+
+
+/* command line options */
+static const GOptionEntry option_entries[] =
+{
+  { "disable-server", '\0', 0, G_OPTION_ARG_NONE, NULL, N_("Do not register with the D-BUS session message bus"), NULL },
+  { "quit", 'q', 0, G_OPTION_ARG_NONE, NULL, N_("Quit a running Mousepad primary instance"), NULL },
+  { "version", 'v', 0, G_OPTION_ARG_NONE, NULL, N_("Print version information and exit"), NULL },
+  { G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_FILENAME_ARRAY, NULL, NULL, N_("[FILES...]") },
+  { NULL }
+};
+
+
+
+/* application actions */
+static const GActionEntry action_entries[] =
+{
+  { "quit", mousepad_application_action_quit, NULL, NULL, NULL }
 };
 
 
@@ -71,10 +103,14 @@ G_DEFINE_TYPE (MousepadApplication, mousepad_application, GTK_TYPE_APPLICATION)
 static void
 mousepad_application_class_init (MousepadApplicationClass *klass)
 {
-  GObjectClass *gobject_class;
+  GApplicationClass *application_class = G_APPLICATION_CLASS (klass);
 
-  gobject_class = G_OBJECT_CLASS (klass);
-  gobject_class->finalize = mousepad_application_finalize;
+  application_class->handle_local_options = mousepad_application_handle_local_options;
+  application_class->startup = mousepad_application_startup;
+  application_class->command_line = mousepad_application_command_line;
+  application_class->activate = mousepad_application_activate;
+  application_class->open = mousepad_application_open;
+  application_class->shutdown = mousepad_application_shutdown;
 }
 
 
@@ -82,31 +118,90 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
 static void
 mousepad_application_init (MousepadApplication *application)
 {
-  gchar *filename;
+  /* default application name */
+  g_set_application_name (_("Mousepad"));
 
-  /* GApplication properties */
-  /*
-   * Defining the application_id seems useless, since the uniqueness is not handled at this level
-   * for now, and this would cause a GLib-GIO-CRITICAL from g_application_set_application_id() below,
-   * complaining that the application is already registered, although it isn't
-   * A possible TODO: make full use of GApplication features, by launching Mousepad with
-   * g_application_run() from main()
-   * See https://developer.gnome.org/gio/stable/GApplication.html
-   */
-  /* g_application_set_application_id (G_APPLICATION (application), "org.xfce.mousepad"); */
-  g_application_set_flags (G_APPLICATION (application), G_APPLICATION_FLAGS_NONE);
+  /* use the Mousepad icon as default for new windows */
+  gtk_window_set_default_icon_name ("org.xfce.mousepad");
 
-  /* TODO: error handling (related to the TODO above) */
-  g_application_register (G_APPLICATION (application), NULL, NULL);
+  /* add our option entries to the application */
+  g_application_add_main_option_entries (G_APPLICATION (application), option_entries);
+}
 
-  /* set the builder and the menubar */
-  application->builder = gtk_builder_new_from_string (mousepad_window_ui,
-                                                      mousepad_window_ui_length);
-  gtk_application_set_menubar (GTK_APPLICATION (application),
-                               G_MENU_MODEL (gtk_builder_get_object (application->builder, "menubar")));
+
+
+static gint
+mousepad_application_handle_local_options (GApplication *gapplication,
+                                           GVariantDict *options)
+{
+  GApplicationFlags  flags;
+  GError            *error = NULL;
+
+  if (g_variant_dict_contains (options, "version"))
+    {
+      g_print ("%s %s\n\n", PACKAGE_NAME, PACKAGE_VERSION);
+      g_print ("%s\n", "Copyright (c) 2007");
+      g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
+      g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
+      g_print ("\n");
+
+      return EXIT_SUCCESS;
+    }
+
+  if (g_variant_dict_contains (options, "quit"))
+    {
+      /* try to register the application */
+      if (! g_application_register (gapplication, NULL, &error))
+        {
+          g_printerr ("%s\n", error->message);
+          g_error_free (error);
+
+          return EXIT_FAILURE;
+        }
+
+      /* try to find a running primary instance */
+      if (! g_application_get_is_remote (gapplication))
+        {
+          g_printerr ("%s\n", "Failed to find a running Mousepad primary instance");
+
+          return EXIT_FAILURE;
+        }
+      else
+        g_action_group_activate_action (G_ACTION_GROUP (gapplication), "quit", NULL);
+
+      return EXIT_SUCCESS;
+    }
+
+  if (g_variant_dict_contains (options, "disable-server"))
+    {
+      flags = g_application_get_flags (gapplication);
+      g_application_set_flags (gapplication, flags | G_APPLICATION_NON_UNIQUE);
+    }
+
+  /* chain up to startup (primary instance) or command_line (remote instance) */
+  return -1;
+}
+
+
+
+static void
+mousepad_application_startup (GApplication *gapplication)
+{
+  MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  gchar               *filename;
+
+  /* chain up to parent */
+  G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
+
+  /* add application actions */
+  g_action_map_add_action_entries (G_ACTION_MAP (application), action_entries,
+                                   G_N_ELEMENTS (action_entries), application);
+
+  /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
   mousepad_application_create_style_schemes_menu (application);
 
+  /* initialize mousepad settings and prefs dialog */
   mousepad_settings_init ();
   application->prefs_dialog = NULL;
 
@@ -124,11 +219,68 @@ mousepad_application_init (MousepadApplication *application)
 
 
 
-static void
-mousepad_application_finalize (GObject *object)
+static gint
+mousepad_application_command_line (GApplication            *gapplication,
+                                   GApplicationCommandLine *command_line)
 {
-  MousepadApplication *application = MOUSEPAD_APPLICATION (object);
-  GSList              *li;
+  MousepadApplication  *application = MOUSEPAD_APPLICATION (gapplication);
+  GVariantDict         *options;
+  GError               *error = NULL;
+  const gchar          *working_directory;
+  gchar               **filenames = NULL;
+  gboolean              succeed;
+
+  /* initialize xfconf */
+  if (G_UNLIKELY (xfconf_init (&error) == FALSE))
+    {
+      g_application_command_line_printerr (command_line, "%s\n", "Failed to initialize xfconf");
+      g_error_free (error);
+
+      return EXIT_FAILURE;
+    }
+
+  /* get the options dictionary and extract filenames */
+  options = g_application_command_line_get_options_dict (command_line);
+  g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);
+
+  /* get the current working directory */
+  working_directory = g_application_command_line_get_cwd (command_line);
+
+  /* open an empty window (with an empty document or the files) */
+  succeed = mousepad_application_new_window_with_files (application, NULL, working_directory, filenames);
+
+  /* cleanup */
+  g_free (filenames);
+
+  return succeed ? EXIT_SUCCESS : EXIT_FAILURE;
+}
+
+
+
+static void
+mousepad_application_activate (GApplication *gapplication)
+{
+  /* unused for now, handled in command_line */
+}
+
+
+
+static void
+mousepad_application_open (GApplication  *gapplication,
+                           GFile        **files,
+                           gint           n_files,
+                           const gchar   *hint)
+{
+  /* unused for now, handled in command_line */
+}
+
+
+
+static void
+mousepad_application_shutdown (GApplication *gapplication)
+{
+  MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  GList               *windows, *window;
   gchar               *filename;
 
   if (GTK_IS_WIDGET (application->prefs_dialog))
@@ -151,93 +303,24 @@ mousepad_application_finalize (GObject *object)
     }
 
   /* destroy the windows if they are still opened */
-  for (li = application->windows; li != NULL; li = li->next)
-    {
-      mousepad_disconnect_by_func (G_OBJECT (li->data),
-                                   mousepad_application_window_destroyed,
-                                   application);
-      gtk_widget_destroy (GTK_WIDGET (li->data));
-    }
+  windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (application)));
+  for (window = windows; window != NULL; window = window->next)
+    gtk_widget_destroy (GTK_WIDGET (window->data));
 
-  /* cleanup the list of windows */
-  g_slist_free (application->windows);
+  g_list_free (windows);
 
+  /* finalize mousepad settings */
   mousepad_settings_finalize ();
-
-  /* destroy the GtkBuilder instance */
-  if (G_IS_OBJECT (application->builder))
-    g_object_unref (application->builder);
 
   /* cleanup the languages and style schemes menus */
   g_ptr_array_free (application->languages_tooltips, TRUE);
   g_ptr_array_free (application->style_schemes_tooltips, TRUE);
 
-  (*G_OBJECT_CLASS (mousepad_application_parent_class)->finalize) (object);
-}
+  /* shutdown xfconf */
+  xfconf_shutdown ();
 
-
-
-MousepadApplication*
-mousepad_application_get (void)
-{
-  static MousepadApplication *application = NULL;
-
-  if (G_UNLIKELY (application == NULL))
-    {
-      application = g_object_new (MOUSEPAD_TYPE_APPLICATION, NULL);
-      g_object_add_weak_pointer (G_OBJECT (application), (gpointer) &application);
-    }
-  else
-    {
-      g_object_ref (G_OBJECT (application));
-    }
-
-  return application;
-}
-
-
-
-gboolean
-mousepad_application_has_windows (MousepadApplication *application)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), FALSE);
-
-  return (application->windows != NULL);
-}
-
-
-
-static void
-mousepad_application_window_destroyed (GtkWidget           *window,
-                                       MousepadApplication *application)
-{
-  g_return_if_fail (GTK_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_APPLICATION (application));
-  g_return_if_fail (g_slist_find (application->windows, window) != NULL);
-
-  /* remove the window from the list */
-  application->windows = g_slist_remove (application->windows, window);
-
-  /* quit if there are no windows opened */
-  if (application->windows == NULL)
-    gtk_main_quit ();
-}
-
-
-
-void
-mousepad_application_take_window (MousepadApplication *application,
-                                  GtkWindow           *window)
-{
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_APPLICATION (application));
-  g_return_if_fail (g_slist_find (application->windows, window) == NULL);
-
-  /* connect to the "destroy" signal */
-  g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (mousepad_application_window_destroyed), application);
-
-  /* add the window to our internal list */
-  application->windows = g_slist_prepend (application->windows, window);
+  /* chain up to parent */
+  G_APPLICATION_CLASS (mousepad_application_parent_class)->shutdown (gapplication);
 }
 
 
@@ -248,23 +331,7 @@ mousepad_application_create_window (MousepadApplication *application)
   GtkWidget *window;
 
   /* create a new window */
-  window = mousepad_window_new ();
-
-  /* window post-initialization */
-  gtk_window_set_application (GTK_WINDOW (window), GTK_APPLICATION (application));
-
-  /*
-   * Outsource the creation of the menubar from
-   * gtk/gtk/gtkapplicationwindow.c:gtk_application_window_update_menubar(), to make the menubar
-   * a window attribute, and be able to access its items to show their tooltips in the statusbar.
-   * With GTK+ 3, this leads to use gtk_menu_bar_new_from_model()
-   * With GTK+ 4, this will lead to use gtk_popover_menu_bar_new_from_model()
-   */
-  gtk_application_window_set_show_menubar (GTK_APPLICATION_WINDOW (window), FALSE);
-  mousepad_window_create_menubar (MOUSEPAD_WINDOW (window));
-
-  /* hook up the new window */
-  mousepad_application_take_window (application, GTK_WINDOW (window));
+  window = mousepad_window_new (application);
 
   /* connect signals */
   g_signal_connect (G_OBJECT (window), "new-window-with-document",
@@ -388,14 +455,15 @@ void
 mousepad_application_show_preferences (MousepadApplication  *application,
                                        GtkWindow            *transient_for)
 {
+  GList *windows;
+
   /* if the dialog isn't already shown, create one */
   if (! GTK_IS_WIDGET (application->prefs_dialog))
     {
       application->prefs_dialog = mousepad_prefs_dialog_new ();
 
       /* destroy the dialog when it's close button is pressed */
-      g_signal_connect_swapped (application->prefs_dialog,
-                                "response",
+      g_signal_connect_swapped (application->prefs_dialog, "response",
                                 G_CALLBACK (mousepad_application_prefs_dialog_response),
                                 application);
     }
@@ -404,8 +472,9 @@ mousepad_application_show_preferences (MousepadApplication  *application,
    * or NULL if no windows exists (shouldn't happen) */
   if (! GTK_IS_WINDOW (transient_for))
     {
-      if (application->windows && GTK_IS_WINDOW (application->windows->data))
-        transient_for = GTK_WINDOW (application->windows->data);
+      windows = gtk_application_get_windows (GTK_APPLICATION (application));
+      if (windows && GTK_IS_WINDOW (windows->data))
+        transient_for = GTK_WINDOW (windows->data);
       else
         transient_for = NULL;
     }
@@ -429,7 +498,7 @@ mousepad_application_create_languages_menu (MousepadApplication *application)
   gchar       *action_name, *tooltip;
 
   /* get the empty "Filetype" submenu and populate it */
-  menu = G_MENU (gtk_builder_get_object (application->builder, "document.filetype.list"));
+  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "document.filetype.list");
 
   sections = mousepad_util_get_sorted_section_names ();
   application->languages_tooltips = g_ptr_array_new_with_free_func (g_free);
@@ -480,7 +549,7 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
   gchar        *action_name, *author, *tooltip;
 
   /* get the empty "Color Scheme" submenu and populate it */
-  menu = G_MENU (gtk_builder_get_object (application->builder, "view.color-scheme.list"));
+  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "view.color-scheme.list");
 
   schemes = mousepad_util_style_schemes_get_sorted ();
   application->style_schemes_tooltips = g_ptr_array_new_with_free_func (g_free);
@@ -513,12 +582,12 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
 
 
 
-GtkBuilder *
-mousepad_application_get_builder (MousepadApplication *application)
+static void
+mousepad_application_action_quit (GSimpleAction *action,
+                                  GVariant      *value,
+                                  gpointer       data)
 {
-  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), NULL);
-
-  return application->builder;
+  g_application_quit (G_APPLICATION (data));
 }
 
 

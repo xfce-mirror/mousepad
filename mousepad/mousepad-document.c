@@ -191,9 +191,6 @@ mousepad_document_init (MousepadDocument *document)
   /* connect signals to the file */
   g_signal_connect_swapped (G_OBJECT (document->file), "filename-changed", G_CALLBACK (mousepad_document_filename_changed), document);
 
-  /* create the highlight tag */
-  document->tag = gtk_text_buffer_create_tag (document->buffer, NULL, "background", "#ffff78", NULL);
-
   /* setup the textview */
   document->textview = g_object_new (MOUSEPAD_TYPE_VIEW, "buffer", document->buffer, NULL);
   gtk_container_add (GTK_CONTAINER (document), GTK_WIDGET (document->textview));
