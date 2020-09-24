@@ -31,10 +31,6 @@ Mousepad depends on the following packages:
 * [xfconf](https://gitlab.xfce.org/xfce/xfconf) >=4.12.0
 * [GtkSourceView](https://wiki.gnome.org/Projects/GtkSourceView) >=3.20
 
-The following packages are optional:
-
-* [D-Bus](https://www.freedesktop.org/wiki/Software/dbus) >=0.34 (strongly suggested)
-
 ### Source Code Repository
 
 [Mousepad source code](https://gitlab.xfce.org/apps/mousepad)
