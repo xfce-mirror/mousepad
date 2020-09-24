@@ -33,13 +33,6 @@ typedef struct _MousepadApplication      MousepadApplication;
 
 GType                mousepad_application_get_type                   (void) G_GNUC_CONST;
 
-MousepadApplication *mousepad_application_get                        (void);
-
-gboolean             mousepad_application_has_windows                (MousepadApplication  *application);
-
-void                 mousepad_application_take_window                (MousepadApplication  *application,
-                                                                      GtkWindow            *window);
-
 gboolean             mousepad_application_new_window_with_files      (MousepadApplication  *application,
                                                                       GdkScreen            *screen,
                                                                       const gchar          *working_dir,
@@ -47,8 +40,6 @@ gboolean             mousepad_application_new_window_with_files      (MousepadAp
 
 void                 mousepad_application_show_preferences           (MousepadApplication  *application,
                                                                       GtkWindow            *transient_for);
-
-GtkBuilder          *mousepad_application_get_builder                (MousepadApplication  *application);
 
 GPtrArray           *mousepad_application_get_languages_tooltips     (MousepadApplication  *application);
 
