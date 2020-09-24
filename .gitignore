@@ -32,14 +32,11 @@ missing
 mkinstalldirs
 mousepad/.deps/
 mousepad/mousepad
-mousepad/mousepad-dbus-infos.c
-mousepad/mousepad-dbus-infos.h
 mousepad/mousepad-marshal.c
 mousepad/mousepad-marshal.h
-/mousepad/mousepad-prefs-dialog-ui.h
+mousepad/mousepad-resources.c
 /mousepad/mousepad-settings.gschema.valid
 /mousepad/org.xfce.mousepad.gschema.valid
-mousepad/mousepad-window-ui.h
 po/.intltool-merge-cache*
 po/POTFILES
 po/stamp-it

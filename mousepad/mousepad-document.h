@@ -52,9 +52,6 @@ struct _MousepadDocument
 
   /* text view */
   MousepadView            *textview;
-
-  /* the highlight tag */
-  GtkTextTag              *tag;
 };
 
 GType             mousepad_document_get_type       (void) G_GNUC_CONST;
