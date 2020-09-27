@@ -181,7 +181,7 @@ mousepad_search_bar_class_init (MousepadSearchBarClass *klass)
 static void
 mousepad_search_bar_init (MousepadSearchBar *bar)
 {
-  GtkWidget   *label, *image, *check, *menuitem;
+  GtkWidget   *image, *check, *menuitem;
   GtkToolItem *item;
 
   /* load some saved state */
@@ -190,26 +190,13 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   bar->highlight_all = MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_HIGHLIGHT_ALL);
 
   /* the close button */
-  image = gtk_image_new_from_icon_name ("window-close", GTK_ICON_SIZE_BUTTON);
+  image = gtk_image_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show (image);
   item = gtk_tool_button_new (image, NULL);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
   g_signal_connect_swapped (G_OBJECT (item), "clicked",
                             G_CALLBACK (mousepad_search_bar_hide_clicked), bar);
   gtk_widget_show (GTK_WIDGET (item));
-
-  /* the find label */
-  item = gtk_tool_item_new ();
-  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
-  gtk_widget_show (GTK_WIDGET (item));
-
-  label = gtk_label_new_with_mnemonic (_("Fi_nd:"));
-  gtk_container_add (GTK_CONTAINER (item), label);
-  gtk_widget_set_margin_start (label, 2);
-  gtk_widget_set_margin_end (label, 2);
-  gtk_widget_set_margin_top (label, 0);
-  gtk_widget_set_margin_bottom (label, 0);
-  gtk_widget_show (label);
 
   /* the entry field */
   item = gtk_tool_item_new ();
@@ -218,7 +205,6 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
 
   bar->entry = gtk_entry_new ();
   gtk_container_add (GTK_CONTAINER (item), bar->entry);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label), bar->entry);
   g_signal_connect (G_OBJECT (bar->entry), "changed",
                     G_CALLBACK (mousepad_search_bar_entry_changed), bar);
   g_signal_connect (G_OBJECT (bar->entry), "activate",
@@ -226,35 +212,31 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   g_signal_connect (G_OBJECT (bar->entry), "activate-backward", G_CALLBACK (mousepad_search_bar_entry_activate_backward), bar);
   gtk_widget_show (bar->entry);
 
-  /* next button */
-  image = gtk_image_new_from_icon_name ("go-down", TOOL_BAR_ICON_SIZE);
-  gtk_widget_show (image);
-
-  item = gtk_tool_button_new (image, _("_Next"));
-  gtk_tool_item_set_is_important (item, TRUE);
-  gtk_tool_button_set_use_underline (GTK_TOOL_BUTTON (item), TRUE);
-  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
-  g_signal_connect_swapped (G_OBJECT (item), "clicked",
-                            G_CALLBACK (mousepad_search_bar_find_next), bar);
-  gtk_widget_show (GTK_WIDGET (item));
-
   /* previous button */
-  image = gtk_image_new_from_icon_name ("go-up", TOOL_BAR_ICON_SIZE);
+  image = gtk_image_new_from_icon_name ("go-up-symbolic", TOOL_BAR_ICON_SIZE);
   gtk_widget_show (image);
 
-  item = gtk_tool_button_new (image, _("_Previous"));
-  gtk_tool_item_set_is_important (item, TRUE);
-  gtk_tool_button_set_use_underline (GTK_TOOL_BUTTON (item), TRUE);
+  item = gtk_tool_button_new (image, NULL);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
   g_signal_connect_swapped (G_OBJECT (item), "clicked",
                             G_CALLBACK (mousepad_search_bar_find_previous), bar);
+  gtk_widget_show (GTK_WIDGET (item));
+
+  /* next button */
+  image = gtk_image_new_from_icon_name ("go-down-symbolic", TOOL_BAR_ICON_SIZE);
+  gtk_widget_show (image);
+
+  item = gtk_tool_button_new (image, NULL);
+  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
+  g_signal_connect_swapped (G_OBJECT (item), "clicked",
+                            G_CALLBACK (mousepad_search_bar_find_next), bar);
   gtk_widget_show (GTK_WIDGET (item));
 
   /* highlight all */
   item = (GtkToolItem *) gtk_toggle_tool_button_new ();
   g_signal_connect_object (G_OBJECT (bar), "destroy",
                            G_CALLBACK (gtk_widget_destroy), item, G_CONNECT_SWAPPED);
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (item), "edit-select-all");
+  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (item), "edit-select-all-symbolic");
   gtk_tool_button_set_label (GTK_TOOL_BUTTON (item), _("Highlight _All"));
   gtk_tool_item_set_is_important (item, TRUE);
   gtk_tool_button_set_use_underline (GTK_TOOL_BUTTON (item), TRUE);
