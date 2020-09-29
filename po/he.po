@@ -5,15 +5,15 @@
 # Translators:
 # Elishai Eliyahu <e1907@mm.st>, 2016,2018-2020
 # GenghisKhan <genghiskhan@gmx.ca>, 2016
-# Omer, 2020
-# Omer, 2020
+# Omer I.S., 2020
+# Omer I.S., 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-05 12:47+0200\n"
-"PO-Revision-Date: 2020-06-23 21:48+0000\n"
-"Last-Translator: Omer\n"
+"POT-Creation-Date: 2020-09-22 12:47+0200\n"
+"PO-Revision-Date: 2020-09-29 11:52+0000\n"
+"Last-Translator: Elishai Eliyahu <e1907@mm.st>\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,140 +39,198 @@ msgid "Mousepad"
 msgstr "Mousepad"
 
 #. initialize gtk+
-#: ../mousepad/main.c:84
+#: ../mousepad/main.c:78
 msgid "[FILES...]"
 msgstr "[קבצים...]"
 
 #. no error message, the gui initialization failed
-#: ../mousepad/main.c:90
+#: ../mousepad/main.c:84
 msgid "Failed to open display."
 msgstr "נכשל בפתיחת הצג."
 
-#: ../mousepad/main.c:107
+#: ../mousepad/main.c:101
 msgid "The Xfce development team. All rights reserved."
 msgstr "קבוצת הפיתוח של Xfce. כל הזכויות שמורות."
 
-#: ../mousepad/main.c:108
+#: ../mousepad/main.c:102
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "אנא דווח על בעיות אל <%s>."
 
-#: ../mousepad/mousepad-dialogs.c:44
+#: ../mousepad/mousepad-application.c:436
+msgid "No filetype"
+msgstr "אין טיפוס קובץ"
+
+#: ../mousepad/mousepad-application.c:487
+msgid "No style scheme"
+msgstr "אין תוכנית סגנון"
+
+#: ../mousepad/mousepad-application.c:502
+#, c-format
+msgid "%s | Authors: %s | Filename: %s"
+msgstr "%s | יוצרים:%s | שם קובץ:%s"
+
+#: ../mousepad/mousepad-dialogs.c:39
 msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
 msgstr "‏Mousepad הינו עורך תמלילים מהיר עבור סביבת העבודה Xfce."
 
-#: ../mousepad/mousepad-dialogs.c:49
+#: ../mousepad/mousepad-dialogs.c:46
 msgid "translator-credits"
 msgstr "גם אתם יכולים לתרגם את פרויקט Xfce. אתם מוזמנים להצטרף לנבחרת"
 
 #. display an error message to the user
-#: ../mousepad/mousepad-dialogs.c:104
+#: ../mousepad/mousepad-dialogs.c:96 ../mousepad/mousepad-dialogs.c:115
 msgid "Failed to open the documentation browser"
 msgstr "נכשל לפתוח את סייר התיעוד"
 
 #. build dialog
-#: ../mousepad/mousepad-dialogs.c:119
+#: ../mousepad/mousepad-dialogs.c:137
 msgid "Select Tab Size"
 msgstr "בחר גודל כרטיסייה"
 
+#. add buttons
+#. cancel button
+#: ../mousepad/mousepad-dialogs.c:140 ../mousepad/mousepad-dialogs.c:221
+#: ../mousepad/mousepad-dialogs.c:326 ../mousepad/mousepad-dialogs.c:390
+#: ../mousepad/mousepad-dialogs.c:469 ../mousepad/mousepad-dialogs.c:501
+#: ../mousepad/mousepad-encoding-dialog.c:121
+#: ../mousepad/mousepad-encoding-dialog.c:184
+#: ../mousepad/mousepad-window.c:4253 ../mousepad/mousepad-window.c:4510
+msgid "_Cancel"
+msgstr "_בטל"
+
+#: ../mousepad/mousepad-dialogs.c:141
+#: ../mousepad/mousepad-encoding-dialog.c:122
+msgid "_OK"
+msgstr "_אישור"
+
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:200
+#: ../mousepad/mousepad-dialogs.c:218
 msgid "Go To"
 msgstr "מעבר אל"
 
-#: ../mousepad/mousepad-dialogs.c:222
+#: ../mousepad/mousepad-dialogs.c:223
+msgid "_Jump to"
+msgstr "_קפוץ אל"
+
+#: ../mousepad/mousepad-dialogs.c:243
 msgid "_Line number:"
 msgstr "מספר _שורה:"
 
-#: ../mousepad/mousepad-dialogs.c:241
+#: ../mousepad/mousepad-dialogs.c:263
 msgid "C_olumn number:"
 msgstr "מספר _טור:"
 
-#: ../mousepad/mousepad-dialogs.c:299
-msgid "Remove all entries from the documents history?"
-msgstr "להסיר את כל הערכים מהיסטוריית המסמכים?"
-
-#: ../mousepad/mousepad-dialogs.c:304
+#. create the question dialog
+#: ../mousepad/mousepad-dialogs.c:323
 msgid "Clear Documents History"
 msgstr "נקה את היסטוריית המסמכים"
 
-#: ../mousepad/mousepad-dialogs.c:307
+#: ../mousepad/mousepad-dialogs.c:328
+msgid "Clea_r"
+msgstr "נ_קה"
+
+#: ../mousepad/mousepad-dialogs.c:352
+msgid "<big><b>Remove all entries from the documents history?</b></big>"
+msgstr "<big><b>להסיר את כל הערכים מהיסטורית המסמכים?</b></big>"
+
+#. secondary text
+#: ../mousepad/mousepad-dialogs.c:357
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "ניקוי היסטוריית המסמכים יסיר לתמיד את כל הערכים שכעת רשומים."
 
-#: ../mousepad/mousepad-dialogs.c:338
-msgid "Do you want to save the changes before closing?"
-msgstr "האם ברצונך לשמור את השינויים לפני סגירה?"
-
-#: ../mousepad/mousepad-dialogs.c:339
+#. create the question dialog
+#: ../mousepad/mousepad-dialogs.c:387
 msgid "Save Changes"
 msgstr "שמירת שינויים"
 
-#: ../mousepad/mousepad-dialogs.c:340
+#: ../mousepad/mousepad-dialogs.c:394
 msgid "_Don't Save"
 msgstr "_אל תשמור"
 
+#: ../mousepad/mousepad-dialogs.c:401 ../mousepad/mousepad-dialogs.c:502
+msgid "_Save As"
+msgstr "_שמור בשם"
+
+#: ../mousepad/mousepad-dialogs.c:409 ../mousepad/mousepad-dialogs.c:472
+#: ../mousepad/mousepad-window.c:1105 ../mousepad/mousepad-window.c:4512
+#: ../mousepad/mousepad-window.ui.h:8
+msgid "_Save"
+msgstr "_שמור"
+
+#: ../mousepad/mousepad-dialogs.c:433
+msgid "<big><b>Do you want to save the changes before closing?</b></big>"
+msgstr "<big><b>האם אתה רוצה לשמור את השינויים לפני סגירה?</b></big>"
+
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:362
+#: ../mousepad/mousepad-dialogs.c:438
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "אם לא תשמור את המסמך, כל השינויים יאבדו."
 
-#: ../mousepad/mousepad-dialogs.c:384
+#: ../mousepad/mousepad-dialogs.c:463
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "המסמך שונה חיצונית. האם ברצונך להמשיך ולשמור?"
 
-#: ../mousepad/mousepad-dialogs.c:385
+#: ../mousepad/mousepad-dialogs.c:465
 msgid "Externally Modified"
 msgstr "שונה חיצונית"
 
-#: ../mousepad/mousepad-dialogs.c:387
+#: ../mousepad/mousepad-dialogs.c:467
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "אם אתה שומר את המסמך, כל השינויים החיצוניים יאבדו."
 
-#: ../mousepad/mousepad-dialogs.c:415
+#: ../mousepad/mousepad-dialogs.c:470
+msgid "Save _As"
+msgstr "שמור _בשם"
+
+#: ../mousepad/mousepad-dialogs.c:498
 msgid "Do you want to save your changes before reloading?"
 msgstr "האם ברצונך לשמור את השינויים שלך לפני פתיחה מחדש?"
 
-#: ../mousepad/mousepad-dialogs.c:417
+#: ../mousepad/mousepad-dialogs.c:500
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "אם תחזיר את הקובץ, כל השינויים הלא שמורים יאבדו."
 
+#: ../mousepad/mousepad-dialogs.c:504
+msgid "_Revert"
+msgstr "_חזור"
+
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:502
+#: ../mousepad/mousepad-document.c:506
 msgid "Close this tab"
 msgstr "סגור את כרטיסייה זו"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:532
+#: ../mousepad/mousepad-document.c:536
 msgid "Untitled"
 msgstr "ללא כותרת"
 
 #. create the header
-#: ../mousepad/mousepad-encoding-dialog.c:131
+#: ../mousepad/mousepad-encoding-dialog.c:125
 msgid "The document was not UTF-8 valid"
 msgstr "המסמך לא היה תקין לפי UTF-8 "
 
-#: ../mousepad/mousepad-encoding-dialog.c:132
+#: ../mousepad/mousepad-encoding-dialog.c:126
 msgid "Please select an encoding below."
 msgstr "אנא בחר קידוד למטה."
 
 #. encoding radio buttons
-#: ../mousepad/mousepad-encoding-dialog.c:144
+#: ../mousepad/mousepad-encoding-dialog.c:139
 msgid "Default (UTF-8)"
 msgstr "שגרתי (UTF-8)"
 
-#: ../mousepad/mousepad-encoding-dialog.c:150
+#: ../mousepad/mousepad-encoding-dialog.c:146
 msgid "System"
 msgstr "מערכת"
 
-#: ../mousepad/mousepad-encoding-dialog.c:157
+#: ../mousepad/mousepad-encoding-dialog.c:156
 msgid "Other:"
 msgstr "אחר:"
 
-#: ../mousepad/mousepad-encoding-dialog.c:177
+#: ../mousepad/mousepad-encoding-dialog.c:180
 msgid "Checking encodings..."
 msgstr "כעת בוחן קידודים..."
 
@@ -294,31 +352,29 @@ msgstr "יפני"
 msgid "Korean"
 msgstr "קוריאני"
 
-#: ../mousepad/mousepad-file.c:568
+#: ../mousepad/mousepad-file.c:562
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "רצף בייטים לא חוקי בקלט המרה"
 
-#: ../mousepad/mousepad-file.c:912
+#: ../mousepad/mousepad-file.c:902
 #, c-format
 msgid "The file \"%s\" you tried to reload does not exist anymore"
 msgstr "הקובץ \"%s\" שניסית להעלות מחדש אינו קיים יותר"
 
-#: ../mousepad/mousepad-file.c:953
+#: ../mousepad/mousepad-file.c:943
 #, c-format
 msgid "Failed to read the status of \"%s\""
 msgstr "נכשלה קריאת הסטטוס של \"%s\" "
 
-#: ../mousepad/mousepad-language-action.c:230
-msgid "Plain Text"
-msgstr "טקסט פשוט"
-
-#: ../mousepad/mousepad-language-action.c:231
-msgid "No filetype"
-msgstr "אין טיפוס קובץ"
+#. add the close button
+#: ../mousepad/mousepad-prefs-dialog.c:431
+#: ../mousepad/mousepad-replace-dialog.c:177
+msgid "_Close"
+msgstr "_סגור"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:437 ../mousepad/mousepad-window.c:457
+#: ../mousepad/mousepad-prefs-dialog.c:437 ../mousepad/mousepad-window.ui.h:42
 msgid "Preferences"
 msgstr "העדפות"
 
@@ -351,7 +407,7 @@ msgid "none"
 msgstr "אף אחד"
 
 #: ../mousepad/mousepad-prefs-dialog.glade.h:8
-#: ../mousepad/mousepad-style-scheme-action.c:197
+#: ../mousepad/mousepad-window.ui.h:52
 msgid "None"
 msgstr "ללא"
 
@@ -395,8 +451,10 @@ msgstr "טקסט תחת סמלים"
 msgid "Text Beside Icons"
 msgstr "טקסט לצד סמלים"
 
+#. "Color Scheme" submenu
+#. 50, style sheme menu insertion flag
 #: ../mousepad/mousepad-prefs-dialog.glade.h:19
-#: ../mousepad/mousepad-window.c:484
+#: ../mousepad/mousepad-window.c:671
 msgid "Show line numbers"
 msgstr "הצג מספרי שורה"
 
@@ -529,42 +587,42 @@ msgid "Window"
 msgstr "חלון"
 
 #. set a custom tab label
-#: ../mousepad/mousepad-print.c:125
+#: ../mousepad/mousepad-print.c:120
 msgid "Document Settings"
 msgstr "הגדרות מסמך"
 
-#: ../mousepad/mousepad-print.c:600
+#: ../mousepad/mousepad-print.c:594
 msgid "Page Setup"
 msgstr "הגדרת עמוד"
 
-#: ../mousepad/mousepad-print.c:610
+#: ../mousepad/mousepad-print.c:599
 msgid "_Adjust page size and orientation"
 msgstr "_התאם מידת וכיוון הדפסת עמוד"
 
-#: ../mousepad/mousepad-print.c:620
+#: ../mousepad/mousepad-print.c:617
 msgid "Appearance"
 msgstr "הופעה"
 
-#: ../mousepad/mousepad-print.c:634
+#: ../mousepad/mousepad-print.c:631
 msgid "Print page _headers"
 msgstr "הדפס _תקורות עמוד"
 
-#: ../mousepad/mousepad-print.c:641
+#: ../mousepad/mousepad-print.c:638
 msgid "Print _line numbers"
 msgstr "הדפס מספרי _שורה"
 
-#: ../mousepad/mousepad-print.c:658
+#: ../mousepad/mousepad-print.c:655
 msgid "Numbering interval:"
 msgstr "מרווח מספור:"
 
-#: ../mousepad/mousepad-print.c:666
+#: ../mousepad/mousepad-print.c:664
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
 msgstr "המרווח שבו להדפיס מספרי שורות. לדוגמה ערך של 1 ידפיס מספר שורה בכל שורה, ערך של 2 ידפיס מספר שורה שורה כן שורה לא, וכו'."
 
-#: ../mousepad/mousepad-print.c:678
+#: ../mousepad/mousepad-print.c:677
 msgid "Enable text _wrapping"
 msgstr "אפשר כיסוי טקסט"
 
@@ -576,85 +634,93 @@ msgstr "אפשר הבלטת תחביר"
 msgid "Fonts"
 msgstr "גופנים"
 
-#: ../mousepad/mousepad-print.c:719
+#: ../mousepad/mousepad-print.c:713
 msgid "Header:"
 msgstr "תקורה:"
 
-#: ../mousepad/mousepad-print.c:729
+#: ../mousepad/mousepad-print.c:727
 msgid "Body:"
 msgstr "גוף:"
 
-#: ../mousepad/mousepad-print.c:739
+#: ../mousepad/mousepad-print.c:741
 msgid "Line numbers:"
 msgstr "מספרי שורה:"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:137
-msgid "Replace"
-msgstr "החלפה"
+#: ../mousepad/mousepad-replace-dialog.c:164
+msgid "Find and Replace"
+msgstr "מצא והחלף"
 
-#: ../mousepad/mousepad-replace-dialog.c:144
-#: ../mousepad/mousepad-replace-dialog.c:425
+#. dialog buttons
+#: ../mousepad/mousepad-replace-dialog.c:170
+#: ../mousepad/mousepad-window.c:1131 ../mousepad/mousepad-window.ui.h:44
+msgid "_Find"
+msgstr "_מצא"
+
+#: ../mousepad/mousepad-replace-dialog.c:174
+#: ../mousepad/mousepad-replace-dialog.c:507
 msgid "_Replace"
 msgstr "ה_חלף"
 
-#: ../mousepad/mousepad-replace-dialog.c:162
+#: ../mousepad/mousepad-replace-dialog.c:197
 msgid "_Search for:"
 msgstr "_חפש:"
 
-#: ../mousepad/mousepad-replace-dialog.c:183
+#: ../mousepad/mousepad-replace-dialog.c:226
 msgid "Replace _with:"
 msgstr "החלף _עם:"
 
-#: ../mousepad/mousepad-replace-dialog.c:203
+#: ../mousepad/mousepad-replace-dialog.c:249
 msgid "Search _direction:"
 msgstr "כיוון חיפוש:"
 
-#: ../mousepad/mousepad-replace-dialog.c:212
+#: ../mousepad/mousepad-replace-dialog.c:259
 msgid "Up"
 msgstr "למעלה"
 
-#: ../mousepad/mousepad-replace-dialog.c:213
+#: ../mousepad/mousepad-replace-dialog.c:260
 msgid "Down"
 msgstr "למטה"
 
-#: ../mousepad/mousepad-replace-dialog.c:214
-msgid "Both"
-msgstr "שניהם"
+#. wrap around
+#: ../mousepad/mousepad-replace-dialog.c:270
+msgid "_Wrap around"
+msgstr "_כרוך מסביב"
 
 #. case sensitive
-#: ../mousepad/mousepad-replace-dialog.c:223
-msgid "Case sensi_tive"
-msgstr "ה_תאם אותיות גדולות/קטנות"
-
-#. enable regex search
-#: ../mousepad/mousepad-replace-dialog.c:230
-#: ../mousepad/mousepad-search-bar.c:287 ../mousepad/mousepad-search-bar.c:297
-msgid "_Enable Regex"
-msgstr "ה_פעל Regex"
+#: ../mousepad/mousepad-replace-dialog.c:278
+#: ../mousepad/mousepad-search-bar.c:275 ../mousepad/mousepad-search-bar.c:288
+msgid "Match _case"
+msgstr "התאם אותיות גדולות/קטנות"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:237
+#: ../mousepad/mousepad-replace-dialog.c:288
 msgid "_Match whole word"
 msgstr "התאם מילה שלמה"
 
-#: ../mousepad/mousepad-replace-dialog.c:248
+#. enable regex search
+#: ../mousepad/mousepad-replace-dialog.c:298
+#: ../mousepad/mousepad-search-bar.c:305 ../mousepad/mousepad-search-bar.c:318
+msgid "Regular e_xpression"
+msgstr "בי_טוי רגולרי"
+
+#: ../mousepad/mousepad-replace-dialog.c:314
 msgid "Replace _all in:"
 msgstr "החלף _הכל עם:"
 
-#: ../mousepad/mousepad-replace-dialog.c:256
+#: ../mousepad/mousepad-replace-dialog.c:323
 msgid "Selection"
 msgstr "בחירה"
 
-#: ../mousepad/mousepad-replace-dialog.c:257
+#: ../mousepad/mousepad-replace-dialog.c:324
 msgid "Document"
 msgstr "מסמך"
 
-#: ../mousepad/mousepad-replace-dialog.c:258
+#: ../mousepad/mousepad-replace-dialog.c:325
 msgid "All Documents"
 msgstr "כל המסמכים"
 
-#: ../mousepad/mousepad-replace-dialog.c:404
+#: ../mousepad/mousepad-replace-dialog.c:486
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -663,7 +729,7 @@ msgstr[1] "%d התרחשויות"
 msgstr[2] "%d התרחשויות"
 msgstr[3] "%d התרחשויות"
 
-#: ../mousepad/mousepad-replace-dialog.c:425
+#: ../mousepad/mousepad-replace-dialog.c:507
 msgid "_Replace All"
 msgstr "ה_חלף הכל"
 
@@ -671,647 +737,465 @@ msgstr "ה_חלף הכל"
 msgid "Fi_nd:"
 msgstr "_מצא:"
 
-#: ../mousepad/mousepad-search-bar.c:228
+#: ../mousepad/mousepad-search-bar.c:233
 msgid "_Next"
 msgstr "ה_בא"
 
-#: ../mousepad/mousepad-search-bar.c:239
+#: ../mousepad/mousepad-search-bar.c:245
 msgid "_Previous"
 msgstr "ה_קודם"
 
-#: ../mousepad/mousepad-search-bar.c:250
+#: ../mousepad/mousepad-search-bar.c:258
 msgid "Highlight _All"
 msgstr "הבלט הכל"
 
-#. overflow menu item for when window is too narrow to show the tool bar item
-#: ../mousepad/mousepad-search-bar.c:263 ../mousepad/mousepad-search-bar.c:274
-msgid "Mat_ch Case"
-msgstr "ה_תאם אותיות גדולות/קטנות"
-
-#: ../mousepad/mousepad-statusbar.c:140
+#: ../mousepad/mousepad-statusbar.c:125
 msgid "Choose a filetype"
 msgstr "בחירת טיפוס קובץ"
 
 #. language/filetype
-#: ../mousepad/mousepad-statusbar.c:145 ../mousepad/mousepad-statusbar.c:255
+#: ../mousepad/mousepad-statusbar.c:130 ../mousepad/mousepad-statusbar.c:249
 msgid "Filetype: None"
 msgstr "טיפוס קובץ: אין"
 
-#: ../mousepad/mousepad-statusbar.c:168
+#: ../mousepad/mousepad-statusbar.c:153
 msgid "Toggle the overwrite mode"
 msgstr "החלף מצב שכתוב"
 
 #. overwrite label
-#: ../mousepad/mousepad-statusbar.c:173
+#: ../mousepad/mousepad-statusbar.c:158
 msgid "OVR"
 msgstr "OVR"
 
-#: ../mousepad/mousepad-statusbar.c:258
+#: ../mousepad/mousepad-statusbar.c:252
 #, c-format
 msgid "Filetype: %s"
 msgstr "טיפוס קובץ: %s"
 
-#: ../mousepad/mousepad-statusbar.c:278
+#: ../mousepad/mousepad-statusbar.c:272
 #, c-format
 msgid "Line: %d Column: %d Selection: %d"
 msgstr "שורה: %d טור: %d בחירה: %d"
 
-#: ../mousepad/mousepad-statusbar.c:280
+#: ../mousepad/mousepad-statusbar.c:274
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "שורה: %d טור: %d"
 
-#: ../mousepad/mousepad-style-scheme-action.c:198
-msgid "No style scheme"
-msgstr "אין תוכנית סגנון"
-
-#: ../mousepad/mousepad-style-scheme-action.c:212
-#, c-format
-msgid "%s | Authors: %s | Filename: %s"
-msgstr "%s | יוצרים:%s | שם קובץ:%s"
-
 #. show warning to the user
-#: ../mousepad/mousepad-util.c:550
+#: ../mousepad/mousepad-util.c:543
 #, c-format
 msgid "Unable to create base directory \"%s\". Saving to file \"%s\" will be aborted."
 msgstr "לא יכול ליצור תיקיית בסיס \"%s\". שמירה לקובץ \"%s\" תופסק."
 
 #. print error
-#: ../mousepad/mousepad-util.c:596
+#: ../mousepad/mousepad-util.c:589
 #, c-format
 msgid "Failed to store the preferences to \"%s\": %s"
 msgstr "\"%s\": %s נכשל לאחסן את ההעדפות ל"
 
-#: ../mousepad/mousepad-window.c:413
-msgid "_File"
-msgstr "_קובץ"
-
-#: ../mousepad/mousepad-window.c:414
-msgid "_New"
-msgstr "_חדש"
-
-#: ../mousepad/mousepad-window.c:414
+#: ../mousepad/mousepad-window.c:597
 msgid "Create a new document"
 msgstr "יצירת מסמך חדש"
 
-#: ../mousepad/mousepad-window.c:415
-msgid "New _Window"
-msgstr "ח_לון חדש"
-
-#: ../mousepad/mousepad-window.c:415
+#. 1, toolbar item 1
+#: ../mousepad/mousepad-window.c:598
 msgid "Create a new document in a new window"
 msgstr "צור מסמך חדש בחלון חדש"
 
-#: ../mousepad/mousepad-window.c:416
-msgid "New From Te_mplate"
-msgstr "חדש מתך _תבנית"
-
-#: ../mousepad/mousepad-window.c:417
-msgid "_Open..."
-msgstr "_פתח..."
-
-#: ../mousepad/mousepad-window.c:417
+#. 3, template menu insertion flag
+#: ../mousepad/mousepad-window.c:601
 msgid "Open a file"
 msgstr "פתיחת קובץ"
 
-#: ../mousepad/mousepad-window.c:418
-msgid "Op_en Recent"
-msgstr "קבצים _אחרונים"
-
-#: ../mousepad/mousepad-window.c:419
-msgid "No items found"
-msgstr "לא נמצאו פריטים"
-
-#: ../mousepad/mousepad-window.c:420
-msgid "Clear _History"
-msgstr "טהור _היסטוריה"
-
-#: ../mousepad/mousepad-window.c:420
+#. 4, toolbar item 2
+#. 5, recent menu insertion flag
+#: ../mousepad/mousepad-window.c:603
 msgid "Clear the recently used files history"
 msgstr "נקה את היסטוריית קבצים בשימוש לאחרונה"
 
-#: ../mousepad/mousepad-window.c:421
+#: ../mousepad/mousepad-window.c:605
 msgid "Save the current document"
 msgstr "שמור את המסמך הנוכחי"
 
-#: ../mousepad/mousepad-window.c:422
-msgid "Save _As..."
-msgstr "שמירה _בשם..."
-
-#: ../mousepad/mousepad-window.c:422
+#. 7, tab menu start, toolbar item 3
+#: ../mousepad/mousepad-window.c:606
 msgid "Save current document as another file"
 msgstr "שמור מסמך נוכחי כקובץ אחר"
 
-#: ../mousepad/mousepad-window.c:423
-msgid "Save A_ll"
-msgstr "שמור ה_כל"
-
-#: ../mousepad/mousepad-window.c:423
+#. 8, tab menu 2, toolbar item 4
+#: ../mousepad/mousepad-window.c:607
 msgid "Save all document in this window"
 msgstr "שמור את כל המסמך שבחלון זה"
 
-#: ../mousepad/mousepad-window.c:424
-msgid "Re_vert"
-msgstr "חזור"
-
-#: ../mousepad/mousepad-window.c:424
+#: ../mousepad/mousepad-window.c:608
 msgid "Revert to the saved version of the file"
 msgstr "חזור לגרסה השמורה של הקובץ"
 
-#: ../mousepad/mousepad-window.c:425
-msgid "_Print..."
-msgstr "ה_דפס..."
-
-#: ../mousepad/mousepad-window.c:425
+#. 10, tab menu 3, toolbar item 5
+#: ../mousepad/mousepad-window.c:610
 msgid "Print the current document"
 msgstr "הדפס את המסמך הנוכחי"
 
-#: ../mousepad/mousepad-window.c:426
-msgid "_Detach Tab"
-msgstr "_הפרד כרטיסייה"
-
-#: ../mousepad/mousepad-window.c:426
+#: ../mousepad/mousepad-window.c:612
 msgid "Move the current document to a new window"
 msgstr "העבר את המסמך הנוכחי לחלון חדש"
 
-#: ../mousepad/mousepad-window.c:427
-msgid "Close _Tab"
-msgstr "סגור _כרטיסייה"
-
-#: ../mousepad/mousepad-window.c:427
+#. 12, tab menu 4
+#: ../mousepad/mousepad-window.c:614
 msgid "Close the current document"
 msgstr "סגור את המסמך הנוכחי"
 
-#: ../mousepad/mousepad-window.c:428
-msgid "_Close Window"
-msgstr "_סגור חלון"
-
-#: ../mousepad/mousepad-window.c:428
+#. 13, tab menu end, toolbar item 6
+#: ../mousepad/mousepad-window.c:615
 msgid "Close this window"
 msgstr "סגור את חלון זה"
 
-#: ../mousepad/mousepad-window.c:430
-msgid "_Edit"
-msgstr "ע_ריכה"
-
-#: ../mousepad/mousepad-window.c:431
+#: ../mousepad/mousepad-window.c:619
 msgid "Undo the last action"
 msgstr "בטל את הפעולה האחרונה"
 
-#: ../mousepad/mousepad-window.c:432
+#. 16, textview menu start, toolbar item 7
+#: ../mousepad/mousepad-window.c:620
 msgid "Redo the last undone action"
 msgstr "חזור על הפעולה שבוטלה לאחרונה"
 
-#: ../mousepad/mousepad-window.c:433
+#. 17, toolbar item 8
+#: ../mousepad/mousepad-window.c:622
 msgid "Cut the selection"
 msgstr "חתוך את הבחירה"
 
-#: ../mousepad/mousepad-window.c:434
+#. 18, toolbar item 9
+#: ../mousepad/mousepad-window.c:623
 msgid "Copy the selection"
 msgstr "העתק את הבחירה"
 
-#: ../mousepad/mousepad-window.c:435
+#. 19, toolbar item 10
+#: ../mousepad/mousepad-window.c:624
 msgid "Paste the clipboard"
 msgstr "הדבק את הבחירה"
 
-#: ../mousepad/mousepad-window.c:436
-msgid "Paste _Special"
-msgstr "הדבק _מיוחד"
-
-#: ../mousepad/mousepad-window.c:437
-msgid "Paste from _History"
-msgstr "הדבק מתוך _היסטוריה"
-
-#: ../mousepad/mousepad-window.c:437
+#: ../mousepad/mousepad-window.c:627
 msgid "Paste from the clipboard history"
 msgstr "הדבק מתוך היסטוריית לוח גזירה"
 
-#: ../mousepad/mousepad-window.c:438
-msgid "Paste as _Column"
-msgstr "הדבק בתור _עמודה"
-
-#: ../mousepad/mousepad-window.c:438
+#: ../mousepad/mousepad-window.c:628
 msgid "Paste the clipboard text into a column"
 msgstr "הדבק טקסט לוח גזירה בתוך טור"
 
-#: ../mousepad/mousepad-window.c:439
+#: ../mousepad/mousepad-window.c:629
 msgid "Delete the current selection"
 msgstr "מחק את הבחירה הנוכחית"
 
-#: ../mousepad/mousepad-window.c:440
+#: ../mousepad/mousepad-window.c:631
 msgid "Select the text in the entire document"
 msgstr "בחר את הטקסט בכל המסמך"
 
-#: ../mousepad/mousepad-window.c:441
-msgid "Change the selection"
-msgstr "שנה את הבחירה"
-
-#: ../mousepad/mousepad-window.c:441
-msgid "Change a normal selection into a column selection and vice versa"
-msgstr "שנה בחירה רגילה לבחירת עמודה ולהיפך"
-
-#: ../mousepad/mousepad-window.c:442
-msgid "Conve_rt"
-msgstr "ה_מר"
-
-#: ../mousepad/mousepad-window.c:443
-msgid "To _Uppercase"
-msgstr "לאותיות גדולות"
-
-#: ../mousepad/mousepad-window.c:443
-msgid "Change the case of the selection to uppercase"
-msgstr "שנה את הבחירה לאותיות גדולות"
-
-#: ../mousepad/mousepad-window.c:444
-msgid "To _Lowercase"
-msgstr "לאותיות קטנות"
-
-#: ../mousepad/mousepad-window.c:444
+#: ../mousepad/mousepad-window.c:635
 msgid "Change the case of the selection to lowercase"
 msgstr "שנה את הבחירה לאותיות קטנות"
 
-#: ../mousepad/mousepad-window.c:445
-msgid "To _Title Case"
-msgstr "לאות גדולה בתחילת כל מילה"
+#: ../mousepad/mousepad-window.c:636
+msgid "Change the case of the selection to uppercase"
+msgstr "שנה את הבחירה לאותיות גדולות"
 
-#: ../mousepad/mousepad-window.c:445
+#: ../mousepad/mousepad-window.c:637
 msgid "Change the case of the selection to title case"
 msgstr "שנה את הבחירה לאות גדולה בתחילת כל מילה"
 
-#: ../mousepad/mousepad-window.c:446
-msgid "To _Opposite Case"
-msgstr "להפיכת אותיות קטנות וגדולות"
-
-#: ../mousepad/mousepad-window.c:446
+#: ../mousepad/mousepad-window.c:638
 msgid "Change the case of the selection opposite case"
 msgstr "שנה את הבחירה להפיכת אותיות קטנות וגדולות"
 
-#: ../mousepad/mousepad-window.c:447
-msgid "_Tabs to Spaces"
-msgstr "לשוניות לרווחים"
-
-#: ../mousepad/mousepad-window.c:447
+#: ../mousepad/mousepad-window.c:640
 msgid "Convert all tabs to spaces in the selection or document"
 msgstr "המר את כל הלשוניות לרווחים בבחירה או במסמך"
 
-#: ../mousepad/mousepad-window.c:448
-msgid "_Spaces to Tabs"
-msgstr "רווחים ללשוניות"
-
-#: ../mousepad/mousepad-window.c:448
+#: ../mousepad/mousepad-window.c:641
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
 msgstr "המר את כל הרווחים המקדימים ללשוניות בשורה(ות) הנבחרת או במסמך"
 
-#: ../mousepad/mousepad-window.c:449
-msgid "St_rip Trailing Spaces"
-msgstr "הפשט רווחים סופיים"
-
-#: ../mousepad/mousepad-window.c:449
+#: ../mousepad/mousepad-window.c:643
 msgid "Remove all the trailing spaces from the selected line(s) or document"
 msgstr "הסר את כל הרווחים הסופיים מהשורה(ות) הנבחרת או מהמסמך"
 
-#: ../mousepad/mousepad-window.c:450
-msgid "_Transpose"
-msgstr "החלף מקומות"
-
-#: ../mousepad/mousepad-window.c:450
+#: ../mousepad/mousepad-window.c:645
 msgid "Reverse the order of something"
 msgstr "הפוך את הסדר של משהו"
 
-#: ../mousepad/mousepad-window.c:451
-msgid "_Move Selection"
-msgstr "_הזז בחירה"
-
-#: ../mousepad/mousepad-window.c:452
-msgid "Line _Up"
-msgstr "שורה מ_עלה"
-
-#: ../mousepad/mousepad-window.c:452
+#: ../mousepad/mousepad-window.c:648
 msgid "Move the selection one line up"
 msgstr "מזיז את הבחירה שורה אחת למעלה"
 
-#: ../mousepad/mousepad-window.c:453
-msgid "Line _Down"
-msgstr "שורה מ_טה"
-
-#: ../mousepad/mousepad-window.c:453
+#: ../mousepad/mousepad-window.c:649
 msgid "Move the selection one line down"
 msgstr "מזיז את הבחירה שורה אחת למטה"
 
-#: ../mousepad/mousepad-window.c:454
-msgid "Dup_licate Line / Selection"
-msgstr "שכ_פל שורה / בחירה"
-
-#: ../mousepad/mousepad-window.c:454
+#: ../mousepad/mousepad-window.c:650
 msgid "Duplicate the current line or selection"
 msgstr "שכפל את השורה הנוכחית או את הבחירה"
 
-#: ../mousepad/mousepad-window.c:455
-msgid "_Increase Indent"
-msgstr "ה_גדל הזחה"
-
-#: ../mousepad/mousepad-window.c:455
+#: ../mousepad/mousepad-window.c:651
 msgid "Increase the indentation of the selection or current line"
 msgstr "הגדל את ההזחה של הבחירה או השורה הנוכחית"
 
-#: ../mousepad/mousepad-window.c:456
-msgid "_Decrease Indent"
-msgstr "ה_קטן הזחה"
-
-#: ../mousepad/mousepad-window.c:456
+#: ../mousepad/mousepad-window.c:652
 msgid "Decrease the indentation of the selection or current line"
 msgstr "הקטן את ההזחה של הבחירה או השורה הנוכחית"
 
-#: ../mousepad/mousepad-window.c:457
+#. 40, textview menu end
+#: ../mousepad/mousepad-window.c:654
 msgid "Show the preferences dialog"
 msgstr "הצג את דיאלוג ההעדפות"
 
-#: ../mousepad/mousepad-window.c:459
-msgid "_Search"
-msgstr "_חפש"
-
-#: ../mousepad/mousepad-window.c:460
+#: ../mousepad/mousepad-window.c:658
 msgid "Search for text"
 msgstr "חיפוש עבור תמליל"
 
-#: ../mousepad/mousepad-window.c:461
-msgid "Find _Next"
-msgstr "מצא את ה_בא"
-
-#: ../mousepad/mousepad-window.c:461
+#. 43, toolbar item 12
+#: ../mousepad/mousepad-window.c:659
 msgid "Search forwards for the same text"
 msgstr "חפש קדימה את אותו טקסט"
 
-#: ../mousepad/mousepad-window.c:462
-msgid "Find _Previous"
-msgstr "מצא את ה_קודם"
-
-#: ../mousepad/mousepad-window.c:462
+#: ../mousepad/mousepad-window.c:660
 msgid "Search backwards for the same text"
 msgstr "חפש אחורה את אותו טקסט"
 
-#: ../mousepad/mousepad-window.c:463
-msgid "Find and Rep_lace..."
-msgstr "מצא וה_חלף..."
-
-#: ../mousepad/mousepad-window.c:463
+#: ../mousepad/mousepad-window.c:661
 msgid "Search for and replace text"
 msgstr "חיפוש והחלפת תמליל"
 
-#: ../mousepad/mousepad-window.c:464
-msgid "_Go to..."
-msgstr "_עבור אל..."
-
-#: ../mousepad/mousepad-window.c:464
+#. 46, toolbar item 13
+#: ../mousepad/mousepad-window.c:663
 msgid "Go to a specific location in the document"
 msgstr "לך למיקום מסוים במסמך"
 
-#: ../mousepad/mousepad-window.c:466
-msgid "_View"
-msgstr "_תצוגה"
-
-#: ../mousepad/mousepad-window.c:467
-msgid "Select F_ont..."
-msgstr "בחר _גופן..."
-
-#: ../mousepad/mousepad-window.c:467
+#. 47, toolbar item 14
+#. "View" menu
+#. 48, view menu insertion flag
+#: ../mousepad/mousepad-window.c:667
 msgid "Change the editor font"
 msgstr "שנה את גופן העורך"
 
-#: ../mousepad/mousepad-window.c:468
-msgid "_Color Scheme"
-msgstr "ערכת נושא צבע"
-
-#: ../mousepad/mousepad-window.c:470
-msgid "_Document"
-msgstr "_מסמך"
-
-#: ../mousepad/mousepad-window.c:471
-msgid "Line E_nding"
-msgstr "סיו_מת שורה"
-
-#: ../mousepad/mousepad-window.c:472
-msgid "Tab _Size"
-msgstr "גודל לשונית"
-
-#: ../mousepad/mousepad-window.c:473
-msgid "_Filetype"
-msgstr "_טיפוס קובץ"
-
-#: ../mousepad/mousepad-window.c:474
-msgid "_Previous Tab"
-msgstr "כרטיסייה _קודמת"
-
-#: ../mousepad/mousepad-window.c:474
-msgid "Select the previous tab"
-msgstr "בחר את הכרטיסייה הקודמת"
-
-#: ../mousepad/mousepad-window.c:475
-msgid "_Next Tab"
-msgstr "כרטיסייה _הבאה"
-
-#: ../mousepad/mousepad-window.c:475
-msgid "Select the next tab"
-msgstr "בחר את הכרטיסייה הבאה"
-
-#: ../mousepad/mousepad-window.c:477
-msgid "_Help"
-msgstr "_עזרה"
-
-#: ../mousepad/mousepad-window.c:478
-msgid "_Contents"
-msgstr "_תכנים"
-
-#: ../mousepad/mousepad-window.c:478
-msgid "Display the Mousepad user manual"
-msgstr "הצג מדריך משתמש Mousepad"
-
-#: ../mousepad/mousepad-window.c:479
-msgid "About this application"
-msgstr "אודות יישום זה"
-
-#: ../mousepad/mousepad-window.c:484
-msgid "Line N_umbers"
-msgstr "_מספרי שורות"
-
-#: ../mousepad/mousepad-window.c:485
-msgid "_Menubar"
-msgstr "שורת _תפריט"
-
-#: ../mousepad/mousepad-window.c:485
+#: ../mousepad/mousepad-window.c:673
 msgid "Change the visibility of the main menubar"
 msgstr "שנה ראות של שורת תפריט ראשי"
 
-#: ../mousepad/mousepad-window.c:486
-msgid "_Toolbar"
-msgstr "סרגל _כלים"
-
-#: ../mousepad/mousepad-window.c:486
+#. 52, textview menu additional item
+#: ../mousepad/mousepad-window.c:674
 msgid "Change the visibility of the toolbar"
 msgstr "שנה ראות של סרגל כלים"
 
-#: ../mousepad/mousepad-window.c:487
-msgid "St_atusbar"
-msgstr "שורת _מצב"
-
-#: ../mousepad/mousepad-window.c:487
+#: ../mousepad/mousepad-window.c:675
 msgid "Change the visibility of the statusbar"
 msgstr "שנה ראות של שורת מצב"
 
-#: ../mousepad/mousepad-window.c:488
-msgid "_Fullscreen"
-msgstr "_מסך מלא"
-
-#: ../mousepad/mousepad-window.c:488 ../mousepad/mousepad-window.c:5197
+#: ../mousepad/mousepad-window.c:677 ../mousepad/mousepad-window.c:5717
 msgid "Make the window fullscreen"
 msgstr "הפוך את החלון למסך מלא"
 
-#: ../mousepad/mousepad-window.c:489
-msgid "_Auto Indent"
-msgstr "עימוד _אוטומטי"
-
-#: ../mousepad/mousepad-window.c:489
-msgid "Auto indent a new line"
-msgstr "עימוד אוטומטי של שורה חדשה"
-
-#: ../mousepad/mousepad-window.c:490
-msgid "Insert _Spaces"
-msgstr "הכנס _רווחים"
-
-#: ../mousepad/mousepad-window.c:490
-msgid "Insert spaces when the tab button is pressed"
-msgstr "הכנס רווחים כאשר מקש Tab נלחץ"
-
-#: ../mousepad/mousepad-window.c:491
-msgid "_Word Wrap"
-msgstr "ג_לישת שורות"
-
-#: ../mousepad/mousepad-window.c:491
+#. 55, toolbar item 15
+#. "Document" menu
+#. 56, document menu insertion flag
+#: ../mousepad/mousepad-window.c:681
 msgid "Toggle breaking lines in between words"
 msgstr "העבר קווים שוברים בין מילים"
 
-#: ../mousepad/mousepad-window.c:492
-msgid "Write Unicode _BOM"
-msgstr "רשום Unicode _BOM"
+#: ../mousepad/mousepad-window.c:682
+msgid "Auto indent a new line"
+msgstr "עימוד אוטומטי של שורה חדשה"
 
-#: ../mousepad/mousepad-window.c:492
-msgid "Store the byte-order mark in the file"
-msgstr "אחסן את סימון סדר-הבייטים בקובץ"
+#: ../mousepad/mousepad-window.c:689
+msgid "Set custom tab size"
+msgstr "קבע גודל כרטיסייה מותאם"
 
-#: ../mousepad/mousepad-window.c:497
-msgid "Unix (_LF)"
-msgstr "Unix (_LF)"
+#. 64, custom tab size tooltip
+#: ../mousepad/mousepad-window.c:691
+msgid "Insert spaces when the tab button is pressed"
+msgstr "הכנס רווחים כאשר מקש Tab נלחץ"
 
-#: ../mousepad/mousepad-window.c:497
+#: ../mousepad/mousepad-window.c:697
 msgid "Set the line ending of the document to Unix (LF)"
 msgstr "קבע את סיומת השורה של המסמך ליוניקס (LF) "
 
-#: ../mousepad/mousepad-window.c:498
-msgid "Mac (_CR)"
-msgstr "Mac (_CR)"
-
-#: ../mousepad/mousepad-window.c:498
+#: ../mousepad/mousepad-window.c:698
 msgid "Set the line ending of the document to Mac (CR)"
 msgstr "קבע את סיומת השורה של המסמך למאק (CR) "
 
-#: ../mousepad/mousepad-window.c:499
-msgid "DOS / Windows (C_R LF)"
-msgstr "DOS / Windows (C_R LF)"
-
-#: ../mousepad/mousepad-window.c:499
+#: ../mousepad/mousepad-window.c:699
 msgid "Set the line ending of the document to DOS / Windows (CR LF)"
 msgstr "קבע את סיומת השורה של המסמך לדוס / ווינדוס (CR LF) "
 
+#: ../mousepad/mousepad-window.c:701
+msgid "Store the byte-order mark in the file"
+msgstr "אחסן את סימון סדר-הבייטים בקובץ"
+
+#: ../mousepad/mousepad-window.c:703
+msgid "Select the previous tab"
+msgstr "בחר את הכרטיסייה הקודמת"
+
+#: ../mousepad/mousepad-window.c:704
+msgid "Select the next tab"
+msgstr "בחר את הכרטיסייה הבאה"
+
+#: ../mousepad/mousepad-window.c:708
+msgid "Display the Mousepad user manual"
+msgstr "הצג מדריך משתמש Mousepad"
+
+#: ../mousepad/mousepad-window.c:709
+msgid "About this application"
+msgstr "אודות יישום זה"
+
+#. insert items
+#: ../mousepad/mousepad-window.c:1101 ../mousepad/mousepad-window.ui.h:2
+msgid "_New"
+msgstr "_חדש"
+
+#: ../mousepad/mousepad-window.c:1103 ../mousepad/mousepad-window.ui.h:5
+msgid "_Open..."
+msgstr "_פתח..."
+
+#: ../mousepad/mousepad-window.c:1107 ../mousepad/mousepad-window.ui.h:9
+msgid "Save _As..."
+msgstr "שמירה _בשם..."
+
+#: ../mousepad/mousepad-window.c:1109 ../mousepad/mousepad-window.ui.h:11
+msgid "Re_vert"
+msgstr "חזור"
+
+#: ../mousepad/mousepad-window.c:1111 ../mousepad/mousepad-window.ui.h:14
+msgid "Close _Tab"
+msgstr "סגור _כרטיסייה"
+
+#: ../mousepad/mousepad-window.c:1117 ../mousepad/mousepad-window.ui.h:17
+msgid "_Undo"
+msgstr "_בטל פעולה"
+
+#: ../mousepad/mousepad-window.c:1119 ../mousepad/mousepad-window.ui.h:18
+msgid "_Redo"
+msgstr "_חזור על הפעולה"
+
+#: ../mousepad/mousepad-window.c:1121 ../mousepad/mousepad-window.ui.h:19
+msgid "Cu_t"
+msgstr "ג_זור"
+
+#: ../mousepad/mousepad-window.c:1123 ../mousepad/mousepad-window.ui.h:20
+msgid "_Copy"
+msgstr "ה_עתק"
+
+#: ../mousepad/mousepad-window.c:1125 ../mousepad/mousepad-window.ui.h:21
+msgid "_Paste"
+msgstr "ה_דבק"
+
+#: ../mousepad/mousepad-window.c:1133 ../mousepad/mousepad-window.ui.h:47
+msgid "Find and Rep_lace..."
+msgstr "מצא וה_חלף..."
+
+#: ../mousepad/mousepad-window.c:1135 ../mousepad/mousepad-window.ui.h:48
+msgid "_Go to..."
+msgstr "_עבור אל..."
+
+#: ../mousepad/mousepad-window.c:1144 ../mousepad/mousepad-window.ui.h:57
+msgid "_Fullscreen"
+msgstr "_מסך מלא"
+
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:871
+#: ../mousepad/mousepad-window.c:1220
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "אזהרה: אתה אולי משתמש בחשבון־על (root), אתה עלול להזיק למערכת שלך."
 
 #. show the warning
-#: ../mousepad/mousepad-window.c:1572
+#: ../mousepad/mousepad-window.c:1973
 msgid "Failed to open the document"
 msgstr "נכשל לפתוח את המסמך"
 
-#: ../mousepad/mousepad-window.c:1769
+#: ../mousepad/mousepad-window.c:2177
 msgid "Read Only"
 msgstr "לקריאה בלבד"
 
-#: ../mousepad/mousepad-window.c:2439
+#: ../mousepad/mousepad-window.c:2841
+#, c-format
+msgid "Use '%s' as template"
+msgstr "השתמש ב'%s' כתבנית"
+
+#: ../mousepad/mousepad-window.c:2869
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "לא נמצאו קבצי תבנית ב\n'%s'"
 
-#: ../mousepad/mousepad-window.c:2492
+#: ../mousepad/mousepad-window.c:2937
 #, c-format
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
 msgstr "ספריית שבלונות חסרה\n'%s'"
 
-#. create other action
-#: ../mousepad/mousepad-window.c:2566
-msgid "Set custom tab size"
-msgstr "קבע גודל כרטיסייה מותאם"
-
-#. create suitable label for the other menu
-#: ../mousepad/mousepad-window.c:2614
+#. create suitable text label for the "Other" menu
+#: ../mousepad/mousepad-window.c:2994
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_אחר (%d)..."
 
-#. set action label
-#: ../mousepad/mousepad-window.c:2625
+#: ../mousepad/mousepad-window.c:3004
 msgid "Ot_her..."
 msgstr "_אחר..."
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3008 ../mousepad/mousepad-window.c:3235
+#: ../mousepad/mousepad-window.c:3368 ../mousepad/mousepad-window.c:3567
 msgid "Charset"
 msgstr "מערך תווים"
 
-#: ../mousepad/mousepad-window.c:3140
+#: ../mousepad/mousepad-window.c:3498
 #, c-format
 msgid "Open '%s'"
 msgstr "פתח את '%s'"
 
-#: ../mousepad/mousepad-window.c:3285
+#: ../mousepad/mousepad-window.c:3526
+msgid "No items found"
+msgstr "לא נמצאו פריטים"
+
+#: ../mousepad/mousepad-window.c:3616
 msgid "Failed to clear the recent history"
 msgstr "נכשל לנקות את ההיסטוריה האחרונה"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:3715
+#: ../mousepad/mousepad-window.c:4064
 msgid "No clipboard data"
 msgstr "אין מידע לוח גזירה"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:3854
+#: ../mousepad/mousepad-window.c:4212
 msgid "Templates should be UTF-8 valid"
 msgstr "תבניות צריכות להיות חוקיות לפי UTF-8 "
 
 #. set error message
-#: ../mousepad/mousepad-window.c:3862
-msgid "Reading the template failed, the menu item has been removed"
-msgstr "קריאת התבנית נכשלה, פריט התפריט הוסר"
+#: ../mousepad/mousepad-window.c:4217
+msgid "Reading the template failed"
+msgstr "קריאת התבנית נכשלה"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:3867
+#: ../mousepad/mousepad-window.c:4222
 msgid "Loading the template failed"
 msgstr "העלאת התבנית נכשלה"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-window.c:3892
+#: ../mousepad/mousepad-window.c:4250
 msgid "Open File"
 msgstr "פתיחת קובץ"
 
-#: ../mousepad/mousepad-window.c:3908
+#: ../mousepad/mousepad-window.c:4255
+msgid "_Open"
+msgstr "_פתח"
+
+#: ../mousepad/mousepad-window.c:4268
 msgid "_Encoding:"
 msgstr "_קידוד:"
 
-#: ../mousepad/mousepad-window.c:4005
+#: ../mousepad/mousepad-window.c:4367
 #, c-format
 msgid ""
 "Failed to open \"%s\" for reading. It will be removed from the document "
@@ -1319,37 +1203,257 @@ msgid ""
 msgstr "נכשל לפתוח \"%s\" לקריאה. הוא יוסר מהיסטוריית המסמכים"
 
 #. show the warning and cleanup
-#: ../mousepad/mousepad-window.c:4009
+#: ../mousepad/mousepad-window.c:4371
 msgid "Failed to open file"
 msgstr "נכשל לפתוח קובץ"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4115 ../mousepad/mousepad-window.c:4246
+#: ../mousepad/mousepad-window.c:4483 ../mousepad/mousepad-window.c:4621
 msgid "Failed to save the document"
 msgstr "נכשל לשמור את המסמך"
 
 #. create the dialog
-#: ../mousepad/mousepad-window.c:4139
+#: ../mousepad/mousepad-window.c:4508
 msgid "Save As"
 msgstr "שמירה בשם"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4338
+#: ../mousepad/mousepad-window.c:4720
 msgid "Failed to reload the document"
 msgstr "נכשל להעלות מחדש את המסמך"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4365
+#: ../mousepad/mousepad-window.c:4749
 msgid "Failed to print the document"
 msgstr "נכשל להדפיס את המסמך"
 
-#: ../mousepad/mousepad-window.c:4986
+#: ../mousepad/mousepad-window.c:5477
 msgid "Choose Mousepad Font"
 msgstr "בחירת גופן Mousepad"
 
-#: ../mousepad/mousepad-window.c:5190
+#: ../mousepad/mousepad-window.c:5710
 msgid "Leave fullscreen mode"
 msgstr "עזוב מסך מלא"
+
+#: ../mousepad/mousepad-window.ui.h:1
+msgid "_File"
+msgstr "_קובץ"
+
+#: ../mousepad/mousepad-window.ui.h:3
+msgid "New _Window"
+msgstr "ח_לון חדש"
+
+#: ../mousepad/mousepad-window.ui.h:4
+msgid "New From Te_mplate"
+msgstr "חדש מתך _תבנית"
+
+#: ../mousepad/mousepad-window.ui.h:6
+msgid "Op_en Recent"
+msgstr "קבצים _אחרונים"
+
+#: ../mousepad/mousepad-window.ui.h:7
+msgid "Clear _History"
+msgstr "טהור _היסטוריה"
+
+#: ../mousepad/mousepad-window.ui.h:10
+msgid "Save A_ll"
+msgstr "שמור ה_כל"
+
+#: ../mousepad/mousepad-window.ui.h:12
+msgid "_Print..."
+msgstr "ה_דפס..."
+
+#: ../mousepad/mousepad-window.ui.h:13
+msgid "_Detach Tab"
+msgstr "_הפרד כרטיסייה"
+
+#: ../mousepad/mousepad-window.ui.h:15
+msgid "_Close Window"
+msgstr "_סגור חלון"
+
+#: ../mousepad/mousepad-window.ui.h:16
+msgid "_Edit"
+msgstr "_עריכה"
+
+#: ../mousepad/mousepad-window.ui.h:22
+msgid "Paste _Special"
+msgstr "הדבק _מיוחד"
+
+#: ../mousepad/mousepad-window.ui.h:23
+msgid "Paste from _History"
+msgstr "הדבק מתוך _היסטוריה"
+
+#: ../mousepad/mousepad-window.ui.h:24
+msgid "Paste as _Column"
+msgstr "הדבק בתור _עמודה"
+
+#: ../mousepad/mousepad-window.ui.h:25
+msgid "_Delete"
+msgstr "_מחק"
+
+#: ../mousepad/mousepad-window.ui.h:26
+msgid "Select _All"
+msgstr "בחר _הכל"
+
+#: ../mousepad/mousepad-window.ui.h:27
+msgid "Conve_rt"
+msgstr "ה_מר"
+
+#: ../mousepad/mousepad-window.ui.h:28
+msgid "To _Lowercase"
+msgstr "לאותיות קטנות"
+
+#: ../mousepad/mousepad-window.ui.h:29
+msgid "To _Uppercase"
+msgstr "לאותיות גדולות"
+
+#: ../mousepad/mousepad-window.ui.h:30
+msgid "To _Title Case"
+msgstr "לאות גדולה בתחילת כל מילה"
+
+#: ../mousepad/mousepad-window.ui.h:31
+msgid "To _Opposite Case"
+msgstr "להפיכת אותיות קטנות וגדולות"
+
+#: ../mousepad/mousepad-window.ui.h:32
+msgid "_Tabs to Spaces"
+msgstr "לשוניות לרווחים"
+
+#: ../mousepad/mousepad-window.ui.h:33
+msgid "_Spaces to Tabs"
+msgstr "רווחים ללשוניות"
+
+#: ../mousepad/mousepad-window.ui.h:34
+msgid "St_rip Trailing Spaces"
+msgstr "הפשט רווחים סופיים"
+
+#: ../mousepad/mousepad-window.ui.h:35
+msgid "_Transpose"
+msgstr "החלף מקומות"
+
+#: ../mousepad/mousepad-window.ui.h:36
+msgid "_Move Selection"
+msgstr "_הזז בחירה"
+
+#: ../mousepad/mousepad-window.ui.h:37
+msgid "Line _Up"
+msgstr "שורה מ_עלה"
+
+#: ../mousepad/mousepad-window.ui.h:38
+msgid "Line _Down"
+msgstr "שורה מ_טה"
+
+#: ../mousepad/mousepad-window.ui.h:39
+msgid "Dup_licate Line / Selection"
+msgstr "שכ_פל שורה / בחירה"
+
+#: ../mousepad/mousepad-window.ui.h:40
+msgid "_Increase Indent"
+msgstr "ה_גדל הזחה"
+
+#: ../mousepad/mousepad-window.ui.h:41
+msgid "_Decrease Indent"
+msgstr "ה_קטן הזחה"
+
+#: ../mousepad/mousepad-window.ui.h:43
+msgid "_Search"
+msgstr "_חפש"
+
+#: ../mousepad/mousepad-window.ui.h:45
+msgid "Find _Next"
+msgstr "מצא את ה_בא"
+
+#: ../mousepad/mousepad-window.ui.h:46
+msgid "Find _Previous"
+msgstr "מצא את ה_קודם"
+
+#: ../mousepad/mousepad-window.ui.h:49
+msgid "_View"
+msgstr "_תצוגה"
+
+#: ../mousepad/mousepad-window.ui.h:50
+msgid "Select F_ont..."
+msgstr "בחר _גופן..."
+
+#: ../mousepad/mousepad-window.ui.h:51
+msgid "_Color Scheme"
+msgstr "ערכת נושא צבע"
+
+#: ../mousepad/mousepad-window.ui.h:53
+msgid "Line N_umbers"
+msgstr "_מספרי שורות"
+
+#: ../mousepad/mousepad-window.ui.h:54
+msgid "_Menubar"
+msgstr "שורת _תפריט"
+
+#: ../mousepad/mousepad-window.ui.h:55
+msgid "_Toolbar"
+msgstr "סרגל _כלים"
+
+#: ../mousepad/mousepad-window.ui.h:56
+msgid "St_atusbar"
+msgstr "שורת _מצב"
+
+#: ../mousepad/mousepad-window.ui.h:58
+msgid "_Document"
+msgstr "_מסמך"
+
+#: ../mousepad/mousepad-window.ui.h:59
+msgid "_Word Wrap"
+msgstr "ג_לישת שורות"
+
+#: ../mousepad/mousepad-window.ui.h:60
+msgid "_Auto Indent"
+msgstr "עימוד _אוטומטי"
+
+#: ../mousepad/mousepad-window.ui.h:61
+msgid "Tab _Size"
+msgstr "גודל לשונית"
+
+#: ../mousepad/mousepad-window.ui.h:62
+msgid "Other..."
+msgstr "אחר..."
+
+#: ../mousepad/mousepad-window.ui.h:63
+msgid "Insert _Spaces"
+msgstr "הכנס _רווחים"
+
+#: ../mousepad/mousepad-window.ui.h:64
+msgid "_Filetype"
+msgstr "_טיפוס קובץ"
+
+#: ../mousepad/mousepad-window.ui.h:65
+msgid "Plain Text"
+msgstr "טקסט פשוט"
+
+#: ../mousepad/mousepad-window.ui.h:66
+msgid "Line E_nding"
+msgstr "סיו_מת שורה"
+
+#: ../mousepad/mousepad-window.ui.h:67
+msgid "Write Unicode _BOM"
+msgstr "רשום Unicode _BOM"
+
+#: ../mousepad/mousepad-window.ui.h:68
+msgid "_Previous Tab"
+msgstr "הלשונית ה_קודמת"
+
+#: ../mousepad/mousepad-window.ui.h:69
+msgid "_Next Tab"
+msgstr "הלשונית ה_באה"
+
+#: ../mousepad/mousepad-window.ui.h:70
+msgid "_Help"
+msgstr "_עזרה"
+
+#: ../mousepad/mousepad-window.ui.h:71
+msgid "_Contents"
+msgstr "_תכנים"
+
+#: ../mousepad/mousepad-window.ui.h:72
+msgid "_About"
+msgstr "_אודות"
 
 #: ../mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
