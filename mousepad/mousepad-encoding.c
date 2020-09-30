@@ -132,35 +132,13 @@ mousepad_encoding_get_name (MousepadEncoding encoding)
 
 
 MousepadEncoding
-mousepad_encoding_user (void)
-{
-  static MousepadEncoding  encoding = MOUSEPAD_ENCODING_NONE;
-  const gchar             *charset;
-
-  if (G_UNLIKELY (encoding == MOUSEPAD_ENCODING_NONE))
-    {
-      /* try to find the user charset */
-      if (g_get_charset (&charset) == FALSE)
-        encoding = mousepad_encoding_find (charset);
-
-      /* default to utf-8 */
-      if (G_LIKELY (encoding == MOUSEPAD_ENCODING_NONE))
-        encoding = MOUSEPAD_ENCODING_UTF_8;
-    }
-
-  return encoding;
-}
-
-
-
-MousepadEncoding
 mousepad_encoding_find (const gchar *charset)
 {
   guint i;
 
-  /* check for invalid strings */
-  if (G_UNLIKELY (charset == NULL || *charset == '\0'))
-    return MOUSEPAD_ENCODING_NONE;
+  /* fallback to system charset if nul */
+  if (charset == NULL)
+    g_get_charset (&charset);
 
   /* find the charset */
   for (i = 0; i < G_N_ELEMENTS (encoding_infos); i++)
