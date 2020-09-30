@@ -19,7 +19,6 @@ mousepad_built_sources = \
 
 mousepad_SOURCES = \
 	$(mousepad_built_sources) \
-	$(mousepad_dbus_sources) \
 	main.c \
 	mousepad-application.c \
 	mousepad-application.h \
@@ -37,12 +36,12 @@ mousepad_SOURCES = \
 	mousepad-file.h \
 	mousepad-prefs-dialog.c \
 	mousepad-prefs-dialog.h \
-	mousepad-prefs-dialog-ui.h \
 	mousepad-print.c \
 	mousepad-print.h \
 	mousepad-private.h \
 	mousepad-replace-dialog.c \
 	mousepad-replace-dialog.h \
+	mousepad-resources.c \
 	mousepad-search-bar.c \
 	mousepad-search-bar.h \
 	mousepad-settings.c \
@@ -56,8 +55,7 @@ mousepad_SOURCES = \
 	mousepad-util.c \
 	mousepad-util.h \
 	mousepad-window.c \
-	mousepad-window.h \
-	mousepad-window-ui.h
+	mousepad-window.h
 
 mousepad_CFLAGS = \
 	$(GLIB_CFLAGS) \
@@ -66,7 +64,8 @@ mousepad_CFLAGS = \
 	$(GTKSOURCEVIEW_CFLAGS) \
 	$(PLATFORM_CFLAGS) \
 	$(XFCONF_CFLAGS) \
-	-DMOUSEPAD_GSETTINGS_SCHEMA_DIR=\""$(datadir)/glib-2.0/schemas"\"
+	-DMOUSEPAD_GSETTINGS_SCHEMA_DIR=\""$(datadir)/glib-2.0/schemas"\" \
+	-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_60
 
 mousepad_LDFLAGS = \
 	-no-undefined \
@@ -79,25 +78,6 @@ mousepad_LDADD = \
 	$(GTKSOURCEVIEW_LIBS) \
 	$(XFCONF_LIBS)
 
-if HAVE_DBUS
-mousepad_built_sources +=	\
-	mousepad-dbus-infos.c \
-	mousepad-dbus-infos.h
-
-mousepad_dbus_sources = \
-	mousepad-dbus.c \
-	mousepad-dbus.h
-
-mousepad_CFLAGS += \
-	-DDBUS_API_SUBJECT_TO_CHANGE \
-	$(DBUS_CFLAGS) \
-	$(GIO_UNIX_CFLAGS)
-
-mousepad_LDADD +=	\
-	$(DBUS_LIBS) \
-	$(GIO_UNIX_LIBS)
-endif
-
 if WITH_KEYFILE_SETTINGS
 mousepad_CFLAGS += \
 	-DMOUSEPAD_SETTINGS_KEYFILE_BACKEND=1
@@ -106,24 +86,22 @@ endif
 if MAINTAINER_MODE
 DISTCLEANFILES = \
 	$(mousepad_built_sources) \
-	mousepad-window-ui.h \
-	mousepad-prefs-dialog-ui.h
+	mousepad-resources.c
 
 BUILT_SOURCES = \
 	$(mousepad_built_sources) \
-	mousepad-window-ui.h \
-	mousepad-prefs-dialog-ui.h
+	mousepad-resources.c
 
-if HAVE_DBUS
-mousepad-dbus-infos.c mousepad-dbus-infos.h: mousepad-dbus-infos.xml Makefile
-	$(AM_V_GEN) gdbus-codegen --interface-prefix org.xfce. --generate-c-code mousepad-dbus-infos $<
-endif
+mousepad_resource_deps = $(shell glib-compile-resources --generate-dependencies --sourcedir $(srcdir)/resources --sourcedir $(builddir)/resources $(builddir)/resources/mousepad.gresource.xml)
 
-mousepad-window-ui.h: mousepad-window.ui Makefile
-	$(AM_V_GEN) xdt-csource --strip-comments --strip-content --static --name=mousepad_window_ui $< > $@
+mousepad_resources_c_deps = $(builddir)/resources/mousepad.gresource.xml $(mousepad_resource_deps)
 
-mousepad-prefs-dialog-ui.h: mousepad-prefs-dialog.glade Makefile
-	$(AM_V_GEN) xdt-csource --strip-comments --strip-content --static --name=mousepad_prefs_dialog_ui $< > $@
+mousepad-resources.c: $(mousepad_resources_c_deps)
+	$(AM_V_GEN) glib-compile-resources \
+		--target="$@" \
+		--sourcedir="$(srcdir)/resources" \
+		--sourcedir="$(builddir)/resources" \
+		--generate-source "$(builddir)/resources/mousepad.gresource.xml"
 
 mousepad-marshal.h: mousepad-marshal.list Makefile
 	$(AM_V_GEN) glib-genmarshal --header --prefix=_mousepad_marshal $< > $@
@@ -134,10 +112,9 @@ mousepad-marshal.c: mousepad-marshal.list Makefile
 endif
 
 EXTRA_DIST = \
-	mousepad-dbus-infos.xml \
+	$(mousepad_resource_deps) \
+	resources/mousepad.gresource.xml \
 	mousepad-marshal.list \
-	mousepad-window.ui \
-	mousepad-prefs-dialog.glade \
 	org.xfce.mousepad.gschema.xml
 
 gsettings_SCHEMAS = org.xfce.mousepad.gschema.xml
