@@ -16,6 +16,9 @@
 
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-file.h>
+#if !GLIB_CHECK_VERSION (2, 52, 0)
+#include <mousepad/mousepad-util.h>
+#endif
 
 #include <glib/gstdio.h>
 
@@ -460,14 +463,14 @@ mousepad_file_guess_language (MousepadFile *file)
   GtkTextIter        start;
   GtkTextIter        end;
 
-  g_return_val_if_fail ((file->filename != NULL), NULL);
+  g_return_val_if_fail (file->filename != NULL, NULL);
 
   gtk_text_buffer_get_start_iter (file->buffer, &start);
   end = start;
   gtk_text_iter_forward_chars (&end, 255);
   data = gtk_text_buffer_get_text (file->buffer, &start, &end, TRUE);
 
-  content_type = g_content_type_guess (file->filename, (const guchar *)data, strlen (data), &result_uncertain);
+  content_type = g_content_type_guess (file->filename, (const guchar *) data, strlen (data), &result_uncertain);
   basename = g_path_get_basename (file->filename);
   language = gtk_source_language_manager_guess_language (gtk_source_language_manager_get_default (),
                                                          basename,
@@ -488,17 +491,13 @@ mousepad_file_open (MousepadFile  *file,
                     GError       **error)
 {
   GMappedFile      *mapped_file;
-  const gchar      *filename;
-  gint              retval = ERROR_READING_FAILED;
-  gsize             file_size, written;
-  gsize             bom_length;
-  const gchar      *contents;
-  gchar            *encoded = NULL;
-  const gchar      *charset;
+  MousepadEncoding  bom_encoding;
   GtkTextIter       start_iter, end_iter;
   struct stat       statb;
-  const gchar      *end, *n, *m;
-  MousepadEncoding  bom_encoding;
+  gint              retval = ERROR_READING_FAILED;
+  gsize             file_size, written, bom_length;
+  const gchar      *filename, *contents, *charset, *end, *n, *m;
+  gchar            *encoded = NULL, *utf8_valid = NULL;;
 
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
   g_return_val_if_fail (GTK_IS_TEXT_BUFFER (file->buffer), FALSE);
@@ -546,47 +545,47 @@ mousepad_file_open (MousepadFile  *file,
               file->encoding = bom_encoding;
             }
 
-          /* handle encoding and check for utf-8 valid text */
-          if (G_LIKELY (file->encoding == MOUSEPAD_ENCODING_UTF_8))
+          /* leave when the contents is not utf-8 valid */
+          if (G_LIKELY (file->encoding == MOUSEPAD_ENCODING_UTF_8)
+              && g_utf8_validate_len (contents, file_size, &end) == FALSE)
             {
-              validate:
+              /* set return value */
+              retval = ERROR_NOT_UTF8_VALID;
 
-              /* leave when the contents is not utf-8 valid */
-              if (g_utf8_validate (contents, file_size, &end) == FALSE)
-                {
-                  /* set return value */
-                  retval = ERROR_NOT_UTF8_VALID;
+              /* set an error */
+              g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
+                           _("Invalid byte sequence in conversion input"));
 
-                  /* set an error */
-                  g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-                               _("Invalid byte sequence in conversion input"));
-
-                  goto failed;
-                }
+              goto failed;
             }
           else
             {
-              /* get the encoding charset */
-              charset = mousepad_encoding_get_charset (file->encoding);
-
-              /* convert the contents */
-              encoded = g_convert (contents, file_size, "UTF-8", charset, NULL, &written, error);
-
-              /* check if the string is utf-8 valid */
-              if (G_UNLIKELY (encoded == NULL))
+              if (file->encoding != MOUSEPAD_ENCODING_UTF_8_FORCED)
                 {
-                  /* set return value */
-                  retval = ERROR_CONVERTING_FAILED;
+                  /* get the encoding charset */
+                  charset = mousepad_encoding_get_charset (file->encoding);
 
-                  goto failed;
+                  /* convert the contents */
+                  encoded = g_convert (contents, file_size, "UTF-8", charset, NULL, &written, error);
+
+                  /* check if the encoding succeed */
+                  if (G_UNLIKELY (encoded == NULL))
+                    {
+                      /* set return value */
+                      retval = ERROR_CONVERTING_FAILED;
+
+                      goto failed;
+                    }
+
+                  /* set new values */
+                  contents = encoded;
+                  file_size = written;
                 }
 
-              /* set new values */
-              contents = encoded;
-              file_size = written;
-
-              /* validate the converted content */
-              goto validate;
+              /* force UTF-8 encoding validity and update location for end of valid data */
+              utf8_valid = g_utf8_make_valid (contents, file_size);
+              contents = utf8_valid;
+              g_utf8_validate (contents, -1, &end);
             }
 
           /* detect the line ending, based on the first eol we match */
@@ -612,8 +611,9 @@ mousepad_file_open (MousepadFile  *file,
             }
 
           /* text view doesn't expect a line ending at end of last line, but Unix and Mac files do */
-          if ((n = g_utf8_find_prev_char(contents, end)) && (*n == '\r' ||
-              (*n == '\n' && (!(n = g_utf8_find_prev_char(contents, n)) || *n != '\r'))))
+          if ((n = g_utf8_find_prev_char (contents, end))
+              && (*n == '\r' || (*n == '\n' && (! (n = g_utf8_find_prev_char (contents, n))
+                                                || *n != '\r'))))
             end--;
 
           /* get the iter at the beginning of the document */
@@ -657,7 +657,7 @@ mousepad_file_open (MousepadFile  *file,
           if (G_LIKELY (g_stat (file->filename, &statb) == 0))
             {
               /* whether the file is readonly (ie. not writable by the user) */
-              mousepad_file_set_readonly (file, !((statb.st_mode & S_IWUSR) != 0));
+              mousepad_file_set_readonly (file, ! ((statb.st_mode & S_IWUSR) != 0));
 
               /* store the file modification time */
               file->mtime = statb.st_mtime;
@@ -686,6 +686,7 @@ mousepad_file_open (MousepadFile  *file,
 
       /* cleanup */
       g_free (encoded);
+      g_free (utf8_valid);
 
       /* close the mapped file */
       g_mapped_file_unref (mapped_file);

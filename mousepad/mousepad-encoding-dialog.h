@@ -38,8 +38,6 @@ GtkWidget        *mousepad_encoding_dialog_new                 (GtkWindow       
 
 MousepadEncoding  mousepad_encoding_dialog_get_encoding        (MousepadEncodingDialog *dialog);
 
-const gchar      *mousepad_encoding_dialog_get_encoding_custom (MousepadEncodingDialog *dialog);
-
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_ENCODING_DIALOG_H__ */
