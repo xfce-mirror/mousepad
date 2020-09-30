@@ -24,7 +24,6 @@ typedef struct _MousepadEncodingInfo MousepadEncodingInfo;
 typedef enum
 {
   MOUSEPAD_ENCODING_NONE,
-  MOUSEPAD_ENCODING_CUSTOM,
 
   MOUSEPAD_ENCODING_ISO_8859_1,
   MOUSEPAD_ENCODING_ISO_8859_2,
@@ -44,6 +43,7 @@ typedef enum
 
   MOUSEPAD_ENCODING_UTF_7,
   MOUSEPAD_ENCODING_UTF_8,
+  MOUSEPAD_ENCODING_UTF_8_FORCED,
   MOUSEPAD_ENCODING_UTF_16LE,
   MOUSEPAD_ENCODING_UTF_16BE,
   MOUSEPAD_ENCODING_UCS_2LE,
@@ -113,8 +113,6 @@ extern guint                      n_encoding_infos;
 const gchar      *mousepad_encoding_get_charset (MousepadEncoding  encoding);
 
 const gchar      *mousepad_encoding_get_name    (MousepadEncoding  encoding);
-
-MousepadEncoding  mousepad_encoding_user        (void);
 
 MousepadEncoding  mousepad_encoding_find        (const gchar      *charset);
 

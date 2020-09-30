@@ -35,7 +35,7 @@ static void     mousepad_encoding_dialog_test_encodings         (MousepadEncodin
 static void     mousepad_encoding_dialog_cancel_test_encodings  (GtkWidget                   *button,
                                                                  MousepadEncodingDialog      *dialog);
 static void     mousepad_encoding_dialog_read_file              (MousepadEncodingDialog      *dialog,
-                                                                 MousepadEncoding encoding);
+                                                                 MousepadEncoding             encoding);
 static void     mousepad_encoding_dialog_button_toggled         (GtkWidget                   *button,
                                                                  MousepadEncodingDialog      *dialog);
 static void     mousepad_encoding_dialog_combo_changed          (GtkComboBox                 *combo,
@@ -57,32 +57,32 @@ struct _MousepadEncodingDialogClass
 
 struct _MousepadEncodingDialog
 {
-  GtkDialog __parent__;
+  GtkDialog      __parent__;
 
   /* the file */
   MousepadDocument *document;
 
   /* encoding test idle id */
-  guint          timer_id;
+  guint             timer_id;
 
   /* boolean to cancel the testing loop */
-  guint          cancel_testing : 1;
+  guint             cancel_testing : 1;
 
-  /* dialog widget */
-  GtkWidget     *button_ok;
-  GtkWidget     *button_cancel;
-  GtkWidget     *error_box;
-  GtkWidget     *error_label;
-  GtkWidget     *progress_bar;
+  /* dialog widgets */
+  GtkWidget        *button_ok;
+  GtkWidget        *button_cancel;
+  GtkWidget        *error_box;
+  GtkWidget        *error_label;
+  GtkWidget        *progress_bar;
 
-  /* the three radio button */
-  GtkWidget     *radio_utf8;
-  GtkWidget     *radio_system;
-  GtkWidget     *radio_other;
+  /* radio buttons */
+  GtkWidget        *radio_utf8;
+  GtkWidget        *radio_system;
+  GtkWidget        *radio_other;
 
   /* other encodings combo box */
-  GtkListStore  *store;
-  GtkWidget     *combo;
+  GtkListStore     *store, *fallback_store;
+  GtkWidget        *combo;
 };
 
 
@@ -122,8 +122,9 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   dialog->button_ok = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_OK"), GTK_RESPONSE_OK);
 
   /* create the header */
-  mousepad_util_dialog_header (GTK_DIALOG (dialog), _("The document was not UTF-8 valid"),
-                               _("Please select an encoding below."), "text-x-generic");
+  mousepad_util_dialog_create_header (GTK_DIALOG (dialog),
+                                      _("The document was not UTF-8 valid."),
+                                      NULL, "text-x-generic");
 
   /* dialog vbox */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -136,30 +137,37 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_widget_show (hbox);
 
   /* encoding radio buttons */
+
+  /* default encoding: UTF-8 */
   dialog->radio_utf8 = gtk_radio_button_new_with_label (NULL, _("Default (UTF-8)"));
   g_signal_connect (G_OBJECT (dialog->radio_utf8), "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_utf8, FALSE, FALSE, 0);
-  gtk_widget_show (dialog->radio_utf8);
 
-  g_get_charset (&system_charset);
-  system_label = g_strdup_printf ("%s (%s)", _("System"), system_charset);
-  dialog->radio_system = gtk_radio_button_new_with_label_from_widget (
-                           GTK_RADIO_BUTTON (dialog->radio_utf8), system_label);
-  g_signal_connect (G_OBJECT (dialog->radio_system), "toggled",
-                    G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_system, FALSE, FALSE, 0);
-  gtk_widget_show (dialog->radio_system);
-  g_free (system_label);
+  /* system charset: added only if different from default */
+  if (! g_get_charset (&system_charset))
+    {
+      system_label = g_strdup_printf ("%s (%s)", _("System"), system_charset);
+      dialog->radio_system = gtk_radio_button_new_with_label_from_widget (
+                               GTK_RADIO_BUTTON (dialog->radio_utf8), system_label);
+      g_signal_connect (G_OBJECT (dialog->radio_system), "toggled",
+                        G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
+      gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_system, FALSE, FALSE, 0);
+      g_free (system_label);
+    }
+  else
+    dialog->radio_system = NULL;
 
+  /* valid conversions to UTF-8 if there are any, else partially valid conversions, else hidden */
   dialog->radio_other = gtk_radio_button_new_with_label_from_widget (
-                          GTK_RADIO_BUTTON (dialog->radio_system), _("Other:"));
+                          GTK_RADIO_BUTTON (dialog->radio_utf8), _("Other:"));
   g_signal_connect (G_OBJECT (dialog->radio_other), "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_other, FALSE, FALSE, 0);
 
-  /* create store */
+  /* create stores */
   dialog->store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_INT);
+  dialog->fallback_store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_INT);
 
   /* combobox with other charsets */
   dialog->combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (dialog->store));
@@ -178,6 +186,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_box_pack_start (GTK_BOX (hbox), dialog->progress_bar, TRUE, TRUE, 0);
   gtk_progress_bar_set_text (GTK_PROGRESS_BAR (dialog->progress_bar),
                              _("Checking encodings..."));
+  gtk_progress_bar_set_show_text (GTK_PROGRESS_BAR (dialog->progress_bar), TRUE);
   gtk_widget_show (dialog->progress_bar);
 
   /* cancel button */
@@ -224,9 +233,11 @@ mousepad_encoding_dialog_finalize (GObject *object)
   if (G_UNLIKELY (dialog->timer_id))
     g_source_remove (dialog->timer_id);
 
-  /* clear and release store */
+  /* clear and release stores */
   gtk_list_store_clear (dialog->store);
+  gtk_list_store_clear (dialog->fallback_store);
   g_object_unref (G_OBJECT (dialog->store));
+  g_object_unref (G_OBJECT (dialog->fallback_store));
 
   (*G_OBJECT_CLASS (mousepad_encoding_dialog_parent_class)->finalize) (object);
 }
@@ -247,13 +258,12 @@ static gboolean
 mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
 {
   MousepadEncodingDialog *dialog = MOUSEPAD_ENCODING_DIALOG (user_data);
-  const gchar            *filename;
   GMappedFile            *mapped_file;
-  GError                 *error = NULL;
-  const gchar            *contents;
   gsize                   length, written;
   guint                   i, n;
+  const gchar            *filename, *contents, *subtitle;
   gchar                  *encoded;
+  gint                    result = 0;
 
   /* get the filename */
   filename = mousepad_file_get_filename (dialog->document->file);
@@ -262,7 +272,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
   if (filename && g_file_test (filename, G_FILE_TEST_EXISTS))
     {
       /* try to open the file */
-      mapped_file = g_mapped_file_new (filename, FALSE, &error);
+      mapped_file = g_mapped_file_new (filename, FALSE, NULL);
 
       if (G_LIKELY (mapped_file))
         {
@@ -276,25 +286,24 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
               for (i = 0, n = 0; i < n_encoding_infos && !dialog->cancel_testing; i++)
                 {
                   /* set progress bar fraction */
-                  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (dialog->progress_bar), (i + 1.00) / n_encoding_infos);
+                  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (dialog->progress_bar),
+                                                 (i + 1.00) / n_encoding_infos);
 
                   /* try to convert the content */
-                  encoded = g_convert (contents, length, "UTF-8", encoding_infos[i].charset, NULL, &written, NULL);
+                  encoded = g_convert (contents, length, "UTF-8", encoding_infos[i].charset,
+                                       NULL, &written, NULL);
 
                   if (G_LIKELY (encoded))
                     {
-                      /* glib uses a faster validator when the string is nul-terminated */
-                      if (G_LIKELY (written > 0 && encoded[written] == '\0'))
-                        written = -1;
-
-                      /* validate the encoded content */
-                      if (G_LIKELY (g_utf8_validate (encoded, written, NULL)))
-                        {
-                          /* insert in the store */
-                          gtk_list_store_insert_with_values (dialog->store, NULL, n++,
-                                                             COLUMN_LABEL, encoding_infos[i].charset,
-                                                             COLUMN_ID, encoding_infos[i].encoding, -1);
-                        }
+                      /* insert in the store */
+                      if (G_LIKELY (g_utf8_validate_len (encoded, written, NULL)))
+                        gtk_list_store_insert_with_values (dialog->store, NULL, n++,
+                                                           COLUMN_LABEL, encoding_infos[i].charset,
+                                                           COLUMN_ID, encoding_infos[i].encoding, -1);
+                      else
+                        gtk_list_store_insert_with_values (dialog->fallback_store, NULL, n++,
+                                                           COLUMN_LABEL, encoding_infos[i].charset,
+                                                           COLUMN_ID, encoding_infos[i].encoding, -1);
 
                       /* cleanup */
                       g_free (encoded);
@@ -315,12 +324,66 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
   gtk_widget_hide (dialog->progress_bar);
   gtk_widget_hide (dialog->button_cancel);
 
-  /* show the radio button and combo box */
-  gtk_widget_show (dialog->radio_other);
-  gtk_widget_show (dialog->combo);
+  /* check if we have something to propose to the user apart from the default enforced UTF-8 */
+  if (! gtk_tree_model_iter_n_children (GTK_TREE_MODEL (dialog->store), NULL))
+    {
+      /* fall back to partially valid conversions if possible */
+      if (G_LIKELY (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (dialog->fallback_store), NULL)))
+        {
+          result = 1;
+          gtk_combo_box_set_model (GTK_COMBO_BOX (dialog->combo),
+                                   GTK_TREE_MODEL (dialog->fallback_store));
+          gtk_button_set_label (GTK_BUTTON (dialog->radio_other), _("Other (partial):"));
+        }
+      else
+        result = 2;
+    }
 
-  /* select the first item */
-  gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->combo), 0);
+  /* show and activate radio buttons as needed */
+  if (result < 2)
+    {
+      /* update the dialog header */
+      if (result == 0)
+        subtitle = _("Other valid encodings were found, please choose below.");
+      else
+        subtitle = _("Other partially valid encodings were found, please choose below.");
+
+      mousepad_util_dialog_update_header (GTK_DIALOG (dialog),
+                                          _("The document was not UTF-8 valid."),
+                                          subtitle, "text-x-generic");
+
+      /* show the default and system radio buttons */
+      gtk_widget_show (dialog->radio_utf8);
+      if (dialog->radio_system)
+        gtk_widget_show (dialog->radio_system);
+
+      /* show the "Other" radio button and combo box */
+      gtk_widget_show (dialog->radio_other);
+      gtk_widget_show (dialog->combo);
+
+      /* activate and select the first item */
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->radio_other), TRUE);
+      gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->combo), 0);
+    }
+  else
+    {
+      /* update the dialog header */
+      mousepad_util_dialog_update_header (GTK_DIALOG (dialog),
+                                          _("The document was not UTF-8 valid."),
+                                          _("No other valid encoding was found."),
+                                          "text-x-generic");
+
+      /* the system charset won't be recognized here, this is just to inform the user
+       * that it is different from UTF-8 */
+      if (dialog->radio_system)
+        {
+          gtk_widget_show (dialog->radio_utf8);
+          gtk_widget_show (dialog->radio_system);
+        }
+
+      /* activate the radio button (maybe hidden) */
+      gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (dialog->radio_utf8));
+    }
 
   return FALSE;
 }
@@ -374,24 +437,38 @@ mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
   gtk_text_buffer_get_bounds (dialog->document->buffer, &start, &end);
   gtk_text_buffer_delete (dialog->document->buffer, &start, &end);
 
-  /* set encoding */
-  mousepad_file_set_encoding (dialog->document->file, encoding);
+  if (G_LIKELY (encoding))
+    {
+      /* set encoding */
+      mousepad_file_set_encoding (dialog->document->file, encoding);
 
-  /* try to open the file */
-  result = mousepad_file_open (dialog->document->file, NULL, &error);
+      /* try to open the file */
+      result = mousepad_file_open (dialog->document->file, NULL, &error);
+    }
+  /* unsupported system charset */
+  else
+    result = 1;
 
   /* set sensitivity of the ok button */
   gtk_widget_set_sensitive (dialog->button_ok, result == 0);
 
+  /* no error, hide the box */
   if (result == 0)
-    {
-      /* no error, hide the box */
-      gtk_widget_hide (dialog->error_box);
-    }
+    gtk_widget_hide (dialog->error_box);
   else
     {
-      /* format message */
-      message = g_strdup_printf ("<b>%s.</b>", error->message);
+      /* conversion error */
+      if (error)
+        {
+          /* format message */
+          message = g_strdup_printf ("<b>%s.</b>", error->message);
+
+          /* clear the error */
+          g_error_free (error);
+        }
+      /* conversion skipped */
+      else
+        message = g_strdup_printf ("<b>%s.</b>", _("Unsupported character set"));
 
       /* set the error label */
       gtk_label_set_markup (GTK_LABEL (dialog->error_label), message);
@@ -401,9 +478,6 @@ mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
 
       /* show the error box */
       gtk_widget_show (dialog->error_box);
-
-      /* clear the error */
-      g_error_free (error);
     }
 }
 
@@ -422,12 +496,12 @@ mousepad_encoding_dialog_button_toggled (GtkWidget              *button,
       if (button == dialog->radio_utf8)
         {
           /* open the file */
-          mousepad_encoding_dialog_read_file (dialog, MOUSEPAD_ENCODING_UTF_8);
+          mousepad_encoding_dialog_read_file (dialog, MOUSEPAD_ENCODING_UTF_8_FORCED);
         }
       else if (button == dialog->radio_system)
         {
           /* open the file */
-          mousepad_encoding_dialog_read_file (dialog, mousepad_encoding_user ());
+          mousepad_encoding_dialog_read_file (dialog, mousepad_encoding_find (NULL));
         }
       else
         {
@@ -450,7 +524,7 @@ mousepad_encoding_dialog_combo_changed (GtkComboBox            *combo,
   if (gtk_widget_get_sensitive (GTK_WIDGET (combo)) && gtk_combo_box_get_active_iter (combo, &iter))
     {
       /* get the id */
-      gtk_tree_model_get (GTK_TREE_MODEL (dialog->store), &iter, COLUMN_ID, &id, -1);
+      gtk_tree_model_get (gtk_combo_box_get_model (combo), &iter, COLUMN_ID, &id, -1);
 
       /* open the file with other encoding */
       mousepad_encoding_dialog_read_file (dialog, id);
@@ -477,9 +551,6 @@ mousepad_encoding_dialog_new (GtkWindow    *parent,
   /* set the filename */
   mousepad_file_set_filename (dialog->document->file, mousepad_file_get_filename (file));
 
-  /* start with the system encoding */
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->radio_system), TRUE);
-
   /* queue idle function */
   mousepad_encoding_dialog_test_encodings (dialog);
 
@@ -494,14 +565,4 @@ mousepad_encoding_dialog_get_encoding (MousepadEncodingDialog *dialog)
   g_return_val_if_fail (MOUSEPAD_IS_ENCODING_DIALOG (dialog), MOUSEPAD_ENCODING_NONE);
 
   return mousepad_file_get_encoding (dialog->document->file);
-}
-
-
-
-const gchar *
-mousepad_encoding_dialog_get_encoding_custom (MousepadEncodingDialog *dialog)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_ENCODING_DIALOG (dialog), NULL);
-
-  return NULL;
 }

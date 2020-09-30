@@ -407,12 +407,12 @@ mousepad_util_entry_error (GtkWidget *widget,
 
 
 void
-mousepad_util_dialog_header (GtkDialog   *dialog,
-                             const gchar *title,
-                             const gchar *subtitle,
-                             const gchar *iconname)
+mousepad_util_dialog_create_header (GtkDialog   *dialog,
+                                    const gchar *title,
+                                    const gchar *subtitle,
+                                    const gchar *icon_name)
 {
-  gchar     *full_title;
+  gchar     *formated_title, *full_title;
   GtkWidget *vbox, *hbox;
   GtkWidget *icon, *label, *line;
   GtkWidget *dialog_vbox;
@@ -434,12 +434,19 @@ mousepad_util_dialog_header (GtkDialog   *dialog,
   gtk_widget_show (hbox);
 
   /* title icon */
-  icon = gtk_image_new_from_icon_name (iconname, GTK_ICON_SIZE_DIALOG);
+  icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_DIALOG);
   gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
   gtk_widget_show (icon);
 
   /* create the title */
-  full_title = g_strdup_printf ("<b><big>%s</big></b>\n%s", title, subtitle);
+  formated_title = g_strdup_printf ("<b><big>%s</big></b>", title);
+  if (subtitle)
+    {
+      full_title = g_strconcat (formated_title, "\n", subtitle, NULL);
+      g_free (formated_title);
+    }
+  else
+    full_title = formated_title;
 
   /* title label */
   label = gtk_label_new (full_title);
@@ -461,6 +468,51 @@ mousepad_util_dialog_header (GtkDialog   *dialog,
   gtk_box_pack_start (GTK_BOX (vbox), dialog_vbox, TRUE, TRUE, 0);
   g_object_unref (G_OBJECT (dialog_vbox));
 }
+
+
+
+void
+mousepad_util_dialog_update_header (GtkDialog   *dialog,
+                                    const gchar *title,
+                                    const gchar *subtitle,
+                                    const gchar *icon_name)
+{
+  gchar     *formated_title, *full_title;
+  GtkWidget *vbox, *hbox;
+  GtkWidget *icon, *label;
+  GList     *children, *child;
+
+  /* retrieve the hbox */
+  vbox = gtk_bin_get_child (GTK_BIN (dialog));
+  children = gtk_container_get_children (GTK_CONTAINER (vbox));
+  hbox = children->data;
+  g_list_free (children);
+
+  /* title icon */
+  children = gtk_container_get_children (GTK_CONTAINER (hbox));
+  child = children;
+  icon = child->data;
+  gtk_image_set_from_icon_name (GTK_IMAGE (icon), icon_name, GTK_ICON_SIZE_DIALOG);
+
+  /* title label */
+  formated_title = g_strdup_printf ("<b><big>%s</big></b>", title);
+  if (subtitle)
+    {
+      full_title = g_strconcat (formated_title, "\n", subtitle, NULL);
+      g_free (formated_title);
+    }
+  else
+    full_title = formated_title;
+
+  child = child->next;
+  label = child->data;
+  gtk_label_set_markup (GTK_LABEL (label), full_title);
+
+  /* cleanup */
+  g_free (full_title);
+  g_list_free (children);
+}
+
 
 
 gint
@@ -849,7 +901,7 @@ mousepad_util_style_schemes_name_compare (gconstpointer a,
   const gchar *name_a, *name_b;
 
   if (G_UNLIKELY (!GTK_SOURCE_IS_STYLE_SCHEME (a)))
-    return -(a != b);
+    return - (a != b);
   if (G_UNLIKELY (!GTK_SOURCE_IS_STYLE_SCHEME (b)))
     return a != b;
 
@@ -910,7 +962,7 @@ mousepad_util_get_sorted_section_names (void)
       if (G_LIKELY (GTK_SOURCE_IS_LANGUAGE (language)))
         {
           /* ignore hidden languages */
-          if(gtk_source_language_get_hidden(language))
+          if (gtk_source_language_get_hidden (language))
             {
               languages++;
               continue;
@@ -919,9 +971,9 @@ mousepad_util_get_sorted_section_names (void)
           /* ensure no duplicates in list */
           if (!g_slist_find_custom (list,
                                     gtk_source_language_get_section (language),
-                                    (GCompareFunc)g_strcmp0))
+                                    (GCompareFunc) g_strcmp0))
             {
-              list = g_slist_prepend (list, (gchar *)gtk_source_language_get_section (language));
+              list = g_slist_prepend (list, (gchar *) gtk_source_language_get_section (language));
             }
         }
       languages++;
@@ -939,7 +991,7 @@ mousepad_util_languages_name_compare (gconstpointer a,
   const gchar *name_a, *name_b;
 
   if (G_UNLIKELY (!GTK_SOURCE_IS_LANGUAGE (a)))
-    return -(a != b);
+    return - (a != b);
   if (G_UNLIKELY (!GTK_SOURCE_IS_LANGUAGE (b)))
     return a != b;
 
@@ -970,7 +1022,7 @@ mousepad_util_get_sorted_languages_for_section (const gchar *section)
       if (G_LIKELY (GTK_SOURCE_IS_LANGUAGE (language)))
         {
           /* ignore hidden languages */
-          if(gtk_source_language_get_hidden(language))
+          if (gtk_source_language_get_hidden (language))
             {
               languages++;
               continue;
@@ -983,5 +1035,78 @@ mousepad_util_get_sorted_languages_for_section (const gchar *section)
       languages++;
     }
 
-  return g_slist_sort(list, (GCompareFunc) mousepad_util_languages_name_compare);
+  return g_slist_sort (list, (GCompareFunc) mousepad_util_languages_name_compare);
 }
+
+
+
+#if !GLIB_CHECK_VERSION (2, 52, 0)
+/*
+ * Copied from GLib 2.66.0:
+ * https://gitlab.gnome.org/GNOME/glib/-/blob/c2c12e42920d6e06c23c87398996827e53c1fc72/glib/gutf8.c#L1791
+ */
+/**
+ * g_utf8_make_valid:
+ * @str: string to coerce into UTF-8
+ * @len: the maximum length of @str to use, in bytes. If @len < 0,
+ *     then the string is nul-terminated.
+ *
+ * If the provided string is valid UTF-8, return a copy of it. If not,
+ * return a copy in which bytes that could not be interpreted as valid Unicode
+ * are replaced with the Unicode replacement character (U+FFFD).
+ *
+ * For example, this is an appropriate function to use if you have received
+ * a string that was incorrectly declared to be UTF-8, and you need a valid
+ * UTF-8 version of it that can be logged or displayed to the user, with the
+ * assumption that it is close enough to ASCII or UTF-8 to be mostly
+ * readable as-is.
+ *
+ * Returns: (transfer full): a valid UTF-8 string whose content resembles @str
+ *
+ * Since: 2.52
+ */
+gchar *
+g_utf8_make_valid (const gchar *str,
+                   gssize       len)
+{
+  GString *string;
+  const gchar *remainder, *invalid;
+  gsize remaining_bytes, valid_bytes;
+
+  g_return_val_if_fail (str != NULL, NULL);
+
+  if (len < 0)
+    len = strlen (str);
+
+  string = NULL;
+  remainder = str;
+  remaining_bytes = len;
+
+  while (remaining_bytes != 0)
+    {
+      if (g_utf8_validate (remainder, remaining_bytes, &invalid))
+        break;
+      valid_bytes = invalid - remainder;
+
+      if (string == NULL)
+        string = g_string_sized_new (remaining_bytes);
+
+      g_string_append_len (string, remainder, valid_bytes);
+      /* append U+FFFD REPLACEMENT CHARACTER */
+      g_string_append (string, "\357\277\275");
+
+      remaining_bytes -= valid_bytes + 1;
+      remainder = invalid + 1;
+    }
+
+  if (string == NULL)
+    return g_strndup (str, len);
+
+  g_string_append_len (string, remainder, remaining_bytes);
+  g_string_append_c (string, '\0');
+
+  g_assert (g_utf8_validate (string->str, -1, NULL));
+
+  return g_string_free (string, FALSE);
+}
+#endif

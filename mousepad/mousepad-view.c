@@ -411,7 +411,7 @@ mousepad_view_key_press_event (GtkWidget   *widget,
   buffer = mousepad_view_get_buffer (view);
 
   /* whether the textview is editable */
-  is_editable = gtk_text_view_get_editable(GTK_TEXT_VIEW (view));
+  is_editable = gtk_text_view_get_editable (GTK_TEXT_VIEW (view));
 
   /* handle the key event */
   switch (event->keyval)
