@@ -44,7 +44,8 @@ main (gint argc, gchar **argv)
   /* create the application */
   application = g_object_new (MOUSEPAD_TYPE_APPLICATION,
                               "application-id", "org.xfce.mousepad",
-                              "flags", G_APPLICATION_HANDLES_COMMAND_LINE,
+                              "flags", G_APPLICATION_HANDLES_COMMAND_LINE
+                                       | G_APPLICATION_HANDLES_OPEN,
                               NULL);
 
   /* run the application */
