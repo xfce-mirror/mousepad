@@ -51,9 +51,8 @@ GtkWidget      *mousepad_window_new                (MousepadApplication *applica
 void            mousepad_window_add                (MousepadWindow   *window,
                                                     MousepadDocument *document);
 
-gboolean        mousepad_window_open_files         (MousepadWindow   *window,
-                                                    const gchar      *working_directory,
-                                                    gchar           **filenames);
+gint            mousepad_window_open_files         (MousepadWindow   *window,
+                                                    gchar           **uris);
 
 void            mousepad_window_show_preferences   (MousepadWindow   *window);
 
