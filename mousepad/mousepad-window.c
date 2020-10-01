@@ -2002,50 +2002,28 @@ mousepad_window_open_file (MousepadWindow   *window,
 
 
 
-gboolean
+gint
 mousepad_window_open_files (MousepadWindow  *window,
-                            const gchar     *working_directory,
-                            gchar          **filenames)
+                            gchar          **uris)
 {
-  guint  n;
   gchar *filename;
+  guint  n;
 
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
-  g_return_val_if_fail (working_directory != NULL, FALSE);
-  g_return_val_if_fail (filenames != NULL, FALSE);
-  g_return_val_if_fail (*filenames != NULL, FALSE);
+  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), 0);
+  g_return_val_if_fail (uris != NULL, 0);
+  g_return_val_if_fail (*uris != NULL, 0);
 
   /* block menu updates */
   lock_menu_updates++;
 
   /* walk through all the filenames */
-  for (n = 0; filenames[n] != NULL; ++n)
+  for (n = 0; uris[n] != NULL; ++n)
     {
-      /* check if the filename looks like an uri */
-      if (strncmp (filenames[n], "file:", 5) == 0)
-        {
-          /* convert the uri to an absolute filename */
-          filename = g_filename_from_uri (filenames[n], NULL, NULL);
-        }
-      else if (g_path_is_absolute (filenames[n]) == FALSE)
-        {
-          /* create an absolute file */
-#if GLIB_CHECK_VERSION (2, 58, 0)
-          /* better, if we can:
-           * see https://gitlab.xfce.org/apps/mousepad/-/merge_requests/19 */
-          filename = g_canonicalize_filename (filenames[n], working_directory);
-#else
-          filename = g_build_filename (working_directory, filenames[n], NULL);
-#endif
-        }
-      else
-        {
-          /* looks like a valid filename */
-          filename = NULL;
-        }
+      /* retrieve the filename */
+      filename = g_filename_from_uri (uris[n], NULL, NULL);
 
       /* open a new tab with the file */
-      mousepad_window_open_file (window, filename ? filename : filenames[n], MOUSEPAD_ENCODING_UTF_8);
+      mousepad_window_open_file (window, filename, MOUSEPAD_ENCODING_UTF_8);
 
       /* cleanup */
       g_free (filename);
@@ -2054,11 +2032,8 @@ mousepad_window_open_files (MousepadWindow  *window,
   /* allow menu updates again */
   lock_menu_updates--;
 
-  /* check if the window contains tabs */
-  if (gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook)) == 0)
-    return FALSE;
-
-  return TRUE;
+  /* return the number of opened documents */
+  return gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
 }
 
 
@@ -3639,31 +3614,26 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
                                     guint             drag_time,
                                     MousepadWindow   *window)
 {
-  gchar     **uris;
-  gchar      *working_directory;
   GtkWidget  *notebook, **document;
   GtkWidget  *child, *label;
+  gchar     **uris;
   gint        i, n_pages;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
 
   /* we only accept text/uri-list drops with format 8 and atleast one byte of data */
-  if (info == TARGET_TEXT_URI_LIST &&
-      gtk_selection_data_get_format (selection_data) == 8 &&
-      gtk_selection_data_get_length (selection_data) > 0)
+  if (info == TARGET_TEXT_URI_LIST
+      && gtk_selection_data_get_format (selection_data) == 8
+      && gtk_selection_data_get_length (selection_data) > 0)
     {
       /* extract the uris from the data */
       uris = g_uri_list_extract_uris ((const gchar *) gtk_selection_data_get_data (selection_data));
 
-      /* get working directory */
-      working_directory = g_get_current_dir ();
-
       /* open the files */
-      mousepad_window_open_files (window, working_directory, uris);
+      mousepad_window_open_files (window, uris);
 
       /* cleanup */
-      g_free (working_directory);
       g_strfreev (uris);
 
       /* finish the drag (copy) */

@@ -223,12 +223,14 @@ static gint
 mousepad_application_command_line (GApplication            *gapplication,
                                    GApplicationCommandLine *command_line)
 {
-  MousepadApplication  *application = MOUSEPAD_APPLICATION (gapplication);
-  GVariantDict         *options;
-  GError               *error = NULL;
-  const gchar          *working_directory;
-  gchar               **filenames = NULL;
-  gboolean              succeed;
+  GVariantDict  *options;
+  GError        *error = NULL;
+  GPtrArray     *files;
+  GFile         *file;
+  gpointer      *data;
+  const gchar   *working_directory;
+  gchar        **filenames = NULL;
+  gint           n, n_files;
 
   /* initialize xfconf */
   if (G_UNLIKELY (xfconf_init (&error) == FALSE))
@@ -247,12 +249,32 @@ mousepad_application_command_line (GApplication            *gapplication,
   working_directory = g_application_command_line_get_cwd (command_line);
 
   /* open an empty window (with an empty document or the files) */
-  succeed = mousepad_application_new_window_with_files (application, NULL, working_directory, filenames);
+  if (working_directory && filenames && (n_files = g_strv_length (filenames)))
+    {
+      /* prepare the GFiles array */
+      files = g_ptr_array_new ();
+      for (n = 0; n < n_files; n++)
+        {
+          file = g_application_command_line_create_file_for_arg (command_line, filenames[n]);
+          g_ptr_array_add (files, file);
+        }
+      data = g_ptr_array_free (files, FALSE);
+
+      /* open the files */
+      mousepad_application_open (gapplication, (GFile **) data, n_files, NULL);
+
+      /* cleanup */
+      for (n = 0; n < n_files; n++)
+        g_object_unref (data[n]);
+      g_free (data);
+    }
+  else
+    mousepad_application_activate (gapplication);
 
   /* cleanup */
   g_free (filenames);
 
-  return succeed ? EXIT_SUCCESS : EXIT_FAILURE;
+  return EXIT_SUCCESS;
 }
 
 
@@ -260,7 +282,20 @@ mousepad_application_command_line (GApplication            *gapplication,
 static void
 mousepad_application_activate (GApplication *gapplication)
 {
-  /* unused for now, handled in command_line */
+  MousepadDocument *document;
+  GtkWidget        *window;
+
+  /* create a new window (signals added and already hooked up) */
+  window = mousepad_application_create_window (MOUSEPAD_APPLICATION (gapplication));
+
+  /* create a new document */
+  document = mousepad_document_new ();
+
+  /* add the document to the new window */
+  mousepad_window_add (MOUSEPAD_WINDOW (window), document);
+
+  /* show the window */
+  gtk_widget_show (window);
 }
 
 
@@ -271,7 +306,56 @@ mousepad_application_open (GApplication  *gapplication,
                            gint           n_files,
                            const gchar   *hint)
 {
-  /* unused for now, handled in command_line */
+  GtkWidget *window;
+  GPtrArray *uris;
+  gpointer  *data;
+  gchar     *filename, *uri;
+  gint       n, valid = 0, opened = 0;
+
+  /* create a new window (signals added and already hooked up) */
+  window = mousepad_application_create_window (MOUSEPAD_APPLICATION (gapplication));
+
+  /* prepare the uris array */
+  uris = g_ptr_array_new ();
+  for (n = 0; n < n_files; n++)
+    {
+      uri = g_file_get_uri (files[n]);
+      filename = g_filename_from_uri (uri, NULL, NULL);
+
+      /* there could be invalid uris when the call comes from gdbus */
+      if (filename)
+        {
+          g_ptr_array_add (uris, uri);
+          valid++;
+        }
+      else
+        {
+          g_printerr ("'%s' is not a valid uri\n", uri);
+          g_free (uri);
+        }
+
+        g_free (filename);
+    }
+
+  if (valid > 0)
+    {
+      g_ptr_array_add (uris, NULL);
+      data = g_ptr_array_free (uris, FALSE);
+
+      /* open the files */
+      opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), (gchar **) data);
+
+      /* cleanup */
+      g_strfreev ((gchar **) data);
+    }
+  else
+    g_ptr_array_free (uris, TRUE);
+
+  /* if at least one file was finally opened, show the window */
+  if (opened > 0)
+    gtk_widget_show (window);
+  else
+    gtk_widget_destroy (window);
 }
 
 
@@ -328,10 +412,19 @@ mousepad_application_shutdown (GApplication *gapplication)
 static GtkWidget *
 mousepad_application_create_window (MousepadApplication *application)
 {
-  GtkWidget *window;
+  GtkWindowGroup *window_group;
+  GtkWidget      *window;
 
   /* create a new window */
   window = mousepad_window_new (application);
+
+  /* add window to own window group so that grabs only affect parent window */
+  window_group = gtk_window_group_new ();
+  gtk_window_group_add_window (window_group, GTK_WINDOW (window));
+  g_object_unref (window_group);
+
+  /* place the window on the right screen */
+  gtk_window_set_screen (GTK_WINDOW (window), gdk_screen_get_default ());
 
   /* connect signals */
   g_signal_connect (G_OBJECT (window), "new-window-with-document",
@@ -389,55 +482,6 @@ mousepad_application_new_window (MousepadWindow      *existing,
 {
   /* trigger new document function */
   mousepad_application_new_window_with_document (existing, NULL, -1, -1, application);
-}
-
-
-
-gboolean
-mousepad_application_new_window_with_files (MousepadApplication  *application,
-                                            GdkScreen            *screen,
-                                            const gchar          *working_dir,
-                                            gchar               **filenames)
-{
-  GtkWidget        *window;
-  gboolean          succeed = FALSE;
-  MousepadDocument *document;
-  GtkWindowGroup   *window_group;
-
-  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), succeed);
-  g_return_val_if_fail (screen == NULL || GDK_IS_SCREEN (screen), succeed);
-
-  /* create a new window (signals added and already hooked up) */
-  window = mousepad_application_create_window (application);
-
-  /* add window to own window group so that grabs only affect parent window */
-  window_group = gtk_window_group_new ();
-  gtk_window_group_add_window (window_group, GTK_WINDOW (window));
-  g_object_unref (window_group);
-
-  /* place the window on the right screen */
-  gtk_window_set_screen (GTK_WINDOW (window), screen ? screen : gdk_screen_get_default ());
-
-  /* try to open the files if any, or open an empty document */
-  if (working_dir && filenames && g_strv_length (filenames))
-    succeed = mousepad_window_open_files (MOUSEPAD_WINDOW (window), working_dir, filenames);
-  else
-    {
-      /* create a new document */
-      document = mousepad_document_new ();
-
-      /* add the document to the new window */
-      mousepad_window_add (MOUSEPAD_WINDOW (window), document);
-      succeed = TRUE;
-    }
-
-  /* show the window */
-  if (succeed == TRUE)
-    gtk_widget_show (window);
-  else
-    gtk_widget_destroy (window);
-
-  return succeed;
 }
 
 
