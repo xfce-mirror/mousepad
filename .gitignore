@@ -1,4 +1,6 @@
 *.o
+*.la
+*.lo
 *.gmo
 *.policy
 Makefile
@@ -31,6 +33,7 @@ ltmain.sh
 missing
 mkinstalldirs
 mousepad/.deps/
+mousepad/.libs/
 mousepad/mousepad
 mousepad/mousepad-marshal.c
 mousepad/mousepad-marshal.h
