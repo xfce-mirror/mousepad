@@ -786,6 +786,33 @@ mousepad_print_new (void)
 
 
 
+static GObject *
+mousepad_print_retrieve_dialog (MousepadPrint *print,
+                                GtkWindow     *parent)
+{
+  GList *windows, *window;
+
+  /* disconnect this signal */
+  mousepad_disconnect_by_func (print, mousepad_print_retrieve_dialog, parent);
+
+  /* retrieve the dialog window and add it to the application windows list */
+  windows = gtk_window_list_toplevels ();
+  for (window = windows; window != NULL; window = window->next)
+    if (GTK_IS_DIALOG (window->data) && gtk_window_get_transient_for (window->data) == parent)
+      {
+        gtk_window_set_application (GTK_WINDOW (window->data),
+                                    gtk_window_get_application (parent));
+        break;
+      }
+
+  /* cleanup */
+  g_list_free (windows);
+
+  return NULL;
+}
+
+
+
 gboolean
 mousepad_print_document_interactive (MousepadPrint     *print,
                                      MousepadDocument  *document,
@@ -810,6 +837,10 @@ mousepad_print_document_interactive (MousepadPrint     *print,
 
   /* allow async printing is support by the platform */
   gtk_print_operation_set_allow_async (GTK_PRINT_OPERATION (print), TRUE);
+
+  /* connect to "create-custom-widget" signal to retrieve the print dialog when shown */
+  g_signal_connect (print, "create-custom-widget",
+                    G_CALLBACK (mousepad_print_retrieve_dialog), parent);
 
   /* run the operation */
   result = gtk_print_operation_run (GTK_PRINT_OPERATION (print),

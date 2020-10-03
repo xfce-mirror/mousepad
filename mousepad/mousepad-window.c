@@ -4211,80 +4211,30 @@ mousepad_window_action_open (GSimpleAction *action,
                              gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GtkWidget      *chooser;
-  GtkWidget      *hbox, *label, *combobox, *button;
-  const gchar    *filename;
   GSList         *filenames, *li;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* create new file chooser dialog */
-  chooser = gtk_file_chooser_dialog_new (_("Open File"),
-                                         GTK_WINDOW (window),
-                                         GTK_FILE_CHOOSER_ACTION_OPEN,
-                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                         NULL);
-  button = mousepad_util_image_button ("document-open", _("_Open"));
-  gtk_widget_set_can_default (button, TRUE);
-  gtk_dialog_add_action_widget (GTK_DIALOG (chooser), button, GTK_RESPONSE_ACCEPT);
-  gtk_dialog_set_default_response (GTK_DIALOG (chooser), GTK_RESPONSE_ACCEPT);
-  gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), TRUE);
-  gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (chooser), TRUE);
-
-  /* encoding selector */
-  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-  gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
-  gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (chooser), hbox);
-  gtk_widget_show (hbox);
-
-  label = gtk_label_new_with_mnemonic (_("_Encoding:"));
-  gtk_label_set_xalign (GTK_LABEL (label), 1.0);
-  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
-
-  combobox = gtk_combo_box_new ();
-  gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label), combobox);
-  gtk_widget_show (combobox);
-
-  /* select the active document in the file chooser */
-  filename = mousepad_file_get_filename (window->active->file);
-  if (filename && g_file_test (filename, G_FILE_TEST_EXISTS))
-    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (chooser), filename);
-
   /* run the dialog */
-  if (G_LIKELY (gtk_dialog_run (GTK_DIALOG (chooser)) == GTK_RESPONSE_ACCEPT))
+  if (G_LIKELY (mousepad_dialogs_open (GTK_WINDOW (window),
+                                       mousepad_file_get_filename (window->active->file),
+                                       &filenames)
+                == GTK_RESPONSE_ACCEPT))
     {
-      /* hide the dialog */
-      gtk_widget_hide (chooser);
-
-      /* get a list of selected filenames */
-      filenames = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (chooser));
-
       /* lock menu updates */
       lock_menu_updates++;
 
-      /* open all the selected filenames in a new tab */
+      /* open all the selected filenames in new tabs */
       for (li = filenames; li != NULL; li = li->next)
-        {
-          /* open the file */
-          mousepad_window_open_file (window, li->data, MOUSEPAD_ENCODING_UTF_8);
-
-          /* cleanup */
-          g_free (li->data);
-        }
+        mousepad_window_open_file (window, li->data, MOUSEPAD_ENCODING_UTF_8);
 
       /* cleanup */
-      g_slist_free (filenames);
+      g_slist_free_full (filenames, g_free);
 
       /* allow menu updates again */
       lock_menu_updates--;
     }
-
-  /* destroy dialog */
-  gtk_widget_destroy (chooser);
 }
 
 
@@ -4466,67 +4416,39 @@ mousepad_window_action_save_as (GSimpleAction *action,
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document = window->active;
-  gchar            *filename;
-  const gchar      *current_filename;
-  GtkWidget        *dialog;
-  GtkWidget        *button;
+  gchar            *filename = NULL;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* create the dialog */
-  dialog = gtk_file_chooser_dialog_new (_("Save As"),
-                                        GTK_WINDOW (window), GTK_FILE_CHOOSER_ACTION_SAVE,
-                                        _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                        NULL);
-
-  button = mousepad_util_image_button ("document-save", _("_Save"));
-  gtk_widget_set_can_default (button, TRUE);
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
-  gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
-  gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
-
-  /* set the current filename if there is one, or use the last save location */
-  current_filename = mousepad_file_get_filename (document->file);
-  if (current_filename)
-    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), current_filename);
-  else if (last_save_location)
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), last_save_location);
-
+  /* initialize save state */
   window->save_succeed = FALSE;
 
   /* run the dialog */
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+  if (mousepad_dialogs_save_as (GTK_WINDOW (window),
+                                mousepad_file_get_filename (document->file),
+                                last_save_location, &filename)
+      == GTK_RESPONSE_OK && G_LIKELY (filename))
     {
-      /* get the new filename */
-      filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+      /* set the new filename */
+      mousepad_file_set_filename (document->file, filename);
 
-      if (G_LIKELY (filename))
+      /* save the file with the function above */
+      g_action_group_activate_action (G_ACTION_GROUP (window), "file.save", NULL);
+
+      if (G_LIKELY (window->save_succeed))
         {
-          /* set the new filename */
-          mousepad_file_set_filename (document->file, filename);
+          /* add to the recent history if saving succeeded */
+          mousepad_window_recent_add (window, document->file);
 
-          /* save the file with the function above */
-          g_action_group_activate_action (G_ACTION_GROUP (window), "file.save", NULL);
-
-          if (G_LIKELY (window->save_succeed))
-            {
-              /* add to the recent history if saving succeeded */
-              mousepad_window_recent_add (window, document->file);
-
-              /* update last save location */
-              g_free (last_save_location);
-              last_save_location = g_path_get_dirname (filename);
-            }
-
-          /* cleanup */
-          g_free (filename);
+          /* update last save location */
+          g_free (last_save_location);
+          last_save_location = g_path_get_dirname (filename);
         }
     }
 
-  /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  /* cleanup */
+  g_free (filename);
 }
 
 
@@ -4660,7 +4582,7 @@ mousepad_window_action_revert (GSimpleAction *action,
           if (! window->save_succeed)
             return;
         }
-      else if (response == MOUSEPAD_RESPONSE_CANCEL)
+      else if (response == MOUSEPAD_RESPONSE_CANCEL || response < 0)
         {
           /* meh, first click revert and then cancel... pussy... */
           return;
@@ -5373,9 +5295,14 @@ mousepad_window_action_replace (GSimpleAction *action,
       /* create a new dialog */
       window->replace_dialog = mousepad_replace_dialog_new ();
 
-      /* popup the dialog */
-      gtk_window_set_destroy_with_parent (GTK_WINDOW (window->replace_dialog), TRUE);
+      /* set parent window */
       gtk_window_set_transient_for (GTK_WINDOW (window->replace_dialog), GTK_WINDOW (window));
+
+      /* add the dialog to the application windows list */
+      gtk_window_set_application (GTK_WINDOW (window->replace_dialog),
+                                  gtk_window_get_application (GTK_WINDOW (window)));
+
+      /* popup the dialog */
       gtk_widget_show (window->replace_dialog);
 
       /* connect signals */
@@ -5442,6 +5369,13 @@ mousepad_window_action_select_font (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   dialog = gtk_font_chooser_dialog_new (_("Choose Mousepad Font"), GTK_WINDOW (window));
+
+  /* set parent window */
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
+
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog),
+                              gtk_window_get_application (GTK_WINDOW (window)));
 
   /* set the current font name */
   font_name = MOUSEPAD_SETTING_GET_STRING (FONT_NAME);
