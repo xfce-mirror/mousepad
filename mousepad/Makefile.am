@@ -10,16 +10,15 @@ AM_CPPFLAGS = \
 	-DGTK_DISABLE_SINGLE_INCLUDES \
 	$(PLATFORM_CPPFLAGS)
 
-bin_PROGRAMS = \
-	mousepad
+bin_PROGRAMS = mousepad
+lib_LTLIBRARIES = libmousepad.la
 
 mousepad_built_sources = \
 	mousepad-marshal.c \
 	mousepad-marshal.h
 
-mousepad_SOURCES = \
+libmousepad_la_SOURCES = \
 	$(mousepad_built_sources) \
-	main.c \
 	mousepad-application.c \
 	mousepad-application.h \
 	mousepad-close-button.c \
@@ -57,7 +56,7 @@ mousepad_SOURCES = \
 	mousepad-window.c \
 	mousepad-window.h
 
-mousepad_CFLAGS = \
+libmousepad_la_CFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GTHREAD_CFLAGS) \
@@ -67,11 +66,11 @@ mousepad_CFLAGS = \
 	-DMOUSEPAD_GSETTINGS_SCHEMA_DIR=\""$(datadir)/glib-2.0/schemas"\" \
 	-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_60
 
-mousepad_LDFLAGS = \
+libmousepad_la_LDFLAGS = \
 	-no-undefined \
 	$(PLATFORM_LDFLAGS)
 
-mousepad_LDADD = \
+libmousepad_la_LIBADD = \
 	$(GLIB_LIBS) \
 	$(GTK_LIBS)	\
 	$(GTHREAD_LIBS) \
@@ -79,9 +78,14 @@ mousepad_LDADD = \
 	$(XFCONF_LIBS)
 
 if WITH_KEYFILE_SETTINGS
-mousepad_CFLAGS += \
+libmousepad_la_CFLAGS += \
 	-DMOUSEPAD_SETTINGS_KEYFILE_BACKEND=1
 endif
+
+mousepad_SOURCES = main.c
+mousepad_CFLAGS = $(AM_CPPFLAGS) $(libmousepad_la_CFLAGS)
+mousepad_LDFLAGS = $(libmousepad_la_LDFLAGS) $(libmousepad_la_LIBADD)
+mousepad_LDADD = libmousepad.la
 
 if MAINTAINER_MODE
 DISTCLEANFILES = \
@@ -92,16 +96,16 @@ BUILT_SOURCES = \
 	$(mousepad_built_sources) \
 	mousepad-resources.c
 
-mousepad_resource_deps = $(shell glib-compile-resources --generate-dependencies --sourcedir $(srcdir)/resources --sourcedir $(builddir)/resources $(builddir)/resources/mousepad.gresource.xml)
+mousepad_resource_deps = $(shell glib-compile-resources --generate-dependencies --sourcedir $(srcdir)/resources --sourcedir $(srcdir)/resources/mousepad.gresource.xml)
 
-mousepad_resources_c_deps = $(builddir)/resources/mousepad.gresource.xml $(mousepad_resource_deps)
+mousepad_resources_c_deps = $(srcdir)/resources/mousepad.gresource.xml $(mousepad_resource_deps)
 
 mousepad-resources.c: $(mousepad_resources_c_deps)
 	$(AM_V_GEN) glib-compile-resources \
 		--target="$@" \
 		--sourcedir="$(srcdir)/resources" \
 		--sourcedir="$(builddir)/resources" \
-		--generate-source "$(builddir)/resources/mousepad.gresource.xml"
+		--generate-source "$(srcdir)/resources/mousepad.gresource.xml"
 
 mousepad-marshal.h: mousepad-marshal.list Makefile
 	$(AM_V_GEN) glib-genmarshal --header --prefix=_mousepad_marshal $< > $@
