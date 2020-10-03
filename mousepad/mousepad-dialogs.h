@@ -65,6 +65,15 @@ gint       mousepad_dialogs_externally_modified (GtkWindow     *parent);
 
 gint       mousepad_dialogs_revert              (GtkWindow     *parent);
 
+gint       mousepad_dialogs_save_as             (GtkWindow     *parent,
+                                                 const gchar   *current_filename,
+                                                 const gchar   *last_save_location,
+                                                 gchar        **filename);
+
+gint       mousepad_dialogs_open                (GtkWindow     *parent,
+                                                 const gchar   *filename,
+                                                 GSList       **filenames);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_DIALOGS_H__ */
