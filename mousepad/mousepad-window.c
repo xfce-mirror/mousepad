@@ -899,7 +899,7 @@ mousepad_window_create_contextual_menus (MousepadWindow *window)
   /* set textview menu tooltips */
   tooltips = g_ptr_array_new ();
   for (index = 0; index < G_N_ELEMENTS (textview_menu_indices); index++)
-    g_ptr_array_add (tooltips, (gpointer) menubar_tooltips[index]);
+    g_ptr_array_add (tooltips, (gpointer) menubar_tooltips[textview_menu_indices[index]]);
   index = 0;
   mousepad_window_menu_set_tooltips_full (window, window->textview_menu, tooltips, &index);
   g_ptr_array_free (tooltips, TRUE);
@@ -913,7 +913,7 @@ mousepad_window_create_contextual_menus (MousepadWindow *window)
   /* set tab menu tooltips */
   tooltips = g_ptr_array_new ();
   for (index = 0; index < G_N_ELEMENTS (tab_menu_indices); index++)
-    g_ptr_array_add (tooltips, (gpointer) menubar_tooltips[index]);
+    g_ptr_array_add (tooltips, (gpointer) menubar_tooltips[tab_menu_indices[index]]);
   index = 0;
   mousepad_window_menu_set_tooltips_full (window, window->tab_menu, tooltips, &index);
   g_ptr_array_free (tooltips, TRUE);
@@ -5369,6 +5369,7 @@ mousepad_window_action_replace_switch_page (MousepadWindow *window)
 }
 
 
+
 static void
 mousepad_window_action_replace_destroy (MousepadWindow *window)
 {
@@ -5382,6 +5383,7 @@ mousepad_window_action_replace_destroy (MousepadWindow *window)
   /* reset the dialog variable */
   window->replace_dialog = NULL;
 }
+
 
 
 static void
