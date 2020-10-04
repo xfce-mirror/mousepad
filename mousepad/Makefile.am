@@ -19,6 +19,8 @@ mousepad_built_sources = \
 
 libmousepad_la_SOURCES = \
 	$(mousepad_built_sources) \
+	mousepad-app-activatable.c \
+	mousepad-app-activatable.h \
 	mousepad-application.c \
 	mousepad-application.h \
 	mousepad-close-button.c \
