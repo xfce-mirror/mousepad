@@ -66,4 +66,6 @@ DISTCLEANFILES =								\
 	$(polkit_in_files)							\
 	$(polkit_policy_DATA)
 
+DISTCHECK_CONFIGURE_FLAGS = --enable-introspection
+
 # vi:set ts=8 sw=8 noet ai nocindent syntax=automake:
