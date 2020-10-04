@@ -456,6 +456,18 @@ mousepad_application_shutdown (GApplication *gapplication)
 
 
 
+MousepadApplication *
+mousepad_application_get (void)
+{
+  GApplication *app = g_application_get_default ();
+
+  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (app), NULL);
+
+  return MOUSEPAD_APPLICATION (app);
+}
+
+
+
 static GtkWidget *
 mousepad_application_create_window (MousepadApplication *application)
 {

@@ -34,6 +34,8 @@ typedef struct _MousepadApplication      MousepadApplication;
 
 GType                mousepad_application_get_type                   (void) G_GNUC_CONST;
 
+MousepadApplication *mousepad_application_get                        (void);
+
 void                 mousepad_application_show_preferences           (MousepadApplication  *application,
                                                                       GtkWindow            *transient_for);
 
