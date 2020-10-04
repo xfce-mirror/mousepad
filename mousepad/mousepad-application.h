@@ -34,6 +34,8 @@ typedef struct _MousepadApplication      MousepadApplication;
 
 GType                mousepad_application_get_type                   (void) G_GNUC_CONST;
 
+MousepadApplication *mousepad_application_get                        (void);
+
 gboolean             mousepad_application_new_window_with_files      (MousepadApplication  *application,
                                                                       GdkScreen            *screen,
                                                                       const gchar          *working_dir,
