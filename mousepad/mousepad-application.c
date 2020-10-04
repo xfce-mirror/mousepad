@@ -14,6 +14,7 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <mousepad/mousepad-app-activatable.h>
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-application.h>
@@ -78,6 +79,7 @@ struct _MousepadApplication
 
   /* plugin engine */
   PeasEngine *engine;
+  PeasExtensionSet *extensions;
 };
 
 
@@ -125,6 +127,30 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
 
 
 static void
+mousepad_application_extension_added (PeasExtensionSet    *extensions,
+                                      PeasPluginInfo      *info,
+                                      PeasExtension       *extension,
+                                      MousepadApplication *application)
+{
+  mousepad_app_activatable_activate (MOUSEPAD_APP_ACTIVATABLE (extension));
+  g_debug ("Activated extension: %s", peas_plugin_info_get_name (info));
+}
+
+
+
+static void
+mousepad_application_extension_removed (PeasExtensionSet    *extensions,
+                                        PeasPluginInfo      *info,
+                                        PeasExtension       *extension,
+                                        MousepadApplication *application)
+{
+  mousepad_app_activatable_deactivate (MOUSEPAD_APP_ACTIVATABLE (extension));
+  g_debug ("Deactivated extension: %s", peas_plugin_info_get_name (info));
+}
+
+
+
+static void
 mousepad_application_init (MousepadApplication *application)
 {
   gchar *plugin_dir;
@@ -155,6 +181,27 @@ mousepad_application_init (MousepadApplication *application)
   peas_engine_add_search_path (application->engine, plugin_dir, NULL);
   g_debug ("Added user plugin path: %s", plugin_dir);
   g_free (plugin_dir);
+
+  /* initialize the extensions set */
+  application->extensions =
+    peas_extension_set_new (application->engine,
+                            MOUSEPAD_TYPE_APP_ACTIVATABLE,
+                            "application", application,
+                            NULL);
+
+  g_signal_connect (application->extensions,
+                    "extension-added",
+                    G_CALLBACK (mousepad_application_extension_added),
+                    application);
+  g_signal_connect (application->extensions,
+                    "extension-removed",
+                    G_CALLBACK (mousepad_application_extension_removed),
+                    application);
+
+  /* activate the initial extensions */
+  peas_extension_set_foreach (application->extensions,
+                              (PeasExtensionSetForeachFunc) mousepad_application_extension_added,
+                              application);
 }
 
 
