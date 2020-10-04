@@ -121,6 +121,31 @@ EXTRA_DIST = \
 	mousepad-marshal.list \
 	org.xfce.mousepad.gschema.xml
 
+CLEANFILES =
+
+-include $(INTROSPECTION_MAKEFILE)
+INTROSPECTION_GIRS =
+INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --add-include-path=$(builddir)
+INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir) --includedir=$(builddir)
+
+if HAVE_INTROSPECTION
+introspection_sources = $(libmousepad_la_SOURCES)
+Mousepad-1.0.gir: libmousepad.la
+Mousepad_1_0_gir_INCLUDES = GLib-2.0 GObject-2.0 Gio-2.0 Gtk-3.0
+Mousepad_1_0_gir_CFLAGS = $(AM_CPPFLAGS) $(libmousepad_la_CFLAGS)
+Mousepad_1_0_gir_LIBS = libmousepad.la
+Mousepad_1_0_gir_FILES = $(introspection_sources)
+INTROSPECTION_GIRS += Mousepad-1.0.gir
+
+girdir = $(datadir)/gir-1.0
+gir_DATA = $(INTROSPECTION_GIRS)
+
+typelibdir = $(libdir)/girepository-1.0
+typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+
+CLEANFILES += $(gir_DATA) $(typelib_DATA)
+endif
+
 gsettings_SCHEMAS = org.xfce.mousepad.gschema.xml
 @GSETTINGS_RULES@
 
