@@ -18,6 +18,7 @@
 #define __MOUSEPAD_APPLICATION_H__
 
 #include <gtk/gtk.h>
+#include <libpeas/peas.h>
 
 G_BEGIN_DECLS
 
@@ -41,6 +42,8 @@ GPtrArray           *mousepad_application_get_languages_tooltips     (MousepadAp
 GPtrArray           *mousepad_application_get_style_schemes_tooltips (MousepadApplication  *application);
 
 gsize                mousepad_application_get_n_style_schemes        (MousepadApplication  *application);
+
+PeasEngine          *mousepad_application_get_plugin_engine          (MousepadApplication  *application);
 
 G_END_DECLS
 

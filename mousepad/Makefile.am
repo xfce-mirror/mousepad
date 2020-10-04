@@ -63,7 +63,10 @@ libmousepad_la_CFLAGS = \
 	$(GTKSOURCEVIEW_CFLAGS) \
 	$(PLATFORM_CFLAGS) \
 	$(XFCONF_CFLAGS) \
+	$(LIBPEAS_CFLAGS) \
+	$(LIBPEASGTK_CFLAGS) \
 	-DMOUSEPAD_GSETTINGS_SCHEMA_DIR=\""$(datadir)/glib-2.0/schemas"\" \
+	-DMOUSEPAD_PLUGIN_DIR=\""$(pkgdatadir)/plugins"\" \
 	-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_44
 
 libmousepad_la_LDFLAGS = \
@@ -75,7 +78,9 @@ libmousepad_la_LIBADD = \
 	$(GTK_LIBS)	\
 	$(GTHREAD_LIBS) \
 	$(GTKSOURCEVIEW_LIBS) \
-	$(XFCONF_LIBS)
+	$(XFCONF_LIBS) \
+	$(LIBPEAS_LIBS) \
+	$(LIBPEASGTK_LIBS)
 
 if WITH_KEYFILE_SETTINGS
 libmousepad_la_CFLAGS += \
