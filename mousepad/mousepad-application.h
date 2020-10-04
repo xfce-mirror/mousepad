@@ -18,6 +18,7 @@
 #define __MOUSEPAD_APPLICATION_H__
 
 #include <gtk/gtk.h>
+#include <libpeas/peas.h>
 
 G_BEGIN_DECLS
 
@@ -35,6 +36,8 @@ GType                mousepad_application_get_type                   (void) G_GN
 
 void                 mousepad_application_show_preferences           (MousepadApplication  *application,
                                                                       GtkWindow            *transient_for);
+
+PeasEngine          *mousepad_application_get_plugin_engine          (MousepadApplication  *application);
 
 G_END_DECLS
 

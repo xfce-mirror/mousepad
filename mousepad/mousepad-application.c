@@ -26,6 +26,9 @@
 
 
 
+/* Gobject virtual functions */
+static void        mousepad_application_finalize                  (GObject                  *object);
+
 /* GApplication virtual functions, in the order in which they are called on launch */
 static gint        mousepad_application_handle_local_options      (GApplication             *gapplication,
                                                                    GVariantDict             *options);
@@ -67,6 +70,9 @@ struct _MousepadApplication
 
   /* the preferences dialog when shown */
   GtkWidget *prefs_dialog;
+
+  /* plugin engine */
+  PeasEngine *engine;
 };
 
 
@@ -99,6 +105,7 @@ static void
 mousepad_application_class_init (MousepadApplicationClass *klass)
 {
   GApplicationClass *application_class = G_APPLICATION_CLASS (klass);
+  GObjectClass      *object_class      = G_OBJECT_CLASS (klass);
 
   application_class->handle_local_options = mousepad_application_handle_local_options;
   application_class->startup = mousepad_application_startup;
@@ -106,6 +113,8 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
   application_class->activate = mousepad_application_activate;
   application_class->open = mousepad_application_open;
   application_class->shutdown = mousepad_application_shutdown;
+
+  object_class->finalize = mousepad_application_finalize;
 }
 
 
@@ -113,6 +122,8 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
 static void
 mousepad_application_init (MousepadApplication *application)
 {
+  gchar *plugin_dir;
+
   /* default application name */
   g_set_application_name (_("Mousepad"));
 
@@ -121,6 +132,40 @@ mousepad_application_init (MousepadApplication *application)
 
   /* add our option entries to the application */
   g_application_add_main_option_entries (G_APPLICATION (application), option_entries);
+
+  /* initialize the libpeas plugin engine */
+  application->engine = peas_engine_new_with_nonglobal_loaders ();
+
+  /* enable loaders */
+  // peas_engine_enable_loader (application->engine, "python");  /* Python 2 */
+  // peas_engine_enable_loader (application->engine, "python3"); /* Python 3 */
+  // peas_engine_enable_loader (application->engine, "lua5.1");  /* Lua 5.1 */
+
+  /* add the system-wide plugin path */
+  peas_engine_add_search_path (application->engine, MOUSEPAD_PLUGIN_DIR, NULL);
+  g_debug ("Added system plugin path: %s", MOUSEPAD_PLUGIN_DIR);
+
+  /* add the user's plugin path */
+  plugin_dir = g_build_filename (g_get_user_config_dir (), "mousepad", "plugins", NULL);
+  peas_engine_add_search_path (application->engine, plugin_dir, NULL);
+  g_debug ("Added user plugin path: %s", plugin_dir);
+  g_free (plugin_dir);
+}
+
+
+
+static void
+mousepad_application_finalize (GObject *object)
+{
+  MousepadApplication *application = MOUSEPAD_APPLICATION (object);
+
+  if (PEAS_IS_ENGINE (application->engine))
+    {
+      g_object_unref (application->engine);
+      application->engine = NULL;
+    }
+
+  G_OBJECT_CLASS (mousepad_application_parent_class)->finalize (object);
 }
 
 
@@ -698,3 +743,15 @@ mousepad_application_action_quit (GSimpleAction *action,
   /* enter the loop */
   mousepad_application_dispatch_source (source);
 }
+
+
+
+PeasEngine *
+mousepad_application_get_plugin_engine (MousepadApplication  *application)
+{
+  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), NULL);
+  g_return_val_if_fail (PEAS_IS_ENGINE (application->engine), NULL);
+
+  return application->engine;
+}
+
