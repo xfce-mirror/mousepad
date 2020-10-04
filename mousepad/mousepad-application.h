@@ -41,12 +41,6 @@ gboolean             mousepad_application_new_window_with_files      (MousepadAp
 void                 mousepad_application_show_preferences           (MousepadApplication  *application,
                                                                       GtkWindow            *transient_for);
 
-GPtrArray           *mousepad_application_get_languages_tooltips     (MousepadApplication  *application);
-
-GPtrArray           *mousepad_application_get_style_schemes_tooltips (MousepadApplication  *application);
-
-gsize                mousepad_application_get_n_style_schemes        (MousepadApplication  *application);
-
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_APPLICATION_H__ */
