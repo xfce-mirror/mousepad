@@ -14,12 +14,14 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <mousepad/mousepad-application.h>
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-prefs-dialog.h>
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-util.h>
 
 #include <gtksourceview/gtksource.h>
+#include <libpeas-gtk/peas-gtk.h>
 
 
 
@@ -59,6 +61,9 @@
 #define WID_TOOLBAR_STYLE_LABEL             "/prefs/window/toolbar/style-label"
 #define WID_TOOLBAR_ICON_SIZE_COMBO         "/prefs/window/toolbar/icon-size-combo"
 #define WID_TOOLBAR_ICON_SIZE_LABEL         "/prefs/window/toolbar/icon-size-label"
+
+/* Plugins page */
+#define WID_PLUGINS_CONTAINER               "/prefs/plugins/container"
 
 
 
@@ -399,6 +404,25 @@ mousepad_prefs_dialog_toolbar_icon_size_setting_changed (MousepadPrefsDialog *se
 
 
 static void
+mousepad_prefs_dialog_init_plugins_tab (MousepadPrefsDialog *self)
+{
+  MousepadApplication *app;
+  PeasEngine          *engine;
+  GtkWidget           *plugin_container;
+  GtkWidget           *plugin_manager;
+
+  app = mousepad_application_get ();
+  engine = mousepad_application_get_plugin_engine (app);
+  plugin_container = mousepad_builder_get_widget (self->builder, WID_PLUGINS_CONTAINER);
+  plugin_manager = peas_gtk_plugin_manager_new (engine);
+
+  gtk_box_pack_start (GTK_BOX (plugin_container), plugin_manager, TRUE, TRUE, 0);
+  gtk_widget_show_all (plugin_manager);
+}
+
+
+
+static void
 mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 {
   GError *error = NULL;
@@ -569,6 +593,9 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                                    G_CALLBACK (mousepad_prefs_dialog_toolbar_icon_size_setting_changed),
                                    self,
                                    G_CONNECT_SWAPPED);
+
+  /* setup the Plugins tab */
+  mousepad_prefs_dialog_init_plugins_tab (self);
 }
 
 
