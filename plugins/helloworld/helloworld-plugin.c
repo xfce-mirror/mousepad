@@ -56,7 +56,8 @@ hello_world_plugin_set_property (GObject      *object,
   switch (prop_id)
     {
     case PROP_APPLICATION:
-      plugin->application = MOUSEPAD_APPLICATION (g_value_dup_object (value));
+      /* take an unowned reference to the application */
+      plugin->application = MOUSEPAD_APPLICATION (g_value_get_object (value));
       break;
     case PROP_RECIPIENT:
       g_free (plugin->recipient);
@@ -107,6 +108,9 @@ hello_world_plugin_finalize (GObject *object)
 {
   HelloWorldPlugin *plugin = HELLO_WORLD_PLUGIN (object);
 
+  /* note: no need to unreference the ->application since it's unowned */
+
+  /* cleanup the recipient string */
   g_free (plugin->recipient);
 
   G_OBJECT_CLASS (hello_world_plugin_parent_class)->finalize (object);
