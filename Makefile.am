@@ -1,9 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS =									\
-	icons									\
-	mousepad								\
-	po
+SUBDIRS = icons mousepad po plugins
 
 distclean-local:
 	rm -rf *.cache *~
