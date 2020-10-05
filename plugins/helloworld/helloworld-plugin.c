@@ -1,4 +1,5 @@
 #include "helloworld-plugin.h"
+#include "helloworld-configurable.h"
 #include <mousepad/mousepad-app-activatable.h>
 #include <mousepad/mousepad-application.h>
 
@@ -206,8 +207,12 @@ G_MODULE_EXPORT void
 peas_register_types (PeasObjectModule *module)
 {
   hello_world_plugin_register_type (G_TYPE_MODULE (module));
+  hello_world_configurable_register (G_TYPE_MODULE (module));
 
   peas_object_module_register_extension_type (module,
                                               MOUSEPAD_TYPE_APP_ACTIVATABLE,
                                               HELLO_WORLD_TYPE_PLUGIN);
+  peas_object_module_register_extension_type (module,
+                                              PEAS_GTK_TYPE_CONFIGURABLE,
+                                              HELLO_WORLD_TYPE_CONFIGURABLE);
 }
