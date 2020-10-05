@@ -168,8 +168,10 @@ mousepad_application_init (MousepadApplication *application)
   // peas_engine_enable_loader (application->engine, "lua5.1");  /* Lua 5.1 */
 
   /* add the system-wide plugin path */
-  peas_engine_add_search_path (application->engine, MOUSEPAD_PLUGIN_DIR, NULL);
-  g_debug ("Added system plugin path: %s", MOUSEPAD_PLUGIN_DIR);
+  peas_engine_add_search_path (application->engine,
+                               MOUSEPAD_PLUGIN_MODULE_DIR,
+                               MOUSEPAD_PLUGIN_DATA_DIR);
+  g_debug ("Added system plugin path: %s", MOUSEPAD_PLUGIN_MODULE_DIR);
 
   /* add the user's plugin path */
   plugin_dir = g_build_filename (g_get_user_config_dir (), "mousepad", "plugins", NULL);
@@ -184,6 +186,7 @@ mousepad_application_init (MousepadApplication *application)
                             "application", application,
                             NULL);
 
+  /* watch for extensions being added/removed so they can be activated/deactivated */
   g_signal_connect (application->extensions,
                     "extension-added",
                     G_CALLBACK (mousepad_application_extension_added),

@@ -68,7 +68,8 @@ libmousepad_la_CFLAGS = \
 	$(LIBPEAS_CFLAGS) \
 	$(LIBPEASGTK_CFLAGS) \
 	-DMOUSEPAD_GSETTINGS_SCHEMA_DIR=\""$(datadir)/glib-2.0/schemas"\" \
-	-DMOUSEPAD_PLUGIN_DIR=\""$(pkgdatadir)/plugins"\" \
+	-DMOUSEPAD_PLUGIN_MODULE_DIR=\""$(libdir)/mousepad/plugins/helloworld"\" \
+	-DMOUSEPAD_PLUGIN_DATA_DIR=\""$(pkgdatadir)/plugins/helloworld"\" \
 	-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_44
 
 libmousepad_la_LDFLAGS = \
