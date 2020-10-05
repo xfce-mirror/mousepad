@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-22 12:47+0200\n"
-"PO-Revision-Date: 2020-09-23 02:00+0000\n"
+"POT-Creation-Date: 2020-10-03 12:46+0200\n"
+"PO-Revision-Date: 2020-10-05 02:23+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/xfce/xfce-apps/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -21,51 +21,45 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../mousepad/main.c:44
+#: ../mousepad/mousepad-application.c:82
 msgid "Do not register with the D-BUS session message bus"
 msgstr "不要以 D-BUS 作業階段訊息匯流排註冊"
 
-#: ../mousepad/main.c:45
-msgid "Quit a running Mousepad instance"
-msgstr "退出執行中的 Mousepad 實體"
+#: ../mousepad/mousepad-application.c:83
+msgid "Quit a running Mousepad primary instance"
+msgstr "退出執行中的 Mousepad 主要實體"
 
-#: ../mousepad/main.c:47
+#: ../mousepad/mousepad-application.c:84
 msgid "Print version information and exit"
 msgstr "顯示版本資訊並結束"
 
-#. default application name
-#: ../mousepad/main.c:70 ../mousepad.desktop.in.in.h:1
-msgid "Mousepad"
-msgstr "Mousepad"
-
-#. initialize gtk+
-#: ../mousepad/main.c:78
+#: ../mousepad/mousepad-application.c:85
 msgid "[FILES...]"
 msgstr "[檔案...]"
 
-#. no error message, the gui initialization failed
-#: ../mousepad/main.c:84
-msgid "Failed to open display."
-msgstr "未能開啟顯示。"
+#. default application name
+#: ../mousepad/mousepad-application.c:122 ../mousepad.desktop.in.in.h:1
+msgid "Mousepad"
+msgstr "Mousepad"
 
-#: ../mousepad/main.c:101
+#: ../mousepad/mousepad-application.c:144
 msgid "The Xfce development team. All rights reserved."
 msgstr "Xfce 開發團隊。著作權所有。"
 
-#: ../mousepad/main.c:102
+#: ../mousepad/mousepad-application.c:145
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "請將臭蟲回報至 <%s>。"
 
-#: ../mousepad/mousepad-application.c:436
+#: ../mousepad/mousepad-application.c:507
 msgid "No filetype"
 msgstr "無檔案類型"
 
-#: ../mousepad/mousepad-application.c:487
+#: ../mousepad/mousepad-application.c:558
 msgid "No style scheme"
 msgstr "無風格方案"
 
-#: ../mousepad/mousepad-application.c:502
+#: ../mousepad/mousepad-application.c:573
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | 作者：%s | 檔案名稱：%s"
@@ -95,7 +89,7 @@ msgstr "選取分頁大小"
 #: ../mousepad/mousepad-dialogs.c:469 ../mousepad/mousepad-dialogs.c:501
 #: ../mousepad/mousepad-encoding-dialog.c:121
 #: ../mousepad/mousepad-encoding-dialog.c:184
-#: ../mousepad/mousepad-window.c:4253 ../mousepad/mousepad-window.c:4510
+#: ../mousepad/mousepad-window.c:4256 ../mousepad/mousepad-window.c:4510
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -155,8 +149,8 @@ msgid "_Save As"
 msgstr "另存為(_S)"
 
 #: ../mousepad/mousepad-dialogs.c:409 ../mousepad/mousepad-dialogs.c:472
-#: ../mousepad/mousepad-window.c:1105 ../mousepad/mousepad-window.c:4512
-#: ../mousepad/mousepad-window.ui.h:8
+#: ../mousepad/mousepad-window.c:1114 ../mousepad/mousepad-window.c:4513
+#: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "_Save"
 msgstr "儲存(_S)"
 
@@ -199,12 +193,12 @@ msgid "_Revert"
 msgstr "還原(_R)"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:506
+#: ../mousepad/mousepad-document.c:503
 msgid "Close this tab"
 msgstr "關閉此分頁"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:536
+#: ../mousepad/mousepad-document.c:533
 msgid "Untitled"
 msgstr "未命名"
 
@@ -368,223 +362,16 @@ msgid "Failed to read the status of \"%s\""
 msgstr "未能讀取 \"%s\" 的狀態"
 
 #. add the close button
-#: ../mousepad/mousepad-prefs-dialog.c:431
+#: ../mousepad/mousepad-prefs-dialog.c:429
 #: ../mousepad/mousepad-replace-dialog.c:177
 msgid "_Close"
 msgstr "關閉(_C)"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:437 ../mousepad/mousepad-window.ui.h:42
+#: ../mousepad/mousepad-prefs-dialog.c:435
+#: ../mousepad/resources/gtk/menus.ui.h:42
 msgid "Preferences"
 msgstr "偏好設定"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:1
-msgid "Disabled"
-msgstr "已停用"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:2
-msgid "Before"
-msgstr "之前"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:3
-msgid "After"
-msgstr "之後"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:4
-msgid "Always"
-msgstr "總是"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:5
-msgid "Insert Tabs"
-msgstr "插入分頁"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:6
-msgid "Insert Spaces"
-msgstr "插入空格"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:7
-msgid "none"
-msgstr "無"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:8
-#: ../mousepad/mousepad-window.ui.h:52
-msgid "None"
-msgstr "無"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:9
-msgid "Menu"
-msgstr "選單"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:10
-msgid "Small Toolbar"
-msgstr "小型工具列"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:11
-msgid "Large Toolbar"
-msgstr "大型工具列"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:12
-msgid "Button"
-msgstr "按鈕"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:13
-msgid "Drag & Drop"
-msgstr "拖放"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:14
-msgid "Dialog"
-msgstr "對話框"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:15
-msgid "Icons Only"
-msgstr "只有圖示"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:16
-msgid "Text Only"
-msgstr "只有文字"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:17
-msgid "Text Below Icons"
-msgstr "文字在圖示下"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:18
-msgid "Text Beside Icons"
-msgstr "文字在圖示旁"
-
-#. "Color Scheme" submenu
-#. 50, style sheme menu insertion flag
-#: ../mousepad/mousepad-prefs-dialog.glade.h:19
-#: ../mousepad/mousepad-window.c:671
-msgid "Show line numbers"
-msgstr "顯示行號"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:20
-msgid "Display whitespace"
-msgstr "顯示空格"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:21
-msgid "Display line endings"
-msgstr "顯示行的結尾"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:22
-msgid "Long line margin at column:"
-msgstr "長行邊緣在欄："
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:23
-msgid "Highlight current line"
-msgstr "突顯目前的行"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:24
-msgid "Highlight matching brackets"
-msgstr "突顯成對的括號"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:25
-msgid "Wrap long lines"
-msgstr "包圍長行"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:26
-msgid "<b>Display</b>"
-msgstr "<b>顯示</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:27
-msgid "Use system monospace font"
-msgstr "使用系統等寬字型"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:28
-msgid "<b>Font</b>"
-msgstr "<b>字型</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:29
-msgid "<b>Colour scheme</b>"
-msgstr "<b>色彩方案</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:30
-msgid "View"
-msgstr "觀看"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:31
-msgid "Tab width:"
-msgstr "分頁寬度："
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:32
-msgid "Tab mode:"
-msgstr "分頁模式："
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:33
-msgid "Enable automatic indentation"
-msgstr "啟用自動縮排"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:34
-msgid "<b>Indentation</b>"
-msgstr "<b>縮排</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:35
-msgid "Behaviour:"
-msgstr "行為："
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:36
-msgid "<b>Home/End Keys</b>"
-msgstr "<b>Home/End 鍵</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:37
-msgid "Editor"
-msgstr "編輯器"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:38
-msgid "Show status bar"
-msgstr "顯示狀態列"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:39
-msgid "Show full filename in title bar"
-msgstr "在標題列顯示完整的檔案名稱"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:40
-msgid "Remember window size"
-msgstr "記住視窗大小"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:41
-msgid "Remember window position"
-msgstr "記住螢幕位置"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:42
-msgid "Remember window state"
-msgstr "記住螢幕狀態"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:43
-msgid "<b>General</b>"
-msgstr "<b>一般</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:44
-msgid "Show toolbar"
-msgstr "顯示工具列"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:45
-msgid "Style:"
-msgstr "風格："
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:46
-msgid "Icon Size:"
-msgstr "圖示大小："
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:47
-msgid "<b>Toolbar</b>"
-msgstr "<b>工具列</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:48
-msgid "Always show tabs even with one file"
-msgstr "即使只有一個檔案也總是顯示分頁"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:49
-msgid "Cycled notebook tab switching"
-msgstr "循環筆記本分頁切換"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:50
-msgid "<b>Notebook tabs</b>"
-msgstr "<b>筆記本分頁</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:51
-msgid "Window"
-msgstr "視窗"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:120
@@ -653,7 +440,7 @@ msgstr "尋找與取代"
 
 #. dialog buttons
 #: ../mousepad/mousepad-replace-dialog.c:170
-#: ../mousepad/mousepad-window.c:1131 ../mousepad/mousepad-window.ui.h:44
+#: ../mousepad/mousepad-window.c:1140 ../mousepad/resources/gtk/menus.ui.h:44
 msgid "_Find"
 msgstr "尋找(_F)"
 
@@ -689,7 +476,7 @@ msgstr "自動換列(_W)"
 
 #. case sensitive
 #: ../mousepad/mousepad-replace-dialog.c:278
-#: ../mousepad/mousepad-search-bar.c:275 ../mousepad/mousepad-search-bar.c:288
+#: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:270
 msgid "Match _case"
 msgstr "符合大小寫(_C)"
 
@@ -700,7 +487,7 @@ msgstr "比對整個單字(_M)"
 
 #. enable regex search
 #: ../mousepad/mousepad-replace-dialog.c:298
-#: ../mousepad/mousepad-search-bar.c:305 ../mousepad/mousepad-search-bar.c:318
+#: ../mousepad/mousepad-search-bar.c:287 ../mousepad/mousepad-search-bar.c:300
 msgid "Regular e_xpression"
 msgstr "正規表達式(_X)"
 
@@ -730,19 +517,7 @@ msgstr[0] "%d 事件"
 msgid "_Replace All"
 msgstr "全部取代(_R)"
 
-#: ../mousepad/mousepad-search-bar.c:206
-msgid "Fi_nd:"
-msgstr "尋找(_N)："
-
-#: ../mousepad/mousepad-search-bar.c:233
-msgid "_Next"
-msgstr "下一個(_N)"
-
-#: ../mousepad/mousepad-search-bar.c:245
-msgid "_Previous"
-msgstr "上一個(_P)"
-
-#: ../mousepad/mousepad-search-bar.c:258
+#: ../mousepad/mousepad-search-bar.c:240
 msgid "Highlight _All"
 msgstr "全部標明(_A)"
 
@@ -975,6 +750,13 @@ msgstr "前往文件特定位置"
 msgid "Change the editor font"
 msgstr "變更編輯器字型"
 
+#. "Color Scheme" submenu
+#. 50, style sheme menu insertion flag
+#: ../mousepad/mousepad-window.c:671
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
+msgid "Show line numbers"
+msgstr "顯示行號"
+
 #: ../mousepad/mousepad-window.c:673
 msgid "Change the visibility of the main menubar"
 msgstr "改變主選單列的可見度"
@@ -988,7 +770,7 @@ msgstr "改變工具列的可見度"
 msgid "Change the visibility of the statusbar"
 msgstr "變更狀態列的可見性"
 
-#: ../mousepad/mousepad-window.c:677 ../mousepad/mousepad-window.c:5717
+#: ../mousepad/mousepad-window.c:677 ../mousepad/mousepad-window.c:5712
 msgid "Make the window fullscreen"
 msgstr "讓視窗變為全螢幕"
 
@@ -1045,85 +827,85 @@ msgid "About this application"
 msgstr "關於此應用程式"
 
 #. insert items
-#: ../mousepad/mousepad-window.c:1101 ../mousepad/mousepad-window.ui.h:2
+#: ../mousepad/mousepad-window.c:1110 ../mousepad/resources/gtk/menus.ui.h:2
 msgid "_New"
 msgstr "新增(_N)"
 
-#: ../mousepad/mousepad-window.c:1103 ../mousepad/mousepad-window.ui.h:5
+#: ../mousepad/mousepad-window.c:1112 ../mousepad/resources/gtk/menus.ui.h:5
 msgid "_Open..."
 msgstr "開啟(_O)..."
 
-#: ../mousepad/mousepad-window.c:1107 ../mousepad/mousepad-window.ui.h:9
+#: ../mousepad/mousepad-window.c:1116 ../mousepad/resources/gtk/menus.ui.h:9
 msgid "Save _As..."
 msgstr "另存為(_A)..."
 
-#: ../mousepad/mousepad-window.c:1109 ../mousepad/mousepad-window.ui.h:11
+#: ../mousepad/mousepad-window.c:1118 ../mousepad/resources/gtk/menus.ui.h:11
 msgid "Re_vert"
 msgstr "還原(_V)"
 
-#: ../mousepad/mousepad-window.c:1111 ../mousepad/mousepad-window.ui.h:14
+#: ../mousepad/mousepad-window.c:1120 ../mousepad/resources/gtk/menus.ui.h:14
 msgid "Close _Tab"
 msgstr "關閉分頁(_T)"
 
-#: ../mousepad/mousepad-window.c:1117 ../mousepad/mousepad-window.ui.h:17
+#: ../mousepad/mousepad-window.c:1126 ../mousepad/resources/gtk/menus.ui.h:17
 msgid "_Undo"
 msgstr "復原(_U)"
 
-#: ../mousepad/mousepad-window.c:1119 ../mousepad/mousepad-window.ui.h:18
+#: ../mousepad/mousepad-window.c:1128 ../mousepad/resources/gtk/menus.ui.h:18
 msgid "_Redo"
 msgstr "重做(_R)"
 
-#: ../mousepad/mousepad-window.c:1121 ../mousepad/mousepad-window.ui.h:19
+#: ../mousepad/mousepad-window.c:1130 ../mousepad/resources/gtk/menus.ui.h:19
 msgid "Cu_t"
 msgstr "剪下(_T)"
 
-#: ../mousepad/mousepad-window.c:1123 ../mousepad/mousepad-window.ui.h:20
+#: ../mousepad/mousepad-window.c:1132 ../mousepad/resources/gtk/menus.ui.h:20
 msgid "_Copy"
 msgstr "複製(_C)"
 
-#: ../mousepad/mousepad-window.c:1125 ../mousepad/mousepad-window.ui.h:21
+#: ../mousepad/mousepad-window.c:1134 ../mousepad/resources/gtk/menus.ui.h:21
 msgid "_Paste"
 msgstr "貼上(_P)"
 
-#: ../mousepad/mousepad-window.c:1133 ../mousepad/mousepad-window.ui.h:47
+#: ../mousepad/mousepad-window.c:1142 ../mousepad/resources/gtk/menus.ui.h:47
 msgid "Find and Rep_lace..."
 msgstr "尋找並取代(_L)..."
 
-#: ../mousepad/mousepad-window.c:1135 ../mousepad/mousepad-window.ui.h:48
+#: ../mousepad/mousepad-window.c:1144 ../mousepad/resources/gtk/menus.ui.h:48
 msgid "_Go to..."
 msgstr "前往(_G)..."
 
-#: ../mousepad/mousepad-window.c:1144 ../mousepad/mousepad-window.ui.h:57
+#: ../mousepad/mousepad-window.c:1153 ../mousepad/resources/gtk/menus.ui.h:57
 msgid "_Fullscreen"
 msgstr "全螢幕(_F)"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1220
+#: ../mousepad/mousepad-window.c:1229
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "警告：您正在使用 root 帳號。您可能會弄壞您的系統。"
 
 #. show the warning
-#: ../mousepad/mousepad-window.c:1973
+#: ../mousepad/mousepad-window.c:1991
 msgid "Failed to open the document"
 msgstr "未能開啟文件"
 
-#: ../mousepad/mousepad-window.c:2177
+#: ../mousepad/mousepad-window.c:2192
 msgid "Read Only"
 msgstr "唯讀"
 
-#: ../mousepad/mousepad-window.c:2841
+#: ../mousepad/mousepad-window.c:2851
 #, c-format
 msgid "Use '%s' as template"
 msgstr "使用「%s」作為範本"
 
-#: ../mousepad/mousepad-window.c:2869
+#: ../mousepad/mousepad-window.c:2879
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "在下列的位置中沒有發現模板檔案\n'%s'"
 
-#: ../mousepad/mousepad-window.c:2937
+#: ../mousepad/mousepad-window.c:2946
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -1131,68 +913,68 @@ msgid ""
 msgstr "模板目錄遺失\n「%s」"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:2994
+#: ../mousepad/mousepad-window.c:3002
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "其他(_H) (%d)..."
 
-#: ../mousepad/mousepad-window.c:3004
+#: ../mousepad/mousepad-window.c:3012
 msgid "Ot_her..."
 msgstr "其他(_H)..."
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3368 ../mousepad/mousepad-window.c:3567
+#: ../mousepad/mousepad-window.c:3375 ../mousepad/mousepad-window.c:3573
 msgid "Charset"
 msgstr "字元集"
 
-#: ../mousepad/mousepad-window.c:3498
+#: ../mousepad/mousepad-window.c:3504
 #, c-format
 msgid "Open '%s'"
 msgstr "開啟「%s」"
 
-#: ../mousepad/mousepad-window.c:3526
+#: ../mousepad/mousepad-window.c:3532
 msgid "No items found"
 msgstr "找不到項目"
 
-#: ../mousepad/mousepad-window.c:3616
+#: ../mousepad/mousepad-window.c:3622
 msgid "Failed to clear the recent history"
 msgstr "無法清除最近歷史"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4064
+#: ../mousepad/mousepad-window.c:4070
 msgid "No clipboard data"
 msgstr "剪貼簿沒有資料"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4212
+#: ../mousepad/mousepad-window.c:4215
 msgid "Templates should be UTF-8 valid"
 msgstr "範本應該要是有效的 UTF-8 編碼"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4217
+#: ../mousepad/mousepad-window.c:4220
 msgid "Reading the template failed"
 msgstr "讀取範本失敗"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4222
+#: ../mousepad/mousepad-window.c:4225
 msgid "Loading the template failed"
 msgstr "範本載入失敗"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-window.c:4250
+#: ../mousepad/mousepad-window.c:4253
 msgid "Open File"
 msgstr "開啟檔案"
 
-#: ../mousepad/mousepad-window.c:4255
+#: ../mousepad/mousepad-window.c:4258
 msgid "_Open"
 msgstr "開啟(_O)"
 
-#: ../mousepad/mousepad-window.c:4268
+#: ../mousepad/mousepad-window.c:4271
 msgid "_Encoding:"
 msgstr "編碼：(_E)"
 
-#: ../mousepad/mousepad-window.c:4367
+#: ../mousepad/mousepad-window.c:4370
 #, c-format
 msgid ""
 "Failed to open \"%s\" for reading. It will be removed from the document "
@@ -1200,12 +982,12 @@ msgid ""
 msgstr "未能開啟「%s」供讀取。會將其自文件歷史移除"
 
 #. show the warning and cleanup
-#: ../mousepad/mousepad-window.c:4371
+#: ../mousepad/mousepad-window.c:4374
 msgid "Failed to open file"
 msgstr "未能開啟檔案"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4483 ../mousepad/mousepad-window.c:4621
+#: ../mousepad/mousepad-window.c:4484 ../mousepad/mousepad-window.c:4620
 msgid "Failed to save the document"
 msgstr "未能儲存文件"
 
@@ -1215,242 +997,443 @@ msgid "Save As"
 msgstr "另存為"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4720
+#: ../mousepad/mousepad-window.c:4715
 msgid "Failed to reload the document"
 msgstr "未能重新載入文件"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4749
+#: ../mousepad/mousepad-window.c:4744
 msgid "Failed to print the document"
 msgstr "未能列印文件"
 
-#: ../mousepad/mousepad-window.c:5477
+#: ../mousepad/mousepad-window.c:5472
 msgid "Choose Mousepad Font"
 msgstr "選擇 Mousepad 字型"
 
-#: ../mousepad/mousepad-window.c:5710
+#: ../mousepad/mousepad-window.c:5705
 msgid "Leave fullscreen mode"
 msgstr "離開全螢幕模式"
 
-#: ../mousepad/mousepad-window.ui.h:1
+#: ../mousepad/resources/gtk/menus.ui.h:1
 msgid "_File"
 msgstr "檔案(_F)"
 
-#: ../mousepad/mousepad-window.ui.h:3
+#: ../mousepad/resources/gtk/menus.ui.h:3
 msgid "New _Window"
 msgstr "新視窗(_W)"
 
-#: ../mousepad/mousepad-window.ui.h:4
+#: ../mousepad/resources/gtk/menus.ui.h:4
 msgid "New From Te_mplate"
 msgstr "根據範本新增(_M)"
 
-#: ../mousepad/mousepad-window.ui.h:6
+#: ../mousepad/resources/gtk/menus.ui.h:6
 msgid "Op_en Recent"
 msgstr "最近開啟檔案(_E)"
 
-#: ../mousepad/mousepad-window.ui.h:7
+#: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "Clear _History"
 msgstr "清除歷史(_H)"
 
-#: ../mousepad/mousepad-window.ui.h:10
+#: ../mousepad/resources/gtk/menus.ui.h:10
 msgid "Save A_ll"
 msgstr "全部儲存(_L)"
 
-#: ../mousepad/mousepad-window.ui.h:12
+#: ../mousepad/resources/gtk/menus.ui.h:12
 msgid "_Print..."
 msgstr "列印(_P)..."
 
-#: ../mousepad/mousepad-window.ui.h:13
+#: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "_Detach Tab"
 msgstr "脫離分頁(_D)"
 
-#: ../mousepad/mousepad-window.ui.h:15
+#: ../mousepad/resources/gtk/menus.ui.h:15
 msgid "_Close Window"
 msgstr "關閉視窗(_C)"
 
-#: ../mousepad/mousepad-window.ui.h:16
+#: ../mousepad/resources/gtk/menus.ui.h:16
 msgid "_Edit"
 msgstr "編輯(_E)"
 
-#: ../mousepad/mousepad-window.ui.h:22
+#: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Paste _Special"
 msgstr "選擇性貼上(_S)"
 
-#: ../mousepad/mousepad-window.ui.h:23
+#: ../mousepad/resources/gtk/menus.ui.h:23
 msgid "Paste from _History"
 msgstr "從歷史貼上(_H)"
 
-#: ../mousepad/mousepad-window.ui.h:24
+#: ../mousepad/resources/gtk/menus.ui.h:24
 msgid "Paste as _Column"
 msgstr "貼上為欄(_C)"
 
-#: ../mousepad/mousepad-window.ui.h:25
+#: ../mousepad/resources/gtk/menus.ui.h:25
 msgid "_Delete"
 msgstr "刪除(_D)"
 
-#: ../mousepad/mousepad-window.ui.h:26
+#: ../mousepad/resources/gtk/menus.ui.h:26
 msgid "Select _All"
 msgstr "全選(_A)"
 
-#: ../mousepad/mousepad-window.ui.h:27
+#: ../mousepad/resources/gtk/menus.ui.h:27
 msgid "Conve_rt"
 msgstr "轉換(_R)"
 
-#: ../mousepad/mousepad-window.ui.h:28
+#: ../mousepad/resources/gtk/menus.ui.h:28
 msgid "To _Lowercase"
 msgstr "到小寫(_L)"
 
-#: ../mousepad/mousepad-window.ui.h:29
+#: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "To _Uppercase"
 msgstr "到大寫(_U)"
 
-#: ../mousepad/mousepad-window.ui.h:30
+#: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "To _Title Case"
 msgstr "到標題(_T)"
 
-#: ../mousepad/mousepad-window.ui.h:31
+#: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "To _Opposite Case"
 msgstr "到另一種(_O)"
 
-#: ../mousepad/mousepad-window.ui.h:32
+#: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "_Tabs to Spaces"
 msgstr "定位點轉為空格(_T)"
 
-#: ../mousepad/mousepad-window.ui.h:33
+#: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_Spaces to Tabs"
 msgstr "空格轉為定位點(_S)"
 
-#: ../mousepad/mousepad-window.ui.h:34
+#: ../mousepad/resources/gtk/menus.ui.h:34
 msgid "St_rip Trailing Spaces"
 msgstr "移除結尾空白(_R)"
 
-#: ../mousepad/mousepad-window.ui.h:35
+#: ../mousepad/resources/gtk/menus.ui.h:35
 msgid "_Transpose"
 msgstr "轉置(_T)"
 
-#: ../mousepad/mousepad-window.ui.h:36
+#: ../mousepad/resources/gtk/menus.ui.h:36
 msgid "_Move Selection"
 msgstr "移動選取範圍(_M)"
 
-#: ../mousepad/mousepad-window.ui.h:37
+#: ../mousepad/resources/gtk/menus.ui.h:37
 msgid "Line _Up"
 msgstr "上移列(_U)"
 
-#: ../mousepad/mousepad-window.ui.h:38
+#: ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Line _Down"
 msgstr "下移列(_D)"
 
-#: ../mousepad/mousepad-window.ui.h:39
+#: ../mousepad/resources/gtk/menus.ui.h:39
 msgid "Dup_licate Line / Selection"
 msgstr "為游標所在的行或選取範圍製作複本(_L)"
 
-#: ../mousepad/mousepad-window.ui.h:40
+#: ../mousepad/resources/gtk/menus.ui.h:40
 msgid "_Increase Indent"
 msgstr "增加縮排(_I)"
 
-#: ../mousepad/mousepad-window.ui.h:41
+#: ../mousepad/resources/gtk/menus.ui.h:41
 msgid "_Decrease Indent"
 msgstr "減少縮排(_D)"
 
-#: ../mousepad/mousepad-window.ui.h:43
+#: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "_Search"
 msgstr "搜尋(_S)"
 
-#: ../mousepad/mousepad-window.ui.h:45
+#: ../mousepad/resources/gtk/menus.ui.h:45
 msgid "Find _Next"
 msgstr "找下一個(_N)"
 
-#: ../mousepad/mousepad-window.ui.h:46
+#: ../mousepad/resources/gtk/menus.ui.h:46
 msgid "Find _Previous"
 msgstr "找上一個(_P)"
 
-#: ../mousepad/mousepad-window.ui.h:49
+#: ../mousepad/resources/gtk/menus.ui.h:49
 msgid "_View"
 msgstr "檢視(_V)"
 
-#: ../mousepad/mousepad-window.ui.h:50
+#: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Select F_ont..."
 msgstr "選取字型(_O)..."
 
-#: ../mousepad/mousepad-window.ui.h:51
+#: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "_Color Scheme"
 msgstr "配色方案(_C)"
 
-#: ../mousepad/mousepad-window.ui.h:53
+#: ../mousepad/resources/gtk/menus.ui.h:52
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
+msgid "None"
+msgstr "無"
+
+#: ../mousepad/resources/gtk/menus.ui.h:53
 msgid "Line N_umbers"
 msgstr "行號(_U)"
 
-#: ../mousepad/mousepad-window.ui.h:54
+#: ../mousepad/resources/gtk/menus.ui.h:54
 msgid "_Menubar"
 msgstr "選單列(_M)"
 
-#: ../mousepad/mousepad-window.ui.h:55
+#: ../mousepad/resources/gtk/menus.ui.h:55
 msgid "_Toolbar"
 msgstr "工具列(_T)"
 
-#: ../mousepad/mousepad-window.ui.h:56
+#: ../mousepad/resources/gtk/menus.ui.h:56
 msgid "St_atusbar"
 msgstr "狀態列(_A)"
 
-#: ../mousepad/mousepad-window.ui.h:58
+#: ../mousepad/resources/gtk/menus.ui.h:58
 msgid "_Document"
 msgstr "文件(_D)"
 
-#: ../mousepad/mousepad-window.ui.h:59
+#: ../mousepad/resources/gtk/menus.ui.h:59
 msgid "_Word Wrap"
 msgstr "文字換行(_W)"
 
-#: ../mousepad/mousepad-window.ui.h:60
+#: ../mousepad/resources/gtk/menus.ui.h:60
 msgid "_Auto Indent"
 msgstr "自動縮排(_A)"
 
-#: ../mousepad/mousepad-window.ui.h:61
+#: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "Tab _Size"
 msgstr "定位點大小(_S)"
 
-#: ../mousepad/mousepad-window.ui.h:62
+#: ../mousepad/resources/gtk/menus.ui.h:62
 msgid "Other..."
 msgstr "其他……"
 
-#: ../mousepad/mousepad-window.ui.h:63
+#: ../mousepad/resources/gtk/menus.ui.h:63
 msgid "Insert _Spaces"
 msgstr "插入空格(_S)"
 
-#: ../mousepad/mousepad-window.ui.h:64
+#: ../mousepad/resources/gtk/menus.ui.h:64
 msgid "_Filetype"
 msgstr "檔案類型(_F)"
 
-#: ../mousepad/mousepad-window.ui.h:65
+#: ../mousepad/resources/gtk/menus.ui.h:65
 msgid "Plain Text"
 msgstr "一般文字"
 
-#: ../mousepad/mousepad-window.ui.h:66
+#: ../mousepad/resources/gtk/menus.ui.h:66
 msgid "Line E_nding"
 msgstr "列結尾(_N)"
 
-#: ../mousepad/mousepad-window.ui.h:67
+#: ../mousepad/resources/gtk/menus.ui.h:67
 msgid "Write Unicode _BOM"
 msgstr "寫入 Unicode _BOM"
 
-#: ../mousepad/mousepad-window.ui.h:68
+#: ../mousepad/resources/gtk/menus.ui.h:68
 msgid "_Previous Tab"
 msgstr "上一個分頁(_P)"
 
-#: ../mousepad/mousepad-window.ui.h:69
+#: ../mousepad/resources/gtk/menus.ui.h:69
 msgid "_Next Tab"
 msgstr "下一個分頁(_N)"
 
-#: ../mousepad/mousepad-window.ui.h:70
+#: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: ../mousepad/mousepad-window.ui.h:71
+#: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "_Contents"
 msgstr "目錄(_C)"
 
-#: ../mousepad/mousepad-window.ui.h:72
+#: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "_About"
 msgstr "關於(_A)"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
+msgid "Disabled"
+msgstr "已停用"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
+msgid "Before"
+msgstr "之前"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
+msgid "After"
+msgstr "之後"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
+msgid "Always"
+msgstr "總是"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
+msgid "Insert Tabs"
+msgstr "插入分頁"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
+msgid "Insert Spaces"
+msgstr "插入空格"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
+msgid "none"
+msgstr "無"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:9
+msgid "Menu"
+msgstr "選單"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:10
+msgid "Small Toolbar"
+msgstr "小型工具列"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:11
+msgid "Large Toolbar"
+msgstr "大型工具列"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:12
+msgid "Button"
+msgstr "按鈕"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:13
+msgid "Drag & Drop"
+msgstr "拖放"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
+msgid "Dialog"
+msgstr "對話框"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:15
+msgid "Icons Only"
+msgstr "只有圖示"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:16
+msgid "Text Only"
+msgstr "只有文字"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:17
+msgid "Text Below Icons"
+msgstr "文字在圖示下"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:18
+msgid "Text Beside Icons"
+msgstr "文字在圖示旁"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
+msgid "Display whitespace"
+msgstr "顯示空格"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:21
+msgid "Display line endings"
+msgstr "顯示行的結尾"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
+msgid "Long line margin at column:"
+msgstr "長行邊緣在欄："
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:23
+msgid "Highlight current line"
+msgstr "突顯目前的行"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
+msgid "Highlight matching brackets"
+msgstr "突顯成對的括號"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
+msgid "Wrap long lines"
+msgstr "包圍長行"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
+msgid "<b>Display</b>"
+msgstr "<b>顯示</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
+msgid "Use system monospace font"
+msgstr "使用系統等寬字型"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
+msgid "<b>Font</b>"
+msgstr "<b>字型</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
+msgid "<b>Colour scheme</b>"
+msgstr "<b>色彩方案</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
+msgid "View"
+msgstr "觀看"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:31
+msgid "Tab width:"
+msgstr "分頁寬度："
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:32
+msgid "Tab mode:"
+msgstr "分頁模式："
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
+msgid "Enable automatic indentation"
+msgstr "啟用自動縮排"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
+msgid "<b>Indentation</b>"
+msgstr "<b>縮排</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:35
+msgid "Behaviour:"
+msgstr "行為："
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
+msgid "<b>Home/End Keys</b>"
+msgstr "<b>Home/End 鍵</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
+msgid "Editor"
+msgstr "編輯器"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:38
+msgid "Show status bar"
+msgstr "顯示狀態列"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
+msgid "Show full filename in title bar"
+msgstr "在標題列顯示完整的檔案名稱"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
+msgid "Remember window size"
+msgstr "記住視窗大小"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
+msgid "Remember window position"
+msgstr "記住螢幕位置"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
+msgid "Remember window state"
+msgstr "記住螢幕狀態"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
+msgid "<b>General</b>"
+msgstr "<b>一般</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
+msgid "Show toolbar"
+msgstr "顯示工具列"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
+msgid "Style:"
+msgstr "風格："
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
+msgid "Icon Size:"
+msgstr "圖示大小："
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
+msgid "<b>Toolbar</b>"
+msgstr "<b>工具列</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
+msgid "Always show tabs even with one file"
+msgstr "即使只有一個檔案也總是顯示分頁"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
+msgid "Cycled notebook tab switching"
+msgstr "循環筆記本分頁切換"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
+msgid "<b>Notebook tabs</b>"
+msgstr "<b>筆記本分頁</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
+msgid "Window"
+msgstr "視窗"
 
 #: ../mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
