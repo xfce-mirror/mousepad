@@ -1,0 +1,8 @@
+[Plugin]
+Module=helloworld
+Name=Hello World
+Description=Says hello.
+Authors=The Mousepad Developers
+Copyright=Copyright © 2020 The Mousepad Developers
+Website=https://wiki.xfce.org/mousepad/start
+Help=https://wiki.xfce.org/mousepad/start
