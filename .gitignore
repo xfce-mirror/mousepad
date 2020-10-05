@@ -3,6 +3,10 @@
 *.lo
 *.gmo
 *.policy
+*.gir
+*.typelib
+.deps/
+.libs/
 Makefile
 Makefile.in
 Makefile.in.in
@@ -32,8 +36,6 @@ ltmain.sh
 /m4/
 missing
 mkinstalldirs
-mousepad/.deps/
-mousepad/.libs/
 mousepad/mousepad
 mousepad/mousepad-marshal.c
 mousepad/mousepad-marshal.h
