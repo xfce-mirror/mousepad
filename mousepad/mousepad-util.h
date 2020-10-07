@@ -83,10 +83,15 @@ GtkWidget *mousepad_util_image_button                     (const gchar         *
 void       mousepad_util_entry_error                      (GtkWidget           *widget,
                                                            gboolean             error);
 
-void       mousepad_util_dialog_header                    (GtkDialog           *dialog,
+void       mousepad_util_dialog_create_header             (GtkDialog           *dialog,
                                                            const gchar         *title,
                                                            const gchar         *subtitle,
-                                                           const gchar         *icon);
+                                                           const gchar         *icon_name);
+
+void       mousepad_util_dialog_update_header             (GtkDialog           *dialog,
+                                                           const gchar         *title,
+                                                           const gchar         *subtitle,
+                                                           const gchar         *icon_name);
 
 gint       mousepad_util_get_real_line_offset             (const GtkTextIter   *iter,
                                                            gint                 tab_size);
@@ -121,6 +126,15 @@ GSList    *mousepad_util_style_schemes_get_sorted         (void);
 GSList    *mousepad_util_get_sorted_section_names         (void);
 
 GSList    *mousepad_util_get_sorted_languages_for_section (const gchar *section);
+
+#if !GLIB_CHECK_VERSION (2, 52, 0)
+/*
+ * Copied from GLib 2.66.0:
+ * https://gitlab.gnome.org/GNOME/glib/-/blob/c2c12e42920d6e06c23c87398996827e53c1fc72/glib/gunicode.h#L934
+ */
+gchar *g_utf8_make_valid (const gchar *str,
+                          gssize       len) G_GNUC_MALLOC;
+#endif
 
 G_END_DECLS
 
