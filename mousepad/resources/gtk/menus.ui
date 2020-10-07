@@ -51,7 +51,7 @@
           </section>
         </submenu>
       </section>
-      <section>
+      <section id="file.save">
         <item>
           <attribute name="label" translatable="yes">_Save</attribute>
           <attribute name="tooltip" translatable="yes">Save the current document</attribute>
@@ -72,10 +72,10 @@
           <attribute name="action">win.file.save-all</attribute>
         </item>
         <item>
-          <attribute name="label" translatable="yes">Re_vert</attribute>
-          <attribute name="tooltip" translatable="yes">Revert to the saved version of the file</attribute>
-          <attribute name="action">win.file.revert</attribute>
-          <attribute name="icon">document-revert</attribute>
+          <attribute name="label" translatable="yes">Re_load</attribute>
+          <attribute name="tooltip" translatable="yes">Reload file from disk</attribute>
+          <attribute name="action">win.file.reload</attribute>
+          <attribute name="icon">view-refresh</attribute>
         </item>
       </section>
       <section>
@@ -547,10 +547,10 @@
 
     <section>
       <item>
-        <attribute name="label" translatable="yes">Re_vert</attribute>
-        <attribute name="tooltip" translatable="yes">Revert to the saved version of the file</attribute>
-        <attribute name="action">win.file.revert</attribute>
-        <attribute name="icon">document-revert</attribute>
+        <attribute name="label" translatable="yes">Re_load</attribute>
+        <attribute name="tooltip" translatable="yes">Reload file from disk</attribute>
+        <attribute name="action">win.file.reload</attribute>
+        <attribute name="icon">view-refresh</attribute>
       </item>
     </section>
 
