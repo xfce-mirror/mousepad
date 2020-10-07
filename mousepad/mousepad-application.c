@@ -391,7 +391,7 @@ mousepad_application_shutdown (GApplication *gapplication)
   /* destroy the windows if they are still opened */
   windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (application)));
   for (window = windows; window != NULL; window = window->next)
-    gtk_widget_destroy (GTK_WIDGET (window->data));
+    gtk_widget_destroy (window->data);
 
   g_list_free (windows);
 
@@ -500,8 +500,8 @@ mousepad_application_prefs_dialog_response (MousepadApplication *application,
 
 
 void
-mousepad_application_show_preferences (MousepadApplication  *application,
-                                       GtkWindow            *transient_for)
+mousepad_application_show_preferences (MousepadApplication *application,
+                                       GtkWindow           *transient_for)
 {
   GList *windows;
 
@@ -515,6 +515,10 @@ mousepad_application_show_preferences (MousepadApplication  *application,
                                 G_CALLBACK (mousepad_application_prefs_dialog_response),
                                 application);
     }
+
+  /* add the dialog to the application windows list */
+  gtk_application_add_window (GTK_APPLICATION (application),
+                              GTK_WINDOW (application->prefs_dialog));
 
   /* if no transient window was specified, used the first application window
    * or NULL if no windows exists (shouldn't happen) */
@@ -631,11 +635,90 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
 
 
 static void
+mousepad_application_dispatch_source (GSource *source)
+{
+  g_source_set_ready_time (source, 0);
+}
+
+
+
+static gboolean
+mousepad_application_handle_active_window_idle (GtkWindow *window)
+{
+  static GList *closed = NULL, *saved = NULL;
+  GAction      *action;
+
+  /* we have not already tried to close this window gracefully */
+  if (! g_list_find (closed, window))
+    {
+      /* this is a main window and we have not already tried to save all documents */
+      if (MOUSEPAD_IS_WINDOW (window) && ! g_list_find (saved, window))
+        {
+          saved = g_list_prepend (saved, window);
+          action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-all");
+          g_signal_emit_by_name (action, "activate", NULL, window);
+        }
+      /* try to close the window gracefully */
+      else
+        {
+          closed = g_list_prepend (closed, window);
+          gtk_window_close (window);
+        }
+    }
+  /* we did what we could, there is no choice but to destroy the widget now */
+  else
+    gtk_widget_destroy (GTK_WIDGET (window));
+
+  return FALSE;
+}
+
+
+
+static gboolean
+mousepad_application_handle_active_window (GtkApplication *application)
+{
+  GSource   *source;
+  GtkWindow *window;
+
+  window = gtk_application_get_active_window (application);
+
+  /* there is still an active window: schedule the next action */
+  if (window)
+    g_idle_add (G_SOURCE_FUNC (mousepad_application_handle_active_window_idle), window);
+  /* no more windows: disconnect signal and exit the loop, destroying the timeout */
+  else
+    {
+      source = g_main_context_find_source_by_user_data (g_main_context_default (), application);
+      mousepad_disconnect_by_func (application, mousepad_application_dispatch_source, source);
+      return FALSE;
+    }
+
+  /* stay in the loop */
+  return TRUE;
+}
+
+
+
+static void
 mousepad_application_action_quit (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  g_application_quit (G_APPLICATION (data));
+  GSource *source;
+  guint    id;
+
+  /* create a timeout to force windows destruction as a last resort */
+  id = g_timeout_add (500, G_SOURCE_FUNC (mousepad_application_handle_active_window), data);
+  source = g_main_context_find_source_by_id (g_main_context_default (), id);
+
+  /* handle the new active window when the previous one has been removed,
+   * and reinitialize the timeout */
+  g_signal_connect_swapped (data, "window-removed",
+                            G_CALLBACK (mousepad_application_dispatch_source),
+                            source);
+
+  /* enter the loop */
+  mousepad_application_dispatch_source (source);
 }
 
 

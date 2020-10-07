@@ -25,6 +25,7 @@
 void
 mousepad_dialogs_show_about (GtkWindow *parent)
 {
+  GList *windows, *window;
   static const gchar *authors[] =
   {
     "Nick Schermer <nick@xfce.org>",
@@ -46,6 +47,18 @@ mousepad_dialogs_show_about (GtkWindow *parent)
                          "translator-credits", _("translator-credits"),
                          "website", "https://docs.xfce.org/apps/mousepad/start",
                          NULL);
+
+  /* retrieve the dialog window and add it to the application windows list */
+  windows = gtk_window_list_toplevels ();
+  for (window = windows; window != NULL; window = window->next)
+    if (GTK_IS_ABOUT_DIALOG (window->data) && gtk_window_get_transient_for (window->data) == parent)
+      {
+        gtk_window_set_application (GTK_WINDOW (window->data), gtk_window_get_application (parent));
+        break;
+      }
+
+  /* cleanup */
+  g_list_free (windows);
 }
 
 
@@ -63,6 +76,9 @@ mousepad_dialogs_show_error (GtkWindow    *parent,
                                    GTK_MESSAGE_ERROR,
                                    GTK_BUTTONS_CLOSE,
                                    "%s.", message);
+
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* set secondary text if an error is provided */
   if (G_LIKELY (error != NULL))
@@ -141,6 +157,9 @@ mousepad_dialogs_other_tab_size (GtkWindow *parent,
                                         _("_OK"), MOUSEPAD_RESPONSE_OK,
                                         NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_OK);
+
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* create scale widget */
   scale = gtk_scale_new_with_range (GTK_ORIENTATION_HORIZONTAL, 1, 32, 1);
@@ -225,6 +244,9 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_JUMP_TO);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_JUMP_TO);
   gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -330,6 +352,9 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
   gtk_window_set_default_size (GTK_WINDOW (dialog), 400, -1);
 
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
+
   /* the content area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
@@ -393,6 +418,9 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
                                 mousepad_util_image_button ("edit-delete", _("_Don't Save")),
                                 MOUSEPAD_RESPONSE_DONT_SAVE);
+
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* we show the save as button instead of save for readonly document */
   if (G_UNLIKELY (readonly))
@@ -473,6 +501,9 @@ mousepad_dialogs_externally_modified (GtkWindow *parent)
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
+
   /* run the dialog */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
 
@@ -504,8 +535,118 @@ mousepad_dialogs_revert (GtkWindow *parent)
   button = mousepad_util_image_button ("document-revert", _("_Revert"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_REVERT);
 
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
+
   /* run the dialog */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+  /* destroy the dialog */
+  gtk_widget_destroy (dialog);
+
+  return response;
+}
+
+
+
+gint
+mousepad_dialogs_save_as (GtkWindow    *parent,
+                          const gchar  *current_filename,
+                          const gchar  *last_save_location,
+                          gchar       **filename)
+{
+  GtkWidget *dialog, *button;
+  gint       response;
+
+  /* create the dialog */
+  dialog = gtk_file_chooser_dialog_new (_("Save As"),
+                                        parent, GTK_FILE_CHOOSER_ACTION_SAVE,
+                                        _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                        NULL);
+
+  button = mousepad_util_image_button ("document-save", _("_Save"));
+  gtk_widget_set_can_default (button, TRUE);
+  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
+  gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
+  gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
+
+  /* set the current filename if there is one, or use the last save location */
+  if (current_filename)
+    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), current_filename);
+  else if (last_save_location)
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), last_save_location);
+
+  /* run the dialog */
+  response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+  /* get the new filename */
+  *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+
+  /* destroy the dialog */
+  gtk_widget_destroy (dialog);
+
+  return response;
+}
+
+
+
+gint
+mousepad_dialogs_open (GtkWindow    *parent,
+                       const gchar  *filename,
+                       GSList      **filenames)
+{
+  GtkWidget *dialog, *button, *hbox, *label, *combobox;
+  gint       response;
+
+  /* create new file chooser dialog */
+  dialog = gtk_file_chooser_dialog_new (_("Open File"),
+                                         parent,
+                                         GTK_FILE_CHOOSER_ACTION_OPEN,
+                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                         NULL);
+  button = mousepad_util_image_button ("document-open", _("_Open"));
+  gtk_widget_set_can_default (button, TRUE);
+  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+  gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
+  gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
+
+  /* set parent window */
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
+
+  /* add the dialog to the application windows list */
+  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
+
+  /* encoding selector */
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+  gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
+  gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), hbox);
+  gtk_widget_show (hbox);
+
+  label = gtk_label_new_with_mnemonic (_("_Encoding:"));
+  gtk_label_set_xalign (GTK_LABEL (label), 1.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+  gtk_widget_show (label);
+
+  combobox = gtk_combo_box_new ();
+  gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label), combobox);
+  gtk_widget_show (combobox);
+
+  /* select the active document in the file chooser */
+  if (filename && g_file_test (filename, G_FILE_TEST_EXISTS))
+    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), filename);
+
+  /* run the dialog */
+  response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+  /* get a list of selected filenames */
+  *filenames = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (dialog));
 
   /* destroy the dialog */
   gtk_widget_destroy (dialog);
