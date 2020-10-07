@@ -47,7 +47,8 @@ GType               mousepad_file_get_type                 (void) G_GNUC_CONST;
 MousepadFile       *mousepad_file_new                      (GtkTextBuffer       *buffer);
 
 void                mousepad_file_set_filename             (MousepadFile        *file,
-                                                            const gchar         *filename);
+                                                            const gchar         *filename,
+                                                            gboolean             real);
 
 const gchar        *mousepad_file_get_filename             (MousepadFile        *file);
 
