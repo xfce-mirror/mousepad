@@ -128,6 +128,7 @@ static GtkNotebook      *mousepad_window_notebook_create_window       (GtkNotebo
 
 /* document signals */
 static void              mousepad_window_modified_changed             (MousepadWindow         *window);
+static void              mousepad_window_readonly_changed             (MousepadWindow         *window);
 static void              mousepad_window_cursor_changed               (MousepadDocument       *document,
                                                                        gint                    line,
                                                                        gint                    column,
@@ -248,7 +249,7 @@ static void              mousepad_window_action_save_as               (GSimpleAc
 static void              mousepad_window_action_save_all              (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
-static void              mousepad_window_action_revert                (GSimpleAction          *action,
+static void              mousepad_window_action_reload                (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
 static void              mousepad_window_action_print                 (GSimpleAction          *action,
@@ -443,15 +444,6 @@ struct _MousepadWindow
   /* fullscreen bars visibility switch */
   guint                fullscreen_bars_timer_id;
 
-  /* success of file saving */
-  /*
-   * A possible TODO: handle this internally by a clever use of GAction parameter/state
-   * Easy to think, difficult to write: see
-   * https://developer.gnome.org/glib/stable/gvariant-format-strings.html
-   * and the obscure interaction between a GActionEntry definition and a GtkBuilder XML file
-   */
-  gboolean             save_succeed;
-
   /* support to remember window geometry */
   guint                save_geometry_timer_id;
 };
@@ -478,10 +470,10 @@ static const GActionEntry action_entries[] =
     { "file.open-recent.new", mousepad_window_action_open_recent, "s", NULL, NULL },
     { "file.open-recent.clear-history", mousepad_window_action_clear_recent, NULL, NULL, NULL },
 
-  { "file.save", mousepad_window_action_save, NULL, NULL, NULL },
-  { "file.save-as", mousepad_window_action_save_as, NULL, NULL, NULL },
+  { "file.save", mousepad_window_action_save, NULL, "0", NULL },
+  { "file.save-as", mousepad_window_action_save_as, NULL, "0", NULL },
   { "file.save-all", mousepad_window_action_save_all, NULL, NULL, NULL },
-  { "file.revert", mousepad_window_action_revert, NULL, NULL, NULL },
+  { "file.reload", mousepad_window_action_reload, NULL, NULL, NULL },
 
   { "file.print", mousepad_window_action_print, NULL, NULL, NULL },
 
@@ -637,17 +629,6 @@ mousepad_window_update_statusbar_settings (MousepadWindow *window,
 {
   if (G_LIKELY (MOUSEPAD_IS_DOCUMENT (window->active)))
     mousepad_document_send_signals (window->active);
-}
-
-
-
-/* Called in response to any setting changed which affects the window title. */
-static void
-mousepad_window_update_window_title (MousepadWindow *window,
-                                     gchar          *key,
-                                     GSettings      *settings)
-{
-  mousepad_window_set_title (window);
 }
 
 
@@ -897,8 +878,8 @@ mousepad_window_create_toolbar (MousepadWindow *window)
                                   _("Save the current document"), "win.file.save");
   mousepad_window_toolbar_insert (window, _("Save _As..."), "document-save-as",
                                   _("Save current document as another file"), "win.file.save-as");
-  mousepad_window_toolbar_insert (window, _("Re_vert"), "document-revert",
-                                  _("Revert to the saved version of the file"), "win.file.revert");
+  mousepad_window_toolbar_insert (window, _("Re_load"), "view-refresh",
+                                  _("Reload file from disk"), "win.file.reload");
   mousepad_window_toolbar_insert (window, _("Close _Tab"), "window-close",
                                   _("Close the current document"), "win.file.close-tab");
 
@@ -1197,7 +1178,7 @@ mousepad_window_init (MousepadWindow *window)
 
   /* update the window title when 'path-in-title' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE,
-                                   G_CALLBACK (mousepad_window_update_window_title),
+                                   G_CALLBACK (mousepad_window_set_title),
                                    window, G_CONNECT_SWAPPED);
 
   /* update the tabs when 'always-show-tabs' setting changes */
@@ -1627,7 +1608,7 @@ mousepad_window_open_file (MousepadWindow   *window,
   g_object_ref_sink (G_OBJECT (document));
 
   /* set the filename */
-  mousepad_file_set_filename (document->file, filename);
+  mousepad_file_set_filename (document->file, filename, TRUE);
 
   /* set the passed encoding */
   mousepad_file_set_encoding (document->file, encoding);
@@ -1833,8 +1814,9 @@ static gboolean
 mousepad_window_close_document (MousepadWindow   *window,
                                 MousepadDocument *document)
 {
-  gboolean succeed = FALSE, readonly;
-  gint     response;
+  GVariant *value;
+  gboolean  succeed = FALSE, readonly;
+  gint      response;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (document), FALSE);
@@ -1861,12 +1843,16 @@ mousepad_window_close_document (MousepadWindow   *window,
 
           case MOUSEPAD_RESPONSE_SAVE:
             g_action_group_activate_action (G_ACTION_GROUP (window), "file.save", NULL);
-            succeed = window->save_succeed;
+            value = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save");
+            succeed = g_variant_get_int32 (value);
+            g_variant_unref (value);
             break;
 
           case MOUSEPAD_RESPONSE_SAVE_AS:
             g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
-            succeed = window->save_succeed;
+            value = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
+            succeed = g_variant_get_int32 (value);
+            g_variant_unref (value);
             break;
         }
     }
@@ -1907,9 +1893,13 @@ mousepad_window_set_title (MousepadWindow *window)
 
   /* build the title */
   if (G_UNLIKELY (mousepad_file_get_read_only (document->file)))
-    string = g_strdup_printf ("%s [%s] - %s", title, _("Read Only"), PACKAGE_NAME);
+    string = g_strdup_printf ("%s%s [%s] - %s",
+                              gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
+                              title, _("Read Only"), PACKAGE_NAME);
   else
-    string = g_strdup_printf ("%s%s - %s", gtk_text_buffer_get_modified (document->buffer) ? "*" : "", title, PACKAGE_NAME);
+    string = g_strdup_printf ("%s%s - %s",
+                              gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
+                              title, PACKAGE_NAME);
 
   /* set the window title */
   gtk_window_set_title (GTK_WINDOW (window), string);
@@ -2012,6 +2002,10 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                             G_CALLBACK (mousepad_window_can_redo), window);
   g_signal_connect_swapped (G_OBJECT (document->buffer), "modified-changed",
                             G_CALLBACK (mousepad_window_modified_changed), window);
+  g_signal_connect_swapped (G_OBJECT (document->file), "readonly-changed",
+                            G_CALLBACK (mousepad_window_readonly_changed), window);
+  g_signal_connect_swapped (G_OBJECT (document->file), "filename-changed",
+                            G_CALLBACK (mousepad_window_set_title), window);
   g_signal_connect (G_OBJECT (document->textview), "populate-popup",
                     G_CALLBACK (mousepad_window_menu_textview_popup), window);
 
@@ -2045,6 +2039,9 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (G_OBJECT (document->buffer), mousepad_window_can_redo, window);
   mousepad_disconnect_by_func (G_OBJECT (document->buffer),
                                mousepad_window_modified_changed, window);
+  mousepad_disconnect_by_func (G_OBJECT (document->file), mousepad_window_set_title, window);
+  mousepad_disconnect_by_func (G_OBJECT (document->file),
+                               mousepad_window_readonly_changed, window);
   mousepad_disconnect_by_func (G_OBJECT (document->textview),
                                mousepad_window_menu_textview_popup, window);
 
@@ -2302,11 +2299,78 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
  * Document Signals Functions
  **/
 static void
-mousepad_window_modified_changed (MousepadWindow   *window)
+mousepad_window_modified_changed (MousepadWindow *window)
 {
+  GtkApplication *application;
+  GtkWidget      *gtkmenu;
+  GtkToolItem    *tool_item;
+  GMenu          *menu;
+  GMenuItem      *item;
+  GIcon          *icon;
+  const gchar    *icon_name, *tooltip;
+  gint            nitems, offset;
+  gboolean        modified;
+
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
+  /* update window title */
   mousepad_window_set_title (window);
+
+  /* update the "Reload/Revert" menubar item */
+
+  /* prevent menu updates */
+  lock_menu_updates++;
+
+  /* get the save section in the "File" menu */
+  application = gtk_window_get_application (GTK_WINDOW (window));
+  menu = gtk_application_get_menu_by_id (application, "file.save");
+  nitems = g_menu_model_get_n_items (G_MENU_MODEL (menu));
+
+  /* set the "Reload/Revert" menu item */
+  item = g_menu_item_new_from_model (G_MENU_MODEL (menu), nitems - 1);
+  modified = gtk_text_buffer_get_modified (window->active->buffer);
+  g_menu_item_set_label (item, modified ? _("Re_vert") : _("Re_load"));
+
+  icon_name = modified ? "document-revert" : "view-refresh";
+  icon = g_icon_new_for_string (icon_name, NULL);
+  g_menu_item_set_icon (item, icon);
+  g_object_unref (icon);
+
+  tooltip = modified ? _("Revert to the saved version of the file") : _("Reload file from disk");
+  g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
+
+  /* insert menu item */
+  g_menu_remove (menu, nitems - 1);
+  g_menu_append_item (menu, item);
+  g_object_unref (item);
+
+  /* set the "Reload/Revert" menu item tooltip */
+  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), "gtkmenu");
+  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), "offset"));
+  mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
+
+  /* allow menu actions again */
+  lock_menu_updates--;
+
+  /* update the "Reload/Revert" toolbar item */
+  tool_item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar), 4);
+  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon_name);
+  gtk_tool_item_set_tooltip_text (tool_item, tooltip);
+}
+
+
+
+static void
+mousepad_window_readonly_changed (MousepadWindow *window)
+{
+  GAction *action;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* set the save action sensitivity */
+  action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
+                               ! mousepad_file_get_read_only (window->active->file));
 }
 
 
@@ -2942,7 +3006,7 @@ mousepad_window_update_actions (MousepadWindow *window)
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.detach-tab");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), n_pages > 1);
 
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.revert");
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.reload");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
                                    mousepad_file_get_filename (document->file) != NULL);
 
@@ -4069,18 +4133,20 @@ mousepad_window_action_save (GSimpleAction *action,
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document = window->active;
   GError           *error = NULL;
-  gboolean          modified;
+  GVariant         *v_succeed;
+  gboolean          succeed = FALSE, modified;
   gint              response;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  window->save_succeed = FALSE;
-
   if (mousepad_file_get_filename (document->file) == NULL)
     {
       /* file has no filename yet, open the save as dialog */
       g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
+      v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
+      succeed = g_variant_get_int32 (v_succeed);
+      g_variant_unref (v_succeed);
     }
   else
     {
@@ -4104,26 +4170,24 @@ mousepad_window_action_save (GSimpleAction *action,
         {
           case MOUSEPAD_RESPONSE_CANCEL:
             /* do nothing */
-            window->save_succeed = FALSE;
-            return;
+            succeed = FALSE;
+            break;
 
           case MOUSEPAD_RESPONSE_SAVE_AS:
             /* run save as dialog */
             g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
+            v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
+            succeed = g_variant_get_int32 (v_succeed);
+            g_variant_unref (v_succeed);
             break;
 
           case MOUSEPAD_RESPONSE_SAVE:
             /* save the document */
-            window->save_succeed = mousepad_file_save (document->file, &error);
+            succeed = mousepad_file_save (document->file, &error);
             break;
         }
 
-      if (G_LIKELY (window->save_succeed))
-        {
-          /* update the window title */
-          mousepad_window_set_title (window);
-        }
-      else if (error != NULL)
+      if (G_UNLIKELY (succeed == FALSE) && error != NULL)
         {
           showerror:
 
@@ -4132,6 +4196,9 @@ mousepad_window_action_save (GSimpleAction *action,
           g_error_free (error);
         }
     }
+
+  /* store the save result as the action state */
+  g_simple_action_set_state (action, g_variant_new_int32 (succeed));
 }
 
 
@@ -4143,13 +4210,16 @@ mousepad_window_action_save_as (GSimpleAction *action,
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document = window->active;
-  gchar            *filename = NULL;
+  GAction          *action_save;
+  GVariant         *v_succeed;
+  gchar            *current_filename, *filename;
+  gboolean          succeed = FALSE;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* initialize save state */
-  window->save_succeed = FALSE;
+  /* store a copy of the current filename to restore it in case of failure */
+  current_filename = g_strdup (mousepad_file_get_filename (document->file));
 
   /* run the dialog */
   if (mousepad_dialogs_save_as (GTK_WINDOW (window),
@@ -4157,25 +4227,40 @@ mousepad_window_action_save_as (GSimpleAction *action,
                                 last_save_location, &filename)
       == GTK_RESPONSE_OK && G_LIKELY (filename))
     {
-      /* set the new filename */
-      mousepad_file_set_filename (document->file, filename);
+      /* virtually set the new filename */
+      mousepad_file_set_filename (document->file, filename, FALSE);
 
-      /* save the file with the function above */
-      g_action_group_activate_action (G_ACTION_GROUP (window), "file.save", NULL);
+      /* save the file by an internal call (the save action may be disabled, depending
+       * on the file status) */
+      action_save = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+      mousepad_window_action_save (G_SIMPLE_ACTION (action_save), NULL, window);
+      v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save");
+      succeed = g_variant_get_int32 (v_succeed);
+      g_variant_unref (v_succeed);
 
-      if (G_LIKELY (window->save_succeed))
+      if (G_LIKELY (succeed))
         {
-          /* add to the recent history if saving succeeded */
+          /* validate filename change */
+          mousepad_file_set_filename (document->file, filename, TRUE);
+
+          /* add to the recent history */
           mousepad_window_recent_add (window, document->file);
 
           /* update last save location */
           g_free (last_save_location);
           last_save_location = g_path_get_dirname (filename);
         }
+      /* revert filename change */
+      else
+        mousepad_file_set_filename (document->file, current_filename, FALSE);
     }
 
   /* cleanup */
+  g_free (current_filename);
   g_free (filename);
+
+  /* store the save result as the action state */
+  g_simple_action_set_state (action, g_variant_new_int32 (succeed));
 }
 
 
@@ -4283,12 +4368,13 @@ mousepad_window_action_save_all (GSimpleAction *action,
 
 
 static void
-mousepad_window_action_revert (GSimpleAction *action,
+mousepad_window_action_reload (GSimpleAction *action,
                                GVariant      *value,
                                gpointer       data)
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document = window->active;
+  GVariant         *v_succeed;
   GError           *error = NULL;
   gint              response;
   gboolean          succeed;
@@ -4304,19 +4390,18 @@ mousepad_window_action_revert (GSimpleAction *action,
 
       if (response == MOUSEPAD_RESPONSE_SAVE_AS)
         {
-          /* open the save as dialog, leave when use user did not save (or it failed) */
+          /* open the save as dialog */
           g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
-          if (! window->save_succeed)
-            return;
-        }
-      else if (response == MOUSEPAD_RESPONSE_CANCEL || response < 0)
-        {
-          /* meh, first click revert and then cancel... pussy... */
+          v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
+          succeed = g_variant_get_int32 (v_succeed);
+          g_variant_unref (v_succeed);
+
+          /* exit regardless of save status */
           return;
         }
-
-      /* small check for debug builds */
-      g_return_if_fail (response == MOUSEPAD_RESPONSE_REVERT);
+      /* revert cancelled */
+      else if (response == MOUSEPAD_RESPONSE_CANCEL || response < 0)
+        return;
     }
 
   /* lock the undo manager */
