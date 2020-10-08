@@ -16,9 +16,6 @@
 
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-file.h>
-#if !GLIB_CHECK_VERSION (2, 52, 0)
-#include <mousepad/mousepad-util.h>
-#endif
 
 #include <glib/gstdio.h>
 

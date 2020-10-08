@@ -171,8 +171,6 @@ mousepad_settings_store_add_key (MousepadSettingsStore *self,
 
 
 
-#if GLIB_CHECK_VERSION (2, 46, 0)
-
 static void
 mousepad_settings_store_add_settings (MousepadSettingsStore *self,
                                       const gchar           *schema_id,
@@ -214,60 +212,12 @@ mousepad_settings_store_add_settings (MousepadSettingsStore *self,
   g_settings_schema_unref (schema);
 }
 
-#else
-
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-static void
-mousepad_settings_store_add_settings (MousepadSettingsStore *self,
-                                      const gchar           *path,
-                                      GSettings             *settings)
-{
-  gchar **keys, **keyp;
-  gchar **children, **childp;
-
-  /* loop through keys in schema and store mapping of their path to GSettings */
-  keys = g_settings_list_keys (settings);
-  for (keyp = keys; keyp && *keyp; keyp++)
-    {
-      const gchar *key_name = *keyp;
-      gchar       *key_path = g_strdup_printf ("%s/%s", path, key_name);
-      mousepad_settings_store_add_key (self, key_path, key_name, settings);
-      g_free (key_path);
-    }
-  g_strfreev (keys);
-
-  /* loop through child schemas and add them too */
-  children = g_settings_list_children (settings);
-  for (childp = children; childp && *childp; childp++)
-    {
-      const gchar *child_name = *childp;
-      GSettings   *child_settings = g_settings_get_child (settings, child_name);
-      gchar       *child_path = g_strdup_printf ("%s/%s", path, child_name);
-      mousepad_settings_store_add_settings (self, child_path, child_settings);
-      g_object_unref (child_settings);
-      g_free (child_path);
-    }
-  g_strfreev (children);
-}
-
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic pop
-#endif
-
-#endif
-
 
 
 static void
 mousepad_settings_store_init (MousepadSettingsStore *self)
 {
-#if GLIB_CHECK_VERSION (2, 46, 0)
   GSettingsSchemaSource *source;
-#endif
 
 #ifdef MOUSEPAD_SETTINGS_KEYFILE_BACKEND
   GSettingsBackend *backend;
@@ -289,12 +239,8 @@ mousepad_settings_store_init (MousepadSettingsStore *self)
                                       NULL,
                                       (GDestroyNotify) mousepad_setting_key_free);
 
-#if GLIB_CHECK_VERSION (2, 46, 0)
   source = g_settings_schema_source_get_default ();
   mousepad_settings_store_add_settings (self, MOUSEPAD_SCHEMA_ID, source, self->root);
-#else
-  mousepad_settings_store_add_settings (self, "", self->root);
-#endif
 }
 
 
