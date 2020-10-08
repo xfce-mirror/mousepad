@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-07 12:47+0200\n"
-"PO-Revision-Date: 2020-10-08 09:54+0000\n"
+"PO-Revision-Date: 2020-10-08 17:22+0000\n"
 "Last-Translator: Yannick Le Guen <leguen.yannick@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +232,7 @@ msgstr "Sans titre"
 #: ../mousepad/mousepad-encoding-dialog.c:352
 #: ../mousepad/mousepad-encoding-dialog.c:372
 msgid "The document was not UTF-8 valid."
-msgstr "Le document n’était pas valide UTF-8."
+msgstr "Le document n’était pas en UTF-8 valide."
 
 #. encoding radio buttons
 #. default encoding: UTF-8
