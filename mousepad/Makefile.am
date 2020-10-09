@@ -64,8 +64,7 @@ mousepad_CFLAGS = \
 	$(GTKSOURCEVIEW_CFLAGS) \
 	$(PLATFORM_CFLAGS) \
 	$(XFCONF_CFLAGS) \
-	-DMOUSEPAD_GSETTINGS_SCHEMA_DIR=\""$(datadir)/glib-2.0/schemas"\" \
-	-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_60
+	-DMOUSEPAD_GSETTINGS_SCHEMA_DIR=\""$(datadir)/glib-2.0/schemas"\"
 
 mousepad_LDFLAGS = \
 	-no-undefined \
