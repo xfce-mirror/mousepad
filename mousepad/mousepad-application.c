@@ -183,7 +183,6 @@ static void
 mousepad_application_startup (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
-  gchar               *filename;
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
@@ -199,17 +198,6 @@ mousepad_application_startup (GApplication *gapplication)
   /* initialize mousepad settings and prefs dialog */
   mousepad_settings_init ();
   application->prefs_dialog = NULL;
-
-  /* check if we have a saved accel map */
-  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, FALSE);
-  if (G_LIKELY (filename != NULL))
-    {
-      /* load the accel map */
-      gtk_accel_map_load (filename);
-
-      /* cleanup */
-      g_free (filename);
-    }
 }
 
 
@@ -276,7 +264,6 @@ mousepad_application_shutdown (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GList               *windows, *window;
-  gchar               *filename;
 
   if (GTK_IS_WIDGET (application->prefs_dialog))
     gtk_widget_destroy (application->prefs_dialog);
@@ -285,17 +272,6 @@ mousepad_application_shutdown (GApplication *gapplication)
    * this is a bit of an ugly place, but cleaning on a window close
    * isn't a good option eighter */
   mousepad_replace_dialog_history_clean ();
-
-  /* save the current accel map */
-  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, TRUE);
-  if (G_LIKELY (filename != NULL))
-    {
-      /* save the accel map */
-      gtk_accel_map_save (filename);
-
-      /* cleanup */
-      g_free (filename);
-    }
 
   /* destroy the windows if they are still opened */
   windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (application)));
