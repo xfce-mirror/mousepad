@@ -5412,9 +5412,7 @@ mousepad_window_action_line_numbers (GSimpleAction *action,
                                      GVariant      *value,
                                      gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* save as the last used line number setting */
   MOUSEPAD_SETTING_SET_BOOLEAN (SHOW_LINE_NUMBERS, g_variant_get_boolean (value));
@@ -5659,9 +5657,7 @@ mousepad_window_action_auto_indent (GSimpleAction *action,
                                     GVariant      *value,
                                     gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* save as the last auto indent mode */
   MOUSEPAD_SETTING_SET_BOOLEAN (AUTO_INDENT, g_variant_get_boolean (value));
@@ -5736,9 +5732,7 @@ mousepad_window_action_color_scheme (GSimpleAction *action,
                                      GVariant      *value,
                                      gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* leave when menu updates are locked */
   if (lock_menu_updates == 0)
@@ -5784,10 +5778,12 @@ mousepad_window_action_insert_spaces (GSimpleAction *action,
                                       GVariant      *value,
                                       gpointer       data)
 {
+#ifndef G_DISABLE_CHECKS
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+#endif
 
   /* leave when menu updates are locked */
   if (lock_menu_updates == 0)
@@ -5804,9 +5800,7 @@ mousepad_window_action_word_wrap (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* leave when menu updates are locked */
   if (lock_menu_updates == 0)
