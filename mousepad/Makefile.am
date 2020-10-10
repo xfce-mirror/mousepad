@@ -92,16 +92,16 @@ BUILT_SOURCES = \
 	$(mousepad_built_sources) \
 	mousepad-resources.c
 
-mousepad_resource_deps = $(shell glib-compile-resources --generate-dependencies --sourcedir $(srcdir)/resources --sourcedir $(builddir)/resources $(builddir)/resources/mousepad.gresource.xml)
+mousepad_resource_deps = $(shell glib-compile-resources --generate-dependencies --sourcedir $(srcdir)/resources --sourcedir $(builddir)/resources $(srcdir)/resources/mousepad.gresource.xml)
 
-mousepad_resources_c_deps = $(builddir)/resources/mousepad.gresource.xml $(mousepad_resource_deps)
+mousepad_resources_c_deps = $(srcdir)/resources/mousepad.gresource.xml $(mousepad_resource_deps)
 
 mousepad-resources.c: $(mousepad_resources_c_deps)
 	$(AM_V_GEN) glib-compile-resources \
 		--target="$@" \
 		--sourcedir="$(srcdir)/resources" \
 		--sourcedir="$(builddir)/resources" \
-		--generate-source "$(builddir)/resources/mousepad.gresource.xml"
+		--generate-source "$(srcdir)/resources/mousepad.gresource.xml"
 
 mousepad-marshal.h: mousepad-marshal.list Makefile
 	$(AM_V_GEN) glib-genmarshal --header --prefix=_mousepad_marshal $< > $@
