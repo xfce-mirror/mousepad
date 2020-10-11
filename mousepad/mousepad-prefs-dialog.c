@@ -54,6 +54,7 @@
 #define WID_REMEMBER_STATE_CHECK            "/prefs/window/general/remember-window-state-check"
 #define WID_ALWAYS_SHOW_TABS_CHECK          "/prefs/window/notebook/always-show-tabs-check"
 #define WID_CYCLE_TABS_CHECK                "/prefs/window/notebook/cycle-tabs-check"
+#define WID_OPENING_MODE_COMBO              "/prefs/window/notebook/opening-mode-combo"
 #define WID_TOOLBAR_VISIBLE_CHECK           "/prefs/window/toolbar/visible-check"
 #define WID_TOOLBAR_STYLE_COMBO             "/prefs/window/toolbar/style-combo"
 #define WID_TOOLBAR_STYLE_LABEL             "/prefs/window/toolbar/style-label"
@@ -393,6 +394,37 @@ mousepad_prefs_dialog_toolbar_icon_size_setting_changed (MousepadPrefsDialog *se
 
 
 
+/* update opening mode setting when combo changes */
+static void
+mousepad_prefs_dialog_opening_mode_changed (MousepadPrefsDialog *self,
+                                            GtkComboBox         *combo)
+{
+  self->blocked = TRUE;
+  MOUSEPAD_SETTING_SET_ENUM (OPENING_MODE, gtk_combo_box_get_active (combo));
+  self->blocked = FALSE;
+}
+
+
+
+/* update the combo when the setting changes */
+static void
+mousepad_prefs_dialog_opening_mode_setting_changed (MousepadPrefsDialog *self,
+                                                    gchar               *key,
+                                                    GSettings           *settings)
+{
+  GtkComboBox *combo;
+
+  /* don't do anything when the combo box is itself updating the setting */
+  if (self->blocked)
+    return;
+
+  combo = GTK_COMBO_BOX (gtk_builder_get_object (self->builder, WID_OPENING_MODE_COMBO));
+
+  gtk_combo_box_set_active (combo, MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE));
+}
+
+
+
 #define mousepad_builder_get_widget(builder, name) \
   GTK_WIDGET (gtk_builder_get_object (builder, name))
 
@@ -443,7 +475,8 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* enable/disable font chooser button when the default font checkbox is changed */
   check = mousepad_builder_get_widget (self->builder, WID_USE_DEFAULT_FONT_CHECK);
   widget = mousepad_builder_get_widget (self->builder, WID_FONT_BUTTON);
-  g_object_bind_property (check, "active", widget, "sensitive", G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+  g_object_bind_property (check, "active", widget, "sensitive",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
   /* setup tab mode combo box */
   widget = mousepad_builder_get_widget (self->builder, WID_TAB_MODE_COMBO);
@@ -467,6 +500,10 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   widget = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_ICON_SIZE_COMBO);
   g_object_bind_property (check, "active", widget, "sensitive", G_BINDING_SYNC_CREATE);
   mousepad_prefs_dialog_toolbar_icon_size_setting_changed (self, NULL, NULL);
+
+  /* setup opening mode combo box */
+  widget = mousepad_builder_get_widget (self->builder, WID_OPENING_MODE_COMBO);
+  gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE));
 
   /* bind checkboxes to settings */
 #define BIND_CHECKBOX(setting)                                           \
@@ -567,6 +604,18 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* update toolbar icon size combo when setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_ICON_SIZE,
                                    G_CALLBACK (mousepad_prefs_dialog_toolbar_icon_size_setting_changed),
+                                   self,
+                                   G_CONNECT_SWAPPED);
+
+  /* update opening mode when changed */
+  g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_OPENING_MODE_COMBO),
+                            "changed",
+                            G_CALLBACK (mousepad_prefs_dialog_opening_mode_changed),
+                            self);
+
+  /* update opening mode combo when setting changes */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (OPENING_MODE,
+                                   G_CALLBACK (mousepad_prefs_dialog_opening_mode_setting_changed),
                                    self,
                                    G_CONNECT_SWAPPED);
 }
