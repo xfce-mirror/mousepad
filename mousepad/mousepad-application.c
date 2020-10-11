@@ -67,6 +67,9 @@ struct _MousepadApplication
 
   /* the preferences dialog when shown */
   GtkWidget *prefs_dialog;
+
+  /* opening mode provided on the command line */
+  gint       opening_mode;
 };
 
 
@@ -74,10 +77,33 @@ struct _MousepadApplication
 /* command line options */
 static const GOptionEntry option_entries[] =
 {
-  { "disable-server", '\0', 0, G_OPTION_ARG_NONE, NULL, N_("Do not register with the D-BUS session message bus"), NULL },
-  { "quit", 'q', 0, G_OPTION_ARG_NONE, NULL, N_("Quit a running Mousepad primary instance"), NULL },
-  { "version", 'v', 0, G_OPTION_ARG_NONE, NULL, N_("Print version information and exit"), NULL },
-  { G_OPTION_REMAINING, '\0', 0, G_OPTION_ARG_FILENAME_ARRAY, NULL, NULL, N_("[FILES...]") },
+  {
+    "opening-mode", 'o', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_STRING, NULL,
+    NC_("The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not be translated",
+        "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"),
+    N_("MODE")
+  },
+  {
+    "disable-server", '\0', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_NONE, NULL,
+    N_("Do not register with the D-BUS session message bus"), NULL
+  },
+  {
+    "quit", 'q', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_NONE, NULL,
+    N_("Quit a running Mousepad primary instance"), NULL
+  },
+  {
+    "version", 'v', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_NONE, NULL,
+    N_("Print version information and exit"), NULL
+  },
+  {
+    G_OPTION_REMAINING, '\0', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_FILENAME_ARRAY, NULL,
+    NULL, N_("[FILES...]")
+  },
   { NULL }
 };
 
@@ -87,6 +113,16 @@ static const GOptionEntry option_entries[] =
 static const GActionEntry action_entries[] =
 {
   { "quit", mousepad_application_action_quit, NULL, NULL, NULL }
+};
+
+
+
+/* opening mode provided on the command line */
+enum
+{
+  TAB = 0,
+  WINDOW,
+  MIXED
 };
 
 
@@ -157,7 +193,7 @@ mousepad_application_handle_local_options (GApplication *gapplication,
       /* try to find a running primary instance */
       if (! g_application_get_is_remote (gapplication))
         {
-          g_printerr ("%s\n", "Failed to find a running Mousepad primary instance");
+          g_printerr ("%s\n", _("Failed to find a running Mousepad primary instance"));
 
           return EXIT_FAILURE;
         }
@@ -187,6 +223,13 @@ mousepad_application_startup (GApplication *gapplication)
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
 
+  /* initialize application attributes */
+  application->prefs_dialog = NULL;
+  application->opening_mode = TAB;
+
+  /* initialize mousepad settings */
+  mousepad_settings_init ();
+
   /* add application actions */
   g_action_map_add_action_entries (G_ACTION_MAP (application), action_entries,
                                    G_N_ELEMENTS (action_entries), application);
@@ -194,10 +237,6 @@ mousepad_application_startup (GApplication *gapplication)
   /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
   mousepad_application_create_style_schemes_menu (application);
-
-  /* initialize mousepad settings and prefs dialog */
-  mousepad_settings_init ();
-  application->prefs_dialog = NULL;
 }
 
 
@@ -206,32 +245,51 @@ static gint
 mousepad_application_command_line (GApplication            *gapplication,
                                    GApplicationCommandLine *command_line)
 {
-  GVariantDict  *options;
-  GError        *error = NULL;
-  GPtrArray     *files;
-  GFile         *file;
-  gpointer      *data;
-  const gchar   *working_directory;
-  gchar        **filenames = NULL;
-  gint           n, n_files;
+  MousepadApplication  *application = MOUSEPAD_APPLICATION (gapplication);
+  GVariantDict         *options;
+  GError               *error = NULL;
+  GPtrArray            *files;
+  GFile                *file;
+  gpointer             *data;
+  const gchar          *opening_mode, *working_directory;
+  gchar               **filenames = NULL;
+  gint                  n, n_files;
 
   /* initialize xfconf */
   if (G_UNLIKELY (xfconf_init (&error) == FALSE))
     {
-      g_application_command_line_printerr (command_line, "%s\n", "Failed to initialize xfconf");
+      g_application_command_line_printerr (command_line, "%s\n", _("Failed to initialize xfconf"));
       g_error_free (error);
 
       return EXIT_FAILURE;
     }
 
-  /* get the options dictionary and extract filenames */
+  /* get the option dictionary */
   options = g_application_command_line_get_options_dict (command_line);
+
+  /* see if an opening mode was provided on the command line */
+  if (g_variant_dict_lookup (options, "opening-mode", "&s", &opening_mode))
+    {
+      if (g_strcmp0 (opening_mode, "tab") == 0)
+        application->opening_mode = TAB;
+      else if (g_strcmp0 (opening_mode, "window") == 0)
+        application->opening_mode = WINDOW;
+      else if (g_strcmp0 (opening_mode, "mixed") == 0)
+        application->opening_mode = MIXED;
+      else
+        g_application_command_line_printerr (command_line, "%s\n", _("Invalid opening mode: ignored"));
+    }
+  else
+    application->opening_mode = TAB;
+    /*TODO: application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);*/
+
+  /* extract filenames */
   g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);
 
   /* get the current working directory */
   working_directory = g_application_command_line_get_cwd (command_line);
 
-  /* open an empty window (with an empty document or the files) */
+  /* open files provided on the command line or an empty document */
   if (working_directory && filenames && (n_files = g_strv_length (filenames)))
     {
       /* prepare the GFiles array */
@@ -262,20 +320,43 @@ mousepad_application_command_line (GApplication            *gapplication,
 
 
 
+static GtkWidget *
+mousepad_application_get_window_for_files (MousepadApplication *application)
+{
+  GtkWidget *window = NULL;
+  GList     *list, *li;
+
+  /* when opening mode is "tab", retrieve the last active MousepadWindow, if any */
+  if (application->opening_mode == TAB)
+    {
+      list = gtk_application_get_windows (GTK_APPLICATION (application));
+      for (li = list; li != NULL; li = li->next)
+        if (MOUSEPAD_IS_WINDOW (li->data))
+          {
+            window = li->data;
+            break;
+          }
+    }
+
+  /* create a new window (signals added and already hooked up) if needed */
+  if (window == NULL)
+    window = mousepad_application_create_window (application);
+
+  return window;
+}
+
+
+
 static void
 mousepad_application_activate (GApplication *gapplication)
 {
-  MousepadDocument *document;
-  GtkWidget        *window;
+  GtkWidget *window;
 
-  /* create a new window (signals added and already hooked up) */
-  window = mousepad_application_create_window (MOUSEPAD_APPLICATION (gapplication));
+  /* get the window to open a new document */
+  window = mousepad_application_get_window_for_files (MOUSEPAD_APPLICATION (gapplication));
 
-  /* create a new document */
-  document = mousepad_document_new ();
-
-  /* add the document to the new window */
-  mousepad_window_add (MOUSEPAD_WINDOW (window), document);
+  /* create a new document and add it to the window */
+  g_action_group_activate_action (G_ACTION_GROUP (window), "file.new", NULL);
 
   /* show the window */
   gtk_widget_show (window);
@@ -289,15 +370,14 @@ mousepad_application_open (GApplication  *gapplication,
                            gint           n_files,
                            const gchar   *hint)
 {
-  GtkWidget *window;
-  GError    *error = NULL;
-  GPtrArray *uris;
-  gpointer  *data;
-  gchar     *filename, *uri;
-  gint       n, valid = 0, opened = 0;
-
-  /* create a new window (signals added and already hooked up) */
-  window = mousepad_application_create_window (MOUSEPAD_APPLICATION (gapplication));
+  MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  GtkWidget           *window;
+  GError              *error = NULL;
+  GPtrArray           *uris;
+  gpointer            *data;
+  gchar               *filename, *uri;
+  gchar               *temp_uri[] = { NULL, NULL };
+  gint                 n, valid = 0, opened = 0;
 
   /* prepare the uris array */
   uris = g_ptr_array_new ();
@@ -324,23 +404,50 @@ mousepad_application_open (GApplication  *gapplication,
 
   if (valid > 0)
     {
+      /* get the underlying filename array */
       g_ptr_array_add (uris, NULL);
       data = g_ptr_array_free (uris, FALSE);
 
-      /* open the files */
-      opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), (gchar **) data);
+      /* open the files in tabs */
+      if (application->opening_mode != WINDOW)
+        {
+          /* get the window to open the files */
+          window = mousepad_application_get_window_for_files (application);
+
+          /* open the files */
+          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), (gchar **) data);
+
+          /* if at least one file was finally opened, show the window */
+          if (opened > 0)
+            gtk_widget_show (window);
+          else
+            gtk_widget_destroy (window);
+        }
+      /* open the files in windows */
+      else
+        {
+          for (n = 0; n < valid; n++)
+            {
+              /* create a new window (signals added and already hooked up) */
+              window = mousepad_application_create_window (application);
+
+              /* open the file */
+              temp_uri[0] = data[n];
+              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), temp_uri);
+
+              /* if the file was finally opened, show the window */
+              if (opened > 0)
+                gtk_widget_show (window);
+              else
+                gtk_widget_destroy (window);
+            }
+        }
 
       /* cleanup */
       g_strfreev ((gchar **) data);
     }
   else
     g_ptr_array_free (uris, TRUE);
-
-  /* if at least one file was finally opened, show the window */
-  if (opened > 0)
-    gtk_widget_show (window);
-  else
-    gtk_widget_destroy (window);
 }
 
 
