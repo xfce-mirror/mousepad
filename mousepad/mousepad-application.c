@@ -278,16 +278,14 @@ mousepad_application_command_line (GApplication            *gapplication,
         application->opening_mode = MIXED;
       else
         {
-          application->opening_mode = TAB;
-          /*TODO: application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);*/
+          application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
           g_application_command_line_printerr (command_line, "%s\n",
                                                _("Invalid opening mode: ignored"));
         }
     }
   /* use the opening mode stored in the settings */
   else
-    application->opening_mode = TAB;
-    /*TODO: application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);*/
+    application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
 
   /* extract filenames */
   g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);

@@ -25,6 +25,12 @@
     <value nick="dialog" value="6"/>
   </enum>
 
+  <enum id="org.xfce.mousepad.OpeningMode">
+    <value nick="tab" value="0"/>
+    <value nick="window" value="1"/>
+    <value nick="mixed" value="2"/>
+  </enum>
+
   <enum id="org.xfce.mousepad.ShowInFullscreen">
     <value nick="auto" value="0"/>
     <value nick="no" value="1"/>
@@ -220,6 +226,13 @@
       <description>
         When true and cycling through tabs, wrap around once the last tab is
         reached, when false do nothing at the last tab.
+      </description>
+    </key>
+    <key name="opening-mode" enum="org.xfce.mousepad.OpeningMode">
+      <default>'tab'</default>
+      <summary>File opening mode</summary>
+      <description>
+        File opening mode: "tab", "window" or "mixed" (open tabs in a new window).
       </description>
     </key>
     <key name="default-tab-sizes" type="s">
