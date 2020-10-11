@@ -63,6 +63,7 @@ struct _MousepadFile
 
   /* filename */
   gchar              *filename;
+  gboolean            temporary;
 
   /* encoding of the file */
   MousepadEncoding    encoding;
@@ -85,9 +86,9 @@ struct _MousepadFile
 
 
 
-static void  mousepad_file_finalize         (GObject            *object);
-static void  mousepad_file_set_readonly     (MousepadFile       *file,
-                                             gboolean            readonly);
+static void  mousepad_file_finalize          (GObject            *object);
+static void  mousepad_file_set_read_only     (MousepadFile       *file,
+                                              gboolean            readonly);
 
 
 
@@ -142,6 +143,7 @@ mousepad_file_init (MousepadFile *file)
 {
   /* initialize */
   file->filename          = NULL;
+  file->temporary         = FALSE;
   file->encoding          = MOUSEPAD_ENCODING_UTF_8;
 #ifdef G_OS_WIN32
   file->line_ending       = MOUSEPAD_EOL_DOS;
@@ -168,24 +170,6 @@ mousepad_file_finalize (GObject *object)
   g_object_unref (G_OBJECT (file->buffer));
 
   (*G_OBJECT_CLASS (mousepad_file_parent_class)->finalize) (object);
-}
-
-
-
-static void
-mousepad_file_set_readonly (MousepadFile *file,
-                            gboolean      readonly)
-{
-  g_return_if_fail (MOUSEPAD_IS_FILE (file));
-
-  if (G_LIKELY (file->readonly != readonly))
-    {
-      /* store new value */
-      file->readonly = readonly;
-
-      /* emit signal */
-      g_signal_emit (G_OBJECT (file), file_signals[READONLY_CHANGED], 0, readonly);
-    }
 }
 
 
@@ -278,22 +262,32 @@ mousepad_file_new (GtkTextBuffer *buffer)
 
 void
 mousepad_file_set_filename (MousepadFile *file,
-                            const gchar  *filename)
+                            const gchar  *filename,
+                            gboolean      real)
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
-  /* reset the stored modification time when a new filename set */
   if (g_strcmp0 (file->filename, filename) != 0)
-    file->mtime = 0;
+    {
+      /* free the old filename */
+      g_free (file->filename);
 
-  /* free the old filename */
-  g_free (file->filename);
+      /* set the filename */
+      file->filename = g_strdup (filename);
+    }
 
-  /* set the filename */
-  file->filename = g_strdup (filename);
+  /* not a virtual change, such as when trying to save as */
+  if (real)
+    {
+      /* this is a definitve filename */
+      file->temporary = FALSE;
 
-  /* send a signal that the name has been changed */
-  g_signal_emit (G_OBJECT (file), file_signals[FILENAME_CHANGED], 0, file->filename);
+      /* send a signal that the name has been changed */
+      g_signal_emit (G_OBJECT (file), file_signals[FILENAME_CHANGED], 0, file->filename);
+    }
+  /* toggle filename state */
+  else
+    file->temporary = ! file->temporary;
 }
 
 
@@ -336,6 +330,24 @@ mousepad_file_get_encoding (MousepadFile *file)
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), MOUSEPAD_ENCODING_NONE);
 
   return file->encoding;
+}
+
+
+
+static void
+mousepad_file_set_read_only (MousepadFile *file,
+                             gboolean      readonly)
+{
+  g_return_if_fail (MOUSEPAD_IS_FILE (file));
+
+  if (G_LIKELY (file->readonly != readonly))
+    {
+      /* store new value */
+      file->readonly = readonly;
+
+      /* emit signal */
+      g_signal_emit (G_OBJECT (file), file_signals[READONLY_CHANGED], 0, readonly);
+    }
 }
 
 
@@ -514,7 +526,7 @@ mousepad_file_open (MousepadFile  *file,
   if (g_file_test (filename, G_FILE_TEST_EXISTS) == FALSE)
     {
       /* update readonly status */
-      mousepad_file_set_readonly (file, FALSE);
+      mousepad_file_set_read_only (file, FALSE);
 
       return 0;
     }
@@ -657,7 +669,7 @@ mousepad_file_open (MousepadFile  *file,
           if (G_LIKELY (g_stat (file->filename, &statb) == 0))
             {
               /* whether the file is readonly (ie. not writable by the user) */
-              mousepad_file_set_readonly (file, ! ((statb.st_mode & S_IWUSR) != 0));
+              mousepad_file_set_read_only (file, !((statb.st_mode & S_IWUSR) != 0));
 
               /* store the file modification time */
               file->mtime = statb.st_mtime;
@@ -672,7 +684,7 @@ mousepad_file_open (MousepadFile  *file,
         {
           /* this is a new document with content from a template */
           file->mtime = 0;
-          mousepad_file_set_readonly (file, FALSE);
+          mousepad_file_set_read_only (file, FALSE);
         }
 
       failed:
@@ -853,7 +865,7 @@ mousepad_file_save (MousepadFile  *file,
           gtk_text_buffer_set_modified (file->buffer, FALSE);
 
           /* we saved succesfully */
-          mousepad_file_set_readonly (file, FALSE);
+          mousepad_file_set_read_only (file, FALSE);
 
           /* if the user hasn't set the filetype, try and re-guess it now
            * that we have a new filename to go by */
@@ -930,7 +942,7 @@ mousepad_file_get_externally_modified (MousepadFile  *file,
 
   /* check if our modification time differs from the current one */
   if (G_LIKELY (g_stat (file->filename, &statb) == 0))
-    return (file->mtime > 0 && statb.st_mtime != file->mtime);
+    return (! file->temporary && file->mtime > 0 && statb.st_mtime != file->mtime);
 
   /* get the error code */
   error_code = g_file_error_from_errno (errno);

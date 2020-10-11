@@ -552,7 +552,7 @@ mousepad_encoding_dialog_new (GtkWindow    *parent,
   gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* set the filename */
-  mousepad_file_set_filename (dialog->document->file, mousepad_file_get_filename (file));
+  mousepad_file_set_filename (dialog->document->file, mousepad_file_get_filename (file), TRUE);
 
   /* queue idle function */
   mousepad_encoding_dialog_test_encodings (dialog);
