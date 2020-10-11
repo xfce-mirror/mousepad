@@ -615,9 +615,6 @@ mousepad_dialogs_open (GtkWindow    *parent,
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
 
-  /* set parent window */
-  gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
-
   /* add the dialog to the application windows list */
   gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
