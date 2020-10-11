@@ -67,11 +67,6 @@ struct _MousepadApplication
 
   /* the preferences dialog when shown */
   GtkWidget *prefs_dialog;
-
-  /* some static submenus of the application menubar are populated at startup,
-   * but their tooltips will be set later at the window level */
-  GPtrArray *languages_tooltips, *style_schemes_tooltips;
-  guint      n_style_schemes;
 };
 
 
@@ -188,7 +183,6 @@ static void
 mousepad_application_startup (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
-  gchar               *filename;
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
@@ -204,17 +198,6 @@ mousepad_application_startup (GApplication *gapplication)
   /* initialize mousepad settings and prefs dialog */
   mousepad_settings_init ();
   application->prefs_dialog = NULL;
-
-  /* check if we have a saved accel map */
-  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, FALSE);
-  if (G_LIKELY (filename != NULL))
-    {
-      /* load the accel map */
-      gtk_accel_map_load (filename);
-
-      /* cleanup */
-      g_free (filename);
-    }
 }
 
 
@@ -367,7 +350,6 @@ mousepad_application_shutdown (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GList               *windows, *window;
-  gchar               *filename;
 
   if (GTK_IS_WIDGET (application->prefs_dialog))
     gtk_widget_destroy (application->prefs_dialog);
@@ -376,17 +358,6 @@ mousepad_application_shutdown (GApplication *gapplication)
    * this is a bit of an ugly place, but cleaning on a window close
    * isn't a good option eighter */
   mousepad_replace_dialog_history_clean ();
-
-  /* save the current accel map */
-  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, TRUE);
-  if (G_LIKELY (filename != NULL))
-    {
-      /* save the accel map */
-      gtk_accel_map_save (filename);
-
-      /* cleanup */
-      g_free (filename);
-    }
 
   /* destroy the windows if they are still opened */
   windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (application)));
@@ -397,10 +368,6 @@ mousepad_application_shutdown (GApplication *gapplication)
 
   /* finalize mousepad settings */
   mousepad_settings_finalize ();
-
-  /* cleanup the languages and style schemes menus */
-  g_ptr_array_free (application->languages_tooltips, TRUE);
-  g_ptr_array_free (application->style_schemes_tooltips, TRUE);
 
   /* shutdown xfconf */
   xfconf_shutdown ();
@@ -553,33 +520,41 @@ mousepad_application_create_languages_menu (MousepadApplication *application)
   menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "document.filetype.list");
 
   sections = mousepad_util_get_sorted_section_names ();
-  application->languages_tooltips = g_ptr_array_new_with_free_func (g_free);
-  g_ptr_array_add (application->languages_tooltips, g_strdup (_("No filetype")));
 
   for (iter_sect = sections; iter_sect != NULL; iter_sect = g_slist_next (iter_sect))
     {
+      /* create submenu item */
       label = iter_sect->data;
       submenu = g_menu_new ();
       item = g_menu_item_new_submenu (label, G_MENU_MODEL (submenu));
+
+      /* set tooltip and append menu item */
+      tooltip = (gchar*) iter_sect->data;
+      g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
       g_menu_append_item (menu, item);
       g_object_unref (item);
-
-      g_ptr_array_add (application->languages_tooltips, NULL);
 
       languages = mousepad_util_get_sorted_languages_for_section (label);
 
       for (iter_lang = languages; iter_lang != NULL; iter_lang = g_slist_next (iter_lang))
         {
+          /* create menu item */
           label = gtk_source_language_get_id (iter_lang->data);
           action_name = g_strconcat ("win.document.filetype('", label, "')", NULL);
           label = gtk_source_language_get_name (iter_lang->data);
           item = g_menu_item_new (label, action_name);
+
+          /* set tooltip */
+          tooltip = g_strdup_printf ("%s/%s", (gchar*) iter_sect->data, label);
+          g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
+
+          /* append menu item */
           g_menu_append_item (submenu, item);
+
+          /* cleanup */
           g_object_unref (item);
           g_free (action_name);
-
-          tooltip = g_strdup_printf ("%s/%s", (gchar*) iter_sect->data, label);
-          g_ptr_array_add (application->languages_tooltips, tooltip);
+          g_free (tooltip);
         }
 
       g_slist_free (languages);
@@ -604,29 +579,32 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
   menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "view.color-scheme.list");
 
   schemes = mousepad_util_style_schemes_get_sorted ();
-  application->style_schemes_tooltips = g_ptr_array_new_with_free_func (g_free);
-  g_ptr_array_add (application->style_schemes_tooltips, g_strdup (_("No style scheme")));
-  (application->n_style_schemes)++;
 
   for (iter = schemes; iter != NULL; iter = g_slist_next (iter))
     {
+      /* create menu item */
       label = gtk_source_style_scheme_get_id (iter->data);
       action_name = g_strconcat ("win.view.color-scheme('", label, "')", NULL);
       label = gtk_source_style_scheme_get_name (iter->data);
       item = g_menu_item_new (label, action_name);
-      g_menu_append_item (menu, item);
-      g_object_unref (item);
-      g_free (action_name);
 
+      /* set tooltip */
       authors = (gchar**) gtk_source_style_scheme_get_authors (iter->data);
       author = g_strjoinv (", ", authors);
       tooltip = g_strdup_printf (_("%s | Authors: %s | Filename: %s"),
                                  gtk_source_style_scheme_get_description (iter->data),
                                  author,
                                  gtk_source_style_scheme_get_filename (iter->data));
-      g_ptr_array_add (application->style_schemes_tooltips, tooltip);
-      (application->n_style_schemes)++;
+      g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
+
+      /* append menu item */
+      g_menu_append_item (menu, item);
+
+      /* cleanup */
+      g_object_unref (item);
+      g_free (action_name);
       g_free (author);
+      g_free (tooltip);
     }
 
   g_slist_free (schemes);
@@ -719,34 +697,4 @@ mousepad_application_action_quit (GSimpleAction *action,
 
   /* enter the loop */
   mousepad_application_dispatch_source (source);
-}
-
-
-
-GPtrArray *
-mousepad_application_get_languages_tooltips (MousepadApplication *application)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), NULL);
-
-  return application->languages_tooltips;
-}
-
-
-
-GPtrArray *
-mousepad_application_get_style_schemes_tooltips (MousepadApplication *application)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), NULL);
-
-  return application->style_schemes_tooltips;
-}
-
-
-
-gsize
-mousepad_application_get_n_style_schemes (MousepadApplication *application)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_APPLICATION (application), 0);
-
-  return application->n_style_schemes;
 }
