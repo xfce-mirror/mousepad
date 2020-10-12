@@ -2358,8 +2358,8 @@ mousepad_window_modified_changed (MousepadWindow *window)
   g_object_unref (item);
 
   /* set the "Reload/Revert" menu item tooltip */
-  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), "gtkmenu");
-  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), "offset"));
+  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
+  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
   mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
 
   /* allow menu actions again */
