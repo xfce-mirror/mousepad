@@ -44,7 +44,10 @@
 #define PADDING                   (2)
 #define PASTE_HISTORY_MENU_LENGTH (30)
 
-static const gchar *NOTEBOOK_GROUP = "Mousepad";
+#define MENUBAR        MOUSEPAD_SETTING_MENUBAR_VISIBLE
+#define STATUSBAR      MOUSEPAD_SETTING_STATUSBAR_VISIBLE
+#define TOOLBAR        MOUSEPAD_SETTING_TOOLBAR_VISIBLE
+#define NOTEBOOK_GROUP "Mousepad"
 
 
 
@@ -53,6 +56,13 @@ enum
   NEW_WINDOW,
   NEW_WINDOW_WITH_DOCUMENT,
   LAST_SIGNAL
+};
+
+enum
+{
+  AUTO = 0,
+  NO,
+  YES
 };
 
 
@@ -89,10 +99,11 @@ static gboolean          mousepad_window_open_file                    (MousepadW
 static gboolean          mousepad_window_close_document               (MousepadWindow         *window,
                                                                        MousepadDocument       *document);
 static void              mousepad_window_set_title                    (MousepadWindow         *window);
-static void              mousepad_window_create_statusbar             (MousepadWindow         *window);
 static gboolean          mousepad_window_get_in_fullscreen            (MousepadWindow         *window);
-static gboolean          mousepad_window_fullscreen_bars_timer        (gpointer                user_data);
-static void              mousepad_window_update_main_widgets          (MousepadWindow         *window);
+static gboolean          mousepad_window_fullscreen_event             (MousepadWindow         *window,
+                                                                       GdkEventWindowState    *event);
+static void              mousepad_window_update_bar_visibility        (MousepadWindow         *window,
+                                                                       const gchar            *key);
 
 /* notebook signals */
 static void              mousepad_window_notebook_switch_page         (GtkNotebook            *notebook,
@@ -107,13 +118,6 @@ static void              mousepad_window_notebook_removed             (GtkNotebo
                                                                        GtkWidget              *page,
                                                                        guint                   page_num,
                                                                        MousepadWindow         *window);
-#if !GTK_CHECK_VERSION (3, 22, 0)
-static void              mousepad_window_notebook_menu_position       (GtkMenu                *menu,
-                                                                       gint                   *x,
-                                                                       gint                   *y,
-                                                                       gboolean               *push_in,
-                                                                       gpointer                user_data);
-#endif
 static gboolean          mousepad_window_notebook_button_release_event (GtkNotebook           *notebook,
                                                                         GdkEventButton        *event,
                                                                         MousepadWindow        *window);
@@ -442,9 +446,6 @@ struct _MousepadWindow
   GtkRecentManager    *recent_manager;
   const gchar         *gtkmenu_key, *offset_key;
 
-  /* fullscreen bars visibility switch */
-  guint                fullscreen_bars_timer_id;
-
   /* support to remember window geometry */
   guint                save_geometry_timer_id;
 };
@@ -733,12 +734,10 @@ mousepad_window_create_menubar (MousepadWindow *window)
 {
   GtkApplication *application;
   GMenuModel     *model;
-  GAction        *action;
   gchar          *gtkmenu_key, *offset_key;
-  gint            window_id, show_fullscreen;
-  gboolean        show;
+  gint            window_id;
 
-  /* disconnect this signal */
+  /* disconnect this handler */
   mousepad_disconnect_by_func (window, mousepad_window_create_menubar, NULL);
 
   /* hide the default menubar */
@@ -785,38 +784,16 @@ mousepad_window_create_menubar (MousepadWindow *window)
                              GTK_WIDGET (window), NULL);
   mousepad_window_menu_set_tooltips (window, window->languages_menu, model, NULL);
 
-  /* sync the menubar visibility and action state to the setting */
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
-    {
-      show_fullscreen = MOUSEPAD_SETTING_GET_ENUM (MENUBAR_VISIBLE_FULLSCREEN);
-      if (! show_fullscreen)
-        show = MOUSEPAD_SETTING_GET_BOOLEAN (MENUBAR_VISIBLE);
-      else
-        show = (show_fullscreen == 2);
-    }
-  else
-    show = MOUSEPAD_SETTING_GET_BOOLEAN (MENUBAR_VISIBLE);
+  /* update the menubar visibility and related actions state */
+  mousepad_window_update_bar_visibility (window, MENUBAR);
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.menubar");
-  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (show));
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "textview.menubar");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), ! show);
-
-  /* set the textview menu last tooltip */
-  if (! show)
-    {
-      model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "textview-menu"));
-      mousepad_window_menu_set_tooltips (window, window->textview_menu, model, NULL);
-    }
-
-  gtk_widget_set_visible (window->menubar, show);
-
+  /* connect to some signals to keep in sync */
   MOUSEPAD_SETTING_CONNECT_OBJECT (MENUBAR_VISIBLE,
-                                   G_CALLBACK (mousepad_window_update_main_widgets),
+                                   G_CALLBACK (mousepad_window_update_bar_visibility),
                                    window, G_CONNECT_SWAPPED);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (MENUBAR_VISIBLE_FULLSCREEN,
-                                   G_CALLBACK (mousepad_window_update_main_widgets),
+                                   G_CALLBACK (mousepad_window_update_bar_visibility),
                                    window, G_CONNECT_SWAPPED);
 }
 
@@ -872,8 +849,6 @@ static void
 mousepad_window_create_toolbar (MousepadWindow *window)
 {
   GtkToolItem *item;
-  GAction     *action;
-  gboolean     active;
 
   /* create the toolbar and set the main properties */
   window->toolbar = gtk_toolbar_new ();
@@ -931,28 +906,19 @@ mousepad_window_create_toolbar (MousepadWindow *window)
   gtk_box_pack_start (GTK_BOX (window->box), window->toolbar, FALSE, FALSE, 0);
   gtk_widget_show_all (window->toolbar);
 
-  /* sync the toolbar visibility and action state to the setting */
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.toolbar");
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
-    {
-      gint value = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_VISIBLE_FULLSCREEN);
-      active = (value == 0) ? MOUSEPAD_SETTING_GET_BOOLEAN (TOOLBAR_VISIBLE) : (value == 2);
-    }
-  else
-    active = MOUSEPAD_SETTING_GET_BOOLEAN (TOOLBAR_VISIBLE);
-  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (active));
-  gtk_widget_set_visible (window->toolbar, active);
+  /* update the toolbar visibility and related actions state */
+  mousepad_window_update_bar_visibility (window, TOOLBAR);
 
   /* update the toolbar with the settings */
   mousepad_window_update_toolbar (window, NULL, NULL);
 
   /* connect to some signals to keep in sync */
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_VISIBLE,
-                                   G_CALLBACK (mousepad_window_update_main_widgets),
+                                   G_CALLBACK (mousepad_window_update_bar_visibility),
                                    window, G_CONNECT_SWAPPED);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_VISIBLE_FULLSCREEN,
-                                   G_CALLBACK (mousepad_window_update_main_widgets),
+                                   G_CALLBACK (mousepad_window_update_bar_visibility),
                                    window, G_CONNECT_SWAPPED);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_STYLE,
@@ -1057,23 +1023,11 @@ mousepad_window_create_notebook (MousepadWindow *window)
 static void
 mousepad_window_create_statusbar (MousepadWindow *window)
 {
-  GAction  *action;
-  gboolean  active;
-
   /* setup a new statusbar */
   window->statusbar = mousepad_statusbar_new ();
 
-  /* sync the statusbar visibility and action state to the setting */
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.statusbar");
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
-    {
-      gint value = MOUSEPAD_SETTING_GET_ENUM (STATUSBAR_VISIBLE_FULLSCREEN);
-      active = (value == 0) ? MOUSEPAD_SETTING_GET_BOOLEAN (STATUSBAR_VISIBLE) : (value == 2);
-    }
-  else
-    active = MOUSEPAD_SETTING_GET_BOOLEAN (STATUSBAR_VISIBLE);
-  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (active));
-  gtk_widget_set_visible (window->statusbar, active);
+  /* update the statusbar visibility and related actions state */
+  mousepad_window_update_bar_visibility (window, STATUSBAR);
 
 #if !GTK_CHECK_VERSION (4, 0, 0)
   /* make the statusbar smaller */
@@ -1098,7 +1052,7 @@ mousepad_window_create_statusbar (MousepadWindow *window)
   if (MOUSEPAD_IS_DOCUMENT (window->active))
     mousepad_document_send_signals (window->active);
 
-  /* update the statusbar with certain settings */
+  /* connect to some signals to keep in sync */
   MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH,
                                    G_CALLBACK (mousepad_window_update_statusbar_settings),
                                    window, G_CONNECT_SWAPPED);
@@ -1108,11 +1062,11 @@ mousepad_window_create_statusbar (MousepadWindow *window)
                                    window, G_CONNECT_SWAPPED);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE,
-                                   G_CALLBACK (mousepad_window_update_main_widgets),
+                                   G_CALLBACK (mousepad_window_update_bar_visibility),
                                    window, G_CONNECT_SWAPPED);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE_FULLSCREEN,
-                                   G_CALLBACK (mousepad_window_update_main_widgets),
+                                   G_CALLBACK (mousepad_window_update_bar_visibility),
                                    window, G_CONNECT_SWAPPED);
 }
 
@@ -1125,7 +1079,6 @@ mousepad_window_init (MousepadWindow *window)
 
   /* initialize stuff */
   window->save_geometry_timer_id = 0;
-  window->fullscreen_bars_timer_id = 0;
   window->search_bar = NULL;
   window->statusbar = NULL;
   window->replace_dialog = NULL;
@@ -1139,10 +1092,6 @@ mousepad_window_init (MousepadWindow *window)
 
   /* increase last save location ref count */
   last_save_location_ref_count++;
-
-  /* signal for handling the window delete event */
-  g_signal_connect (G_OBJECT (window), "delete-event",
-                    G_CALLBACK (mousepad_window_delete_event), NULL);
 
   /* restore window settings */
   mousepad_window_restore (window);
@@ -1181,6 +1130,10 @@ mousepad_window_init (MousepadWindow *window)
   g_signal_connect (G_OBJECT (window), "notify::application",
                     G_CALLBACK (mousepad_window_create_menubar), NULL);
 
+  /* signal for handling the window delete event */
+  g_signal_connect (G_OBJECT (window), "delete-event",
+                    G_CALLBACK (mousepad_window_delete_event), NULL);
+
   /* allow drops in the window */
   gtk_drag_dest_set (GTK_WIDGET (window),
                      GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
@@ -1188,6 +1141,10 @@ mousepad_window_init (MousepadWindow *window)
                      G_N_ELEMENTS (drop_targets), GDK_ACTION_COPY | GDK_ACTION_MOVE);
   g_signal_connect (G_OBJECT (window), "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
+
+  /* track window fullscreen state */
+  g_signal_connect (G_OBJECT (window), "window-state-event",
+                    G_CALLBACK (mousepad_window_fullscreen_event), NULL);
 
   /* update the window title when 'path-in-title' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE,
@@ -1240,10 +1197,6 @@ mousepad_window_dispose (GObject *object)
   /* destroy the save geometry timer source */
   if (G_UNLIKELY (window->save_geometry_timer_id != 0))
     g_source_remove (window->save_geometry_timer_id);
-
-  /* destroy the fullscreen bars timer source */
-  if (G_UNLIKELY (window->fullscreen_bars_timer_id != 0))
-    g_source_remove (window->fullscreen_bars_timer_id);
 
   (*G_OBJECT_CLASS (mousepad_window_parent_class)->dispose) (object);
 }
@@ -1949,6 +1902,211 @@ mousepad_window_get_in_fullscreen (MousepadWindow *window)
 
 
 
+static gboolean
+mousepad_window_fullscreen_event (MousepadWindow      *window,
+                                  GdkEventWindowState *event)
+{
+  /* update bars visibility */
+  if (event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
+    {
+      mousepad_window_update_bar_visibility (window, MENUBAR);
+      mousepad_window_update_bar_visibility (window, TOOLBAR);
+      mousepad_window_update_bar_visibility (window, STATUSBAR);
+
+      return TRUE;
+    }
+
+  return FALSE;
+}
+
+
+
+static gboolean
+mousepad_window_hide_menubar_event (MousepadWindow *window)
+{
+  /* disconnect signals and hide the menubar */
+  mousepad_disconnect_by_func (window, mousepad_window_hide_menubar_event, NULL);
+  mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar_event, window);
+  gtk_widget_hide (window->menubar);
+
+  return FALSE;
+}
+
+
+
+static gboolean
+mousepad_window_menubar_key_event (MousepadWindow *window,
+                                   GdkEventKey    *event,
+                                   GList          *mnemonics)
+{
+  GdkEvent *event_bis;
+  static gboolean hidden_last_time = FALSE;
+
+  /* Alt key was pressed (alone or as a GdkModifierType) or released, or Esc key was pressed */
+  if (event->state & GDK_MOD1_MASK || event->keyval == GDK_KEY_Alt_L
+      || (event->keyval == GDK_KEY_Escape && event->type == GDK_KEY_PRESS))
+    {
+      /* hide the menubar if Alt/Esc key was pressed */
+      if (event->type == GDK_KEY_PRESS
+          && (event->keyval == GDK_KEY_Alt_L || event->keyval == GDK_KEY_Escape)
+          && gtk_widget_get_visible (window->menubar))
+        {
+          /* disconnect signals and hide the menubar */
+          mousepad_disconnect_by_func (window, mousepad_window_hide_menubar_event, NULL);
+          mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar_event, window);
+          gtk_widget_hide (window->menubar);
+
+          /* don't show the menubar when the Alt key is released this time */
+          hidden_last_time = TRUE;
+
+          return TRUE;
+        }
+      /* show the menubar if Alt key was released or if one of its mnemonic keys matched */
+      else if (! hidden_last_time && ! gtk_widget_get_visible (window->menubar)
+               && ((event->keyval == GDK_KEY_Alt_L && event->type == GDK_KEY_RELEASE)
+                   || (event->type == GDK_KEY_PRESS && event->state & GDK_MOD1_MASK
+                       && g_list_find (mnemonics, GUINT_TO_POINTER (event->keyval)))))
+        {
+          /* show the menubar and connect signals to hide it afterwards on user actions */
+          gtk_widget_show (window->menubar);
+          g_signal_connect (G_OBJECT (window), "button-press-event",
+                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
+          g_signal_connect (G_OBJECT (window), "button-release-event",
+                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
+          g_signal_connect (G_OBJECT (window), "focus-out-event",
+                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
+          g_signal_connect (G_OBJECT (window), "scroll-event",
+                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
+          g_signal_connect_swapped (G_OBJECT (window->menubar), "deactivate",
+                                    G_CALLBACK (mousepad_window_hide_menubar_event), window);
+
+          /* in case of a mnemonic key, repeat the same event to make its menu popup */
+          if (event->keyval != GDK_KEY_Alt_L)
+            {
+              event_bis = gdk_event_copy ((GdkEvent*) event);
+              gtk_main_do_event (event_bis);
+              gdk_event_free (event_bis);
+            }
+
+          return TRUE;
+        }
+    }
+
+  /* show the menubar the next time the Alt key is released */
+  hidden_last_time = FALSE;
+
+  return FALSE;
+}
+
+
+
+static void
+mousepad_window_update_bar_visibility (MousepadWindow *window,
+                                       const gchar    *hint)
+{
+  GtkApplication *application;
+  GtkWidget      *bar, *label;
+  GMenuModel     *model;
+  GAction        *action;
+  GList          *children, *child;
+  static GList   *mnemonics = NULL;
+  gpointer        mnemonic;
+  const gchar    *path, *path_fs, *action_name;
+  gboolean        visible, visible_fs;
+  gint            offset;
+
+  /* the hint may or may not contain the path and/or the full screen suffix */
+  if (g_strstr_len (MOUSEPAD_SETTING_MENUBAR_VISIBLE_FULLSCREEN, -1, hint))
+    {
+      path = MENUBAR;
+      path_fs = MOUSEPAD_SETTING_MENUBAR_VISIBLE_FULLSCREEN;
+      bar = window->menubar;
+      action_name = "view.menubar";
+    }
+  else if (g_strstr_len (MOUSEPAD_SETTING_TOOLBAR_VISIBLE_FULLSCREEN, -1, hint))
+    {
+      path = TOOLBAR;
+      path_fs = MOUSEPAD_SETTING_TOOLBAR_VISIBLE_FULLSCREEN;
+      bar = window->toolbar;
+      action_name = "view.toolbar";
+    }
+  else if (g_strstr_len (MOUSEPAD_SETTING_STATUSBAR_VISIBLE_FULLSCREEN, -1, hint))
+    {
+      path = STATUSBAR;
+      path_fs = MOUSEPAD_SETTING_STATUSBAR_VISIBLE_FULLSCREEN;
+      bar = window->statusbar;
+      action_name = "view.statusbar";
+    }
+  /* should not be reached */
+  else
+    return;
+
+  /* get visibility setting in window mode */
+  visible = mousepad_setting_get_boolean (path);
+
+  /* deduce the visibility setting if we are in fullscreen mode */
+  if (mousepad_window_get_in_fullscreen (window))
+    {
+      visible_fs = mousepad_setting_get_enum (path_fs);
+      visible = (visible_fs == AUTO) ? visible : (visible_fs == YES);
+    }
+
+  /* update the bar visibility */
+  gtk_widget_set_visible (bar, visible);
+
+  /* avoid menu actions */
+  lock_menu_updates++;
+
+  /* sync the action state to the setting */
+  action = g_action_map_lookup_action (G_ACTION_MAP (window), action_name);
+  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (visible));
+
+  /* the menu bar must be easily retrievable when hidden */
+  if (g_strcmp0 (path, MENUBAR) == 0)
+    {
+      /* show/hide the "Menubar" item in the text view menu */
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "textview.menubar");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), ! visible);
+
+      if (! visible)
+        {
+          /* set the textview menu last tooltip */
+          application = gtk_window_get_application (GTK_WINDOW (window));
+          model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "textview.menubar"));
+          offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (model), window->offset_key));
+          mousepad_window_menu_set_tooltips (window, window->textview_menu, model, &offset);
+
+          /* get the main menubar mnemonic keys */
+          children = gtk_container_get_children (GTK_CONTAINER (window->menubar));
+          for (child = children; child != NULL; child = child->next)
+            {
+              label = gtk_bin_get_child (GTK_BIN (child->data));
+              mnemonic = GUINT_TO_POINTER (gtk_label_get_mnemonic_keyval (GTK_LABEL (label)));
+              mnemonics = g_list_prepend (mnemonics, mnemonic);
+            }
+          g_list_free (children);
+
+          /* handle key events to show the menubar temporarily when hidden */
+          g_signal_connect (G_OBJECT (window), "key-press-event",
+                            G_CALLBACK (mousepad_window_menubar_key_event), mnemonics);
+          g_signal_connect (G_OBJECT (window), "key-release-event",
+                            G_CALLBACK (mousepad_window_menubar_key_event), mnemonics);
+        }
+      /* disconnect handlers that show the menubar temporarily when hidden */
+      else
+        {
+          mousepad_disconnect_by_func (window, mousepad_window_menubar_key_event, mnemonics);
+          mousepad_disconnect_by_func (window, mousepad_window_hide_menubar_event, NULL);
+          mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar_event, window);
+        }
+    }
+
+  /* allow menu actions again */
+  lock_menu_updates--;
+}
+
+
+
 /**
  * Notebook Signal Functions
  **/
@@ -2079,28 +2237,6 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
 
 
 
-#if !GTK_CHECK_VERSION (3, 22, 0)
-static void
-mousepad_window_notebook_menu_position (GtkMenu  *menu,
-                                        gint     *x,
-                                        gint     *y,
-                                        gboolean *push_in,
-                                        gpointer  user_data)
-{
-  GtkWidget    *widget = GTK_WIDGET (user_data);
-  GtkAllocation alloc = { 0, 0, 0, 0 };
-
-  gdk_window_get_origin (gtk_widget_get_window (widget), x, y);
-  gtk_widget_get_allocation (widget, &alloc);
-
-  *x += alloc.x;
-  *y += alloc.y + alloc.height;
-
-  *push_in = TRUE;
-}
-#endif
-
-
 /* stolen from Geany notebook.c */
 static gboolean
 mousepad_window_is_position_on_tab_bar (GtkNotebook *notebook, GdkEventButton *event)
@@ -2198,9 +2334,7 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
                 {
                   /* show the menu */
 #if GTK_CHECK_VERSION (3, 22, 0)
-                  gtk_menu_popup_at_widget (GTK_MENU (window->tab_menu), label,
-                                            GDK_GRAVITY_SOUTH_WEST, GDK_GRAVITY_NORTH_WEST,
-                                            (GdkEvent*) event);
+                  gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), (GdkEvent*) event);
 #else
 
 #if G_GNUC_CHECK_VERSION (4, 3)
@@ -2208,8 +2342,7 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
 # pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
-                  gtk_menu_popup (GTK_MENU (window->tab_menu), NULL, NULL,
-                                  mousepad_window_notebook_menu_position, label,
+                  gtk_menu_popup (GTK_MENU (window->tab_menu), NULL, NULL, NULL, NULL,
                                   event->button, event->time);
 
 #if G_GNUC_CHECK_VERSION (4, 3)
@@ -2250,6 +2383,9 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
           return TRUE;
         }
     }
+  /* to allow the window to receive the associated button release event */
+  else if (event->type == GDK_BUTTON_PRESS && event->button == 1)
+    return TRUE;
 
   return FALSE;
 }
@@ -2821,7 +2957,7 @@ mousepad_window_menu_textview_shown (GtkMenu        *menu,
 {
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
-  /* disconnect this signal */
+  /* disconnect this handler */
   mousepad_disconnect_by_func (menu, mousepad_window_menu_textview_shown, window);
 
   /* empty the original menu */
@@ -2840,7 +2976,7 @@ mousepad_window_menu_textview_deactivate (GtkWidget      *menu,
 {
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
-  /* disconnect this signal */
+  /* disconnect this handler */
   mousepad_disconnect_by_func (G_OBJECT (menu), mousepad_window_menu_textview_deactivate, window);
 
   /* copy the menu children back into the textview menu */
@@ -4668,9 +4804,9 @@ mousepad_window_action_paste_history (GSimpleAction *action,
                                       gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GtkWidget *menu;
+  GtkWidget      *menu;
 #if GTK_CHECK_VERSION (3, 22, 0)
-  GdkRectangle  location;
+  GdkRectangle    location;
 #endif
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -5258,7 +5394,7 @@ mousepad_window_action_menubar (GSimpleAction *action,
   active = g_variant_get_boolean (value);
 
   if (mousepad_window_get_in_fullscreen (window))
-    MOUSEPAD_SETTING_SET_ENUM (MENUBAR_VISIBLE_FULLSCREEN, (active ? 2 : 1));
+    MOUSEPAD_SETTING_SET_ENUM (MENUBAR_VISIBLE_FULLSCREEN, (active ? YES : NO));
   else
     MOUSEPAD_SETTING_SET_BOOLEAN (MENUBAR_VISIBLE, active);
 }
@@ -5278,7 +5414,7 @@ mousepad_window_action_toolbar (GSimpleAction *action,
   active = g_variant_get_boolean (value);
 
   if (mousepad_window_get_in_fullscreen (window))
-    MOUSEPAD_SETTING_SET_ENUM (TOOLBAR_VISIBLE_FULLSCREEN, (active ? 2 : 1));
+    MOUSEPAD_SETTING_SET_ENUM (TOOLBAR_VISIBLE_FULLSCREEN, (active ? YES : NO));
   else
     MOUSEPAD_SETTING_SET_BOOLEAN (TOOLBAR_VISIBLE, active);
 }
@@ -5311,92 +5447,9 @@ mousepad_window_action_statusbar (GSimpleAction *action,
   active = g_variant_get_boolean (value);
 
   if (mousepad_window_get_in_fullscreen (window))
-    MOUSEPAD_SETTING_SET_ENUM (STATUSBAR_VISIBLE_FULLSCREEN, (active ? 2 : 1));
+    MOUSEPAD_SETTING_SET_ENUM (STATUSBAR_VISIBLE_FULLSCREEN, (active ? YES : NO));
   else
     MOUSEPAD_SETTING_SET_BOOLEAN (STATUSBAR_VISIBLE, active);
-}
-
-
-
-static gboolean
-mousepad_window_fullscreen_bars_timer (gpointer user_data)
-{
-  MousepadWindow *window = MOUSEPAD_WINDOW (user_data);
-
-  mousepad_window_update_main_widgets (window);
-
-  MOUSEPAD_WINDOW (user_data)->fullscreen_bars_timer_id = 0;
-
-  return FALSE;
-}
-
-
-
-static void
-mousepad_window_update_main_widgets (MousepadWindow *window)
-{
-  GtkApplication *application;
-  GMenuModel     *model;
-  GAction        *action;
-  gboolean        fullscreen, mb_visible, tb_visible, sb_visible,
-                  mb_active, tb_active, sb_active;
-  gint            mb_visible_fs, tb_visible_fs, sb_visible_fs;
-
-  if (! gtk_widget_get_visible (GTK_WIDGET (window)))
-    return;
-
-  fullscreen = mousepad_window_get_in_fullscreen (window);
-
-  /* get the non-fullscreen settings */
-  mb_visible = MOUSEPAD_SETTING_GET_BOOLEAN (MENUBAR_VISIBLE);
-  tb_visible = MOUSEPAD_SETTING_GET_BOOLEAN (TOOLBAR_VISIBLE);
-  sb_visible = MOUSEPAD_SETTING_GET_BOOLEAN (STATUSBAR_VISIBLE);
-
-  /* get the fullscreen settings */
-  mb_visible_fs = MOUSEPAD_SETTING_GET_ENUM (MENUBAR_VISIBLE_FULLSCREEN);
-  tb_visible_fs = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_VISIBLE_FULLSCREEN);
-  sb_visible_fs = MOUSEPAD_SETTING_GET_ENUM (STATUSBAR_VISIBLE_FULLSCREEN);
-
-  /* set to true or false based on fullscreen setting */
-  mb_visible_fs = (mb_visible_fs == 0) ? mb_visible : (mb_visible_fs == 2);
-  tb_visible_fs = (tb_visible_fs == 0) ? tb_visible : (tb_visible_fs == 2);
-  sb_visible_fs = (sb_visible_fs == 0) ? sb_visible : (sb_visible_fs == 2);
-
-  mb_active = fullscreen ? mb_visible_fs : mb_visible;
-  tb_active = fullscreen ? tb_visible_fs : tb_visible;
-  sb_active = fullscreen ? sb_visible_fs : sb_visible;
-
-  /* update the widgets' visibility */
-  gtk_widget_set_visible (window->menubar, mb_active);
-  gtk_widget_set_visible (window->toolbar, tb_active);
-  gtk_widget_set_visible (window->statusbar, sb_active);
-
-  /* update the toolbar with the settings */
-  mousepad_window_update_toolbar (window, NULL, NULL);
-
-  /* avoid menu actions */
-  lock_menu_updates++;
-
-  /* sync the action states to the settings */
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.menubar");
-  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (mb_active));
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.toolbar");
-  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (tb_active));
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "view.statusbar");
-  g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (sb_active));
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "textview.menubar");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), ! mb_active);
-
-  /* set the textview menu last tooltip */
-  if (! mb_active)
-    {
-      application = gtk_window_get_application (GTK_WINDOW (window));
-      model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "textview-menu"));
-      mousepad_window_menu_set_tooltips (window, window->textview_menu, model, NULL);
-    }
-
-  /* allow menu actions again */
-  lock_menu_updates--;
 }
 
 
@@ -5466,12 +5519,6 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
                                         gtk_toolbar_get_n_items (GTK_TOOLBAR (window->toolbar)) - 1);
   gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon_name);
   gtk_tool_item_set_tooltip_text (tool_item, tooltip);
-
-  /* update the widgets based on whether in fullscreen mode or not */
-  if (window->fullscreen_bars_timer_id == 0)
-    window->fullscreen_bars_timer_id = g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 50,
-                                                           mousepad_window_fullscreen_bars_timer,
-                                                           window, NULL);
 
   /* allow menu updates again */
   lock_menu_updates--;
