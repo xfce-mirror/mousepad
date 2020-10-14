@@ -725,7 +725,7 @@
       </item>
     </section>
 
-    <section>
+    <section id="textview.menubar">
       <item>
         <attribute name="label" translatable="yes">_Menubar</attribute>
         <attribute name="tooltip" translatable="yes">Change the visibility of the main menubar</attribute>
