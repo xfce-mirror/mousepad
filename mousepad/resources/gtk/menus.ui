@@ -172,6 +172,7 @@
           <attribute name="label" translatable="yes">_Delete</attribute>
           <attribute name="tooltip" translatable="yes">Delete the current selection</attribute>
           <attribute name="action">win.edit.delete</attribute>
+          <attribute name="accel">Delete</attribute>
           <attribute name="icon">edit-delete</attribute>
         </item>
       </section>
@@ -180,6 +181,7 @@
           <attribute name="label" translatable="yes">Select _All</attribute>
           <attribute name="tooltip" translatable="yes">Select the text in the entire document</attribute>
           <attribute name="action">win.edit.select-all</attribute>
+          <attribute name="accel">&lt;Control&gt;A</attribute>
           <attribute name="icon">edit-select-all</attribute>
         </item>
       </section>
@@ -207,6 +209,7 @@
               <attribute name="label" translatable="yes">To _Opposite Case</attribute>
               <attribute name="tooltip" translatable="yes">Change the case of the selection opposite case</attribute>
               <attribute name="action">win.edit.convert.to-opposite-case</attribute>
+              <attribute name="accel">&lt;Control&gt;&lt;Alt&gt;U</attribute>
             </item>
           </section>
           <section>
@@ -244,11 +247,13 @@
             <attribute name="label" translatable="yes">Line _Up</attribute>
             <attribute name="tooltip" translatable="yes">Move the selection one line up</attribute>
             <attribute name="action">win.edit.move-selection.line-up</attribute>
+            <attribute name="accel">&lt;Alt&gt;Page_Up</attribute>
           </item>
           <item>
             <attribute name="label" translatable="yes">Line _Down</attribute>
             <attribute name="tooltip" translatable="yes">Move the selection one line down</attribute>
             <attribute name="action">win.edit.move-selection.line-down</attribute>
+            <attribute name="accel">&lt;Alt&gt;Page_Down</attribute>
           </item>
         </submenu>
         <item>
@@ -261,11 +266,13 @@
           <attribute name="tooltip" translatable="yes">Increase the indentation of the selection or current line</attribute>
           <attribute name="action">win.edit.increase-indent</attribute>
           <attribute name="icon">format-indent-more</attribute>
+          <attribute name="accel">&lt;Control&gt;I</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Decrease Indent</attribute>
           <attribute name="tooltip" translatable="yes">Decrease the indentation of the selection or current line</attribute>
           <attribute name="action">win.edit.decrease-indent</attribute>
+          <attribute name="accel">&lt;Control&gt;U</attribute>
           <attribute name="icon">format-indent-less</attribute>
         </item>
       </section>
@@ -626,6 +633,7 @@
         <attribute name="label" translatable="yes">_Delete</attribute>
         <attribute name="tooltip" translatable="yes">Delete the current selection</attribute>
         <attribute name="action">win.edit.delete</attribute>
+        <attribute name="accel">Delete</attribute>
         <attribute name="icon">edit-delete</attribute>
       </item>
     </section>
@@ -635,6 +643,7 @@
         <attribute name="label" translatable="yes">Select _All</attribute>
         <attribute name="tooltip" translatable="yes">Select the text in the entire document</attribute>
         <attribute name="action">win.edit.select-all</attribute>
+        <attribute name="accel">&lt;Control&gt;A</attribute>
         <attribute name="icon">edit-select-all</attribute>
       </item>
     </section>
@@ -663,6 +672,7 @@
             <attribute name="label" translatable="yes">To _Opposite Case</attribute>
             <attribute name="tooltip" translatable="yes">Change the case of the selection opposite case</attribute>
             <attribute name="action">win.edit.convert.to-opposite-case</attribute>
+            <attribute name="accel">&lt;Control&gt;&lt;Alt&gt;U</attribute>
           </item>
         </section>
         <section>
@@ -699,11 +709,13 @@
           <attribute name="label" translatable="yes">Line _Up</attribute>
           <attribute name="tooltip" translatable="yes">Move the selection one line up</attribute>
           <attribute name="action">win.edit.move-selection.line-up</attribute>
+          <attribute name="accel">&lt;Alt&gt;Page_Up</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Line _Down</attribute>
           <attribute name="tooltip" translatable="yes">Move the selection one line down</attribute>
           <attribute name="action">win.edit.move-selection.line-down</attribute>
+          <attribute name="accel">&lt;Alt&gt;Page_Down</attribute>
         </item>
       </submenu>
       <item>
@@ -715,12 +727,14 @@
         <attribute name="label" translatable="yes">_Increase Indent</attribute>
         <attribute name="tooltip" translatable="yes">Increase the indentation of the selection or current line</attribute>
         <attribute name="action">win.edit.increase-indent</attribute>
+        <attribute name="accel">&lt;Control&gt;I</attribute>
         <attribute name="icon">format-indent-more</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Decrease Indent</attribute>
         <attribute name="tooltip" translatable="yes">Decrease the indentation of the selection or current line</attribute>
         <attribute name="action">win.edit.decrease-indent</attribute>
+        <attribute name="accel">&lt;Control&gt;U</attribute>
         <attribute name="icon">format-indent-less</attribute>
       </item>
     </section>
