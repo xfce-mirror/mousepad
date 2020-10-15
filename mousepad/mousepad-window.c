@@ -938,30 +938,13 @@ mousepad_window_create_root_warning (MousepadWindow *window)
   /* check if we need to add the root warning */
   if (G_UNLIKELY (geteuid () == 0))
     {
-      GtkWidget *ebox, *label, *separator;
-
-  /* In GTK3, gtkrc is deprecated */
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-      /* install default settings for the root warning text box */
-      gtk_rc_parse_string ("style\"mousepad-window-root-style\"\n"
-                             "{\n"
-                               "bg[NORMAL]=\"#b4254b\"\n"
-                               "fg[NORMAL]=\"#fefefe\"\n"
-                             "}\n"
-                           "widget\"MousepadWindow.*.root-warning\"style\"mousepad-window-root-style\"\n"
-                           "widget\"MousepadWindow.*.root-warning.GtkLabel\"style\"mousepad-window-root-style\"\n");
-
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic pop
-#endif
+      GtkWidget       *ebox, *label, *separator;
+      GtkCssProvider  *provider;
+      GtkStyleContext *context;
+      const gchar     *css_string;
 
       /* add the box for the root warning */
       ebox = gtk_event_box_new ();
-      gtk_widget_set_name (ebox, "root-warning");
       gtk_box_pack_start (GTK_BOX (window->box), ebox, FALSE, FALSE, 0);
       gtk_widget_show (ebox);
 
@@ -977,6 +960,15 @@ mousepad_window_create_root_warning (MousepadWindow *window)
       separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
       gtk_box_pack_start (GTK_BOX (window->box), separator, FALSE, FALSE, 0);
       gtk_widget_show (separator);
+
+      /* apply a CSS style to capture the user's attention */
+      provider = gtk_css_provider_new ();
+      css_string = "label { background-color: #b4254b; color: #fefefe; }";
+      context = gtk_widget_get_style_context (GTK_WIDGET (label));
+      gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+      gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
+                                      GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+      g_object_unref (provider);
     }
 }
 
@@ -2342,17 +2334,12 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
                   gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), (GdkEvent*) event);
 #else
 
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 
                   gtk_menu_popup (GTK_MENU (window->tab_menu), NULL, NULL, NULL, NULL,
                                   event->button, event->time);
 
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic pop
-#endif
+G_GNUC_END_IGNORE_DEPRECATIONS
 
 #endif
                 }
@@ -4834,19 +4821,14 @@ mousepad_window_action_paste_history (GSimpleAction *action,
                           &location, GDK_GRAVITY_SOUTH_WEST, GDK_GRAVITY_NORTH_WEST, NULL);
 #else
 
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 
   /* popup the menu */
   gtk_menu_popup (GTK_MENU (menu), NULL, NULL,
                   mousepad_window_paste_history_menu_position,
                   window, 0, gtk_get_current_event_time ());
 
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic pop
-#endif
+G_GNUC_END_IGNORE_DEPRECATIONS
 
 #endif
 }
