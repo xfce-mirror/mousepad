@@ -76,7 +76,8 @@ mousepad_LDADD = \
 	$(GTK_LIBS)	\
 	$(GTHREAD_LIBS) \
 	$(GTKSOURCEVIEW_LIBS) \
-	$(XFCONF_LIBS)
+	$(XFCONF_LIBS) \
+	-lm
 
 if WITH_KEYFILE_SETTINGS
 mousepad_CFLAGS += \
