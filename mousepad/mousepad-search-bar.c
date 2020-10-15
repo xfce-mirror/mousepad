@@ -132,30 +132,6 @@ mousepad_search_bar_class_init (MousepadSearchBarClass *klass)
   binding_set = gtk_binding_set_by_class (klass);
   gtk_binding_entry_add_signal (binding_set, GDK_KEY_Escape, 0, "hide-bar", 0);
 
-  /* In GTK3, gtkrc is deprecated */
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-  /* hide the shadow around the toolbar */
-  gtk_rc_parse_string ("style \"mousepad-search-bar-style\"\n"
-                         "{\n"
-                           "GtkToolbar::shadow-type = GTK_SHADOW_NONE\n"
-                         "}\n"
-                       "class \"MousepadSearchBar\" style \"mousepad-search-bar-style\"\n"
-
-                       /* add 2px space between the toolbar buttons */
-                       "style \"mousepad-button-style\"\n"
-                         "{\n"
-                           "GtkToolButton::icon-spacing = 2\n"
-                         "}\n"
-                       "widget \"MousepadWindow.*.Gtk*ToolButton\" style \"mousepad-button-style\"\n");
-
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic pop
-#endif
-
   /* add an activate-backwards signal to GtkEntry */
   entry_class = g_type_class_ref (GTK_TYPE_ENTRY);
   if (G_LIKELY (g_signal_lookup ("activate-backward", GTK_TYPE_ENTRY) == 0))
