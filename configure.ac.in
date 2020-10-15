@@ -67,6 +67,13 @@ AC_SUBST([MOUSEPAD_VERSION_MINOR])
 AC_SUBST([MOUSEPAD_VERSION_MICRO])
 AC_SUBST([MOUSEPAD_VERSION_NANO])
 
+dnl ************************************
+dnl *** Check for standard libraries ***
+dnl ************************************
+AC_SEARCH_LIBS([round], [m], [], [
+  AC_MSG_ERROR([unable to find the round() function in math library])
+])
+
 dnl **********************************
 dnl *** Check for standard headers ***
 dnl **********************************
