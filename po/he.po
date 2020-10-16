@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-12 00:46+0200\n"
-"PO-Revision-Date: 2020-10-16 09:49+0000\n"
+"PO-Revision-Date: 2020-10-16 11:37+0000\n"
 "Last-Translator: Elishai Eliyahu <elishai@mailfence.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -243,19 +243,19 @@ msgstr "אחר (חלקי):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:347
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "נמצאו קידודים תקפים אחרים, אנא בחר למטה."
 
 #: ../mousepad/mousepad-encoding-dialog.c:349
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "נמצאו קידודים תקפים למחצה אחרים, אנא בחר למטה."
 
 #: ../mousepad/mousepad-encoding-dialog.c:373
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "לא נמצא קידוד תקף אחר."
 
 #: ../mousepad/mousepad-encoding-dialog.c:471
 msgid "Unsupported character set"
-msgstr ""
+msgstr "סדרת תווים לא נתמכת"
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:25
@@ -630,12 +630,12 @@ msgstr "שמור מסמך נוכחי כקובץ אחר"
 #: ../mousepad/mousepad-window.c:892 ../mousepad/mousepad-window.c:2345
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Re_load"
-msgstr ""
+msgstr "טען מ_חדש"
 
 #: ../mousepad/mousepad-window.c:893 ../mousepad/mousepad-window.c:2352
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Reload file from disk"
-msgstr ""
+msgstr "טען מחדש קובץ מדיסק"
 
 #: ../mousepad/mousepad-window.c:894 ../mousepad/resources/gtk/menus.ui.h:27
 msgid "Close _Tab"
@@ -845,7 +845,7 @@ msgstr "_קובץ"
 
 #: ../mousepad/resources/gtk/menus.ui.h:2
 msgid "File menu"
-msgstr ""
+msgstr "תפריט קובץ"
 
 #: ../mousepad/resources/gtk/menus.ui.h:5
 msgid "New _Window"
@@ -861,7 +861,7 @@ msgstr "חדש מתך _תבנית"
 
 #: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "צור מסמך חדש מתבנית"
 
 #: ../mousepad/resources/gtk/menus.ui.h:11
 msgid "Op_en Recent"
@@ -869,7 +869,7 @@ msgstr "קבצים _אחרונים"
 
 #: ../mousepad/resources/gtk/menus.ui.h:12
 msgid "Open a recently used file"
-msgstr ""
+msgstr "פתח קובץ שהיה בשימוש לאחרונה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "Clear _History"
@@ -917,7 +917,7 @@ msgstr "_עריכה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Edit menu"
-msgstr ""
+msgstr "תפריט עריכה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "Paste _Special"
@@ -925,7 +925,7 @@ msgstr "הדבק _מיוחד"
 
 #: ../mousepad/resources/gtk/menus.ui.h:44
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "הדבק את לוח הגזירים בדרך מיוחדת"
 
 #: ../mousepad/resources/gtk/menus.ui.h:45
 msgid "Paste from _History"
@@ -965,7 +965,7 @@ msgstr "ה_מר"
 
 #: ../mousepad/resources/gtk/menus.ui.h:54
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "המר טקסט בדרכים שונות"
 
 #: ../mousepad/resources/gtk/menus.ui.h:55
 msgid "To _Lowercase"
@@ -1038,7 +1038,7 @@ msgstr "_הזז בחירה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "Move the selection in different ways"
-msgstr ""
+msgstr "הזז את הבחירה בדרכים שונות"
 
 #: ../mousepad/resources/gtk/menus.ui.h:73
 msgid "Line _Up"
@@ -1090,7 +1090,7 @@ msgstr "_חפש"
 
 #: ../mousepad/resources/gtk/menus.ui.h:86
 msgid "Search menu"
-msgstr ""
+msgstr "תפריט חיפוש"
 
 #: ../mousepad/resources/gtk/menus.ui.h:89
 msgid "Find _Next"
@@ -1114,7 +1114,7 @@ msgstr "_תצוגה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:98
 msgid "View menu"
-msgstr ""
+msgstr "תפריט תצוגה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:99
 msgid "Select F_ont..."
@@ -1130,7 +1130,7 @@ msgstr "ערכת נושא צבע"
 
 #: ../mousepad/resources/gtk/menus.ui.h:102
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "תוכנית צבעים לשימוש עבור תצוגת הטקסט"
 
 #: ../mousepad/resources/gtk/menus.ui.h:103
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
@@ -1180,7 +1180,7 @@ msgstr "_מסמך"
 
 #: ../mousepad/resources/gtk/menus.ui.h:116
 msgid "Document menu"
-msgstr ""
+msgstr "תפריט מסמך"
 
 #: ../mousepad/resources/gtk/menus.ui.h:117
 msgid "_Word Wrap"
@@ -1204,23 +1204,23 @@ msgstr "גודל לשונית"
 
 #: ../mousepad/resources/gtk/menus.ui.h:122
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "מספר תווי הרווח ללוח"
 
 #: ../mousepad/resources/gtk/menus.ui.h:123
 msgid "Two spaces"
-msgstr ""
+msgstr "שני רווחים"
 
 #: ../mousepad/resources/gtk/menus.ui.h:124
 msgid "Three spaces"
-msgstr ""
+msgstr "שלושה רווחים"
 
 #: ../mousepad/resources/gtk/menus.ui.h:125
 msgid "Four spaces"
-msgstr ""
+msgstr "ארבעה רווחים"
 
 #: ../mousepad/resources/gtk/menus.ui.h:126
 msgid "Eight spaces"
-msgstr ""
+msgstr "שמונה רווחים"
 
 #: ../mousepad/resources/gtk/menus.ui.h:127
 msgid "Other..."
@@ -1244,7 +1244,7 @@ msgstr "_טיפוס קובץ"
 
 #: ../mousepad/resources/gtk/menus.ui.h:132
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "שפה לשימוש להדגשת תחביר"
 
 #: ../mousepad/resources/gtk/menus.ui.h:133
 msgid "Plain Text"
@@ -1260,7 +1260,7 @@ msgstr "סיו_מת שורה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:136
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "תו(וים) לשימוש עבור סוף שורה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:137
 msgid "Set the line ending of the document to Unix (LF)"
@@ -1304,7 +1304,7 @@ msgstr "_עזרה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:147
 msgid "Help menu"
-msgstr ""
+msgstr "תפריט עזרה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:148
 msgid "_Contents"
