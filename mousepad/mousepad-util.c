@@ -1266,7 +1266,7 @@ mousepad_pango_font_description_to_css (const PangoFontDescription *font_desc)
       switch (pango_font_description_get_stretch (font_desc))
         {
         case PANGO_STRETCH_ULTRA_CONDENSED:
-          ADD_KEYVAL (FONT_STRETCH, "untra-condensed");
+          ADD_KEYVAL (FONT_STRETCH, "ultra-condensed");
           break;
 
         case PANGO_STRETCH_EXTRA_CONDENSED:
@@ -1298,7 +1298,7 @@ mousepad_pango_font_description_to_css (const PangoFontDescription *font_desc)
           break;
 
         case PANGO_STRETCH_ULTRA_EXPANDED:
-          ADD_KEYVAL (FONT_STRETCH, "untra-expanded");
+          ADD_KEYVAL (FONT_STRETCH, "ultra-expanded");
           break;
 
         default:
