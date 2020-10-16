@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-07 12:47+0200\n"
-"PO-Revision-Date: 2020-10-08 18:31+0000\n"
-"Last-Translator: beriain\n"
+"POT-Creation-Date: 2020-10-12 00:46+0200\n"
+"PO-Revision-Date: 2020-10-11 22:46+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Basque (http://www.transifex.com/xfce/xfce-apps/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,45 +20,37 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../mousepad/mousepad-application.c:82
+#: ../mousepad/mousepad-application.c:77
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Ez erregistratu D-BUS saio mezu bus-arekin"
 
-#: ../mousepad/mousepad-application.c:83
+#: ../mousepad/mousepad-application.c:78
 msgid "Quit a running Mousepad primary instance"
 msgstr "Itxi martxan dagoen Mousepaden instantzia nagusia"
 
-#: ../mousepad/mousepad-application.c:84
+#: ../mousepad/mousepad-application.c:79
 msgid "Print version information and exit"
 msgstr "Bertsio argibideak bistarazi eta irten"
 
-#: ../mousepad/mousepad-application.c:85
+#: ../mousepad/mousepad-application.c:80
 msgid "[FILES...]"
 msgstr "[FITX...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:122 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:117 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:144
+#: ../mousepad/mousepad-application.c:139
 msgid "The Xfce development team. All rights reserved."
 msgstr "Xfce garatzaile taldea. Eskubide guztiak erreserbaturik"
 
-#: ../mousepad/mousepad-application.c:145
+#: ../mousepad/mousepad-application.c:140
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Arazoen berri hemen eman: <%s>"
 
-#: ../mousepad/mousepad-application.c:557
-msgid "No filetype"
-msgstr "Fitxategi motarik ez"
-
-#: ../mousepad/mousepad-application.c:608
-msgid "No style scheme"
-msgstr "Estilo eskemarik ez"
-
-#: ../mousepad/mousepad-application.c:623
+#: ../mousepad/mousepad-application.c:594
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Egileak: %s | Fitxategi-izena: %s"
@@ -148,8 +140,8 @@ msgid "_Save As"
 msgstr "Gorde honela"
 
 #: ../mousepad/mousepad-dialogs.c:437 ../mousepad/mousepad-dialogs.c:500
-#: ../mousepad/mousepad-dialogs.c:567 ../mousepad/mousepad-window.c:1114
-#: ../mousepad/resources/gtk/menus.ui.h:8
+#: ../mousepad/mousepad-dialogs.c:567 ../mousepad/mousepad-window.c:888
+#: ../mousepad/resources/gtk/menus.ui.h:15
 msgid "_Save"
 msgstr "_Gorde"
 
@@ -205,7 +197,7 @@ msgstr "Fitxategia ireki"
 msgid "_Open"
 msgstr "_Ireki"
 
-#: ../mousepad/mousepad-dialogs.c:630
+#: ../mousepad/mousepad-dialogs.c:627
 msgid "_Encoding:"
 msgstr "Kodeketa:"
 
@@ -381,17 +373,17 @@ msgstr "Japoniarra"
 msgid "Korean"
 msgstr "Korearra"
 
-#: ../mousepad/mousepad-file.c:557
+#: ../mousepad/mousepad-file.c:569
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Byteen sekuentzia baliogabea bihurketa-sarreran"
 
-#: ../mousepad/mousepad-file.c:903
+#: ../mousepad/mousepad-file.c:915
 #, c-format
 msgid "The file \"%s\" you tried to reload does not exist anymore"
 msgstr ""
 
-#: ../mousepad/mousepad-file.c:944
+#: ../mousepad/mousepad-file.c:956
 #, c-format
 msgid "Failed to read the status of \"%s\""
 msgstr "Huts \"%s\"-ren egoera irakurtzerakoan."
@@ -404,7 +396,7 @@ msgstr "It_xi"
 
 #. setup the window properties
 #: ../mousepad/mousepad-prefs-dialog.c:435
-#: ../mousepad/resources/gtk/menus.ui.h:42
+#: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Preferences"
 msgstr "Hobespenak"
 
@@ -474,8 +466,8 @@ msgid "Find and Replace"
 msgstr "Aurkitu eta ordeztu"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:170
-#: ../mousepad/mousepad-window.c:1140 ../mousepad/resources/gtk/menus.ui.h:44
+#: ../mousepad/mousepad-replace-dialog.c:170 ../mousepad/mousepad-window.c:914
+#: ../mousepad/resources/gtk/menus.ui.h:87
 msgid "_Find"
 msgstr "Aurkitu"
 
@@ -602,346 +594,157 @@ msgstr "Ezin da \"%s\" oinarri direktorioa sortu. \"%s\" fitxategiaren gordetzea
 msgid "Failed to store the preferences to \"%s\": %s"
 msgstr "Huts \"%s\"-ren ezarpenak gordetzean: %s"
 
-#: ../mousepad/mousepad-window.c:597
-msgid "Create a new document"
-msgstr "Sortu dokumentu berri bat"
-
-#. 1, toolbar item 1
-#: ../mousepad/mousepad-window.c:598
-msgid "Create a new document in a new window"
-msgstr "Sortu dokumentu berria bat leiho berrian"
-
-#. 3, template menu insertion flag
-#: ../mousepad/mousepad-window.c:601
-msgid "Open a file"
-msgstr "Ireki fitxategia"
-
-#. 4, toolbar item 2
-#. 5, recent menu insertion flag
-#: ../mousepad/mousepad-window.c:603
-msgid "Clear the recently used files history"
-msgstr "Garbitu azkenaldian erabilitako fitxategi historia"
-
-#: ../mousepad/mousepad-window.c:605
-msgid "Save the current document"
-msgstr "Gorde uneko dokumentua"
-
-#. 7, tab menu start, toolbar item 3
-#: ../mousepad/mousepad-window.c:606
-msgid "Save current document as another file"
-msgstr "Gorde uneko dokumntua beste fitxategi batean"
-
-#. 8, tab menu 2, toolbar item 4
-#: ../mousepad/mousepad-window.c:607
-msgid "Save all document in this window"
-msgstr "Gorde leiho honetako dokumnetu guztia"
-
-#: ../mousepad/mousepad-window.c:608
-msgid "Revert to the saved version of the file"
-msgstr "Itzuli fitxategiaren gordetako bertsio batera"
-
-#. 10, tab menu 3, toolbar item 5
-#: ../mousepad/mousepad-window.c:610
-msgid "Print the current document"
-msgstr "Inprimatu uneko dokumentua"
-
-#: ../mousepad/mousepad-window.c:612
-msgid "Move the current document to a new window"
-msgstr "Eraman uneko dokumentua leiho berri batera"
-
-#. 12, tab menu 4
-#: ../mousepad/mousepad-window.c:614
-msgid "Close the current document"
-msgstr "Itxi uneko dokumentua"
-
-#. 13, tab menu end, toolbar item 6
-#: ../mousepad/mousepad-window.c:615
-msgid "Close this window"
-msgstr "Itxi leiho hau"
-
-#: ../mousepad/mousepad-window.c:619
-msgid "Undo the last action"
-msgstr "Desegin azken ekintza"
-
-#. 16, textview menu start, toolbar item 7
-#: ../mousepad/mousepad-window.c:620
-msgid "Redo the last undone action"
-msgstr "Berregin desegindako azken urratsa"
-
-#. 17, toolbar item 8
-#: ../mousepad/mousepad-window.c:622
-msgid "Cut the selection"
-msgstr "Ebaki hautapena"
-
-#. 18, toolbar item 9
-#: ../mousepad/mousepad-window.c:623
-msgid "Copy the selection"
-msgstr "Kopiatu hautapena"
-
-#. 19, toolbar item 10
-#: ../mousepad/mousepad-window.c:624
-msgid "Paste the clipboard"
-msgstr "Itsatsi arbela"
-
-#: ../mousepad/mousepad-window.c:627
-msgid "Paste from the clipboard history"
-msgstr "Itsatsi arbel historiatik"
-
-#: ../mousepad/mousepad-window.c:628
-msgid "Paste the clipboard text into a column"
-msgstr "Itsatsi arbeleko testua zutabe batetan"
-
-#: ../mousepad/mousepad-window.c:629
-msgid "Delete the current selection"
-msgstr "Ezabatu uneko hautapena"
-
-#: ../mousepad/mousepad-window.c:631
-msgid "Select the text in the entire document"
-msgstr "Hautatu dokumentuko osoko testua"
-
-#: ../mousepad/mousepad-window.c:635
-msgid "Change the case of the selection to lowercase"
-msgstr "Aldatu hautatutako testua minuskuletara"
-
-#: ../mousepad/mousepad-window.c:636
-msgid "Change the case of the selection to uppercase"
-msgstr "Aldatu hautatutako testua maiuskuletara"
-
-#: ../mousepad/mousepad-window.c:637
-msgid "Change the case of the selection to title case"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:638
-msgid "Change the case of the selection opposite case"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:640
-msgid "Convert all tabs to spaces in the selection or document"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:641
-msgid ""
-"Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:643
-msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:645
-msgid "Reverse the order of something"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:648
-msgid "Move the selection one line up"
-msgstr "Mugitu hautapena lerro bat gorantz"
-
-#: ../mousepad/mousepad-window.c:649
-msgid "Move the selection one line down"
-msgstr "Mugitu hautapena lerro bat beherantz"
-
-#: ../mousepad/mousepad-window.c:650
-msgid "Duplicate the current line or selection"
-msgstr "Bikoiztu uneko lerro edo hautapena"
-
-#: ../mousepad/mousepad-window.c:651
-msgid "Increase the indentation of the selection or current line"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:652
-msgid "Decrease the indentation of the selection or current line"
-msgstr ""
-
-#. 40, textview menu end
-#: ../mousepad/mousepad-window.c:654
-msgid "Show the preferences dialog"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:658
-msgid "Search for text"
-msgstr "Testua bilatu"
-
-#. 43, toolbar item 12
-#: ../mousepad/mousepad-window.c:659
-msgid "Search forwards for the same text"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:660
-msgid "Search backwards for the same text"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:661
-msgid "Search for and replace text"
-msgstr "Testua bilatu eta ordeztu"
-
-#. 46, toolbar item 13
-#: ../mousepad/mousepad-window.c:663
-msgid "Go to a specific location in the document"
-msgstr "Joan dokumentuko kokagune zehatz batera"
-
-#. 47, toolbar item 14
-#. "View" menu
-#. 48, view menu insertion flag
-#: ../mousepad/mousepad-window.c:667
-msgid "Change the editor font"
-msgstr ""
-
-#. "Color Scheme" submenu
-#. 50, style sheme menu insertion flag
-#: ../mousepad/mousepad-window.c:671
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
-msgid "Show line numbers"
-msgstr "Ikusi lerro zenbakiak"
-
-#: ../mousepad/mousepad-window.c:673
-msgid "Change the visibility of the main menubar"
-msgstr ""
-
-#. 52, textview menu additional item
-#: ../mousepad/mousepad-window.c:674
-msgid "Change the visibility of the toolbar"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:675
-msgid "Change the visibility of the statusbar"
-msgstr "Aldatu egoera-barraren ikusgarritasuna"
-
-#: ../mousepad/mousepad-window.c:677 ../mousepad/mousepad-window.c:5618
-msgid "Make the window fullscreen"
-msgstr ""
-
-#. 55, toolbar item 15
-#. "Document" menu
-#. 56, document menu insertion flag
-#: ../mousepad/mousepad-window.c:681
-msgid "Toggle breaking lines in between words"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:682
-msgid "Auto indent a new line"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:689
-msgid "Set custom tab size"
-msgstr "Ezarri fitxa tamaina pertsonala"
-
-#. 64, custom tab size tooltip
-#: ../mousepad/mousepad-window.c:691
-msgid "Insert spaces when the tab button is pressed"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:697
-msgid "Set the line ending of the document to Unix (LF)"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:698
-msgid "Set the line ending of the document to Mac (CR)"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:699
-msgid "Set the line ending of the document to DOS / Windows (CR LF)"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:701
-msgid "Store the byte-order mark in the file"
-msgstr ""
-
-#: ../mousepad/mousepad-window.c:703
-msgid "Select the previous tab"
-msgstr "Hautatu aurreko fitxa"
-
-#: ../mousepad/mousepad-window.c:704
-msgid "Select the next tab"
-msgstr "Hautatu hurrengo fitxa"
-
-#: ../mousepad/mousepad-window.c:708
-msgid "Display the Mousepad user manual"
-msgstr "Bistarazi Mousepad erabiltzaile manuala"
-
-#: ../mousepad/mousepad-window.c:709
-msgid "About this application"
-msgstr "Aplikazio honi buruz"
-
 #. insert items
-#: ../mousepad/mousepad-window.c:1110 ../mousepad/resources/gtk/menus.ui.h:2
+#: ../mousepad/mousepad-window.c:884 ../mousepad/resources/gtk/menus.ui.h:3
 msgid "_New"
 msgstr "_Berria"
 
-#: ../mousepad/mousepad-window.c:1112 ../mousepad/resources/gtk/menus.ui.h:5
+#: ../mousepad/mousepad-window.c:885 ../mousepad/resources/gtk/menus.ui.h:4
+msgid "Create a new document"
+msgstr "Sortu dokumentu berri bat"
+
+#: ../mousepad/mousepad-window.c:886 ../mousepad/resources/gtk/menus.ui.h:9
 msgid "_Open..."
 msgstr "_Ireki..."
 
-#: ../mousepad/mousepad-window.c:1116 ../mousepad/resources/gtk/menus.ui.h:9
+#: ../mousepad/mousepad-window.c:887 ../mousepad/resources/gtk/menus.ui.h:10
+msgid "Open a file"
+msgstr "Ireki fitxategia"
+
+#: ../mousepad/mousepad-window.c:889 ../mousepad/resources/gtk/menus.ui.h:16
+msgid "Save the current document"
+msgstr "Gorde uneko dokumentua"
+
+#: ../mousepad/mousepad-window.c:890 ../mousepad/resources/gtk/menus.ui.h:17
 msgid "Save _As..."
 msgstr "Gorde honel_a..."
 
-#: ../mousepad/mousepad-window.c:1118 ../mousepad/resources/gtk/menus.ui.h:11
-msgid "Re_vert"
-msgstr "_Leheneratu"
+#: ../mousepad/mousepad-window.c:891 ../mousepad/resources/gtk/menus.ui.h:18
+msgid "Save current document as another file"
+msgstr "Gorde uneko dokumntua beste fitxategi batean"
 
-#: ../mousepad/mousepad-window.c:1120 ../mousepad/resources/gtk/menus.ui.h:14
+#: ../mousepad/mousepad-window.c:892 ../mousepad/mousepad-window.c:2345
+#: ../mousepad/resources/gtk/menus.ui.h:21
+msgid "Re_load"
+msgstr ""
+
+#: ../mousepad/mousepad-window.c:893 ../mousepad/mousepad-window.c:2352
+#: ../mousepad/resources/gtk/menus.ui.h:22
+msgid "Reload file from disk"
+msgstr ""
+
+#: ../mousepad/mousepad-window.c:894 ../mousepad/resources/gtk/menus.ui.h:27
 msgid "Close _Tab"
 msgstr "Itxi fi_txa"
 
-#: ../mousepad/mousepad-window.c:1126 ../mousepad/resources/gtk/menus.ui.h:17
+#: ../mousepad/mousepad-window.c:895 ../mousepad/resources/gtk/menus.ui.h:28
+msgid "Close the current document"
+msgstr "Itxi uneko dokumentua"
+
+#: ../mousepad/mousepad-window.c:900 ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_Undo"
 msgstr "Desegin"
 
-#: ../mousepad/mousepad-window.c:1128 ../mousepad/resources/gtk/menus.ui.h:18
+#: ../mousepad/mousepad-window.c:901 ../mousepad/resources/gtk/menus.ui.h:34
+msgid "Undo the last action"
+msgstr "Desegin azken ekintza"
+
+#: ../mousepad/mousepad-window.c:902 ../mousepad/resources/gtk/menus.ui.h:35
 msgid "_Redo"
 msgstr "Berregin"
 
-#: ../mousepad/mousepad-window.c:1130 ../mousepad/resources/gtk/menus.ui.h:19
+#: ../mousepad/mousepad-window.c:903 ../mousepad/resources/gtk/menus.ui.h:36
+msgid "Redo the last undone action"
+msgstr "Berregin desegindako azken urratsa"
+
+#: ../mousepad/mousepad-window.c:904 ../mousepad/resources/gtk/menus.ui.h:37
 msgid "Cu_t"
 msgstr "Ebaki"
 
-#: ../mousepad/mousepad-window.c:1132 ../mousepad/resources/gtk/menus.ui.h:20
+#: ../mousepad/mousepad-window.c:905 ../mousepad/resources/gtk/menus.ui.h:38
+msgid "Cut the selection"
+msgstr "Ebaki hautapena"
+
+#: ../mousepad/mousepad-window.c:906 ../mousepad/resources/gtk/menus.ui.h:39
 msgid "_Copy"
 msgstr "_Kopiatu"
 
-#: ../mousepad/mousepad-window.c:1134 ../mousepad/resources/gtk/menus.ui.h:21
+#: ../mousepad/mousepad-window.c:907 ../mousepad/resources/gtk/menus.ui.h:40
+msgid "Copy the selection"
+msgstr "Kopiatu hautapena"
+
+#: ../mousepad/mousepad-window.c:908 ../mousepad/resources/gtk/menus.ui.h:41
 msgid "_Paste"
 msgstr "_Itsatsi"
 
-#: ../mousepad/mousepad-window.c:1142 ../mousepad/resources/gtk/menus.ui.h:47
+#: ../mousepad/mousepad-window.c:909 ../mousepad/resources/gtk/menus.ui.h:42
+msgid "Paste the clipboard"
+msgstr "Itsatsi arbela"
+
+#: ../mousepad/mousepad-window.c:915 ../mousepad/resources/gtk/menus.ui.h:88
+msgid "Search for text"
+msgstr "Testua bilatu"
+
+#: ../mousepad/mousepad-window.c:916 ../mousepad/resources/gtk/menus.ui.h:93
 msgid "Find and Rep_lace..."
 msgstr "Bi_latu eta ordeztu..."
 
-#: ../mousepad/mousepad-window.c:1144 ../mousepad/resources/gtk/menus.ui.h:48
+#: ../mousepad/mousepad-window.c:917 ../mousepad/resources/gtk/menus.ui.h:94
+msgid "Search for and replace text"
+msgstr "Testua bilatu eta ordeztu"
+
+#: ../mousepad/mousepad-window.c:918 ../mousepad/resources/gtk/menus.ui.h:95
 msgid "_Go to..."
 msgstr "_Joan ..."
 
-#: ../mousepad/mousepad-window.c:1153 ../mousepad/resources/gtk/menus.ui.h:57
+#: ../mousepad/mousepad-window.c:919 ../mousepad/resources/gtk/menus.ui.h:96
+msgid "Go to a specific location in the document"
+msgstr "Joan dokumentuko kokagune zehatz batera"
+
+#: ../mousepad/mousepad-window.c:927 ../mousepad/resources/gtk/menus.ui.h:113
 msgid "_Fullscreen"
 msgstr "_Pantaila-osoa"
 
+#: ../mousepad/mousepad-window.c:928 ../mousepad/mousepad-window.c:5441
+#: ../mousepad/resources/gtk/menus.ui.h:114
+msgid "Make the window fullscreen"
+msgstr ""
+
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1229
+#: ../mousepad/mousepad-window.c:1003
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr ""
 
 #. show the warning
-#: ../mousepad/mousepad-window.c:1991
+#: ../mousepad/mousepad-window.c:1728
 msgid "Failed to open the document"
 msgstr "Dokumentu irekitzeak huts egin du"
 
-#: ../mousepad/mousepad-window.c:2167
+#: ../mousepad/mousepad-window.c:1911
 msgid "Read Only"
 msgstr "Irakurtzeko soilik"
 
-#: ../mousepad/mousepad-window.c:2826
+#: ../mousepad/mousepad-window.c:2345
+msgid "Re_vert"
+msgstr "_Leheneratu"
+
+#: ../mousepad/mousepad-window.c:2352
+msgid "Revert to the saved version of the file"
+msgstr "Itzuli fitxategiaren gordetako bertsio batera"
+
+#: ../mousepad/mousepad-window.c:2644
 #, c-format
 msgid "Use '%s' as template"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:2854
+#: ../mousepad/mousepad-window.c:2672
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:2921
+#: ../mousepad/mousepad-window.c:2734
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -949,55 +752,55 @@ msgid ""
 msgstr ""
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:2977
+#: ../mousepad/mousepad-window.c:2789
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Ge_hiago (%d)"
 
-#: ../mousepad/mousepad-window.c:2987
+#: ../mousepad/mousepad-window.c:2799
 msgid "Ot_her..."
 msgstr "Ge_hiago..."
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3350 ../mousepad/mousepad-window.c:3548
+#: ../mousepad/mousepad-window.c:3158 ../mousepad/mousepad-window.c:3352
 msgid "Charset"
 msgstr "Karaktere-jokoa"
 
-#: ../mousepad/mousepad-window.c:3479
+#: ../mousepad/mousepad-window.c:3284
 #, c-format
 msgid "Open '%s'"
 msgstr "Ireki '%s'"
 
-#: ../mousepad/mousepad-window.c:3507
+#: ../mousepad/mousepad-window.c:3312
 msgid "No items found"
 msgstr "Ez da elementurik aurkitu"
 
-#: ../mousepad/mousepad-window.c:3597
+#: ../mousepad/mousepad-window.c:3401
 msgid "Failed to clear the recent history"
 msgstr "Huts azken aldiko historia sortzean"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4040
+#: ../mousepad/mousepad-window.c:3844
 msgid "No clipboard data"
 msgstr "Ez dago arbel daturik"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4185
+#: ../mousepad/mousepad-window.c:3989
 msgid "Templates should be UTF-8 valid"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4190
+#: ../mousepad/mousepad-window.c:3994
 msgid "Reading the template failed"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4195
+#: ../mousepad/mousepad-window.c:3999
 msgid "Loading the template failed"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:4290
+#: ../mousepad/mousepad-window.c:4094
 #, c-format
 msgid ""
 "Failed to open \"%s\" for reading. It will be removed from the document "
@@ -1005,30 +808,30 @@ msgid ""
 msgstr ""
 
 #. show the warning and cleanup
-#: ../mousepad/mousepad-window.c:4294
+#: ../mousepad/mousepad-window.c:4098
 msgid "Failed to open file"
 msgstr "Huts fitxategia irekitzerakoan"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4404 ../mousepad/mousepad-window.c:4512
+#: ../mousepad/mousepad-window.c:4208 ../mousepad/mousepad-window.c:4337
 msgid "Failed to save the document"
 msgstr ""
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4607
+#: ../mousepad/mousepad-window.c:4432
 msgid "Failed to reload the document"
 msgstr ""
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4636
+#: ../mousepad/mousepad-window.c:4461
 msgid "Failed to print the document"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:5371
+#: ../mousepad/mousepad-window.c:5196
 msgid "Choose Mousepad Font"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:5611
+#: ../mousepad/mousepad-window.c:5434
 msgid "Leave fullscreen mode"
 msgstr ""
 
@@ -1036,226 +839,484 @@ msgstr ""
 msgid "_File"
 msgstr "_Fitxategia"
 
-#: ../mousepad/resources/gtk/menus.ui.h:3
+#: ../mousepad/resources/gtk/menus.ui.h:2
+msgid "File menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:5
 msgid "New _Window"
 msgstr "_Leiho berria"
 
-#: ../mousepad/resources/gtk/menus.ui.h:4
+#: ../mousepad/resources/gtk/menus.ui.h:6
+msgid "Create a new document in a new window"
+msgstr "Sortu dokumentu berria bat leiho berrian"
+
+#: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "New From Te_mplate"
 msgstr "Berria &txantiloitik"
 
-#: ../mousepad/resources/gtk/menus.ui.h:6
+#: ../mousepad/resources/gtk/menus.ui.h:8
+msgid "Create a new document from a template"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:11
 msgid "Op_en Recent"
 msgstr "Ireki _oraintsukoa"
 
-#: ../mousepad/resources/gtk/menus.ui.h:7
+#: ../mousepad/resources/gtk/menus.ui.h:12
+msgid "Open a recently used file"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "Clear _History"
 msgstr "Garbitu _historia"
 
-#: ../mousepad/resources/gtk/menus.ui.h:10
+#: ../mousepad/resources/gtk/menus.ui.h:14
+msgid "Clear the recently used files history"
+msgstr "Garbitu azkenaldian erabilitako fitxategi historia"
+
+#: ../mousepad/resources/gtk/menus.ui.h:19
 msgid "Save A_ll"
 msgstr "Gorde _dena"
 
-#: ../mousepad/resources/gtk/menus.ui.h:12
+#: ../mousepad/resources/gtk/menus.ui.h:20
+msgid "Save all document in this window"
+msgstr "Gorde leiho honetako dokumnetu guztia"
+
+#: ../mousepad/resources/gtk/menus.ui.h:23
 msgid "_Print..."
 msgstr "In_primatu..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:13
+#: ../mousepad/resources/gtk/menus.ui.h:24
+msgid "Print the current document"
+msgstr "Inprimatu uneko dokumentua"
+
+#: ../mousepad/resources/gtk/menus.ui.h:25
 msgid "_Detach Tab"
 msgstr "_Desuztartu fitxa"
 
-#: ../mousepad/resources/gtk/menus.ui.h:15
+#: ../mousepad/resources/gtk/menus.ui.h:26
+msgid "Move the current document to a new window"
+msgstr "Eraman uneko dokumentua leiho berri batera"
+
+#: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_Close Window"
 msgstr "_Itxi leihoa"
 
-#: ../mousepad/resources/gtk/menus.ui.h:16
+#: ../mousepad/resources/gtk/menus.ui.h:30
+msgid "Close this window"
+msgstr "Itxi leiho hau"
+
+#: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "_Edit"
 msgstr "_Editatu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:22
-msgid "Paste _Special"
-msgstr "Itsatsi bere_zia"
-
-#: ../mousepad/resources/gtk/menus.ui.h:23
-msgid "Paste from _History"
-msgstr "Itx¡satsi historiatik"
-
-#: ../mousepad/resources/gtk/menus.ui.h:24
-msgid "Paste as _Column"
-msgstr "Itsatsi _zutabe baten gisa"
-
-#: ../mousepad/resources/gtk/menus.ui.h:25
-msgid "_Delete"
-msgstr "_Ezabatu"
-
-#: ../mousepad/resources/gtk/menus.ui.h:26
-msgid "Select _All"
-msgstr "Hautatu den_a"
-
-#: ../mousepad/resources/gtk/menus.ui.h:27
-msgid "Conve_rt"
-msgstr "Bihurtu"
-
-#: ../mousepad/resources/gtk/menus.ui.h:28
-msgid "To _Lowercase"
-msgstr "Minuskuletara"
-
-#: ../mousepad/resources/gtk/menus.ui.h:29
-msgid "To _Uppercase"
-msgstr "Maiuskuletara"
-
-#: ../mousepad/resources/gtk/menus.ui.h:30
-msgid "To _Title Case"
-msgstr ""
-
-#: ../mousepad/resources/gtk/menus.ui.h:31
-msgid "To _Opposite Case"
-msgstr ""
-
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "_Tabs to Spaces"
-msgstr "Tabuladoreak zuriune"
-
-#: ../mousepad/resources/gtk/menus.ui.h:33
-msgid "_Spaces to Tabs"
-msgstr "Zuriuneak tabuladore"
-
-#: ../mousepad/resources/gtk/menus.ui.h:34
-msgid "St_rip Trailing Spaces"
-msgstr ""
-
-#: ../mousepad/resources/gtk/menus.ui.h:35
-msgid "_Transpose"
-msgstr ""
-
-#: ../mousepad/resources/gtk/menus.ui.h:36
-msgid "_Move Selection"
-msgstr ""
-
-#: ../mousepad/resources/gtk/menus.ui.h:37
-msgid "Line _Up"
-msgstr "Lerroa _gora"
-
-#: ../mousepad/resources/gtk/menus.ui.h:38
-msgid "Line _Down"
-msgstr "Lerroa _behera"
-
-#: ../mousepad/resources/gtk/menus.ui.h:39
-msgid "Dup_licate Line / Selection"
-msgstr ""
-
-#: ../mousepad/resources/gtk/menus.ui.h:40
-msgid "_Increase Indent"
-msgstr ""
-
-#: ../mousepad/resources/gtk/menus.ui.h:41
-msgid "_Decrease Indent"
+msgid "Edit menu"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:43
+msgid "Paste _Special"
+msgstr "Itsatsi bere_zia"
+
+#: ../mousepad/resources/gtk/menus.ui.h:44
+msgid "Paste the clipboard in a special way"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:45
+msgid "Paste from _History"
+msgstr "Itx¡satsi historiatik"
+
+#: ../mousepad/resources/gtk/menus.ui.h:46
+msgid "Paste from the clipboard history"
+msgstr "Itsatsi arbel historiatik"
+
+#: ../mousepad/resources/gtk/menus.ui.h:47
+msgid "Paste as _Column"
+msgstr "Itsatsi _zutabe baten gisa"
+
+#: ../mousepad/resources/gtk/menus.ui.h:48
+msgid "Paste the clipboard text into a column"
+msgstr "Itsatsi arbeleko testua zutabe batetan"
+
+#: ../mousepad/resources/gtk/menus.ui.h:49
+msgid "_Delete"
+msgstr "_Ezabatu"
+
+#: ../mousepad/resources/gtk/menus.ui.h:50
+msgid "Delete the current selection"
+msgstr "Ezabatu uneko hautapena"
+
+#: ../mousepad/resources/gtk/menus.ui.h:51
+msgid "Select _All"
+msgstr "Hautatu den_a"
+
+#: ../mousepad/resources/gtk/menus.ui.h:52
+msgid "Select the text in the entire document"
+msgstr "Hautatu dokumentuko osoko testua"
+
+#: ../mousepad/resources/gtk/menus.ui.h:53
+msgid "Conve_rt"
+msgstr "Bihurtu"
+
+#: ../mousepad/resources/gtk/menus.ui.h:54
+msgid "Convert text in different ways"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:55
+msgid "To _Lowercase"
+msgstr "Minuskuletara"
+
+#: ../mousepad/resources/gtk/menus.ui.h:56
+msgid "Change the case of the selection to lowercase"
+msgstr "Aldatu hautatutako testua minuskuletara"
+
+#: ../mousepad/resources/gtk/menus.ui.h:57
+msgid "To _Uppercase"
+msgstr "Maiuskuletara"
+
+#: ../mousepad/resources/gtk/menus.ui.h:58
+msgid "Change the case of the selection to uppercase"
+msgstr "Aldatu hautatutako testua maiuskuletara"
+
+#: ../mousepad/resources/gtk/menus.ui.h:59
+msgid "To _Title Case"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:60
+msgid "Change the case of the selection to title case"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:61
+msgid "To _Opposite Case"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:62
+msgid "Change the case of the selection opposite case"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:63
+msgid "_Tabs to Spaces"
+msgstr "Tabuladoreak zuriune"
+
+#: ../mousepad/resources/gtk/menus.ui.h:64
+msgid "Convert all tabs to spaces in the selection or document"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:65
+msgid "_Spaces to Tabs"
+msgstr "Zuriuneak tabuladore"
+
+#: ../mousepad/resources/gtk/menus.ui.h:66
+msgid ""
+"Convert all the leading spaces to tabs in the selected line(s) or document"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:67
+msgid "St_rip Trailing Spaces"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:68
+msgid "Remove all the trailing spaces from the selected line(s) or document"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:69
+msgid "_Transpose"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:70
+msgid "Reverse the order of something"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:71
+msgid "_Move Selection"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:72
+msgid "Move the selection in different ways"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:73
+msgid "Line _Up"
+msgstr "Lerroa _gora"
+
+#: ../mousepad/resources/gtk/menus.ui.h:74
+msgid "Move the selection one line up"
+msgstr "Mugitu hautapena lerro bat gorantz"
+
+#: ../mousepad/resources/gtk/menus.ui.h:75
+msgid "Line _Down"
+msgstr "Lerroa _behera"
+
+#: ../mousepad/resources/gtk/menus.ui.h:76
+msgid "Move the selection one line down"
+msgstr "Mugitu hautapena lerro bat beherantz"
+
+#: ../mousepad/resources/gtk/menus.ui.h:77
+msgid "Dup_licate Line / Selection"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:78
+msgid "Duplicate the current line or selection"
+msgstr "Bikoiztu uneko lerro edo hautapena"
+
+#: ../mousepad/resources/gtk/menus.ui.h:79
+msgid "_Increase Indent"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:80
+msgid "Increase the indentation of the selection or current line"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:81
+msgid "_Decrease Indent"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:82
+msgid "Decrease the indentation of the selection or current line"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:84
+msgid "Show the preferences dialog"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:85
 msgid "_Search"
 msgstr "Bilatu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:45
+#: ../mousepad/resources/gtk/menus.ui.h:86
+msgid "Search menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:89
 msgid "Find _Next"
 msgstr "Bilatu _hurrengoa"
 
-#: ../mousepad/resources/gtk/menus.ui.h:46
+#: ../mousepad/resources/gtk/menus.ui.h:90
+msgid "Search forwards for the same text"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:91
 msgid "Find _Previous"
 msgstr "Bilatu au_rrekoa"
 
-#: ../mousepad/resources/gtk/menus.ui.h:49
+#: ../mousepad/resources/gtk/menus.ui.h:92
+msgid "Search backwards for the same text"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:97
 msgid "_View"
 msgstr "_Ikusi"
 
-#: ../mousepad/resources/gtk/menus.ui.h:50
+#: ../mousepad/resources/gtk/menus.ui.h:98
+msgid "View menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:99
 msgid "Select F_ont..."
 msgstr "Hautatu letra-tip_oa..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:51
+#: ../mousepad/resources/gtk/menus.ui.h:100
+msgid "Change the editor font"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:101
 msgid "_Color Scheme"
 msgstr ""
 
-#: ../mousepad/resources/gtk/menus.ui.h:52
+#: ../mousepad/resources/gtk/menus.ui.h:102
+msgid "Color scheme to use for the text view"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:103
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
 msgid "None"
 msgstr "Batez"
 
-#: ../mousepad/resources/gtk/menus.ui.h:53
+#: ../mousepad/resources/gtk/menus.ui.h:104
+msgid "No style scheme"
+msgstr "Estilo eskemarik ez"
+
+#: ../mousepad/resources/gtk/menus.ui.h:105
 msgid "Line N_umbers"
 msgstr "Lerro ze_nbakiak"
 
-#: ../mousepad/resources/gtk/menus.ui.h:54
+#: ../mousepad/resources/gtk/menus.ui.h:106
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
+msgid "Show line numbers"
+msgstr "Ikusi lerro zenbakiak"
+
+#: ../mousepad/resources/gtk/menus.ui.h:107
 msgid "_Menubar"
 msgstr ""
 
-#: ../mousepad/resources/gtk/menus.ui.h:55
+#: ../mousepad/resources/gtk/menus.ui.h:108
+msgid "Change the visibility of the main menubar"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:109
 msgid "_Toolbar"
 msgstr "_Tresna-barra"
 
-#: ../mousepad/resources/gtk/menus.ui.h:56
+#: ../mousepad/resources/gtk/menus.ui.h:110
+msgid "Change the visibility of the toolbar"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:111
 msgid "St_atusbar"
 msgstr "Egoer_a-barra"
 
-#: ../mousepad/resources/gtk/menus.ui.h:58
+#: ../mousepad/resources/gtk/menus.ui.h:112
+msgid "Change the visibility of the statusbar"
+msgstr "Aldatu egoera-barraren ikusgarritasuna"
+
+#: ../mousepad/resources/gtk/menus.ui.h:115
 msgid "_Document"
 msgstr "_Dokumentua"
 
-#: ../mousepad/resources/gtk/menus.ui.h:59
+#: ../mousepad/resources/gtk/menus.ui.h:116
+msgid "Document menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:117
 msgid "_Word Wrap"
 msgstr ""
 
-#: ../mousepad/resources/gtk/menus.ui.h:60
+#: ../mousepad/resources/gtk/menus.ui.h:118
+msgid "Toggle breaking lines in between words"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:119
 msgid "_Auto Indent"
 msgstr ""
 
-#: ../mousepad/resources/gtk/menus.ui.h:61
+#: ../mousepad/resources/gtk/menus.ui.h:120
+msgid "Auto indent a new line"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:121
 msgid "Tab _Size"
 msgstr "Fitxa _tamaina"
 
-#: ../mousepad/resources/gtk/menus.ui.h:62
+#: ../mousepad/resources/gtk/menus.ui.h:122
+msgid "The number of space characters for a tabulation"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:123
+msgid "Two spaces"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:124
+msgid "Three spaces"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:125
+msgid "Four spaces"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:126
+msgid "Eight spaces"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:127
 msgid "Other..."
 msgstr ""
 
-#: ../mousepad/resources/gtk/menus.ui.h:63
+#: ../mousepad/resources/gtk/menus.ui.h:128
+msgid "Set custom tab size"
+msgstr "Ezarri fitxa tamaina pertsonala"
+
+#: ../mousepad/resources/gtk/menus.ui.h:129
 msgid "Insert _Spaces"
 msgstr ""
 
-#: ../mousepad/resources/gtk/menus.ui.h:64
+#: ../mousepad/resources/gtk/menus.ui.h:130
+msgid "Insert spaces when the tab button is pressed"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:131
 msgid "_Filetype"
 msgstr "_Fitxategi-mota"
 
-#: ../mousepad/resources/gtk/menus.ui.h:65
+#: ../mousepad/resources/gtk/menus.ui.h:132
+msgid "Language to use for syntax highlighting"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:133
 msgid "Plain Text"
 msgstr "Testu Hutsa"
 
-#: ../mousepad/resources/gtk/menus.ui.h:66
+#: ../mousepad/resources/gtk/menus.ui.h:134
+msgid "No filetype"
+msgstr "Fitxategi motarik ez"
+
+#: ../mousepad/resources/gtk/menus.ui.h:135
 msgid "Line E_nding"
 msgstr "Lerro lo_deketa"
 
-#: ../mousepad/resources/gtk/menus.ui.h:67
+#: ../mousepad/resources/gtk/menus.ui.h:136
+msgid "Character(s) to use as end of line"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:137
+msgid "Set the line ending of the document to Unix (LF)"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:138
+msgid "Set the line ending of the document to Mac (CR)"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:139
+msgid "Set the line ending of the document to DOS / Windows (CR LF)"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:140
 msgid "Write Unicode _BOM"
 msgstr ""
 
-#: ../mousepad/resources/gtk/menus.ui.h:68
+#: ../mousepad/resources/gtk/menus.ui.h:141
+msgid "Store the byte-order mark in the file"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:142
 msgid "_Previous Tab"
 msgstr "_Aurreko fitxa"
 
-#: ../mousepad/resources/gtk/menus.ui.h:69
+#: ../mousepad/resources/gtk/menus.ui.h:143
+msgid "Select the previous tab"
+msgstr "Hautatu aurreko fitxa"
+
+#: ../mousepad/resources/gtk/menus.ui.h:144
 msgid "_Next Tab"
 msgstr "_Hurrengo fitxa"
 
-#: ../mousepad/resources/gtk/menus.ui.h:70
+#: ../mousepad/resources/gtk/menus.ui.h:145
+msgid "Select the next tab"
+msgstr "Hautatu hurrengo fitxa"
+
+#: ../mousepad/resources/gtk/menus.ui.h:146
 msgid "_Help"
 msgstr "_Laguntza"
 
-#: ../mousepad/resources/gtk/menus.ui.h:71
+#: ../mousepad/resources/gtk/menus.ui.h:147
+msgid "Help menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:148
 msgid "_Contents"
 msgstr "_Edukiak"
 
-#: ../mousepad/resources/gtk/menus.ui.h:72
+#: ../mousepad/resources/gtk/menus.ui.h:149
+msgid "Display the Mousepad user manual"
+msgstr "Bistarazi Mousepad erabiltzaile manuala"
+
+#: ../mousepad/resources/gtk/menus.ui.h:150
 msgid "_About"
 msgstr "_Honi buruz"
+
+#: ../mousepad/resources/gtk/menus.ui.h:151
+msgid "About this application"
+msgstr "Aplikazio honi buruz"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
 msgid "Disabled"
