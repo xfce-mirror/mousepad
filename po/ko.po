@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-24 12:48+0200\n"
-"PO-Revision-Date: 2020-07-12 12:48+0000\n"
-"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
+"POT-Creation-Date: 2020-10-12 00:46+0200\n"
+"PO-Revision-Date: 2020-10-11 22:46+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Korean (http://www.transifex.com/xfce/xfce-apps/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,160 +19,240 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../mousepad/main.c:44
+#: ../mousepad/mousepad-application.c:77
 msgid "Do not register with the D-BUS session message bus"
 msgstr "D-BUS 세션 메시지 버스로 등록하지 마십시오"
 
-#: ../mousepad/main.c:45
-msgid "Quit a running Mousepad instance"
-msgstr "실행 중인 마우스패드 인스턴스 나가기"
+#: ../mousepad/mousepad-application.c:78
+msgid "Quit a running Mousepad primary instance"
+msgstr ""
 
-#: ../mousepad/main.c:47
+#: ../mousepad/mousepad-application.c:79
 msgid "Print version information and exit"
 msgstr "버전 정보 출력 후 나가기"
 
-#. default application name
-#: ../mousepad/main.c:70 ../mousepad.desktop.in.in.h:1
-msgid "Mousepad"
-msgstr "마우스패드"
-
-#. initialize gtk+
-#: ../mousepad/main.c:84
+#: ../mousepad/mousepad-application.c:80
 msgid "[FILES...]"
 msgstr "<파일...>"
 
-#. no error message, the gui initialization failed
-#: ../mousepad/main.c:90
-msgid "Failed to open display."
-msgstr "디스플레이 열기에 실패했습니다."
+#. default application name
+#: ../mousepad/mousepad-application.c:117 ../mousepad.desktop.in.in.h:1
+msgid "Mousepad"
+msgstr "마우스패드"
 
-#: ../mousepad/main.c:107
+#: ../mousepad/mousepad-application.c:139
 msgid "The Xfce development team. All rights reserved."
 msgstr "Xfce 개발 팀. All rights reserved."
 
-#: ../mousepad/main.c:108
+#: ../mousepad/mousepad-application.c:140
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "<%s>에 버그를 알려주십시오."
 
-#: ../mousepad/mousepad-dialogs.c:39
+#: ../mousepad/mousepad-application.c:594
+#, c-format
+msgid "%s | Authors: %s | Filename: %s"
+msgstr "%s | 작성자: %s | 파일 이름: %s"
+
+#: ../mousepad/mousepad-dialogs.c:40
 msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
 msgstr "마우스 패드는 Xfce 데스크톱 환경의 빠른 텍스트 편집기입니다."
 
-#: ../mousepad/mousepad-dialogs.c:44
+#: ../mousepad/mousepad-dialogs.c:47
 msgid "translator-credits"
 msgstr "Seong-ho Cho <darkcircle.0426@gmail.com>"
 
 #. display an error message to the user
-#: ../mousepad/mousepad-dialogs.c:99
+#: ../mousepad/mousepad-dialogs.c:112 ../mousepad/mousepad-dialogs.c:131
 msgid "Failed to open the documentation browser"
 msgstr "문서 탐색기 열기에 실패했습니다"
 
 #. build dialog
-#: ../mousepad/mousepad-dialogs.c:114
+#: ../mousepad/mousepad-dialogs.c:153
 msgid "Select Tab Size"
 msgstr "탭 크기 선택"
 
+#. add buttons
+#. cancel button
+#: ../mousepad/mousepad-dialogs.c:156 ../mousepad/mousepad-dialogs.c:240
+#: ../mousepad/mousepad-dialogs.c:348 ../mousepad/mousepad-dialogs.c:415
+#: ../mousepad/mousepad-dialogs.c:497 ../mousepad/mousepad-dialogs.c:532
+#: ../mousepad/mousepad-dialogs.c:564 ../mousepad/mousepad-dialogs.c:609
+#: ../mousepad/mousepad-encoding-dialog.c:121
+#: ../mousepad/mousepad-encoding-dialog.c:193
+msgid "_Cancel"
+msgstr "취소(_C)"
+
+#: ../mousepad/mousepad-dialogs.c:157
+#: ../mousepad/mousepad-encoding-dialog.c:122
+msgid "_OK"
+msgstr "확인(_O)"
+
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:195
+#: ../mousepad/mousepad-dialogs.c:237
 msgid "Go To"
 msgstr "이동"
 
-#: ../mousepad/mousepad-dialogs.c:217
+#: ../mousepad/mousepad-dialogs.c:242
+msgid "_Jump to"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:265
 msgid "_Line number:"
 msgstr "행 번호(_L):"
 
-#: ../mousepad/mousepad-dialogs.c:236
+#: ../mousepad/mousepad-dialogs.c:285
 msgid "C_olumn number:"
 msgstr "열 번호(_O):"
 
-#: ../mousepad/mousepad-dialogs.c:294
-msgid "Remove all entries from the documents history?"
-msgstr "문서 기록에서 모든 항목을 제거하시렵니까?"
-
-#: ../mousepad/mousepad-dialogs.c:299
+#. create the question dialog
+#: ../mousepad/mousepad-dialogs.c:345
 msgid "Clear Documents History"
 msgstr "문서 기록 지우기"
 
-#: ../mousepad/mousepad-dialogs.c:302
+#: ../mousepad/mousepad-dialogs.c:350
+msgid "Clea_r"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:377
+msgid "<big><b>Remove all entries from the documents history?</b></big>"
+msgstr ""
+
+#. secondary text
+#: ../mousepad/mousepad-dialogs.c:382
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "문서 기록을 지우면 현재 나열된 모든 목록을 완전히 제거합니다."
 
-#: ../mousepad/mousepad-dialogs.c:333
-msgid "Do you want to save the changes before closing?"
-msgstr "닫기 전에 바뀐 내용을 저장하시렵니까?"
-
-#: ../mousepad/mousepad-dialogs.c:334
+#. create the question dialog
+#: ../mousepad/mousepad-dialogs.c:412
 msgid "Save Changes"
 msgstr "바뀐 내용 저장"
 
-#: ../mousepad/mousepad-dialogs.c:335
+#: ../mousepad/mousepad-dialogs.c:419
 msgid "_Don't Save"
 msgstr "저장하지 않음(_D)"
 
+#: ../mousepad/mousepad-dialogs.c:429 ../mousepad/mousepad-dialogs.c:533
+msgid "_Save As"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:437 ../mousepad/mousepad-dialogs.c:500
+#: ../mousepad/mousepad-dialogs.c:567 ../mousepad/mousepad-window.c:888
+#: ../mousepad/resources/gtk/menus.ui.h:15
+msgid "_Save"
+msgstr "저장(_S)"
+
+#: ../mousepad/mousepad-dialogs.c:461
+msgid "<big><b>Do you want to save the changes before closing?</b></big>"
+msgstr ""
+
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:357
+#: ../mousepad/mousepad-dialogs.c:466
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "문서를 저장하지 않으면 모든 바뀐 내용을 잃습니다."
 
-#: ../mousepad/mousepad-dialogs.c:379
+#: ../mousepad/mousepad-dialogs.c:491
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "문서를 외부에서 수정했습니다. 계속 저장하시렵니까?"
 
-#: ../mousepad/mousepad-dialogs.c:380
+#: ../mousepad/mousepad-dialogs.c:493
 msgid "Externally Modified"
 msgstr "외부에서 수정함"
 
-#: ../mousepad/mousepad-dialogs.c:382
+#: ../mousepad/mousepad-dialogs.c:495
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "문서를 저장하면 외부에서 바꾼 내용을 잃게 됩니다."
 
-#: ../mousepad/mousepad-dialogs.c:410
+#: ../mousepad/mousepad-dialogs.c:498
+msgid "Save _As"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:529
 msgid "Do you want to save your changes before reloading?"
 msgstr "다시 불러오기 전에 바뀐 내용을 저장하시렵니까?"
 
-#: ../mousepad/mousepad-dialogs.c:412
+#: ../mousepad/mousepad-dialogs.c:531
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "파일을 복구하면, 저장하지 않은 모든 내용을 잃습니다."
 
+#: ../mousepad/mousepad-dialogs.c:535
+msgid "_Revert"
+msgstr ""
+
+#. create the dialog
+#: ../mousepad/mousepad-dialogs.c:562
+msgid "Save As"
+msgstr "다른 이름으로 저장"
+
+#. create new file chooser dialog
+#: ../mousepad/mousepad-dialogs.c:606
+msgid "Open File"
+msgstr "파일을 엽니다"
+
+#: ../mousepad/mousepad-dialogs.c:611
+msgid "_Open"
+msgstr "열기(_O)"
+
+#: ../mousepad/mousepad-dialogs.c:627
+msgid "_Encoding:"
+msgstr "인코딩(_E):"
+
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:497
+#: ../mousepad/mousepad-document.c:503
 msgid "Close this tab"
 msgstr "이 탭 닫기"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:527
+#: ../mousepad/mousepad-document.c:533
 msgid "Untitled"
 msgstr "이름 없음"
 
-#. create the header
-#: ../mousepad/mousepad-encoding-dialog.c:125
-msgid "The document was not UTF-8 valid"
-msgstr "올바른 UTF-8 문서가 아닙니다"
-
 #: ../mousepad/mousepad-encoding-dialog.c:126
-msgid "Please select an encoding below."
-msgstr "아래에서 인코딩을 선택하여 주십시오."
+#: ../mousepad/mousepad-encoding-dialog.c:352
+#: ../mousepad/mousepad-encoding-dialog.c:372
+msgid "The document was not UTF-8 valid."
+msgstr ""
 
 #. encoding radio buttons
-#: ../mousepad/mousepad-encoding-dialog.c:138
+#. default encoding: UTF-8
+#: ../mousepad/mousepad-encoding-dialog.c:142
 msgid "Default (UTF-8)"
 msgstr "기본(UTF-8)"
 
-#: ../mousepad/mousepad-encoding-dialog.c:144
+#: ../mousepad/mousepad-encoding-dialog.c:150
 msgid "System"
 msgstr "시스템"
 
-#: ../mousepad/mousepad-encoding-dialog.c:151
+#: ../mousepad/mousepad-encoding-dialog.c:163
 msgid "Other:"
 msgstr "기타:"
 
-#: ../mousepad/mousepad-encoding-dialog.c:171
+#: ../mousepad/mousepad-encoding-dialog.c:188
 msgid "Checking encodings..."
 msgstr "인코딩 검사 중..."
+
+#: ../mousepad/mousepad-encoding-dialog.c:336
+msgid "Other (partial):"
+msgstr ""
+
+#: ../mousepad/mousepad-encoding-dialog.c:347
+msgid "Other valid encodings were found, please choose below."
+msgstr ""
+
+#: ../mousepad/mousepad-encoding-dialog.c:349
+msgid "Other partially valid encodings were found, please choose below."
+msgstr ""
+
+#: ../mousepad/mousepad-encoding-dialog.c:373
+msgid "No other valid encoding was found."
+msgstr ""
+
+#: ../mousepad/mousepad-encoding-dialog.c:471
+msgid "Unsupported character set"
+msgstr ""
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:25
@@ -292,412 +372,196 @@ msgstr "일본어"
 msgid "Korean"
 msgstr "한국어"
 
-#: ../mousepad/mousepad-file.c:562
+#: ../mousepad/mousepad-file.c:569
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "컨버전 입력의 바이트 순서가 잘못되었습니다"
 
-#: ../mousepad/mousepad-file.c:906
+#: ../mousepad/mousepad-file.c:915
 #, c-format
 msgid "The file \"%s\" you tried to reload does not exist anymore"
 msgstr "다시 불러오려는 \"%s\" 파일이 더 이상 존재하지 않습니다"
 
-#: ../mousepad/mousepad-file.c:947
+#: ../mousepad/mousepad-file.c:956
 #, c-format
 msgid "Failed to read the status of \"%s\""
 msgstr "\"%s\"의 상태 읽기에 실패했습니다"
 
-#: ../mousepad/mousepad-language-action.c:229
-msgid "Plain Text"
-msgstr "플레인 텍스트"
-
-#: ../mousepad/mousepad-language-action.c:230
-msgid "No filetype"
-msgstr "파일 형식 없음"
+#. add the close button
+#: ../mousepad/mousepad-prefs-dialog.c:429
+#: ../mousepad/mousepad-replace-dialog.c:177
+msgid "_Close"
+msgstr "닫기(_C)"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:432 ../mousepad/mousepad-window.c:447
+#: ../mousepad/mousepad-prefs-dialog.c:435
+#: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Preferences"
 msgstr "기본 설정"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:1
-msgid "Disabled"
-msgstr "비활성화"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:2
-msgid "Before"
-msgstr "이전"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:3
-msgid "After"
-msgstr "다음"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:4
-msgid "Always"
-msgstr "항상"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:5
-msgid "Insert Tabs"
-msgstr "탭 삽입"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:6
-msgid "Insert Spaces"
-msgstr "공백 삽입"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:7
-msgid "none"
-msgstr "없음"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:8
-#: ../mousepad/mousepad-style-scheme-action.c:193
-msgid "None"
-msgstr "없음"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:9
-msgid "Menu"
-msgstr "메뉴"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:10
-msgid "Small Toolbar"
-msgstr "작은 도구 모음"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:11
-msgid "Large Toolbar"
-msgstr "큰 도구 모음"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:12
-msgid "Button"
-msgstr "단추"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:13
-msgid "Drag & Drop"
-msgstr "끌어다 놓기"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:14
-msgid "Dialog"
-msgstr "대화상자"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:15
-msgid "Icons Only"
-msgstr "아이콘만"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:16
-msgid "Text Only"
-msgstr "글자만"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:17
-msgid "Text Below Icons"
-msgstr "아이콘 아래 글자"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:18
-msgid "Text Beside Icons"
-msgstr "아이콘 옆에 글자"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:19
-#: ../mousepad/mousepad-window.c:474
-msgid "Show line numbers"
-msgstr "행 번호 보이기"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:20
-msgid "Display whitespace"
-msgstr "공백 표시"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:21
-msgid "Display line endings"
-msgstr "줄 끝 표시"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:22
-msgid "Long line margin at column:"
-msgstr "한 칸당 긴 줄 여백:"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:23
-msgid "Highlight current line"
-msgstr "현재 줄 강조"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:24
-msgid "Highlight matching brackets"
-msgstr "일치하는 괄호 강조"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:25
-msgid "Wrap long lines"
-msgstr "긴 줄 자동 바꾸기"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:26
-msgid "<b>Display</b>"
-msgstr "<b>표시</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:27
-msgid "Use system monospace font"
-msgstr "시스템 고정폭 글꼴 사용"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:28
-msgid "<b>Font</b>"
-msgstr "<b>글꼴</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:29
-msgid "<b>Colour scheme</b>"
-msgstr "<b>색상 구성</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:30
-msgid "View"
-msgstr "보기"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:31
-msgid "Tab width:"
-msgstr "탭 폭:"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:32
-msgid "Tab mode:"
-msgstr "탭 모드:"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:33
-msgid "Enable automatic indentation"
-msgstr "자동 들여쓰기 활성화"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:34
-msgid "<b>Indentation</b>"
-msgstr "<b>들여쓰기</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:35
-msgid "Behaviour:"
-msgstr "동작:"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:36
-msgid "<b>Home/End Keys</b>"
-msgstr "<b>Home/End 키</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:37
-msgid "Editor"
-msgstr "편집기"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:38
-msgid "Show status bar"
-msgstr "상태 표시줄 표시"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:39
-msgid "Show full filename in title bar"
-msgstr "제목 표시줄에 전체 파일 이름 표시"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:40
-msgid "Remember window size"
-msgstr "창 크기 기억"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:41
-msgid "Remember window position"
-msgstr "창 위치 기억"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:42
-msgid "Remember window state"
-msgstr "창 상태 기억"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:43
-msgid "<b>General</b>"
-msgstr "<b>일반</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:44
-msgid "Show toolbar"
-msgstr "도구 모음 표시"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:45
-msgid "Style:"
-msgstr "모양새:"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:46
-msgid "Icon Size:"
-msgstr "아이콘 크기:"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:47
-msgid "<b>Toolbar</b>"
-msgstr "<b>도구 모음</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:48
-msgid "Always show tabs even with one file"
-msgstr "하나의 파일당 탭 항상 표시"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:49
-msgid "Cycled notebook tab switching"
-msgstr "공책 탭 전환 순환"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:50
-msgid "<b>Notebook tabs</b>"
-msgstr "<b>공책 탭</b>"
-
-#: ../mousepad/mousepad-prefs-dialog.glade.h:51
-msgid "Window"
-msgstr "창"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:120
 msgid "Document Settings"
 msgstr "문서 설정"
 
-#: ../mousepad/mousepad-print.c:595
+#: ../mousepad/mousepad-print.c:594
 msgid "Page Setup"
 msgstr "페이지 설정"
 
-#: ../mousepad/mousepad-print.c:605
+#: ../mousepad/mousepad-print.c:599
 msgid "_Adjust page size and orientation"
 msgstr "페이지 크기와 방향 조정(_A)"
 
-#: ../mousepad/mousepad-print.c:615
+#: ../mousepad/mousepad-print.c:617
 msgid "Appearance"
 msgstr "모양새"
 
-#: ../mousepad/mousepad-print.c:629
+#: ../mousepad/mousepad-print.c:631
 msgid "Print page _headers"
 msgstr "페이지 헤더 인쇄(_H)"
 
-#: ../mousepad/mousepad-print.c:636
+#: ../mousepad/mousepad-print.c:638
 msgid "Print _line numbers"
 msgstr "행 번호 출력(_L)"
 
-#: ../mousepad/mousepad-print.c:653
+#: ../mousepad/mousepad-print.c:655
 msgid "Numbering interval:"
 msgstr "숫자매기기 간격:"
 
-#: ../mousepad/mousepad-print.c:661
+#: ../mousepad/mousepad-print.c:664
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
 msgstr "줄 번호 출력 간격입니다. 값을 1로 주면 각 줄별로 번호를 출력합니다. 2로 주면 한 줄 건너 하나씩 줄 번호를 출력합니다. 다른 번호도 마찬가집니다."
 
-#: ../mousepad/mousepad-print.c:673
+#: ../mousepad/mousepad-print.c:677
 msgid "Enable text _wrapping"
 msgstr "텍스트 단위 줄 바꿈 활성화(_W)"
 
-#: ../mousepad/mousepad-print.c:680
+#: ../mousepad/mousepad-print.c:685
 msgid "Enable _syntax highlighting"
 msgstr "문법 강조 활성화(_S)"
 
-#: ../mousepad/mousepad-print.c:692
+#: ../mousepad/mousepad-print.c:697
 msgid "Fonts"
 msgstr "글꼴"
 
-#: ../mousepad/mousepad-print.c:714
+#: ../mousepad/mousepad-print.c:713
 msgid "Header:"
 msgstr "헤더:"
 
-#: ../mousepad/mousepad-print.c:724
+#: ../mousepad/mousepad-print.c:727
 msgid "Body:"
 msgstr "본문:"
 
-#: ../mousepad/mousepad-print.c:734
+#: ../mousepad/mousepad-print.c:741
 msgid "Line numbers:"
 msgstr "행 번호:"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:136
-msgid "Replace"
-msgstr "바꾸기"
+#: ../mousepad/mousepad-replace-dialog.c:164
+msgid "Find and Replace"
+msgstr ""
 
-#: ../mousepad/mousepad-replace-dialog.c:142
-#: ../mousepad/mousepad-replace-dialog.c:423
+#. dialog buttons
+#: ../mousepad/mousepad-replace-dialog.c:170 ../mousepad/mousepad-window.c:914
+#: ../mousepad/resources/gtk/menus.ui.h:87
+msgid "_Find"
+msgstr ""
+
+#: ../mousepad/mousepad-replace-dialog.c:174
+#: ../mousepad/mousepad-replace-dialog.c:507
 msgid "_Replace"
 msgstr "바꾸기(_R)"
 
-#: ../mousepad/mousepad-replace-dialog.c:160
+#: ../mousepad/mousepad-replace-dialog.c:197
 msgid "_Search for:"
 msgstr "다음에 대해 검색(_S):"
 
-#: ../mousepad/mousepad-replace-dialog.c:181
+#: ../mousepad/mousepad-replace-dialog.c:226
 msgid "Replace _with:"
 msgstr "다음으로 바꾸기(_W):"
 
-#: ../mousepad/mousepad-replace-dialog.c:201
+#: ../mousepad/mousepad-replace-dialog.c:249
 msgid "Search _direction:"
 msgstr "검색 방향(_D):"
 
-#: ../mousepad/mousepad-replace-dialog.c:210
+#: ../mousepad/mousepad-replace-dialog.c:259
 msgid "Up"
 msgstr "위"
 
-#: ../mousepad/mousepad-replace-dialog.c:211
+#: ../mousepad/mousepad-replace-dialog.c:260
 msgid "Down"
 msgstr "아래"
 
-#: ../mousepad/mousepad-replace-dialog.c:212
-msgid "Both"
-msgstr "둘 다"
+#. wrap around
+#: ../mousepad/mousepad-replace-dialog.c:270
+msgid "_Wrap around"
+msgstr "끝까지 가면 처음부터(_W)"
 
 #. case sensitive
-#: ../mousepad/mousepad-replace-dialog.c:221
-msgid "Case sensi_tive"
-msgstr "대소문자 구별(_T)"
-
-#. enable regex search
-#: ../mousepad/mousepad-replace-dialog.c:228
-#: ../mousepad/mousepad-search-bar.c:286 ../mousepad/mousepad-search-bar.c:296
-msgid "_Enable Regex"
-msgstr "정규표현식 활성(_E)"
+#: ../mousepad/mousepad-replace-dialog.c:278
+#: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:270
+msgid "Match _case"
+msgstr ""
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:235
+#: ../mousepad/mousepad-replace-dialog.c:288
 msgid "_Match whole word"
 msgstr "완전한 단어 일치(_M)"
 
-#: ../mousepad/mousepad-replace-dialog.c:246
+#. enable regex search
+#: ../mousepad/mousepad-replace-dialog.c:298
+#: ../mousepad/mousepad-search-bar.c:287 ../mousepad/mousepad-search-bar.c:300
+msgid "Regular e_xpression"
+msgstr ""
+
+#: ../mousepad/mousepad-replace-dialog.c:314
 msgid "Replace _all in:"
 msgstr "다음 범위에서 모두 바꾸기(_A):"
 
-#: ../mousepad/mousepad-replace-dialog.c:254
+#: ../mousepad/mousepad-replace-dialog.c:323
 msgid "Selection"
 msgstr "선택"
 
-#: ../mousepad/mousepad-replace-dialog.c:255
+#: ../mousepad/mousepad-replace-dialog.c:324
 msgid "Document"
 msgstr "문서"
 
-#: ../mousepad/mousepad-replace-dialog.c:256
+#: ../mousepad/mousepad-replace-dialog.c:325
 msgid "All Documents"
 msgstr "모든 문서"
 
-#: ../mousepad/mousepad-replace-dialog.c:402
+#: ../mousepad/mousepad-replace-dialog.c:486
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
 msgstr[0] "%d개 찾음"
 
-#: ../mousepad/mousepad-replace-dialog.c:423
+#: ../mousepad/mousepad-replace-dialog.c:507
 msgid "_Replace All"
 msgstr "모두 바꾸기(_R)"
 
-#: ../mousepad/mousepad-search-bar.c:205
-msgid "Fi_nd:"
-msgstr "찾을 단어(_N):"
-
-#: ../mousepad/mousepad-search-bar.c:227
-msgid "_Next"
-msgstr "다음(_N)"
-
-#: ../mousepad/mousepad-search-bar.c:238
-msgid "_Previous"
-msgstr "이전(_P)"
-
-#: ../mousepad/mousepad-search-bar.c:249
+#: ../mousepad/mousepad-search-bar.c:240
 msgid "Highlight _All"
 msgstr "모두 강조(_A)"
 
-#. overflow menu item for when window is too narrow to show the tool bar item
-#: ../mousepad/mousepad-search-bar.c:262 ../mousepad/mousepad-search-bar.c:273
-msgid "Mat_ch Case"
-msgstr "대소문자 일치(_C)"
-
-#: ../mousepad/mousepad-statusbar.c:134
+#: ../mousepad/mousepad-statusbar.c:125
 msgid "Choose a filetype"
 msgstr "파일 형식 선택"
 
 #. language/filetype
-#: ../mousepad/mousepad-statusbar.c:139 ../mousepad/mousepad-statusbar.c:249
+#: ../mousepad/mousepad-statusbar.c:130 ../mousepad/mousepad-statusbar.c:249
 msgid "Filetype: None"
 msgstr "파일 형식: 없음"
 
-#: ../mousepad/mousepad-statusbar.c:162
+#: ../mousepad/mousepad-statusbar.c:153
 msgid "Toggle the overwrite mode"
 msgstr "덮어쓰기 모드 토글"
 
 #. overwrite label
-#: ../mousepad/mousepad-statusbar.c:167
+#: ../mousepad/mousepad-statusbar.c:158
 msgid "OVR"
 msgstr "OVR"
 
@@ -716,589 +580,225 @@ msgstr "행: %d 열: %d 선택: %d"
 msgid "Line: %d Column: %d"
 msgstr "행: %d 열: %d"
 
-#: ../mousepad/mousepad-style-scheme-action.c:194
-msgid "No style scheme"
-msgstr "모양새 구성 없음"
-
-#: ../mousepad/mousepad-style-scheme-action.c:208
-#, c-format
-msgid "%s | Authors: %s | Filename: %s"
-msgstr "%s | 작성자: %s | 파일 이름: %s"
-
 #. show warning to the user
-#: ../mousepad/mousepad-util.c:550
+#: ../mousepad/mousepad-util.c:595
 #, c-format
 msgid "Unable to create base directory \"%s\". Saving to file \"%s\" will be aborted."
 msgstr "\"%s\" 기본 디렉터리를 만들 수 없습니다. \"%s\" 파일 저장을 취소합니다."
 
 #. print error
-#: ../mousepad/mousepad-util.c:596
+#: ../mousepad/mousepad-util.c:641
 #, c-format
 msgid "Failed to store the preferences to \"%s\": %s"
 msgstr "\"%s\" 기본 설정 저장에 실패했습니다: %s"
 
-#: ../mousepad/mousepad-window.c:404
-msgid "_File"
-msgstr "파일(_F)"
-
-#: ../mousepad/mousepad-window.c:405
+#. insert items
+#: ../mousepad/mousepad-window.c:884 ../mousepad/resources/gtk/menus.ui.h:3
 msgid "_New"
 msgstr "새 문서(_N)"
 
-#: ../mousepad/mousepad-window.c:405
+#: ../mousepad/mousepad-window.c:885 ../mousepad/resources/gtk/menus.ui.h:4
 msgid "Create a new document"
 msgstr "새 문서를 만듭니다"
 
-#: ../mousepad/mousepad-window.c:406
-msgid "New _Window"
-msgstr "새 창(_W)"
-
-#: ../mousepad/mousepad-window.c:406
-msgid "Create a new document in a new window"
-msgstr "새 문서를 새 창에 만듭니다"
-
-#: ../mousepad/mousepad-window.c:407
-msgid "New From Te_mplate"
-msgstr "양식으로부터 새로 만들기(_M)"
-
-#: ../mousepad/mousepad-window.c:408
+#: ../mousepad/mousepad-window.c:886 ../mousepad/resources/gtk/menus.ui.h:9
 msgid "_Open..."
 msgstr "열기(_O)..."
 
-#: ../mousepad/mousepad-window.c:408
+#: ../mousepad/mousepad-window.c:887 ../mousepad/resources/gtk/menus.ui.h:10
 msgid "Open a file"
 msgstr "파일 열기"
 
-#: ../mousepad/mousepad-window.c:409
-msgid "Op_en Recent"
-msgstr "최근 파일 열기(_E)"
-
-#: ../mousepad/mousepad-window.c:410
-msgid "No items found"
-msgstr "항목을 찾을 수 없음"
-
-#: ../mousepad/mousepad-window.c:411
-msgid "Clear _History"
-msgstr "기록 지우기(_H)"
-
-#: ../mousepad/mousepad-window.c:411
-msgid "Clear the recently used files history"
-msgstr "최근 사용한 파일의 기록을 지웁니다"
-
-#: ../mousepad/mousepad-window.c:412
+#: ../mousepad/mousepad-window.c:889 ../mousepad/resources/gtk/menus.ui.h:16
 msgid "Save the current document"
 msgstr "현재 문서를 저장합니다"
 
-#: ../mousepad/mousepad-window.c:413
+#: ../mousepad/mousepad-window.c:890 ../mousepad/resources/gtk/menus.ui.h:17
 msgid "Save _As..."
 msgstr "다른 이름으로 저장(_A)..."
 
-#: ../mousepad/mousepad-window.c:413
+#: ../mousepad/mousepad-window.c:891 ../mousepad/resources/gtk/menus.ui.h:18
 msgid "Save current document as another file"
 msgstr "현재 문서를 다른 파일에 저장합니다"
 
-#: ../mousepad/mousepad-window.c:414
-msgid "Save A_ll"
-msgstr "모두 저장(_L)"
+#: ../mousepad/mousepad-window.c:892 ../mousepad/mousepad-window.c:2345
+#: ../mousepad/resources/gtk/menus.ui.h:21
+msgid "Re_load"
+msgstr ""
 
-#: ../mousepad/mousepad-window.c:414
-msgid "Save all document in this window"
-msgstr "이 창의 모든 문서를 저장합니다"
+#: ../mousepad/mousepad-window.c:893 ../mousepad/mousepad-window.c:2352
+#: ../mousepad/resources/gtk/menus.ui.h:22
+msgid "Reload file from disk"
+msgstr ""
 
-#: ../mousepad/mousepad-window.c:415
-msgid "Re_vert"
-msgstr "복구(_V)"
-
-#: ../mousepad/mousepad-window.c:415
-msgid "Revert to the saved version of the file"
-msgstr "파일의 저장한 버전으로 복구합니다"
-
-#: ../mousepad/mousepad-window.c:416
-msgid "_Print..."
-msgstr "인쇄(_P)..."
-
-#: ../mousepad/mousepad-window.c:416
-msgid "Print the current document"
-msgstr "현재 문서를 인쇄합니다"
-
-#: ../mousepad/mousepad-window.c:417
-msgid "_Detach Tab"
-msgstr "탭 분리(_D)"
-
-#: ../mousepad/mousepad-window.c:417
-msgid "Move the current document to a new window"
-msgstr "현재 문서를 새 창으로 옮깁니다"
-
-#: ../mousepad/mousepad-window.c:418
+#: ../mousepad/mousepad-window.c:894 ../mousepad/resources/gtk/menus.ui.h:27
 msgid "Close _Tab"
 msgstr "탭 닫기(_T)"
 
-#: ../mousepad/mousepad-window.c:418
+#: ../mousepad/mousepad-window.c:895 ../mousepad/resources/gtk/menus.ui.h:28
 msgid "Close the current document"
 msgstr "현재 문서를 닫습니다"
 
-#: ../mousepad/mousepad-window.c:419
-msgid "_Close Window"
-msgstr "창 닫기(_C)"
+#: ../mousepad/mousepad-window.c:900 ../mousepad/resources/gtk/menus.ui.h:33
+msgid "_Undo"
+msgstr ""
 
-#: ../mousepad/mousepad-window.c:419
-msgid "Close this window"
-msgstr "현재 창을 닫습니다"
-
-#: ../mousepad/mousepad-window.c:421
-msgid "_Edit"
-msgstr "편집(_E)"
-
-#: ../mousepad/mousepad-window.c:422
+#: ../mousepad/mousepad-window.c:901 ../mousepad/resources/gtk/menus.ui.h:34
 msgid "Undo the last action"
 msgstr "최근 동작을 되돌립니다"
 
-#: ../mousepad/mousepad-window.c:423
+#: ../mousepad/mousepad-window.c:902 ../mousepad/resources/gtk/menus.ui.h:35
+msgid "_Redo"
+msgstr ""
+
+#: ../mousepad/mousepad-window.c:903 ../mousepad/resources/gtk/menus.ui.h:36
 msgid "Redo the last undone action"
 msgstr "최근 되돌린 동작을 재실행합니다"
 
-#: ../mousepad/mousepad-window.c:424
+#: ../mousepad/mousepad-window.c:904 ../mousepad/resources/gtk/menus.ui.h:37
+msgid "Cu_t"
+msgstr ""
+
+#: ../mousepad/mousepad-window.c:905 ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Cut the selection"
 msgstr "선택 내용을 잘라냅니다"
 
-#: ../mousepad/mousepad-window.c:425
+#: ../mousepad/mousepad-window.c:906 ../mousepad/resources/gtk/menus.ui.h:39
+msgid "_Copy"
+msgstr "복사(_C)"
+
+#: ../mousepad/mousepad-window.c:907 ../mousepad/resources/gtk/menus.ui.h:40
 msgid "Copy the selection"
 msgstr "선택 내용을 복사합니다"
 
-#: ../mousepad/mousepad-window.c:426
+#: ../mousepad/mousepad-window.c:908 ../mousepad/resources/gtk/menus.ui.h:41
+msgid "_Paste"
+msgstr "붙여넣기(_P)"
+
+#: ../mousepad/mousepad-window.c:909 ../mousepad/resources/gtk/menus.ui.h:42
 msgid "Paste the clipboard"
 msgstr "클립보드의 내용을 붙여넣습니다"
 
-#: ../mousepad/mousepad-window.c:427
-msgid "Paste _Special"
-msgstr "선택 붙여넣기(_S)"
-
-#: ../mousepad/mousepad-window.c:428
-msgid "Paste from _History"
-msgstr "기록에서 붙여넣기(_H)"
-
-#: ../mousepad/mousepad-window.c:428
-msgid "Paste from the clipboard history"
-msgstr "클립보드 기록에서 붙여넣기"
-
-#: ../mousepad/mousepad-window.c:429
-msgid "Paste as _Column"
-msgstr "내용 단위로 붙여넣기(_C)"
-
-#: ../mousepad/mousepad-window.c:429
-msgid "Paste the clipboard text into a column"
-msgstr "내용 안에 클립보드 텍스트를 붙여 넣습니다"
-
-#: ../mousepad/mousepad-window.c:430
-msgid "Delete the current selection"
-msgstr "현재 선택 영역을 삭제합니다"
-
-#: ../mousepad/mousepad-window.c:431
-msgid "Select the text in the entire document"
-msgstr "전체 문서의 텍스트를 선택합니다"
-
-#: ../mousepad/mousepad-window.c:432
-msgid "Conve_rt"
-msgstr "변환(_R)"
-
-#: ../mousepad/mousepad-window.c:433
-msgid "To _Uppercase"
-msgstr "대문자로(_U)"
-
-#: ../mousepad/mousepad-window.c:433
-msgid "Change the case of the selection to uppercase"
-msgstr "선택 영역을 대문자로 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:434
-msgid "To _Lowercase"
-msgstr "소문자로(_L)"
-
-#: ../mousepad/mousepad-window.c:434
-msgid "Change the case of the selection to lowercase"
-msgstr "선택 영역을 소문자로 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:435
-msgid "To _Title Case"
-msgstr "제목 형태 대소문자(_T)"
-
-#: ../mousepad/mousepad-window.c:435
-msgid "Change the case of the selection to title case"
-msgstr "선택 영역을 제목 방식 대소문자로 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:436
-msgid "To _Opposite Case"
-msgstr "대소문자 반대로(_O)"
-
-#: ../mousepad/mousepad-window.c:436
-msgid "Change the case of the selection opposite case"
-msgstr "선택 영역의 각각의 대소문자를 뒤집습니다"
-
-#: ../mousepad/mousepad-window.c:437
-msgid "_Tabs to Spaces"
-msgstr "탭을 공백으로(_T)"
-
-#: ../mousepad/mousepad-window.c:437
-msgid "Convert all tabs to spaces in the selection or document"
-msgstr "선택 영역이나 문서의 모든 탭을 공백으로 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:438
-msgid "_Spaces to Tabs"
-msgstr "공백을 탭으로(_S)"
-
-#: ../mousepad/mousepad-window.c:438
-msgid ""
-"Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr "선택한 행이나 문서의 앞 부분 공백을 탭으로 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:439
-msgid "St_rip Trailing Spaces"
-msgstr "뒤 따르는 공백 제거(_R)"
-
-#: ../mousepad/mousepad-window.c:439
-msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr "선택한 행이나 문서의 뒤따르는 공백을 모두 제거합니다"
-
-#: ../mousepad/mousepad-window.c:440
-msgid "_Transpose"
-msgstr "뒤바꾸기(_T)"
-
-#: ../mousepad/mousepad-window.c:440
-msgid "Reverse the order of something"
-msgstr "순서를 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:441
-msgid "_Move Selection"
-msgstr "선택 영역 이동(_M)"
-
-#: ../mousepad/mousepad-window.c:442
-msgid "Line _Up"
-msgstr "한 줄 위로(_U)"
-
-#: ../mousepad/mousepad-window.c:442
-msgid "Move the selection one line up"
-msgstr "선택 영역을 한 줄 위로 이동합니다"
-
-#: ../mousepad/mousepad-window.c:443
-msgid "Line _Down"
-msgstr "한 줄 아래로(_D)"
-
-#: ../mousepad/mousepad-window.c:443
-msgid "Move the selection one line down"
-msgstr "선택 영역을 한 줄 아래로 이동합니다"
-
-#: ../mousepad/mousepad-window.c:444
-msgid "Dup_licate Line / Selection"
-msgstr "줄 / 선택 복제(_L)"
-
-#: ../mousepad/mousepad-window.c:444
-msgid "Duplicate the current line or selection"
-msgstr "현재 행이나 선택 영역을 복제합니다"
-
-#: ../mousepad/mousepad-window.c:445
-msgid "_Increase Indent"
-msgstr "들여쓰기 증가(_I)"
-
-#: ../mousepad/mousepad-window.c:445
-msgid "Increase the indentation of the selection or current line"
-msgstr "선택 영역이나 현재 행에 대한 들여쓰기를 증가합니다"
-
-#: ../mousepad/mousepad-window.c:446
-msgid "_Decrease Indent"
-msgstr "들여쓰기 감소(_D)"
-
-#: ../mousepad/mousepad-window.c:446
-msgid "Decrease the indentation of the selection or current line"
-msgstr "선택 영역이나 현재 행에 대한 들여쓰기를 감소합니다"
-
-#: ../mousepad/mousepad-window.c:447
-msgid "Show the preferences dialog"
-msgstr "기본 설정 대화상자를 표시합니다"
-
-#: ../mousepad/mousepad-window.c:449
-msgid "_Search"
-msgstr "검색(_S)"
-
-#: ../mousepad/mousepad-window.c:450
+#: ../mousepad/mousepad-window.c:915 ../mousepad/resources/gtk/menus.ui.h:88
 msgid "Search for text"
 msgstr "본문에서 검색"
 
-#: ../mousepad/mousepad-window.c:451
-msgid "Find _Next"
-msgstr "다음 찾기(_N)"
-
-#: ../mousepad/mousepad-window.c:451
-msgid "Search forwards for the same text"
-msgstr "동일한 텍스트를 앞 방향으로 검색합니다"
-
-#: ../mousepad/mousepad-window.c:452
-msgid "Find _Previous"
-msgstr "이전 찾기(_P)"
-
-#: ../mousepad/mousepad-window.c:452
-msgid "Search backwards for the same text"
-msgstr "동일한 텍스트를 뒷 방향으로 검색합니다"
-
-#: ../mousepad/mousepad-window.c:453
+#: ../mousepad/mousepad-window.c:916 ../mousepad/resources/gtk/menus.ui.h:93
 msgid "Find and Rep_lace..."
 msgstr "찾아 바꾸기(_L)..."
 
-#: ../mousepad/mousepad-window.c:453
+#: ../mousepad/mousepad-window.c:917 ../mousepad/resources/gtk/menus.ui.h:94
 msgid "Search for and replace text"
 msgstr "바꿀 텍스트를 검색합니다"
 
-#: ../mousepad/mousepad-window.c:454
+#: ../mousepad/mousepad-window.c:918 ../mousepad/resources/gtk/menus.ui.h:95
 msgid "_Go to..."
 msgstr "이동(_G)..."
 
-#: ../mousepad/mousepad-window.c:454
+#: ../mousepad/mousepad-window.c:919 ../mousepad/resources/gtk/menus.ui.h:96
 msgid "Go to a specific location in the document"
 msgstr "문서의 지정 위치로 이동합니다"
 
-#: ../mousepad/mousepad-window.c:456
-msgid "_View"
-msgstr "보기(_V)"
-
-#: ../mousepad/mousepad-window.c:457
-msgid "Select F_ont..."
-msgstr "글꼴 선택(_O)..."
-
-#: ../mousepad/mousepad-window.c:457
-msgid "Change the editor font"
-msgstr "편집기 글꼴을 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:458
-msgid "_Color Scheme"
-msgstr "색상 구성(_C)"
-
-#: ../mousepad/mousepad-window.c:460
-msgid "_Document"
-msgstr "문서(_D)"
-
-#: ../mousepad/mousepad-window.c:461
-msgid "Line E_nding"
-msgstr "줄 바꿈(_N)"
-
-#: ../mousepad/mousepad-window.c:462
-msgid "Tab _Size"
-msgstr "탭 크기(_S)"
-
-#: ../mousepad/mousepad-window.c:463
-msgid "_Filetype"
-msgstr "파일 형식(_F)"
-
-#: ../mousepad/mousepad-window.c:464
-msgid "_Previous Tab"
-msgstr "이전 탭(_P)"
-
-#: ../mousepad/mousepad-window.c:464
-msgid "Select the previous tab"
-msgstr "이전 탭 선택"
-
-#: ../mousepad/mousepad-window.c:465
-msgid "_Next Tab"
-msgstr "다음 탭(_N)"
-
-#: ../mousepad/mousepad-window.c:465
-msgid "Select the next tab"
-msgstr "다음 탭 선택"
-
-#: ../mousepad/mousepad-window.c:467
-msgid "_Help"
-msgstr "도움말(_H)"
-
-#: ../mousepad/mousepad-window.c:468
-msgid "_Contents"
-msgstr "내용(_C)"
-
-#: ../mousepad/mousepad-window.c:468
-msgid "Display the Mousepad user manual"
-msgstr "마우스패드 사용자 문서를 표시합니다"
-
-#: ../mousepad/mousepad-window.c:469
-msgid "About this application"
-msgstr "이 프로그램 정보"
-
-#: ../mousepad/mousepad-window.c:474
-msgid "Line N_umbers"
-msgstr "행 번호(_U)"
-
-#: ../mousepad/mousepad-window.c:475
-msgid "_Menubar"
-msgstr "메뉴 표시줄(_M)"
-
-#: ../mousepad/mousepad-window.c:475
-msgid "Change the visibility of the main menubar"
-msgstr "주 메뉴 표시줄이 나타나는 상태를 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:476
-msgid "_Toolbar"
-msgstr "도구 모음(_T)"
-
-#: ../mousepad/mousepad-window.c:476
-msgid "Change the visibility of the toolbar"
-msgstr "도구 모음이 나타나는 상태를 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:477
-msgid "St_atusbar"
-msgstr "상태 표시줄(_A)"
-
-#: ../mousepad/mousepad-window.c:477
-msgid "Change the visibility of the statusbar"
-msgstr "상태 표시줄의 표시 상태를 바꿉니다"
-
-#: ../mousepad/mousepad-window.c:478
+#: ../mousepad/mousepad-window.c:927 ../mousepad/resources/gtk/menus.ui.h:113
 msgid "_Fullscreen"
 msgstr "최대 화면(_F)"
 
-#: ../mousepad/mousepad-window.c:478 ../mousepad/mousepad-window.c:5164
+#: ../mousepad/mousepad-window.c:928 ../mousepad/mousepad-window.c:5441
+#: ../mousepad/resources/gtk/menus.ui.h:114
 msgid "Make the window fullscreen"
 msgstr "창을 전 화면에 채웁니다"
 
-#: ../mousepad/mousepad-window.c:479
-msgid "_Auto Indent"
-msgstr "자동 들여쓰기(_A)"
-
-#: ../mousepad/mousepad-window.c:479
-msgid "Auto indent a new line"
-msgstr "줄 바꿈 자동 들여쓰기"
-
-#: ../mousepad/mousepad-window.c:480
-msgid "Insert _Spaces"
-msgstr "공백 삽입(_S)"
-
-#: ../mousepad/mousepad-window.c:480
-msgid "Insert spaces when the tab button is pressed"
-msgstr "탭 단추를 누를 때 공백을 삽입합니다"
-
-#: ../mousepad/mousepad-window.c:481
-msgid "_Word Wrap"
-msgstr "단어 단위 줄 바꿈(_W)"
-
-#: ../mousepad/mousepad-window.c:481
-msgid "Toggle breaking lines in between words"
-msgstr "단어간 줄 바꿈을 토글합니다"
-
-#: ../mousepad/mousepad-window.c:482
-msgid "Write Unicode _BOM"
-msgstr "유니코드 BOM 기록(_B)"
-
-#: ../mousepad/mousepad-window.c:482
-msgid "Store the byte-order mark in the file"
-msgstr "파일에 바이트 순서 마크 저장"
-
-#: ../mousepad/mousepad-window.c:487
-msgid "Unix (_LF)"
-msgstr "유닉스(LF)(_L)"
-
-#: ../mousepad/mousepad-window.c:487
-msgid "Set the line ending of the document to Unix (LF)"
-msgstr "유닉스 방식으로 문서 줄 바꿈 설정(LF)"
-
-#: ../mousepad/mousepad-window.c:488
-msgid "Mac (_CR)"
-msgstr "매킨토시(CR)(_C)"
-
-#: ../mousepad/mousepad-window.c:488
-msgid "Set the line ending of the document to Mac (CR)"
-msgstr "매킨토시 방식으로 문서 줄 바꿈 설정(CR)"
-
-#: ../mousepad/mousepad-window.c:489
-msgid "DOS / Windows (C_R LF)"
-msgstr "도스/윈도우(CR LF)(_R)"
-
-#: ../mousepad/mousepad-window.c:489
-msgid "Set the line ending of the document to DOS / Windows (CR LF)"
-msgstr "도스/윈도우 방식으로 문서 줄 바꿈 설정(CR LF)"
-
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:861
+#: ../mousepad/mousepad-window.c:1003
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "경고: 루트 계정을 사용하고 있습니다. 시스템에 해를 끼칠 수 있습니다."
 
 #. show the warning
-#: ../mousepad/mousepad-window.c:1556
+#: ../mousepad/mousepad-window.c:1728
 msgid "Failed to open the document"
 msgstr "문서 열기에 실패했습니다"
 
-#: ../mousepad/mousepad-window.c:1753
+#: ../mousepad/mousepad-window.c:1911
 msgid "Read Only"
 msgstr "읽기 전용"
 
-#: ../mousepad/mousepad-window.c:2419
+#: ../mousepad/mousepad-window.c:2345
+msgid "Re_vert"
+msgstr "복구(_V)"
+
+#: ../mousepad/mousepad-window.c:2352
+msgid "Revert to the saved version of the file"
+msgstr "파일의 저장한 버전으로 복구합니다"
+
+#: ../mousepad/mousepad-window.c:2644
+#, c-format
+msgid "Use '%s' as template"
+msgstr ""
+
+#: ../mousepad/mousepad-window.c:2672
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "'%s'에 양식 파일이\n없습니다"
 
-#: ../mousepad/mousepad-window.c:2472
+#: ../mousepad/mousepad-window.c:2734
 #, c-format
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
 msgstr "다음 양식 디렉터리가 빠졌습니다\n'%s'"
 
-#. create other action
-#: ../mousepad/mousepad-window.c:2546
-msgid "Set custom tab size"
-msgstr "사용자 정의 탭 간격 설정"
-
-#. create suitable label for the other menu
-#: ../mousepad/mousepad-window.c:2594
+#. create suitable text label for the "Other" menu
+#: ../mousepad/mousepad-window.c:2789
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "기타(%d)(_H)..."
 
-#. set action label
-#: ../mousepad/mousepad-window.c:2605
+#: ../mousepad/mousepad-window.c:2799
 msgid "Ot_her..."
 msgstr "기타(_H)..."
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:2988 ../mousepad/mousepad-window.c:3215
+#: ../mousepad/mousepad-window.c:3158 ../mousepad/mousepad-window.c:3352
 msgid "Charset"
 msgstr "문자세트"
 
-#: ../mousepad/mousepad-window.c:3120
+#: ../mousepad/mousepad-window.c:3284
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s'파일 열기"
 
-#: ../mousepad/mousepad-window.c:3265
+#: ../mousepad/mousepad-window.c:3312
+msgid "No items found"
+msgstr "항목을 찾을 수 없음"
+
+#: ../mousepad/mousepad-window.c:3401
 msgid "Failed to clear the recent history"
 msgstr "최근 기록 지우기에 실패했습니다"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:3695
+#: ../mousepad/mousepad-window.c:3844
 msgid "No clipboard data"
 msgstr "클립보드 데이터 없음"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:3834
+#: ../mousepad/mousepad-window.c:3989
 msgid "Templates should be UTF-8 valid"
 msgstr "양식은 유효한 UTF-8여야 합니다"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:3842
-msgid "Reading the template failed, the menu item has been removed"
-msgstr "양식 읽기에 실패했습니다. 메뉴 항목을 제거했습니다"
+#: ../mousepad/mousepad-window.c:3994
+msgid "Reading the template failed"
+msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:3847
+#: ../mousepad/mousepad-window.c:3999
 msgid "Loading the template failed"
 msgstr "양식 불러오기에 실패했습니다"
 
-#. create new file chooser dialog
-#: ../mousepad/mousepad-window.c:3872
-msgid "Open File"
-msgstr "파일을 엽니다"
-
-#: ../mousepad/mousepad-window.c:3888
-msgid "_Encoding:"
-msgstr "인코딩(_E):"
-
-#: ../mousepad/mousepad-window.c:3985
+#: ../mousepad/mousepad-window.c:4094
 #, c-format
 msgid ""
 "Failed to open \"%s\" for reading. It will be removed from the document "
@@ -1306,37 +806,711 @@ msgid ""
 msgstr "\"%s\"을(를) 읽기 목적으로 열기에 실패했습니다. 문서 기록에서 지웁니다."
 
 #. show the warning and cleanup
-#: ../mousepad/mousepad-window.c:3989
+#: ../mousepad/mousepad-window.c:4098
 msgid "Failed to open file"
 msgstr "파일 열기에 실패했습니다"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4095 ../mousepad/mousepad-window.c:4226
+#: ../mousepad/mousepad-window.c:4208 ../mousepad/mousepad-window.c:4337
 msgid "Failed to save the document"
 msgstr "문서 저장에 실패했습니다"
 
-#. create the dialog
-#: ../mousepad/mousepad-window.c:4119
-msgid "Save As"
-msgstr "다른 이름으로 저장"
-
 #. show the error
-#: ../mousepad/mousepad-window.c:4318
+#: ../mousepad/mousepad-window.c:4432
 msgid "Failed to reload the document"
 msgstr "문서 다시 불러오기에 실패했습니다"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4345
+#: ../mousepad/mousepad-window.c:4461
 msgid "Failed to print the document"
 msgstr "문서 인쇄에 실패했습니다"
 
-#: ../mousepad/mousepad-window.c:4953
+#: ../mousepad/mousepad-window.c:5196
 msgid "Choose Mousepad Font"
 msgstr "마우스패드 글꼴 선택"
 
-#: ../mousepad/mousepad-window.c:5157
+#: ../mousepad/mousepad-window.c:5434
 msgid "Leave fullscreen mode"
 msgstr "화면 복귀"
+
+#: ../mousepad/resources/gtk/menus.ui.h:1
+msgid "_File"
+msgstr "파일(_F)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:2
+msgid "File menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:5
+msgid "New _Window"
+msgstr "새 창(_W)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:6
+msgid "Create a new document in a new window"
+msgstr "새 문서를 새 창에 만듭니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:7
+msgid "New From Te_mplate"
+msgstr "양식으로부터 새로 만들기(_M)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:8
+msgid "Create a new document from a template"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:11
+msgid "Op_en Recent"
+msgstr "최근 파일 열기(_E)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:12
+msgid "Open a recently used file"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:13
+msgid "Clear _History"
+msgstr "기록 지우기(_H)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:14
+msgid "Clear the recently used files history"
+msgstr "최근 사용한 파일의 기록을 지웁니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:19
+msgid "Save A_ll"
+msgstr "모두 저장(_L)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:20
+msgid "Save all document in this window"
+msgstr "이 창의 모든 문서를 저장합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:23
+msgid "_Print..."
+msgstr "인쇄(_P)..."
+
+#: ../mousepad/resources/gtk/menus.ui.h:24
+msgid "Print the current document"
+msgstr "현재 문서를 인쇄합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:25
+msgid "_Detach Tab"
+msgstr "탭 분리(_D)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:26
+msgid "Move the current document to a new window"
+msgstr "현재 문서를 새 창으로 옮깁니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:29
+msgid "_Close Window"
+msgstr "창 닫기(_C)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:30
+msgid "Close this window"
+msgstr "현재 창을 닫습니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:31
+msgid "_Edit"
+msgstr "편집(_E)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:32
+msgid "Edit menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:43
+msgid "Paste _Special"
+msgstr "선택 붙여넣기(_S)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:44
+msgid "Paste the clipboard in a special way"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:45
+msgid "Paste from _History"
+msgstr "기록에서 붙여넣기(_H)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:46
+msgid "Paste from the clipboard history"
+msgstr "클립보드 기록에서 붙여넣기"
+
+#: ../mousepad/resources/gtk/menus.ui.h:47
+msgid "Paste as _Column"
+msgstr "내용 단위로 붙여넣기(_C)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:48
+msgid "Paste the clipboard text into a column"
+msgstr "내용 안에 클립보드 텍스트를 붙여 넣습니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:49
+msgid "_Delete"
+msgstr "삭제(_D)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:50
+msgid "Delete the current selection"
+msgstr "현재 선택 영역을 삭제합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:51
+msgid "Select _All"
+msgstr "모두 선택(_A)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:52
+msgid "Select the text in the entire document"
+msgstr "전체 문서의 텍스트를 선택합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:53
+msgid "Conve_rt"
+msgstr "변환(_R)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:54
+msgid "Convert text in different ways"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:55
+msgid "To _Lowercase"
+msgstr "소문자로(_L)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:56
+msgid "Change the case of the selection to lowercase"
+msgstr "선택 영역을 소문자로 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:57
+msgid "To _Uppercase"
+msgstr "대문자로(_U)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:58
+msgid "Change the case of the selection to uppercase"
+msgstr "선택 영역을 대문자로 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:59
+msgid "To _Title Case"
+msgstr "제목 형태 대소문자(_T)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:60
+msgid "Change the case of the selection to title case"
+msgstr "선택 영역을 제목 방식 대소문자로 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:61
+msgid "To _Opposite Case"
+msgstr "대소문자 반대로(_O)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:62
+msgid "Change the case of the selection opposite case"
+msgstr "선택 영역의 각각의 대소문자를 뒤집습니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:63
+msgid "_Tabs to Spaces"
+msgstr "탭을 공백으로(_T)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:64
+msgid "Convert all tabs to spaces in the selection or document"
+msgstr "선택 영역이나 문서의 모든 탭을 공백으로 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:65
+msgid "_Spaces to Tabs"
+msgstr "공백을 탭으로(_S)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:66
+msgid ""
+"Convert all the leading spaces to tabs in the selected line(s) or document"
+msgstr "선택한 행이나 문서의 앞 부분 공백을 탭으로 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:67
+msgid "St_rip Trailing Spaces"
+msgstr "뒤 따르는 공백 제거(_R)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:68
+msgid "Remove all the trailing spaces from the selected line(s) or document"
+msgstr "선택한 행이나 문서의 뒤따르는 공백을 모두 제거합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:69
+msgid "_Transpose"
+msgstr "뒤바꾸기(_T)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:70
+msgid "Reverse the order of something"
+msgstr "순서를 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:71
+msgid "_Move Selection"
+msgstr "선택 영역 이동(_M)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:72
+msgid "Move the selection in different ways"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:73
+msgid "Line _Up"
+msgstr "한 줄 위로(_U)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:74
+msgid "Move the selection one line up"
+msgstr "선택 영역을 한 줄 위로 이동합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:75
+msgid "Line _Down"
+msgstr "한 줄 아래로(_D)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:76
+msgid "Move the selection one line down"
+msgstr "선택 영역을 한 줄 아래로 이동합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:77
+msgid "Dup_licate Line / Selection"
+msgstr "줄 / 선택 복제(_L)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:78
+msgid "Duplicate the current line or selection"
+msgstr "현재 행이나 선택 영역을 복제합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:79
+msgid "_Increase Indent"
+msgstr "들여쓰기 증가(_I)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:80
+msgid "Increase the indentation of the selection or current line"
+msgstr "선택 영역이나 현재 행에 대한 들여쓰기를 증가합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:81
+msgid "_Decrease Indent"
+msgstr "들여쓰기 감소(_D)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:82
+msgid "Decrease the indentation of the selection or current line"
+msgstr "선택 영역이나 현재 행에 대한 들여쓰기를 감소합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:84
+msgid "Show the preferences dialog"
+msgstr "기본 설정 대화상자를 표시합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:85
+msgid "_Search"
+msgstr "검색(_S)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:86
+msgid "Search menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:89
+msgid "Find _Next"
+msgstr "다음 찾기(_N)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:90
+msgid "Search forwards for the same text"
+msgstr "동일한 텍스트를 앞 방향으로 검색합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:91
+msgid "Find _Previous"
+msgstr "이전 찾기(_P)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:92
+msgid "Search backwards for the same text"
+msgstr "동일한 텍스트를 뒷 방향으로 검색합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:97
+msgid "_View"
+msgstr "보기(_V)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:98
+msgid "View menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:99
+msgid "Select F_ont..."
+msgstr "글꼴 선택(_O)..."
+
+#: ../mousepad/resources/gtk/menus.ui.h:100
+msgid "Change the editor font"
+msgstr "편집기 글꼴을 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:101
+msgid "_Color Scheme"
+msgstr "색상 구성(_C)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:102
+msgid "Color scheme to use for the text view"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:103
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
+msgid "None"
+msgstr "없음"
+
+#: ../mousepad/resources/gtk/menus.ui.h:104
+msgid "No style scheme"
+msgstr "모양새 구성 없음"
+
+#: ../mousepad/resources/gtk/menus.ui.h:105
+msgid "Line N_umbers"
+msgstr "행 번호(_U)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:106
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
+msgid "Show line numbers"
+msgstr "행 번호 보이기"
+
+#: ../mousepad/resources/gtk/menus.ui.h:107
+msgid "_Menubar"
+msgstr "메뉴 표시줄(_M)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:108
+msgid "Change the visibility of the main menubar"
+msgstr "주 메뉴 표시줄이 나타나는 상태를 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:109
+msgid "_Toolbar"
+msgstr "도구 모음(_T)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:110
+msgid "Change the visibility of the toolbar"
+msgstr "도구 모음이 나타나는 상태를 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:111
+msgid "St_atusbar"
+msgstr "상태 표시줄(_A)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:112
+msgid "Change the visibility of the statusbar"
+msgstr "상태 표시줄의 표시 상태를 바꿉니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:115
+msgid "_Document"
+msgstr "문서(_D)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:116
+msgid "Document menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:117
+msgid "_Word Wrap"
+msgstr "단어 단위 줄 바꿈(_W)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:118
+msgid "Toggle breaking lines in between words"
+msgstr "단어간 줄 바꿈을 토글합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:119
+msgid "_Auto Indent"
+msgstr "자동 들여쓰기(_A)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:120
+msgid "Auto indent a new line"
+msgstr "줄 바꿈 자동 들여쓰기"
+
+#: ../mousepad/resources/gtk/menus.ui.h:121
+msgid "Tab _Size"
+msgstr "탭 크기(_S)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:122
+msgid "The number of space characters for a tabulation"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:123
+msgid "Two spaces"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:124
+msgid "Three spaces"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:125
+msgid "Four spaces"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:126
+msgid "Eight spaces"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:127
+msgid "Other..."
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:128
+msgid "Set custom tab size"
+msgstr "사용자 정의 탭 간격 설정"
+
+#: ../mousepad/resources/gtk/menus.ui.h:129
+msgid "Insert _Spaces"
+msgstr "공백 삽입(_S)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:130
+msgid "Insert spaces when the tab button is pressed"
+msgstr "탭 단추를 누를 때 공백을 삽입합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:131
+msgid "_Filetype"
+msgstr "파일 형식(_F)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:132
+msgid "Language to use for syntax highlighting"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:133
+msgid "Plain Text"
+msgstr "플레인 텍스트"
+
+#: ../mousepad/resources/gtk/menus.ui.h:134
+msgid "No filetype"
+msgstr "파일 형식 없음"
+
+#: ../mousepad/resources/gtk/menus.ui.h:135
+msgid "Line E_nding"
+msgstr "줄 바꿈(_N)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:136
+msgid "Character(s) to use as end of line"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:137
+msgid "Set the line ending of the document to Unix (LF)"
+msgstr "유닉스 방식으로 문서 줄 바꿈 설정(LF)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:138
+msgid "Set the line ending of the document to Mac (CR)"
+msgstr "매킨토시 방식으로 문서 줄 바꿈 설정(CR)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:139
+msgid "Set the line ending of the document to DOS / Windows (CR LF)"
+msgstr "도스/윈도우 방식으로 문서 줄 바꿈 설정(CR LF)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:140
+msgid "Write Unicode _BOM"
+msgstr "유니코드 BOM 기록(_B)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:141
+msgid "Store the byte-order mark in the file"
+msgstr "파일에 바이트 순서 마크 저장"
+
+#: ../mousepad/resources/gtk/menus.ui.h:142
+msgid "_Previous Tab"
+msgstr "이전 탭(_P)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:143
+msgid "Select the previous tab"
+msgstr "이전 탭 선택"
+
+#: ../mousepad/resources/gtk/menus.ui.h:144
+msgid "_Next Tab"
+msgstr "다음 탭(_N)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:145
+msgid "Select the next tab"
+msgstr "다음 탭 선택"
+
+#: ../mousepad/resources/gtk/menus.ui.h:146
+msgid "_Help"
+msgstr "도움말(_H)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:147
+msgid "Help menu"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:148
+msgid "_Contents"
+msgstr "내용(_C)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:149
+msgid "Display the Mousepad user manual"
+msgstr "마우스패드 사용자 문서를 표시합니다"
+
+#: ../mousepad/resources/gtk/menus.ui.h:150
+msgid "_About"
+msgstr "정보(_A)"
+
+#: ../mousepad/resources/gtk/menus.ui.h:151
+msgid "About this application"
+msgstr "이 프로그램 정보"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
+msgid "Disabled"
+msgstr "비활성화"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
+msgid "Before"
+msgstr "이전"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
+msgid "After"
+msgstr "다음"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
+msgid "Always"
+msgstr "항상"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
+msgid "Insert Tabs"
+msgstr "탭 삽입"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
+msgid "Insert Spaces"
+msgstr "공백 삽입"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
+msgid "none"
+msgstr "없음"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:9
+msgid "Menu"
+msgstr "메뉴"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:10
+msgid "Small Toolbar"
+msgstr "작은 도구 모음"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:11
+msgid "Large Toolbar"
+msgstr "큰 도구 모음"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:12
+msgid "Button"
+msgstr "단추"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:13
+msgid "Drag & Drop"
+msgstr "끌어다 놓기"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
+msgid "Dialog"
+msgstr "대화상자"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:15
+msgid "Icons Only"
+msgstr "아이콘만"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:16
+msgid "Text Only"
+msgstr "글자만"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:17
+msgid "Text Below Icons"
+msgstr "아이콘 아래 글자"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:18
+msgid "Text Beside Icons"
+msgstr "아이콘 옆에 글자"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
+msgid "Display whitespace"
+msgstr "공백 표시"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:21
+msgid "Display line endings"
+msgstr "줄 끝 표시"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
+msgid "Long line margin at column:"
+msgstr "한 칸당 긴 줄 여백:"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:23
+msgid "Highlight current line"
+msgstr "현재 줄 강조"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
+msgid "Highlight matching brackets"
+msgstr "일치하는 괄호 강조"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
+msgid "Wrap long lines"
+msgstr "긴 줄 자동 바꾸기"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
+msgid "<b>Display</b>"
+msgstr "<b>표시</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
+msgid "Use system monospace font"
+msgstr "시스템 고정폭 글꼴 사용"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
+msgid "<b>Font</b>"
+msgstr "<b>글꼴</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
+msgid "<b>Colour scheme</b>"
+msgstr "<b>색상 구성</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
+msgid "View"
+msgstr "보기"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:31
+msgid "Tab width:"
+msgstr "탭 폭:"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:32
+msgid "Tab mode:"
+msgstr "탭 모드:"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
+msgid "Enable automatic indentation"
+msgstr "자동 들여쓰기 활성화"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
+msgid "<b>Indentation</b>"
+msgstr "<b>들여쓰기</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:35
+msgid "Behaviour:"
+msgstr "동작:"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
+msgid "<b>Home/End Keys</b>"
+msgstr "<b>Home/End 키</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
+msgid "Editor"
+msgstr "편집기"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:38
+msgid "Show status bar"
+msgstr "상태 표시줄 표시"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
+msgid "Show full filename in title bar"
+msgstr "제목 표시줄에 전체 파일 이름 표시"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
+msgid "Remember window size"
+msgstr "창 크기 기억"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
+msgid "Remember window position"
+msgstr "창 위치 기억"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
+msgid "Remember window state"
+msgstr "창 상태 기억"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
+msgid "<b>General</b>"
+msgstr "<b>일반</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
+msgid "Show toolbar"
+msgstr "도구 모음 표시"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
+msgid "Style:"
+msgstr "모양새:"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
+msgid "Icon Size:"
+msgstr "아이콘 크기:"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
+msgid "<b>Toolbar</b>"
+msgstr "<b>도구 모음</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
+msgid "Always show tabs even with one file"
+msgstr "하나의 파일당 탭 항상 표시"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
+msgid "Cycled notebook tab switching"
+msgstr "공책 탭 전환 순환"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
+msgid "<b>Notebook tabs</b>"
+msgstr "<b>공책 탭</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
+msgid "Window"
+msgstr "창"
 
 #: ../mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
