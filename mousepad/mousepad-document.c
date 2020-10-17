@@ -189,7 +189,8 @@ mousepad_document_init (MousepadDocument *document)
   document->file = mousepad_file_new (document->buffer);
 
   /* connect signals to the file */
-  g_signal_connect_swapped (G_OBJECT (document->file), "filename-changed", G_CALLBACK (mousepad_document_filename_changed), document);
+  g_signal_connect_swapped (G_OBJECT (document->file), "filename-changed",
+                            G_CALLBACK (mousepad_document_filename_changed), document);
 
   /* setup the textview */
   document->textview = g_object_new (MOUSEPAD_TYPE_VIEW, "buffer", document->buffer, NULL);
@@ -201,13 +202,20 @@ mousepad_document_init (MousepadDocument *document)
   gtk_target_list_add_table (target_list, drop_targets, G_N_ELEMENTS (drop_targets));
 
   /* attach signals to the text view and buffer */
-  g_signal_connect (G_OBJECT (document->buffer), "notify::cursor-position", G_CALLBACK (mousepad_document_notify_cursor_position), document);
-  g_signal_connect (G_OBJECT (document->buffer), "notify::has-selection", G_CALLBACK (mousepad_document_notify_has_selection), document);
-  g_signal_connect_swapped (G_OBJECT (document->buffer), "modified-changed", G_CALLBACK (mousepad_document_label_color), document);
-  g_signal_connect_swapped (G_OBJECT (document->file), "readonly-changed", G_CALLBACK (mousepad_document_label_color), document);
-  g_signal_connect (G_OBJECT (document->textview), "notify::overwrite", G_CALLBACK (mousepad_document_notify_overwrite), document);
-  g_signal_connect (G_OBJECT (document->textview), "drag-data-received", G_CALLBACK (mousepad_document_drag_data_received), document);
-  g_signal_connect (G_OBJECT (document->buffer), "notify::language", G_CALLBACK (mousepad_document_notify_language), document);
+  g_signal_connect (G_OBJECT (document->buffer), "notify::cursor-position",
+                    G_CALLBACK (mousepad_document_notify_cursor_position), document);
+  g_signal_connect (G_OBJECT (document->buffer), "notify::has-selection",
+                    G_CALLBACK (mousepad_document_notify_has_selection), document);
+  g_signal_connect_swapped (G_OBJECT (document->buffer), "modified-changed",
+                            G_CALLBACK (mousepad_document_label_color), document);
+  g_signal_connect_swapped (G_OBJECT (document->file), "readonly-changed",
+                            G_CALLBACK (mousepad_document_label_color), document);
+  g_signal_connect (G_OBJECT (document->textview), "notify::overwrite",
+                    G_CALLBACK (mousepad_document_notify_overwrite), document);
+  g_signal_connect (G_OBJECT (document->textview), "drag-data-received",
+                    G_CALLBACK (mousepad_document_drag_data_received), document);
+  g_signal_connect (G_OBJECT (document->buffer), "notify::language",
+                    G_CALLBACK (mousepad_document_notify_language), document);
 }
 
 
@@ -357,7 +365,9 @@ static void
 mousepad_document_filename_changed (MousepadDocument *document,
                                     const gchar      *filename)
 {
-  gchar *utf8_filename, *utf8_basename;
+  gchar       *utf8_filename, *utf8_short_filename, *utf8_basename;
+  const gchar *home;
+  size_t       home_len;
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
   g_return_if_fail (filename != NULL);
@@ -367,6 +377,15 @@ mousepad_document_filename_changed (MousepadDocument *document,
 
   if (G_LIKELY (utf8_filename))
     {
+      /* create a shorter display filename: replace $HOME with a tilde if user is not root */
+      if (geteuid () && (home = g_get_home_dir ()) && (home_len = strlen (home))
+          && g_str_has_prefix (utf8_filename, home))
+        {
+          utf8_short_filename = g_strconcat ("~", utf8_filename + home_len, NULL);
+          g_free (utf8_filename);
+          utf8_filename = utf8_short_filename;
+        }
+
       /* create the display name */
       utf8_basename = g_filename_display_basename (utf8_filename);
 
