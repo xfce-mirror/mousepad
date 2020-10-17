@@ -44,6 +44,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_TOOLBAR_ICON_SIZE            "/preferences/window/toolbar-icon-size"
 #define MOUSEPAD_SETTING_ALWAYS_SHOW_TABS             "/preferences/window/always-show-tabs"
 #define MOUSEPAD_SETTING_CYCLE_TABS                   "/preferences/window/cycle-tabs"
+#define MOUSEPAD_SETTING_OPENING_MODE                 "/preferences/window/opening-mode"
 #define MOUSEPAD_SETTING_DEFAULT_TAB_SIZES            "/preferences/window/default-tab-sizes"
 #define MOUSEPAD_SETTING_PATH_IN_TITLE                "/preferences/window/path-in-title"
 #define MOUSEPAD_SETTING_RECENT_MENU_ITEMS            "/preferences/window/recent-menu-items"
