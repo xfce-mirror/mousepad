@@ -5414,7 +5414,7 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
   GMenuItem      *item;
   GIcon          *icon = NULL;
   gboolean        fullscreen;
-  const gchar    *tooltip;
+  const gchar    *icon_name, *tooltip;
   gint            offset;
 
   if (! gtk_widget_get_visible (GTK_WIDGET (window)))
@@ -5430,38 +5430,41 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
   if (fullscreen)
     {
       gtk_window_fullscreen (GTK_WINDOW (window));
-      icon = g_icon_new_for_string ("view-restore", NULL);
+      icon_name = "view-restore";
       tooltip = _("Leave fullscreen mode");
     }
   /* leaving fullscreen mode */
   else
     {
       gtk_window_unfullscreen (GTK_WINDOW (window));
-      icon = g_icon_new_for_string ("view-fullscreen", NULL);
+      icon_name = "view-fullscreen";
       tooltip = _("Make the window fullscreen");
     }
 
   /* update the menu item icon */
   application = gtk_window_get_application (GTK_WINDOW (window));
   menu = gtk_application_get_menu_by_id (application, "view.fullscreen");
-  if (icon)
-    {
-      item = g_menu_item_new_from_model (G_MENU_MODEL (menu), 0);
-      g_menu_item_set_icon (item, icon);
-      g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
-      g_object_unref (icon);
-      g_menu_remove (menu, 0);
-      g_menu_prepend_item (menu, item);
-      g_object_unref (item);
-    }
+  item = g_menu_item_new_from_model (G_MENU_MODEL (menu), 0);
+
+  icon = g_icon_new_for_string (icon_name, NULL);
+  g_menu_item_set_icon (item, icon);
+  g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
+  g_object_unref (icon);
+
+  /* append menu item */
+  g_menu_remove (menu, 0);
+  g_menu_prepend_item (menu, item);
+  g_object_unref (item);
 
   /* update the tooltip */
   gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
   offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
   mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
 
+  /* update the toolbar item */
   tool_item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar),
                                         gtk_toolbar_get_n_items (GTK_TOOLBAR (window->toolbar)) - 1);
+  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon_name);
   gtk_tool_item_set_tooltip_text (tool_item, tooltip);
 
   /* update the widgets based on whether in fullscreen mode or not */
