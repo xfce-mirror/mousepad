@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-18 00:56+0200\n"
-"PO-Revision-Date: 2020-10-17 22:56+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2020-10-18 19:47+0000\n"
+"Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,11 +29,11 @@ msgctxt ""
 "The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not "
 "be translated"
 msgid "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"
-msgstr ""
+msgstr "Filåbningstilstand: \"tab\", \"window\" eller \"mixed\" (åbn faneblade i et nyt vindue)"
 
 #: ../mousepad/mousepad-application.c:85
 msgid "MODE"
-msgstr ""
+msgstr "TILSTAND"
 
 #: ../mousepad/mousepad-application.c:90
 msgid "Do not register with the D-BUS session message bus"
@@ -1404,17 +1404,17 @@ msgstr "Tekst ved siden af ikoner"
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
 msgid "new tabs"
-msgstr ""
+msgstr "nye faneblade"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
 msgid "new windows"
-msgstr ""
+msgstr "nye vinduer"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "nye faneblade i et nyt vindue"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "Display whitespace"
@@ -1538,7 +1538,7 @@ msgstr "Gennemløbende skift af faneblade i notesbog"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "Open files in:"
-msgstr ""
+msgstr "Åbn filer i:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "<b>Notebook tabs</b>"
