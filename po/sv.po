@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-12 00:46+0200\n"
-"PO-Revision-Date: 2020-10-11 22:46+0000\n"
+"POT-Creation-Date: 2020-10-18 00:56+0200\n"
+"PO-Revision-Date: 2020-10-17 22:56+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/xfce/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -22,37 +22,48 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../mousepad/mousepad-application.c:77
+#: ../mousepad/mousepad-application.c:84
+msgctxt ""
+"The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not "
+"be translated"
+msgid "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"
+msgstr ""
+
+#: ../mousepad/mousepad-application.c:85
+msgid "MODE"
+msgstr ""
+
+#: ../mousepad/mousepad-application.c:90
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Registrera inte med D-BUS sessionsmeddelandebus"
 
-#: ../mousepad/mousepad-application.c:78
+#: ../mousepad/mousepad-application.c:95
 msgid "Quit a running Mousepad primary instance"
 msgstr "Avsluta en körande Mousepad primärinstans"
 
-#: ../mousepad/mousepad-application.c:79
+#: ../mousepad/mousepad-application.c:100
 msgid "Print version information and exit"
 msgstr "Visa versionsinformation och avsluta."
 
-#: ../mousepad/mousepad-application.c:80
+#: ../mousepad/mousepad-application.c:105
 msgid "[FILES...]"
 msgstr "[FILER...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:117 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:153 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:139
+#: ../mousepad/mousepad-application.c:175
 msgid "The Xfce development team. All rights reserved."
 msgstr "Xfce utvecklingsteam. Alla rättigheter reserverade."
 
-#: ../mousepad/mousepad-application.c:140
+#: ../mousepad/mousepad-application.c:176
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Rapportera buggar till <%s>."
 
-#: ../mousepad/mousepad-application.c:594
+#: ../mousepad/mousepad-application.c:705
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Upphovsmän: %s | Filnamn: %s"
@@ -391,13 +402,13 @@ msgid "Failed to read the status of \"%s\""
 msgstr "Misslyckades med att läsa status på \"%s\""
 
 #. add the close button
-#: ../mousepad/mousepad-prefs-dialog.c:429
+#: ../mousepad/mousepad-prefs-dialog.c:461
 #: ../mousepad/mousepad-replace-dialog.c:177
 msgid "_Close"
 msgstr "_Stäng"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:435
+#: ../mousepad/mousepad-prefs-dialog.c:467
 #: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Preferences"
 msgstr "Inställningar"
@@ -1144,7 +1155,7 @@ msgid "Line N_umbers"
 msgstr "Radn_ummer"
 
 #: ../mousepad/resources/gtk/menus.ui.h:106
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "Show line numbers"
 msgstr "Visa radnummer"
 
@@ -1388,131 +1399,150 @@ msgstr "Text under ikoner"
 msgid "Text Beside Icons"
 msgstr "Text bredvid ikoner"
 
+#. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
+msgid "new tabs"
+msgstr ""
+
+#. Preceded by:
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
+msgid "new windows"
+msgstr ""
+
+#. Preceded by:
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
+msgid "new tabs in a new window"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "Display whitespace"
 msgstr "Visa blanksteg"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:21
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
 msgid "Display line endings"
 msgstr "Visa radslut"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
 msgid "Long line margin at column:"
 msgstr "Marginal för långa rader i kolumn:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:23
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
 msgid "Highlight current line"
 msgstr "Markera aktiv rad"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
 msgid "Highlight matching brackets"
 msgstr "Markera matchande parenteser"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:31
 msgid "Wrap long lines"
 msgstr "Radbryt långa rader"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:32
 msgid "<b>Display</b>"
 msgstr "<b>Visa</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
 msgid "Use system monospace font"
 msgstr "Använd systemets monospace-typsnitt"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
 msgid "<b>Font</b>"
 msgstr "<b>Typsnitt</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:35
 msgid "<b>Colour scheme</b>"
 msgstr "<b>Färgschema</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
 msgid "View"
 msgstr "Visa"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:31
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
 msgid "Tab width:"
 msgstr "Tabbredd"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:32
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:38
 msgid "Tab mode:"
 msgstr "Tabbläge:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "Enable automatic indentation"
 msgstr "Aktivera automatiskt indrag"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "<b>Indentation</b>"
 msgstr "<b>Indrag</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:35
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Behaviour:"
 msgstr "Beteende:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "<b>Home/End Keys</b>"
 msgstr "<b>Home/End tangenter</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
 msgid "Editor"
 msgstr "Redigerare"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:38
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
 msgid "Show status bar"
 msgstr "Visa statusrad"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "Show full filename in title bar"
 msgstr "Visa helt filnamn i namnlisten"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Remember window size"
 msgstr "Kom ihåg fönsterstorlek"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Remember window position"
 msgstr "Kom ihåg fönsterposition"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "Remember window state"
 msgstr "Kom ihåg fönsterinställningar"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 msgid "<b>General</b>"
 msgstr "<b>Allmänt</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 msgid "Show toolbar"
 msgstr "Visa verktygsrad"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Style:"
 msgstr "Stil:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
 msgid "Icon Size:"
 msgstr "Ikonstorlek:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:53
 msgid "<b>Toolbar</b>"
 msgstr "<b>Verktygsrad</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
 msgid "Always show tabs even with one file"
 msgstr "Visa alltid flikar även med en fil"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
 msgid "Cycled notebook tab switching"
 msgstr "Cyklisk anteckningsboksflikväxling"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
+msgid "Open files in:"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "<b>Notebook tabs</b>"
 msgstr "<b>Anteckningsboksflikar</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
 msgid "Window"
 msgstr "Fönster"
 
