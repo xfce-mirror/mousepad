@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-18 00:56+0200\n"
-"PO-Revision-Date: 2020-10-17 22:56+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2020-10-21 05:44+0000\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,11 +27,11 @@ msgctxt ""
 "The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not "
 "be translated"
 msgid "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"
-msgstr ""
+msgstr "ファイルを開くモード: 「タブ」、「ウィンドウ」、「ミックス」（新しいウィンドウでタブを開く）"
 
 #: ../mousepad/mousepad-application.c:85
 msgid "MODE"
-msgstr ""
+msgstr "モード"
 
 #: ../mousepad/mousepad-application.c:90
 msgid "Do not register with the D-BUS session message bus"
@@ -1401,17 +1401,17 @@ msgstr "アイコンの横に文字"
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
 msgid "new tabs"
-msgstr ""
+msgstr "新しいタブ"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
 msgid "new windows"
-msgstr ""
+msgstr "新しいウィンドウ"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "新しいウィンドウで新しいタブ"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "Display whitespace"
@@ -1535,7 +1535,7 @@ msgstr "タブの切り替えでノートブックを循環する"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "Open files in:"
-msgstr ""
+msgstr "次の場所でファイルを開く:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "<b>Notebook tabs</b>"
