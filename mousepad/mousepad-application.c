@@ -26,6 +26,16 @@
 
 
 
+/* GObject virtual functions */
+static void        mousepad_application_set_property              (GObject                  *object,
+                                                                   guint                     prop_id,
+                                                                   const GValue             *value,
+                                                                   GParamSpec               *pspec);
+static void        mousepad_application_get_property              (GObject                  *object,
+                                                                   guint                     prop_id,
+                                                                   GValue                   *value,
+                                                                   GParamSpec               *pspec);
+
 /* GApplication virtual functions, in the order in which they are called on launch */
 static gint        mousepad_application_handle_local_options      (GApplication             *gapplication,
                                                                    GVariantDict             *options);
@@ -53,7 +63,24 @@ static void        mousepad_application_create_style_schemes_menu (MousepadAppli
 static void        mousepad_application_action_quit               (GSimpleAction            *action,
                                                                    GVariant                 *value,
                                                                    gpointer                  data);
-
+static void        mousepad_application_toggle_activate           (GSimpleAction            *action,
+                                                                   GVariant                 *parameter,
+                                                                   gpointer                  data);
+static void        mousepad_application_toggle_update             (MousepadApplication      *application,
+                                                                   gchar                    *key,
+                                                                   GSettings                *settings);
+static void        mousepad_application_space_type                (GSimpleAction            *action,
+                                                                   GVariant                 *state,
+                                                                   gpointer                  data);
+static void        mousepad_application_space_type_all            (GSimpleAction            *action,
+                                                                   GVariant                 *state,
+                                                                   gpointer                  data);
+static void        mousepad_application_space_location            (GSimpleAction            *action,
+                                                                   GVariant                 *state,
+                                                                   gpointer                  data);
+static void        mousepad_application_space_location_all        (GSimpleAction            *action,
+                                                                   GVariant                 *state,
+                                                                   gpointer                  data);
 
 
 struct _MousepadApplicationClass
@@ -65,11 +92,21 @@ struct _MousepadApplication
 {
   GtkApplication      __parent__;
 
-  /* the preferences dialog when shown */
-  GtkWidget *prefs_dialog;
+  /* preferences dialog related */
+  GtkWidget                   *prefs_dialog;
+  GtkSourceSpaceTypeFlags      space_type_flags;
+  GtkSourceSpaceLocationFlags  space_location_flags;
 
   /* opening mode provided on the command line */
-  gint       opening_mode;
+  gint                         opening_mode;
+};
+
+/* MousepadApplication properties */
+enum
+{
+  PROP_SPACE_TYPE = 1,
+  PROP_SPACE_LOCATION,
+  N_PROPERTIES
 };
 
 
@@ -107,16 +144,6 @@ static const GOptionEntry option_entries[] =
   { NULL }
 };
 
-
-
-/* application actions */
-static const GActionEntry action_entries[] =
-{
-  { "quit", mousepad_application_action_quit, NULL, NULL, NULL }
-};
-
-
-
 /* opening mode provided on the command line */
 enum
 {
@@ -127,6 +154,61 @@ enum
 
 
 
+/* application actions */
+
+/* stateless actions */
+static const GActionEntry stateless_actions[] =
+{
+  /* command line options */
+  { "quit", mousepad_application_action_quit, NULL, NULL, NULL }
+};
+#define N_STATELESS G_N_ELEMENTS (stateless_actions)
+
+/* toggle actions */
+
+/* "Show Whitespace" popover of the preferences dialog */
+static const GActionEntry toggle_actions_space_type[] =
+{
+  { "preferences.view.show-whitespace.type.space", mousepad_application_toggle_activate, NULL,
+    "false", mousepad_application_space_type },
+  { "preferences.view.show-whitespace.type.tab", mousepad_application_toggle_activate, NULL,
+    "false", mousepad_application_space_type },
+  { "preferences.view.show-whitespace.type.newline", mousepad_application_toggle_activate, NULL,
+    "false", mousepad_application_space_type },
+  { "preferences.view.show-whitespace.type.non-breaking-space", mousepad_application_toggle_activate, NULL,
+    "false", mousepad_application_space_type },
+  { "preferences.view.show-whitespace.type.all", NULL, NULL,
+    "false", mousepad_application_space_type_all }
+};
+#define N_SPACE_TYPE G_N_ELEMENTS (toggle_actions_space_type)
+
+static const GActionEntry toggle_actions_space_location[] =
+{
+  { "preferences.view.show-whitespace.location.leading", mousepad_application_toggle_activate, NULL,
+    "false", mousepad_application_space_location },
+  { "preferences.view.show-whitespace.location.inside", mousepad_application_toggle_activate, NULL,
+    "false", mousepad_application_space_location },
+  { "preferences.view.show-whitespace.location.trailing", mousepad_application_toggle_activate, NULL,
+    "false", mousepad_application_space_location },
+  { "preferences.view.show-whitespace.location.all", NULL, NULL,
+    "false", mousepad_application_space_location_all }
+};
+#define N_SPACE_LOCATION G_N_ELEMENTS (toggle_actions_space_location)
+
+static const GActionEntry* toggle_actions[] =
+{
+  toggle_actions_space_type,
+  toggle_actions_space_location
+};
+static guint n_toggle_actions[] =
+{
+  N_SPACE_TYPE,
+  N_SPACE_LOCATION
+};
+#define N_TOGGLE G_N_ELEMENTS (toggle_actions)
+
+
+
 G_DEFINE_TYPE (MousepadApplication, mousepad_application, GTK_TYPE_APPLICATION)
 
 
@@ -134,7 +216,11 @@ G_DEFINE_TYPE (MousepadApplication, mousepad_application, GTK_TYPE_APPLICATION)
 static void
 mousepad_application_class_init (MousepadApplicationClass *klass)
 {
+  GObjectClass      *gobject_class = G_OBJECT_CLASS (klass);
   GApplicationClass *application_class = G_APPLICATION_CLASS (klass);
+
+  gobject_class->set_property = mousepad_application_set_property;
+  gobject_class->get_property = mousepad_application_get_property;
 
   application_class->handle_local_options = mousepad_application_handle_local_options;
   application_class->startup = mousepad_application_startup;
@@ -142,6 +228,64 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
   application_class->activate = mousepad_application_activate;
   application_class->open = mousepad_application_open;
   application_class->shutdown = mousepad_application_shutdown;
+
+  g_object_class_install_property (gobject_class, PROP_SPACE_TYPE,
+    g_param_spec_flags ("space-type", "SpaceType", "The space type setting",
+                        GTK_SOURCE_TYPE_SPACE_TYPE_FLAGS, GTK_SOURCE_SPACE_TYPE_ALL,
+                        G_PARAM_READWRITE));
+
+  g_object_class_install_property (gobject_class, PROP_SPACE_LOCATION,
+    g_param_spec_flags ("space-location", "SpaceLocation", "The space location setting",
+                        GTK_SOURCE_TYPE_SPACE_LOCATION_FLAGS, GTK_SOURCE_SPACE_LOCATION_ALL,
+                        G_PARAM_READWRITE));
+}
+
+
+
+static void
+mousepad_application_set_property (GObject      *object,
+                                   guint         prop_id,
+                                   const GValue *value,
+                                   GParamSpec   *pspec)
+{
+  MousepadApplication *application = MOUSEPAD_APPLICATION (object);
+
+  switch (prop_id)
+    {
+    case PROP_SPACE_TYPE:
+      application->space_type_flags = g_value_get_flags (value);
+      break;
+    case PROP_SPACE_LOCATION:
+      application->space_location_flags = g_value_get_flags (value);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+
+static void
+mousepad_application_get_property (GObject    *object,
+                                   guint       prop_id,
+                                   GValue     *value,
+                                   GParamSpec *pspec)
+{
+  MousepadApplication *application = MOUSEPAD_APPLICATION (object);
+
+  switch (prop_id)
+    {
+    case PROP_SPACE_TYPE:
+      g_value_set_flags (value, application->space_type_flags);
+      break;
+    case PROP_SPACE_LOCATION:
+      g_value_set_flags (value, application->space_location_flags);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
 }
 
 
@@ -153,7 +297,7 @@ mousepad_application_init (MousepadApplication *application)
   g_set_application_name (_("Mousepad"));
 
   /* use the Mousepad icon as default for new windows */
-  gtk_window_set_default_icon_name ("org.xfce.mousepad");
+  gtk_window_set_default_icon_name (MOUSEPAD_ID);
 
   /* add our option entries to the application */
   g_application_add_main_option_entries (G_APPLICATION (application), option_entries);
@@ -219,6 +363,10 @@ static void
 mousepad_application_startup (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  GAction             *action;
+  gchar               *path;
+  guint                m, n;
+  gboolean             state;
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
@@ -231,8 +379,46 @@ mousepad_application_startup (GApplication *gapplication)
   mousepad_settings_init ();
 
   /* add application actions */
-  g_action_map_add_action_entries (G_ACTION_MAP (application), action_entries,
-                                   G_N_ELEMENTS (action_entries), application);
+  g_action_map_add_action_entries (G_ACTION_MAP (application), stateless_actions,
+                                   N_STATELESS, application);
+
+  for (m = 0; m < N_TOGGLE; m++)
+    {
+      g_action_map_add_action_entries (G_ACTION_MAP (application), toggle_actions[m],
+                                       n_toggle_actions[m], application);
+
+      for (n = 0; n < n_toggle_actions[m]; n++)
+        {
+          /* tranform the action name in the setting path */
+          path = g_strconcat (".", toggle_actions[m][n].name, NULL);
+          path = g_strdelimit (path, ".", '/');
+
+          /* sync the action state to its setting */
+          mousepad_setting_connect_object (path, G_CALLBACK (mousepad_application_toggle_update),
+                                           application, G_CONNECT_SWAPPED);
+
+          /* associate a flag to the action */
+          if (toggle_actions[m][n].change_state == mousepad_application_space_type
+              || toggle_actions[m][n].change_state == mousepad_application_space_location)
+            {
+              action = g_action_map_lookup_action (G_ACTION_MAP (application),
+                                                   toggle_actions[m][n].name);
+              mousepad_object_set_data (G_OBJECT (action), "flag", GUINT_TO_POINTER (1 << n));
+            }
+
+          /* initialize the action state */
+          if (mousepad_setting_has_path (path))
+            {
+              state = mousepad_setting_get_boolean (path);
+              g_action_group_change_action_state (G_ACTION_GROUP (application),
+                                                  toggle_actions[m][n].name,
+                                                  g_variant_new_boolean (state));
+            }
+
+          /* cleanup */
+          g_free (path);
+        }
+    }
 
   /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
@@ -808,4 +994,207 @@ mousepad_application_action_quit (GSimpleAction *action,
 
   /* enter the loop */
   mousepad_application_dispatch_source (source);
+}
+
+
+
+static void
+mousepad_application_toggle_activate (GSimpleAction *action,
+                                      GVariant      *parameter,
+                                      gpointer       data)
+{
+  gchar    *path;
+  gboolean  state;
+
+  /* retrieve the setting path from the action name */
+  path = g_strconcat (".", g_action_get_name (G_ACTION (action)), NULL);
+  path = g_strdelimit (path, ".", '/');
+
+  /* save the setting */
+  state = g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+  mousepad_setting_set_boolean (path, ! state);
+
+  /* cleanup */
+  g_free (path);
+}
+
+
+
+static void
+mousepad_application_toggle_update (MousepadApplication *application,
+                                    gchar               *key,
+                                    GSettings           *settings)
+{
+  gchar    *schema_id, *action_name, *path;
+  gboolean  state;
+
+  /* retrieve the action name from the setting schema id */
+  g_object_get (settings, "schema_id", &schema_id, NULL);
+  action_name = g_strconcat (schema_id + MOUSEPAD_PATH_LEN, ".", key, NULL);
+  path = g_strconcat (".", action_name, NULL);
+  path = g_strdelimit (path, ".", '/');
+
+  /* get the setting and request for the action state to be changed */
+  state = mousepad_setting_get_boolean (path);
+  g_action_group_change_action_state (G_ACTION_GROUP (application),
+                                      action_name, g_variant_new_boolean (state));
+
+  /* cleanup */
+  g_free (schema_id);
+  g_free (action_name);
+  g_free (path);
+}
+
+
+
+static void
+mousepad_application_space_type (GSimpleAction *action,
+                                 GVariant      *state,
+                                 gpointer       data)
+{
+  GtkSourceSpaceTypeFlags  flags, flag;
+  GAction                 *action_all;
+
+  /* change action state */
+  g_simple_action_set_state (action, state);
+
+  /* update the space type flags */
+  flags = MOUSEPAD_APPLICATION (data)->space_type_flags;
+  flag = GPOINTER_TO_UINT (mousepad_object_get_data (G_OBJECT (action), "flag"));
+  g_variant_get_boolean (state) ? (flags |= flag) : (flags &= ~flag);
+
+  /* get the "all types" action */
+  action_all = g_action_map_lookup_action (G_ACTION_MAP (data),
+                                           toggle_actions_space_type[N_SPACE_TYPE - 1].name);
+
+  /* all space types have been checked: activate the "all types" action */
+  if (flags == GTK_SOURCE_SPACE_TYPE_ALL)
+    g_action_activate (action_all, NULL);
+  else
+    {
+      /* one space type is unchecked: enable the "all types" action and activate it */
+      if (! g_action_get_enabled (action_all))
+        {
+          g_simple_action_set_enabled (G_SIMPLE_ACTION (action_all), TRUE);
+          g_action_activate (action_all, NULL);
+        }
+
+      /* set the application property */
+      g_object_set (data, "space-type", flags, NULL);
+    }
+}
+
+
+
+static void
+mousepad_application_space_type_all (GSimpleAction *action,
+                                     GVariant      *state,
+                                     gpointer       data)
+{
+  GAction *subaction;
+  guint    n;
+
+  /* change action state */
+  g_simple_action_set_state (action, state);
+
+  /* this is a fake toggle, which does stuff only when checked (it is unchecked only
+   * when one of its sub-actions is unchecked) */
+  if (g_variant_get_boolean (state))
+    {
+      /* disable the action */
+      g_simple_action_set_enabled (action, FALSE);
+
+      /* freeze notifications while we update other actions state */
+      g_object_freeze_notify (data);
+
+      /* activate other actions if needed */
+      for (n = 0; n < N_SPACE_TYPE - 1; n++)
+        {
+          subaction = g_action_map_lookup_action (G_ACTION_MAP (data),
+                                                  toggle_actions_space_type[n].name);
+          if (! g_variant_get_boolean (g_action_get_state (subaction)))
+            g_action_activate (subaction, NULL);
+        }
+
+      /* set the application property */
+      g_object_set (data, "space-type", GTK_SOURCE_SPACE_TYPE_ALL, NULL);
+      g_object_thaw_notify (data);
+    }
+}
+
+
+
+static void
+mousepad_application_space_location (GSimpleAction *action,
+                                     GVariant      *state,
+                                     gpointer       data)
+{
+  GtkSourceSpaceLocationFlags  flags, flag;
+  GAction                     *action_all;
+
+  /* change action state */
+  g_simple_action_set_state (action, state);
+
+  /* update the space location flags */
+  flags = MOUSEPAD_APPLICATION (data)->space_location_flags;
+  flag = GPOINTER_TO_UINT (mousepad_object_get_data (G_OBJECT (action), "flag"));
+  g_variant_get_boolean (state) ? (flags |= flag) : (flags &= ~flag);
+
+  /* get the "all locations" action */
+  action_all = g_action_map_lookup_action (G_ACTION_MAP (data),
+                                           toggle_actions_space_location[N_SPACE_LOCATION - 1].name);
+
+  /* all space locations have been checked: activate the "all locations" action */
+  if (flags == GTK_SOURCE_SPACE_LOCATION_ALL)
+    g_action_activate (action_all, NULL);
+  else
+    {
+      /* one space location is unchecked: enable the "all locations" action and activate it */
+      if (! g_action_get_enabled (action_all))
+        {
+          g_simple_action_set_enabled (G_SIMPLE_ACTION (action_all), TRUE);
+          g_action_activate (action_all, NULL);
+        }
+
+      /* set the application property */
+      g_object_set (data, "space-location", flags, NULL);
+    }
+}
+
+
+
+static void
+mousepad_application_space_location_all (GSimpleAction *action,
+                                         GVariant      *state,
+                                         gpointer       data)
+{
+  GAction *subaction;
+  guint    n;
+
+  /* change action state */
+  g_simple_action_set_state (action, state);
+
+  /* this is a fake toggle, which does stuff only when checked (it is unchecked only
+   * when one of its sub-actions is unchecked) */
+  if (g_variant_get_boolean (state))
+    {
+      /* disable the action */
+      g_simple_action_set_enabled (action, FALSE);
+
+      /* freeze notifications while we update other actions state */
+      g_object_freeze_notify (data);
+
+      /* activate other actions if needed */
+      for (n = 0; n < N_SPACE_LOCATION - 1; n++)
+        {
+          subaction = g_action_map_lookup_action (G_ACTION_MAP (data),
+                                                  toggle_actions_space_location[n].name);
+          if (! g_variant_get_boolean (g_action_get_state (subaction)))
+            g_action_activate (subaction, NULL);
+        }
+
+      /* set the application property */
+      g_object_set (data, "space-location", GTK_SOURCE_SPACE_LOCATION_ALL, NULL);
+      g_object_thaw_notify (data);
+    }
 }

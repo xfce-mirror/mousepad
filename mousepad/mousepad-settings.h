@@ -26,7 +26,6 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_FONT_NAME                    "/preferences/view/font-name"
 #define MOUSEPAD_SETTING_USE_DEFAULT_FONT             "/preferences/view/use-default-monospace-font"
 #define MOUSEPAD_SETTING_SHOW_WHITESPACE              "/preferences/view/show-whitespace"
-#define MOUSEPAD_SETTING_SHOW_LINE_ENDINGS            "/preferences/view/show-line-endings"
 #define MOUSEPAD_SETTING_HIGHLIGHT_CURRENT_LINE       "/preferences/view/highlight-current-line"
 #define MOUSEPAD_SETTING_INDENT_ON_TAB                "/preferences/view/indent-on-tab"
 #define MOUSEPAD_SETTING_INDENT_WIDTH                 "/preferences/view/indent-width"
@@ -126,6 +125,7 @@ gint     mousepad_setting_get_enum       (const gchar       *path);
 
 void     mousepad_setting_set_enum       (const gchar       *path,
                                           gint               value);
+gboolean mousepad_setting_has_path       (const gchar       *path);
 
 /* wrappers for above read/write functions with shorter arguments */
 
