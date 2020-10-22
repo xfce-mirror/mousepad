@@ -136,6 +136,12 @@ gchar *g_utf8_make_valid (const gchar *str,
                           gssize       len) G_GNUC_MALLOC;
 #endif
 
+/*
+ * Copied from Gedit 3.38.0 and slightly modified:
+ * https://gitlab.gnome.org/GNOME/gedit/-/blob/21fac3f0c87db0db104d7af7eaeb6f63d8216a14/gedit/gedit-pango.h#L28
+ */
+gchar *mousepad_pango_font_description_to_css (const PangoFontDescription *font_desc);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_UTIL_H__ */

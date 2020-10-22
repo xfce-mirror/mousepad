@@ -216,10 +216,7 @@ mousepad_settings_store_add_settings (MousepadSettingsStore *self,
 
 #else
 
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 
 static void
 mousepad_settings_store_add_settings (MousepadSettingsStore *self,
@@ -254,9 +251,7 @@ mousepad_settings_store_add_settings (MousepadSettingsStore *self,
   g_strfreev (children);
 }
 
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic pop
-#endif
+G_GNUC_END_IGNORE_DEPRECATIONS
 
 #endif
 
