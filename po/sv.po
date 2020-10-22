@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-18 00:56+0200\n"
-"PO-Revision-Date: 2020-10-17 22:56+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2020-10-22 20:55+0000\n"
+"Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/xfce/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:85
 msgid "MODE"
-msgstr ""
+msgstr "LÄGE"
 
 #: ../mousepad/mousepad-application.c:90
 msgid "Do not register with the D-BUS session message bus"
@@ -639,12 +639,12 @@ msgstr "Spara aktivt dokument som annan fil"
 #: ../mousepad/mousepad-window.c:892 ../mousepad/mousepad-window.c:2345
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Re_load"
-msgstr ""
+msgstr "La_dda om"
 
 #: ../mousepad/mousepad-window.c:893 ../mousepad/mousepad-window.c:2352
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Reload file from disk"
-msgstr ""
+msgstr "Ladda om fil från disk"
 
 #: ../mousepad/mousepad-window.c:894 ../mousepad/resources/gtk/menus.ui.h:27
 msgid "Close _Tab"
@@ -854,7 +854,7 @@ msgstr "_Arkiv"
 
 #: ../mousepad/resources/gtk/menus.ui.h:2
 msgid "File menu"
-msgstr ""
+msgstr "Filmeny"
 
 #: ../mousepad/resources/gtk/menus.ui.h:5
 msgid "New _Window"
@@ -870,7 +870,7 @@ msgstr "Nytt från _mall"
 
 #: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "Skapa ett nytt dokument från en mall"
 
 #: ../mousepad/resources/gtk/menus.ui.h:11
 msgid "Op_en Recent"
@@ -878,7 +878,7 @@ msgstr "Öppna s_enaste"
 
 #: ../mousepad/resources/gtk/menus.ui.h:12
 msgid "Open a recently used file"
-msgstr ""
+msgstr "Öppna en tidigare använd fil"
 
 #: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "Clear _History"
@@ -926,7 +926,7 @@ msgstr "R_edigera"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Edit menu"
-msgstr ""
+msgstr "Redigera meny"
 
 #: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "Paste _Special"
@@ -934,7 +934,7 @@ msgstr "Kilstra in _special"
 
 #: ../mousepad/resources/gtk/menus.ui.h:44
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "klistra in urklippstexten på ett speciellt sätt"
 
 #: ../mousepad/resources/gtk/menus.ui.h:45
 msgid "Paste from _History"
@@ -974,7 +974,7 @@ msgstr "Konverte_ra"
 
 #: ../mousepad/resources/gtk/menus.ui.h:54
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Konvertera text på olika sätt"
 
 #: ../mousepad/resources/gtk/menus.ui.h:55
 msgid "To _Lowercase"
@@ -1047,7 +1047,7 @@ msgstr "_Flytta markering"
 
 #: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "Move the selection in different ways"
-msgstr ""
+msgstr "Flytta markeringen på olika sätt"
 
 #: ../mousepad/resources/gtk/menus.ui.h:73
 msgid "Line _Up"
@@ -1099,7 +1099,7 @@ msgstr "_Sök"
 
 #: ../mousepad/resources/gtk/menus.ui.h:86
 msgid "Search menu"
-msgstr ""
+msgstr "Sök meny"
 
 #: ../mousepad/resources/gtk/menus.ui.h:89
 msgid "Find _Next"
@@ -1123,7 +1123,7 @@ msgstr "_Visa"
 
 #: ../mousepad/resources/gtk/menus.ui.h:98
 msgid "View menu"
-msgstr ""
+msgstr "Visa meny"
 
 #: ../mousepad/resources/gtk/menus.ui.h:99
 msgid "Select F_ont..."
@@ -1189,7 +1189,7 @@ msgstr "_Dokument"
 
 #: ../mousepad/resources/gtk/menus.ui.h:116
 msgid "Document menu"
-msgstr ""
+msgstr "Dokument meny"
 
 #: ../mousepad/resources/gtk/menus.ui.h:117
 msgid "_Word Wrap"
@@ -1217,11 +1217,11 @@ msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:123
 msgid "Two spaces"
-msgstr ""
+msgstr "Två blanksteg"
 
 #: ../mousepad/resources/gtk/menus.ui.h:124
 msgid "Three spaces"
-msgstr ""
+msgstr "Tre blanksteg"
 
 #: ../mousepad/resources/gtk/menus.ui.h:125
 msgid "Four spaces"
@@ -1229,7 +1229,7 @@ msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:126
 msgid "Eight spaces"
-msgstr ""
+msgstr "Åtta blanksteg"
 
 #: ../mousepad/resources/gtk/menus.ui.h:127
 msgid "Other..."
@@ -1313,7 +1313,7 @@ msgstr "_Hjälp"
 
 #: ../mousepad/resources/gtk/menus.ui.h:147
 msgid "Help menu"
-msgstr ""
+msgstr "Hjälp meny"
 
 #: ../mousepad/resources/gtk/menus.ui.h:148
 msgid "_Contents"
@@ -1402,17 +1402,17 @@ msgstr "Text bredvid ikoner"
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
 msgid "new tabs"
-msgstr ""
+msgstr "nya flikar"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
 msgid "new windows"
-msgstr ""
+msgstr "nya fönster"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "nya flikar i ett nytt fönster"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "Display whitespace"
@@ -1536,7 +1536,7 @@ msgstr "Cyklisk anteckningsboksflikväxling"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "Open files in:"
-msgstr ""
+msgstr "Öppna filer i:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "<b>Notebook tabs</b>"
