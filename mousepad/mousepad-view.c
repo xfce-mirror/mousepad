@@ -91,7 +91,6 @@ struct _MousepadView
 
   /* the font used in the view */
   PangoFontDescription *font_desc;
-  GtkCssProvider       *css_provider;
 
   /* whitespace visualization */
   gboolean              show_whitespace;
@@ -249,7 +248,6 @@ mousepad_view_init (MousepadView *view)
   view->color_scheme = g_strdup ("none");
   view->font_desc = NULL;
   view->match_braces = FALSE;
-  view->css_provider = gtk_css_provider_new ();
 
   /* make sure any buffers set on the view get the color scheme applied to them */
   g_signal_connect (view,
@@ -1727,10 +1725,7 @@ mousepad_view_update_draw_spaces (MousepadView *view)
 
 #else
 
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic push
-# pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 
   GtkSourceDrawSpacesFlags flags = 0;
 
@@ -1749,9 +1744,7 @@ mousepad_view_update_draw_spaces (MousepadView *view)
 
   gtk_source_view_set_draw_spaces (GTK_SOURCE_VIEW (view), flags);
 
-#if G_GNUC_CHECK_VERSION (4, 3)
-# pragma GCC diagnostic pop
-#endif
+G_GNUC_END_IGNORE_DEPRECATIONS
 
 #endif
 }
@@ -1763,8 +1756,9 @@ mousepad_view_update_font (MousepadView *view)
 {
   PangoFontDescription *font_desc;
   XfconfChannel        *channel;
+  GtkCssProvider       *provider;
   GtkStyleContext      *context;
-  gchar                *font, *css_string;
+  gchar                *font, *css_font_desc, *css_string;
 
   context = gtk_widget_get_style_context (GTK_WIDGET (view));
 
@@ -1786,15 +1780,17 @@ mousepad_view_update_font (MousepadView *view)
     font_desc = pango_font_description_copy (view->font_desc);
 
   /* update font */
-  css_string = g_strdup_printf ("textview { font: %dpt %s; }",
-                                pango_font_description_get_size (font_desc) / PANGO_SCALE,
-                                pango_font_description_get_family (font_desc));
-  gtk_css_provider_load_from_data (view->css_provider, css_string, -1, NULL);
-  gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (view->css_provider),
+  provider = gtk_css_provider_new ();
+  css_font_desc = mousepad_pango_font_description_to_css (font_desc);
+  css_string = g_strdup_printf ("textview { %s }", css_font_desc);
+  gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+  gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
   /* cleanup */
   pango_font_description_free (font_desc);
+  g_object_unref (provider);
+  g_free (css_font_desc);
   g_free (css_string);
 }
 
