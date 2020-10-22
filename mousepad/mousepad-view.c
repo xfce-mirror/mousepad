@@ -55,6 +55,7 @@ static void      mousepad_view_transpose_lines               (GtkTextBuffer     
                                                               GtkTextIter         *end_iter);
 static void      mousepad_view_transpose_words               (GtkTextBuffer       *buffer,
                                                               GtkTextIter         *iter);
+static void      mousepad_view_update_draw_spaces            (MousepadView        *view);
 static void      mousepad_view_update_font                   (MousepadView        *view);
 
 
@@ -93,8 +94,9 @@ struct _MousepadView
   PangoFontDescription *font_desc;
 
   /* whitespace visualization */
-  gboolean              show_whitespace;
-  gboolean              show_line_endings;
+  gboolean                    show_whitespace;
+  GtkSourceSpaceTypeFlags     space_type_flags;
+  GtkSourceSpaceLocationFlags space_location_flags;
 
   gchar                *color_scheme;
 
@@ -108,7 +110,8 @@ enum
   PROP_0,
   PROP_FONT_NAME,
   PROP_SHOW_WHITESPACE,
-  PROP_SHOW_LINE_ENDINGS,
+  PROP_SPACE_TYPE,
+  PROP_SPACE_LOCATION,
   PROP_COLOR_SCHEME,
   PROP_WORD_WRAP,
   PROP_MATCH_BRACES,
@@ -155,12 +158,23 @@ mousepad_view_class_init (MousepadViewClass *klass)
 
   g_object_class_install_property (
     gobject_class,
-    PROP_SHOW_LINE_ENDINGS,
-    g_param_spec_boolean ("show-line-endings",
-                          "ShowLineEndings",
-                          "Whether line-endings are visualized in the view",
-                          FALSE,
-                          G_PARAM_READWRITE));
+    PROP_SPACE_TYPE,
+    g_param_spec_flags ("space-type",
+                        "SpaceType",
+                        "The space types to show in the view",
+                        GTK_SOURCE_TYPE_SPACE_TYPE_FLAGS,
+                        GTK_SOURCE_SPACE_TYPE_ALL,
+                        G_PARAM_WRITABLE));
+
+  g_object_class_install_property (
+    gobject_class,
+    PROP_SPACE_LOCATION,
+    g_param_spec_flags ("space-location",
+                        "SpaceLocation",
+                        "The space locations to show in the view",
+                        GTK_SOURCE_TYPE_SPACE_LOCATION_FLAGS,
+                        GTK_SOURCE_SPACE_LOCATION_ALL,
+                        G_PARAM_WRITABLE));
 
   g_object_class_install_property (
     gobject_class,
@@ -210,13 +224,11 @@ mousepad_view_buffer_changed (MousepadView *view,
       scheme = gtk_source_style_scheme_manager_get_scheme (manager,
         view->color_scheme ? view->color_scheme : "");
 
-#if GTK_SOURCE_CHECK_VERSION (3, 21, 0)
-      if (!GTK_SOURCE_IS_STYLE_SCHEME (scheme))
+      if (! GTK_SOURCE_IS_STYLE_SCHEME (scheme))
       {
         scheme = gtk_source_style_scheme_manager_get_scheme (manager, "classic");
         enable_highlight = FALSE;
       }
-#endif
 
       gtk_source_buffer_set_style_scheme (buffer, scheme);
       gtk_source_buffer_set_highlight_syntax (buffer, enable_highlight);
@@ -239,6 +251,8 @@ mousepad_view_use_default_font_setting_changed (MousepadView *view,
 static void
 mousepad_view_init (MousepadView *view)
 {
+  GApplication *application;
+
   /* initialize selection variables */
   view->selection_timeout_id = 0;
   view->selection_tag = NULL;
@@ -250,10 +264,8 @@ mousepad_view_init (MousepadView *view)
   view->match_braces = FALSE;
 
   /* make sure any buffers set on the view get the color scheme applied to them */
-  g_signal_connect (view,
-                    "notify::buffer",
-                    G_CALLBACK (mousepad_view_buffer_changed),
-                    NULL);
+  g_signal_connect (view, "notify::buffer",
+                    G_CALLBACK (mousepad_view_buffer_changed), NULL);
 
   /* reset drag coordinates */
   view->selection_start_x = view->selection_end_x = -1;
@@ -266,7 +278,6 @@ mousepad_view_init (MousepadView *view)
   BIND_ (AUTO_INDENT,            "auto-indent");
   BIND_ (FONT_NAME,              "font-name");
   BIND_ (SHOW_WHITESPACE,        "show-whitespace");
-  BIND_ (SHOW_LINE_ENDINGS,      "show-line-endings");
   BIND_ (HIGHLIGHT_CURRENT_LINE, "highlight-current-line");
   BIND_ (INDENT_ON_TAB,          "indent-on-tab");
   BIND_ (INDENT_WIDTH,           "indent-width");
@@ -284,10 +295,13 @@ mousepad_view_init (MousepadView *view)
   /* override with default font when the setting is enabled */
   MOUSEPAD_SETTING_CONNECT_OBJECT (USE_DEFAULT_FONT,
                                    G_CALLBACK (mousepad_view_use_default_font_setting_changed),
-                                   view,
-                                   G_CONNECT_SWAPPED);
-
+                                   view, G_CONNECT_SWAPPED);
 #undef BIND_
+
+  /* bind the whitespace display properties to those of the application */
+  application = g_application_get_default ();
+  g_object_bind_property (application, "space-type", view, "space-type", G_BINDING_SYNC_CREATE);
+  g_object_bind_property (application, "space-location", view, "space-location", G_BINDING_SYNC_CREATE);
 }
 
 
@@ -332,8 +346,13 @@ mousepad_view_set_property (GObject      *object,
     case PROP_SHOW_WHITESPACE:
       mousepad_view_set_show_whitespace (view, g_value_get_boolean (value));
       break;
-    case PROP_SHOW_LINE_ENDINGS:
-      mousepad_view_set_show_line_endings (view, g_value_get_boolean (value));
+    case PROP_SPACE_TYPE:
+      view->space_type_flags = g_value_get_flags (value);
+      mousepad_view_update_draw_spaces (view);
+      break;
+    case PROP_SPACE_LOCATION:
+      view->space_location_flags = g_value_get_flags (value);
+      mousepad_view_update_draw_spaces (view);
       break;
     case PROP_COLOR_SCHEME:
       mousepad_view_set_color_scheme (view, g_value_get_string (value));
@@ -370,9 +389,6 @@ mousepad_view_get_property (GObject    *object,
       break;
     case PROP_SHOW_WHITESPACE:
       g_value_set_boolean (value, mousepad_view_get_show_whitespace (view));
-      break;
-    case PROP_SHOW_LINE_ENDINGS:
-      g_value_set_boolean (value, mousepad_view_get_show_line_endings (view));
       break;
     case PROP_COLOR_SCHEME:
       g_value_set_string (value, mousepad_view_get_color_scheme (view));
@@ -1695,58 +1711,16 @@ mousepad_view_set_font_name (MousepadView *view,
 static void
 mousepad_view_update_draw_spaces (MousepadView *view)
 {
-#if GTK_SOURCE_CHECK_VERSION (3, 24, 0)
-
-  GtkSourceSpaceDrawer *drawer;
-  GtkSourceSpaceLocationFlags location_flags = GTK_SOURCE_SPACE_LOCATION_NONE;
-  GtkSourceSpaceTypeFlags type_flags = GTK_SOURCE_SPACE_TYPE_NONE;
-  gboolean enable_matrix = FALSE;
+  GtkSourceSpaceLocationFlags  flag;
+  GtkSourceSpaceDrawer        *drawer;
 
   drawer = gtk_source_view_get_space_drawer (GTK_SOURCE_VIEW (view));
 
-  if (view->show_whitespace)
-    {
-      location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
-      type_flags |= GTK_SOURCE_SPACE_TYPE_SPACE
-                    | GTK_SOURCE_SPACE_TYPE_TAB
-                    | GTK_SOURCE_SPACE_TYPE_NBSP;
-      enable_matrix = TRUE;
-    }
-
-  if (view->show_line_endings)
-    {
-      location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
-      type_flags |= GTK_SOURCE_SPACE_TYPE_NEWLINE;
-      enable_matrix = TRUE;
-    }
-
-  gtk_source_space_drawer_set_types_for_locations (drawer, location_flags, type_flags);
-  gtk_source_space_drawer_set_enable_matrix (drawer, enable_matrix);
-
-#else
-
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-
-  GtkSourceDrawSpacesFlags flags = 0;
-
-  if (view->show_whitespace)
-    {
-      flags |= GTK_SOURCE_DRAW_SPACES_SPACE |
-               GTK_SOURCE_DRAW_SPACES_TAB |
-               GTK_SOURCE_DRAW_SPACES_NBSP |
-               GTK_SOURCE_DRAW_SPACES_LEADING |
-               GTK_SOURCE_DRAW_SPACES_TEXT |
-               GTK_SOURCE_DRAW_SPACES_TRAILING;
-    }
-
-  if (view->show_line_endings)
-    flags |= GTK_SOURCE_DRAW_SPACES_NEWLINE;
-
-  gtk_source_view_set_draw_spaces (GTK_SOURCE_VIEW (view), flags);
-
-G_GNUC_END_IGNORE_DEPRECATIONS
-
-#endif
+  for (flag = 1; flag < GTK_SOURCE_SPACE_LOCATION_ALL; flag <<= 1)
+    if (view->space_location_flags & flag)
+      gtk_source_space_drawer_set_types_for_locations (drawer, flag, view->space_type_flags);
+    else
+      gtk_source_space_drawer_set_types_for_locations (drawer, flag, GTK_SOURCE_SPACE_TYPE_NONE);
 }
 
 
@@ -1800,10 +1774,14 @@ void
 mousepad_view_set_show_whitespace (MousepadView *view,
                                    gboolean      show)
 {
+  GtkSourceSpaceDrawer *drawer;
+
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
   view->show_whitespace = show;
-  mousepad_view_update_draw_spaces (view);
+  drawer = gtk_source_view_get_space_drawer (GTK_SOURCE_VIEW (view));
+  gtk_source_space_drawer_set_enable_matrix (drawer, show);
+
   g_object_notify (G_OBJECT (view), "show-whitespace");
 }
 
@@ -1815,29 +1793,6 @@ mousepad_view_get_show_whitespace (MousepadView *view)
   g_return_val_if_fail (MOUSEPAD_IS_VIEW (view), FALSE);
 
   return view->show_whitespace;
-}
-
-
-
-void
-mousepad_view_set_show_line_endings (MousepadView *view,
-                                     gboolean      show)
-{
-  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-
-  view->show_line_endings = show;
-  mousepad_view_update_draw_spaces (view);
-  g_object_notify (G_OBJECT (view), "show-line-endings");
-}
-
-
-
-gboolean
-mousepad_view_get_show_line_endings (MousepadView *view)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_VIEW (view), FALSE);
-
-  return view->show_line_endings;
 }
 
 
