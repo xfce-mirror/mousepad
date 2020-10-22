@@ -25,9 +25,6 @@
 # include <gio/gsettingsbackend.h>
 #endif
 
-#define MOUSEPAD_SCHEMA_ID "org.xfce.mousepad"
-/* length of "/org/xfce/mousepad" */
-#define MOUSEPAD_PREFIX_PATH_LENGTH 18
 
 
 struct MousepadSettingsStore_
@@ -188,8 +185,7 @@ mousepad_settings_store_add_settings (MousepadSettingsStore *self,
   /* loop through keys in schema and store mapping of their path to GSettings */
   schema = g_settings_schema_source_lookup (source, schema_id, FALSE);
   keys = g_settings_schema_list_keys (schema);
-  /* skip "/org/xfce/mousepad" */
-  path = g_settings_schema_get_path (schema) + MOUSEPAD_PREFIX_PATH_LENGTH;
+  path = g_settings_schema_get_path (schema) + MOUSEPAD_PATH_LEN;
   for (keyp = keys; keyp && *keyp; keyp++)
     {
       key_name = *keyp;
@@ -273,10 +269,10 @@ mousepad_settings_store_init (MousepadSettingsStore *self)
                                 NULL);
   backend = g_keyfile_settings_backend_new (conf_file, "/", NULL);
   g_free (conf_file);
-  self->root = g_settings_new_with_backend (MOUSEPAD_SCHEMA_ID, backend);
+  self->root = g_settings_new_with_backend (MOUSEPAD_ID, backend);
   g_object_unref (backend);
 #else
-  self->root = g_settings_new (MOUSEPAD_SCHEMA_ID);
+  self->root = g_settings_new (MOUSEPAD_ID);
 #endif
 
   self->keys = g_hash_table_new_full (g_str_hash,
@@ -286,7 +282,7 @@ mousepad_settings_store_init (MousepadSettingsStore *self)
 
 #if GLIB_CHECK_VERSION (2, 46, 0)
   source = g_settings_schema_source_get_default ();
-  mousepad_settings_store_add_settings (self, MOUSEPAD_SCHEMA_ID, source, self->root);
+  mousepad_settings_store_add_settings (self, MOUSEPAD_ID, source, self->root);
 #else
   mousepad_settings_store_add_settings (self, "", self->root);
 #endif

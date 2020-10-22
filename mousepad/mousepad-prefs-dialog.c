@@ -27,8 +27,9 @@
 
 /* View page */
 #define WID_SHOW_LINE_NUMBERS_CHECK         "/prefs/view/display/show-line-numbers-check"
-#define WID_SHOW_WHITESPACE_CHECK           "/prefs/view/display/display-whitespace-check"
-#define WID_SHOW_LINE_ENDINGS_CHECK         "/prefs/view/display/display-line-endings-check"
+#define WID_SHOW_WHITESPACE_CHECK           "/prefs/view/display/show-whitespace-check"
+#define WID_SHOW_WHITESPACE_BUTTON          "/prefs/view/display/show-whitespace-button"
+#define WID_SHOW_WHITESPACE_MENU            "/prefs/view/display/show-whitespace-button/menu"
 #define WID_SHOW_RIGHT_MARGIN_CHECK         "/prefs/view/display/long-line-check"
 #define WID_RIGHT_MARGIN_SPIN               "/prefs/view/display/long-line-spin"
 #define WID_HIGHLIGHT_CURRENT_LINE_CHECK    "/prefs/view/display/highlight-current-line-check"
@@ -119,6 +120,49 @@ mousepad_prefs_dialog_finalize (GObject *object)
     g_object_unref (self->builder);
 
   G_OBJECT_CLASS (mousepad_prefs_dialog_parent_class)->finalize (object);
+}
+
+
+
+static void
+mousepad_prefs_dialog_whitespace_popover_closed (MousepadPrefsDialog *self)
+{
+  GtkSourceSpaceTypeFlags      type_flags;
+  GtkSourceSpaceLocationFlags  location_flags;
+  GApplication                *application;
+  GObject                     *check;
+
+  /* retrieve the whitespace display flags from the application properties */
+  application = g_application_get_default ();
+  g_object_get (application, "space-type", &type_flags, NULL);
+  g_object_get (application, "space-location", &location_flags, NULL);
+
+  /* if no space type or no space location are shown, the whole setting is disabled */
+  check = gtk_builder_get_object (self->builder, WID_SHOW_WHITESPACE_CHECK);
+  if (type_flags == GTK_SOURCE_SPACE_TYPE_NONE
+      || location_flags == GTK_SOURCE_SPACE_LOCATION_NONE)
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), FALSE);
+}
+
+
+
+/* open the popover when the whitespace button is clicked */
+static void
+mousepad_prefs_dialog_whitespace_button_clicked (MousepadPrefsDialog *self,
+                                                 GtkButton           *button)
+{
+  GObject   *model;
+  GtkWidget *popover;
+
+  self->blocked = TRUE;
+
+  model = gtk_builder_get_object (self->builder, WID_SHOW_WHITESPACE_MENU);
+  popover = gtk_popover_new_from_model (GTK_WIDGET (button), G_MENU_MODEL (model));
+  g_signal_connect_swapped (popover, "closed",
+                            G_CALLBACK (mousepad_prefs_dialog_whitespace_popover_closed), self);
+  gtk_widget_show (popover);
+
+  self->blocked = FALSE;
 }
 
 
@@ -467,6 +511,11 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   gtk_window_set_title (GTK_WINDOW (self), _("Preferences"));
   gtk_window_set_icon_name (GTK_WINDOW (self), "preferences-desktop");
 
+  /* enable/disable display whitespace button when checkbox is changed */
+  check = mousepad_builder_get_widget (self->builder, WID_SHOW_WHITESPACE_CHECK);
+  widget = mousepad_builder_get_widget (self->builder, WID_SHOW_WHITESPACE_BUTTON);
+  g_object_bind_property (check, "active", widget, "sensitive", G_BINDING_SYNC_CREATE);
+
   /* enable/disable right margin spin button when checkbox is changed */
   check = mousepad_builder_get_widget (self->builder, WID_SHOW_RIGHT_MARGIN_CHECK);
   widget = mousepad_builder_get_widget (self->builder, WID_RIGHT_MARGIN_SPIN);
@@ -516,7 +565,6 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* View */
   BIND_CHECKBOX (SHOW_LINE_NUMBERS);
   BIND_CHECKBOX (SHOW_WHITESPACE);
-  BIND_CHECKBOX (SHOW_LINE_ENDINGS);
   BIND_CHECKBOX (SHOW_RIGHT_MARGIN);
   BIND_CHECKBOX (HIGHLIGHT_CURRENT_LINE);
   BIND_CHECKBOX (WORD_WRAP);
@@ -537,6 +585,12 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   BIND_CHECKBOX (TOOLBAR_VISIBLE);
 
 #undef BIND_CHECKBOX
+
+  /* open the popover when the whitespace button is clicked */
+  g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_SHOW_WHITESPACE_BUTTON),
+                            "clicked",
+                            G_CALLBACK (mousepad_prefs_dialog_whitespace_button_clicked),
+                            self);
 
   /* bind the right-margin-position setting to the spin button */
   MOUSEPAD_SETTING_BIND (RIGHT_MARGIN_POSITION,
