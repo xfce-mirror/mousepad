@@ -611,6 +611,7 @@ mousepad_application_show_preferences (MousepadApplication *application,
 
   /* associate it with one of the windows */
   gtk_window_set_transient_for (GTK_WINDOW (application->prefs_dialog), transient_for);
+  gtk_window_set_destroy_with_parent (GTK_WINDOW (application->prefs_dialog), TRUE);
 
   /* show it to the user */
   gtk_window_present (GTK_WINDOW (application->prefs_dialog));
