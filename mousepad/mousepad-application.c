@@ -154,7 +154,7 @@ mousepad_application_init (MousepadApplication *application)
   g_set_application_name (_("Mousepad"));
 
   /* use the Mousepad icon as default for new windows */
-  gtk_window_set_default_icon_name ("org.xfce.mousepad");
+  gtk_window_set_default_icon_name (MOUSEPAD_ID);
 
   /* add our option entries to the application */
   g_application_add_main_option_entries (G_APPLICATION (application), option_entries);
