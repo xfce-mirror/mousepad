@@ -1991,29 +1991,30 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
   GList          *children, *child;
   static GList   *mnemonics = NULL;
   gpointer        mnemonic;
-  const gchar    *path, *path_fs, *action_name;
+  const gchar    *setting, *setting_fs, *action_name;
   gboolean        visible, visible_fs;
   gint            offset;
 
-  /* the hint may or may not contain the path and/or the full screen suffix */
+  /* the hint may or may not contain the whole setting name and/or the fullscreen suffix,
+   * but it will always be included in their concatenation */
   if (g_strstr_len (MOUSEPAD_SETTING_MENUBAR_VISIBLE_FULLSCREEN, -1, hint))
     {
-      path = MENUBAR;
-      path_fs = MOUSEPAD_SETTING_MENUBAR_VISIBLE_FULLSCREEN;
+      setting = MENUBAR;
+      setting_fs = MOUSEPAD_SETTING_MENUBAR_VISIBLE_FULLSCREEN;
       bar = window->menubar;
       action_name = "view.menubar";
     }
   else if (g_strstr_len (MOUSEPAD_SETTING_TOOLBAR_VISIBLE_FULLSCREEN, -1, hint))
     {
-      path = TOOLBAR;
-      path_fs = MOUSEPAD_SETTING_TOOLBAR_VISIBLE_FULLSCREEN;
+      setting = TOOLBAR;
+      setting_fs = MOUSEPAD_SETTING_TOOLBAR_VISIBLE_FULLSCREEN;
       bar = window->toolbar;
       action_name = "view.toolbar";
     }
   else if (g_strstr_len (MOUSEPAD_SETTING_STATUSBAR_VISIBLE_FULLSCREEN, -1, hint))
     {
-      path = STATUSBAR;
-      path_fs = MOUSEPAD_SETTING_STATUSBAR_VISIBLE_FULLSCREEN;
+      setting = STATUSBAR;
+      setting_fs = MOUSEPAD_SETTING_STATUSBAR_VISIBLE_FULLSCREEN;
       bar = window->statusbar;
       action_name = "view.statusbar";
     }
@@ -2022,12 +2023,12 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
     return;
 
   /* get visibility setting in window mode */
-  visible = mousepad_setting_get_boolean (path);
+  visible = mousepad_setting_get_boolean (setting);
 
   /* deduce the visibility setting if we are in fullscreen mode */
   if (mousepad_window_get_in_fullscreen (window))
     {
-      visible_fs = mousepad_setting_get_enum (path_fs);
+      visible_fs = mousepad_setting_get_enum (setting_fs);
       visible = (visible_fs == AUTO) ? visible : (visible_fs == YES);
     }
 
@@ -2042,7 +2043,7 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
   g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_boolean (visible));
 
   /* the menu bar must be easily retrievable when hidden */
-  if (g_strcmp0 (path, MENUBAR) == 0)
+  if (g_strcmp0 (setting, MENUBAR) == 0)
     {
       /* show/hide the "Menubar" item in the text view menu */
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "textview.menubar");
