@@ -41,7 +41,7 @@ mousepad_dialogs_show_about (GtkWindow *parent)
                          "copyright", "Copyright \xc2\xa9 2005-2020 - the Mousepad developers",
                          "destroy-with-parent", TRUE,
                          "license-type", GTK_LICENSE_GPL_2_0,
-                         "logo-icon-name", "org.xfce.mousepad",
+                         "logo-icon-name", MOUSEPAD_ID,
                          "program-name", PACKAGE_NAME,
                          "version", PACKAGE_VERSION,
                          "translator-credits", _("translator-credits"),
