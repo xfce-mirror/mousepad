@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-18 00:56+0200\n"
-"PO-Revision-Date: 2020-10-17 22:56+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2020-10-23 16:41+0000\n"
+"Last-Translator: Ivica  Kolić <ikoli@yahoo.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/xfce/xfce-apps/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,7 +108,7 @@ msgstr "Idi na"
 
 #: ../mousepad/mousepad-dialogs.c:242
 msgid "_Jump to"
-msgstr ""
+msgstr "_Skoči na"
 
 #: ../mousepad/mousepad-dialogs.c:265
 msgid "_Line number:"
@@ -125,11 +125,11 @@ msgstr "Očisti povijest dokumenata"
 
 #: ../mousepad/mousepad-dialogs.c:350
 msgid "Clea_r"
-msgstr ""
+msgstr "Očist_i"
 
 #: ../mousepad/mousepad-dialogs.c:377
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
-msgstr ""
+msgstr "<big><b>Ukloniti sve unose iz povijesti dokumenata?</b></big>"
 
 #. secondary text
 #: ../mousepad/mousepad-dialogs.c:382
@@ -149,7 +149,7 @@ msgstr "_Nemoj spremiti"
 
 #: ../mousepad/mousepad-dialogs.c:429 ../mousepad/mousepad-dialogs.c:533
 msgid "_Save As"
-msgstr ""
+msgstr "_Spremi kao"
 
 #: ../mousepad/mousepad-dialogs.c:437 ../mousepad/mousepad-dialogs.c:500
 #: ../mousepad/mousepad-dialogs.c:567 ../mousepad/mousepad-window.c:888
@@ -159,7 +159,7 @@ msgstr "_Spremi"
 
 #: ../mousepad/mousepad-dialogs.c:461
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
-msgstr ""
+msgstr "<big><b>Želite li spremiti promjene prije zatvaranja?</b></big>"
 
 #. secondary text
 #: ../mousepad/mousepad-dialogs.c:466
@@ -181,7 +181,7 @@ msgstr "Ako  spremite dokument, sve vanjske promjene će biti izgubljene."
 
 #: ../mousepad/mousepad-dialogs.c:498
 msgid "Save _As"
-msgstr ""
+msgstr "Spremi _kao"
 
 #: ../mousepad/mousepad-dialogs.c:529
 msgid "Do you want to save your changes before reloading?"
@@ -193,7 +193,7 @@ msgstr "Ako vratite dokument sve će izmjene biti izgubljene."
 
 #: ../mousepad/mousepad-dialogs.c:535
 msgid "_Revert"
-msgstr ""
+msgstr "_Obrnuto"
 
 #. create the dialog
 #: ../mousepad/mousepad-dialogs.c:562
@@ -227,7 +227,7 @@ msgstr "Neimenovano"
 #: ../mousepad/mousepad-encoding-dialog.c:352
 #: ../mousepad/mousepad-encoding-dialog.c:372
 msgid "The document was not UTF-8 valid."
-msgstr ""
+msgstr "Dokument nije UTF-8 valjan."
 
 #. encoding radio buttons
 #. default encoding: UTF-8
@@ -481,7 +481,7 @@ msgstr "Nađi i zamijeni"
 #: ../mousepad/mousepad-replace-dialog.c:170 ../mousepad/mousepad-window.c:914
 #: ../mousepad/resources/gtk/menus.ui.h:87
 msgid "_Find"
-msgstr ""
+msgstr "_Nađi"
 
 #: ../mousepad/mousepad-replace-dialog.c:174
 #: ../mousepad/mousepad-replace-dialog.c:507
@@ -639,12 +639,12 @@ msgstr "Spremi trenutni dokument kao drugu datoteku"
 #: ../mousepad/mousepad-window.c:892 ../mousepad/mousepad-window.c:2345
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Re_load"
-msgstr ""
+msgstr "<"
 
 #: ../mousepad/mousepad-window.c:893 ../mousepad/mousepad-window.c:2352
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Reload file from disk"
-msgstr ""
+msgstr "Ponovno učitaj sa diska"
 
 #: ../mousepad/mousepad-window.c:894 ../mousepad/resources/gtk/menus.ui.h:27
 msgid "Close _Tab"
@@ -672,7 +672,7 @@ msgstr "Ponovi posljednu poništenu radnju"
 
 #: ../mousepad/mousepad-window.c:904 ../mousepad/resources/gtk/menus.ui.h:37
 msgid "Cu_t"
-msgstr ""
+msgstr "Izrež_i"
 
 #: ../mousepad/mousepad-window.c:905 ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Cut the selection"
@@ -726,7 +726,7 @@ msgstr "Učini da prozor zauzima cijeli zaslon"
 #. add the label with the root warning
 #: ../mousepad/mousepad-window.c:1003
 msgid "Warning: you are using the root account. You may harm your system."
-msgstr ""
+msgstr "Upozorenje: koristite korijenski račun. Možete oštetiti vaš sustav."
 
 #. show the warning
 #: ../mousepad/mousepad-window.c:1728
@@ -854,7 +854,7 @@ msgstr "_Datoteka"
 
 #: ../mousepad/resources/gtk/menus.ui.h:2
 msgid "File menu"
-msgstr ""
+msgstr "Izbornik datoteka"
 
 #: ../mousepad/resources/gtk/menus.ui.h:5
 msgid "New _Window"
@@ -878,7 +878,7 @@ msgstr "Ot_vori nedavno"
 
 #: ../mousepad/resources/gtk/menus.ui.h:12
 msgid "Open a recently used file"
-msgstr ""
+msgstr "Otvori nedavno korištenu datoteku"
 
 #: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "Clear _History"
@@ -926,7 +926,7 @@ msgstr "_Uredi"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Edit menu"
-msgstr ""
+msgstr "Uredi izbornik"
 
 #: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "Paste _Special"
@@ -1099,7 +1099,7 @@ msgstr "_Traži"
 
 #: ../mousepad/resources/gtk/menus.ui.h:86
 msgid "Search menu"
-msgstr ""
+msgstr "Izbornik pretraživanja"
 
 #: ../mousepad/resources/gtk/menus.ui.h:89
 msgid "Find _Next"
@@ -1189,7 +1189,7 @@ msgstr "_Dokument"
 
 #: ../mousepad/resources/gtk/menus.ui.h:116
 msgid "Document menu"
-msgstr ""
+msgstr "Izbornik dokumenata"
 
 #: ../mousepad/resources/gtk/menus.ui.h:117
 msgid "_Word Wrap"
@@ -1233,7 +1233,7 @@ msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:127
 msgid "Other..."
-msgstr ""
+msgstr "Ostalo..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:128
 msgid "Set custom tab size"
@@ -1313,7 +1313,7 @@ msgstr "_Pomoć"
 
 #: ../mousepad/resources/gtk/menus.ui.h:147
 msgid "Help menu"
-msgstr ""
+msgstr "Izbornik pomoći"
 
 #: ../mousepad/resources/gtk/menus.ui.h:148
 msgid "_Contents"
@@ -1402,17 +1402,17 @@ msgstr "Tekst pokraj ikona"
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
 msgid "new tabs"
-msgstr ""
+msgstr "nove kartice"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
 msgid "new windows"
-msgstr ""
+msgstr "novi prozori"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "nove kartice u novom prozoru"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "Display whitespace"
@@ -1536,7 +1536,7 @@ msgstr "Ciklična izmjena kartica bilježnice"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "Open files in:"
-msgstr ""
+msgstr "Otvori datoteke u:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "<b>Notebook tabs</b>"
