@@ -25,9 +25,6 @@
 # include <gio/gsettingsbackend.h>
 #endif
 
-#define MOUSEPAD_SCHEMA_ID "org.xfce.mousepad"
-/* length of "/org/xfce/mousepad" */
-#define MOUSEPAD_PREFIX_PATH_LENGTH 18
 
 
 struct MousepadSettingsStore_
@@ -158,7 +155,7 @@ mousepad_settings_store_finalize (GObject *object)
 
 static void
 mousepad_settings_store_add_key (MousepadSettingsStore *self,
-                                 const gchar           *path,
+                                 const gchar           *setting,
                                  const gchar           *key_name,
                                  GSettings             *settings)
 {
@@ -166,7 +163,7 @@ mousepad_settings_store_add_key (MousepadSettingsStore *self,
 
   key = mousepad_setting_key_new (key_name, settings);
 
-  g_hash_table_insert (self->keys, (gpointer) g_intern_string (path), key);
+  g_hash_table_insert (self->keys, (gpointer) g_intern_string (setting), key);
 }
 
 
@@ -179,33 +176,30 @@ mousepad_settings_store_add_settings (MousepadSettingsStore *self,
                                       GSettingsSchemaSource *source,
                                       GSettings             *settings)
 {
-  GSettingsSchema *schema;
-  GSettings       *child_settings;
-  gchar          **keys, **keyp, **children, **childp;
-  gchar           *key_path, *child_schema_id;
-  const gchar     *path, *key_name, *child_name;
+  GSettingsSchema  *schema;
+  GSettings        *child_settings;
+  gchar           **keys, **key, **children, **child;
+  gchar            *setting, *child_schema_id;
+  const gchar      *prefix;
 
-  /* loop through keys in schema and store mapping of their path to GSettings */
+  /* loop through keys in schema and store mapping of their setting name to GSettings */
   schema = g_settings_schema_source_lookup (source, schema_id, FALSE);
   keys = g_settings_schema_list_keys (schema);
-  /* skip "/org/xfce/mousepad" */
-  path = g_settings_schema_get_path (schema) + MOUSEPAD_PREFIX_PATH_LENGTH;
-  for (keyp = keys; keyp && *keyp; keyp++)
+  prefix = schema_id + MOUSEPAD_ID_LEN + 1;
+  for (key = keys; key && *key; key++)
     {
-      key_name = *keyp;
-      key_path = g_strdup_printf ("%s%s", path, key_name);
-      mousepad_settings_store_add_key (self, key_path, key_name, settings);
-      g_free (key_path);
+      setting = g_strdup_printf ("%s.%s", prefix, *key);
+      mousepad_settings_store_add_key (self, setting, *key, settings);
+      g_free (setting);
     }
   g_strfreev (keys);
 
   /* loop through child schemas and add them too */
   children = g_settings_schema_list_children (schema);
-  for (childp = children; childp && *childp; childp++)
+  for (child = children; child && *child; child++)
     {
-      child_name = *childp;
-      child_settings = g_settings_get_child (settings, child_name);
-      child_schema_id = g_strdup_printf ("%s.%s", schema_id, child_name);
+      child_settings = g_settings_get_child (settings, *child);
+      child_schema_id = g_strdup_printf ("%s.%s", schema_id, *child);
       mousepad_settings_store_add_settings (self, child_schema_id, source, child_settings);
       g_object_unref (child_settings);
       g_free (child_schema_id);
@@ -220,20 +214,22 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 
 static void
 mousepad_settings_store_add_settings (MousepadSettingsStore *self,
-                                      const gchar           *path,
+                                      const gchar           *schema_id,
                                       GSettings             *settings)
 {
-  gchar **keys, **keyp;
-  gchar **children, **childp;
+  gchar       **keys, **keyp;
+  gchar       **children, **childp;
+  const gchar  *prefix;
 
-  /* loop through keys in schema and store mapping of their path to GSettings */
+  /* loop through keys in schema and store mapping of their setting name to GSettings */
   keys = g_settings_list_keys (settings);
+  prefix = schema_id + MOUSEPAD_ID_LEN + 1;
   for (keyp = keys; keyp && *keyp; keyp++)
     {
       const gchar *key_name = *keyp;
-      gchar       *key_path = g_strdup_printf ("%s/%s", path, key_name);
-      mousepad_settings_store_add_key (self, key_path, key_name, settings);
-      g_free (key_path);
+      gchar       *setting = g_strdup_printf ("%s.%s", prefix, key_name);
+      mousepad_settings_store_add_key (self, setting, key_name, settings);
+      g_free (setting);
     }
   g_strfreev (keys);
 
@@ -243,10 +239,10 @@ mousepad_settings_store_add_settings (MousepadSettingsStore *self,
     {
       const gchar *child_name = *childp;
       GSettings   *child_settings = g_settings_get_child (settings, child_name);
-      gchar       *child_path = g_strdup_printf ("%s/%s", path, child_name);
-      mousepad_settings_store_add_settings (self, child_path, child_settings);
+      gchar       *child_prefix = g_strdup_printf ("%s.%s", schema_id, child_name);
+      mousepad_settings_store_add_settings (self, child_prefix, child_settings);
       g_object_unref (child_settings);
-      g_free (child_path);
+      g_free (child_prefix);
     }
   g_strfreev (children);
 }
@@ -260,10 +256,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 static void
 mousepad_settings_store_init (MousepadSettingsStore *self)
 {
-#if GLIB_CHECK_VERSION (2, 46, 0)
-  GSettingsSchemaSource *source;
-#endif
-
 #ifdef MOUSEPAD_SETTINGS_KEYFILE_BACKEND
   GSettingsBackend *backend;
   gchar            *conf_file;
@@ -273,10 +265,10 @@ mousepad_settings_store_init (MousepadSettingsStore *self)
                                 NULL);
   backend = g_keyfile_settings_backend_new (conf_file, "/", NULL);
   g_free (conf_file);
-  self->root = g_settings_new_with_backend (MOUSEPAD_SCHEMA_ID, backend);
+  self->root = g_settings_new_with_backend (MOUSEPAD_ID, backend);
   g_object_unref (backend);
 #else
-  self->root = g_settings_new (MOUSEPAD_SCHEMA_ID);
+  self->root = g_settings_new (MOUSEPAD_ID);
 #endif
 
   self->keys = g_hash_table_new_full (g_str_hash,
@@ -285,10 +277,11 @@ mousepad_settings_store_init (MousepadSettingsStore *self)
                                       (GDestroyNotify) mousepad_setting_key_free);
 
 #if GLIB_CHECK_VERSION (2, 46, 0)
-  source = g_settings_schema_source_get_default ();
-  mousepad_settings_store_add_settings (self, MOUSEPAD_SCHEMA_ID, source, self->root);
+  mousepad_settings_store_add_settings (self, MOUSEPAD_ID,
+                                        g_settings_schema_source_get_default (),
+                                        self->root);
 #else
-  mousepad_settings_store_add_settings (self, "", self->root);
+  mousepad_settings_store_add_settings (self, MOUSEPAD_ID, self->root);
 #endif
 }
 
@@ -304,11 +297,11 @@ mousepad_settings_store_new (void)
 
 const gchar *
 mousepad_settings_store_lookup_key_name (MousepadSettingsStore *self,
-                                         const gchar           *path)
+                                         const gchar           *setting)
 {
   const gchar *key_name = NULL;
 
-  if (! mousepad_settings_store_lookup (self, path, &key_name, NULL))
+  if (! mousepad_settings_store_lookup (self, setting, &key_name, NULL))
     return NULL;
 
   return key_name;
@@ -318,11 +311,11 @@ mousepad_settings_store_lookup_key_name (MousepadSettingsStore *self,
 
 GSettings *
 mousepad_settings_store_lookup_settings (MousepadSettingsStore *self,
-                                         const gchar           *path)
+                                         const gchar           *setting)
 {
   GSettings *settings = NULL;
 
-  if (! mousepad_settings_store_lookup (self, path, NULL, &settings))
+  if (! mousepad_settings_store_lookup (self, setting, NULL, &settings))
     return NULL;
 
   return settings;
@@ -332,19 +325,19 @@ mousepad_settings_store_lookup_settings (MousepadSettingsStore *self,
 
 gboolean
 mousepad_settings_store_lookup (MousepadSettingsStore *self,
-                                const gchar           *path,
+                                const gchar           *setting,
                                 const gchar          **key_name,
                                 GSettings            **settings)
 {
   MousepadSettingKey *key;
 
   g_return_val_if_fail (MOUSEPAD_IS_SETTINGS_STORE (self), FALSE);
-  g_return_val_if_fail (path != NULL, FALSE);
+  g_return_val_if_fail (setting != NULL, FALSE);
 
   if (key_name == NULL && settings == NULL)
-    return g_hash_table_contains (self->keys, path);
+    return g_hash_table_contains (self->keys, setting);
 
-  key = g_hash_table_lookup (self->keys, path);
+  key = g_hash_table_lookup (self->keys, setting);
 
   if (G_UNLIKELY (key == NULL))
     return FALSE;

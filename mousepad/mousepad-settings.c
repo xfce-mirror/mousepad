@@ -23,7 +23,7 @@
 
 
 static MousepadSettingsStore *settings_store = NULL;
-static gint settings_init_count = 0;
+static gint                   settings_init_count = 0;
 
 
 
@@ -61,20 +61,20 @@ mousepad_settings_init (void)
 
 
 gboolean
-mousepad_setting_bind (const gchar       *path,
-                       gpointer           object,
-                       const gchar       *prop,
-                       GSettingsBindFlags flags)
+mousepad_setting_bind (const gchar        *setting,
+                       gpointer            object,
+                       const gchar        *prop,
+                       GSettingsBindFlags  flags)
 {
   gboolean     result = FALSE;
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_val_if_fail (path != NULL, FALSE);
+  g_return_val_if_fail (setting != NULL, FALSE);
   g_return_val_if_fail (G_IS_OBJECT (object), FALSE);
   g_return_val_if_fail (prop != NULL, FALSE);
 
-  if (mousepad_settings_store_lookup (settings_store, path, &key_name, &settings))
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     {
       g_settings_bind (settings, key_name, object, prop, flags);
       return TRUE;
@@ -86,19 +86,19 @@ mousepad_setting_bind (const gchar       *path,
 
 
 gulong
-mousepad_setting_connect (const gchar   *path,
-                           GCallback     callback,
-                           gpointer      user_data,
-                           GConnectFlags connect_flags)
+mousepad_setting_connect (const gchar   *setting,
+                          GCallback      callback,
+                          gpointer       user_data,
+                          GConnectFlags  connect_flags)
 {
   gulong       signal_id = 0;
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_val_if_fail (path != NULL, 0);
+  g_return_val_if_fail (setting != NULL, 0);
   g_return_val_if_fail (callback != NULL, 0);
 
-  if (mousepad_settings_store_lookup (settings_store, path, &key_name, &settings))
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     {
       gchar *signal_name;
 
@@ -120,20 +120,20 @@ mousepad_setting_connect (const gchar   *path,
 
 
 gulong
-mousepad_setting_connect_object (const gchar  *path,
-                                 GCallback     callback,
-                                 gpointer      gobject,
-                                 GConnectFlags connect_flags)
+mousepad_setting_connect_object (const gchar   *setting,
+                                 GCallback      callback,
+                                 gpointer       gobject,
+                                 GConnectFlags  connect_flags)
 {
   gulong       signal_id = 0;
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_val_if_fail (path != NULL, 0);
+  g_return_val_if_fail (setting != NULL, 0);
   g_return_val_if_fail (callback != NULL, 0);
   g_return_val_if_fail (G_IS_OBJECT (gobject), 0);
 
-  if (mousepad_settings_store_lookup (settings_store, path, &key_name, &settings))
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     {
       gchar *signal_name;
 
@@ -154,15 +154,15 @@ mousepad_setting_connect_object (const gchar  *path,
 
 
 void
-mousepad_setting_disconnect (const gchar *path,
+mousepad_setting_disconnect (const gchar *setting,
                              gulong       handler_id)
 {
   GSettings *settings;
 
-  g_return_if_fail (path != NULL);
+  g_return_if_fail (setting != NULL);
   g_return_if_fail (handler_id > 0);
 
-  settings = mousepad_settings_store_lookup_settings (settings_store, path);
+  settings = mousepad_settings_store_lookup_settings (settings_store, setting);
 
   if (G_IS_SETTINGS (settings))
     g_signal_handler_disconnect (settings, handler_id);
@@ -173,7 +173,7 @@ mousepad_setting_disconnect (const gchar *path,
 
 
 gboolean
-mousepad_setting_get (const gchar *path,
+mousepad_setting_get (const gchar *setting,
                       const gchar *format_string,
                       ...)
 {
@@ -181,10 +181,10 @@ mousepad_setting_get (const gchar *path,
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_val_if_fail (path != NULL, FALSE);
+  g_return_val_if_fail (setting != NULL, FALSE);
   g_return_val_if_fail (format_string != NULL, FALSE);
 
-  if (mousepad_settings_store_lookup (settings_store, path, &key_name, &settings))
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     {
       GVariant *variant;
       va_list   ap;
@@ -206,7 +206,7 @@ mousepad_setting_get (const gchar *path,
 
 
 gboolean
-mousepad_setting_set (const gchar *path,
+mousepad_setting_set (const gchar *setting,
                       const gchar *format_string,
                       ...)
 {
@@ -214,10 +214,10 @@ mousepad_setting_set (const gchar *path,
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_val_if_fail (path != NULL, FALSE);
+  g_return_val_if_fail (setting != NULL, FALSE);
   g_return_val_if_fail (format_string != NULL, FALSE);
 
-  if (mousepad_settings_store_lookup (settings_store, path, &key_name, &settings))
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     {
       GVariant *variant;
       va_list   ap;
@@ -242,10 +242,10 @@ mousepad_setting_set (const gchar *path,
 
 
 gboolean
-mousepad_setting_get_boolean (const gchar *path)
+mousepad_setting_get_boolean (const gchar *setting)
 {
   gboolean value = FALSE;
-  gboolean result = mousepad_setting_get (path, "b", &value);
+  gboolean result = mousepad_setting_get (setting, "b", &value);
   g_warn_if_fail (result);
   return value;
 }
@@ -253,19 +253,19 @@ mousepad_setting_get_boolean (const gchar *path)
 
 
 void
-mousepad_setting_set_boolean (const gchar *path,
+mousepad_setting_set_boolean (const gchar *setting,
                               gboolean     value)
 {
-  mousepad_setting_set (path, "b", value);
+  mousepad_setting_set (setting, "b", value);
 }
 
 
 
 gint
-mousepad_setting_get_int (const gchar *path)
+mousepad_setting_get_int (const gchar *setting)
 {
   gint     value = 0;
-  gboolean result = mousepad_setting_get (path, "i", &value);
+  gboolean result = mousepad_setting_get (setting, "i", &value);
   g_warn_if_fail (result);
   return value;
 }
@@ -273,19 +273,19 @@ mousepad_setting_get_int (const gchar *path)
 
 
 void
-mousepad_setting_set_int (const gchar *path,
+mousepad_setting_set_int (const gchar *setting,
                           gint         value)
 {
-  mousepad_setting_set (path, "i", value);
+  mousepad_setting_set (setting, "i", value);
 }
 
 
 
 gchar *
-mousepad_setting_get_string (const gchar *path)
+mousepad_setting_get_string (const gchar *setting)
 {
-  gchar   *value = NULL;
-  gboolean result = mousepad_setting_get (path, "s", &value);
+  gchar    *value = NULL;
+  gboolean  result = mousepad_setting_get (setting, "s", &value);
   g_warn_if_fail (result);
   return value;
 }
@@ -293,24 +293,24 @@ mousepad_setting_get_string (const gchar *path)
 
 
 void
-mousepad_setting_set_string (const gchar *path,
+mousepad_setting_set_string (const gchar *setting,
                              const gchar *value)
 {
-  mousepad_setting_set (path, "s", value != NULL ? value : "");
+  mousepad_setting_set (setting, "s", value != NULL ? value : "");
 }
 
 
 
 gint
-mousepad_setting_get_enum (const gchar *path)
+mousepad_setting_get_enum (const gchar *setting)
 {
   gint         result = 0;
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_val_if_fail (path != NULL, FALSE);
+  g_return_val_if_fail (setting != NULL, FALSE);
 
-  if (mousepad_settings_store_lookup (settings_store, path, &key_name, &settings))
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     result = g_settings_get_enum (settings, key_name);
   else
     g_warn_if_reached ();
@@ -321,16 +321,29 @@ mousepad_setting_get_enum (const gchar *path)
 
 
 void
-mousepad_setting_set_enum (const gchar *path,
+mousepad_setting_set_enum (const gchar *setting,
                            gint         value)
 {
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_if_fail (path != NULL);
+  g_return_if_fail (setting != NULL);
 
-  if (mousepad_settings_store_lookup (settings_store, path, &key_name, &settings))
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     g_settings_set_enum (settings, key_name, value);
   else
     g_warn_if_reached ();
+}
+
+
+
+gboolean
+mousepad_setting_has_setting (const gchar *setting)
+{
+  const gchar *key_name = NULL;
+  GSettings   *settings = NULL;
+
+  g_return_val_if_fail (setting != NULL, FALSE);
+
+  return mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings);
 }
