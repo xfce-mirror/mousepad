@@ -138,15 +138,15 @@
     <data>
       <row>
         <col id="0">0</col>
-        <col id="1" translatable="yes" comments="Preceded by: &quot;Open files in:&quot;">new tabs</col>
+        <col id="1" translatable="yes">Open files in new tabs</col>
       </row>
       <row>
         <col id="0">1</col>
-        <col id="1" translatable="yes" comments="Preceded by: &quot;Open files in:&quot;">new windows</col>
+        <col id="1" translatable="yes">Open files in new windows</col>
       </row>
       <row>
         <col id="0">2</col>
-        <col id="1" translatable="yes" comments="Preceded by: &quot;Open files in:&quot;">new tabs in a new window</col>
+        <col id="1" translatable="yes">Open files in new tabs in a new window</col>
       </row>
     </data>
   </object>
@@ -893,7 +893,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="yalign">0.55000001192092896</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -913,19 +912,6 @@
                     <property name="margin_end">0</property>
                     <property name="spacing">6</property>
                     <child>
-                      <object class="GtkLabel" id="/prefs/window/notebook/opening-mode-label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Open files in:</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkComboBox" id="/prefs/window/notebook/opening-mode-combo">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -941,13 +927,13 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="position">1</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
