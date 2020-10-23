@@ -38,16 +38,16 @@ GType                  mousepad_settings_store_get_type        (void);
 
 MousepadSettingsStore *mousepad_settings_store_new             (void);
 
-const gchar           *mousepad_settings_store_lookup_key_name (MousepadSettingsStore *store,
-                                                                const gchar           *path);
+const gchar           *mousepad_settings_store_lookup_key_name (MousepadSettingsStore  *store,
+                                                                const gchar            *setting);
 
-GSettings             *mousepad_settings_store_lookup_settings (MousepadSettingsStore *store,
-                                                                const gchar           *path);
+GSettings             *mousepad_settings_store_lookup_settings (MousepadSettingsStore  *store,
+                                                                const gchar            *setting);
 
-gboolean               mousepad_settings_store_lookup          (MousepadSettingsStore *store,
-                                                                const gchar           *path,
-                                                                const gchar          **key_name,
-                                                                GSettings            **settings);
+gboolean               mousepad_settings_store_lookup          (MousepadSettingsStore  *store,
+                                                                const gchar            *setting,
+                                                                const gchar           **key_name,
+                                                                GSettings             **settings);
 
 G_END_DECLS
 
