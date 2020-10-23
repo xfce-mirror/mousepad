@@ -58,6 +58,10 @@ enum
   ERROR_FILE_STATUS_FAILED = -4
 };
 
+/* Mousepad id, common to application, icon, settings, etc. */
+#define MOUSEPAD_ID     "org.xfce.mousepad"
+#define MOUSEPAD_ID_LEN G_N_ELEMENTS (MOUSEPAD_ID) - 1
+
 /* config file locations */
 #define MOUSEPAD_RC_RELPATH     ("Mousepad" G_DIR_SEPARATOR_S "mousepadrc")
 #define MOUSEPAD_ACCELS_RELPATH ("Mousepad" G_DIR_SEPARATOR_S "accels.scm")
