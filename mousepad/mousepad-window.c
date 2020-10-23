@@ -5187,8 +5187,9 @@ mousepad_window_action_replace (GSimpleAction *action,
       /* create a new dialog */
       window->replace_dialog = mousepad_replace_dialog_new ();
 
-      /* set parent window */
+      /* destroy with parent window but not modal, in particular to be able to select text */
       gtk_window_set_transient_for (GTK_WINDOW (window->replace_dialog), GTK_WINDOW (window));
+      gtk_window_set_destroy_with_parent (GTK_WINDOW (window->replace_dialog), TRUE);
 
       /* add the dialog to the application windows list */
       gtk_window_set_application (GTK_WINDOW (window->replace_dialog),
