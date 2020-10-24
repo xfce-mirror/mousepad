@@ -50,6 +50,8 @@ static void        mousepad_application_new_window                (MousepadWindo
                                                                    MousepadApplication      *application);
 static void        mousepad_application_create_languages_menu     (MousepadApplication      *application);
 static void        mousepad_application_create_style_schemes_menu (MousepadApplication      *application);
+static void        mousepad_application_destroy_orphans           (MousepadApplication      *application,
+                                                                   GtkWindow                *removed);
 static void        mousepad_application_action_quit               (GSimpleAction            *action,
                                                                    GVariant                 *value,
                                                                    gpointer                  data);
@@ -237,6 +239,11 @@ mousepad_application_startup (GApplication *gapplication)
   /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
   mousepad_application_create_style_schemes_menu (application);
+
+  /* be sure to quit when the last MousepadWindow is closed */
+  g_signal_connect (application, "window-removed",
+                    G_CALLBACK (mousepad_application_destroy_orphans),
+                    NULL);
 }
 
 
@@ -724,6 +731,28 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
 
 
 static void
+mousepad_application_destroy_orphans (MousepadApplication *application,
+                                      GtkWindow           *removed)
+{
+  GList *windows, *window;
+
+  if (MOUSEPAD_IS_WINDOW (removed))
+    {
+      /* check if there is a MousepadWindow left */
+      windows = gtk_application_get_windows (GTK_APPLICATION (application));
+      for (window = windows; window != NULL; window = window->next)
+        if (MOUSEPAD_IS_WINDOW (window->data))
+          break;
+
+      /* let the "quit" action handle the orphans destruction */
+      if (window == NULL)
+        g_action_group_activate_action (G_ACTION_GROUP (application), "quit", NULL);
+    }
+}
+
+
+
+static void
 mousepad_application_dispatch_source (GSource *source)
 {
   g_source_set_ready_time (source, 0);
@@ -795,6 +824,9 @@ mousepad_application_action_quit (GSimpleAction *action,
 {
   GSource *source;
   guint    id;
+
+  /* prevent conflicts with other exit cases */
+  mousepad_disconnect_by_func (data, mousepad_application_destroy_orphans, NULL);
 
   /* create a timeout to force windows destruction as a last resort */
   id = g_timeout_add (500, G_SOURCE_FUNC (mousepad_application_handle_active_window), data);
