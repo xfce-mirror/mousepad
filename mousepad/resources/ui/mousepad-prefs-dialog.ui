@@ -932,7 +932,12 @@
                         <property name="model">/prefs/window/notebook/opening-mode-model</property>
                         <property name="active">0</property>
                         <child>
-                          <object class="GtkCellRendererText" id="/prefs/window/notebook/opening-mode/cellrenderer"/>
+                          <object class="GtkCellRendererText" id="/prefs/window/notebook/opening-mode/cellrenderer">
+                            <property name="wrap-mode">PANGO_WRAP_WORD_CHAR</property>
+                            <property name="wrap-width">30</property>
+                            <property name="width-chars">20</property>
+                            <property name="max-width-chars">30</property>
+                          </object>
                           <attributes>
                             <attribute name="text">1</attribute>
                           </attributes>
