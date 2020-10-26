@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-18 00:56+0200\n"
-"PO-Revision-Date: 2020-10-22 20:55+0000\n"
+"PO-Revision-Date: 2020-10-26 15:46+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/xfce/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -1225,7 +1225,7 @@ msgstr "Tre blanksteg"
 
 #: ../mousepad/resources/gtk/menus.ui.h:125
 msgid "Four spaces"
-msgstr ""
+msgstr "Fyra blanksteg"
 
 #: ../mousepad/resources/gtk/menus.ui.h:126
 msgid "Eight spaces"
@@ -1253,7 +1253,7 @@ msgstr "_Filtyp"
 
 #: ../mousepad/resources/gtk/menus.ui.h:132
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "Språk att använda för syntaxmarkering"
 
 #: ../mousepad/resources/gtk/menus.ui.h:133
 msgid "Plain Text"
