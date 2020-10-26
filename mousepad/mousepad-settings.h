@@ -126,6 +126,9 @@ gint      mousepad_setting_get_enum       (const gchar       *setting);
 
 void      mousepad_setting_set_enum       (const gchar       *setting,
                                            gint               value);
+GVariant *mousepad_setting_get_variant    (const gchar       *setting);
+void      mousepad_setting_set_variant    (const gchar       *setting,
+                                           GVariant          *variant);
 
 /* wrappers for above read/write functions with shorter arguments */
 
