@@ -335,3 +335,41 @@ mousepad_setting_set_enum (const gchar *setting,
   else
     g_warn_if_reached ();
 }
+
+
+
+GVariant *
+mousepad_setting_get_variant (const gchar *setting)
+{
+  GVariant    *variant = NULL;
+  const gchar *key_name = NULL;
+  GSettings   *settings = NULL;
+
+  g_return_val_if_fail (setting != NULL, FALSE);
+
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
+    variant = g_settings_get_value (settings, key_name);
+
+  return variant;
+}
+
+
+
+void
+mousepad_setting_set_variant (const gchar *setting,
+                              GVariant    *variant)
+{
+  const gchar *key_name = NULL;
+  GSettings   *settings = NULL;
+
+  g_return_if_fail (setting != NULL);
+
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
+    {
+      g_variant_ref_sink (variant);
+      g_settings_set_value (settings, key_name, variant);
+      g_variant_unref (variant);
+    }
+  else
+    g_warn_if_reached ();
+}
