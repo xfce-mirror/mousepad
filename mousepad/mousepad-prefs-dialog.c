@@ -26,40 +26,20 @@
 #define WID_NOTEBOOK                        "/prefs/main-notebook"
 
 /* View page */
-#define WID_SHOW_LINE_NUMBERS_CHECK         "/prefs/view/display/show-line-numbers-check"
-#define WID_SHOW_WHITESPACE_CHECK           "/prefs/view/display/display-whitespace-check"
-#define WID_SHOW_LINE_ENDINGS_CHECK         "/prefs/view/display/display-line-endings-check"
-#define WID_SHOW_RIGHT_MARGIN_CHECK         "/prefs/view/display/long-line-check"
 #define WID_RIGHT_MARGIN_SPIN               "/prefs/view/display/long-line-spin"
-#define WID_HIGHLIGHT_CURRENT_LINE_CHECK    "/prefs/view/display/highlight-current-line-check"
-#define WID_MATCH_BRACES_CHECK              "/prefs/view/display/match-braces-check"
-#define WID_WORD_WRAP_CHECK                 "/prefs/view/display/word-wrap-check"
-
-#define WID_USE_DEFAULT_FONT_CHECK          "/prefs/view/font/default-check"
 #define WID_FONT_BUTTON                     "/prefs/view/font/chooser-button"
-#define WID_SCHEME_COMBO                    "/prefs/view/color-scheme-combo"
-#define WID_SCHEME_MODEL                    "/prefs/view/color-scheme-model"
+#define WID_SCHEME_COMBO                    "/prefs/view/color-scheme/combo"
+#define WID_SCHEME_MODEL                    "/prefs/view/color-scheme/model"
 
 /* Editor page */
-#define WID_TAB_WIDTH_SPIN                  "/prefs/editor/tab-width-spin"
-#define WID_TAB_MODE_COMBO                  "/prefs/editor/tab-mode-combo"
-#define WID_AUTO_INDENT_CHECK               "/prefs/editor/auto-indent-check"
-#define WID_SMART_HOME_END_COMBO            "/prefs/editor/smart-home-end-combo"
+#define WID_TAB_WIDTH_SPIN                  "/prefs/editor/indentation/tab-width-spin"
+#define WID_TAB_MODE_COMBO                  "/prefs/editor/indentation/tab-mode-combo"
+#define WID_SMART_HOME_END_COMBO            "/prefs/editor/home-end/smart-home-end-combo"
 
 /* Window page */
-#define WID_STATUSBAR_VISIBLE_CHECK         "/prefs/window/general/show-statusbar-check"
-#define WID_PATH_IN_TITLE_CHECK             "/prefs/window/general/show-path-in-title-check"
-#define WID_REMEMBER_SIZE_CHECK             "/prefs/window/general/remember-window-size-check"
-#define WID_REMEMBER_POSITION_CHECK         "/prefs/window/general/remember-window-position-check"
-#define WID_REMEMBER_STATE_CHECK            "/prefs/window/general/remember-window-state-check"
-#define WID_ALWAYS_SHOW_TABS_CHECK          "/prefs/window/notebook/always-show-tabs-check"
-#define WID_CYCLE_TABS_CHECK                "/prefs/window/notebook/cycle-tabs-check"
-#define WID_OPENING_MODE_COMBO              "/prefs/window/notebook/opening-mode-combo"
-#define WID_TOOLBAR_VISIBLE_CHECK           "/prefs/window/toolbar/visible-check"
 #define WID_TOOLBAR_STYLE_COMBO             "/prefs/window/toolbar/style-combo"
-#define WID_TOOLBAR_STYLE_LABEL             "/prefs/window/toolbar/style-label"
 #define WID_TOOLBAR_ICON_SIZE_COMBO         "/prefs/window/toolbar/icon-size-combo"
-#define WID_TOOLBAR_ICON_SIZE_LABEL         "/prefs/window/toolbar/icon-size-label"
+#define WID_OPENING_MODE_COMBO              "/prefs/window/notebook/opening-mode-combo"
 
 
 
@@ -433,11 +413,11 @@ mousepad_prefs_dialog_opening_mode_setting_changed (MousepadPrefsDialog *self,
 static void
 mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 {
-  GError *error = NULL;
+  GError    *error = NULL;
   GtkWidget *notebook;
   GtkWidget *content_area;
   GtkWidget *button;
-  GtkWidget *check, *widget;
+  GtkWidget *widget;
 
   self->builder = gtk_builder_new ();
 
@@ -450,6 +430,10 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
       /* not reached */
       g_error_free (error);
     }
+
+  /* make the application actions usable in the prefs dialog */
+  gtk_widget_insert_action_group (GTK_WIDGET (self), "app",
+                                  G_ACTION_GROUP (g_application_get_default ()));
 
   /* add the Glade/GtkBuilder notebook into this dialog */
   notebook = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
@@ -467,17 +451,6 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   gtk_window_set_title (GTK_WINDOW (self), _("Preferences"));
   gtk_window_set_icon_name (GTK_WINDOW (self), "preferences-desktop");
 
-  /* enable/disable right margin spin button when checkbox is changed */
-  check = mousepad_builder_get_widget (self->builder, WID_SHOW_RIGHT_MARGIN_CHECK);
-  widget = mousepad_builder_get_widget (self->builder, WID_RIGHT_MARGIN_SPIN);
-  g_object_bind_property (check, "active", widget, "sensitive", G_BINDING_SYNC_CREATE);
-
-  /* enable/disable font chooser button when the default font checkbox is changed */
-  check = mousepad_builder_get_widget (self->builder, WID_USE_DEFAULT_FONT_CHECK);
-  widget = mousepad_builder_get_widget (self->builder, WID_FONT_BUTTON);
-  g_object_bind_property (check, "active", widget, "sensitive",
-                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
-
   /* setup tab mode combo box */
   widget = mousepad_builder_get_widget (self->builder, WID_TAB_MODE_COMBO);
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_BOOLEAN (INSERT_SPACES));
@@ -486,57 +459,13 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   widget = mousepad_builder_get_widget (self->builder, WID_SMART_HOME_END_COMBO);
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (SMART_HOME_END));
 
-  /* enable/disable toolbar-related widgets when checkbox changes */
-  check = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_VISIBLE_CHECK);
-
-  widget = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_STYLE_LABEL);
-  g_object_bind_property (check, "active", widget, "sensitive", G_BINDING_SYNC_CREATE);
-  widget = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_STYLE_COMBO);
-  g_object_bind_property (check, "active", widget, "sensitive", G_BINDING_SYNC_CREATE);
+  /* setup toolbar-related combo box */
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE));
-
-  widget = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_ICON_SIZE_LABEL);
-  g_object_bind_property (check, "active", widget, "sensitive", G_BINDING_SYNC_CREATE);
-  widget = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_ICON_SIZE_COMBO);
-  g_object_bind_property (check, "active", widget, "sensitive", G_BINDING_SYNC_CREATE);
   mousepad_prefs_dialog_toolbar_icon_size_setting_changed (self, NULL, NULL);
 
   /* setup opening mode combo box */
   widget = mousepad_builder_get_widget (self->builder, WID_OPENING_MODE_COMBO);
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE));
-
-  /* bind checkboxes to settings */
-#define BIND_CHECKBOX(setting)                                           \
-  MOUSEPAD_SETTING_BIND (setting,                                        \
-                         gtk_builder_get_object (self->builder,          \
-                                                 WID_##setting##_CHECK), \
-                         "active",                                       \
-                         G_SETTINGS_BIND_DEFAULT)
-
-  /* View */
-  BIND_CHECKBOX (SHOW_LINE_NUMBERS);
-  BIND_CHECKBOX (SHOW_WHITESPACE);
-  BIND_CHECKBOX (SHOW_LINE_ENDINGS);
-  BIND_CHECKBOX (SHOW_RIGHT_MARGIN);
-  BIND_CHECKBOX (HIGHLIGHT_CURRENT_LINE);
-  BIND_CHECKBOX (WORD_WRAP);
-  BIND_CHECKBOX (USE_DEFAULT_FONT);
-  BIND_CHECKBOX (MATCH_BRACES);
-
-  /* Editor */
-  BIND_CHECKBOX (AUTO_INDENT);
-
-  /* Window */
-  BIND_CHECKBOX (STATUSBAR_VISIBLE);
-  BIND_CHECKBOX (PATH_IN_TITLE);
-  BIND_CHECKBOX (REMEMBER_SIZE);
-  BIND_CHECKBOX (REMEMBER_POSITION);
-  BIND_CHECKBOX (REMEMBER_STATE);
-  BIND_CHECKBOX (ALWAYS_SHOW_TABS);
-  BIND_CHECKBOX (CYCLE_TABS);
-  BIND_CHECKBOX (TOOLBAR_VISIBLE);
-
-#undef BIND_CHECKBOX
 
   /* bind the right-margin-position setting to the spin button */
   MOUSEPAD_SETTING_BIND (RIGHT_MARGIN_POSITION,
