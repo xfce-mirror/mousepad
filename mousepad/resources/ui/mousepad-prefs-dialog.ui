@@ -56,15 +56,15 @@
     <data>
       <row>
         <col id="0">0</col>
-        <col id="1" translatable="yes">Disabled</col>
+        <col id="1" translatable="yes">Never</col>
       </row>
       <row>
         <col id="0">1</col>
-        <col id="1" translatable="yes">Before</col>
+        <col id="1" translatable="yes">First key press</col>
       </row>
       <row>
         <col id="0">2</col>
-        <col id="1" translatable="yes">After</col>
+        <col id="1" translatable="yes">Second key press</col>
       </row>
       <row>
         <col id="0">3</col>
@@ -609,7 +609,7 @@
               <object class="GtkBox" id="/prefs/editor/home-end/content-area">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
                 <property name="margin-start">12</property>
@@ -620,7 +620,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">Behaviour:</property>
+                    <property name="label" translatable="yes">Detect leading/trailing whitespace:</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -629,16 +629,29 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBox" id="/prefs/editor/home-end/smart-home-end-combo">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="model">/prefs/editor/home-end/smart-home-end-model</property>
-                    <property name="active">0</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                     <child>
-                      <object class="GtkCellRendererText"/>
-                      <attributes>
-                        <attribute name="text">1</attribute>
-                      </attributes>
+                      <object class="GtkComboBox" id="/prefs/editor/home-end/smart-home-end-combo">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="model">/prefs/editor/home-end/smart-home-end-model</property>
+                        <property name="active">0</property>
+                        <property name="expand">False</property>
+                        <child>
+                          <object class="GtkCellRendererText"/>
+                          <attributes>
+                            <attribute name="text">1</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>
