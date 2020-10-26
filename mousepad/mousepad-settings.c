@@ -364,7 +364,11 @@ mousepad_setting_set_variant (const gchar *setting,
   g_return_if_fail (setting != NULL);
 
   if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
-    g_settings_set_value (settings, key_name, variant);
+    {
+      g_variant_ref_sink (variant);
+      g_settings_set_value (settings, key_name, variant);
+      g_variant_unref (variant);
+    }
   else
     g_warn_if_reached ();
 }
