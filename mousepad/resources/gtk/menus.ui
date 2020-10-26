@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
 
-  <menu id='menubar'>
+  <menu id="menubar">
 
     <submenu id="file">
       <attribute name="label" translatable="yes">_File</attribute>
@@ -322,7 +322,7 @@
             <item>
               <attribute name="label" translatable="yes">None</attribute>
               <attribute name="tooltip" translatable="yes">No style scheme</attribute>
-              <attribute name="action">win.view.color-scheme</attribute>
+              <attribute name="action">app.preferences.view.color-scheme</attribute>
               <attribute name="target" type="s">'none'</attribute>
             </item>
           </section>
@@ -332,24 +332,24 @@
         <item>
           <attribute name="label" translatable="yes">Line N_umbers</attribute>
           <attribute name="tooltip" translatable="yes">Show line numbers</attribute>
-          <attribute name="action">win.view.line-numbers</attribute>
+          <attribute name="action">app.preferences.view.show-line-numbers</attribute>
         </item>
       </section>
       <section>
         <item>
           <attribute name="label" translatable="yes">_Menubar</attribute>
           <attribute name="tooltip" translatable="yes">Change the visibility of the main menubar</attribute>
-          <attribute name="action">win.view.menubar</attribute>
+          <attribute name="action">win.preferences.window.menubar-visible</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Toolbar</attribute>
           <attribute name="tooltip" translatable="yes">Change the visibility of the toolbar</attribute>
-          <attribute name="action">win.view.toolbar</attribute>
+          <attribute name="action">win.preferences.window.toolbar-visible</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">St_atusbar</attribute>
           <attribute name="tooltip" translatable="yes">Change the visibility of the statusbar</attribute>
-          <attribute name="action">win.view.statusbar</attribute>
+          <attribute name="action">win.preferences.window.statusbar-visible</attribute>
         </item>
       </section>
       <section id="view.fullscreen">
@@ -370,7 +370,7 @@
         <item>
           <attribute name="label" translatable="yes">_Word Wrap</attribute>
           <attribute name="tooltip" translatable="yes">Toggle breaking lines in between words</attribute>
-          <attribute name="action">win.document.word-wrap</attribute>
+          <attribute name="action">app.preferences.view.word-wrap</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Auto Indent</attribute>
@@ -416,7 +416,7 @@
             <item>
               <attribute name="label" translatable="yes">Insert _Spaces</attribute>
               <attribute name="tooltip" translatable="yes">Insert spaces when the tab button is pressed</attribute>
-              <attribute name="action">win.document.tab.insert-spaces</attribute>
+              <attribute name="action">app.preferences.view.insert-spaces</attribute>
             </item>
           </section>
         </submenu>
@@ -505,7 +505,7 @@
 
 
 
-  <menu id='tab-menu'>
+  <menu id="tab-menu">
 
     <section>
       <item>
@@ -549,7 +549,7 @@
 
 
 
-  <menu id='textview-menu'>
+  <menu id="textview-menu">
 
     <section>
       <item>
