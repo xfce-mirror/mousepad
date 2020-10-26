@@ -53,6 +53,15 @@ static void        mousepad_application_create_style_schemes_menu (MousepadAppli
 static void        mousepad_application_action_quit               (GSimpleAction            *action,
                                                                    GVariant                 *value,
                                                                    gpointer                  data);
+static void        mousepad_application_toggle_activate           (GSimpleAction            *action,
+                                                                   GVariant                 *parameter,
+                                                                   gpointer                  data);
+static void        mousepad_application_radio_activate            (GSimpleAction            *action,
+                                                                   GVariant                 *parameter,
+                                                                   gpointer                  data);
+static void        mousepad_application_action_update             (MousepadApplication      *application,
+                                                                   gchar                    *key,
+                                                                   GSettings                *settings);
 
 
 
@@ -107,16 +116,6 @@ static const GOptionEntry option_entries[] =
   { NULL }
 };
 
-
-
-/* application actions */
-static const GActionEntry action_entries[] =
-{
-  { "quit", mousepad_application_action_quit, NULL, NULL, NULL }
-};
-
-
-
 /* opening mode provided on the command line */
 enum
 {
@@ -124,6 +123,48 @@ enum
   WINDOW,
   MIXED
 };
+
+
+
+/* application actions */
+
+/* stateless actions */
+static const GActionEntry stateless_actions[] =
+{
+  /* command line options */
+  { "quit", mousepad_application_action_quit, NULL, NULL, NULL }
+};
+#define N_STATELESS G_N_ELEMENTS (stateless_actions)
+
+/* preferences dialog */
+static const GActionEntry setting_actions[] =
+{
+  /* "View" tab */
+  { MOUSEPAD_SETTING_SHOW_LINE_NUMBERS, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_SHOW_WHITESPACE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_SHOW_LINE_ENDINGS, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_SHOW_RIGHT_MARGIN, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_HIGHLIGHT_CURRENT_LINE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_MATCH_BRACES, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_WORD_WRAP, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_USE_DEFAULT_FONT, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_COLOR_SCHEME, mousepad_application_radio_activate, "s", "'none'", NULL },
+
+  /* "Editor" tab */
+  { MOUSEPAD_SETTING_INSERT_SPACES, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_AUTO_INDENT, mousepad_application_toggle_activate, NULL, "false", NULL },
+
+  /* "Window" tab */
+  { MOUSEPAD_SETTING_STATUSBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_PATH_IN_TITLE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_REMEMBER_SIZE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_REMEMBER_POSITION, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_REMEMBER_STATE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_TOOLBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_ALWAYS_SHOW_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_CYCLE_TABS, mousepad_application_toggle_activate, NULL, "false", NULL }
+};
+#define N_SETTING G_N_ELEMENTS (setting_actions)
 
 
 
@@ -219,6 +260,8 @@ static void
 mousepad_application_startup (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  GVariant            *state;
+  guint                n;
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
@@ -231,8 +274,23 @@ mousepad_application_startup (GApplication *gapplication)
   mousepad_settings_init ();
 
   /* add application actions */
-  g_action_map_add_action_entries (G_ACTION_MAP (application), action_entries,
-                                   G_N_ELEMENTS (action_entries), application);
+  g_action_map_add_action_entries (G_ACTION_MAP (application), stateless_actions,
+                                   N_STATELESS, application);
+  g_action_map_add_action_entries (G_ACTION_MAP (application), setting_actions,
+                                   N_SETTING, application);
+
+  for (n = 0; n < N_SETTING; n++)
+    {
+      /* sync the action state to its setting */
+      mousepad_setting_connect_object (setting_actions[n].name,
+                                       G_CALLBACK (mousepad_application_action_update),
+                                       application, G_CONNECT_SWAPPED);
+
+      /* initialize the action state */
+      state = mousepad_setting_get_variant (setting_actions[n].name);
+      g_action_group_change_action_state (G_ACTION_GROUP (application), setting_actions[n].name, state);
+      g_variant_unref (state);
+    }
 
   /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
@@ -691,7 +749,7 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
     {
       /* create menu item */
       label = gtk_source_style_scheme_get_id (iter->data);
-      action_name = g_strconcat ("win.view.color-scheme('", label, "')", NULL);
+      action_name = g_strconcat ("app.preferences.view.color-scheme('", label, "')", NULL);
       label = gtk_source_style_scheme_get_name (iter->data);
       item = g_menu_item_new (label, action_name);
 
@@ -725,4 +783,53 @@ mousepad_application_action_quit (GSimpleAction *action,
                                   gpointer       data)
 {
   g_application_quit (G_APPLICATION (data));
+}
+
+
+
+static void
+mousepad_application_toggle_activate (GSimpleAction *action,
+                                      GVariant      *parameter,
+                                      gpointer       data)
+{
+  gboolean state;
+
+  /* save the setting */
+  state = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+  mousepad_setting_set_boolean (g_action_get_name (G_ACTION (action)), state);
+}
+
+
+
+static void
+mousepad_application_radio_activate (GSimpleAction *action,
+                                     GVariant      *parameter,
+                                     gpointer       data)
+{
+  /* save the setting */
+  mousepad_setting_set_variant (g_action_get_name (G_ACTION (action)), parameter);
+}
+
+
+
+static void
+mousepad_application_action_update (MousepadApplication *application,
+                                    gchar               *key,
+                                    GSettings           *settings)
+{
+  GVariant *state;
+  gchar    *schema_id, *action_name;
+
+  /* retrieve the action name from the setting schema id */
+  g_object_get (settings, "schema_id", &schema_id, NULL);
+  action_name = g_strdup_printf ("%s.%s", schema_id + MOUSEPAD_ID_LEN + 1, key);
+
+  /* request for the action state to be changed according to the setting */
+  state = mousepad_setting_get_variant (action_name);
+  g_action_group_change_action_state (G_ACTION_GROUP (application), action_name, state);
+
+  /* cleanup */
+  g_free (schema_id);
+  g_free (action_name);
+  g_variant_unref (state);
 }
