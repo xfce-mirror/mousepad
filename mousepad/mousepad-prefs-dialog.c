@@ -26,6 +26,8 @@
 #define WID_NOTEBOOK                        "/prefs/main-notebook"
 
 /* View page */
+#define WID_SHOW_WHITESPACE_BUTTON          "/prefs/view/display/show-whitespace-button"
+#define WID_SHOW_WHITESPACE_MENU            "/prefs/view/display/show-whitespace-button/menu"
 #define WID_RIGHT_MARGIN_SPIN               "/prefs/view/display/long-line-spin"
 #define WID_FONT_BUTTON                     "/prefs/view/font/chooser-button"
 #define WID_SCHEME_COMBO                    "/prefs/view/color-scheme/combo"
@@ -99,6 +101,47 @@ mousepad_prefs_dialog_finalize (GObject *object)
     g_object_unref (self->builder);
 
   G_OBJECT_CLASS (mousepad_prefs_dialog_parent_class)->finalize (object);
+}
+
+
+
+static void
+mousepad_prefs_dialog_whitespace_popover_closed (MousepadPrefsDialog *self)
+{
+  GtkSourceSpaceTypeFlags      type_flags;
+  GtkSourceSpaceLocationFlags  location_flags;
+  GApplication                *application;
+
+  /* retrieve the whitespace display flags from the application properties */
+  application = g_application_get_default ();
+  g_object_get (application, "space-type", &type_flags, NULL);
+  g_object_get (application, "space-location", &location_flags, NULL);
+
+  /* if no space type or no space location are shown, the whole setting is disabled */
+  if (type_flags == GTK_SOURCE_SPACE_TYPE_NONE
+      || location_flags == GTK_SOURCE_SPACE_LOCATION_NONE)
+    g_action_group_activate_action (G_ACTION_GROUP (application), MOUSEPAD_SETTING_SHOW_WHITESPACE, NULL);
+}
+
+
+
+/* open the popover when the whitespace button is clicked */
+static void
+mousepad_prefs_dialog_whitespace_button_clicked (MousepadPrefsDialog *self,
+                                                 GtkButton           *button)
+{
+  GObject   *model;
+  GtkWidget *popover;
+
+  self->blocked = TRUE;
+
+  model = gtk_builder_get_object (self->builder, WID_SHOW_WHITESPACE_MENU);
+  popover = gtk_popover_new_from_model (GTK_WIDGET (button), G_MENU_MODEL (model));
+  g_signal_connect_swapped (popover, "closed",
+                            G_CALLBACK (mousepad_prefs_dialog_whitespace_popover_closed), self);
+  gtk_widget_show (popover);
+
+  self->blocked = FALSE;
 }
 
 
@@ -466,6 +509,12 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* setup opening mode combo box */
   widget = mousepad_builder_get_widget (self->builder, WID_OPENING_MODE_COMBO);
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE));
+
+  /* open the popover when the whitespace button is clicked */
+  g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_SHOW_WHITESPACE_BUTTON),
+                            "clicked",
+                            G_CALLBACK (mousepad_prefs_dialog_whitespace_button_clicked),
+                            self);
 
   /* bind the right-margin-position setting to the spin button */
   MOUSEPAD_SETTING_BIND (RIGHT_MARGIN_POSITION,
