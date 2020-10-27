@@ -100,11 +100,6 @@ void            mousepad_view_set_show_whitespace       (MousepadView      *view
 
 gboolean        mousepad_view_get_show_whitespace       (MousepadView      *view);
 
-void            mousepad_view_set_show_line_endings     (MousepadView      *view,
-                                                         gboolean           show);
-
-gboolean        mousepad_view_get_show_line_endings     (MousepadView      *view);
-
 void            mousepad_view_set_color_scheme          (MousepadView      *view,
                                                          const gchar       *color_scheme);
 
