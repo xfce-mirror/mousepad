@@ -108,18 +108,15 @@ mousepad_prefs_dialog_finalize (GObject *object)
 static void
 mousepad_prefs_dialog_whitespace_popover_closed (MousepadPrefsDialog *self)
 {
-  GtkSourceSpaceTypeFlags      type_flags;
   GtkSourceSpaceLocationFlags  location_flags;
   GApplication                *application;
 
   /* retrieve the whitespace display flags from the application properties */
   application = g_application_get_default ();
-  g_object_get (application, "space-type", &type_flags, NULL);
   g_object_get (application, "space-location", &location_flags, NULL);
 
-  /* if no space type or no space location are shown, the whole setting is disabled */
-  if (type_flags == GTK_SOURCE_SPACE_TYPE_NONE
-      || location_flags == GTK_SOURCE_SPACE_LOCATION_NONE)
+  /* if no space location is shown, the whole setting is disabled */
+  if (location_flags == GTK_SOURCE_SPACE_LOCATION_NONE)
     g_action_group_activate_action (G_ACTION_GROUP (application), MOUSEPAD_SETTING_SHOW_WHITESPACE, NULL);
 }
 
