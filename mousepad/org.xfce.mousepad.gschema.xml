@@ -84,7 +84,15 @@
       <summary>Show whitespace</summary>
       <description>
         When true whitespace will be visualized in the view.
-        See details under show-whitespace.type and show-whitespace.location.
+        See also 'view.show-line-endings' and the space location keys 'show-whitespace.*'.
+      </description>
+    </key>
+    <key name="show-line-endings" type="b">
+      <default>false</default>
+      <summary>Show line endings</summary>
+      <description>
+        When true newlines will be visualized in the view.
+        See also 'view.show-whitespace'.
       </description>
     </key>
     <key name="highlight-current-line" type="b">
@@ -189,42 +197,6 @@
   </schema>
 
   <schema id="org.xfce.mousepad.preferences.view.show-whitespace" path="/org/xfce/mousepad/preferences/view/show-whitespace/" gettext-domain="mousepad">
-    <child name="type" schema="org.xfce.mousepad.preferences.view.show-whitespace.type"/>
-    <child name="location" schema="org.xfce.mousepad.preferences.view.show-whitespace.location"/>
-  </schema>
-
-  <schema id="org.xfce.mousepad.preferences.view.show-whitespace.type" path="/org/xfce/mousepad/preferences/view/show-whitespace/type/" gettext-domain="mousepad">
-    <key name="space" type="b">
-      <default>true</default>
-      <summary>Show space characters</summary>
-      <description>
-        When true, show space characters. When false, hide them.
-      </description>
-    </key>
-    <key name="tab" type="b">
-      <default>true</default>
-      <summary>Show tab characters</summary>
-      <description>
-        When true, show tab characters. When false, hide them.
-      </description>
-    </key>
-    <key name="newline" type="b">
-      <default>true</default>
-      <summary>Show newline characters</summary>
-      <description>
-        When true, show newline characters. When false, hide them.
-      </description>
-    </key>
-    <key name="non-breaking-space" type="b">
-      <default>true</default>
-      <summary>Show non-breaking space characters</summary>
-      <description>
-        When true, show non-breaking space characters. When false, hide them.
-      </description>
-    </key>
-  </schema>
-
-  <schema id="org.xfce.mousepad.preferences.view.show-whitespace.location" path="/org/xfce/mousepad/preferences/view/show-whitespace/location/" gettext-domain="mousepad">
     <key name="leading" type="b">
       <default>true</default>
       <summary>Show leading white spaces</summary>
