@@ -54,6 +54,7 @@
 
   <!-- Textview preferences -->
   <schema id="org.xfce.mousepad.preferences.view" path="/org/xfce/mousepad/preferences/view/" gettext-domain="mousepad">
+    <child name="show-whitespace" schema="org.xfce.mousepad.preferences.view.show-whitespace"/>
     <key name="auto-indent" type="b">
       <default>false</default>
       <summary>Auto-indentation</summary>
@@ -83,15 +84,7 @@
       <summary>Show whitespace</summary>
       <description>
         When true whitespace will be visualized in the view.
-        See also 'view-show-line-endings'.
-      </description>
-    </key>
-    <key name="show-line-endings" type="b">
-      <default>false</default>
-      <summary>Show line endings</summary>
-      <description>
-        When true newlines will be visualized in the view.
-        See also 'view-show-whitespace'.
+        See details under show-whitespace.type and show-whitespace.location.
       </description>
     </key>
     <key name="highlight-current-line" type="b">
@@ -191,6 +184,66 @@
       <description>
         Name of the color scheme to use to highlight syntax or 'none' for
         no syntax highlighting.
+      </description>
+    </key>
+  </schema>
+
+  <schema id="org.xfce.mousepad.preferences.view.show-whitespace" path="/org/xfce/mousepad/preferences/view/show-whitespace/" gettext-domain="mousepad">
+    <child name="type" schema="org.xfce.mousepad.preferences.view.show-whitespace.type"/>
+    <child name="location" schema="org.xfce.mousepad.preferences.view.show-whitespace.location"/>
+  </schema>
+
+  <schema id="org.xfce.mousepad.preferences.view.show-whitespace.type" path="/org/xfce/mousepad/preferences/view/show-whitespace/type/" gettext-domain="mousepad">
+    <key name="space" type="b">
+      <default>true</default>
+      <summary>Show space characters</summary>
+      <description>
+        When true, show space characters. When false, hide them.
+      </description>
+    </key>
+    <key name="tab" type="b">
+      <default>true</default>
+      <summary>Show tab characters</summary>
+      <description>
+        When true, show tab characters. When false, hide them.
+      </description>
+    </key>
+    <key name="newline" type="b">
+      <default>true</default>
+      <summary>Show newline characters</summary>
+      <description>
+        When true, show newline characters. When false, hide them.
+      </description>
+    </key>
+    <key name="non-breaking-space" type="b">
+      <default>true</default>
+      <summary>Show non-breaking space characters</summary>
+      <description>
+        When true, show non-breaking space characters. When false, hide them.
+      </description>
+    </key>
+  </schema>
+
+  <schema id="org.xfce.mousepad.preferences.view.show-whitespace.location" path="/org/xfce/mousepad/preferences/view/show-whitespace/location/" gettext-domain="mousepad">
+    <key name="leading" type="b">
+      <default>true</default>
+      <summary>Show leading white spaces</summary>
+      <description>
+        When true, show leading white spaces. When false, hide them.
+      </description>
+    </key>
+    <key name="inside" type="b">
+      <default>true</default>
+      <summary>Show white spaces inside a line of text</summary>
+      <description>
+        When true, show white spaces inside a line of text. When false, hide them.
+      </description>
+    </key>
+    <key name="trailing" type="b">
+      <default>true</default>
+      <summary>Show trailing white spaces</summary>
+      <description>
+        When true, show trailing white spaces. When false, hide them.
       </description>
     </key>
   </schema>
