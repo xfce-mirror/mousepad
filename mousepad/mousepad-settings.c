@@ -372,3 +372,16 @@ mousepad_setting_set_variant (const gchar *setting,
   else
     g_warn_if_reached ();
 }
+
+
+
+gboolean
+mousepad_setting_has_setting (const gchar *setting)
+{
+  const gchar *key_name = NULL;
+  GSettings   *settings = NULL;
+
+  g_return_val_if_fail (setting != NULL, FALSE);
+
+  return mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings);
+}
