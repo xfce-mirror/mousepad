@@ -188,7 +188,7 @@ static const GActionEntry dialog_actions[] =
 };
 #define N_DIALOG G_N_ELEMENTS (dialog_actions)
 
-/* "Show Whitespace" popover of the preferences dialog */
+/* whitespace location settings, only accessible from GSettings */
 static const GActionEntry whitespace_actions[] =
 {
   { MOUSEPAD_SETTING_SHOW_WHITESPACE_LEADING, mousepad_application_toggle_activate, NULL,
@@ -984,6 +984,10 @@ mousepad_application_action_update (MousepadApplication *application,
 
 
 
+/*
+ * This job is done only once here, when whitespace location settings are updated,
+ * then all the views update their own location flags from those of the application.
+ */
 static void
 mousepad_application_action_whitespace (GSimpleAction *action,
                                         GVariant      *state,
