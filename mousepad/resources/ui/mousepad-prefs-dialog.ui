@@ -158,23 +158,6 @@
     </data>
   </object>
 
-  <menu id="/prefs/view/display/show-whitespace-button/menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Leading white spaces</attribute>
-        <attribute name="action">app.preferences.view.show-whitespace.leading</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Inside a line of text</attribute>
-        <attribute name="action">app.preferences.view.show-whitespace.inside</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Trailing white spaces</attribute>
-        <attribute name="action">app.preferences.view.show-whitespace.trailing</attribute>
-      </item>
-    </section>
-  </menu>
-
 
 
   <object class="GtkNotebook" id="/prefs/main-notebook">
@@ -220,49 +203,16 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkCheckButton">
+                    <property name="label" translatable="yes">Display whitespace</property>
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
-                    <property name="spacing">6</property>
-                    <child>
-                      <object class="GtkCheckButton" id="/prefs/view/display/show-whitespace-check">
-                        <property name="label" translatable="yes">Display whitespace:</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="draw-indicator">True</property>
-                        <property name="action-name">app.preferences.view.show-whitespace</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="/prefs/view/display/show-whitespace-button">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="can-focus">True</property>
-                        <property name="sensitive" bind-source="/prefs/view/display/show-whitespace-check"
-                                  bind-property="active" bind-flags="G_BINDING_SYNC_CREATE"/>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="visible">True</property>
-                            <property name="icon-name">preferences-system</property>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="draw-indicator">True</property>
+                    <property name="action-name">app.preferences.view.show-whitespace</property>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
