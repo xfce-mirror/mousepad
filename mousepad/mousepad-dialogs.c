@@ -25,7 +25,6 @@
 void
 mousepad_dialogs_show_about (GtkWindow *parent)
 {
-  GList *windows, *window;
   static const gchar *authors[] =
   {
     "Nick Schermer <nick@xfce.org>",
@@ -47,18 +46,6 @@ mousepad_dialogs_show_about (GtkWindow *parent)
                          "translator-credits", _("translator-credits"),
                          "website", "https://docs.xfce.org/apps/mousepad/start",
                          NULL);
-
-  /* retrieve the dialog window and add it to the application windows list */
-  windows = gtk_window_list_toplevels ();
-  for (window = windows; window != NULL; window = window->next)
-    if (GTK_IS_ABOUT_DIALOG (window->data) && gtk_window_get_transient_for (window->data) == parent)
-      {
-        gtk_window_set_application (GTK_WINDOW (window->data), gtk_window_get_application (parent));
-        break;
-      }
-
-  /* cleanup */
-  g_list_free (windows);
 }
 
 
@@ -76,9 +63,6 @@ mousepad_dialogs_show_error (GtkWindow    *parent,
                                    GTK_MESSAGE_ERROR,
                                    GTK_BUTTONS_CLOSE,
                                    "%s.", message);
-
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* set secondary text if an error is provided */
   if (G_LIKELY (error != NULL))
@@ -152,9 +136,6 @@ mousepad_dialogs_other_tab_size (GtkWindow *parent,
                                         _("_OK"), MOUSEPAD_RESPONSE_OK,
                                         NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_OK);
-
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* create scale widget */
   scale = gtk_scale_new_with_range (GTK_ORIENTATION_HORIZONTAL, 1, 32, 1);
@@ -239,9 +220,6 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_JUMP_TO);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_JUMP_TO);
   gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -347,9 +325,6 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
   gtk_window_set_default_size (GTK_WINDOW (dialog), 400, -1);
 
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
-
   /* the content area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
@@ -413,9 +388,6 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
                                 mousepad_util_image_button ("edit-delete", _("_Don't Save")),
                                 MOUSEPAD_RESPONSE_DONT_SAVE);
-
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* we show the save as button instead of save for readonly document */
   if (G_UNLIKELY (readonly))
@@ -496,9 +468,6 @@ mousepad_dialogs_externally_modified (GtkWindow *parent)
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
-
   /* run the dialog */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
 
@@ -529,9 +498,6 @@ mousepad_dialogs_revert (GtkWindow *parent)
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
   button = mousepad_util_image_button ("document-revert", _("_Revert"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_REVERT);
-
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* run the dialog */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -565,9 +531,6 @@ mousepad_dialogs_save_as (GtkWindow    *parent,
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
-
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* set the current filename if there is one, or use the last save location */
   if (current_filename)
@@ -609,9 +572,6 @@ mousepad_dialogs_open (GtkWindow    *parent,
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
-
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
 
   /* encoding selector */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);

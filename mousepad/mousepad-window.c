@@ -5187,14 +5187,9 @@ mousepad_window_action_replace (GSimpleAction *action,
       /* create a new dialog */
       window->replace_dialog = mousepad_replace_dialog_new ();
 
-      /* set parent window */
-      gtk_window_set_transient_for (GTK_WINDOW (window->replace_dialog), GTK_WINDOW (window));
-
-      /* add the dialog to the application windows list */
-      gtk_window_set_application (GTK_WINDOW (window->replace_dialog),
-                                  gtk_window_get_application (GTK_WINDOW (window)));
-
       /* popup the dialog */
+      gtk_window_set_destroy_with_parent (GTK_WINDOW (window->replace_dialog), TRUE);
+      gtk_window_set_transient_for (GTK_WINDOW (window->replace_dialog), GTK_WINDOW (window));
       gtk_widget_show (window->replace_dialog);
 
       /* connect signals */
@@ -5261,13 +5256,6 @@ mousepad_window_action_select_font (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   dialog = gtk_font_chooser_dialog_new (_("Choose Mousepad Font"), GTK_WINDOW (window));
-
-  /* set parent window */
-  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
-
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog),
-                              gtk_window_get_application (GTK_WINDOW (window)));
 
   /* set the current font name */
   font_name = MOUSEPAD_SETTING_GET_STRING (FONT_NAME);
