@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-18 00:56+0200\n"
-"PO-Revision-Date: 2020-10-29 11:26+0000\n"
+"PO-Revision-Date: 2020-10-29 13:20+0000\n"
 "Last-Translator: Arnold Marko <arnold.marko@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -563,12 +563,12 @@ msgstr "Označi _vse:"
 
 #: ../mousepad/mousepad-statusbar.c:125
 msgid "Choose a filetype"
-msgstr "Izberi tip datoteke"
+msgstr "Izberi vrsto datoteke"
 
 #. language/filetype
 #: ../mousepad/mousepad-statusbar.c:130 ../mousepad/mousepad-statusbar.c:249
 msgid "Filetype: None"
-msgstr "Tip datoteke: noben"
+msgstr "Vrsta datoteke: brez"
 
 #: ../mousepad/mousepad-statusbar.c:153
 msgid "Toggle the overwrite mode"
@@ -582,7 +582,7 @@ msgstr "OVR"
 #: ../mousepad/mousepad-statusbar.c:252
 #, c-format
 msgid "Filetype: %s"
-msgstr "Tip datoteke: %s"
+msgstr "Vrsta datoteke: %s"
 
 #: ../mousepad/mousepad-statusbar.c:272
 #, c-format
@@ -1248,7 +1248,7 @@ msgstr "Vstavi presledke ob pritisku na tabulatorsko tipko"
 
 #: ../mousepad/resources/gtk/menus.ui.h:131
 msgid "_Filetype"
-msgstr "_Tip datoteke"
+msgstr "_Vrsta datoteke"
 
 #: ../mousepad/resources/gtk/menus.ui.h:132
 msgid "Language to use for syntax highlighting"
@@ -1260,7 +1260,7 @@ msgstr "Navadno besedilo"
 
 #: ../mousepad/resources/gtk/menus.ui.h:134
 msgid "No filetype"
-msgstr "Brez tipa datoteke"
+msgstr "Brez vrste datoteke"
 
 #: ../mousepad/resources/gtk/menus.ui.h:135
 msgid "Line E_nding"
@@ -1558,7 +1558,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr "Mousepad je enostaven in hiter urejevalnik. Namenjen je hitremu urejanju tekstov, ne pa tudi za razvojno okolje ali nadomestek za urejevalnik s številnimi dodatki."
+msgstr "Mousepad je enostaven in hiter urejevalnik. Namenjen je hitremu urejanju tekstov, ne pa tudi kot razvojno okolje ali nadomestek za z dodatki bogat urejevalnik."
 
 #: ../mousepad.appdata.xml.in.h:2
 msgid ""
