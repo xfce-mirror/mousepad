@@ -2461,9 +2461,14 @@ mousepad_window_modified_changed (MousepadWindow *window)
   tooltip = modified ? _("Revert to the saved version of the file") : _("Reload file from disk");
   g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
 
-  /* insert menu item */
+  /* insert menu item in the "File" menu */
   g_menu_remove (menu, nitems - 1);
   g_menu_append_item (menu, item);
+
+  /* insert menu item in the "Tab" menu */
+  menu = gtk_application_get_menu_by_id (application, "tab-menu.reload");
+  g_menu_remove (menu, 0);
+  g_menu_prepend_item (menu, item);
   g_object_unref (item);
 
   /* set the "Reload/Revert" menu item tooltip */
@@ -2523,7 +2528,6 @@ mousepad_window_selection_changed (MousepadDocument *document,
                                    gint              selection,
                                    MousepadWindow   *window)
 {
-  GtkToolItem *button;
   GAction     *action;
   guint        i;
   gboolean     sensitive;
@@ -2564,12 +2568,6 @@ mousepad_window_selection_changed (MousepadDocument *document,
       action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names_3[i]);
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), sensitive);
     }
-
-  /* set the sensitivity of the "Cut" and "Copy" toolbar buttons */
-  button = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar), 9);
-  gtk_widget_set_sensitive (GTK_WIDGET (button), sensitive);
-  button = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar), 10);
-  gtk_widget_set_sensitive (GTK_WIDGET (button), sensitive);
 }
 
 
@@ -2608,18 +2606,13 @@ mousepad_window_can_undo (MousepadWindow *window,
                           GParamSpec     *unused,
                           GObject        *buffer)
 {
-  GtkToolItem *button;
-  GAction     *action;
-  gboolean     can_undo;
+  GAction  *action;
+  gboolean  can_undo;
 
   can_undo = gtk_source_buffer_can_undo (GTK_SOURCE_BUFFER (buffer));
 
   action = g_action_map_lookup_action (G_ACTION_MAP (window), "edit.undo");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (action), can_undo);
-
-  /* set the sensitivity of the toolbar button */
-  button = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar), 7);
-  gtk_widget_set_sensitive (GTK_WIDGET (button), can_undo);
 }
 
 
@@ -2629,18 +2622,13 @@ mousepad_window_can_redo (MousepadWindow *window,
                           GParamSpec     *unused,
                           GObject        *buffer)
 {
-  GtkToolItem *button;
-  GAction     *action;
-  gboolean     can_redo;
+  GAction  *action;
+  gboolean  can_redo;
 
   can_redo = gtk_source_buffer_can_redo (GTK_SOURCE_BUFFER (buffer));
 
   action = g_action_map_lookup_action (G_ACTION_MAP (window), "edit.redo");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (action), can_redo);
-
-  /* set the sensitivity of the toolbar button */
-  button = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar), 8);
-  gtk_widget_set_sensitive (GTK_WIDGET (button), can_redo);
 }
 
 
