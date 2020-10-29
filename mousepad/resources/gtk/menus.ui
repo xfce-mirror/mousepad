@@ -552,7 +552,7 @@
       </item>
     </section>
 
-    <section>
+    <section id="tab-menu.reload">
       <item>
         <attribute name="label" translatable="yes">Re_load</attribute>
         <attribute name="tooltip" translatable="yes">Reload file from disk</attribute>
