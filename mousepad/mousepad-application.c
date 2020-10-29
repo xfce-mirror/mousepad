@@ -416,6 +416,9 @@ mousepad_application_startup (GApplication *gapplication)
   menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "textview-menu");
   mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
 
+  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "toolbar");
+  mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
+
   /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
   mousepad_application_create_style_schemes_menu (application);
