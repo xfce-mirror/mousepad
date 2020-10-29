@@ -1353,6 +1353,27 @@ mousepad_window_tool_item_leave_event (GtkWidget      *tool_item,
 
 
 static void
+mousepad_window_menu_update_tooltips (GMenuModel     *model,
+                                      gint            position,
+                                      gint            removed,
+                                      gint            added,
+                                      MousepadWindow *window)
+{
+  GtkWidget *menu;
+  gint       offset;
+
+  /* disconnect this handler */
+  mousepad_disconnect_by_func (model, mousepad_window_menu_update_tooltips, window);
+
+  /* update tooltips */
+  menu = mousepad_object_get_data (G_OBJECT (model), window->gtkmenu_key);
+  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (model), window->offset_key));
+  mousepad_window_menu_set_tooltips (window, menu, model, &offset);
+}
+
+
+
+static void
 mousepad_window_menu_set_tooltips (MousepadWindow *window,
                                    GtkWidget      *menu,
                                    GMenuModel     *model,
@@ -1372,9 +1393,12 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
   if (offset == NULL)
     offset = &suboffset;
 
-  /* attach the GtkMenu and the offset to the GMenuModel for future tooltip updates */
+  /* attach the GtkMenu and the offset to the GMenuModel, and connect a wrapper of the
+   * current function to its "items-changed" signal for future tooltip updates */
   mousepad_object_set_data (G_OBJECT (model), window->gtkmenu_key, menu);
   mousepad_object_set_data (G_OBJECT (model), window->offset_key, GINT_TO_POINTER (*offset));
+  g_signal_connect_object (model, "items-changed",
+                           G_CALLBACK (mousepad_window_menu_update_tooltips), window, 0);
 
   /* move to the right place in the GtkMenu if we are dealing with a section */
   for (n = 0; n < *offset; n++)
@@ -2669,12 +2693,10 @@ mousepad_window_menu_templates (GSimpleAction *action,
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
   GtkApplication *application;
-  GtkWidget      *gtkmenu;
   GMenu          *menu;
   GMenuItem      *item;
   const gchar    *homedir;
   gchar          *templates_path, *message;
-  gint            offset;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -2704,13 +2726,10 @@ mousepad_window_menu_templates (GSimpleAction *action,
       /* check if the directory exists */
       if (g_file_test (templates_path, G_FILE_TEST_IS_DIR))
         {
-          /* fill the menu */
+          /* fill the menu, blocking tooltip update meanwhile */
+          g_signal_handlers_block_by_func (menu, mousepad_window_menu_set_tooltips, window);
           mousepad_window_menu_templates_fill (window, menu, templates_path);
-
-          /* set the tooltips */
-          gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
-          offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
-          mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
+          g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_set_tooltips, window);
         }
       else
         {
@@ -2735,11 +2754,10 @@ static void
 mousepad_window_menu_tab_sizes_update (MousepadWindow *window)
 {
   GtkApplication *application;
-  GtkWidget      *gtkmenu;
   GMenuModel     *model;
   GMenuItem      *item;
   gint32          tab_size;
-  gint            tab_size_n, nitem, nitems, offset;
+  gint            tab_size_n, nitem, nitems;
   gchar          *text = NULL;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -2781,11 +2799,6 @@ mousepad_window_menu_tab_sizes_update (MousepadWindow *window)
   g_menu_remove (G_MENU (model), nitems - 1);
   g_menu_append_item (G_MENU (model), item);
   g_object_unref (item);
-
-  /* set the "Other" menu item tooltip */
-  gtkmenu = mousepad_object_get_data (G_OBJECT (model), window->gtkmenu_key);
-  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (model), window->offset_key));
-  mousepad_window_menu_set_tooltips (window, gtkmenu, model, &offset);
 
   /* cleanup */
   g_free (text);
@@ -2935,13 +2948,12 @@ void
 mousepad_window_update_document_menu_items (MousepadWindow *window)
 {
   GtkApplication *application;
-  GtkWidget      *gtkmenu;
   GtkToolItem    *tool_item;
   GMenu          *menu;
   GMenuItem      *item;
   GIcon          *icon;
   const gchar    *icon_name, *tooltip;
-  gint            nitems, offset;
+  gint            nitems;
   gboolean        modified;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -2967,23 +2979,15 @@ mousepad_window_update_document_menu_items (MousepadWindow *window)
   tooltip = modified ? _("Revert to the saved version of the file") : _("Reload file from disk");
   g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
 
-  /* insert menu item in the "File" menu and update tooltip */
+  /* insert menu item in the "File" menu */
   g_menu_remove (menu, nitems - 1);
   g_menu_append_item (menu, item);
 
-  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
-  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
-  mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
-
-  /* insert menu item in the "Tab" menu and update tooltip */
+  /* insert menu item in the "Tab" menu */
   menu = gtk_application_get_menu_by_id (application, "tab-menu.reload");
   g_menu_remove (menu, 0);
   g_menu_prepend_item (menu, item);
   g_object_unref (item);
-
-  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
-  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
-  mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
 
   /* allow menu actions again */
   lock_menu_updates--;
@@ -3004,12 +3008,11 @@ mousepad_window_update_gomenu (GSimpleAction *action,
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document;
   GtkApplication   *application;
-  GtkWidget        *gtkmenu;
   GMenu            *menu;
   GMenuItem        *item;
   const gchar      *label, *tooltip;
   gchar            *action_name, *accelerator;
-  gint              n_pages, n, offset;
+  gint              n_pages, n;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -3019,9 +3022,14 @@ mousepad_window_update_gomenu (GSimpleAction *action,
       /* prevent menu updates */
       lock_menu_updates++;
 
-      /* get and empty the "Go to tab" submenu */
+      /* get the "Go to tab" submenu */
       application = gtk_window_get_application (GTK_WINDOW (window));
       menu = gtk_application_get_menu_by_id (application, "document.go-to-tab");
+
+      /* block tooltip updates */
+      g_signal_handlers_block_by_func (menu, mousepad_window_menu_set_tooltips, window);
+
+      /* empty the menu */
       g_menu_remove_all (menu);
 
       /* walk through the notebook pages */
@@ -3058,12 +3066,8 @@ mousepad_window_update_gomenu (GSimpleAction *action,
                                                 g_variant_new_int32 (n));
         }
 
-      /* update the tooltips */
-      gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
-      offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
-      mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
-
       /* release our lock */
+      g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_set_tooltips, window);
       lock_menu_updates--;
     }
 }
@@ -3148,7 +3152,6 @@ mousepad_window_recent_menu (GSimpleAction *action,
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
   GtkApplication *application;
-  GtkWidget      *gtkmenu;
   GMenu          *menu;
   GMenuItem      *menu_item;
   GAction        *subaction;
@@ -3156,7 +3159,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
   GList          *items, *li, *filtered = NULL;
   const gchar    *uri, *display_name;
   gchar          *label, *filename, *filename_utf8, *tooltip, *action_name;
-  gint            n, offset;
+  gint            n;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -3166,9 +3169,14 @@ mousepad_window_recent_menu (GSimpleAction *action,
       /* avoid updating the menu */
       lock_menu_updates++;
 
-      /* get and empty the "Recent" submenu */
+      /* get the "Recent" submenu */
       application = gtk_window_get_application (GTK_WINDOW (window));
       menu = gtk_application_get_menu_by_id (application, "file.open-recent.list");
+
+      /* block tooltip updates */
+      g_signal_handlers_block_by_func (menu, mousepad_window_menu_set_tooltips, window);
+
+      /* empty the menu */
       g_menu_remove_all (menu);
 
       /* make sure the recent manager is initialized */
@@ -3248,13 +3256,6 @@ mousepad_window_recent_menu (GSimpleAction *action,
           g_menu_append_item (menu, menu_item);
           g_object_unref (menu_item);
         }
-      /* set the tooltips */
-      else
-        {
-          gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
-          offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
-          mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
-        }
 
       /* set the sensitivity of the clear button */
       subaction = g_action_map_lookup_action (G_ACTION_MAP (window),
@@ -3266,6 +3267,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
       g_list_free (filtered);
 
       /* allow menu updates again */
+      g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_set_tooltips, window);
       lock_menu_updates--;
     }
 }
@@ -5217,13 +5219,11 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
   GtkApplication *application;
   GtkToolItem    *tool_item;
-  GtkWidget      *gtkmenu;
   GMenu          *menu;
   GMenuItem      *item;
   GIcon          *icon = NULL;
   gboolean        fullscreen;
   const gchar    *icon_name, *tooltip;
-  gint            offset;
 
   /* avoid menu actions */
   lock_menu_updates++;
@@ -5260,11 +5260,6 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
   g_menu_remove (menu, 0);
   g_menu_prepend_item (menu, item);
   g_object_unref (item);
-
-  /* update the tooltip */
-  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
-  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
-  mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
 
   /* update the toolbar item */
   tool_item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar),
