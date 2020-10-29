@@ -2557,7 +2557,6 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
                *action_name, *filename_utf8, *tooltip;
   const gchar  *name;
   gboolean      files_added = FALSE;
-  GIcon        *icon;
   GMenu        *submenu;
   GMenuItem    *item;
 
@@ -2617,9 +2616,7 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
           /* set submenu icon */
           /* TODO: is there a way to apply an icon to a submenu?
            * (the documentation says yes, the "folder" icon name is valid, but…) */
-          icon = g_icon_new_for_string ("folder", NULL);
-          g_menu_item_set_icon (item, icon);
-          g_object_unref (G_OBJECT (icon));
+          g_menu_item_set_attribute_value (item, "icon", g_variant_new_string ("folder"));
 
           g_menu_item_set_submenu (item, G_MENU_MODEL (submenu));
           g_menu_append_item (menu, item);
@@ -2654,9 +2651,7 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
       g_free (tooltip);
 
       /* set item icon */
-      icon = g_icon_new_for_string ("text-x-generic", NULL);
-      g_menu_item_set_icon (item, icon);
-      g_object_unref (G_OBJECT (icon));
+      g_menu_item_set_attribute_value (item, "icon", g_variant_new_string ("text-x-generic"));
 
       /* append item to the menu */
       g_menu_append_item (menu, item);
@@ -2951,8 +2946,7 @@ mousepad_window_update_document_menu_items (MousepadWindow *window)
   GtkToolItem    *tool_item;
   GMenu          *menu;
   GMenuItem      *item;
-  GIcon          *icon;
-  const gchar    *icon_name, *tooltip;
+  const gchar    *icon, *tooltip;
   gint            nitems;
   gboolean        modified;
 
@@ -2971,10 +2965,8 @@ mousepad_window_update_document_menu_items (MousepadWindow *window)
   modified = gtk_text_buffer_get_modified (window->active->buffer);
   g_menu_item_set_label (item, modified ? _("Re_vert") : _("Re_load"));
 
-  icon_name = modified ? "document-revert" : "view-refresh";
-  icon = g_icon_new_for_string (icon_name, NULL);
-  g_menu_item_set_icon (item, icon);
-  g_object_unref (icon);
+  icon = modified ? "document-revert" : "view-refresh";
+  g_menu_item_set_attribute_value (item, "icon", g_variant_new_string (icon));
 
   tooltip = modified ? _("Revert to the saved version of the file") : _("Reload file from disk");
   g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
@@ -2994,7 +2986,7 @@ mousepad_window_update_document_menu_items (MousepadWindow *window)
 
   /* update the "Reload/Revert" toolbar item */
   tool_item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar), 4);
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon_name);
+  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon);
   gtk_tool_item_set_tooltip_text (tool_item, tooltip);
 }
 
@@ -5221,9 +5213,8 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
   GtkToolItem    *tool_item;
   GMenu          *menu;
   GMenuItem      *item;
-  GIcon          *icon = NULL;
   gboolean        fullscreen;
-  const gchar    *icon_name, *tooltip;
+  const gchar    *icon, *tooltip;
 
   /* avoid menu actions */
   lock_menu_updates++;
@@ -5235,14 +5226,14 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
   if (fullscreen)
     {
       gtk_window_fullscreen (GTK_WINDOW (window));
-      icon_name = "view-restore";
+      icon = "view-restore";
       tooltip = _("Leave fullscreen mode");
     }
   /* leaving fullscreen mode */
   else
     {
       gtk_window_unfullscreen (GTK_WINDOW (window));
-      icon_name = "view-fullscreen";
+      icon = "view-fullscreen";
       tooltip = _("Make the window fullscreen");
     }
 
@@ -5250,11 +5241,8 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
   application = gtk_window_get_application (GTK_WINDOW (window));
   menu = gtk_application_get_menu_by_id (application, "view.fullscreen");
   item = g_menu_item_new_from_model (G_MENU_MODEL (menu), 0);
-
-  icon = g_icon_new_for_string (icon_name, NULL);
-  g_menu_item_set_icon (item, icon);
+  g_menu_item_set_attribute_value (item, "icon", g_variant_new_string (icon));
   g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
-  g_object_unref (icon);
 
   /* append menu item */
   g_menu_remove (menu, 0);
@@ -5264,7 +5252,7 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
   /* update the toolbar item */
   tool_item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar),
                                         gtk_toolbar_get_n_items (GTK_TOOLBAR (window->toolbar)) - 1);
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon_name);
+  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon);
   gtk_tool_item_set_tooltip_text (tool_item, tooltip);
 
   /* allow menu updates again */
