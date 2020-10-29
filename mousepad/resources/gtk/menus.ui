@@ -417,4 +417,89 @@
 
   </menu>
 
+
+
+  <!--
+    This menu is supposed to be "flat": containing only items and/or unnested sections.
+    Submenus and nested sections will be treated as simple items, empty sections will be ignored.
+    If an item is updated, the corresponding GtkToolItem will be updated accordingly, but an
+    item is not supposed to be permanently removed, nor a new item added (the whole toolbar
+    should be recreated in these cases).
+    See 'mousepad_window_toolbar_new_from_model()' for details.
+  -->
+  <menu id="toolbar">
+
+    <section>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.file.new</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.file.open</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.file.save</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.file.save-as</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.file.reload</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.file.close-tab</attribute>
+      </item>
+    </section>
+
+    <section>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.edit.undo</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.edit.redo</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.edit.cut</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.edit.copy</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.edit.paste</attribute>
+      </item>
+    </section>
+
+    <section>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.search.find</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.search.find-and-replace</attribute>
+      </item>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.search.go-to</attribute>
+      </item>
+    </section>
+
+    <section>
+      <item>
+        <attribute name="label"/>
+        <attribute name="item-share-id">item.view.fullscreen</attribute>
+      </item>
+    </section>
+  </menu>
+
 </interface>
