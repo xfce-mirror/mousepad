@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-18 00:56+0200\n"
-"PO-Revision-Date: 2020-10-17 22:56+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2020-10-29 22:38+0000\n"
+"Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +23,11 @@ msgctxt ""
 "The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not "
 "be translated"
 msgid "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"
-msgstr ""
+msgstr "Failide avamise moodus: \"tab\", \"window\" or \"mixed\" (ava kaardina, ava aknas, ava kaardid uues aknas)"
 
 #: ../mousepad/mousepad-application.c:85
 msgid "MODE"
-msgstr ""
+msgstr "MOODUS"
 
 #: ../mousepad/mousepad-application.c:90
 msgid "Do not register with the D-BUS session message bus"
@@ -35,7 +35,7 @@ msgstr "Ära registreeri rakendust sessiooni D-BUS sõnumisiinil"
 
 #: ../mousepad/mousepad-application.c:95
 msgid "Quit a running Mousepad primary instance"
-msgstr ""
+msgstr "Lõpeta Mousepadi esmase koopia töö"
 
 #: ../mousepad/mousepad-application.c:100
 msgid "Print version information and exit"
@@ -105,7 +105,7 @@ msgstr "Mine reale"
 
 #: ../mousepad/mousepad-dialogs.c:242
 msgid "_Jump to"
-msgstr ""
+msgstr "_Hüppa asukohta"
 
 #: ../mousepad/mousepad-dialogs.c:265
 msgid "_Line number:"
@@ -122,7 +122,7 @@ msgstr "Tühjenda dokumentide ajalugu"
 
 #: ../mousepad/mousepad-dialogs.c:350
 msgid "Clea_r"
-msgstr ""
+msgstr "Tühjen_da"
 
 #: ../mousepad/mousepad-dialogs.c:377
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
@@ -146,7 +146,7 @@ msgstr "Ära salvesta"
 
 #: ../mousepad/mousepad-dialogs.c:429 ../mousepad/mousepad-dialogs.c:533
 msgid "_Save As"
-msgstr ""
+msgstr "_Salvesta kui"
 
 #: ../mousepad/mousepad-dialogs.c:437 ../mousepad/mousepad-dialogs.c:500
 #: ../mousepad/mousepad-dialogs.c:567 ../mousepad/mousepad-window.c:888
@@ -178,7 +178,7 @@ msgstr "Kui sa selle dokumendi salvestad, siis väliste programmidega tehtud muu
 
 #: ../mousepad/mousepad-dialogs.c:498
 msgid "Save _As"
-msgstr ""
+msgstr "Salvest_a kui"
 
 #: ../mousepad/mousepad-dialogs.c:529
 msgid "Do you want to save your changes before reloading?"
@@ -190,7 +190,7 @@ msgstr "Kui sa ennistad algse faili, siis kõik salvestamata muudatused lähevad
 
 #: ../mousepad/mousepad-dialogs.c:535
 msgid "_Revert"
-msgstr ""
+msgstr "Pöö_ra tagasi"
 
 #. create the dialog
 #: ../mousepad/mousepad-dialogs.c:562
@@ -224,7 +224,7 @@ msgstr "Pealkirjastamata"
 #: ../mousepad/mousepad-encoding-dialog.c:352
 #: ../mousepad/mousepad-encoding-dialog.c:372
 msgid "The document was not UTF-8 valid."
-msgstr ""
+msgstr "See dokument ei ole korrektses UTF-8 kodeeringus."
 
 #. encoding radio buttons
 #. default encoding: UTF-8
@@ -246,23 +246,23 @@ msgstr "Kontrollin kodeeringuid..."
 
 #: ../mousepad/mousepad-encoding-dialog.c:336
 msgid "Other (partial):"
-msgstr ""
+msgstr "Muu (osaline):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:347
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "Leidsin mõne muu sobiva kodeeringu, palun vali alljärgnevast üks."
 
 #: ../mousepad/mousepad-encoding-dialog.c:349
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "Leidsin mõne muu osaliselt sobiva kodeeringu, palun vali alljärgnevast üks."
 
 #: ../mousepad/mousepad-encoding-dialog.c:373
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "Ühtegi sobivat kodeeringut ei leidunud."
 
 #: ../mousepad/mousepad-encoding-dialog.c:471
 msgid "Unsupported character set"
-msgstr ""
+msgstr "Mittetoetatud märgistik"
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:25
@@ -478,7 +478,7 @@ msgstr "Otsi ja asenda"
 #: ../mousepad/mousepad-replace-dialog.c:170 ../mousepad/mousepad-window.c:914
 #: ../mousepad/resources/gtk/menus.ui.h:87
 msgid "_Find"
-msgstr ""
+msgstr "_Otsi"
 
 #: ../mousepad/mousepad-replace-dialog.c:174
 #: ../mousepad/mousepad-replace-dialog.c:507
@@ -514,7 +514,7 @@ msgstr "_Mähi ümber"
 #: ../mousepad/mousepad-replace-dialog.c:278
 #: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:270
 msgid "Match _case"
-msgstr ""
+msgstr "Tõstutundlik _sobivus"
 
 #. match whole word
 #: ../mousepad/mousepad-replace-dialog.c:288
@@ -635,12 +635,12 @@ msgstr "Salvesta käesolev dokument teise failina"
 #: ../mousepad/mousepad-window.c:892 ../mousepad/mousepad-window.c:2345
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Re_load"
-msgstr ""
+msgstr "_Lae uuesti"
 
 #: ../mousepad/mousepad-window.c:893 ../mousepad/mousepad-window.c:2352
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Reload file from disk"
-msgstr ""
+msgstr "Lae fail andmekandjalt uuesti"
 
 #: ../mousepad/mousepad-window.c:894 ../mousepad/resources/gtk/menus.ui.h:27
 msgid "Close _Tab"
@@ -652,7 +652,7 @@ msgstr "Sulge käesolev dokument"
 
 #: ../mousepad/mousepad-window.c:900 ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_Undo"
-msgstr ""
+msgstr "_Võta tagasi"
 
 #: ../mousepad/mousepad-window.c:901 ../mousepad/resources/gtk/menus.ui.h:34
 msgid "Undo the last action"
@@ -660,7 +660,7 @@ msgstr "Võta eelmine tegevus tagasi"
 
 #: ../mousepad/mousepad-window.c:902 ../mousepad/resources/gtk/menus.ui.h:35
 msgid "_Redo"
-msgstr ""
+msgstr "_Tee uuesti"
 
 #: ../mousepad/mousepad-window.c:903 ../mousepad/resources/gtk/menus.ui.h:36
 msgid "Redo the last undone action"
@@ -668,7 +668,7 @@ msgstr "Korda viimast tagasivõetud tegevust"
 
 #: ../mousepad/mousepad-window.c:904 ../mousepad/resources/gtk/menus.ui.h:37
 msgid "Cu_t"
-msgstr ""
+msgstr "_Lõika"
 
 #: ../mousepad/mousepad-window.c:905 ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Cut the selection"
@@ -744,7 +744,7 @@ msgstr "Ennista fail viimati salvestatud olekusse"
 #: ../mousepad/mousepad-window.c:2644
 #, c-format
 msgid "Use '%s' as template"
-msgstr ""
+msgstr "Kasuta %s mallina"
 
 #: ../mousepad/mousepad-window.c:2672
 #, c-format
@@ -802,7 +802,7 @@ msgstr "Mallid peavad olema koostatud korrektses UTF-8 kodeeringus"
 #. set error message
 #: ../mousepad/mousepad-window.c:3994
 msgid "Reading the template failed"
-msgstr ""
+msgstr "Malli lugemine ebaõnnestus"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:3999
@@ -850,7 +850,7 @@ msgstr "_Fail"
 
 #: ../mousepad/resources/gtk/menus.ui.h:2
 msgid "File menu"
-msgstr ""
+msgstr "Failitoimingute menüü"
 
 #: ../mousepad/resources/gtk/menus.ui.h:5
 msgid "New _Window"
@@ -866,7 +866,7 @@ msgstr "Uus dokum_ent malli alusel"
 
 #: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "Loo uus dokument malli alusel"
 
 #: ../mousepad/resources/gtk/menus.ui.h:11
 msgid "Op_en Recent"
@@ -874,7 +874,7 @@ msgstr "Ava _viimati kasutatud"
 
 #: ../mousepad/resources/gtk/menus.ui.h:12
 msgid "Open a recently used file"
-msgstr ""
+msgstr "Ava viimati kasutatud fail"
 
 #: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "Clear _History"
@@ -922,7 +922,7 @@ msgstr "Muu_da"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Edit menu"
-msgstr ""
+msgstr "Toimetamisega seotud menüü"
 
 #: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "Paste _Special"
@@ -930,7 +930,7 @@ msgstr "Aseta _teisiti"
 
 #: ../mousepad/resources/gtk/menus.ui.h:44
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "Aseta lõikepuhvri sisu muul viisil"
 
 #: ../mousepad/resources/gtk/menus.ui.h:45
 msgid "Paste from _History"
@@ -970,7 +970,7 @@ msgstr "Muuda teksti välimust"
 
 #: ../mousepad/resources/gtk/menus.ui.h:54
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Muuda tektsi välimust erinevatel viisidel"
 
 #: ../mousepad/resources/gtk/menus.ui.h:55
 msgid "To _Lowercase"
@@ -1043,7 +1043,7 @@ msgstr "_Liiguta valik"
 
 #: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "Move the selection in different ways"
-msgstr ""
+msgstr "Liiguta valitud teksti dokumendis"
 
 #: ../mousepad/resources/gtk/menus.ui.h:73
 msgid "Line _Up"
@@ -1087,7 +1087,7 @@ msgstr "Vähenda valiku või ühe rea taandrida"
 
 #: ../mousepad/resources/gtk/menus.ui.h:84
 msgid "Show the preferences dialog"
-msgstr "Näidatakse eelistuste dialoogi"
+msgstr "Vaata ja muuda eelistusi"
 
 #: ../mousepad/resources/gtk/menus.ui.h:85
 msgid "_Search"
@@ -1095,7 +1095,7 @@ msgstr "_Otsi"
 
 #: ../mousepad/resources/gtk/menus.ui.h:86
 msgid "Search menu"
-msgstr ""
+msgstr "Otsingute menüüvalikud"
 
 #: ../mousepad/resources/gtk/menus.ui.h:89
 msgid "Find _Next"
@@ -1119,7 +1119,7 @@ msgstr "_Vaade"
 
 #: ../mousepad/resources/gtk/menus.ui.h:98
 msgid "View menu"
-msgstr ""
+msgstr "Vaadete menüüvalikud"
 
 #: ../mousepad/resources/gtk/menus.ui.h:99
 msgid "Select F_ont..."
@@ -1135,7 +1135,7 @@ msgstr "_Värviskeem"
 
 #: ../mousepad/resources/gtk/menus.ui.h:102
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Teksti kuvamisel kasutatav värvikombinatsioon"
 
 #: ../mousepad/resources/gtk/menus.ui.h:103
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
@@ -1185,7 +1185,7 @@ msgstr "_Dokument"
 
 #: ../mousepad/resources/gtk/menus.ui.h:116
 msgid "Document menu"
-msgstr ""
+msgstr "Dokumendiga seotud menüüvalikud"
 
 #: ../mousepad/resources/gtk/menus.ui.h:117
 msgid "_Word Wrap"
@@ -1209,27 +1209,27 @@ msgstr "Tabulaatori _samm"
 
 #: ../mousepad/resources/gtk/menus.ui.h:122
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "Tabulaatorisammu tühikute arv"
 
 #: ../mousepad/resources/gtk/menus.ui.h:123
 msgid "Two spaces"
-msgstr ""
+msgstr "Kaks tühikut"
 
 #: ../mousepad/resources/gtk/menus.ui.h:124
 msgid "Three spaces"
-msgstr ""
+msgstr "Kolm tühikut"
 
 #: ../mousepad/resources/gtk/menus.ui.h:125
 msgid "Four spaces"
-msgstr ""
+msgstr "Neli tühikut"
 
 #: ../mousepad/resources/gtk/menus.ui.h:126
 msgid "Eight spaces"
-msgstr ""
+msgstr "Kaheksa tühikut"
 
 #: ../mousepad/resources/gtk/menus.ui.h:127
 msgid "Other..."
-msgstr ""
+msgstr "Muu..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:128
 msgid "Set custom tab size"
@@ -1249,7 +1249,7 @@ msgstr "_Faili tüüp"
 
 #: ../mousepad/resources/gtk/menus.ui.h:132
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "Süntaksi esiletõstmisel kasutatav keel"
 
 #: ../mousepad/resources/gtk/menus.ui.h:133
 msgid "Plain Text"
@@ -1265,7 +1265,7 @@ msgstr "Rea _lõpumärk"
 
 #: ../mousepad/resources/gtk/menus.ui.h:136
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "Rea lõppu tähistavad märgid"
 
 #: ../mousepad/resources/gtk/menus.ui.h:137
 msgid "Set the line ending of the document to Unix (LF)"
@@ -1309,7 +1309,7 @@ msgstr "_Abi"
 
 #: ../mousepad/resources/gtk/menus.ui.h:147
 msgid "Help menu"
-msgstr ""
+msgstr "Abiteabe menüüvalikud"
 
 #: ../mousepad/resources/gtk/menus.ui.h:148
 msgid "_Contents"
@@ -1353,7 +1353,7 @@ msgstr "Kasuta tühikuid"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "none"
-msgstr ""
+msgstr "mitte midagi"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:9
 msgid "Menu"
@@ -1369,15 +1369,15 @@ msgstr "Suur tööriistariba"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:12
 msgid "Button"
-msgstr "Nupp"
+msgstr "Väikeste nuppude riba"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:13
 msgid "Drag & Drop"
-msgstr ""
+msgstr "Suurte nuppude riba"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
 msgid "Dialog"
-msgstr ""
+msgstr "Hiidsuurte nuppude riba"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:15
 msgid "Icons Only"
@@ -1398,17 +1398,17 @@ msgstr "Tekst ikoonide kõrval"
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
 msgid "new tabs"
-msgstr ""
+msgstr "uutel kaartidel"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
 msgid "new windows"
-msgstr ""
+msgstr "uutes akendes"
 
 #. Preceded by:
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "uutel kaartidel, mis asuvad uues aknas"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "Display whitespace"
@@ -1424,7 +1424,7 @@ msgstr "Näita pika rea märget veerus:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
 msgid "Highlight current line"
-msgstr "Märgista praegune rida"
+msgstr "Tõsta praegune rida esile"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
 msgid "Highlight matching brackets"
@@ -1528,15 +1528,15 @@ msgstr "Näita kaarte ka ühe dokumendi puhul"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
 msgid "Cycled notebook tab switching"
-msgstr ""
+msgstr "Märkmiku-stiilis kaartide lappamine ringiratast"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "Open files in:"
-msgstr ""
+msgstr "Ava failid järgnevalt:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "<b>Notebook tabs</b>"
-msgstr ""
+msgstr "<b>Märkmiku-stiilis kaardid</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
 msgid "Window"
@@ -1563,7 +1563,7 @@ msgid ""
 "means that if Gtk adds something new in a major release that is useful for "
 "the editor, we will likely bump the Gtk dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "Teisalt me proovime kasutada uusimaid Gtk+ teegis leiduvaid võimalusi. See tähendab, et kui Gtk uude versiooni lisatakse midagi sellist, mis võiks Mousepadis kasulik olla, siis me võtame selle versiooni kasutusele ja proovime uued võimalused meie tekstitoimetisse lõimida."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
