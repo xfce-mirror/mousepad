@@ -167,6 +167,10 @@ static void              mousepad_window_menu_textview_popup          (GtkTextVi
                                                                        GtkMenu                *old_menu,
                                                                        MousepadWindow         *window);
 static void              mousepad_window_update_actions               (MousepadWindow         *window);
+static void              mousepad_window_update_menu_item             (MousepadWindow         *window,
+                                                                       const gchar            *menu_id,
+                                                                       gint                    index,
+                                                                       gpointer                data);
 static void              mousepad_window_update_gomenu                (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
@@ -3005,6 +3009,101 @@ mousepad_window_update_document_menu_items (MousepadWindow *window)
 
 
 static void
+mousepad_window_update_menu_item (MousepadWindow *window,
+                                  const gchar    *menu_id,
+                                  gint            index,
+                                  gpointer        data)
+{
+  GtkApplication *application;
+  GMenu          *menu;
+  GMenuItem      *item;
+  const gchar    *label = NULL, *icon = NULL, *tooltip = NULL;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* prevent menu updates */
+  lock_menu_updates++;
+
+  /* get the menu item */
+  application = gtk_window_get_application (GTK_WINDOW (window));
+  menu = gtk_application_get_menu_by_id (application, menu_id);
+  item = g_menu_item_new_from_model (G_MENU_MODEL (menu), index);
+
+  /* set the menu item attributes */
+  if (g_strcmp0 (menu_id, "item.file.reload") == 0)
+    if (GPOINTER_TO_INT (data))
+      {
+        label = _("Re_vert");
+        icon = "document-revert";
+        tooltip = _("Revert to the saved version of the file");
+      }
+    else
+      {
+        label = _("Re_load");
+        icon = "view-refresh";
+        tooltip = _("Reload file from disk");
+      }
+  else if (g_strcmp0 (menu_id, "item.view.fullscreen") == 0)
+    if (GPOINTER_TO_INT (data))
+      {
+        icon = "view-restore";
+        tooltip = _("Leave fullscreen mode");
+      }
+    else
+      {
+        icon = "view-fullscreen";
+        tooltip = _("Make the window fullscreen");
+      }
+  else
+    g_warn_if_reached ();
+
+  /* update the menu item */
+  if (label != NULL)
+    g_menu_item_set_label (item, label);
+  if (icon != NULL)
+    g_menu_item_set_attribute_value (item, "icon", g_variant_new_string (icon));
+  if (tooltip != NULL)
+    g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
+
+  g_menu_remove (menu, index);
+  g_menu_insert_item (menu, index, item);
+  g_object_unref (item);
+
+  /* allow menu actions again */
+  lock_menu_updates--;
+}
+
+
+
+void
+mousepad_window_update_document_menu_items (MousepadWindow *window)
+{
+  gpointer data;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* update the "Reload/Revert" menu item */
+  data = GINT_TO_POINTER (gtk_text_buffer_get_modified (window->active->buffer));
+  mousepad_window_update_menu_item (window, "item.file.reload", 0, data);
+}
+
+
+
+void
+mousepad_window_update_window_menu_items (MousepadWindow *window)
+{
+  gpointer data;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* update the "Fullscreen" menu item */
+  data = GINT_TO_POINTER (mousepad_window_get_in_fullscreen (window));
+  mousepad_window_update_menu_item (window, "item.view.fullscreen", 0, data);
+}
+
+
+
+static void
 mousepad_window_update_gomenu (GSimpleAction *action,
                                GVariant      *value,
                                gpointer       data)
@@ -5221,54 +5320,19 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
                                    gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GtkApplication *application;
-  GtkToolItem    *tool_item;
-  GMenu          *menu;
-  GMenuItem      *item;
   gboolean        fullscreen;
-  const gchar    *icon, *tooltip;
-
-  /* avoid menu actions */
-  lock_menu_updates++;
 
   fullscreen = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
   g_action_change_state (G_ACTION (action), g_variant_new_boolean (fullscreen));
 
-  /* entering fullscreen mode */
+  /* entering/leaving fullscreen mode */
   if (fullscreen)
-    {
-      gtk_window_fullscreen (GTK_WINDOW (window));
-      icon = "view-restore";
-      tooltip = _("Leave fullscreen mode");
-    }
-  /* leaving fullscreen mode */
+    gtk_window_fullscreen (GTK_WINDOW (window));
   else
-    {
-      gtk_window_unfullscreen (GTK_WINDOW (window));
-      icon = "view-fullscreen";
-      tooltip = _("Make the window fullscreen");
-    }
+    gtk_window_unfullscreen (GTK_WINDOW (window));
 
-  /* update the menu item icon */
-  application = gtk_window_get_application (GTK_WINDOW (window));
-  menu = gtk_application_get_menu_by_id (application, "view.fullscreen");
-  item = g_menu_item_new_from_model (G_MENU_MODEL (menu), 0);
-  g_menu_item_set_attribute_value (item, "icon", g_variant_new_string (icon));
-  g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
-
-  /* append menu item */
-  g_menu_remove (menu, 0);
-  g_menu_prepend_item (menu, item);
-  g_object_unref (item);
-
-  /* update the toolbar item */
-  tool_item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar),
-                                        gtk_toolbar_get_n_items (GTK_TOOLBAR (window->toolbar)) - 1);
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon);
-  gtk_tool_item_set_tooltip_text (tool_item, tooltip);
-
-  /* allow menu updates again */
-  lock_menu_updates--;
+  /* update the "Fullscreen" menu item */
+  mousepad_window_update_menu_item (window, "item.view.fullscreen", 0, GINT_TO_POINTER (fullscreen));
 }
 
 
