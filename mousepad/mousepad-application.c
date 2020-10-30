@@ -59,6 +59,8 @@ static void        mousepad_application_new_window_with_document  (MousepadWindo
 static void        mousepad_application_new_window                (MousepadWindow           *existing,
                                                                    MousepadApplication      *application);
 static void        mousepad_application_active_window_changed     (MousepadApplication      *application);
+static void        mousepad_application_set_shared_menu_parts     (MousepadApplication      *application,
+                                                                   GMenuModel               *model);
 static void        mousepad_application_create_languages_menu     (MousepadApplication      *application);
 static void        mousepad_application_create_style_schemes_menu (MousepadApplication      *application);
 static void        mousepad_application_action_quit               (GSimpleAction            *action,
@@ -539,6 +541,7 @@ mousepad_application_startup (GApplication *gapplication)
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GVariant            *state;
   GAction             *action;
+  GMenu               *menu;
   guint                m, n;
 
   /* chain up to parent */
@@ -579,6 +582,22 @@ mousepad_application_startup (GApplication *gapplication)
                                             setting_actions[m][n].name, state);
         g_variant_unref (state);
       }
+
+  /* set shared menu parts in the application menus */
+  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "shared-sections");
+  mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
+
+  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "tab-menu");
+  mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
+
+  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "textview-menu");
+  mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
+
+  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "toolbar");
+  mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
+
+  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "menubar");
+  mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
 
   /* set accels for actions */
   mousepad_application_set_accels (application);
@@ -944,6 +963,9 @@ mousepad_application_active_window_changed (MousepadApplication *application)
     {
       /* update document dependent menu items */
       mousepad_window_update_document_menu_items (MOUSEPAD_WINDOW (app_windows->data));
+
+      /* update window dependent menu items */
+      mousepad_window_update_window_menu_items (MOUSEPAD_WINDOW (app_windows->data));
     }
 
   /* store a copy of the application windows list to compare at next call */
@@ -997,6 +1019,142 @@ mousepad_application_show_preferences (MousepadApplication *application,
 
   /* show it to the user */
   gtk_window_present (GTK_WINDOW (application->prefs_dialog));
+}
+
+
+
+static void
+mousepad_application_update_menu (GMenuModel *shared_menu,
+                                  gint        position,
+                                  gint        removed,
+                                  gint        added,
+                                  GMenuModel *model)
+{
+  GMenuItem *item;
+  gint       n, index;
+
+  /* update the target menu when shared menu items are added or removed: some of them may
+   * be temporarily added/removed during an update process, of permanently added/removed */
+  for (n = 0; n < removed; n++)
+    {
+      index = position + n;
+      item = g_menu_item_new_from_model (shared_menu, index);
+      g_menu_remove (G_MENU (model), index);
+      g_object_unref (item);
+    }
+
+  for (n = 0; n < added; n++)
+    {
+      index = position + n;
+      item = g_menu_item_new_from_model (shared_menu, index);
+      g_menu_insert_item (G_MENU (model), index, item);
+      g_object_unref (item);
+    }
+}
+
+
+
+static void
+mousepad_application_update_menu_item (GMenuModel *shared_item,
+                                       gint        position,
+                                       gint        removed,
+                                       gint        added,
+                                       GMenuModel *model)
+{
+  GMenuItem *item;
+  GVariant  *value;
+  gint       n;
+
+  /* update the target menu item only when the shared menu item is added, that is at the end
+   * of its own update: an isolated shared menu item is not supposed to be permanently removed */
+  if (added)
+    {
+      value = g_menu_model_get_item_attribute_value (shared_item, 0, "item-share-id",
+                                                     G_VARIANT_TYPE_STRING);
+      n = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (model),
+                                                     g_variant_get_string (value, NULL)));
+      g_variant_unref (value);
+
+      item = g_menu_item_new_from_model (shared_item, 0);
+      g_menu_remove (G_MENU (model), n);
+      g_menu_insert_item (G_MENU (model), n, item);
+      g_object_unref (item);
+    }
+}
+
+
+
+static void
+mousepad_application_set_shared_menu_parts (MousepadApplication *application,
+                                            GMenuModel          *model)
+{
+  GMenuModel  *section, *shared_menu, *shared_item, *submodel;
+  GVariant    *value;
+  const gchar *share_id;
+  gint         n;
+
+  for (n = 0; n < g_menu_model_get_n_items (model); n++)
+    {
+      /* section GMenuItem with a share id: insert the shared menu */
+      if ((section = g_menu_model_get_item_link (model, n, G_MENU_LINK_SECTION))
+          && ((value = g_menu_model_get_item_attribute_value (model, n, "section-share-id",
+                                                              G_VARIANT_TYPE_STRING))))
+        {
+          share_id = g_variant_get_string (value, NULL);
+          g_variant_unref (value);
+
+          shared_menu = G_MENU_MODEL (gtk_application_get_menu_by_id (
+                                        GTK_APPLICATION (application), share_id));
+          mousepad_application_update_menu (shared_menu, 0, 0,
+                                            g_menu_model_get_n_items (shared_menu), section);
+
+          g_signal_connect_object (shared_menu, "items-changed",
+                                   G_CALLBACK (mousepad_application_update_menu), section, 0);
+        }
+      /* section GMenuItem without a share id: go ahead recursively */
+      else if (section != NULL)
+        mousepad_application_set_shared_menu_parts (application, section);
+      /* real GMenuItem */
+      else
+        {
+          /* set the menu item when shared */
+          if ((value = g_menu_model_get_item_attribute_value (model, n, "item-share-id",
+                                                              G_VARIANT_TYPE_STRING)))
+            {
+              share_id = g_variant_get_string (value, NULL);
+              g_variant_unref (value);
+
+              shared_item = G_MENU_MODEL (gtk_application_get_menu_by_id (
+                                            GTK_APPLICATION (application), share_id));
+              mousepad_object_set_data (G_OBJECT (model), g_intern_string (share_id),
+                                        GINT_TO_POINTER (n));
+              mousepad_application_update_menu_item (shared_item, 0, 0, 1, model);
+
+              g_signal_connect_object (shared_item, "items-changed",
+                                       G_CALLBACK (mousepad_application_update_menu_item), model, 0);
+            }
+
+          /* submenu GMenuItem with a share id: insert the shared menu */
+          if ((submodel = g_menu_model_get_item_link (model, n, G_MENU_LINK_SUBMENU))
+              && ((value = g_menu_model_get_item_attribute_value (model, n, "submenu-share-id",
+                                                                  G_VARIANT_TYPE_STRING))))
+            {
+              share_id = g_variant_get_string (value, NULL);
+              g_variant_unref (value);
+
+              shared_menu = G_MENU_MODEL (gtk_application_get_menu_by_id (
+                                            GTK_APPLICATION (application), share_id));
+              mousepad_application_update_menu (shared_menu, 0, 0,
+                                                g_menu_model_get_n_items (shared_menu), submodel);
+
+              g_signal_connect_object (shared_menu, "items-changed",
+                                       G_CALLBACK (mousepad_application_update_menu), submodel, 0);
+            }
+          /* submenu GMenuItem without a share id: go ahead recursively */
+          else if (submodel != NULL)
+            mousepad_application_set_shared_menu_parts (application, submodel);
+        }
+    }
 }
 
 
