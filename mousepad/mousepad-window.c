@@ -2376,64 +2376,13 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
 static void
 mousepad_window_modified_changed (MousepadWindow *window)
 {
-  GtkApplication *application;
-  GtkToolItem    *tool_item;
-  GMenu          *menu;
-  GMenuItem      *item;
-  const gchar    *label, *icon, *tooltip;
-  gint            nitems;
-
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* update window title */
   mousepad_window_set_title (window);
 
-  /* update the "Reload/Revert" menubar item */
-
-  /* prevent menu updates */
-  lock_menu_updates++;
-
-  /* get the save section in the "File" menu */
-  application = gtk_window_get_application (GTK_WINDOW (window));
-  menu = gtk_application_get_menu_by_id (application, "file.save");
-  nitems = g_menu_model_get_n_items (G_MENU_MODEL (menu));
-
-  /* set the "Reload/Revert" menu item */
-  if (gtk_text_buffer_get_modified (window->active->buffer))
-    {
-      label = _("Re_vert");
-      icon = "document-revert";
-      tooltip = _("Revert to the saved version of the file");
-    }
-  else
-    {
-      label = _("Re_load");
-      icon = "view-refresh";
-      tooltip = _("Reload file from disk");
-    }
-
-  item = g_menu_item_new_from_model (G_MENU_MODEL (menu), nitems - 1);
-  g_menu_item_set_label (item, label);
-  g_menu_item_set_attribute_value (item, "icon", g_variant_new_string (icon));
-  g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
-
-  /* insert menu item in the "File" menu */
-  g_menu_remove (menu, nitems - 1);
-  g_menu_append_item (menu, item);
-
-  /* insert menu item in the "Tab" menu */
-  menu = gtk_application_get_menu_by_id (application, "tab-menu.reload");
-  g_menu_remove (menu, 0);
-  g_menu_prepend_item (menu, item);
-  g_object_unref (item);
-
-  /* allow menu actions again */
-  lock_menu_updates--;
-
-  /* update the "Reload/Revert" toolbar item */
-  tool_item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar), 4);
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon);
-  gtk_tool_item_set_tooltip_text (tool_item, tooltip);
+  /* update document dependent menu items */
+  mousepad_window_update_document_menu_items (window);
 }
 
 
@@ -2964,19 +2913,64 @@ mousepad_window_update_actions (MousepadWindow *window)
       g_action_group_change_action_state (G_ACTION_GROUP (window), "document.write-unicode-bom",
                                           g_variant_new_boolean (value));
 
-      /* active this tab in the go menu */
-      g_action_group_change_action_state (G_ACTION_GROUP (window), "document.go-to-tab",
-                                          g_variant_new_int32 (page_num));
-
       /* update the currently active language */
       language = gtk_source_buffer_get_language (GTK_SOURCE_BUFFER (window->active->buffer));
       language_id = language ? gtk_source_language_get_id (language) : "plain-text";
       g_action_group_change_action_state (G_ACTION_GROUP (window), "document.filetype",
                                           g_variant_new_string (language_id));
 
+      /* update document dependent menu items */
+      mousepad_window_update_document_menu_items (window);
+
       /* allow menu actions again */
       lock_menu_updates--;
     }
+}
+
+
+
+void
+mousepad_window_update_document_menu_items (MousepadWindow *window)
+{
+  GtkApplication *application;
+  GMenu          *menu;
+  GMenuItem      *item;
+  const gchar    *label, *icon, *tooltip;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* prevent menu updates */
+  lock_menu_updates++;
+
+  /* get the shared menu item */
+  application = gtk_window_get_application (GTK_WINDOW (window));
+  menu = gtk_application_get_menu_by_id (application, "item.file.reload");
+
+  /* update the shared menu item */
+  if (gtk_text_buffer_get_modified (window->active->buffer))
+    {
+      label = _("Re_vert");
+      icon = "document-revert";
+      tooltip = _("Revert to the saved version of the file");
+    }
+  else
+    {
+      label = _("Re_load");
+      icon = "view-refresh";
+      tooltip = _("Reload file from disk");
+    }
+
+  item = g_menu_item_new_from_model (G_MENU_MODEL (menu), 0);
+  g_menu_item_set_label (item, label);
+  g_menu_item_set_attribute_value (item, "icon", g_variant_new_string (icon));
+  g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
+
+  g_menu_remove (menu, 0);
+  g_menu_append_item (menu, item);
+  g_object_unref (item);
+
+  /* allow menu actions again */
+  lock_menu_updates--;
 }
 
 
@@ -5226,16 +5220,17 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
       tooltip = _("Make the window fullscreen");
     }
 
-  /* update the menu item icon */
+  /* get the shared menu item */
   application = gtk_window_get_application (GTK_WINDOW (window));
-  menu = gtk_application_get_menu_by_id (application, "view.fullscreen");
+  menu = gtk_application_get_menu_by_id (application, "item.view.fullscreen");
+
+  /* update the shared menu item */
   item = g_menu_item_new_from_model (G_MENU_MODEL (menu), 0);
   g_menu_item_set_attribute_value (item, "icon", g_variant_new_string (icon));
   g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
 
-  /* append menu item */
   g_menu_remove (menu, 0);
-  g_menu_prepend_item (menu, item);
+  g_menu_append_item (menu, item);
   g_object_unref (item);
 
   /* update the toolbar item */

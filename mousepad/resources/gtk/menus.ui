@@ -9,11 +9,8 @@
       <attribute name="tooltip" translatable="yes">File menu</attribute>
       <section>
         <item>
-          <attribute name="label" translatable="yes">_New</attribute>
-          <attribute name="tooltip" translatable="yes">Create a new document</attribute>
-          <attribute name="action">win.file.new</attribute>
-          <attribute name="accel">&lt;Control&gt;N</attribute>
-          <attribute name="icon">document-new</attribute>
+          <attribute name="item-share-id">item.file.new</attribute>
+          <attribute name="label"/>
         </item>
         <item>
           <attribute name="label" translatable="yes">New _Window</attribute>
@@ -29,11 +26,8 @@
       </section>
       <section>
         <item>
-          <attribute name="label" translatable="yes">_Open...</attribute>
-          <attribute name="tooltip" translatable="yes">Open a file</attribute>
-          <attribute name="action">win.file.open</attribute>
-          <attribute name="accel">&lt;Control&gt;O</attribute>
-          <attribute name="icon">document-open</attribute>
+          <attribute name="item-share-id">item.file.open</attribute>
+          <attribute name="label"/>
         </item>
         <submenu id="file.open-recent">
           <attribute name="label" translatable="yes">Op_en Recent</attribute>
@@ -53,18 +47,12 @@
       </section>
       <section id="file.save">
         <item>
-          <attribute name="label" translatable="yes">_Save</attribute>
-          <attribute name="tooltip" translatable="yes">Save the current document</attribute>
-          <attribute name="action">win.file.save</attribute>
-          <attribute name="accel">&lt;Control&gt;S</attribute>
-          <attribute name="icon">document-save</attribute>
+          <attribute name="item-share-id">item.file.save</attribute>
+          <attribute name="label"/>
         </item>
         <item>
-          <attribute name="label" translatable="yes">Save _As...</attribute>
-          <attribute name="tooltip" translatable="yes">Save current document as another file</attribute>
-          <attribute name="action">win.file.save-as</attribute>
-          <attribute name="accel">&lt;Shift&gt;&lt;Control&gt;S</attribute>
-          <attribute name="icon">document-save-as</attribute>
+          <attribute name="item-share-id">item.file.save-as</attribute>
+          <attribute name="label"/>
         </item>
         <item>
           <attribute name="label" translatable="yes">Save A_ll</attribute>
@@ -72,10 +60,8 @@
           <attribute name="action">win.file.save-all</attribute>
         </item>
         <item>
-          <attribute name="label" translatable="yes">Re_load</attribute>
-          <attribute name="tooltip" translatable="yes">Reload file from disk</attribute>
-          <attribute name="action">win.file.reload</attribute>
-          <attribute name="icon">view-refresh</attribute>
+          <attribute name="item-share-id">item.file.reload</attribute>
+          <attribute name="label"/>
         </item>
       </section>
       <section>
@@ -89,19 +75,14 @@
       </section>
       <section>
         <item>
-          <attribute name="label" translatable="yes">_Detach Tab</attribute>
-          <attribute name="tooltip" translatable="yes">Move the current document to a new window</attribute>
-          <attribute name="action">win.file.detach-tab</attribute>
-          <attribute name="accel">&lt;Control&gt;D</attribute>
+          <attribute name="item-share-id">item.file.detach-tab</attribute>
+          <attribute name="label"/>
         </item>
       </section>
       <section>
         <item>
-          <attribute name="label" translatable="yes">Close _Tab</attribute>
-          <attribute name="tooltip" translatable="yes">Close the current document</attribute>
-          <attribute name="action">win.file.close-tab</attribute>
-          <attribute name="accel">&lt;Control&gt;W</attribute>
-          <attribute name="icon">window-close</attribute>
+          <attribute name="item-share-id">item.file.close-tab</attribute>
+          <attribute name="label"/>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Close Window</attribute>
@@ -117,164 +98,19 @@
       <attribute name="label" translatable="yes">_Edit</attribute>
       <attribute name="tooltip" translatable="yes">Edit menu</attribute>
       <section>
-        <item>
-          <attribute name="label" translatable="yes">_Undo</attribute>
-          <attribute name="tooltip" translatable="yes">Undo the last action</attribute>
-          <attribute name="action">win.edit.undo</attribute>
-          <attribute name="accel">&lt;Control&gt;Z</attribute>
-          <attribute name="icon">edit-undo</attribute>
-        </item>
-        <item>
-          <attribute name="label" translatable="yes">_Redo</attribute>
-          <attribute name="tooltip" translatable="yes">Redo the last undone action</attribute>
-          <attribute name="action">win.edit.redo</attribute>
-          <attribute name="accel">&lt;Control&gt;Y</attribute>
-          <attribute name="icon">edit-redo</attribute>
-        </item>
+        <attribute name="section-share-id">section.edit.undo-redo</attribute>
+      </section>
+      <section>
+        <attribute name="section-share-id">section.edit.selection</attribute>
       </section>
       <section>
         <item>
-          <attribute name="label" translatable="yes">Cu_t</attribute>
-          <attribute name="tooltip" translatable="yes">Cut the selection</attribute>
-          <attribute name="action">win.edit.cut</attribute>
-          <attribute name="accel">&lt;Control&gt;X</attribute>
-          <attribute name="icon">edit-cut</attribute>
-        </item>
-        <item>
-          <attribute name="label" translatable="yes">_Copy</attribute>
-          <attribute name="tooltip" translatable="yes">Copy the selection</attribute>
-          <attribute name="action">win.edit.copy</attribute>
-          <attribute name="accel">&lt;Control&gt;C</attribute>
-          <attribute name="icon">edit-copy</attribute>
-        </item>
-        <item>
-          <attribute name="label" translatable="yes">_Paste</attribute>
-          <attribute name="tooltip" translatable="yes">Paste the clipboard</attribute>
-          <attribute name="action">win.edit.paste</attribute>
-          <attribute name="accel">&lt;Control&gt;V</attribute>
-          <attribute name="icon">edit-paste</attribute>
-        </item>
-        <submenu id="edit.paste-special">
-          <attribute name="label" translatable="yes">Paste _Special</attribute>
-          <attribute name="tooltip" translatable="yes">Paste the clipboard in a special way</attribute>
-          <item>
-            <attribute name="label" translatable="yes">Paste from _History</attribute>
-            <attribute name="tooltip" translatable="yes">Paste from the clipboard history</attribute>
-            <attribute name="action">win.edit.paste-special.paste-from-history</attribute>
-          </item>
-          <item>
-            <attribute name="label" translatable="yes">Paste as _Column</attribute>
-            <attribute name="tooltip" translatable="yes">Paste the clipboard text into a column</attribute>
-            <attribute name="action">win.edit.paste-special.paste-as-column</attribute>
-          </item>
-        </submenu>
-        <item>
-          <attribute name="label" translatable="yes">_Delete</attribute>
-          <attribute name="tooltip" translatable="yes">Delete the current selection</attribute>
-          <attribute name="action">win.edit.delete</attribute>
-          <attribute name="accel">Delete</attribute>
-          <attribute name="icon">edit-delete</attribute>
+          <attribute name="item-share-id">item.edit.select-all</attribute>
+          <attribute name="label"/>
         </item>
       </section>
       <section>
-        <item>
-          <attribute name="label" translatable="yes">Select _All</attribute>
-          <attribute name="tooltip" translatable="yes">Select the text in the entire document</attribute>
-          <attribute name="action">win.edit.select-all</attribute>
-          <attribute name="accel">&lt;Control&gt;A</attribute>
-          <attribute name="icon">edit-select-all</attribute>
-        </item>
-      </section>
-      <section>
-        <submenu id="edit.convert">
-          <attribute name="label" translatable="yes">Conve_rt</attribute>
-          <attribute name="tooltip" translatable="yes">Convert text in different ways</attribute>
-          <section>
-            <item>
-              <attribute name="label" translatable="yes">To _Lowercase</attribute>
-              <attribute name="tooltip" translatable="yes">Change the case of the selection to lowercase</attribute>
-              <attribute name="action">win.edit.convert.to-lowercase</attribute>
-            </item>
-            <item>
-              <attribute name="label" translatable="yes">To _Uppercase</attribute>
-              <attribute name="tooltip" translatable="yes">Change the case of the selection to uppercase</attribute>
-              <attribute name="action">win.edit.convert.to-uppercase</attribute>
-            </item>
-            <item>
-              <attribute name="label" translatable="yes">To _Title Case</attribute>
-              <attribute name="tooltip" translatable="yes">Change the case of the selection to title case</attribute>
-              <attribute name="action">win.edit.convert.to-title-case</attribute>
-            </item>
-            <item>
-              <attribute name="label" translatable="yes">To _Opposite Case</attribute>
-              <attribute name="tooltip" translatable="yes">Change the case of the selection opposite case</attribute>
-              <attribute name="action">win.edit.convert.to-opposite-case</attribute>
-              <attribute name="accel">&lt;Control&gt;&lt;Alt&gt;U</attribute>
-            </item>
-          </section>
-          <section>
-            <item>
-              <attribute name="label" translatable="yes">_Tabs to Spaces</attribute>
-              <attribute name="tooltip" translatable="yes">Convert all tabs to spaces in the selection or document</attribute>
-              <attribute name="action">win.edit.convert.tabs-to-spaces</attribute>
-            </item>
-            <item>
-              <attribute name="label" translatable="yes">_Spaces to Tabs</attribute>
-              <attribute name="tooltip" translatable="yes">Convert all the leading spaces to tabs in the selected line(s) or document</attribute>
-              <attribute name="action">win.edit.convert.spaces-to-tabs</attribute>
-            </item>
-          </section>
-          <section>
-            <item>
-              <attribute name="label" translatable="yes">St_rip Trailing Spaces</attribute>
-              <attribute name="tooltip" translatable="yes">Remove all the trailing spaces from the selected line(s) or document</attribute>
-              <attribute name="action">win.edit.convert.strip-trailing-spaces</attribute>
-            </item>
-          </section>
-          <section>
-            <item>
-              <attribute name="label" translatable="yes">_Transpose</attribute>
-              <attribute name="tooltip" translatable="yes">Reverse the order of something</attribute>
-              <attribute name="action">win.edit.convert.transpose</attribute>
-              <attribute name="accel">&lt;Control&gt;T</attribute>
-            </item>
-          </section>
-        </submenu>
-        <submenu id="edit.move-selection">
-          <attribute name="label" translatable="yes">_Move Selection</attribute>
-          <attribute name="tooltip" translatable="yes">Move the selection in different ways</attribute>
-          <item>
-            <attribute name="label" translatable="yes">Line _Up</attribute>
-            <attribute name="tooltip" translatable="yes">Move the selection one line up</attribute>
-            <attribute name="action">win.edit.move-selection.line-up</attribute>
-            <attribute name="accel">&lt;Alt&gt;Page_Up</attribute>
-          </item>
-          <item>
-            <attribute name="label" translatable="yes">Line _Down</attribute>
-            <attribute name="tooltip" translatable="yes">Move the selection one line down</attribute>
-            <attribute name="action">win.edit.move-selection.line-down</attribute>
-            <attribute name="accel">&lt;Alt&gt;Page_Down</attribute>
-          </item>
-        </submenu>
-        <item>
-          <attribute name="label" translatable="yes">Dup_licate Line / Selection</attribute>
-          <attribute name="tooltip" translatable="yes">Duplicate the current line or selection</attribute>
-          <attribute name="action">win.edit.duplicate-line-selection</attribute>
-        </item>
-        <item>
-          <attribute name="label" translatable="yes">_Increase Indent</attribute>
-          <attribute name="tooltip" translatable="yes">Increase the indentation of the selection or current line</attribute>
-          <attribute name="action">win.edit.increase-indent</attribute>
-          <attribute name="icon">format-indent-more</attribute>
-          <attribute name="accel">&lt;Control&gt;I</attribute>
-        </item>
-        <item>
-          <attribute name="label" translatable="yes">_Decrease Indent</attribute>
-          <attribute name="tooltip" translatable="yes">Decrease the indentation of the selection or current line</attribute>
-          <attribute name="action">win.edit.decrease-indent</attribute>
-          <attribute name="accel">&lt;Control&gt;U</attribute>
-          <attribute name="icon">format-indent-less</attribute>
-        </item>
+        <attribute name="section-share-id">section.edit.format</attribute>
       </section>
       <section>
         <item>
@@ -291,11 +127,8 @@
       <attribute name="tooltip" translatable="yes">Search menu</attribute>
       <section>
         <item>
-          <attribute name="label" translatable="yes">_Find</attribute>
-          <attribute name="tooltip" translatable="yes">Search for text</attribute>
-          <attribute name="action">win.search.find</attribute>
-          <attribute name="accel">&lt;Control&gt;F</attribute>
-          <attribute name="icon">edit-find</attribute>
+          <attribute name="item-share-id">item.search.find</attribute>
+          <attribute name="label"/>
         </item>
         <item>
           <attribute name="label" translatable="yes">Find _Next</attribute>
@@ -310,20 +143,14 @@
           <attribute name="accel">&lt;Shift&gt;&lt;Control&gt;G</attribute>
         </item>
         <item>
-          <attribute name="label" translatable="yes">Find and Rep_lace...</attribute>
-          <attribute name="tooltip" translatable="yes">Search for and replace text</attribute>
-          <attribute name="action">win.search.find-and-replace</attribute>
-          <attribute name="accel">&lt;Control&gt;R</attribute>
-          <attribute name="icon">edit-find-replace</attribute>
+          <attribute name="item-share-id">item.search.find-and-replace</attribute>
+          <attribute name="label"/>
         </item>
       </section>
       <section>
         <item>
-          <attribute name="label" translatable="yes">_Go to...</attribute>
-          <attribute name="tooltip" translatable="yes">Go to a specific location in the document</attribute>
-          <attribute name="action">win.search.go-to</attribute>
-          <attribute name="accel">&lt;Control&gt;L</attribute>
-          <attribute name="icon">go-jump</attribute>
+          <attribute name="item-share-id">item.search.go-to</attribute>
+          <attribute name="label"/>
         </item>
       </section>
     </submenu>
@@ -378,13 +205,10 @@
           <attribute name="action">win.preferences.window.statusbar-visible</attribute>
         </item>
       </section>
-      <section id="view.fullscreen">
+      <section>
         <item>
-          <attribute name="label" translatable="yes">_Fullscreen</attribute>
-          <attribute name="tooltip" translatable="yes">Make the window fullscreen</attribute>
-          <attribute name="action">win.view.fullscreen</attribute>
-          <attribute name="icon">view-fullscreen</attribute>
-          <attribute name="accel">F11</attribute>
+          <attribute name="item-share-id">item.view.fullscreen</attribute>
+          <attribute name="label"/>
         </item>
       </section>
     </submenu>
@@ -539,39 +363,30 @@
 
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Save</attribute>
-        <attribute name="tooltip" translatable="yes">Save the current document</attribute>
-        <attribute name="action">win.file.save</attribute>
-        <attribute name="icon">document-save</attribute>
+        <attribute name="item-share-id">item.file.save</attribute>
+        <attribute name="label"/>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Save _As...</attribute>
-        <attribute name="tooltip" translatable="yes">Save current document as another file</attribute>
-        <attribute name="action">win.file.save-as</attribute>
-        <attribute name="icon">document-save-as</attribute>
-      </item>
-    </section>
-
-    <section id="tab-menu.reload">
-      <item>
-        <attribute name="label" translatable="yes">Re_load</attribute>
-        <attribute name="tooltip" translatable="yes">Reload file from disk</attribute>
-        <attribute name="action">win.file.reload</attribute>
-        <attribute name="icon">view-refresh</attribute>
+        <attribute name="item-share-id">item.file.save-as</attribute>
+        <attribute name="label"/>
       </item>
     </section>
 
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Detach Tab</attribute>
-        <attribute name="tooltip" translatable="yes">Move the current document to a new window</attribute>
-        <attribute name="action">win.file.detach-tab</attribute>
+        <attribute name="item-share-id">item.file.reload</attribute>
+        <attribute name="label"/>
+      </item>
+    </section>
+
+    <section>
+      <item>
+        <attribute name="item-share-id">item.file.detach-tab</attribute>
+        <attribute name="label"/>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Close _Tab</attribute>
-        <attribute name="tooltip" translatable="yes">Close the current document</attribute>
-        <attribute name="action">win.file.close-tab</attribute>
-        <attribute name="icon">window-close</attribute>
+        <attribute name="item-share-id">item.file.close-tab</attribute>
+        <attribute name="label"/>
       </item>
     </section>
 
@@ -582,161 +397,22 @@
   <menu id="textview-menu">
 
     <section>
-      <item>
-        <attribute name="label" translatable="yes">_Undo</attribute>
-        <attribute name="tooltip" translatable="yes">Undo the last action</attribute>
-        <attribute name="action">win.edit.undo</attribute>
-        <attribute name="icon">edit-undo</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Redo</attribute>
-        <attribute name="tooltip" translatable="yes">Redo the last undone action</attribute>
-        <attribute name="action">win.edit.redo</attribute>
-        <attribute name="icon">edit-redo</attribute>
-      </item>
+      <attribute name="section-share-id">section.edit.undo-redo</attribute>
+    </section>
+
+    <section>
+      <attribute name="section-share-id">section.edit.selection</attribute>
     </section>
 
     <section>
       <item>
-        <attribute name="label" translatable="yes">Cu_t</attribute>
-        <attribute name="tooltip" translatable="yes">Cut the selection</attribute>
-        <attribute name="action">win.edit.cut</attribute>
-        <attribute name="icon">edit-cut</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Copy</attribute>
-        <attribute name="tooltip" translatable="yes">Copy the selection</attribute>
-        <attribute name="action">win.edit.copy</attribute>
-        <attribute name="icon">edit-copy</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Paste</attribute>
-        <attribute name="tooltip" translatable="yes">Paste the clipboard</attribute>
-        <attribute name="action">win.edit.paste</attribute>
-        <attribute name="icon">edit-paste</attribute>
-      </item>
-      <submenu id="textview.paste-special">
-        <attribute name="label" translatable="yes">Paste _Special</attribute>
-        <attribute name="tooltip" translatable="yes">Paste the clipboard in a special way</attribute>
-        <item>
-          <attribute name="label" translatable="yes">Paste from _History</attribute>
-          <attribute name="tooltip" translatable="yes">Paste from the clipboard history</attribute>
-          <attribute name="action">win.edit.paste-special.paste-from-history</attribute>
-        </item>
-        <item>
-          <attribute name="label" translatable="yes">Paste as _Column</attribute>
-          <attribute name="tooltip" translatable="yes">Paste the clipboard text into a column</attribute>
-          <attribute name="action">win.edit.paste-special.paste-as-column</attribute>
-        </item>
-      </submenu>
-      <item>
-        <attribute name="label" translatable="yes">_Delete</attribute>
-        <attribute name="tooltip" translatable="yes">Delete the current selection</attribute>
-        <attribute name="action">win.edit.delete</attribute>
-        <attribute name="accel">Delete</attribute>
-        <attribute name="icon">edit-delete</attribute>
+        <attribute name="item-share-id">item.edit.select-all</attribute>
+        <attribute name="label"/>
       </item>
     </section>
 
     <section>
-      <item>
-        <attribute name="label" translatable="yes">Select _All</attribute>
-        <attribute name="tooltip" translatable="yes">Select the text in the entire document</attribute>
-        <attribute name="action">win.edit.select-all</attribute>
-        <attribute name="accel">&lt;Control&gt;A</attribute>
-        <attribute name="icon">edit-select-all</attribute>
-      </item>
-    </section>
-
-    <section>
-      <submenu id="textview.convert">
-        <attribute name="label" translatable="yes">Conve_rt</attribute>
-        <attribute name="tooltip" translatable="yes">Convert text in different ways</attribute>
-        <section>
-          <item>
-            <attribute name="label" translatable="yes">To _Lowercase</attribute>
-            <attribute name="tooltip" translatable="yes">Change the case of the selection to lowercase</attribute>
-            <attribute name="action">win.edit.convert.to-lowercase</attribute>
-          </item>
-          <item>
-            <attribute name="label" translatable="yes">To _Uppercase</attribute>
-            <attribute name="tooltip" translatable="yes">Change the case of the selection to uppercase</attribute>
-            <attribute name="action">win.edit.convert.to-uppercase</attribute>
-          </item>
-          <item>
-            <attribute name="label" translatable="yes">To _Title Case</attribute>
-            <attribute name="tooltip" translatable="yes">Change the case of the selection to title case</attribute>
-            <attribute name="action">win.edit.convert.to-title-case</attribute>
-          </item>
-          <item>
-            <attribute name="label" translatable="yes">To _Opposite Case</attribute>
-            <attribute name="tooltip" translatable="yes">Change the case of the selection opposite case</attribute>
-            <attribute name="action">win.edit.convert.to-opposite-case</attribute>
-            <attribute name="accel">&lt;Control&gt;&lt;Alt&gt;U</attribute>
-          </item>
-        </section>
-        <section>
-          <item>
-            <attribute name="label" translatable="yes">_Tabs to Spaces</attribute>
-            <attribute name="tooltip" translatable="yes">Convert all tabs to spaces in the selection or document</attribute>
-            <attribute name="action">win.edit.convert.tabs-to-spaces</attribute>
-          </item>
-          <item>
-            <attribute name="label" translatable="yes">_Spaces to Tabs</attribute>
-            <attribute name="tooltip" translatable="yes">Convert all the leading spaces to tabs in the selected line(s) or document</attribute>
-            <attribute name="action">win.edit.convert.spaces-to-tabs</attribute>
-          </item>
-        </section>
-        <section>
-          <item>
-            <attribute name="label" translatable="yes">St_rip Trailing Spaces</attribute>
-            <attribute name="tooltip" translatable="yes">Remove all the trailing spaces from the selected line(s) or document</attribute>
-            <attribute name="action">win.edit.convert.strip-trailing-spaces</attribute>
-          </item>
-        </section>
-        <section>
-          <item>
-            <attribute name="label" translatable="yes">_Transpose</attribute>
-            <attribute name="tooltip" translatable="yes">Reverse the order of something</attribute>
-            <attribute name="action">win.edit.convert.transpose</attribute>
-          </item>
-        </section>
-      </submenu>
-      <submenu id="textview.move-selection">
-        <attribute name="label" translatable="yes">_Move Selection</attribute>
-        <attribute name="tooltip" translatable="yes">Move the selection in different ways</attribute>
-        <item>
-          <attribute name="label" translatable="yes">Line _Up</attribute>
-          <attribute name="tooltip" translatable="yes">Move the selection one line up</attribute>
-          <attribute name="action">win.edit.move-selection.line-up</attribute>
-          <attribute name="accel">&lt;Alt&gt;Page_Up</attribute>
-        </item>
-        <item>
-          <attribute name="label" translatable="yes">Line _Down</attribute>
-          <attribute name="tooltip" translatable="yes">Move the selection one line down</attribute>
-          <attribute name="action">win.edit.move-selection.line-down</attribute>
-          <attribute name="accel">&lt;Alt&gt;Page_Down</attribute>
-        </item>
-      </submenu>
-      <item>
-        <attribute name="label" translatable="yes">Dup_licate Line / Selection</attribute>
-        <attribute name="tooltip" translatable="yes">Duplicate the current line or selection</attribute>
-        <attribute name="action">win.edit.duplicate-line-selection</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Increase Indent</attribute>
-        <attribute name="tooltip" translatable="yes">Increase the indentation of the selection or current line</attribute>
-        <attribute name="action">win.edit.increase-indent</attribute>
-        <attribute name="accel">&lt;Control&gt;I</attribute>
-        <attribute name="icon">format-indent-more</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">_Decrease Indent</attribute>
-        <attribute name="tooltip" translatable="yes">Decrease the indentation of the selection or current line</attribute>
-        <attribute name="action">win.edit.decrease-indent</attribute>
-        <attribute name="accel">&lt;Control&gt;U</attribute>
-        <attribute name="icon">format-indent-less</attribute>
-      </item>
+      <attribute name="section-share-id">section.edit.format</attribute>
     </section>
 
     <section id="textview.menubar">
