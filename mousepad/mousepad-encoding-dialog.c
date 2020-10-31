@@ -546,9 +546,6 @@ mousepad_encoding_dialog_new (GtkWindow    *parent,
   dialog = g_object_new (MOUSEPAD_TYPE_ENCODING_DIALOG, "transient-for", parent,
                          "destroy-with-parent", TRUE, "modal", TRUE, NULL);
 
-  /* add the dialog to the application windows list */
-  gtk_window_set_application (GTK_WINDOW (dialog), gtk_window_get_application (parent));
-
   /* set the filename */
   mousepad_file_set_filename (dialog->document->file, mousepad_file_get_filename (file), TRUE);
 
