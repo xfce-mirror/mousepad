@@ -2433,69 +2433,13 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
 static void
 mousepad_window_modified_changed (MousepadWindow *window)
 {
-  GtkApplication *application;
-  GtkWidget      *gtkmenu;
-  GtkToolItem    *tool_item;
-  GMenu          *menu;
-  GMenuItem      *item;
-  GIcon          *icon;
-  const gchar    *icon_name, *tooltip;
-  gint            nitems, offset;
-  gboolean        modified;
-
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* update window title */
   mousepad_window_set_title (window);
 
-  /* update the "Reload/Revert" menubar item */
-
-  /* prevent menu updates */
-  lock_menu_updates++;
-
-  /* get the save section in the "File" menu */
-  application = gtk_window_get_application (GTK_WINDOW (window));
-  menu = gtk_application_get_menu_by_id (application, "file.save");
-  nitems = g_menu_model_get_n_items (G_MENU_MODEL (menu));
-
-  /* set the "Reload/Revert" menu item */
-  item = g_menu_item_new_from_model (G_MENU_MODEL (menu), nitems - 1);
-  modified = gtk_text_buffer_get_modified (window->active->buffer);
-  g_menu_item_set_label (item, modified ? _("Re_vert") : _("Re_load"));
-
-  icon_name = modified ? "document-revert" : "view-refresh";
-  icon = g_icon_new_for_string (icon_name, NULL);
-  g_menu_item_set_icon (item, icon);
-  g_object_unref (icon);
-
-  tooltip = modified ? _("Revert to the saved version of the file") : _("Reload file from disk");
-  g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
-
-  /* insert menu item in the "File" menu and update tooltip */
-  g_menu_remove (menu, nitems - 1);
-  g_menu_append_item (menu, item);
-
-  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
-  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
-  mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
-
-  /* insert menu item in the "Tab" menu and update tooltip */
-  menu = gtk_application_get_menu_by_id (application, "tab-menu.reload");
-  g_menu_remove (menu, 0);
-  g_menu_prepend_item (menu, item);
-  g_object_unref (item);
-
-  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
-  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
-  mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
-
-  /* allow menu actions again */
-  lock_menu_updates--;
-
-  /* update the "Reload/Revert" toolbar item */
-  tool_item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar), 4);
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon_name);
-  gtk_tool_item_set_tooltip_text (tool_item, tooltip);
+  /* update document dependent menu items */
+  mousepad_window_update_document_menu_items (window);
 }
 
 
@@ -3129,19 +3073,83 @@ mousepad_window_update_actions (MousepadWindow *window)
       mousepad_window_can_undo (window, NULL, G_OBJECT (document->buffer));
       mousepad_window_can_redo (window, NULL, G_OBJECT (document->buffer));
 
-      /* active this tab in the go menu */
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), "document.go-to-tab");
-      g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_int32 (page_num));
-
       /* update the currently active language */
       language = gtk_source_buffer_get_language (GTK_SOURCE_BUFFER (window->active->buffer));
       language_id = language ? gtk_source_language_get_id (language) : "plain-text";
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "document.filetype");
       g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_string (language_id));
 
+      /* update document dependent menu items */
+      mousepad_window_update_document_menu_items (window);
+
       /* allow menu actions again */
       lock_menu_updates--;
     }
+}
+
+
+
+void
+mousepad_window_update_document_menu_items (MousepadWindow *window)
+{
+  GtkApplication *application;
+  GtkWidget      *gtkmenu;
+  GtkToolItem    *tool_item;
+  GMenu          *menu;
+  GMenuItem      *item;
+  GIcon          *icon;
+  const gchar    *icon_name, *tooltip;
+  gint            nitems, offset;
+  gboolean        modified;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* prevent menu updates */
+  lock_menu_updates++;
+
+  /* get the save section in the "File" menu */
+  application = gtk_window_get_application (GTK_WINDOW (window));
+  menu = gtk_application_get_menu_by_id (application, "file.save");
+  nitems = g_menu_model_get_n_items (G_MENU_MODEL (menu));
+
+  /* set the "Reload/Revert" menu item */
+  item = g_menu_item_new_from_model (G_MENU_MODEL (menu), nitems - 1);
+  modified = gtk_text_buffer_get_modified (window->active->buffer);
+  g_menu_item_set_label (item, modified ? _("Re_vert") : _("Re_load"));
+
+  icon_name = modified ? "document-revert" : "view-refresh";
+  icon = g_icon_new_for_string (icon_name, NULL);
+  g_menu_item_set_icon (item, icon);
+  g_object_unref (icon);
+
+  tooltip = modified ? _("Revert to the saved version of the file") : _("Reload file from disk");
+  g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
+
+  /* insert menu item in the "File" menu and update tooltip */
+  g_menu_remove (menu, nitems - 1);
+  g_menu_append_item (menu, item);
+
+  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
+  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
+  mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
+
+  /* insert menu item in the "Tab" menu and update tooltip */
+  menu = gtk_application_get_menu_by_id (application, "tab-menu.reload");
+  g_menu_remove (menu, 0);
+  g_menu_prepend_item (menu, item);
+  g_object_unref (item);
+
+  gtkmenu = mousepad_object_get_data (G_OBJECT (menu), window->gtkmenu_key);
+  offset = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (menu), window->offset_key));
+  mousepad_window_menu_set_tooltips (window, gtkmenu, G_MENU_MODEL (menu), &offset);
+
+  /* allow menu actions again */
+  lock_menu_updates--;
+
+  /* update the "Reload/Revert" toolbar item */
+  tool_item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (window->toolbar), 4);
+  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), icon_name);
+  gtk_tool_item_set_tooltip_text (tool_item, tooltip);
 }
 
 
