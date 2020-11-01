@@ -48,6 +48,7 @@ static void        mousepad_application_new_window_with_document  (MousepadWindo
                                                                    MousepadApplication      *application);
 static void        mousepad_application_new_window                (MousepadWindow           *existing,
                                                                    MousepadApplication      *application);
+static void        mousepad_application_active_window_changed     (MousepadApplication      *application);
 static void        mousepad_application_create_languages_menu     (MousepadApplication      *application);
 static void        mousepad_application_create_style_schemes_menu (MousepadApplication      *application);
 static void        mousepad_application_action_quit               (GSimpleAction            *action,
@@ -237,6 +238,10 @@ mousepad_application_startup (GApplication *gapplication)
   /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
   mousepad_application_create_style_schemes_menu (application);
+
+  /* do some actions when the active window changes */
+  g_signal_connect (application, "notify::active-window",
+                    G_CALLBACK (mousepad_application_active_window_changed), NULL);
 }
 
 
@@ -562,6 +567,30 @@ mousepad_application_new_window (MousepadWindow      *existing,
 {
   /* trigger new document function */
   mousepad_application_new_window_with_document (existing, NULL, -1, -1, application);
+}
+
+
+
+static void
+mousepad_application_active_window_changed (MousepadApplication *application)
+{
+  GList        *app_windows;
+  static GList *windows = NULL;
+
+  /* get the application windows list */
+  app_windows = gtk_application_get_windows (GTK_APPLICATION (application));
+
+  /* filter false change and window additions */
+  if (windows != NULL && app_windows != NULL && windows->data != app_windows->data
+      && g_list_find (windows, app_windows->data))
+    {
+      /* update document dependent menu items */
+      mousepad_window_update_document_menu_items (MOUSEPAD_WINDOW (app_windows->data));
+    }
+
+  /* store a copy of the application windows list to compare at next call */
+  g_list_free (windows);
+  windows = g_list_copy (app_windows);
 }
 
 
