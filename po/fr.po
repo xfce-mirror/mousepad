@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-18 00:56+0200\n"
-"PO-Revision-Date: 2020-11-01 17:26+0000\n"
-"Last-Translator: jc1 <jc1.quebecos@gmail.com>\n"
+"PO-Revision-Date: 2020-11-03 20:16+0000\n"
+"Last-Translator: Yannick Le Guen <leguen.yannick@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +34,7 @@ msgctxt ""
 "The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not "
 "be translated"
 msgid "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"
-msgstr "Mode d’ouverture de fichier : « onglet », « fenêtre » ou « mixte » (ouvrir les onglets dans une nouvelle fenêtre)"
+msgstr "Mode d’ouverture de fichier : « tab », « window » ou « mixed » (ouvrir les onglets dans une nouvelle fenêtre)"
 
 #: ../mousepad/mousepad-application.c:85
 msgid "MODE"
@@ -646,7 +646,7 @@ msgstr "Enregistrer le document actif dans un autre fichier"
 #: ../mousepad/mousepad-window.c:892 ../mousepad/mousepad-window.c:2345
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Re_load"
-msgstr "Recharger"
+msgstr "Re_charger"
 
 #: ../mousepad/mousepad-window.c:893 ../mousepad/mousepad-window.c:2352
 #: ../mousepad/resources/gtk/menus.ui.h:22
