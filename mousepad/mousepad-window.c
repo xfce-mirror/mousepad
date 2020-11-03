@@ -1269,6 +1269,7 @@ mousepad_window_configure_event (GtkWidget         *widget,
    * the three actions below run as a loop.
    * The window geometry backup only takes place once, one second after the
    * last configure event.
+   * "event == NULL" is a special case, corresponding to "save on close".
    */
 
   /* drop the previous timer source */
@@ -1278,17 +1279,25 @@ mousepad_window_configure_event (GtkWidget         *widget,
         g_source_destroy (source);
 
       g_source_unref (source);
+      source = NULL;
     }
 
-  /* schedule a new backup of the window geometry */
-  source_id = g_timeout_add_seconds (1, G_SOURCE_FUNC (mousepad_window_save_geometry), window);
+  /* real event */
+  if (event != NULL)
+    {
+      /* schedule a new backup of the window geometry */
+      source_id = g_timeout_add_seconds (1, G_SOURCE_FUNC (mousepad_window_save_geometry), window);
 
-  /* retrieve the timer source and increase its ref count to test its destruction next time */
-  source = g_main_context_find_source_by_id (NULL, source_id);
-  g_source_ref (source);
+      /* retrieve the timer source and increase its ref count to test its destruction next time */
+      source = g_main_context_find_source_by_id (NULL, source_id);
+      g_source_ref (source);
 
-  /* let gtk+ handle the configure event */
-  return GTK_WIDGET_CLASS (mousepad_window_parent_class)->configure_event (widget, event);
+      /* let gtk+ handle the configure event */
+      return GTK_WIDGET_CLASS (mousepad_window_parent_class)->configure_event (widget, event);
+    }
+  /* save on close */
+  else
+    return mousepad_window_save_geometry (window);
 }
 
 
@@ -2203,7 +2212,8 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   /* update the window */
   if (npages == 0)
     {
-      /* window contains no tabs, destroy it */
+      /* window contains no tabs: save geometry and destroy it */
+      mousepad_window_configure_event (GTK_WIDGET (window), NULL);
       gtk_widget_destroy (GTK_WIDGET (window));
     }
   else
