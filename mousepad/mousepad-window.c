@@ -3605,16 +3605,32 @@ mousepad_window_search (MousepadWindow      *window,
                         const gchar         *string,
                         const gchar         *replacement)
 {
-  gint       nmatches = 0;
-  gint       npages, i;
   GtkWidget *document;
+  gint       nmatches = 0, npages, i;
+  gboolean   highlight;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), -1);
 
-  if (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_ON)
-    gtk_source_search_context_set_highlight (window->active->search_context, TRUE);
-  else if (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_OFF)
-    gtk_source_search_context_set_highlight (window->active->search_context, FALSE);
+  if (flags & (MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_ON
+               | MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_OFF))
+    {
+      /* get the number of documents in this window */
+      npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
+
+      /* highlight state */
+      highlight = flags & MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_ON;
+
+      /* walk the pages */
+      for (i = 0; i < npages; i++)
+        {
+          /* get the document */
+          document = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i);
+
+          /* toggle highlight for the document */
+          gtk_source_search_context_set_highlight (MOUSEPAD_DOCUMENT (document)->search_context,
+                                                   highlight);
+        }
+    }
   else if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)
     {
       /* get the number of documents in this window */
