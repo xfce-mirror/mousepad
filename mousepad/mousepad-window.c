@@ -3599,7 +3599,9 @@ mousepad_window_scroll_to_cursor (MousepadWindow *window)
 {
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
 
-  if (window->active != NULL)
+  /* all this should always be true, but this way we avoid any problems: see comment below */
+  if (G_LIKELY (MOUSEPAD_IS_WINDOW (window) && MOUSEPAD_IS_DOCUMENT (window->active)
+                && MOUSEPAD_IS_VIEW (window->active->textview)))
     mousepad_view_scroll_to_cursor (window->active->textview);
 
   return FALSE;
@@ -3644,14 +3646,20 @@ mousepad_window_search (MousepadWindow      *window,
       /* search or replace in the active document whenever idle */
       nmatches = mousepad_util_search (window->active->search_context, string, replacement, flags);
 
-      /* make sure the selection is visible */
+      /*
+       * Make sure the selection is visible.
+       * Add an idle so that the search bar does not hide matches, see #26 and !13.
+       * "G_PRIORITY_HIGH_IDLE + 20" seems to be a good priority to fix the previous issue
+       * without adding side effects because of a too high delay: see !54.
+       */
       if (flags & (MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT | MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE)
           && nmatches > 0)
-        g_idle_add (G_SOURCE_FUNC (mousepad_window_scroll_to_cursor), window);
+        g_idle_add_full (G_PRIORITY_HIGH_IDLE + 20,
+                         G_SOURCE_FUNC (mousepad_window_scroll_to_cursor), window, NULL);
     }
   else
     {
-      /* should never be reaches */
+      /* should never be reached */
       g_assert_not_reached ();
     }
 
