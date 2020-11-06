@@ -423,7 +423,7 @@
               <object class="GtkLabel" id="/prefs/view/color-scheme-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Colour scheme&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Color scheme&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
               </object>
             </child>
