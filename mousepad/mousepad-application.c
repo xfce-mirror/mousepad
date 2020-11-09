@@ -220,6 +220,7 @@ static void
 mousepad_application_startup (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  const gchar         *accels[] = { NULL };
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
@@ -234,6 +235,15 @@ mousepad_application_startup (GApplication *gapplication)
   /* add application actions */
   g_action_map_add_action_entries (G_ACTION_MAP (application), action_entries,
                                    G_N_ELEMENTS (action_entries), application);
+
+  /*
+   * Some accels are already active at the widget level for some widgets, so we don't need and
+   * should not activate them at the action level, to not introduce conflicts.
+   * But we want them to appear in the menubar, as an indication for the user.
+   * So this trick does the job: adding them to the GtkBuilder UI file, and deactivating them
+   * when the menubar is set.
+  */
+  gtk_application_set_accels_for_action (GTK_APPLICATION (application), "win.edit.select-all", accels);
 
   /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
