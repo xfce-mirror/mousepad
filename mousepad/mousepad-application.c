@@ -21,6 +21,7 @@
 #include <mousepad/mousepad-prefs-dialog.h>
 #include <mousepad/mousepad-replace-dialog.h>
 #include <mousepad/mousepad-window.h>
+#include <mousepad/mousepad-util.h>
 
 #include <xfconf/xfconf.h>
 
