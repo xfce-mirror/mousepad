@@ -26,10 +26,9 @@
 #include <mousepad/mousepad-statusbar.h>
 #include <mousepad/mousepad-print.h>
 #include <mousepad/mousepad-window.h>
+#include <mousepad/mousepad-util.h>
 
 #include <glib/gstdio.h>
-
-#include <gtksourceview/gtksource.h>
 
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -55,6 +54,8 @@ enum
 {
   NEW_WINDOW,
   NEW_WINDOW_WITH_DOCUMENT,
+  SEARCH_COMPLETED,
+  SEARCH_WIDGET_VISIBLE,
   LAST_SIGNAL
 };
 
@@ -197,11 +198,15 @@ static void              mousepad_window_drag_data_received           (GtkWidget
                                                                        MousepadWindow         *window);
 
 /* find and replace */
-static gint              mousepad_window_search                       (MousepadWindow         *window,
+static void              mousepad_window_search                       (MousepadWindow         *window,
                                                                        MousepadSearchFlags     flags,
                                                                        const gchar            *string,
                                                                        const gchar            *replacement);
-static void              mousepad_window_hide_search_bar              (MousepadWindow         *window);
+static void              mousepad_window_search_completed             (MousepadWindow         *window,
+                                                                       gint                    n_matches_doc,
+                                                                       const gchar            *string,
+                                                                       MousepadSearchFlags     flags,
+                                                                       MousepadDocument       *document);
 
 /* history clipboard functions */
 static void              mousepad_window_paste_history_add            (MousepadWindow         *window);
@@ -584,6 +589,23 @@ mousepad_window_class_init (MousepadWindowClass *klass)
                   G_TYPE_NONE, 3,
                   G_TYPE_OBJECT,
                   G_TYPE_INT, G_TYPE_INT);
+
+  window_signals[SEARCH_COMPLETED] =
+    g_signal_new (I_("search-completed"),
+                  G_TYPE_FROM_CLASS (gobject_class),
+                  G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL,
+                  _mousepad_marshal_VOID__INT_STRING_FLAGS,
+                  G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_STRING,
+                  MOUSEPAD_TYPE_SEARCH_FLAGS);
+
+  window_signals[SEARCH_WIDGET_VISIBLE] =
+    g_signal_new (I_("search-widget-visible"),
+                  G_TYPE_FROM_CLASS (gobject_class),
+                  G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL,
+                  g_cclosure_marshal_VOID__BOOLEAN,
+                  G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 }
 
 
@@ -1702,6 +1724,10 @@ mousepad_window_add (MousepadWindow   *window,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
   g_return_if_fail (GTK_IS_NOTEBOOK (window->notebook));
 
+  /* receive the document occurrences count */
+  g_signal_connect_swapped (document, "search-completed",
+                            G_CALLBACK (mousepad_window_search_completed), window);
+
   /* create the tab label */
   label = mousepad_document_get_tab_label (document);
 
@@ -1709,10 +1735,12 @@ mousepad_window_add (MousepadWindow   *window,
   page = gtk_notebook_get_current_page (GTK_NOTEBOOK (window->notebook));
 
   /* insert the page right of the active tab */
-  page = gtk_notebook_insert_page (GTK_NOTEBOOK (window->notebook), GTK_WIDGET (document), label, page + 1);
+  page = gtk_notebook_insert_page (GTK_NOTEBOOK (window->notebook),
+                                   GTK_WIDGET (document), label, page + 1);
 
   /* set tab child properties */
-  gtk_container_child_set (GTK_CONTAINER (window->notebook), GTK_WIDGET (document), "tab-expand", TRUE, NULL);
+  gtk_container_child_set (GTK_CONTAINER (window->notebook),
+                           GTK_WIDGET (document), "tab-expand", TRUE, NULL);
   gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (window->notebook), GTK_WIDGET (document), TRUE);
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (window->notebook), GTK_WIDGET (document), TRUE);
 
@@ -3433,6 +3461,32 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
 /**
  * Find and replace
  **/
+static void
+mousepad_window_search (MousepadWindow      *window,
+                        MousepadSearchFlags  flags,
+                        const gchar         *string,
+                        const gchar         *replacement)
+{
+  GtkWidget *document;
+  gint       n;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* multi-document mode */
+  if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)
+    for (n = 0; n < gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook)); n++)
+      {
+        /* search in the nth document */
+        document = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), n);
+        mousepad_document_search (MOUSEPAD_DOCUMENT (document), string, replacement, flags);
+      }
+  /* search in the active document */
+  else
+    mousepad_document_search (window->active, string, replacement, flags);
+}
+
+
+
 static gboolean
 mousepad_window_scroll_to_cursor (MousepadWindow *window)
 {
@@ -3448,101 +3502,106 @@ mousepad_window_scroll_to_cursor (MousepadWindow *window)
 
 
 
-static gint
-mousepad_window_search (MousepadWindow      *window,
-                        MousepadSearchFlags  flags,
-                        const gchar         *string,
-                        const gchar         *replacement)
-{
-  GtkWidget *document;
-  gint       nmatches = 0, npages, i;
-  gboolean   highlight;
-
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), -1);
-
-  if (flags & (MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_ON
-               | MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_OFF))
-    {
-      /* get the number of documents in this window */
-      npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
-
-      /* highlight state */
-      highlight = flags & MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_ON;
-
-      /* walk the pages */
-      for (i = 0; i < npages; i++)
-        {
-          /* get the document */
-          document = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i);
-
-          /* toggle highlight for the document */
-          gtk_source_search_context_set_highlight (MOUSEPAD_DOCUMENT (document)->search_context,
-                                                   highlight);
-        }
-    }
-  else if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)
-    {
-      /* get the number of documents in this window */
-      npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
-
-      /* walk the pages */
-      for (i = 0; i < npages; i++)
-        {
-          /* get the document */
-          document = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i);
-
-          /* replace the matches in the document */
-          nmatches += mousepad_util_search (MOUSEPAD_DOCUMENT (document)->search_context, string,
-                                            replacement, flags);
-        }
-    }
-  else if (window->active != NULL)
-    {
-      /* search or replace in the active document whenever idle */
-      nmatches = mousepad_util_search (window->active->search_context, string, replacement, flags);
-
-      /*
-       * Make sure the selection is visible.
-       * Add an idle so that the search bar does not hide matches, see #26 and !13.
-       * "G_PRIORITY_HIGH_IDLE + 20" seems to be a good priority to fix the previous issue
-       * without adding side effects because of a too high delay: see !54.
-       */
-      if (flags & (MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT | MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE)
-          && nmatches > 0)
-        g_idle_add_full (G_PRIORITY_HIGH_IDLE + 20,
-                         G_SOURCE_FUNC (mousepad_window_scroll_to_cursor), window, NULL);
-    }
-  else
-    {
-      /* should never be reached */
-      g_assert_not_reached ();
-    }
-
-  return nmatches;
-}
-
-
-
 static void
-mousepad_window_hide_search_bar (MousepadWindow *window)
+mousepad_window_search_completed (MousepadWindow      *window,
+                                  gint                 n_matches_doc,
+                                  const gchar         *string,
+                                  MousepadSearchFlags  flags,
+                                  MousepadDocument    *document)
 {
-  MousepadSearchFlags flags;
+  static GList *documents = NULL, *n_matches_docs = NULL;
+  static gchar *multi_string = NULL;
+  static gint   n_matches = 0, n_documents = 0;
+  GList        *up_doc, *up_match;
+  gint          index;
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
-  g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (window->search_bar));
+  /* always send the active document result, although it will only be relevant for the
+   * search bar if the multi-document mode is active */
+  if (document == window->active)
+    g_signal_emit (window, window_signals[SEARCH_COMPLETED], 0, n_matches_doc, string,
+                   flags & (~ MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS));
 
-  /* setup flags */
-  flags = MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_OFF;
+  /* multi-document mode is active: collect the search results regardless of their origin:
+   * replace dialog, search bar or buffer change */
+  if (MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog)
+      && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL)
+      && MOUSEPAD_SETTING_GET_INT (SEARCH_REPLACE_ALL_LOCATION) == 2)
+    {
+      /* update the current search string or exit if the search is irrelevant */
+      if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)
+        {
+          g_free (multi_string);
+          multi_string = g_strdup (string);
+        }
+      else if (g_strcmp0 (multi_string, string) != 0)
+        return;
 
-  /* remove the highlight */
-  mousepad_window_search (window, flags, NULL, NULL);
+      /* remove obsolete document results */
+      if (documents != NULL)
+        {
+          for (up_doc = documents, up_match = n_matches_docs; up_doc != NULL;)
+            if (gtk_notebook_page_num (GTK_NOTEBOOK (window->notebook), up_doc->data) == -1)
+              {
+                /* update data */
+                n_documents--;
+                n_matches -= GPOINTER_TO_INT (up_match->data);
 
-  /* hide the search bar */
-  gtk_widget_hide (window->search_bar);
+                /* remove the result from the list */
+                up_match->data = GINT_TO_POINTER (-1);
+                n_matches_docs = g_list_remove (n_matches_docs, up_match->data);
+                up_match = n_matches_docs;
 
-  /* focus the active document's text view */
-  mousepad_document_focus_textview (window->active);
+                /* remove the document from the list */
+                documents = g_list_remove (documents, up_doc->data);
+                up_doc = documents;
+
+                /* complementary exit condition */
+                if (documents == NULL)
+                  break;
+              }
+            /* walk the list */
+            else
+              {
+                up_doc = up_doc->next;
+                up_match = up_match->next;
+              }
+        }
+
+      /* update an old document result */
+      if (documents != NULL && (index = g_list_index (documents, document)) != -1)
+        {
+          up_match = g_list_nth (n_matches_docs, index);
+          n_matches += n_matches_doc - GPOINTER_TO_INT (up_match->data);
+          up_match->data = GINT_TO_POINTER (n_matches_doc);
+        }
+      /* add a new document result, and wait until all documents have completed their search
+       * to send the final result to the replace dialog */
+      else
+        {
+          /* update lists */
+          documents = g_list_prepend (documents, document);
+          n_matches_docs = g_list_prepend (n_matches_docs, GINT_TO_POINTER (n_matches_doc));
+          n_matches += n_matches_doc;
+
+          /* exit if all documents have not yet send their result */
+          if (++n_documents < gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook)))
+            return;
+        }
+
+      /* send the final result, only relevant for the replace dialog */
+      g_signal_emit (window, window_signals[SEARCH_COMPLETED], 0, n_matches, string,
+                     flags | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
+    }
+
+  /*
+   * Make sure the selection is visible.
+   * Add an idle so that the search bar does not hide matches, see #26 and !13.
+   * "G_PRIORITY_HIGH_IDLE + 20" seems to be a good priority to fix the previous issue
+   * without adding side effects because of a too high delay: see !54.
+   */
+  if (n_matches_doc > 0)
+    g_idle_add_full (G_PRIORITY_HIGH_IDLE + 20,
+                     G_SOURCE_FUNC (mousepad_window_scroll_to_cursor), window, NULL);
 }
 
 
@@ -4907,6 +4966,27 @@ mousepad_window_action_decrease_indent (GSimpleAction *action,
 
 
 static void
+mousepad_window_hide_search_bar (MousepadWindow *window)
+{
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+  g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (window->search_bar));
+
+  /* hide the search bar */
+  gtk_widget_hide (window->search_bar);
+
+  /* inform documents if no search widget is visible */
+  if (! MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog)
+      || ! gtk_widget_get_visible (window->replace_dialog))
+    g_signal_emit (window, window_signals[SEARCH_WIDGET_VISIBLE], 0, FALSE);
+
+  /* focus the active document's text view */
+  mousepad_document_focus_textview (window->active);
+}
+
+
+
+static void
 mousepad_window_action_find (GSimpleAction *action,
                              GVariant      *value,
                              gpointer       data)
@@ -4926,17 +5006,19 @@ mousepad_window_action_find (GSimpleAction *action,
       gtk_box_pack_start (GTK_BOX (window->box), window->search_bar, FALSE, FALSE, PADDING);
 
       /* connect signals */
-      g_signal_connect_swapped (G_OBJECT (window->search_bar), "hide-bar",
+      g_signal_connect_swapped (window->search_bar, "hide-bar",
                                 G_CALLBACK (mousepad_window_hide_search_bar), window);
-      g_signal_connect_swapped (G_OBJECT (window->search_bar), "search",
+      g_signal_connect_swapped (window->search_bar, "search",
                                 G_CALLBACK (mousepad_window_search), window);
     }
 
   /* set the search entry text */
   if (gtk_text_buffer_get_has_selection (window->active->buffer) == TRUE)
     {
-      gtk_text_buffer_get_selection_bounds (window->active->buffer, &selection_start, &selection_end);
-      selection = gtk_text_buffer_get_text (window->active->buffer, &selection_start, &selection_end, 0);
+      gtk_text_buffer_get_selection_bounds (window->active->buffer,
+                                            &selection_start, &selection_end);
+      selection = gtk_text_buffer_get_text (window->active->buffer,
+                                            &selection_start, &selection_end, 0);
 
       /* selection should be one line */
       if (g_strrstr (selection, "\n") == NULL && g_strrstr (selection, "\r") == NULL)
@@ -4945,8 +5027,16 @@ mousepad_window_action_find (GSimpleAction *action,
       g_free (selection);
     }
 
-  /* show the search bar */
-  gtk_widget_show (window->search_bar);
+  if (! gtk_widget_get_visible (window->search_bar))
+    {
+      /* show the search bar */
+      gtk_widget_show (window->search_bar);
+
+      /* inform documents that a search widget is visible */
+      if (! MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog)
+          || ! gtk_widget_get_visible (window->replace_dialog))
+        g_signal_emit (window, window_signals[SEARCH_WIDGET_VISIBLE], 0, TRUE);
+    }
 
   /* focus the search entry */
   mousepad_search_bar_focus (MOUSEPAD_SEARCH_BAR (window->search_bar));
@@ -4988,31 +5078,45 @@ mousepad_window_action_find_previous (GSimpleAction *action,
 
 
 
-static void
-mousepad_window_action_replace_switch_page (MousepadWindow *window)
+static gboolean
+mousepad_window_replace_dialog_switch_page_idle (MousepadWindow *window)
 {
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+  if (MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog))
+    mousepad_replace_dialog_page_switched (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog));
 
-  /* page switched */
-  mousepad_replace_dialog_page_switched (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog));
+  return FALSE;
 }
 
 
 
 static void
-mousepad_window_action_replace_destroy (MousepadWindow *window)
+mousepad_window_replace_dialog_switch_page (MousepadWindow *window)
+{
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog));
+
+  /* add an idle with an existence test on the dialog to not launch searches when closing */
+  g_idle_add (G_SOURCE_FUNC (mousepad_window_replace_dialog_switch_page_idle), window);
+}
+
+
+
+static void
+mousepad_window_replace_dialog_destroy (MousepadWindow *window)
 {
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* disconnect tab switch signal */
   mousepad_disconnect_by_func (G_OBJECT (window->notebook),
-                               mousepad_window_action_replace_switch_page,
-                               window);
+                               mousepad_window_replace_dialog_switch_page, window);
 
   /* reset the dialog variable */
   window->replace_dialog = NULL;
+
+  /* inform documents if no search widget is visible */
+  if (! MOUSEPAD_IS_SEARCH_BAR (window->search_bar)
+      || ! gtk_widget_get_visible (window->search_bar))
+    g_signal_emit (window, window_signals[SEARCH_WIDGET_VISIBLE], 0, FALSE);
 }
 
 
@@ -5032,20 +5136,20 @@ mousepad_window_action_replace (GSimpleAction *action,
   if (window->replace_dialog == NULL)
     {
       /* create a new dialog */
-      window->replace_dialog = mousepad_replace_dialog_new ();
-
-      /* popup the dialog */
-      gtk_window_set_destroy_with_parent (GTK_WINDOW (window->replace_dialog), TRUE);
-      gtk_window_set_transient_for (GTK_WINDOW (window->replace_dialog), GTK_WINDOW (window));
-      gtk_widget_show (window->replace_dialog);
+      window->replace_dialog = mousepad_replace_dialog_new (window);
 
       /* connect signals */
-      g_signal_connect_swapped (G_OBJECT (window->replace_dialog), "destroy",
-                                G_CALLBACK (mousepad_window_action_replace_destroy), window);
-      g_signal_connect_swapped (G_OBJECT (window->replace_dialog), "search",
+      g_signal_connect_swapped (window->replace_dialog, "destroy",
+                                G_CALLBACK (mousepad_window_replace_dialog_destroy), window);
+      g_signal_connect_swapped (window->replace_dialog, "search",
                                 G_CALLBACK (mousepad_window_search), window);
-      g_signal_connect_swapped (G_OBJECT (window->notebook), "switch-page",
-                                G_CALLBACK (mousepad_window_action_replace_switch_page), window);
+      g_signal_connect_swapped (window->notebook, "switch-page",
+                                G_CALLBACK (mousepad_window_replace_dialog_switch_page), window);
+
+      /* inform documents that a search widget is visible */
+      if (! MOUSEPAD_IS_SEARCH_BAR (window->search_bar)
+          || ! gtk_widget_get_visible (window->search_bar))
+        g_signal_emit (window, window_signals[SEARCH_WIDGET_VISIBLE], 0, TRUE);
     }
   else
     {
@@ -5056,12 +5160,15 @@ mousepad_window_action_replace (GSimpleAction *action,
   /* set the search entry text */
   if (gtk_text_buffer_get_has_selection (window->active->buffer) == TRUE)
     {
-      gtk_text_buffer_get_selection_bounds (window->active->buffer, &selection_start, &selection_end);
-      selection = gtk_text_buffer_get_text (window->active->buffer, &selection_start, &selection_end, 0);
+      gtk_text_buffer_get_selection_bounds (window->active->buffer,
+                                            &selection_start, &selection_end);
+      selection = gtk_text_buffer_get_text (window->active->buffer,
+                                            &selection_start, &selection_end, 0);
 
       /* selection should be one line */
       if (g_strrstr (selection, "\n") == NULL && g_strrstr (selection, "\r") == NULL)
-        mousepad_replace_dialog_set_text (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog), selection);
+        mousepad_replace_dialog_set_text (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog),
+                                          selection);
 
       g_free (selection);
     }
