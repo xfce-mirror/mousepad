@@ -420,7 +420,18 @@ mousepad_search_bar_find_previous (MousepadSearchBar *bar)
 
 
 void
-mousepad_search_bar_set_text (MousepadSearchBar *bar, gchar *text)
+mousepad_search_bar_page_switched (MousepadSearchBar *bar)
+{
+  g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (bar));
+
+  mousepad_search_bar_entry_changed (bar);
+}
+
+
+
+void
+mousepad_search_bar_set_text (MousepadSearchBar *bar,
+                              const gchar       *text)
 {
   g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (bar));
 
