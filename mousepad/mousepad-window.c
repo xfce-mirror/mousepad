@@ -5023,11 +5023,26 @@ mousepad_window_action_decrease_indent (GSimpleAction *action,
 
 
 static void
+mousepad_window_search_bar_switch_page (MousepadWindow *window)
+{
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (window->search_bar));
+
+  mousepad_search_bar_page_switched (MOUSEPAD_SEARCH_BAR (window->search_bar));
+}
+
+
+
+static void
 mousepad_window_hide_search_bar (MousepadWindow *window)
 {
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
   g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (window->search_bar));
+
+  /* disconnect tab switch signal */
+  mousepad_disconnect_by_func (window->notebook,
+                               mousepad_window_search_bar_switch_page, window);
 
   /* hide the search bar */
   gtk_widget_hide (window->search_bar);
@@ -5086,6 +5101,12 @@ mousepad_window_action_find (GSimpleAction *action,
 
   if (! gtk_widget_get_visible (window->search_bar))
     {
+      /* connect to "switch-page" signal if the replace dialog is not shown */
+      if (! MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog)
+          || ! gtk_widget_get_visible (window->replace_dialog))
+        g_signal_connect_swapped (window->notebook, "switch-page",
+                                  G_CALLBACK (mousepad_window_search_bar_switch_page), window);
+
       /* show the search bar */
       gtk_widget_show (window->search_bar);
 
@@ -5155,6 +5176,12 @@ mousepad_window_replace_dialog_destroy (MousepadWindow *window)
   mousepad_disconnect_by_func (G_OBJECT (window->notebook),
                                mousepad_window_replace_dialog_switch_page, window);
 
+  /* (re)connect the search bar to the "switch-page" signal if it is shown */
+  if (MOUSEPAD_IS_SEARCH_BAR (window->search_bar)
+      && gtk_widget_get_visible (window->search_bar))
+    g_signal_connect_swapped (window->notebook, "switch-page",
+                              G_CALLBACK (mousepad_window_search_bar_switch_page), window);
+
   /* reset the dialog variable */
   window->replace_dialog = NULL;
 
@@ -5190,6 +5217,10 @@ mousepad_window_action_replace (GSimpleAction *action,
                                 G_CALLBACK (mousepad_window_search), window);
       g_signal_connect_swapped (window->notebook, "switch-page",
                                 G_CALLBACK (mousepad_window_replace_dialog_switch_page), window);
+
+      /* disconnect the search bar from the tab switch signal while the replace dialog is shown */
+      mousepad_disconnect_by_func (window->notebook,
+                                   mousepad_window_search_bar_switch_page, window);
 
       /* set the window property if no search widget was visible */
       if (! MOUSEPAD_IS_SEARCH_BAR (window->search_bar)
