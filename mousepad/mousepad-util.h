@@ -22,37 +22,6 @@
 
 G_BEGIN_DECLS
 
-#define MOUSEPAD_TYPE_SEARCH_FLAGS (mousepad_util_search_flags_get_type ())
-
-typedef enum
-{
-  /* search area */
-  MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA          = 1 << 0,  /* search the whole area */
-  MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION       = 1 << 1,  /* search inside selection */
-  MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS   = 1 << 2,  /* search all documents */
-
-  /* iter start point */
-  MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START       = 1 << 3,  /* start at from the beginning of the selection */
-  MOUSEPAD_SEARCH_FLAGS_ITER_SEL_END         = 1 << 4,  /* start at from the end of the selection */
-
-  /* direction */
-  MOUSEPAD_SEARCH_FLAGS_DIR_FORWARD          = 1 << 5,  /* search forward to end of area */
-  MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD         = 1 << 6,  /* search backwards to start of area */
-
-  /* search settings */
-  MOUSEPAD_SEARCH_FLAGS_MATCH_CASE           = 1 << 7,  /* match case */
-  MOUSEPAD_SEARCH_FLAGS_ENABLE_REGEX         = 1 << 8,  /* enable regex search */
-  MOUSEPAD_SEARCH_FLAGS_WHOLE_WORD           = 1 << 9,  /* only match whole words */
-  MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND          = 1 << 10, /* wrap around */
-
-  /* actions */
-  MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_ON  = 1 << 11, /* enable occurrence highlighting */
-  MOUSEPAD_SEARCH_FLAGS_ACTION_HIGHLIGHT_OFF = 1 << 12, /* disable occurrence highlighting */
-  MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT        = 1 << 13, /* select the match */
-  MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE       = 1 << 14, /* replace the match */
-}
-MousepadSearchFlags;
-
 gboolean   mousepad_util_iter_starts_word                 (const GtkTextIter   *iter);
 
 gboolean   mousepad_util_iter_ends_word                   (const GtkTextIter   *iter);
@@ -104,13 +73,6 @@ gchar     *mousepad_util_get_save_location                (const gchar         *
 
 void       mousepad_util_save_key_file                    (GKeyFile            *keyfile,
                                                            const gchar         *filename);
-
-GType      mousepad_util_search_flags_get_type            (void) G_GNUC_CONST;
-
-gint       mousepad_util_search                           (GtkSourceSearchContext *search_context,
-                                                           const gchar            *string,
-                                                           const gchar            *replace,
-                                                           MousepadSearchFlags     flags);
 
 GIcon     *mousepad_util_icon_for_mime_type               (const gchar         *mime_type);
 
