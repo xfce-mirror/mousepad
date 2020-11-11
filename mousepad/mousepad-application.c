@@ -184,6 +184,13 @@ static const GActionEntry dialog_actions[] =
 };
 #define N_DIALOG G_N_ELEMENTS (dialog_actions)
 
+/* settings only accessible from the menubar */
+static const GActionEntry menubar_actions[] =
+{
+  { MOUSEPAD_SETTING_SEARCH_HIGHLIGHT_ALL, mousepad_application_toggle_activate, NULL, "false", NULL }
+};
+#define N_MENUBAR G_N_ELEMENTS (menubar_actions)
+
 /* whitespace location settings, only accessible from GSettings */
 static const GActionEntry whitespace_actions[] =
 {
@@ -200,11 +207,13 @@ static const GActionEntry whitespace_actions[] =
 static const GActionEntry* setting_actions[] =
 {
   dialog_actions,
+  menubar_actions,
   whitespace_actions
 };
 static const guint n_setting_actions[] =
 {
   N_DIALOG,
+  N_MENUBAR,
   N_WHITESPACE
 };
 #define N_SETTING G_N_ELEMENTS (n_setting_actions)

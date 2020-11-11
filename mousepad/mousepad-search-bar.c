@@ -57,6 +57,7 @@ struct _MousepadSearchBar
 
   /* bar widgets */
   GtkWidget *entry;
+  GtkWidget *hits_label;
 };
 
 
@@ -194,15 +195,17 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
   g_signal_connect_swapped (item, "clicked", G_CALLBACK (mousepad_search_bar_find_next), bar);
 
-  /* highlight all */
-  item = GTK_TOOL_ITEM (gtk_toggle_tool_button_new ());
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (item), "edit-select-all-symbolic");
-  gtk_tool_button_set_label (GTK_TOOL_BUTTON (item), _("Highlight _All"));
-  gtk_tool_item_set_is_important (item, TRUE);
-  gtk_tool_button_set_use_underline (GTK_TOOL_BUTTON (item), TRUE);
+  /* the occurrences label */
+  item = gtk_tool_item_new ();
+  bar->hits_label = gtk_label_new (NULL);
+  gtk_container_add (GTK_CONTAINER (item), bar->hits_label);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
-  MOUSEPAD_SETTING_BIND (SEARCH_HIGHLIGHT_ALL, item, "active", G_SETTINGS_BIND_DEFAULT);
+  /* insert an invisible separator to push checkboxes to the right */
+  item = gtk_separator_tool_item_new ();
+  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
+  gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (item), FALSE);
+  gtk_tool_item_set_expand (item, TRUE);
 
   /* check button for case sensitive, including the proxy menu item */
   check = gtk_check_button_new_with_mnemonic (_("Match _case"));
@@ -269,6 +272,10 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
 
+  /* reset entry color and occurrences label */
+  mousepad_util_entry_error (bar->entry, FALSE);
+  gtk_label_set_text (GTK_LABEL (bar->hits_label), NULL);
+
   /* emit signal */
   g_signal_emit (G_OBJECT (bar), search_bar_signals[SEARCH], 0, flags, string, NULL);
 }
@@ -281,14 +288,30 @@ mousepad_search_bar_search_completed (MousepadSearchBar   *bar,
                                       const gchar         *search_string,
                                       MousepadSearchFlags  flags)
 {
+  gchar       *message;
   const gchar *string;
 
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
 
-  /* update entry color */
+  /* leave the search bar unchanged if the search was launched from the replace dialog
+   * for a different string or irrelevant settings for the search bar*/
+  if (g_strcmp0 (string, search_string) != 0
+      || (flags & MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)
+      || (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
+    return;
+
   if (string != NULL && *string != '\0')
-    mousepad_util_entry_error (bar->entry, n_matches == 0);
+    {
+      /* update entry color */
+      mousepad_util_entry_error (bar->entry, n_matches == 0);
+
+      /* update counter */
+      message = g_strdup_printf (ngettext ("%d occurrence", "%d occurrences", n_matches),
+                                 n_matches);
+      gtk_label_set_markup (GTK_LABEL (bar->hits_label), message);
+      g_free (message);
+    }
 }
 
 
