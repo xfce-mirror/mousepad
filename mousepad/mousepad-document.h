@@ -17,7 +17,6 @@
 #ifndef __MOUSEPAD_DOCUMENT_H__
 #define __MOUSEPAD_DOCUMENT_H__
 
-#include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-file.h>
 #include <mousepad/mousepad-view.h>
 
@@ -36,6 +35,31 @@ typedef struct _MousepadDocument        MousepadDocument;
 #define MOUSEPAD_IS_DOCUMENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MOUSEPAD_TYPE_DOCUMENT))
 #define MOUSEPAD_DOCUMENT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_DOCUMENT, MousepadDocumentClass))
 
+#define MOUSEPAD_TYPE_SEARCH_FLAGS (mousepad_document_search_flags_get_type ())
+
+typedef enum
+{
+  /* search area */
+  MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA        = 1 << 0,  /* search the whole area */
+  MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION     = 1 << 1,  /* search inside selection */
+  MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS = 1 << 2,  /* search all documents */
+
+  /* iter start point */
+  MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START     = 1 << 3,  /* start at from the beginning of the selection */
+  MOUSEPAD_SEARCH_FLAGS_ITER_SEL_END       = 1 << 4,  /* start at from the end of the selection */
+
+  /* direction */
+  MOUSEPAD_SEARCH_FLAGS_DIR_FORWARD        = 1 << 5,  /* search forward to end of area */
+  MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD       = 1 << 6,  /* search backwards to start of area */
+
+  /* actions */
+  MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT      = 1 << 7, /* select the match */
+  MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE     = 1 << 8, /* replace the match */
+}
+MousepadSearchFlags;
+
+GType mousepad_document_search_flags_get_type (void) G_GNUC_CONST;
+
 struct _MousepadDocument
 {
   GtkScrolledWindow        __parent__;
@@ -46,9 +70,8 @@ struct _MousepadDocument
   /* file */
   MousepadFile            *file;
 
-  /* text buffer and associated search context */
+  /* text buffer */
   GtkTextBuffer           *buffer;
-  GtkSourceSearchContext  *search_context;
 
   /* text view */
   MousepadView            *textview;
@@ -58,20 +81,25 @@ GType             mousepad_document_get_type       (void) G_GNUC_CONST;
 
 MousepadDocument *mousepad_document_new            (void);
 
-void              mousepad_document_set_overwrite  (MousepadDocument *document,
-                                                    gboolean          overwrite);
+void              mousepad_document_set_overwrite  (MousepadDocument    *document,
+                                                    gboolean             overwrite);
 
-void              mousepad_document_focus_textview (MousepadDocument *document);
+void              mousepad_document_focus_textview (MousepadDocument    *document);
 
-void              mousepad_document_send_signals   (MousepadDocument *document);
+void              mousepad_document_send_signals   (MousepadDocument    *document);
 
-GtkWidget        *mousepad_document_get_tab_label  (MousepadDocument *document);
+GtkWidget        *mousepad_document_get_tab_label  (MousepadDocument    *document);
 
-const gchar      *mousepad_document_get_basename   (MousepadDocument *document);
+const gchar      *mousepad_document_get_basename   (MousepadDocument    *document);
 
-const gchar      *mousepad_document_get_filename   (MousepadDocument *document);
+const gchar      *mousepad_document_get_filename   (MousepadDocument    *document);
 
-gboolean          mousepad_document_get_word_wrap  (MousepadDocument *document);
+gboolean          mousepad_document_get_word_wrap  (MousepadDocument    *document);
+
+void              mousepad_document_search         (MousepadDocument    *document,
+                                                    const gchar         *string,
+                                                    const gchar         *replace,
+                                                    MousepadSearchFlags  flags);
 
 G_END_DECLS
 
