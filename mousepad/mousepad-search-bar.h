@@ -43,7 +43,10 @@ void            mousepad_search_bar_find_next       (MousepadSearchBar *bar);
 
 void            mousepad_search_bar_find_previous   (MousepadSearchBar *bar);
 
-void            mousepad_search_bar_page_switched   (MousepadSearchBar *bar);
+void            mousepad_search_bar_page_switched   (MousepadSearchBar *bar,
+                                                     GtkTextBuffer     *old_buffer,
+                                                     GtkTextBuffer     *new_buffer,
+                                                     gboolean           search);
 
 void            mousepad_search_bar_set_text        (MousepadSearchBar *bar,
                                                      const gchar       *text);

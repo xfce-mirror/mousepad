@@ -39,7 +39,9 @@ GtkWidget      *mousepad_replace_dialog_new            (MousepadWindow        *w
 
 void            mousepad_replace_dialog_history_clean  (void);
 
-void            mousepad_replace_dialog_page_switched  (MousepadReplaceDialog *dialog);
+void            mousepad_replace_dialog_page_switched  (MousepadReplaceDialog *dialog,
+                                                        GtkTextBuffer         *old_buffer,
+                                                        GtkTextBuffer         *new_buffer);
 
 void            mousepad_replace_dialog_set_text       (MousepadReplaceDialog *dialog,
                                                         const gchar           *text);
