@@ -58,6 +58,7 @@ struct _MousepadSearchBar
   /* bar widgets */
   GtkWidget *entry;
   GtkWidget *hits_label;
+  GtkWidget *spinner;
 };
 
 
@@ -201,6 +202,12 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   gtk_container_add (GTK_CONTAINER (item), bar->hits_label);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
+  /* the spinner */
+  item = gtk_tool_item_new ();
+  bar->spinner = gtk_spinner_new ();
+  gtk_container_add (GTK_CONTAINER (item), bar->spinner);
+  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
+
   /* insert an invisible separator to push checkboxes to the right */
   item = gtk_separator_tool_item_new ();
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
@@ -245,8 +252,9 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   g_object_bind_property (check, "active", menuitem, "active",
                           G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
-  /* show all widgets but the search bar */
+  /* show all widgets but the spinner and the search bar */
   gtk_widget_show_all (GTK_WIDGET (bar));
+  gtk_widget_hide (GTK_WIDGET (bar->spinner));
   gtk_widget_hide (GTK_WIDGET (bar));
 }
 
@@ -276,6 +284,13 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
   mousepad_util_entry_error (bar->entry, FALSE);
   gtk_label_set_text (GTK_LABEL (bar->hits_label), NULL);
 
+  /* show the spinner */
+  if (string != NULL && *string != '\0')
+    {
+      gtk_widget_show (bar->spinner);
+      gtk_spinner_start (GTK_SPINNER (bar->spinner));
+    }
+
   /* emit signal */
   g_signal_emit (G_OBJECT (bar), search_bar_signals[SEARCH], 0, flags, string, NULL);
 }
@@ -303,6 +318,10 @@ mousepad_search_bar_search_completed (MousepadSearchBar   *bar,
 
   if (string != NULL && *string != '\0')
     {
+      /* hide the spinner */
+      gtk_spinner_stop (GTK_SPINNER (bar->spinner));
+      gtk_widget_hide (bar->spinner);
+
       /* update entry color */
       mousepad_util_entry_error (bar->entry, n_matches == 0);
 

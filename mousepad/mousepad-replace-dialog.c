@@ -55,6 +55,7 @@ struct _MousepadReplaceDialog
   GtkWidget *replace_button;
   GtkWidget *search_location_combo;
   GtkWidget *hits_label;
+  GtkWidget *spinner;
 };
 
 enum
@@ -180,8 +181,9 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
                                             MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
                                             | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
 
-  /* show all widgets */
+  /* show all widgets but the spinner */
   gtk_widget_show_all (GTK_WIDGET (dialog));
+  gtk_widget_hide (dialog->spinner);
 
   /* reset search entry and occurrences label */
   gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), "");
@@ -364,6 +366,10 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   /* the occurrences label */
   label = dialog->hits_label = gtk_label_new (NULL);
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+  /* the spinner */
+  dialog->spinner = gtk_spinner_new ();
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->spinner, FALSE, FALSE, 0);
 }
 
 
@@ -474,6 +480,13 @@ mousepad_replace_dialog_response (GtkWidget *widget,
   mousepad_util_entry_error (dialog->search_entry, FALSE);
   gtk_label_set_text (GTK_LABEL (dialog->hits_label), NULL);
 
+  /* show the spinner */
+  if (search_str != NULL && *search_str != '\0')
+    {
+      gtk_widget_show (dialog->spinner);
+      gtk_spinner_start (GTK_SPINNER (dialog->spinner));
+    }
+
   /* emit the signal */
   g_signal_emit (G_OBJECT (dialog), dialog_signals[SEARCH], 0, flags, search_str, replace_str);
 }
@@ -504,6 +517,10 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
 
   if (string != NULL && *string != '\0')
     {
+      /* hide the spinner */
+      gtk_spinner_stop (GTK_SPINNER (dialog->spinner));
+      gtk_widget_hide (dialog->spinner);
+
       /* update entry color */
       mousepad_util_entry_error (dialog->search_entry, n_matches == 0);
 
