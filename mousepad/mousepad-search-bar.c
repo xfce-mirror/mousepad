@@ -58,6 +58,7 @@ struct _MousepadSearchBar
   /* bar widgets */
   GtkWidget *entry;
   GtkWidget *hits_label;
+  GtkWidget *spinner;
 };
 
 
@@ -201,6 +202,12 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   gtk_container_add (GTK_CONTAINER (item), bar->hits_label);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
+  /* the spinner */
+  item = gtk_tool_item_new ();
+  bar->spinner = gtk_spinner_new ();
+  gtk_container_add (GTK_CONTAINER (item), bar->spinner);
+  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
+
   /* insert an invisible separator to push checkboxes to the right */
   item = gtk_separator_tool_item_new ();
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
@@ -261,6 +268,23 @@ mousepad_search_bar_finalize (GObject *object)
 
 
 static void
+mousepad_search_bar_reset_display (MousepadSearchBar *bar)
+{
+  const gchar *string;
+
+  /* reset entry color and occurrences label */
+  mousepad_util_entry_error (bar->entry, FALSE);
+  gtk_label_set_text (GTK_LABEL (bar->hits_label), NULL);
+
+  /* start the spinner */
+  string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
+  if (string != NULL && *string != '\0')
+    gtk_spinner_start (GTK_SPINNER (bar->spinner));
+}
+
+
+
+static void
 mousepad_search_bar_find_string (MousepadSearchBar   *bar,
                                  MousepadSearchFlags  flags)
 {
@@ -272,9 +296,8 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
 
-  /* reset entry color and occurrences label */
-  mousepad_util_entry_error (bar->entry, FALSE);
-  gtk_label_set_text (GTK_LABEL (bar->hits_label), NULL);
+  /* reset display widgets */
+  mousepad_search_bar_reset_display (bar);
 
   /* emit signal */
   g_signal_emit (G_OBJECT (bar), search_bar_signals[SEARCH], 0, flags, string, NULL);
@@ -290,6 +313,9 @@ mousepad_search_bar_search_completed (MousepadSearchBar   *bar,
 {
   gchar       *message;
   const gchar *string;
+
+  /* stop the spinner */
+  gtk_spinner_stop (GTK_SPINNER (bar->spinner));
 
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
@@ -418,11 +444,28 @@ mousepad_search_bar_find_previous (MousepadSearchBar *bar)
 
 
 void
-mousepad_search_bar_page_switched (MousepadSearchBar *bar)
+mousepad_search_bar_page_switched (MousepadSearchBar *bar,
+                                   GtkTextBuffer     *old_buffer,
+                                   GtkTextBuffer     *new_buffer,
+                                   gboolean           search)
 {
   g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (bar));
 
-  mousepad_search_bar_entry_changed (bar);
+  /* disconnect from old buffer signals */
+  if (GTK_IS_TEXT_BUFFER (old_buffer))
+    mousepad_disconnect_by_func (old_buffer, mousepad_search_bar_reset_display, bar);
+
+  /* connect to new buffer signals to update display widgets on change */
+  g_signal_connect_object (new_buffer, "insert-text",
+                           G_CALLBACK (mousepad_search_bar_reset_display),
+                           bar, G_CONNECT_SWAPPED);
+  g_signal_connect_object (new_buffer, "delete-range",
+                           G_CALLBACK (mousepad_search_bar_reset_display),
+                           bar, G_CONNECT_SWAPPED);
+
+  /* run a search */
+  if (search)
+    mousepad_search_bar_entry_changed (bar);
 }
 
 
