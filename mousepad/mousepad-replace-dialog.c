@@ -55,6 +55,7 @@ struct _MousepadReplaceDialog
   GtkWidget *replace_button;
   GtkWidget *search_location_combo;
   GtkWidget *hits_label;
+  GtkWidget *spinner;
 };
 
 enum
@@ -364,6 +365,10 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   /* the occurrences label */
   label = dialog->hits_label = gtk_label_new (NULL);
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+  /* the spinner */
+  dialog->spinner = gtk_spinner_new ();
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->spinner, FALSE, FALSE, 0);
 }
 
 
@@ -392,6 +397,23 @@ static void
 mousepad_replace_dialog_finalize (GObject *object)
 {
   (*G_OBJECT_CLASS (mousepad_replace_dialog_parent_class)->finalize) (object);
+}
+
+
+
+static void
+mousepad_replace_dialog_reset_display (MousepadReplaceDialog *dialog)
+{
+  const gchar *string;
+
+  /* reset entry color and occurrences label */
+  mousepad_util_entry_error (dialog->search_entry, FALSE);
+  gtk_label_set_text (GTK_LABEL (dialog->hits_label), NULL);
+
+  /* start the spinner */
+  string = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
+  if (string != NULL && *string != '\0')
+    gtk_spinner_start (GTK_SPINNER (dialog->spinner));
 }
 
 
@@ -470,9 +492,8 @@ mousepad_replace_dialog_response (GtkWidget *widget,
   search_str = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
   replace_str = gtk_entry_get_text (GTK_ENTRY (dialog->replace_entry));
 
-  /* reset entry color and occurrences label */
-  mousepad_util_entry_error (dialog->search_entry, FALSE);
-  gtk_label_set_text (GTK_LABEL (dialog->hits_label), NULL);
+  /* reset display widgets */
+  mousepad_replace_dialog_reset_display (dialog);
 
   /* emit the signal */
   g_signal_emit (G_OBJECT (dialog), dialog_signals[SEARCH], 0, flags, search_str, replace_str);
@@ -488,6 +509,9 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
 {
   gchar       *message;
   const gchar *string;
+
+  /* stop the spinner */
+  gtk_spinner_stop (GTK_SPINNER (dialog->spinner));
 
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
@@ -612,8 +636,23 @@ mousepad_replace_dialog_new (MousepadWindow *window)
 
 
 void
-mousepad_replace_dialog_page_switched (MousepadReplaceDialog *dialog)
+mousepad_replace_dialog_page_switched (MousepadReplaceDialog *dialog,
+                                       GtkTextBuffer         *old_buffer,
+                                       GtkTextBuffer         *new_buffer)
 {
+  /* disconnect from old buffer signals */
+  if (GTK_IS_TEXT_BUFFER (old_buffer))
+    mousepad_disconnect_by_func (old_buffer, mousepad_replace_dialog_reset_display, dialog);
+
+  /* connect to new buffer signals to update display widgets on change */
+  g_signal_connect_object (new_buffer, "insert-text",
+                           G_CALLBACK (mousepad_replace_dialog_reset_display),
+                           dialog, G_CONNECT_SWAPPED);
+  g_signal_connect_object (new_buffer, "delete-range",
+                           G_CALLBACK (mousepad_replace_dialog_reset_display),
+                           dialog, G_CONNECT_SWAPPED);
+
+  /* run a search */
   mousepad_replace_dialog_changed (dialog);
 }
 
