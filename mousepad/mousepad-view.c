@@ -646,6 +646,29 @@ mousepad_view_indent_selection (MousepadView *view,
 }
 
 
+static gboolean
+mousepad_view_scroll_to_cursor_idle (MousepadView *view)
+{
+  GtkTextBuffer *buffer;
+  GtkTextIter    iter;
+
+  /* if there is a request to scroll to cursor just before closing, this test could fail */
+  if (G_LIKELY (MOUSEPAD_IS_VIEW (view)))
+    {
+      /* get iter at insert mark */
+      buffer = mousepad_view_get_buffer (view);
+      gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+
+      /* if the preceding call to gtk_text_view_scroll_to_*() didn't fully scroll to visible area,
+       * retry until gtk_text_view_scroll_to_iter() returns FALSE */
+      return gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW (view), &iter, 0.02, FALSE, 0.0, 0.0);
+    }
+
+  return FALSE;
+}
+
+
+
 void
 mousepad_view_scroll_to_cursor (MousepadView *view)
 {
@@ -660,6 +683,16 @@ mousepad_view_scroll_to_cursor (MousepadView *view)
   gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (view),
                                 gtk_text_buffer_get_insert (buffer),
                                 0.02, FALSE, 0.0, 0.0);
+
+  /*
+   * gtk_text_view_scroll_to_*() functions sometimes fail to fully scroll to visible area.
+   * gtk_text_view_scroll_to_iter() returns a boolean indicating if it has scrolled or not,
+   * but it can't simply be put in a loop until it doesn't scroll anymore, because the operation
+   * is delayed and the loop would be infinite.
+   * So adding an idle that returns the return value of gtk_text_view_scroll_to_iter() is a way
+   * to get this loop to work in this case.
+   */
+  g_idle_add (G_SOURCE_FUNC (mousepad_view_scroll_to_cursor_idle), view);
 }
 
 

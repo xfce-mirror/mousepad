@@ -3548,21 +3548,6 @@ mousepad_window_search (MousepadWindow      *window,
 
 
 
-static gboolean
-mousepad_window_scroll_to_cursor (MousepadWindow *window)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
-
-  /* all this should always be true, but this way we avoid any problems: see comment below */
-  if (G_LIKELY (MOUSEPAD_IS_WINDOW (window) && MOUSEPAD_IS_DOCUMENT (window->active)
-                && MOUSEPAD_IS_VIEW (window->active->textview)))
-    mousepad_view_scroll_to_cursor (window->active->textview);
-
-  return FALSE;
-}
-
-
-
 static void
 mousepad_window_search_completed (MousepadWindow      *window,
                                   gint                 n_matches_doc,
@@ -3654,15 +3639,9 @@ mousepad_window_search_completed (MousepadWindow      *window,
                      flags | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
     }
 
-  /*
-   * Make sure the selection is visible.
-   * Add an idle so that the search bar does not hide matches, see #26 and !13.
-   * "G_PRIORITY_HIGH_IDLE + 20" seems to be a good priority to fix the previous issue
-   * without adding side effects because of a too high delay: see !54.
-   */
+  /* make sure the selection is visible */
   if (n_matches_doc > 0)
-    g_idle_add_full (G_PRIORITY_HIGH_IDLE + 20,
-                     G_SOURCE_FUNC (mousepad_window_scroll_to_cursor), window, NULL);
+    mousepad_view_scroll_to_cursor (window->active->textview);
 }
 
 
