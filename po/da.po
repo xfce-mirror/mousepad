@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-08 12:47+0100\n"
-"PO-Revision-Date: 2020-11-09 21:10+0000\n"
+"PO-Revision-Date: 2020-11-16 23:51+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -936,7 +936,7 @@ msgstr "Indsæt _speciel"
 
 #: ../mousepad/resources/gtk/menus.ui.h:44
 msgid "Paste the clipboard in a special way"
-msgstr "Indsæt udklipsholderen på en spciel måde"
+msgstr "Indsæt udklipsholderen på en speciel måde"
 
 #: ../mousepad/resources/gtk/menus.ui.h:45
 msgid "Paste from _History"
