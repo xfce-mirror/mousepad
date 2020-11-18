@@ -60,6 +60,7 @@ enum
 
 /* config file locations */
 #define MOUSEPAD_RC_RELPATH     ("Mousepad" G_DIR_SEPARATOR_S "mousepadrc")
+#define MOUSEPAD_ACCELS_RELPATH ("Mousepad" G_DIR_SEPARATOR_S "accels.scm")
 
 /* handling flags */
 #define MOUSEPAD_SET_FLAG(flags,flag)   G_STMT_START{ ((flags) |= (flag)); }G_STMT_END

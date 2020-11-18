@@ -217,10 +217,188 @@ mousepad_application_handle_local_options (GApplication *gapplication,
 
 
 static void
+mousepad_application_update_accels (GtkApplication  *application,
+                                    const gchar     *accel_path,
+                                    guint            accel_key,
+                                    GdkModifierType  accel_mods,
+                                    GtkAccelMap     *object)
+{
+  GVariant    *target;
+  gchar       *action, *accel;
+  const gchar *accels[] = { NULL, NULL };
+
+  /* make sure to not crash because of corrupted data */
+  if (g_str_has_prefix (accel_path, "<Actions>/") && g_strcmp0 (accel_path, "<Actions>/") != 0
+      && g_action_parse_detailed_name (accel_path + 10, &action, &target, NULL))
+    {
+      accel = gtk_accelerator_name (accel_key, accel_mods);
+      if (*accel != '\0')
+        accels[0] = accel;
+
+      gtk_application_set_accels_for_action (application, accel_path + 10, accels);
+
+      /* cleanup */
+      g_free (accel);
+      g_free (action);
+      if (target != NULL)
+        g_variant_unref (target);
+    }
+}
+
+
+
+static void
+mousepad_application_complete_accel_map (GtkApplication *application)
+{
+  GtkWindow    *window;
+  gchar        *accel_path, *filename;
+  guint         n;
+  gchar       **action_names;
+  const gchar  *accels[] = { NULL };
+  const gchar  *excluded_actions[] = { "win.edit.delete", "win.edit.select-all", "win.insensitive" };
+
+  /* disconnect this handler */
+  mousepad_disconnect_by_func (application, mousepad_application_complete_accel_map, NULL);
+
+  /* complete the accel map with window actions that do not have a default accel */
+  window = gtk_application_get_active_window (application);
+  action_names = g_action_group_list_actions (G_ACTION_GROUP (window));
+  n = 0;
+  while (action_names[n] != NULL)
+    {
+      /* add accel map entry to fill the accels file at shutdown */
+      accel_path = g_strconcat ("<Actions>/win.", action_names[n], NULL);
+      if (! gtk_accel_map_lookup_entry (accel_path, NULL))
+        gtk_accel_map_add_entry (accel_path, 0, 0);
+
+      g_free (accel_path);
+      n++;
+    }
+
+  g_strfreev (action_names);
+
+  /*
+   * Some accels are already active at the widget level for some widgets, so we don't need and
+   * should not activate them at the action level, to not introduce conflicts.
+   * But we want them to appear in the menubar, as an indication for the user.
+   * So this trick does the job: adding them to the GtkBuilder UI file, and deactivating them
+   * when the menubar is set.
+  */
+  for (n = 0; n < G_N_ELEMENTS (excluded_actions); n++)
+    {
+      /* deactivate accel in the application */
+      gtk_application_set_accels_for_action (GTK_APPLICATION (application), excluded_actions[n], accels);
+
+      /* prevent accel from being saved in the accels file at shutdown */
+      accel_path = g_strconcat ("<Actions>/", excluded_actions[n], NULL);
+      gtk_accel_map_add_filter (accel_path);
+      g_free (accel_path);
+    }
+
+  /* connect a handler to update accels when reading the accels file */
+  g_signal_connect_swapped (gtk_accel_map_get (), "changed",
+                            G_CALLBACK (mousepad_application_update_accels), application);
+
+  /* read the accels file */
+  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, FALSE);
+  if (G_LIKELY (filename != NULL))
+    {
+      gtk_accel_map_load (filename);
+      g_free (filename);
+    }
+}
+
+
+
+static void
+mousepad_application_set_accels (MousepadApplication *application)
+{
+  GdkModifierType   accel_mods;
+  guint             n, accel_key;
+  gchar            *accel_path;
+  gchar           **action_names;
+  const gchar      *accels[] = { NULL, NULL };
+  const gchar      *accel_maps[][2] =
+  {
+    /* "File" menu */
+    { "win.file.new", "<Control>N" }, { "win.file.new-window", "<Control><Shift>N" },
+    { "win.file.open", "<Control>O" }, { "win.file.save", "<Control>S" },
+    { "win.file.save-as", "<Control><Shift>S" }, { "win.file.print", "<Control>P" },
+    { "win.file.detach-tab", "<Control>D" }, { "win.file.close-tab", "<Control>W" },
+    { "win.file.close-window", "<Control>Q" },
+
+    /* "Edit" menu */
+    { "win.edit.undo", "<Control>Z" }, { "win.edit.redo", "<Control>Y" },
+    { "win.edit.cut", "<Control>X" }, { "win.edit.copy", "<Control>C" },
+    { "win.edit.paste", "<Control>V" }, { "win.edit.copy", "<Control>C" },
+    { "win.edit.convert.to-opposite-case", "<Alt><Control>U" },
+    { "win.edit.convert.transpose", "<Control>T" },
+    { "win.edit.move-selection.line-up", "<Alt>Page_Up" },
+    { "win.edit.move-selection.line-down", "<Alt>Page_Down" },
+    { "win.edit.increase-indent", "<Control>I" }, { "win.edit.decrease-indent", "<Control>U" },
+
+    /* "Search" menu */
+    { "win.search.find", "<Control>F" }, { "win.search.find-next", "<Control>G" },
+    { "win.search.find-previous", "<Control><Shift>G" }, { "win.search.find-and-replace", "<Control>R" },
+    { "win.search.go-to", "<Control>L" },
+
+    /* "View" menu */
+    { "win.view.menubar", "<Control>M" }, { "win.view.fullscreen", "F11" },
+
+    /* "Document" menu */
+    { "win.document.previous-tab", "<Control>Page_Up" }, { "win.document.next-tab", "<Control>Page_Down" },
+    { "win.document.go-to-tab(0)", "<Alt>1" }, { "win.document.go-to-tab(1)", "<Alt>2" },
+    { "win.document.go-to-tab(2)", "<Alt>3" }, { "win.document.go-to-tab(3)", "<Alt>4" },
+    { "win.document.go-to-tab(4)", "<Alt>5" }, { "win.document.go-to-tab(5)", "<Alt>6" },
+    { "win.document.go-to-tab(6)", "<Alt>7" }, { "win.document.go-to-tab(7)", "<Alt>8" },
+    { "win.document.go-to-tab(8)", "<Alt>9" },
+
+    /* "Help" menu */
+    { "win.help.contents", "F1" }
+  };
+
+  /* actions that have a default accel */
+  for (n = 0; n < G_N_ELEMENTS (accel_maps); n++)
+    {
+      /* add accel map entry to fill the accels file at shutdown */
+      accel_path = g_strconcat ("<Actions>/", accel_maps[n][0], NULL);
+      gtk_accelerator_parse (accel_maps[n][1], &accel_key, &accel_mods);
+      gtk_accel_map_add_entry (accel_path, accel_key, accel_mods);
+      g_free (accel_path);
+
+      /* add accel to the application */
+      accels[0] = accel_maps[n][1];
+      gtk_application_set_accels_for_action (GTK_APPLICATION (application),
+                                             accel_maps[n][0], accels);
+    }
+
+  /* actions that do not have a default accel */
+  action_names = g_action_group_list_actions (G_ACTION_GROUP (application));
+  n = 0;
+  while (action_names[n] != NULL)
+    {
+      /* add accel map entry to fill the accels file at shutdown */
+      accel_path = g_strconcat ("<Actions>/app.", action_names[n], NULL);
+      if (! gtk_accel_map_lookup_entry (accel_path, NULL))
+        gtk_accel_map_add_entry (accel_path, 0, 0);
+
+      g_free (accel_path);
+      n++;
+    }
+
+  g_strfreev (action_names);
+
+  /* we will complete the accel map with window actions when the first window is set */
+  g_signal_connect (application, "notify::active-window",
+                    G_CALLBACK (mousepad_application_complete_accel_map), NULL);
+}
+
+
+
+static void
 mousepad_application_startup (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
-  const gchar         *accels[] = { NULL };
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
@@ -236,14 +414,8 @@ mousepad_application_startup (GApplication *gapplication)
   g_action_map_add_action_entries (G_ACTION_MAP (application), action_entries,
                                    G_N_ELEMENTS (action_entries), application);
 
-  /*
-   * Some accels are already active at the widget level for some widgets, so we don't need and
-   * should not activate them at the action level, to not introduce conflicts.
-   * But we want them to appear in the menubar, as an indication for the user.
-   * So this trick does the job: adding them to the GtkBuilder UI file, and deactivating them
-   * when the menubar is set.
-  */
-  gtk_application_set_accels_for_action (GTK_APPLICATION (application), "win.edit.select-all", accels);
+  /* set accels for actions */
+  mousepad_application_set_accels (application);
 
   /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
@@ -476,14 +648,24 @@ mousepad_application_shutdown (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GList               *windows, *window;
+  gchar               *filename;
 
-  if (GTK_IS_WIDGET (application->prefs_dialog))
-    gtk_widget_destroy (application->prefs_dialog);
+  /* save the current accel map */
+  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, TRUE);
+  if (G_LIKELY (filename != NULL))
+    {
+      gtk_accel_map_save (filename);
+      g_free (filename);
+    }
 
   /* flush the history items of the replace dialog
    * this is a bit of an ugly place, but cleaning on a window close
    * isn't a good option eighter */
   mousepad_replace_dialog_history_clean ();
+
+  /* destroy the preferences dialog */
+  if (GTK_IS_WIDGET (application->prefs_dialog))
+    gtk_widget_destroy (application->prefs_dialog);
 
   /* destroy the windows if they are still opened */
   windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (application)));

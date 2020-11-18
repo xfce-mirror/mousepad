@@ -2724,7 +2724,7 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
   if (! files_added)
     {
       message = g_strdup_printf (_("No template files found in\n'%s'"), path);
-      item = g_menu_item_new (message, "insensitive");
+      item = g_menu_item_new (message, "win.insensitive");
       g_free (message);
       g_menu_append_item (menu, item);
       g_object_unref (item);
@@ -2786,7 +2786,7 @@ mousepad_window_menu_templates (GSimpleAction *action,
       else
         {
           message = g_strdup_printf (_("Missing Templates directory\n'%s'"), templates_path);
-          item = g_menu_item_new (message, "insensitive");
+          item = g_menu_item_new (message, "win.insensitive");
           g_free (message);
           g_menu_append_item (menu, item);
           g_object_unref (item);
@@ -3405,7 +3405,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
       /* add the "No items found" insensitive menu item */
       if (! filtered)
         {
-          menu_item = g_menu_item_new (_("No items found"), "insensitive");
+          menu_item = g_menu_item_new (_("No items found"), "win.insensitive");
           g_menu_append_item (menu, menu_item);
           g_object_unref (menu_item);
         }
