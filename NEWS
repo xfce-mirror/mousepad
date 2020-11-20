@@ -1,3 +1,86 @@
+0.4.90
+======
+Release candidate for upcoming stable version 0.5.
+
+- Dependency Changes:
+  - GLib >= 2.45.8
+  - GTK+ >= 3.20
+  - GtkSourceView >= 3.24
+  - GTK+ 2 support has been removed
+  - GtkSourceView 2 support has been removed
+
+- New Features:
+  - Add keybindings to show the menubar temporarily when hidden
+  - Add command line option and setting for file opening mode
+  - Improve encoding dialog
+  - Add regex search
+
+- Discontinued Features
+  - multi-select (GTK+ 2)
+
+- Appearance Changes
+  - Replace `$HOME` with a tilde in displayed filename
+  - Add new default keybindings and reveal some hidden ones
+  - Search bar tweaks
+  - Make tabs expanded for consistency with other Xfce programs
+  - Add copyright and license info to About dialog
+  - Improve label texts of "Find and Replace" dialog and search bar
+  - Make the statusbar smaller
+  - Add new app icon and switch to reverse DNS name
+  - Save the state of the "highlight all" button in the search bar
+  - Update window title of Find and Replace dialog
+  - Add "Wrap around" check box to Find and Replace dialog (Bug #11290)
+  - Infer filetype from shebang line (Bug #10514)
+  - Show info when Templates directory does not exist (Bug #10486)
+
+- Code Refactoring
+  - Restore the use of the file `accels.scm`
+  - Code refactoring around saving and restoring window geometry
+  - Improve save-related actions
+  - Fully switch to GtkApplication
+  - Avoid deprecation warnings 5: CSS related
+  - Avoid deprecation warnings 4: GtkUIManager and GtkAction
+  - GtkStock
+  - Avoid deprecation warnings 2: miscellaneous
+  - Avoid deprecation warnings 1: alignment and padding
+  - Avoid compilation warnings other than deprecation
+  - Remove support for GTK+2
+  - Switch to README.md and foreign automake mode
+  - Add basic GitLab pipeline
+
+- Bug Fixes:
+  - Remove README.md from DISTCLEANFILES, it's not generated
+  - Fix crash when dragging tab to GSV widget
+  - Change GtkTextView wrap mode to GTK_WRAP_WORD_CHAR
+  - Initialize the recent manager if needed at startup
+  - Prevent search bar from overlapping the document
+  - Properly disconnect signal handlers
+  - Fix make distcheck
+  - Fix color modifications in search entries
+  - Do not open an empty document when encoding failed
+  - Do not search for previously selected text
+  - Update search field with selected text
+  - Bug #16717: Move from exo-csource to xdt-csource
+  - Remember last save location (Bug #14165)
+  - Use g_get_user_dir to get Templates directory (Bug #11048)
+  - Sync remaining menu actions to their settings (Bug #11046)
+  - Install appstream in metainfo folder (Bug #11200)
+  - Add appdata file (Bug #11200)
+  - Fix building with `--enable-dbus --disable-gtk3`
+  - Change visibility of fullscreen bars after small delay (Bug #9735)
+  - Fix return type of fullscreen settings (Bug #9735)
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Norwegian
+  Nynorsk, Occitan (post 1500), Polish, Portuguese, Portuguese
+  (Brazil), Romanian, Russian, Serbian, Slovak, Slovenian, Spanish,
+  Swedish, Telugu, Thai, Turkish, Ukrainian, Uyghur
+
 0.4.2
 ======
 - Port to GDBus (Bug #14337)
