@@ -12,14 +12,12 @@
           <attribute name="label" translatable="yes">_New</attribute>
           <attribute name="tooltip" translatable="yes">Create a new document</attribute>
           <attribute name="action">win.file.new</attribute>
-          <attribute name="accel">&lt;Control&gt;N</attribute>
           <attribute name="icon">document-new</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">New _Window</attribute>
           <attribute name="tooltip" translatable="yes">Create a new document in a new window</attribute>
           <attribute name="action">win.file.new-window</attribute>
-          <attribute name="accel">&lt;Shift&gt;&lt;Control&gt;N</attribute>
         </item>
         <submenu id="file.new-from-template">
           <attribute name="label" translatable="yes">New From Te_mplate</attribute>
@@ -32,7 +30,6 @@
           <attribute name="label" translatable="yes">_Open...</attribute>
           <attribute name="tooltip" translatable="yes">Open a file</attribute>
           <attribute name="action">win.file.open</attribute>
-          <attribute name="accel">&lt;Control&gt;O</attribute>
           <attribute name="icon">document-open</attribute>
         </item>
         <submenu id="file.open-recent">
@@ -56,14 +53,12 @@
           <attribute name="label" translatable="yes">_Save</attribute>
           <attribute name="tooltip" translatable="yes">Save the current document</attribute>
           <attribute name="action">win.file.save</attribute>
-          <attribute name="accel">&lt;Control&gt;S</attribute>
           <attribute name="icon">document-save</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Save _As...</attribute>
           <attribute name="tooltip" translatable="yes">Save current document as another file</attribute>
           <attribute name="action">win.file.save-as</attribute>
-          <attribute name="accel">&lt;Shift&gt;&lt;Control&gt;S</attribute>
           <attribute name="icon">document-save-as</attribute>
         </item>
         <item>
@@ -83,7 +78,6 @@
           <attribute name="label" translatable="yes">_Print...</attribute>
           <attribute name="tooltip" translatable="yes">Print the current document</attribute>
           <attribute name="action">win.file.print</attribute>
-          <attribute name="accel">&lt;Control&gt;P</attribute>
           <attribute name="icon">document-print</attribute>
         </item>
       </section>
@@ -92,7 +86,6 @@
           <attribute name="label" translatable="yes">_Detach Tab</attribute>
           <attribute name="tooltip" translatable="yes">Move the current document to a new window</attribute>
           <attribute name="action">win.file.detach-tab</attribute>
-          <attribute name="accel">&lt;Control&gt;D</attribute>
         </item>
       </section>
       <section>
@@ -100,14 +93,12 @@
           <attribute name="label" translatable="yes">Close _Tab</attribute>
           <attribute name="tooltip" translatable="yes">Close the current document</attribute>
           <attribute name="action">win.file.close-tab</attribute>
-          <attribute name="accel">&lt;Control&gt;W</attribute>
           <attribute name="icon">window-close</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Close Window</attribute>
           <attribute name="tooltip" translatable="yes">Close this window</attribute>
           <attribute name="action">win.file.close-window</attribute>
-          <attribute name="accel">&lt;Control&gt;Q</attribute>
           <attribute name="icon">application-exit</attribute>
         </item>
       </section>
@@ -121,14 +112,12 @@
           <attribute name="label" translatable="yes">_Undo</attribute>
           <attribute name="tooltip" translatable="yes">Undo the last action</attribute>
           <attribute name="action">win.edit.undo</attribute>
-          <attribute name="accel">&lt;Control&gt;Z</attribute>
           <attribute name="icon">edit-undo</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Redo</attribute>
           <attribute name="tooltip" translatable="yes">Redo the last undone action</attribute>
           <attribute name="action">win.edit.redo</attribute>
-          <attribute name="accel">&lt;Control&gt;Y</attribute>
           <attribute name="icon">edit-redo</attribute>
         </item>
       </section>
@@ -137,21 +126,18 @@
           <attribute name="label" translatable="yes">Cu_t</attribute>
           <attribute name="tooltip" translatable="yes">Cut the selection</attribute>
           <attribute name="action">win.edit.cut</attribute>
-          <attribute name="accel">&lt;Control&gt;X</attribute>
           <attribute name="icon">edit-cut</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Copy</attribute>
           <attribute name="tooltip" translatable="yes">Copy the selection</attribute>
           <attribute name="action">win.edit.copy</attribute>
-          <attribute name="accel">&lt;Control&gt;C</attribute>
           <attribute name="icon">edit-copy</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Paste</attribute>
           <attribute name="tooltip" translatable="yes">Paste the clipboard</attribute>
           <attribute name="action">win.edit.paste</attribute>
-          <attribute name="accel">&lt;Control&gt;V</attribute>
           <attribute name="icon">edit-paste</attribute>
         </item>
         <submenu id="edit.paste-special">
@@ -209,7 +195,6 @@
               <attribute name="label" translatable="yes">To _Opposite Case</attribute>
               <attribute name="tooltip" translatable="yes">Change the case of the selection opposite case</attribute>
               <attribute name="action">win.edit.convert.to-opposite-case</attribute>
-              <attribute name="accel">&lt;Control&gt;&lt;Alt&gt;U</attribute>
             </item>
           </section>
           <section>
@@ -236,7 +221,6 @@
               <attribute name="label" translatable="yes">_Transpose</attribute>
               <attribute name="tooltip" translatable="yes">Reverse the order of something</attribute>
               <attribute name="action">win.edit.convert.transpose</attribute>
-              <attribute name="accel">&lt;Control&gt;T</attribute>
             </item>
           </section>
         </submenu>
@@ -247,13 +231,11 @@
             <attribute name="label" translatable="yes">Line _Up</attribute>
             <attribute name="tooltip" translatable="yes">Move the selection one line up</attribute>
             <attribute name="action">win.edit.move-selection.line-up</attribute>
-            <attribute name="accel">&lt;Alt&gt;Page_Up</attribute>
           </item>
           <item>
             <attribute name="label" translatable="yes">Line _Down</attribute>
             <attribute name="tooltip" translatable="yes">Move the selection one line down</attribute>
             <attribute name="action">win.edit.move-selection.line-down</attribute>
-            <attribute name="accel">&lt;Alt&gt;Page_Down</attribute>
           </item>
         </submenu>
         <item>
@@ -266,13 +248,11 @@
           <attribute name="tooltip" translatable="yes">Increase the indentation of the selection or current line</attribute>
           <attribute name="action">win.edit.increase-indent</attribute>
           <attribute name="icon">format-indent-more</attribute>
-          <attribute name="accel">&lt;Control&gt;I</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Decrease Indent</attribute>
           <attribute name="tooltip" translatable="yes">Decrease the indentation of the selection or current line</attribute>
           <attribute name="action">win.edit.decrease-indent</attribute>
-          <attribute name="accel">&lt;Control&gt;U</attribute>
           <attribute name="icon">format-indent-less</attribute>
         </item>
       </section>
@@ -294,26 +274,22 @@
           <attribute name="label" translatable="yes">_Find</attribute>
           <attribute name="tooltip" translatable="yes">Search for text</attribute>
           <attribute name="action">win.search.find</attribute>
-          <attribute name="accel">&lt;Control&gt;F</attribute>
           <attribute name="icon">edit-find</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Find _Next</attribute>
           <attribute name="tooltip" translatable="yes">Search forwards for the same text</attribute>
           <attribute name="action">win.search.find-next</attribute>
-          <attribute name="accel">&lt;Control&gt;G</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Find _Previous</attribute>
           <attribute name="tooltip" translatable="yes">Search backwards for the same text</attribute>
           <attribute name="action">win.search.find-previous</attribute>
-          <attribute name="accel">&lt;Shift&gt;&lt;Control&gt;G</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Find and Rep_lace...</attribute>
           <attribute name="tooltip" translatable="yes">Search for and replace text</attribute>
           <attribute name="action">win.search.find-and-replace</attribute>
-          <attribute name="accel">&lt;Control&gt;R</attribute>
           <attribute name="icon">edit-find-replace</attribute>
         </item>
       </section>
@@ -322,7 +298,6 @@
           <attribute name="label" translatable="yes">_Go to...</attribute>
           <attribute name="tooltip" translatable="yes">Go to a specific location in the document</attribute>
           <attribute name="action">win.search.go-to</attribute>
-          <attribute name="accel">&lt;Control&gt;L</attribute>
           <attribute name="icon">go-jump</attribute>
         </item>
       </section>
@@ -365,7 +340,6 @@
           <attribute name="label" translatable="yes">_Menubar</attribute>
           <attribute name="tooltip" translatable="yes">Change the visibility of the main menubar</attribute>
           <attribute name="action">win.view.menubar</attribute>
-          <attribute name="accel">&lt;Control&gt;M</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Toolbar</attribute>
@@ -384,7 +358,6 @@
           <attribute name="tooltip" translatable="yes">Make the window fullscreen</attribute>
           <attribute name="action">win.view.fullscreen</attribute>
           <attribute name="icon">view-fullscreen</attribute>
-          <attribute name="accel">F11</attribute>
         </item>
       </section>
     </submenu>
@@ -499,14 +472,12 @@
           <attribute name="tooltip" translatable="yes">Select the previous tab</attribute>
           <attribute name="action">win.document.previous-tab</attribute>
           <attribute name="icon">go-previous</attribute>
-          <attribute name="accel">&lt;Control&gt;Page_Up</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">_Next Tab</attribute>
           <attribute name="tooltip" translatable="yes">Select the next tab</attribute>
           <attribute name="action">win.document.next-tab</attribute>
           <attribute name="icon">go-next</attribute>
-          <attribute name="accel">&lt;Control&gt;Page_Down</attribute>
         </item>
       </section>
       <section id="document.go-to-tab">
@@ -521,7 +492,6 @@
         <attribute name="tooltip" translatable="yes">Display the Mousepad user manual</attribute>
         <attribute name="action">win.help.contents</attribute>
         <attribute name="icon">help-browser</attribute>
-        <attribute name="accel">F1</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_About</attribute>
@@ -672,7 +642,6 @@
             <attribute name="label" translatable="yes">To _Opposite Case</attribute>
             <attribute name="tooltip" translatable="yes">Change the case of the selection opposite case</attribute>
             <attribute name="action">win.edit.convert.to-opposite-case</attribute>
-            <attribute name="accel">&lt;Control&gt;&lt;Alt&gt;U</attribute>
           </item>
         </section>
         <section>
@@ -709,13 +678,11 @@
           <attribute name="label" translatable="yes">Line _Up</attribute>
           <attribute name="tooltip" translatable="yes">Move the selection one line up</attribute>
           <attribute name="action">win.edit.move-selection.line-up</attribute>
-          <attribute name="accel">&lt;Alt&gt;Page_Up</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Line _Down</attribute>
           <attribute name="tooltip" translatable="yes">Move the selection one line down</attribute>
           <attribute name="action">win.edit.move-selection.line-down</attribute>
-          <attribute name="accel">&lt;Alt&gt;Page_Down</attribute>
         </item>
       </submenu>
       <item>
@@ -727,14 +694,12 @@
         <attribute name="label" translatable="yes">_Increase Indent</attribute>
         <attribute name="tooltip" translatable="yes">Increase the indentation of the selection or current line</attribute>
         <attribute name="action">win.edit.increase-indent</attribute>
-        <attribute name="accel">&lt;Control&gt;I</attribute>
         <attribute name="icon">format-indent-more</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Decrease Indent</attribute>
         <attribute name="tooltip" translatable="yes">Decrease the indentation of the selection or current line</attribute>
         <attribute name="action">win.edit.decrease-indent</attribute>
-        <attribute name="accel">&lt;Control&gt;U</attribute>
         <attribute name="icon">format-indent-less</attribute>
       </item>
     </section>

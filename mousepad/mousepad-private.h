@@ -60,6 +60,7 @@ enum
 
 /* config file locations */
 #define MOUSEPAD_RC_RELPATH     ("Mousepad" G_DIR_SEPARATOR_S "mousepadrc")
+#define MOUSEPAD_ACCELS_RELPATH ("Mousepad" G_DIR_SEPARATOR_S "accels.scm")
 
 /* handling flags */
 #define MOUSEPAD_SET_FLAG(flags,flag)   G_STMT_START{ ((flags) |= (flag)); }G_STMT_END
@@ -67,13 +68,17 @@ enum
 #define MOUSEPAD_HAS_FLAG(flags,flag)   (((flags) & (flag)) != 0)
 
 /* for personal testing */
-#define TIMER_START    GTimer *__FUNCTION__timer = g_timer_new();
-#define TIMER_SPLIT    g_print ("%s: %.2f ms\n", G_STRLOC, g_timer_elapsed (__FUNCTION__timer, NULL) * 1000);
-#define TIMER_STOP     TIMER_SPLIT g_timer_destroy (__FUNCTION__timer);
-#define PRINT_LOCATION g_print ("%s\n", G_STRLOC);
+#define TIMER_START     GTimer *__FUNCTION__timer = g_timer_new ();
+#define TIMER_SPLIT     g_printerr ("%s: %.2f ms\n", G_STRLOC, \
+                                    g_timer_elapsed (__FUNCTION__timer, NULL) * 1000);
+#define TIMER_STOP      TIMER_SPLIT g_timer_destroy (__FUNCTION__timer);
+
+#define PRINT_LOCATION  g_printerr ("%s\n", G_STRLOC);
+#define TRACE(fmt, var) g_printerr ("%s:%s: ", G_STRLOC, #var); g_printerr (fmt, var); g_printerr ("\n");
 
 /* optimize the properties */
-#define MOUSEPAD_PARAM_READWRITE (G_PARAM_READWRITE | G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB)
+#define MOUSEPAD_PARAM_READWRITE (G_PARAM_READWRITE | G_PARAM_STATIC_NAME \
+                                  | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB)
 
 /* support for canonical strings and quarks */
 #define I_(string)  (g_intern_static_string (string))
@@ -82,8 +87,10 @@ enum
 #define mousepad_object_set_data(object,key,data)              (g_object_set_qdata ((object), \
                                                                 g_quark_from_static_string (key), (data)))
 #define mousepad_object_set_data_full(object,key,data,destroy) (g_object_set_qdata_full ((object), \
-                                                                g_quark_from_static_string (key), (data), (GDestroyNotify) (destroy)))
-#define mousepad_object_get_data(object,key)                   (g_object_get_qdata ((object), g_quark_try_string (key)))
+                                                                g_quark_from_static_string (key), (data), \
+                                                                (GDestroyNotify) (destroy)))
+#define mousepad_object_get_data(object,key)                   (g_object_get_qdata ((object), \
+                                                                g_quark_try_string (key)))
 
 /* avoid trivial g_value_get_*() function calls */
 #ifdef NDEBUG
