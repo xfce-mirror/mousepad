@@ -27,9 +27,9 @@ See [NEWS](https://gitlab.xfce.org/apps/mousepad/-/blob/master/NEWS) for details
 Mousepad depends on the following packages:
 
 * [GTK](https://www.gtk.org) >=3.20.0
-* [GLib](https://wiki.gnome.org/Projects/GLib) >=2.42.0
+* [GLib](https://wiki.gnome.org/Projects/GLib) >=2.45.8
 * [xfconf](https://gitlab.xfce.org/xfce/xfconf) >=4.12.0
-* [GtkSourceView](https://wiki.gnome.org/Projects/GtkSourceView) >=3.20
+* [GtkSourceView](https://wiki.gnome.org/Projects/GtkSourceView) >=3.24
 
 ### Source Code Repository
 
