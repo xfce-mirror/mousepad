@@ -41,8 +41,10 @@
 
 
 
-#define PADDING                   (2)
-#define PASTE_HISTORY_MENU_LENGTH (30)
+#define PADDING                   2
+#define PASTE_HISTORY_MENU_LENGTH 30
+#define MIN_FONT_SIZE             6
+#define MAX_FONT_SIZE             72
 
 #define MENUBAR        MOUSEPAD_SETTING_MENUBAR_VISIBLE
 #define STATUSBAR      MOUSEPAD_SETTING_STATUSBAR_VISIBLE
@@ -74,6 +76,8 @@ static gboolean          mousepad_window_configure_event              (GtkWidget
                                                                        GdkEventConfigure      *event);
 static gboolean          mousepad_window_delete_event                 (GtkWidget              *widget,
                                                                        GdkEventAny            *event);
+static gboolean          mousepad_window_scroll_event                 (GtkWidget              *widget,
+                                                                       GdkEventScroll         *event);
 static gboolean          mousepad_window_window_state_event           (GtkWidget              *widget,
                                                                        GdkEventWindowState    *event);
 
@@ -348,6 +352,12 @@ static void              mousepad_window_action_go_to_position        (GSimpleAc
 static void              mousepad_window_action_select_font           (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
+static void              mousepad_window_action_increase_font_size    (GSimpleAction          *action,
+                                                                       GVariant               *value,
+                                                                       gpointer                data);
+static void              mousepad_window_action_decrease_font_size    (GSimpleAction          *action,
+                                                                       GVariant               *value,
+                                                                       gpointer                data);
 static void              mousepad_window_action_bar_activate          (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
@@ -432,6 +442,10 @@ static const GActionEntry action_entries[] =
 
   /* additional action for the "Textview" menu to show the menubar when hidden */
   { "textview.menubar", mousepad_window_action_textview, NULL, "false", NULL },
+
+  /* increase/decrease font size from keyboard/mouse */
+  { "increase-font-size", mousepad_window_action_increase_font_size, NULL, NULL, NULL },
+  { "decrease-font-size", mousepad_window_action_decrease_font_size, NULL, NULL, NULL },
 
   /* "File" menu */
   { "file.new", mousepad_window_action_new, NULL, NULL, NULL },
@@ -565,6 +579,7 @@ mousepad_window_class_init (MousepadWindowClass *klass)
   gtkwidget_class = GTK_WIDGET_CLASS (klass);
   gtkwidget_class->configure_event = mousepad_window_configure_event;
   gtkwidget_class->delete_event = mousepad_window_delete_event;
+  gtkwidget_class->scroll_event = mousepad_window_scroll_event;
   gtkwidget_class->window_state_event = mousepad_window_window_state_event;
 
   window_signals[NEW_WINDOW] =
@@ -1272,6 +1287,30 @@ mousepad_window_delete_event (GtkWidget   *widget,
   g_action_group_activate_action (G_ACTION_GROUP (window), "file.close-window", NULL);
 
   /* we will close the window when all the tabs are closed */
+  return TRUE;
+}
+
+
+
+static gboolean
+mousepad_window_scroll_event (GtkWidget      *widget,
+                              GdkEventScroll *event)
+{
+  MousepadWindow *window = MOUSEPAD_WINDOW (widget);
+
+  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
+
+  if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_UP)
+    {
+      g_action_group_activate_action (G_ACTION_GROUP (window), "increase-font-size", NULL);
+      return FALSE;
+    }
+  else if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_DOWN)
+    {
+      g_action_group_activate_action (G_ACTION_GROUP (window), "decrease-font-size", NULL);
+      return FALSE;
+    }
+
   return TRUE;
 }
 
@@ -5125,6 +5164,58 @@ mousepad_window_action_select_font (GSimpleAction *action,
 
   /* destroy dialog */
   gtk_widget_destroy (dialog);
+}
+
+
+
+static void
+mousepad_window_change_font_size (MousepadWindow *window,
+                                  gint            change)
+{
+  PangoFontDescription *font_desc;
+  GtkStyleContext      *context;
+  GValue                font = G_VALUE_INIT;
+  gchar                *font_string;
+  gint                  font_size;
+
+  /* retrieve the current font size */
+  context = gtk_widget_get_style_context (GTK_WIDGET (window->active->textview));
+  gtk_style_context_get_property (context, "font", gtk_style_context_get_state (context), &font);
+  font_desc = g_value_get_boxed (&font);
+  font_size = pango_font_description_get_size (font_desc) / PANGO_SCALE;
+
+  /* exit silently if font size is outside ]MIN_FONT_SIZE, MAX_FONT_SIZE[ */
+  if (font_size <= MIN_FONT_SIZE || font_size >= MAX_FONT_SIZE)
+    return;
+
+  /* change font size */
+  pango_font_description_set_size (font_desc, (font_size + change) * PANGO_SCALE);
+  font_string = pango_font_description_to_string (font_desc);
+  g_object_set (window->active->textview, "font", font_string, NULL);
+
+  /* cleanup */
+  g_free (font_string);
+  g_value_unset (&font);
+}
+
+
+
+static void
+mousepad_window_action_increase_font_size (GSimpleAction *action,
+                                           GVariant      *value,
+                                           gpointer       data)
+{
+  mousepad_window_change_font_size (MOUSEPAD_WINDOW (data), 1);
+}
+
+
+
+static void
+mousepad_window_action_decrease_font_size (GSimpleAction *action,
+                                           GVariant      *value,
+                                           gpointer       data)
+{
+  mousepad_window_change_font_size (MOUSEPAD_WINDOW (data), -1);
 }
 
 
