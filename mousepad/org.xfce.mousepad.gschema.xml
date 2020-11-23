@@ -62,11 +62,11 @@
         When true auto-indentation is enabled, when false it is not.
       </description>
     </key>
-    <key name="font-name" type="s">
+    <key name="font" type="s">
       <default>'Monospace'</default>
-      <summary>Font name</summary>
+      <summary>Font</summary>
       <description>
-        The name of the font to use in the textviews. Can contain Pango
+        The font to use in the textviews. Can contain Pango
         font description syntax for greater control.
       </description>
     </key>
@@ -74,9 +74,8 @@
       <default>true</default>
       <summary>Use default monospace font</summary>
       <description>
-        When enabled, rather than using the font specified in the 'font-name'
-        setting, the default fixed-width font will be used (ie. the font
-        name 'Monospace').
+        When enabled, rather than using the font specified in the 'font'
+        setting, the default fixed-width font will be used.
       </description>
     </key>
     <key name="show-whitespace" type="b">

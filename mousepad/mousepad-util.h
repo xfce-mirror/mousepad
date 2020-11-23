@@ -89,6 +89,8 @@ GSList    *mousepad_util_get_sorted_section_names         (void);
 
 GSList    *mousepad_util_get_sorted_languages_for_section (const gchar *section);
 
+gchar     *mousepad_util_get_default_font                 (void);
+
 #if !GLIB_CHECK_VERSION (2, 52, 0)
 /*
  * Copied from GLib 2.66.0:
