@@ -92,34 +92,6 @@ void            mousepad_view_indent                    (MousepadView      *view
 gint            mousepad_view_get_selection_length      (MousepadView      *view,
                                                          gboolean          *is_column_selection);
 
-void            mousepad_view_set_font_name             (MousepadView      *view,
-                                                         const gchar       *font_name);
-
-void            mousepad_view_set_show_whitespace       (MousepadView      *view,
-                                                         gboolean           show);
-
-gboolean        mousepad_view_get_show_whitespace       (MousepadView      *view);
-
-void            mousepad_view_set_show_line_endings     (MousepadView      *view,
-                                                         gboolean           show);
-
-gboolean        mousepad_view_get_show_line_endings     (MousepadView      *view);
-
-void            mousepad_view_set_color_scheme          (MousepadView      *view,
-                                                         const gchar       *color_scheme);
-
-const gchar    *mousepad_view_get_color_scheme          (MousepadView      *view);
-
-void            mousepad_view_set_word_wrap             (MousepadView      *view,
-                                                         gboolean           enabled);
-
-gboolean        mousepad_view_get_word_wrap             (MousepadView      *view);
-
-void            mousepad_view_set_match_braces          (MousepadView      *view,
-                                                         gboolean           enabled);
-
-gboolean        mousepad_view_get_match_braces          (MousepadView      *view);
-
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_VIEW_H__ */

@@ -5091,35 +5091,36 @@ mousepad_window_action_select_font (GSimpleAction *action,
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
   GtkWidget      *dialog;
-  gchar          *font_name;
+  gchar          *font;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   dialog = gtk_font_chooser_dialog_new (_("Choose Mousepad Font"), GTK_WINDOW (window));
 
-  /* set the current font name */
-  font_name = MOUSEPAD_SETTING_GET_STRING (FONT_NAME);
+  /* set the current font */
+  font = MOUSEPAD_SETTING_GET_STRING (FONT);
 
-  if (G_LIKELY (font_name))
+  if (G_LIKELY (font))
     {
-      gtk_font_chooser_set_font (GTK_FONT_CHOOSER (dialog), font_name);
-      g_free (font_name);
+      gtk_font_chooser_set_font (GTK_FONT_CHOOSER (dialog), font);
+      g_free (font);
     }
 
   /* run the dialog */
   if (G_LIKELY (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK))
     {
       /* get the selected font from the dialog */
-      font_name = gtk_font_chooser_get_font (GTK_FONT_CHOOSER (dialog));
+      font = gtk_font_chooser_get_font (GTK_FONT_CHOOSER (dialog));
 
       /* store the font in the preferences */
-      MOUSEPAD_SETTING_SET_STRING (FONT_NAME, font_name);
+      MOUSEPAD_SETTING_SET_STRING (FONT, font);
+
       /* stop using default font */
       MOUSEPAD_SETTING_SET_BOOLEAN (USE_DEFAULT_FONT, FALSE);
 
       /* cleanup */
-      g_free (font_name);
+      g_free (font);
     }
 
   /* destroy dialog */
