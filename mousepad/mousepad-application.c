@@ -646,7 +646,7 @@ mousepad_application_command_line (GApplication            *gapplication,
   /* initialize xfconf */
   if (G_UNLIKELY (xfconf_init (&error) == FALSE))
     {
-      g_application_command_line_printerr (command_line, "%s\n", "Failed to initialize xfconf");
+      g_critical ("Failed to initialize xfconf: %s", error->message);
       g_error_free (error);
 
       return EXIT_FAILURE;
@@ -667,8 +667,9 @@ mousepad_application_command_line (GApplication            *gapplication,
       else
         {
           application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
-          g_application_command_line_printerr (command_line, "%s\n",
-                                               "Invalid opening mode: ignored");
+          g_application_command_line_printerr (command_line,
+                                               "Invalid opening mode '%s': ignored\n",
+                                               opening_mode);
         }
     }
   /* use the opening mode stored in the settings */
@@ -786,7 +787,7 @@ mousepad_application_open (GApplication  *gapplication,
         }
       else
         {
-          g_printerr ("%s\n", error->message);
+          g_message ("%s", error->message);
           g_clear_error (&error);
           g_free (uri);
         }
