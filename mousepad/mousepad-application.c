@@ -79,13 +79,6 @@ struct _MousepadApplication
 static const GOptionEntry option_entries[] =
 {
   {
-    "opening-mode", 'o', G_OPTION_FLAG_NONE,
-    G_OPTION_ARG_STRING, NULL,
-    NC_("The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not be translated",
-        "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"),
-    N_("MODE")
-  },
-  {
     "disable-server", '\0', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
     N_("Do not register with the D-BUS session message bus"), NULL
@@ -150,11 +143,23 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
 static void
 mousepad_application_init (MousepadApplication *application)
 {
+  gchar *option_desc;
+
   /* default application name */
   g_set_application_name (_("Mousepad"));
 
   /* use the Mousepad icon as default for new windows */
   gtk_window_set_default_icon_name ("org.xfce.mousepad");
+
+  /* this option is added separately using g_strdup_printf() for the description, to be sure
+   * that opening modes will be excluded from the translation (experience shows that using a
+   * translation context is not enough to ensure it) */
+  option_desc = g_strdup_printf (
+    _("File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"),
+    "tab", "window", "mixed");
+  g_application_add_main_option (G_APPLICATION (application), "opening-mode", 'o',
+                                 G_OPTION_FLAG_NONE, G_OPTION_ARG_STRING, option_desc, _("MODE"));
+  g_free (option_desc);
 
   /* add our option entries to the application */
   g_application_add_main_option_entries (G_APPLICATION (application), option_entries);

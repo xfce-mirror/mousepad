@@ -30,6 +30,7 @@ main (gint argc, gchar **argv)
   gint                 status;
 
   /* bind the text domain to the locale directory */
+  setlocale (LC_ALL, "");
   bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
