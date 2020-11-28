@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-08 12:47+0100\n"
-"PO-Revision-Date: 2020-11-15 13:49+0000\n"
+"POT-Creation-Date: 2020-11-27 00:46+0100\n"
+"PO-Revision-Date: 2020-11-28 13:12+0000\n"
 "Last-Translator: Kjell Cato Heskjestad <cato@heskjestad.xyz>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/xfce/xfce-apps/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -24,195 +24,193 @@ msgstr ""
 "Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../mousepad/mousepad-application.c:85
-msgctxt ""
-"The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not "
-"be translated"
-msgid "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"
-msgstr "Modus for åpning av fil: «fane», «vindu» eller «blandet» (åpner faner i et nytt vindu)"
-
-#: ../mousepad/mousepad-application.c:86
-msgid "MODE"
-msgstr "MODUS"
-
-#: ../mousepad/mousepad-application.c:91
+#: ../mousepad/mousepad-application.c:84
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Ikke registrer på D-BUS øktas meldingsbuss"
 
-#: ../mousepad/mousepad-application.c:96
+#: ../mousepad/mousepad-application.c:89
 msgid "Quit a running Mousepad primary instance"
 msgstr "Avslutt en kjørende Mousepad-primærinstans"
 
-#: ../mousepad/mousepad-application.c:101
+#: ../mousepad/mousepad-application.c:94
 msgid "Print version information and exit"
 msgstr "Skriv ut versjonsinformasjon og avslutt"
 
-#: ../mousepad/mousepad-application.c:106
+#: ../mousepad/mousepad-application.c:99
 msgid "[FILES...]"
 msgstr "[FILER…]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:154 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:149 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:176
+#: ../mousepad/mousepad-application.c:158
+#, c-format
+msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
+msgstr "Modus for åpning av fil: «%s», «%s» eller «%s» (åpner faner i et nytt vindu)"
+
+#: ../mousepad/mousepad-application.c:161
+msgid "MODE"
+msgstr "MODUS"
+
+#: ../mousepad/mousepad-application.c:181
 msgid "The Xfce development team. All rights reserved."
 msgstr "Xfce-utviklingslaget. Alle rettigheter reservert."
 
-#: ../mousepad/mousepad-application.c:177
+#: ../mousepad/mousepad-application.c:182
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Meld inn feil til <%s>."
 
-#: ../mousepad/mousepad-application.c:730
+#: ../mousepad/mousepad-application.c:927
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Forfattere: %s | Filnavn: %s"
 
-#: ../mousepad/mousepad-dialogs.c:39
+#: ../mousepad/mousepad-dialogs.c:40
 msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
 msgstr "Mousepad er et raskt skriveprogram for Xfce-skrivebordsmiljøet."
 
-#: ../mousepad/mousepad-dialogs.c:46
+#: ../mousepad/mousepad-dialogs.c:47
 msgid "translator-credits"
 msgstr "haarek - Harald <https://www.transifex.com/accounts/profile/haarek/>\nkingu - Allan Nordhøy <https://www.transifex.com/accounts/profile/kingu/>\npapparonny - Ronny K. M. Olufsen <https://www.transifex.com/accounts/profile/papparonny/>"
 
 #. display an error message to the user
-#: ../mousepad/mousepad-dialogs.c:96 ../mousepad/mousepad-dialogs.c:112
+#: ../mousepad/mousepad-dialogs.c:97 ../mousepad/mousepad-dialogs.c:113
 msgid "Failed to open the documentation browser"
 msgstr "Klarte ikke åpne dokumentasjons-utforskeren"
 
 #. build dialog
-#: ../mousepad/mousepad-dialogs.c:132
+#: ../mousepad/mousepad-dialogs.c:133
 msgid "Select Tab Size"
 msgstr "Velg fanestørrelse"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:135 ../mousepad/mousepad-dialogs.c:216
-#: ../mousepad/mousepad-dialogs.c:321 ../mousepad/mousepad-dialogs.c:385
-#: ../mousepad/mousepad-dialogs.c:464 ../mousepad/mousepad-dialogs.c:496
-#: ../mousepad/mousepad-dialogs.c:525 ../mousepad/mousepad-dialogs.c:567
+#: ../mousepad/mousepad-dialogs.c:136 ../mousepad/mousepad-dialogs.c:217
+#: ../mousepad/mousepad-dialogs.c:322 ../mousepad/mousepad-dialogs.c:386
+#: ../mousepad/mousepad-dialogs.c:465 ../mousepad/mousepad-dialogs.c:497
+#: ../mousepad/mousepad-dialogs.c:526 ../mousepad/mousepad-dialogs.c:568
 #: ../mousepad/mousepad-encoding-dialog.c:121
 #: ../mousepad/mousepad-encoding-dialog.c:193
 msgid "_Cancel"
 msgstr "_Avbryt"
 
-#: ../mousepad/mousepad-dialogs.c:136
+#: ../mousepad/mousepad-dialogs.c:137
 #: ../mousepad/mousepad-encoding-dialog.c:122
 msgid "_OK"
 msgstr "_OK"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:213
+#: ../mousepad/mousepad-dialogs.c:214
 msgid "Go To"
 msgstr "Gå til"
 
-#: ../mousepad/mousepad-dialogs.c:218
+#: ../mousepad/mousepad-dialogs.c:219
 msgid "_Jump to"
 msgstr "_Hopp til"
 
-#: ../mousepad/mousepad-dialogs.c:238
+#: ../mousepad/mousepad-dialogs.c:239
 msgid "_Line number:"
 msgstr "_Linjenummer:"
 
-#: ../mousepad/mousepad-dialogs.c:258
+#: ../mousepad/mousepad-dialogs.c:259
 msgid "C_olumn number:"
 msgstr "K_olonne-nummer:"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:318
+#: ../mousepad/mousepad-dialogs.c:319
 msgid "Clear Documents History"
 msgstr "Tøm dokumenthistorikk"
 
-#: ../mousepad/mousepad-dialogs.c:323
+#: ../mousepad/mousepad-dialogs.c:324
 msgid "Clea_r"
 msgstr "T_øm"
 
-#: ../mousepad/mousepad-dialogs.c:347
+#: ../mousepad/mousepad-dialogs.c:348
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr "<big><b>Fjern alle oppføringer fra dokumenthistorikk?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:352
+#: ../mousepad/mousepad-dialogs.c:353
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "Tømning av dokumenthistorikk vil slette alle oppføringer permanent."
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:382
+#: ../mousepad/mousepad-dialogs.c:383
 msgid "Save Changes"
 msgstr "Lagre endringer"
 
-#: ../mousepad/mousepad-dialogs.c:389
+#: ../mousepad/mousepad-dialogs.c:390
 msgid "_Don't Save"
 msgstr "_Ikke lagre"
 
-#: ../mousepad/mousepad-dialogs.c:396 ../mousepad/mousepad-dialogs.c:497
+#: ../mousepad/mousepad-dialogs.c:397 ../mousepad/mousepad-dialogs.c:498
 msgid "_Save As"
 msgstr "_Lagre som"
 
-#: ../mousepad/mousepad-dialogs.c:404 ../mousepad/mousepad-dialogs.c:467
-#: ../mousepad/mousepad-dialogs.c:528 ../mousepad/mousepad-window.c:859
+#: ../mousepad/mousepad-dialogs.c:405 ../mousepad/mousepad-dialogs.c:468
+#: ../mousepad/mousepad-dialogs.c:529 ../mousepad/mousepad-window.c:859
 #: ../mousepad/resources/gtk/menus.ui.h:15
 msgid "_Save"
 msgstr "_Lagre"
 
-#: ../mousepad/mousepad-dialogs.c:428
+#: ../mousepad/mousepad-dialogs.c:429
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr "<big><b>Vil du lagre endringer før du lukker?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:433
+#: ../mousepad/mousepad-dialogs.c:434
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "Hvis du ikke lagrer dokumentet vil endringene som er gjort forsvinne."
 
-#: ../mousepad/mousepad-dialogs.c:458
+#: ../mousepad/mousepad-dialogs.c:459
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "Dokumentet har blitt endret annensteds fra. Vil du fortsette med lagring?"
 
-#: ../mousepad/mousepad-dialogs.c:460
+#: ../mousepad/mousepad-dialogs.c:461
 msgid "Externally Modified"
 msgstr "Endret eksternt"
 
-#: ../mousepad/mousepad-dialogs.c:462
+#: ../mousepad/mousepad-dialogs.c:463
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "Hvis du lagrer dokumentet, vil alle eksterne endringer forsvinne."
 
-#: ../mousepad/mousepad-dialogs.c:465
+#: ../mousepad/mousepad-dialogs.c:466
 msgid "Save _As"
 msgstr "Lagre _som"
 
-#: ../mousepad/mousepad-dialogs.c:493
+#: ../mousepad/mousepad-dialogs.c:494
 msgid "Do you want to save your changes before reloading?"
 msgstr "Vil du lagre endringer før du laster inn på ny?"
 
-#: ../mousepad/mousepad-dialogs.c:495
+#: ../mousepad/mousepad-dialogs.c:496
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Hvis du tilbakestiller filen, vil alle ulagrede endringer forsvinne."
 
-#: ../mousepad/mousepad-dialogs.c:499
+#: ../mousepad/mousepad-dialogs.c:500
 msgid "_Revert"
 msgstr "_Tilbakestill"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:523
+#: ../mousepad/mousepad-dialogs.c:524
 msgid "Save As"
 msgstr "Lagre som"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:564
+#: ../mousepad/mousepad-dialogs.c:565
 msgid "Open File"
 msgstr "Åpne fil"
 
-#: ../mousepad/mousepad-dialogs.c:569
+#: ../mousepad/mousepad-dialogs.c:570
 msgid "_Open"
 msgstr "_Åpne"
 
-#: ../mousepad/mousepad-dialogs.c:582
+#: ../mousepad/mousepad-dialogs.c:583
 msgid "_Encoding:"
 msgstr "T_egnkoding:"
 
@@ -720,7 +718,7 @@ msgstr "Gå til en gitt plassering i dokumentet"
 msgid "_Fullscreen"
 msgstr "_Fullskjermsvisning"
 
-#: ../mousepad/mousepad-window.c:899 ../mousepad/mousepad-window.c:5443
+#: ../mousepad/mousepad-window.c:899 ../mousepad/mousepad-window.c:5437
 #: ../mousepad/resources/gtk/menus.ui.h:114
 msgid "Make the window fullscreen"
 msgstr "Bytt til fullskjermsvisning av vindu"
@@ -796,26 +794,26 @@ msgid "Failed to clear the recent history"
 msgstr "Feil under tømming av nylig historikk"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:3964
+#: ../mousepad/mousepad-window.c:3958
 msgid "No clipboard data"
 msgstr "Ingen data i utklippstavle"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4094
+#: ../mousepad/mousepad-window.c:4088
 msgid "Templates should be UTF-8 valid"
 msgstr "Mal må være i gyldig UTF-8"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4099
+#: ../mousepad/mousepad-window.c:4093
 msgid "Reading the template failed"
 msgstr "Klarte ikke lese inn mal"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4104
+#: ../mousepad/mousepad-window.c:4098
 msgid "Loading the template failed"
 msgstr "Klarte ikke laste inn mal"
 
-#: ../mousepad/mousepad-window.c:4199
+#: ../mousepad/mousepad-window.c:4193
 #, c-format
 msgid ""
 "Failed to open \"%s\" for reading. It will be removed from the document "
@@ -823,30 +821,30 @@ msgid ""
 msgstr "Klarte ikke åpne «%s» for lesing. Den vil bli fjernet fra dokumenthistorikken"
 
 #. show the warning and cleanup
-#: ../mousepad/mousepad-window.c:4203
+#: ../mousepad/mousepad-window.c:4197
 msgid "Failed to open file"
 msgstr "Klarte ikke å åpne fil"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4313 ../mousepad/mousepad-window.c:4442
+#: ../mousepad/mousepad-window.c:4307 ../mousepad/mousepad-window.c:4436
 msgid "Failed to save the document"
 msgstr "Klarte ikke å lagre dokumentet"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4537
+#: ../mousepad/mousepad-window.c:4531
 msgid "Failed to reload the document"
 msgstr "Klarte ikke laste inn dokumentet på nytt"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4566
+#: ../mousepad/mousepad-window.c:4560
 msgid "Failed to print the document"
 msgstr "Feil under utskrift av dokument"
 
-#: ../mousepad/mousepad-window.c:5291
+#: ../mousepad/mousepad-window.c:5285
 msgid "Choose Mousepad Font"
 msgstr "Velg skrift til bruk i Mousepad"
 
-#: ../mousepad/mousepad-window.c:5436
+#: ../mousepad/mousepad-window.c:5430
 msgid "Leave fullscreen mode"
 msgstr "Forlat fullskjermsmodus"
 
