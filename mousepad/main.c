@@ -21,6 +21,10 @@
 #include <libintl.h>
 #endif
 
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
 
 
 gint
