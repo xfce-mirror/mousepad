@@ -3069,6 +3069,9 @@ mousepad_window_update_actions (MousepadWindow *window)
       /* toggle the document settings */
       mousepad_window_update_document_actions (window);
 
+      /* toggle the line numbers setting */
+      mousepad_window_update_line_numbers_action (window);
+
       /* set the sensitivity of the undo and redo actions */
       mousepad_window_can_undo (window, NULL, G_OBJECT (document->buffer));
       mousepad_window_can_redo (window, NULL, G_OBJECT (document->buffer));
