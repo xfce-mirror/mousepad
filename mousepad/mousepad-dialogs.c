@@ -83,40 +83,16 @@ mousepad_dialogs_show_help (GtkWindow   *parent,
                             const gchar *page,
                             const gchar *offset)
 {
-#if !GTK_CHECK_VERSION (3, 22, 0)
-  GdkScreen   *screen;
-#endif
   GError      *error = NULL;
   const gchar *uri = "https://docs.xfce.org/apps/mousepad/start";
 
   /* try to run the documentation browser */
-#if GTK_CHECK_VERSION (3, 22, 0)
   if (!gtk_show_uri_on_window (parent, uri, gtk_get_current_event_time (), &error))
     {
       /* display an error message to the user */
       mousepad_dialogs_show_error (parent, error, _("Failed to open the documentation browser"));
       g_error_free (error);
     }
-#else
-
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-
-  /* get screen */
-  if (G_LIKELY (parent))
-    screen = gtk_widget_get_screen (GTK_WIDGET (parent));
-  else
-    screen = gdk_screen_get_default ();
-
-  if (!gtk_show_uri (screen, uri, gtk_get_current_event_time (), &error))
-    {
-      /* display an error message to the user */
-      mousepad_dialogs_show_error (parent, error, _("Failed to open the documentation browser"));
-      g_error_free (error);
-    }
-
-G_GNUC_END_IGNORE_DEPRECATIONS
-
-#endif
 }
 
 

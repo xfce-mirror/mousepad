@@ -210,22 +210,9 @@ mousepad_statusbar_filetype_clicked (GtkWidget         *widget,
   n_children = g_list_length (children);
   g_list_free (children);
 
-  /* make sure there's at least one item in the menu */
+  /* make sure there's at least one item in the menu to show it */
   if (n_children)
-    {
-      /* show the menu */
-#if GTK_CHECK_VERSION (3, 22, 0)
-      gtk_menu_popup_at_pointer (menu, (GdkEvent*) event);
-#else
-
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-
-      gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
-
-G_GNUC_END_IGNORE_DEPRECATIONS
-
-#endif
-    }
+    gtk_menu_popup_at_pointer (menu, (GdkEvent*) event);
 
   return TRUE;
 }
