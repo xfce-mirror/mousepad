@@ -204,13 +204,6 @@ static void              mousepad_window_hide_search_bar              (MousepadW
 
 /* history clipboard functions */
 static void              mousepad_window_paste_history_add            (MousepadWindow         *window);
-#if !GTK_CHECK_VERSION (3, 22, 0)
-static void              mousepad_window_paste_history_menu_position  (GtkMenu                *menu,
-                                                                       gint                   *x,
-                                                                       gint                   *y,
-                                                                       gboolean               *push_in,
-                                                                       gpointer                user_data);
-#endif
 static void              mousepad_window_paste_history_activate       (GtkMenuItem            *item,
                                                                        MousepadWindow         *window);
 static GtkWidget        *mousepad_window_paste_history_menu_item      (const gchar            *text,
@@ -2320,23 +2313,9 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
               /* switch to this tab */
               gtk_notebook_set_current_page (notebook, page_num);
 
-              /* handle the button action */
+              /* show the menu */
               if (event->button == 3)
-                {
-                  /* show the menu */
-#if GTK_CHECK_VERSION (3, 22, 0)
-                  gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), (GdkEvent*) event);
-#else
-
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-
-                  gtk_menu_popup (GTK_MENU (window->tab_menu), NULL, NULL, NULL, NULL,
-                                  event->button, event->time);
-
-G_GNUC_END_IGNORE_DEPRECATIONS
-
-#endif
-                }
+                gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), (GdkEvent*) event);
               /* close the document */
               else if (event->button == 2)
                 g_action_group_activate_action (G_ACTION_GROUP (window), "file.close-tab", NULL);
@@ -3754,48 +3733,6 @@ mousepad_window_paste_history_add (MousepadWindow *window)
 
 
 
-#if !GTK_CHECK_VERSION (3, 22, 0)
-static void
-mousepad_window_paste_history_menu_position (GtkMenu  *menu,
-                                             gint     *x,
-                                             gint     *y,
-                                             gboolean *push_in,
-                                             gpointer  user_data)
-{
-  MousepadWindow   *window = MOUSEPAD_WINDOW (user_data);
-  MousepadDocument *document = window->active;
-  GtkTextIter       iter;
-  GtkTextMark      *mark;
-  GdkRectangle      location;
-  gint              iter_x, iter_y;
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-  g_return_if_fail (GTK_IS_TEXT_VIEW (document->textview));
-  g_return_if_fail (GTK_IS_TEXT_BUFFER (document->buffer));
-
-  /* get the root coordinates of the texview widget */
-  gdk_window_get_origin (gtk_text_view_get_window (GTK_TEXT_VIEW (document->textview), GTK_TEXT_WINDOW_TEXT), x, y);
-
-  /* get the cursor iter */
-  mark = gtk_text_buffer_get_insert (document->buffer);
-  gtk_text_buffer_get_iter_at_mark (document->buffer, &iter, mark);
-
-  /* get iter location */
-  gtk_text_view_get_iter_location (GTK_TEXT_VIEW (document->textview), &iter, &location);
-
-  /* convert to textview coordinates */
-  gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (document->textview), GTK_TEXT_WINDOW_TEXT,
-                                         location.x, location.y, &iter_x, &iter_y);
-
-  /* add the iter coordinates to the menu popup position */
-  *x += iter_x;
-  *y += iter_y + location.height;
-}
-#endif
-
-
-
 static void
 mousepad_window_paste_history_activate (GtkMenuItem    *item,
                                         MousepadWindow *window)
@@ -4768,9 +4705,7 @@ mousepad_window_action_paste_history (GSimpleAction *action,
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
   GtkWidget      *menu;
-#if GTK_CHECK_VERSION (3, 22, 0)
   GdkRectangle    location;
-#endif
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -4781,7 +4716,6 @@ mousepad_window_action_paste_history (GSimpleAction *action,
   /* select the first item in the menu */
   gtk_menu_shell_select_first (GTK_MENU_SHELL (menu), TRUE);
 
-#if GTK_CHECK_VERSION (3, 22, 0)
   /* get cursor location in textview coordinates */
   gtk_text_view_get_cursor_locations (GTK_TEXT_VIEW (window->active->textview), NULL, &location, NULL);
   gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (window->active->textview),
@@ -4793,18 +4727,6 @@ mousepad_window_action_paste_history (GSimpleAction *action,
   gtk_menu_popup_at_rect (GTK_MENU (menu),
                           gtk_widget_get_parent_window (GTK_WIDGET (window->active->textview)),
                           &location, GDK_GRAVITY_SOUTH_WEST, GDK_GRAVITY_NORTH_WEST, NULL);
-#else
-
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-
-  /* popup the menu */
-  gtk_menu_popup (GTK_MENU (menu), NULL, NULL,
-                  mousepad_window_paste_history_menu_position,
-                  window, 0, gtk_get_current_event_time ());
-
-G_GNUC_END_IGNORE_DEPRECATIONS
-
-#endif
 }
 
 
