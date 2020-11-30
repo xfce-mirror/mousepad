@@ -1,3 +1,14 @@
+0.5
+======
+- Bump required GTK+ in `mousepad-prefs-dialog.ui` (#78)
+- Fix an oversight in updating actions state (#76)
+- Remove TODO file (#74)
+- Ensure that opening modes are excluded from translation
+- Translation Updates:
+  Albanian, Bulgarian, Chinese (China), Dutch, French, German, Greek,
+  Hebrew, Indonesian, Italian, Norwegian Bokmål, Portuguese,
+  Portuguese (Brazil), Slovenian, Spanish
+
 0.4.90
 ======
 Release candidate for upcoming stable version 0.5.
