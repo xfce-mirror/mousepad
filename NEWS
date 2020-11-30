@@ -1,4 +1,4 @@
-0.5
+0.5.0
 ======
 - Bump required GTK+ in `mousepad-prefs-dialog.ui` (#78)
 - Fix an oversight in updating actions state (#76)
@@ -7,7 +7,7 @@
 - Translation Updates:
   Albanian, Bulgarian, Chinese (China), Dutch, French, German, Greek,
   Hebrew, Indonesian, Italian, Norwegian Bokmål, Portuguese,
-  Portuguese (Brazil), Slovenian, Spanish
+  Portuguese (Brazil), Slovenian, Spanish, Japanese
 
 0.4.90
 ======
