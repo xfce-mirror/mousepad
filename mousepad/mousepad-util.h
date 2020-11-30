@@ -91,15 +91,6 @@ GSList    *mousepad_util_get_sorted_languages_for_section (const gchar *section)
 
 gchar     *mousepad_util_get_default_font                 (void);
 
-#if !GLIB_CHECK_VERSION (2, 52, 0)
-/*
- * Copied from GLib 2.66.0:
- * https://gitlab.gnome.org/GNOME/glib/-/blob/c2c12e42920d6e06c23c87398996827e53c1fc72/glib/gunicode.h#L934
- */
-gchar *g_utf8_make_valid (const gchar *str,
-                          gssize       len) G_GNUC_MALLOC;
-#endif
-
 /*
  * Copied from Gedit 3.38.0 and slightly modified:
  * https://gitlab.gnome.org/GNOME/gedit/-/blob/21fac3f0c87db0db104d7af7eaeb6f63d8216a14/gedit/gedit-pango.h#L28

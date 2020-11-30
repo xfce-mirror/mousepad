@@ -474,17 +474,10 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                          G_SETTINGS_BIND_DEFAULT);
 
   /* bind the font button "font" property to the "font" setting */
-#if GTK_CHECK_VERSION (3, 22, 0)
   MOUSEPAD_SETTING_BIND (FONT,
                          gtk_builder_get_object (self->builder, WID_FONT_BUTTON),
                          "font",
                          G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
-#else
-  MOUSEPAD_SETTING_BIND (FONT,
-                         gtk_builder_get_object (self->builder, WID_FONT_BUTTON),
-                         "font-name",
-                         G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
-#endif
 
   mousepad_prefs_dialog_setup_color_schemes_combo (self);
 
