@@ -17,10 +17,13 @@
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-util.h>
 
+#include <xfconf/xfconf.h>
+
 #include <math.h>
 
 
 
+#define DEFAULT_FONT "Monospace 10"
 #define FONT_FAMILY  "font-family"
 #define FONT_STYLE   "font-style"
 #define FONT_VARIANT "font-variant"
@@ -882,6 +885,22 @@ mousepad_util_get_sorted_languages_for_section (const gchar *section)
     }
 
   return g_slist_sort (list, (GCompareFunc) mousepad_util_languages_name_compare);
+}
+
+
+
+gchar *
+mousepad_util_get_default_font (void)
+{
+  gchar *font;
+
+  /* get the default font from xfconf */
+  font = xfconf_channel_get_string (xfconf_channel_get ("xsettings"),
+                                    "/Gtk/MonospaceFontName", NULL);
+  if (G_UNLIKELY (font == NULL))
+    font = g_strdup (DEFAULT_FONT);
+
+  return font;
 }
 
 
