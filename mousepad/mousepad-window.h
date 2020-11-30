@@ -60,6 +60,8 @@ GtkWidget      *mousepad_window_get_languages_menu         (MousepadWindow      
 
 void            mousepad_window_update_document_menu_items (MousepadWindow       *window);
 
+void            mousepad_window_update_window_menu_items   (MousepadWindow       *window);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_WINDOW_H__ */
