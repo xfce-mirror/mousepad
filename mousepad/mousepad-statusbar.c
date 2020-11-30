@@ -203,7 +203,6 @@ mousepad_statusbar_filetype_clicked (GtkWidget         *widget,
   /* get the languages menu from the window */
   window = gtk_widget_get_ancestor (GTK_WIDGET (statusbar), MOUSEPAD_TYPE_WINDOW);
   menu = GTK_MENU (mousepad_window_get_languages_menu (MOUSEPAD_WINDOW (window)));
-  g_warn_if_fail (GTK_IS_MENU (menu));
 
   /* get the number of items in the menu */
   children = gtk_container_get_children (GTK_CONTAINER (menu));

@@ -602,8 +602,8 @@ mousepad_util_get_save_location (const gchar *relpath,
           if (g_mkdir_with_parents (dirname, 0700) == -1)
             {
               /* show warning to the user */
-              g_critical (_("Unable to create base directory \"%s\". "
-                            "Saving to file \"%s\" will be aborted."), dirname, filename);
+              g_critical ("Unable to create base directory \"%s\". "
+                          "Saving to file \"%s\" will be aborted.", dirname, filename);
 
               /* don't return a filename, to avoid problems */
               g_free (filename);
@@ -648,7 +648,7 @@ mousepad_util_save_key_file (GKeyFile    *keyfile,
       print_error:
 
       /* print error */
-      g_critical (_("Failed to store the preferences to \"%s\": %s"), filename, error->message);
+      g_critical ("Failed to store the preferences to \"%s\": %s", filename, error->message);
 
       /* cleanup */
       g_error_free (error);
