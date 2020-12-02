@@ -226,7 +226,7 @@
         <item>
           <attribute name="label" translatable="yes">_Auto Indent</attribute>
           <attribute name="tooltip" translatable="yes">Auto indent a new line</attribute>
-          <attribute name="action">win.document.auto-indent</attribute>
+          <attribute name="action">app.preferences.view.auto-indent</attribute>
         </item>
         <submenu id="document.tab">
           <attribute name="label" translatable="yes">Tab _Size</attribute>
