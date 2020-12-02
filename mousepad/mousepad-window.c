@@ -1066,6 +1066,12 @@ mousepad_window_post_init (MousepadWindow *window)
                                    G_CALLBACK (mousepad_window_update_toolbar_properties),
                                    window, G_CONNECT_SWAPPED);
 
+  /* initialize the tab size menu and sync it with its setting */
+  mousepad_window_menu_tab_sizes_update (window);
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH,
+                                   G_CALLBACK (mousepad_window_menu_tab_sizes_update),
+                                   window, G_CONNECT_SWAPPED);
+
   /* restore window geometry settings */
   mousepad_window_restore_geometry (window);
 }
@@ -1291,11 +1297,6 @@ mousepad_window_init (MousepadWindow *window)
   /* update the tabs when 'always-show-tabs' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (ALWAYS_SHOW_TABS,
                                    G_CALLBACK (mousepad_window_update_tabs),
-                                   window, G_CONNECT_SWAPPED);
-
-  /* sync the tab size menu to its settings */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH,
-                                   G_CALLBACK (mousepad_window_menu_tab_sizes_update),
                                    window, G_CONNECT_SWAPPED);
 }
 
