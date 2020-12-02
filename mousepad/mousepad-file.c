@@ -556,7 +556,7 @@ mousepad_file_open (MousepadFile  *file,
 
           /* leave when the contents is not utf-8 valid */
           if (G_LIKELY (file->encoding == MOUSEPAD_ENCODING_UTF_8)
-              && g_utf8_validate_len (contents, file_size, &end) == FALSE)
+              && g_utf8_validate (contents, file_size, &end) == FALSE)
             {
               /* set return value */
               retval = ERROR_NOT_UTF8_VALID;

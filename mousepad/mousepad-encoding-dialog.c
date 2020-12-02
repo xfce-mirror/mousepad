@@ -296,7 +296,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
                   if (G_LIKELY (encoded))
                     {
                       /* insert in the store */
-                      if (G_LIKELY (g_utf8_validate_len (encoded, written, NULL)))
+                      if (G_LIKELY (g_utf8_validate (encoded, written, NULL)))
                         gtk_list_store_insert_with_values (dialog->store, NULL, n++,
                                                            COLUMN_LABEL, encoding_infos[i].charset,
                                                            COLUMN_ID, encoding_infos[i].encoding, -1);

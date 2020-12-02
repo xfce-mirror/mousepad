@@ -157,10 +157,12 @@ mousepad_disconnect_by_func_ (gpointer  instance,
  * about the function types being incompatible.
  * See https://developer.gnome.org/glib/stable/glib-The-Main-Event-Loop.html#G-SOURCE-FUNC:CAPS
  * and https://gitlab.xfce.org/apps/mousepad/-/merge_requests/25#note_15876
+ * Undef if GLib >= 2.58 to allow the use of GLIB_VERSION_MAX_ALLOWED < 2.58 without warning.
  */
-#if !GLIB_CHECK_VERSION (2, 58, 0)
-# define G_SOURCE_FUNC(f) ((GSourceFunc) (void (*)(void)) (f))
+#if GLIB_CHECK_VERSION (2, 58, 0)
+# undef G_SOURCE_FUNC
 #endif
+#define G_SOURCE_FUNC(f) ((GSourceFunc) (void (*)(void)) (f))
 
 
 G_END_DECLS
