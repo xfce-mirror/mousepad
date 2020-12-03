@@ -19,7 +19,6 @@
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-print.h>
 
-#include <gtksourceview/gtksource.h>
 
 
 #define DOCUMENT_SPACING (10)

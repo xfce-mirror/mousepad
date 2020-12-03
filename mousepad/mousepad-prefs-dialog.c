@@ -19,8 +19,6 @@
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-util.h>
 
-#include <gtksourceview/gtksource.h>
-
 
 
 #define WID_NOTEBOOK                        "/prefs/main-notebook"

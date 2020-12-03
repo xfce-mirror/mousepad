@@ -23,14 +23,6 @@
 #include <mousepad/mousepad-view.h>
 #include <mousepad/mousepad-window.h>
 
-#include <gtksourceview/gtksource.h>
-
-#ifdef HAVE_MEMORY_H
-#include <memory.h>
-#endif
-
-#include <time.h>
-
 
 
 static void      mousepad_document_finalize                (GObject                *object);

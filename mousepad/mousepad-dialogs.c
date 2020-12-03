@@ -18,8 +18,6 @@
 #include <mousepad/mousepad-dialogs.h>
 #include <mousepad/mousepad-util.h>
 
-#include <gtksourceview/gtksource.h>
-
 
 
 void

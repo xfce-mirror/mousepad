@@ -19,7 +19,9 @@
 
 #include <xfconf/xfconf.h>
 
+#ifdef HAVE_MATH_H
 #include <math.h>
+#endif
 
 
 

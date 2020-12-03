@@ -19,8 +19,6 @@
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-view.h>
 
-#include <gtksourceview/gtksource.h>
-
 
 
 #define mousepad_view_get_buffer(view) (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)))

@@ -21,8 +21,6 @@
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-window.h>
 
-#include <gdk/gdk.h>
-
 
 
 static void      mousepad_search_bar_finalize                   (GObject                 *object);

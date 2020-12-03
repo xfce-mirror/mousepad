@@ -18,8 +18,6 @@
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-settings-store.h>
 
-#include <ctype.h>
-
 
 
 static MousepadSettingsStore *settings_store = NULL;

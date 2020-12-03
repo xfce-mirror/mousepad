@@ -20,10 +20,6 @@
 #include <mousepad/mousepad-encoding-dialog.h>
 #include <mousepad/mousepad-util.h>
 
-#include <glib/gstdio.h>
-
-#include <gtksourceview/gtksource.h>
-
 
 
 static void     mousepad_encoding_dialog_finalize               (GObject                     *object);
