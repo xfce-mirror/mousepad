@@ -195,11 +195,13 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
 
   /* previous button */
   widget = gtk_button_new_from_icon_name ("go-up-symbolic", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_can_focus (widget, FALSE);
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_previous), bar);
   gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 
   /* next button */
   widget = gtk_button_new_from_icon_name ("go-down-symbolic", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_can_focus (widget, FALSE);
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_next), bar);
   gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 
