@@ -159,17 +159,29 @@ mousepad_search_bar_post_init (MousepadSearchBar *bar)
 static void
 mousepad_search_bar_init (MousepadSearchBar *bar)
 {
-  GtkWidget   *check, *menuitem;
+  GtkWidget   *widget, *box, *menu_item;
   GtkToolItem *item;
 
   /* we will complete initialization when the bar is anchored */
   g_signal_connect (bar, "hierarchy-changed", G_CALLBACK (mousepad_search_bar_post_init), NULL);
 
   /* the close button */
-  item = gtk_tool_button_new (NULL, NULL);
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (item), "window-close-symbolic");
+  widget = gtk_button_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_MENU);
+  gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
+  g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_hide_clicked), bar);
+
+  item = gtk_tool_item_new ();
+  gtk_container_add (GTK_CONTAINER (item), widget);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
-  g_signal_connect_swapped (item, "clicked", G_CALLBACK (mousepad_search_bar_hide_clicked), bar);
+
+  /* box for the search entry and its buttons */
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_style_context_add_class (gtk_widget_get_style_context (box), GTK_STYLE_CLASS_LINKED);
+  gtk_widget_set_margin_end (box, 6);
+
+  item = gtk_tool_item_new ();
+  gtk_container_add (GTK_CONTAINER (item), box);
+  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
   /* the entry field */
   bar->entry = gtk_entry_new ();
@@ -179,78 +191,77 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
                             G_CALLBACK (mousepad_search_bar_entry_activate), bar);
   g_signal_connect_swapped (bar->entry, "activate-backward",
                             G_CALLBACK (mousepad_search_bar_entry_activate_backward), bar);
-
-  item = gtk_tool_item_new ();
-  gtk_container_add (GTK_CONTAINER (item), bar->entry);
-  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
+  gtk_box_pack_start (GTK_BOX (box), bar->entry, FALSE, FALSE, 0);
 
   /* previous button */
-  item = gtk_tool_button_new (NULL, NULL);
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (item), "go-up-symbolic");
-  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
-  g_signal_connect_swapped (item, "clicked", G_CALLBACK (mousepad_search_bar_find_previous), bar);
+  widget = gtk_button_new_from_icon_name ("go-up-symbolic", GTK_ICON_SIZE_MENU);
+  g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_previous), bar);
+  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 
   /* next button */
-  item = gtk_tool_button_new (NULL, NULL);
-  gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (item), "go-down-symbolic");
+  widget = gtk_button_new_from_icon_name ("go-down-symbolic", GTK_ICON_SIZE_MENU);
+  g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_next), bar);
+  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
+
+  /* check button for case sensitive, including the proxy menu item */
+  widget = gtk_check_button_new_with_mnemonic (_("Match _case"));
+  MOUSEPAD_SETTING_BIND (SEARCH_MATCH_CASE, widget, "active", G_SETTINGS_BIND_DEFAULT);
+  g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_entry_changed), bar);
+
+  item = gtk_tool_item_new ();
+  gtk_container_add (GTK_CONTAINER (item), widget);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
-  g_signal_connect_swapped (item, "clicked", G_CALLBACK (mousepad_search_bar_find_next), bar);
+
+  menu_item = gtk_check_menu_item_new_with_mnemonic (_("Match _case"));
+  gtk_tool_item_set_proxy_menu_item (item, "case-sensitive", menu_item);
+  g_object_bind_property (widget, "active", menu_item, "active",
+                          G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+  /* check button for enabling regex, including the proxy menu item */
+  widget = gtk_check_button_new_with_mnemonic (_("Regular e_xpression"));
+  MOUSEPAD_SETTING_BIND (SEARCH_ENABLE_REGEX, widget, "active", G_SETTINGS_BIND_DEFAULT);
+  g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_entry_changed), bar);
+
+  item = gtk_tool_item_new ();
+  gtk_container_add (GTK_CONTAINER (item), widget);
+  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
+
+  menu_item = gtk_check_menu_item_new_with_mnemonic (_("Regular e_xpression"));
+  gtk_tool_item_set_proxy_menu_item (item, "enable-regex", menu_item);
+  g_object_bind_property (widget, "active", menu_item, "active",
+                          G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
   /* the occurrences label */
-  item = gtk_tool_item_new ();
   bar->hits_label = gtk_label_new (NULL);
+  gtk_style_context_add_class (gtk_widget_get_style_context (bar->hits_label),
+                               GTK_STYLE_CLASS_DIM_LABEL);
+
+  item = gtk_tool_item_new ();
+  gtk_widget_set_margin_start (GTK_WIDGET (item), 6);
   gtk_container_add (GTK_CONTAINER (item), bar->hits_label);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
   /* the spinner */
-  item = gtk_tool_item_new ();
   bar->spinner = gtk_spinner_new ();
+
+  item = gtk_tool_item_new ();
   gtk_container_add (GTK_CONTAINER (item), bar->spinner);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
-  /* insert an invisible separator to push checkboxes to the right */
-  item = gtk_separator_tool_item_new ();
-  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
-  gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (item), FALSE);
-  gtk_tool_item_set_expand (item, TRUE);
+  /* overflow menu item for the spinner and the occurrences label */
+  menu_item = gtk_menu_item_new ();
+  gtk_tool_item_set_proxy_menu_item (item, "hits-label", menu_item);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_container_add (GTK_CONTAINER (menu_item), box);
 
-  /* check button for case sensitive, including the proxy menu item */
-  check = gtk_check_button_new_with_mnemonic (_("Match _case"));
-  g_signal_connect_swapped (check, "toggled", G_CALLBACK (mousepad_search_bar_entry_changed), bar);
+  widget = gtk_label_new (NULL);
+  gtk_style_context_add_class (gtk_widget_get_style_context (widget), GTK_STYLE_CLASS_DIM_LABEL);
+  g_object_bind_property (bar->hits_label, "label", widget, "label", G_BINDING_DEFAULT);
+  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 
-  item = gtk_tool_item_new ();
-  gtk_container_add (GTK_CONTAINER (item), check);
-  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
-
-  /* keep the widget in sync with the GSettings */
-  MOUSEPAD_SETTING_BIND (SEARCH_MATCH_CASE, check, "active", G_SETTINGS_BIND_DEFAULT);
-
-  /* overflow menu item for when window is too narrow to show the tool bar item */
-  menuitem = gtk_check_menu_item_new_with_mnemonic (_("Match _case"));
-  gtk_tool_item_set_proxy_menu_item (item, "case-sensitive", menuitem);
-
-  /* keep toolbar check button and overflow proxy menu item in sync */
-  g_object_bind_property (check, "active", menuitem, "active",
-                          G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-  /* check button for enabling regex, including the proxy menu item */
-  check = gtk_check_button_new_with_mnemonic (_("Regular e_xpression"));
-  g_signal_connect_swapped (check, "toggled", G_CALLBACK (mousepad_search_bar_entry_changed), bar);
-
-  item = gtk_tool_item_new ();
-  gtk_container_add (GTK_CONTAINER (item), check);
-  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
-
-  /* keep the widget in sync with the GSettings */
-  MOUSEPAD_SETTING_BIND (SEARCH_ENABLE_REGEX, check, "active", G_SETTINGS_BIND_DEFAULT);
-
-  /* overflow menu item for when window is too narrow to show the tool bar item */
-  menuitem = gtk_check_menu_item_new_with_mnemonic (_("Regular e_xpression"));
-  gtk_tool_item_set_proxy_menu_item (item, "enable-regex", menuitem);
-
-  /* keep toolbar check button and overflow proxy menu item in sync */
-  g_object_bind_property (check, "active", menuitem, "active",
-                          G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+  widget = gtk_spinner_new ();
+  g_object_bind_property (bar->spinner, "active", widget, "active", G_BINDING_DEFAULT);
+  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 
   /* show all widgets but the search bar */
   gtk_widget_show_all (GTK_WIDGET (bar));
