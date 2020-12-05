@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-08 12:47+0100\n"
-"PO-Revision-Date: 2020-11-20 09:52+0000\n"
+"POT-Creation-Date: 2020-12-01 00:46+0100\n"
+"PO-Revision-Date: 2020-12-05 13:37+0000\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/xfce/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -28,205 +28,203 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../mousepad/mousepad-application.c:85
-msgctxt ""
-"The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not "
-"be translated"
-msgid "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"
-msgstr "Dosya açma kipi: \"tab\" (sekme), \"window\" (pencere) veya \"mixed\" (karışık) (yeni pencerede sekme aç)"
-
-#: ../mousepad/mousepad-application.c:86
-msgid "MODE"
-msgstr "KİP"
-
-#: ../mousepad/mousepad-application.c:91
+#: ../mousepad/mousepad-application.c:117
 msgid "Do not register with the D-BUS session message bus"
 msgstr "D-BUS oturum mesaj veriyolu ile kaydetme"
 
-#: ../mousepad/mousepad-application.c:96
+#: ../mousepad/mousepad-application.c:122
 msgid "Quit a running Mousepad primary instance"
 msgstr "Ana Mousepad örneğinden çık"
 
-#: ../mousepad/mousepad-application.c:101
+#: ../mousepad/mousepad-application.c:127
 msgid "Print version information and exit"
 msgstr "Sürüm bilgisini görüntüle ve çık"
 
-#: ../mousepad/mousepad-application.c:106
+#: ../mousepad/mousepad-application.c:132
 msgid "[FILES...]"
 msgstr "[DOSYALAR...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:154 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:299 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:176
+#: ../mousepad/mousepad-application.c:308
+#, c-format
+msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
+msgstr "Dosya açma kipi: \"%s\", \"%s\" veya \"%s\" (sekmeleri yeni pencerede aç)"
+
+#: ../mousepad/mousepad-application.c:311
+msgid "MODE"
+msgstr "KİP"
+
+#: ../mousepad/mousepad-application.c:331
 msgid "The Xfce development team. All rights reserved."
 msgstr "Xfce geliştirme takımı. Tüm hakları saklıdır."
 
-#: ../mousepad/mousepad-application.c:177
+#: ../mousepad/mousepad-application.c:332
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Lütfen hataları <%s> adresine gönderin."
 
-#: ../mousepad/mousepad-application.c:730
+#: ../mousepad/mousepad-application.c:1266
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Yazarlar: %s | Dosya Adı: %s"
 
-#: ../mousepad/mousepad-dialogs.c:39
+#: ../mousepad/mousepad-dialogs.c:40
 msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
 msgstr "Mousepad, Xfce Masaüstü Ortamı için hızlı metin düzenleyicisidir."
 
-#: ../mousepad/mousepad-dialogs.c:46
+#: ../mousepad/mousepad-dialogs.c:47
 msgid "translator-credits"
 msgstr "Volkan Gezer <volkangezer@gmail.com>\nEmin Tufan Çetin <etcetin@gmail.com>"
 
 #. display an error message to the user
-#: ../mousepad/mousepad-dialogs.c:96 ../mousepad/mousepad-dialogs.c:112
+#: ../mousepad/mousepad-dialogs.c:93
 msgid "Failed to open the documentation browser"
 msgstr "Belgelendirme tarayıcısı açılamadı"
 
 #. build dialog
-#: ../mousepad/mousepad-dialogs.c:132
+#: ../mousepad/mousepad-dialogs.c:109
 msgid "Select Tab Size"
 msgstr "Sekme Boyutunu Seç"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:135 ../mousepad/mousepad-dialogs.c:216
-#: ../mousepad/mousepad-dialogs.c:321 ../mousepad/mousepad-dialogs.c:385
-#: ../mousepad/mousepad-dialogs.c:464 ../mousepad/mousepad-dialogs.c:496
-#: ../mousepad/mousepad-dialogs.c:525 ../mousepad/mousepad-dialogs.c:567
+#: ../mousepad/mousepad-dialogs.c:112 ../mousepad/mousepad-dialogs.c:193
+#: ../mousepad/mousepad-dialogs.c:298 ../mousepad/mousepad-dialogs.c:362
+#: ../mousepad/mousepad-dialogs.c:441 ../mousepad/mousepad-dialogs.c:473
+#: ../mousepad/mousepad-dialogs.c:502 ../mousepad/mousepad-dialogs.c:544
 #: ../mousepad/mousepad-encoding-dialog.c:121
 #: ../mousepad/mousepad-encoding-dialog.c:193
 msgid "_Cancel"
 msgstr "_İptal"
 
-#: ../mousepad/mousepad-dialogs.c:136
+#: ../mousepad/mousepad-dialogs.c:113
 #: ../mousepad/mousepad-encoding-dialog.c:122
 msgid "_OK"
 msgstr "_Tamam"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:213
+#: ../mousepad/mousepad-dialogs.c:190
 msgid "Go To"
 msgstr "Git"
 
-#: ../mousepad/mousepad-dialogs.c:218
+#: ../mousepad/mousepad-dialogs.c:195
 msgid "_Jump to"
 msgstr "_Atla"
 
-#: ../mousepad/mousepad-dialogs.c:238
+#: ../mousepad/mousepad-dialogs.c:215
 msgid "_Line number:"
 msgstr "_Satır numarası:"
 
-#: ../mousepad/mousepad-dialogs.c:258
+#: ../mousepad/mousepad-dialogs.c:235
 msgid "C_olumn number:"
 msgstr "S_ütun numarası:"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:318
+#: ../mousepad/mousepad-dialogs.c:295
 msgid "Clear Documents History"
 msgstr "Belge Geçmişini Temizle"
 
-#: ../mousepad/mousepad-dialogs.c:323
+#: ../mousepad/mousepad-dialogs.c:300
 msgid "Clea_r"
 msgstr "_Temizle"
 
-#: ../mousepad/mousepad-dialogs.c:347
+#: ../mousepad/mousepad-dialogs.c:324
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr "<big><b>Tüm girdiler belge geçmişinden kaldırılsın mı?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:352
+#: ../mousepad/mousepad-dialogs.c:329
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "Belge geçmişini temizlemek, listelenen geçerli girdilerin tümünü kalıcı olarak kaldıracak."
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:382
+#: ../mousepad/mousepad-dialogs.c:359
 msgid "Save Changes"
 msgstr "Değişiklikleri Kaydet"
 
-#: ../mousepad/mousepad-dialogs.c:389
+#: ../mousepad/mousepad-dialogs.c:366
 msgid "_Don't Save"
 msgstr "_Kaydetme"
 
-#: ../mousepad/mousepad-dialogs.c:396 ../mousepad/mousepad-dialogs.c:497
+#: ../mousepad/mousepad-dialogs.c:373 ../mousepad/mousepad-dialogs.c:474
 msgid "_Save As"
 msgstr "_Farklı Kaydet"
 
-#: ../mousepad/mousepad-dialogs.c:404 ../mousepad/mousepad-dialogs.c:467
-#: ../mousepad/mousepad-dialogs.c:528 ../mousepad/mousepad-window.c:859
-#: ../mousepad/resources/gtk/menus.ui.h:15
+#: ../mousepad/mousepad-dialogs.c:381 ../mousepad/mousepad-dialogs.c:444
+#: ../mousepad/mousepad-dialogs.c:505
+#: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "_Kaydet"
 
-#: ../mousepad/mousepad-dialogs.c:428
+#: ../mousepad/mousepad-dialogs.c:405
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr "<big><b>Kapatmadan önce değişiklikleri kaydedilsin mi?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:433
+#: ../mousepad/mousepad-dialogs.c:410
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "Eğer belgeyi kaydetmezseniz, tüm değişiklikler yitirilecek."
 
-#: ../mousepad/mousepad-dialogs.c:458
+#: ../mousepad/mousepad-dialogs.c:435
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "Belge dışarıdan değiştirildi. Kaydetmeye devam etmek istiyor musunuz?"
 
-#: ../mousepad/mousepad-dialogs.c:460
+#: ../mousepad/mousepad-dialogs.c:437
 msgid "Externally Modified"
 msgstr "Dışarıdan Değiştirildi"
 
-#: ../mousepad/mousepad-dialogs.c:462
+#: ../mousepad/mousepad-dialogs.c:439
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "Eğer belgeyi kaydederseniz, tüm dış değişiklikler yitirilecek."
 
-#: ../mousepad/mousepad-dialogs.c:465
+#: ../mousepad/mousepad-dialogs.c:442
 msgid "Save _As"
 msgstr "_Farklı Kaydet"
 
-#: ../mousepad/mousepad-dialogs.c:493
+#: ../mousepad/mousepad-dialogs.c:470
 msgid "Do you want to save your changes before reloading?"
 msgstr "Yeniden yüklemeden önce değişikliklerinizi kaydetmek ister misiniz?"
 
-#: ../mousepad/mousepad-dialogs.c:495
+#: ../mousepad/mousepad-dialogs.c:472
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Eğer dosyayı geri döndürürseniz, tüm kaydedilmemiş değişiklikler yitirilecek."
 
-#: ../mousepad/mousepad-dialogs.c:499
+#: ../mousepad/mousepad-dialogs.c:476
 msgid "_Revert"
 msgstr "_Geri Döndür"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:523
+#: ../mousepad/mousepad-dialogs.c:500
 msgid "Save As"
 msgstr "Farklı Kaydet"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:564
+#: ../mousepad/mousepad-dialogs.c:541
 msgid "Open File"
 msgstr "Dosya Aç"
 
-#: ../mousepad/mousepad-dialogs.c:569
+#: ../mousepad/mousepad-dialogs.c:546
 msgid "_Open"
 msgstr "_Aç"
 
-#: ../mousepad/mousepad-dialogs.c:582
+#: ../mousepad/mousepad-dialogs.c:559
 msgid "_Encoding:"
 msgstr "_Kodlama:"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:523
+#: ../mousepad/mousepad-document.c:599
 msgid "Close this tab"
 msgstr "Bu sekmeyi kapat"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:553
+#: ../mousepad/mousepad-document.c:629
 msgid "Untitled"
 msgstr "Adsız"
 
@@ -392,30 +390,30 @@ msgstr "Japonca"
 msgid "Korean"
 msgstr "Korece"
 
-#: ../mousepad/mousepad-file.c:569
+#: ../mousepad/mousepad-file.c:566
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Dönüştürme girdisinde geçersiz bayt sırası"
 
-#: ../mousepad/mousepad-file.c:915
+#: ../mousepad/mousepad-file.c:912
 #, c-format
 msgid "The file \"%s\" you tried to reload does not exist anymore"
 msgstr "Yeniden yüklemeye çalıştığınız \"%s\" dosyası artık yok"
 
-#: ../mousepad/mousepad-file.c:956
+#: ../mousepad/mousepad-file.c:953
 #, c-format
 msgid "Failed to read the status of \"%s\""
 msgstr "\"%s\" durumu okunamadı"
 
 #. add the close button
-#: ../mousepad/mousepad-prefs-dialog.c:461
-#: ../mousepad/mousepad-replace-dialog.c:177
+#: ../mousepad/mousepad-prefs-dialog.c:445
+#: ../mousepad/mousepad-replace-dialog.c:220
 msgid "_Close"
 msgstr "_Kapat"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:467
-#: ../mousepad/resources/gtk/menus.ui.h:83
+#: ../mousepad/mousepad-prefs-dialog.c:451
+#: ../mousepad/resources/gtk/menus.ui.h:19
 msgid "Preferences"
 msgstr "Tercihler"
 
@@ -479,101 +477,103 @@ msgstr "Gövde:"
 msgid "Line numbers:"
 msgstr "Satır numaraları:"
 
+#: ../mousepad/mousepad-replace-dialog.c:160
+msgid "_Replace All"
+msgstr "_Tümünü Değiştir"
+
+#: ../mousepad/mousepad-replace-dialog.c:160
+#: ../mousepad/mousepad-replace-dialog.c:216
+msgid "_Replace"
+msgstr "_Değiştir"
+
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:164
+#: ../mousepad/mousepad-replace-dialog.c:205
 msgid "Find and Replace"
 msgstr "Bul ve Değiştir"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:170 ../mousepad/mousepad-window.c:885
-#: ../mousepad/resources/gtk/menus.ui.h:87
+#: ../mousepad/mousepad-replace-dialog.c:211
+#: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "_Bul"
 
-#: ../mousepad/mousepad-replace-dialog.c:174
-#: ../mousepad/mousepad-replace-dialog.c:507
-msgid "_Replace"
-msgstr "_Değiştir"
-
-#: ../mousepad/mousepad-replace-dialog.c:197
+#: ../mousepad/mousepad-replace-dialog.c:238
 msgid "_Search for:"
 msgstr "_Aranacak:"
 
-#: ../mousepad/mousepad-replace-dialog.c:226
+#: ../mousepad/mousepad-replace-dialog.c:270
 msgid "Replace _with:"
 msgstr "Ş_ununla değiştir:"
 
-#: ../mousepad/mousepad-replace-dialog.c:249
+#: ../mousepad/mousepad-replace-dialog.c:290
 msgid "Search _direction:"
 msgstr "Arama _yönü:"
 
-#: ../mousepad/mousepad-replace-dialog.c:259
+#: ../mousepad/mousepad-replace-dialog.c:299
 msgid "Up"
 msgstr "Yukarı"
 
-#: ../mousepad/mousepad-replace-dialog.c:260
+#: ../mousepad/mousepad-replace-dialog.c:300
 msgid "Down"
 msgstr "Aşağı"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:270
+#: ../mousepad/mousepad-replace-dialog.c:309
 msgid "_Wrap around"
 msgstr "Başa _sar"
 
 #. case sensitive
-#: ../mousepad/mousepad-replace-dialog.c:278
-#: ../mousepad/mousepad-search-bar.c:233 ../mousepad/mousepad-search-bar.c:246
+#. check button for case sensitive, including the proxy menu item
+#. overflow menu item for when window is too narrow to show the tool bar item
+#: ../mousepad/mousepad-replace-dialog.c:316
+#: ../mousepad/mousepad-search-bar.c:218 ../mousepad/mousepad-search-bar.c:229
 msgid "Match _case"
 msgstr "Büyük/küçük harf _eşleştir"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:288
+#: ../mousepad/mousepad-replace-dialog.c:325
 msgid "_Match whole word"
 msgstr "_Tüm sözcüğü eşleştir"
 
 #. enable regex search
-#: ../mousepad/mousepad-replace-dialog.c:298
-#: ../mousepad/mousepad-search-bar.c:263 ../mousepad/mousepad-search-bar.c:276
+#. check button for enabling regex, including the proxy menu item
+#. overflow menu item for when window is too narrow to show the tool bar item
+#: ../mousepad/mousepad-replace-dialog.c:334
+#: ../mousepad/mousepad-search-bar.c:237 ../mousepad/mousepad-search-bar.c:248
 msgid "Regular e_xpression"
 msgstr "Düzenli _ifade"
 
-#: ../mousepad/mousepad-replace-dialog.c:314
+#: ../mousepad/mousepad-replace-dialog.c:348
 msgid "Replace _all in:"
 msgstr "Tü_münü değiştir:"
 
-#: ../mousepad/mousepad-replace-dialog.c:323
+#: ../mousepad/mousepad-replace-dialog.c:353
 msgid "Selection"
 msgstr "Seçim"
 
-#: ../mousepad/mousepad-replace-dialog.c:324
+#: ../mousepad/mousepad-replace-dialog.c:354
 msgid "Document"
 msgstr "Belge"
 
-#: ../mousepad/mousepad-replace-dialog.c:325
+#: ../mousepad/mousepad-replace-dialog.c:355
 msgid "All Documents"
 msgstr "Tüm Belgeler"
 
-#: ../mousepad/mousepad-replace-dialog.c:486
+#. update counter
+#: ../mousepad/mousepad-replace-dialog.c:535
+#: ../mousepad/mousepad-search-bar.c:336
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
 msgstr[0] "%d olay"
 msgstr[1] "%d olay"
 
-#: ../mousepad/mousepad-replace-dialog.c:507
-msgid "_Replace All"
-msgstr "_Tümünü Değiştir"
-
-#: ../mousepad/mousepad-search-bar.c:216
-msgid "Highlight _All"
-msgstr "Tü_münü Vurgula"
-
 #: ../mousepad/mousepad-statusbar.c:125
 msgid "Choose a filetype"
 msgstr "Dosya türü seç"
 
 #. language/filetype
-#: ../mousepad/mousepad-statusbar.c:130 ../mousepad/mousepad-statusbar.c:244
+#: ../mousepad/mousepad-statusbar.c:130 ../mousepad/mousepad-statusbar.c:230
 msgid "Filetype: None"
 msgstr "Dosya türü: Hiçbiri"
 
@@ -586,176 +586,48 @@ msgstr "Üzerine yazma kipini değiştir"
 msgid "OVR"
 msgstr "ÜZRYZ"
 
-#: ../mousepad/mousepad-statusbar.c:247
+#: ../mousepad/mousepad-statusbar.c:233
 #, c-format
 msgid "Filetype: %s"
 msgstr "Dosya türü: %s"
 
-#: ../mousepad/mousepad-statusbar.c:267
+#: ../mousepad/mousepad-statusbar.c:253
 #, c-format
 msgid "Line: %d Column: %d Selection: %d"
 msgstr "Satır: %d Sütun: %d Seçim: %d"
 
-#: ../mousepad/mousepad-statusbar.c:269
+#: ../mousepad/mousepad-statusbar.c:255
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Satır: %d Sütun: %d"
 
-#. show warning to the user
-#: ../mousepad/mousepad-util.c:605
-#, c-format
-msgid "Unable to create base directory \"%s\". Saving to file \"%s\" will be aborted."
-msgstr "\"%s\" temel dizini oluşturulamadı. \"%s\" dosyasını kaydetme iptal edilecek."
-
-#. print error
-#: ../mousepad/mousepad-util.c:651
-#, c-format
-msgid "Failed to store the preferences to \"%s\": %s"
-msgstr "Tercihler \"%s\" dosyasına kaydedilemedi: %s"
-
-#. insert items
-#: ../mousepad/mousepad-window.c:855 ../mousepad/resources/gtk/menus.ui.h:3
-msgid "_New"
-msgstr "_Yeni"
-
-#: ../mousepad/mousepad-window.c:856 ../mousepad/resources/gtk/menus.ui.h:4
-msgid "Create a new document"
-msgstr "Yeni belge oluştur"
-
-#: ../mousepad/mousepad-window.c:857 ../mousepad/resources/gtk/menus.ui.h:9
-msgid "_Open..."
-msgstr "_Aç..."
-
-#: ../mousepad/mousepad-window.c:858 ../mousepad/resources/gtk/menus.ui.h:10
-msgid "Open a file"
-msgstr "Dosya aç"
-
-#: ../mousepad/mousepad-window.c:860 ../mousepad/resources/gtk/menus.ui.h:16
-msgid "Save the current document"
-msgstr "Geçerli belgeyi kaydet"
-
-#: ../mousepad/mousepad-window.c:861 ../mousepad/resources/gtk/menus.ui.h:17
-msgid "Save _As..."
-msgstr "F_arklı Kaydet.."
-
-#: ../mousepad/mousepad-window.c:862 ../mousepad/resources/gtk/menus.ui.h:18
-msgid "Save current document as another file"
-msgstr "Geçerli belgeyi farklı dosya olarak kaydet"
-
-#: ../mousepad/mousepad-window.c:863 ../mousepad/mousepad-window.c:3118
-#: ../mousepad/resources/gtk/menus.ui.h:21
-msgid "Re_load"
-msgstr "Yeniden _yükle"
-
-#: ../mousepad/mousepad-window.c:864 ../mousepad/mousepad-window.c:3125
-#: ../mousepad/resources/gtk/menus.ui.h:22
-msgid "Reload file from disk"
-msgstr "Diskten dosyayı yeniden yükle"
-
-#: ../mousepad/mousepad-window.c:865 ../mousepad/resources/gtk/menus.ui.h:27
-msgid "Close _Tab"
-msgstr "Sekmeyi _Kapat"
-
-#: ../mousepad/mousepad-window.c:866 ../mousepad/resources/gtk/menus.ui.h:28
-msgid "Close the current document"
-msgstr "Geçerli belgeyi kapat"
-
-#: ../mousepad/mousepad-window.c:871 ../mousepad/resources/gtk/menus.ui.h:33
-msgid "_Undo"
-msgstr "_Geri Al"
-
-#: ../mousepad/mousepad-window.c:872 ../mousepad/resources/gtk/menus.ui.h:34
-msgid "Undo the last action"
-msgstr "Son işlemi geri al"
-
-#: ../mousepad/mousepad-window.c:873 ../mousepad/resources/gtk/menus.ui.h:35
-msgid "_Redo"
-msgstr "_Yinele"
-
-#: ../mousepad/mousepad-window.c:874 ../mousepad/resources/gtk/menus.ui.h:36
-msgid "Redo the last undone action"
-msgstr "Son geri alınan işlemi yenile"
-
-#: ../mousepad/mousepad-window.c:875 ../mousepad/resources/gtk/menus.ui.h:37
-msgid "Cu_t"
-msgstr "_Kes"
-
-#: ../mousepad/mousepad-window.c:876 ../mousepad/resources/gtk/menus.ui.h:38
-msgid "Cut the selection"
-msgstr "Seçimi kes"
-
-#: ../mousepad/mousepad-window.c:877 ../mousepad/resources/gtk/menus.ui.h:39
-msgid "_Copy"
-msgstr "_Kopyala"
-
-#: ../mousepad/mousepad-window.c:878 ../mousepad/resources/gtk/menus.ui.h:40
-msgid "Copy the selection"
-msgstr "Seçimi kopyala"
-
-#: ../mousepad/mousepad-window.c:879 ../mousepad/resources/gtk/menus.ui.h:41
-msgid "_Paste"
-msgstr "Ya_pıştır"
-
-#: ../mousepad/mousepad-window.c:880 ../mousepad/resources/gtk/menus.ui.h:42
-msgid "Paste the clipboard"
-msgstr "Panodan yapıştır"
-
-#: ../mousepad/mousepad-window.c:886 ../mousepad/resources/gtk/menus.ui.h:88
-msgid "Search for text"
-msgstr "Metin ara"
-
-#: ../mousepad/mousepad-window.c:887 ../mousepad/resources/gtk/menus.ui.h:93
-msgid "Find and Rep_lace..."
-msgstr "Bul ve _Değiştir.."
-
-#: ../mousepad/mousepad-window.c:888 ../mousepad/resources/gtk/menus.ui.h:94
-msgid "Search for and replace text"
-msgstr "Metin bul ve değiştir"
-
-#: ../mousepad/mousepad-window.c:889 ../mousepad/resources/gtk/menus.ui.h:95
-msgid "_Go to..."
-msgstr "_Git..."
-
-#: ../mousepad/mousepad-window.c:890 ../mousepad/resources/gtk/menus.ui.h:96
-msgid "Go to a specific location in the document"
-msgstr "Belge içinde belirli konuma git"
-
-#: ../mousepad/mousepad-window.c:898 ../mousepad/resources/gtk/menus.ui.h:113
-msgid "_Fullscreen"
-msgstr "_Tam ekran"
-
-#: ../mousepad/mousepad-window.c:899 ../mousepad/mousepad-window.c:5443
-#: ../mousepad/resources/gtk/menus.ui.h:114
-msgid "Make the window fullscreen"
-msgstr "Pencereyi tam ekran yap"
-
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:948
+#: ../mousepad/mousepad-window.c:1092
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Uyarı: Kök hesabı kullanıyorsunuz. Sisteminize zarar verebilirsiniz."
 
 #. show the warning
-#: ../mousepad/mousepad-window.c:1685
+#: ../mousepad/mousepad-window.c:1841
 msgid "Failed to open the document"
 msgstr "Belge açılamadı"
 
-#: ../mousepad/mousepad-window.c:1868
+#: ../mousepad/mousepad-window.c:2049
 msgid "Read Only"
 msgstr "Salt okunur"
 
-#: ../mousepad/mousepad-window.c:2698
+#: ../mousepad/mousepad-window.c:2816
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Şablon olarak '%s' kullanın"
 
-#: ../mousepad/mousepad-window.c:2726
+#: ../mousepad/mousepad-window.c:2842
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Şablon dosyaları bulunamadı\n'%s'"
 
-#: ../mousepad/mousepad-window.c:2788
+#: ../mousepad/mousepad-window.c:2899
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -763,63 +635,82 @@ msgid ""
 msgstr "Taslak klasörü yok\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:2843
+#: ../mousepad/mousepad-window.c:2951
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Diğer (%d)..."
 
-#: ../mousepad/mousepad-window.c:2853
+#: ../mousepad/mousepad-window.c:2961
 msgid "Ot_her..."
 msgstr "_Diğer..."
 
-#: ../mousepad/mousepad-window.c:3118
+#: ../mousepad/mousepad-window.c:3135
 msgid "Re_vert"
 msgstr "Geri _Döndür"
 
-#: ../mousepad/mousepad-window.c:3125
+#: ../mousepad/mousepad-window.c:3137
 msgid "Revert to the saved version of the file"
 msgstr "Dosyanın kayıtlı sürümüne geri dön"
 
+#: ../mousepad/mousepad-window.c:3141
+#: ../mousepad/resources/gtk/menus-common.ui.h:9
+msgid "Re_load"
+msgstr "Yeniden _yükle"
+
+#: ../mousepad/mousepad-window.c:3143
+#: ../mousepad/resources/gtk/menus-common.ui.h:10
+msgid "Reload file from disk"
+msgstr "Diskten dosyayı yeniden yükle"
+
+#: ../mousepad/mousepad-window.c:3149
+msgid "Leave fullscreen mode"
+msgstr "Tam ekran kipinden çık"
+
+#: ../mousepad/mousepad-window.c:3154
+#: ../mousepad/resources/gtk/menus-common.ui.h:34
+msgid "Make the window fullscreen"
+msgstr "Pencereyi tam ekran yap"
+
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3254 ../mousepad/mousepad-window.c:3448
+#: ../mousepad/mousepad-window.c:3299 ../mousepad/mousepad-window.c:3491
 msgid "Charset"
 msgstr "Karakter Takımı"
 
-#: ../mousepad/mousepad-window.c:3380
+#: ../mousepad/mousepad-window.c:3429
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s' aç"
 
-#: ../mousepad/mousepad-window.c:3408
+#: ../mousepad/mousepad-window.c:3457
 msgid "No items found"
 msgstr "Öge bulunamadı"
 
-#: ../mousepad/mousepad-window.c:3497
+#: ../mousepad/mousepad-window.c:3540
 msgid "Failed to clear the recent history"
 msgstr "Güncel geçmiş temizlenemedi"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:3964
+#: ../mousepad/mousepad-window.c:3987
 msgid "No clipboard data"
 msgstr "Panoda veri yok"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4094
+#: ../mousepad/mousepad-window.c:4093
 msgid "Templates should be UTF-8 valid"
 msgstr "Şablonlar UTF-8 geçerli olmalı"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4099
+#: ../mousepad/mousepad-window.c:4098
 msgid "Reading the template failed"
 msgstr "Şablon okunamadı"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4104
+#: ../mousepad/mousepad-window.c:4103
 msgid "Loading the template failed"
 msgstr "Şablon yüklenemedi"
 
-#: ../mousepad/mousepad-window.c:4199
+#: ../mousepad/mousepad-window.c:4198
 #, c-format
 msgid ""
 "Failed to open \"%s\" for reading. It will be removed from the document "
@@ -827,32 +718,28 @@ msgid ""
 msgstr "\"%s\" okumak için açılamadı. Belge geçmişinden kaldırılacak"
 
 #. show the warning and cleanup
-#: ../mousepad/mousepad-window.c:4203
+#: ../mousepad/mousepad-window.c:4202
 msgid "Failed to open file"
 msgstr "Dosya açılamadı"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4313 ../mousepad/mousepad-window.c:4442
+#: ../mousepad/mousepad-window.c:4312 ../mousepad/mousepad-window.c:4441
 msgid "Failed to save the document"
 msgstr "Belge kaydedilemedi"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4537
+#: ../mousepad/mousepad-window.c:4536
 msgid "Failed to reload the document"
 msgstr "Belge yeniden yüklenemedi"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4566
+#: ../mousepad/mousepad-window.c:4565
 msgid "Failed to print the document"
 msgstr "Belge yazdırılamadı"
 
-#: ../mousepad/mousepad-window.c:5291
+#: ../mousepad/mousepad-window.c:5355
 msgid "Choose Mousepad Font"
 msgstr "Mousepad Yazı Tipini Seç"
-
-#: ../mousepad/mousepad-window.c:5436
-msgid "Leave fullscreen mode"
-msgstr "Tam ekran kipinden çık"
 
 #: ../mousepad/resources/gtk/menus.ui.h:1
 msgid "_File"
@@ -862,548 +749,660 @@ msgstr "_Dosya"
 msgid "File menu"
 msgstr "Dosya menüsü"
 
-#: ../mousepad/resources/gtk/menus.ui.h:5
+#: ../mousepad/resources/gtk/menus.ui.h:3
 msgid "New _Window"
 msgstr "Yeni _Pencere"
 
-#: ../mousepad/resources/gtk/menus.ui.h:6
+#: ../mousepad/resources/gtk/menus.ui.h:4
 msgid "Create a new document in a new window"
 msgstr "Yeni pencerede yeni belge oluştur"
 
-#: ../mousepad/resources/gtk/menus.ui.h:7
+#: ../mousepad/resources/gtk/menus.ui.h:5
 msgid "New From Te_mplate"
 msgstr "Ş_ablondan Yeni"
 
-#: ../mousepad/resources/gtk/menus.ui.h:8
+#: ../mousepad/resources/gtk/menus.ui.h:6
 msgid "Create a new document from a template"
 msgstr "Şablondan yeni belge oluştur"
 
-#: ../mousepad/resources/gtk/menus.ui.h:11
+#: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "Op_en Recent"
 msgstr "_Son Kullanılanı Aç"
 
-#: ../mousepad/resources/gtk/menus.ui.h:12
+#: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "Open a recently used file"
 msgstr "Son kullanılan dosyayı aç"
 
-#: ../mousepad/resources/gtk/menus.ui.h:13
+#: ../mousepad/resources/gtk/menus.ui.h:9
 msgid "Clear _History"
 msgstr "Geçmişi _Temizle"
 
-#: ../mousepad/resources/gtk/menus.ui.h:14
+#: ../mousepad/resources/gtk/menus.ui.h:10
 msgid "Clear the recently used files history"
 msgstr "Yakında kullanılmış dosya geçmişini temizle"
 
-#: ../mousepad/resources/gtk/menus.ui.h:19
+#: ../mousepad/resources/gtk/menus.ui.h:11
 msgid "Save A_ll"
 msgstr "T_ümünü Kaydet"
 
-#: ../mousepad/resources/gtk/menus.ui.h:20
+#: ../mousepad/resources/gtk/menus.ui.h:12
 msgid "Save all document in this window"
 msgstr "Bu penceredeki tüm belgeleri kaydet"
 
-#: ../mousepad/resources/gtk/menus.ui.h:23
+#: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "_Print..."
 msgstr "_Yazdır..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:24
+#: ../mousepad/resources/gtk/menus.ui.h:14
 msgid "Print the current document"
 msgstr "Geçerli belgeyi yazdır"
 
-#: ../mousepad/resources/gtk/menus.ui.h:25
-msgid "_Detach Tab"
-msgstr "Sekmeyi _Ayır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:26
-msgid "Move the current document to a new window"
-msgstr "Geçerli belgeyi yeni pencereye taşı"
-
-#: ../mousepad/resources/gtk/menus.ui.h:29
+#: ../mousepad/resources/gtk/menus.ui.h:15
 msgid "_Close Window"
 msgstr "_Pencereyi Kapat"
 
-#: ../mousepad/resources/gtk/menus.ui.h:30
+#: ../mousepad/resources/gtk/menus.ui.h:16
 msgid "Close this window"
 msgstr "Bu pencereyi kapat"
 
-#: ../mousepad/resources/gtk/menus.ui.h:31
+#: ../mousepad/resources/gtk/menus.ui.h:17
 msgid "_Edit"
 msgstr "_Düzenle"
 
-#: ../mousepad/resources/gtk/menus.ui.h:32
+#: ../mousepad/resources/gtk/menus.ui.h:18
 msgid "Edit menu"
 msgstr "Düzenleme menüsü"
 
-#: ../mousepad/resources/gtk/menus.ui.h:43
-msgid "Paste _Special"
-msgstr "Öze_l Yapıştır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:44
-msgid "Paste the clipboard in a special way"
-msgstr "Panoyu özel yolla yapıştır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:45
-msgid "Paste from _History"
-msgstr "_Geçmişten Yapıştır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:46
-msgid "Paste from the clipboard history"
-msgstr "Pano geçmişinden yapıştır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:47
-msgid "Paste as _Column"
-msgstr "_Sütun Olarak Yapıştır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:48
-msgid "Paste the clipboard text into a column"
-msgstr "Pano metnini sütuna yapıştır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:49
-msgid "_Delete"
-msgstr "_Sil"
-
-#: ../mousepad/resources/gtk/menus.ui.h:50
-msgid "Delete the current selection"
-msgstr "Geçerli seçimi sil"
-
-#: ../mousepad/resources/gtk/menus.ui.h:51
-msgid "Select _All"
-msgstr "_Tümünü Seç"
-
-#: ../mousepad/resources/gtk/menus.ui.h:52
-msgid "Select the text in the entire document"
-msgstr "Tüm belgedeki metni seç"
-
-#: ../mousepad/resources/gtk/menus.ui.h:53
-msgid "Conve_rt"
-msgstr "_Dönüştürme"
-
-#: ../mousepad/resources/gtk/menus.ui.h:54
-msgid "Convert text in different ways"
-msgstr "Metni değişik yollarda dönüştür"
-
-#: ../mousepad/resources/gtk/menus.ui.h:55
-msgid "To _Lowercase"
-msgstr "_Küçük Harfle"
-
-#: ../mousepad/resources/gtk/menus.ui.h:56
-msgid "Change the case of the selection to lowercase"
-msgstr "Seçimi küçük harfe dönüştür"
-
-#: ../mousepad/resources/gtk/menus.ui.h:57
-msgid "To _Uppercase"
-msgstr "_Büyük Harfle"
-
-#: ../mousepad/resources/gtk/menus.ui.h:58
-msgid "Change the case of the selection to uppercase"
-msgstr "Seçimi büyük harfe dönüştür"
-
-#: ../mousepad/resources/gtk/menus.ui.h:59
-msgid "To _Title Case"
-msgstr "_Başlık Durumuyla"
-
-#: ../mousepad/resources/gtk/menus.ui.h:60
-msgid "Change the case of the selection to title case"
-msgstr "Seçimdeki sözcüklerin ilk harflerini büyüt"
-
-#: ../mousepad/resources/gtk/menus.ui.h:61
-msgid "To _Opposite Case"
-msgstr "_Tersiyle"
-
-#: ../mousepad/resources/gtk/menus.ui.h:62
-msgid "Change the case of the selection opposite case"
-msgstr "Seçimi büyükse/küçük küçükse/büyük harfe değiştir"
-
-#: ../mousepad/resources/gtk/menus.ui.h:63
-msgid "_Tabs to Spaces"
-msgstr "_Sekmeleri Boşluklara Dönüştür"
-
-#: ../mousepad/resources/gtk/menus.ui.h:64
-msgid "Convert all tabs to spaces in the selection or document"
-msgstr "Seçimde veya belgedeki tüm sekmeleri boşluklara dönüştür"
-
-#: ../mousepad/resources/gtk/menus.ui.h:65
-msgid "_Spaces to Tabs"
-msgstr "_Boşlukları Sekmelere Dönüştür"
-
-#: ../mousepad/resources/gtk/menus.ui.h:66
-msgid ""
-"Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr "Seçili satır(lar)da veya belgedeki tüm boşlukları sekmelere dönüştür"
-
-#: ../mousepad/resources/gtk/menus.ui.h:67
-msgid "St_rip Trailing Spaces"
-msgstr "Gereksiz _Boşlukları Temizle"
-
-#: ../mousepad/resources/gtk/menus.ui.h:68
-msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr "Seçili satır(lar)da veya belgedeki tüm gereksiz boşlukları kaldır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:69
-msgid "_Transpose"
-msgstr "_Transpoze"
-
-#: ../mousepad/resources/gtk/menus.ui.h:70
-msgid "Reverse the order of something"
-msgstr "Bir şeyin sırasını tersine çevir"
-
-#: ../mousepad/resources/gtk/menus.ui.h:71
-msgid "_Move Selection"
-msgstr "_Seçimi Taşı"
-
-#: ../mousepad/resources/gtk/menus.ui.h:72
-msgid "Move the selection in different ways"
-msgstr "Seçimi değişik yollarda taşı"
-
-#: ../mousepad/resources/gtk/menus.ui.h:73
-msgid "Line _Up"
-msgstr "_Üst Satıra"
-
-#: ../mousepad/resources/gtk/menus.ui.h:74
-msgid "Move the selection one line up"
-msgstr "Seçimi bir satır yukarı taşı"
-
-#: ../mousepad/resources/gtk/menus.ui.h:75
-msgid "Line _Down"
-msgstr "_Alt Satıra"
-
-#: ../mousepad/resources/gtk/menus.ui.h:76
-msgid "Move the selection one line down"
-msgstr "Seçimi bir satır aşağı taşı"
-
-#: ../mousepad/resources/gtk/menus.ui.h:77
-msgid "Dup_licate Line / Selection"
-msgstr "Satırı / Seçimi Yinele"
-
-#: ../mousepad/resources/gtk/menus.ui.h:78
-msgid "Duplicate the current line or selection"
-msgstr "Geçerli satırı veya seçimi yinele"
-
-#: ../mousepad/resources/gtk/menus.ui.h:79
-msgid "_Increase Indent"
-msgstr "Girintiyi _Arttır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:80
-msgid "Increase the indentation of the selection or current line"
-msgstr "Seçimin veya geçerli satırın girintisini arttır"
-
-#: ../mousepad/resources/gtk/menus.ui.h:81
-msgid "_Decrease Indent"
-msgstr "Girintiyi A_zalt"
-
-#: ../mousepad/resources/gtk/menus.ui.h:82
-msgid "Decrease the indentation of the selection or current line"
-msgstr "Seçimin veya geçerli satırın girintisini azat"
-
-#: ../mousepad/resources/gtk/menus.ui.h:84
+#: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Show the preferences dialog"
 msgstr "İletişim tercihlerini göster"
 
-#: ../mousepad/resources/gtk/menus.ui.h:85
+#: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "_Search"
 msgstr "_Arama"
 
-#: ../mousepad/resources/gtk/menus.ui.h:86
+#: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Search menu"
 msgstr "Arama menüsü"
 
-#: ../mousepad/resources/gtk/menus.ui.h:89
+#: ../mousepad/resources/gtk/menus.ui.h:23
 msgid "Find _Next"
 msgstr "Sonrakini _Bu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:90
+#: ../mousepad/resources/gtk/menus.ui.h:24
 msgid "Search forwards for the same text"
 msgstr "Aynı metin için ileri ara"
 
-#: ../mousepad/resources/gtk/menus.ui.h:91
+#: ../mousepad/resources/gtk/menus.ui.h:25
 msgid "Find _Previous"
 msgstr "Önceki_ni Bu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:92
+#: ../mousepad/resources/gtk/menus.ui.h:26
 msgid "Search backwards for the same text"
 msgstr "Aynı metni geri doğru ara"
 
-#: ../mousepad/resources/gtk/menus.ui.h:97
+#: ../mousepad/resources/gtk/menus.ui.h:27
+msgid "Highlight _All"
+msgstr "Tü_münü Vurgula"
+
+#: ../mousepad/resources/gtk/menus.ui.h:28
+msgid "Highlight the search occurrences"
+msgstr "Aramayla eşleşenleri vurgula"
+
+#: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_View"
 msgstr "_Görünüm"
 
-#: ../mousepad/resources/gtk/menus.ui.h:98
+#: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "View menu"
 msgstr "Gösterme menüsü"
 
-#: ../mousepad/resources/gtk/menus.ui.h:99
+#: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Select F_ont..."
 msgstr "Yazı T_ipi Seç..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:100
+#: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Change the editor font"
 msgstr "Düzenleyici yazı tipini değiştir"
 
-#: ../mousepad/resources/gtk/menus.ui.h:101
+#: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_Color Scheme"
 msgstr "_Renk Şeması"
 
-#: ../mousepad/resources/gtk/menus.ui.h:102
+#: ../mousepad/resources/gtk/menus.ui.h:34
 msgid "Color scheme to use for the text view"
 msgstr "Metin görünümünde kullanılacak renk şeması"
 
-#: ../mousepad/resources/gtk/menus.ui.h:103
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
+#: ../mousepad/resources/gtk/menus.ui.h:35
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../mousepad/resources/gtk/menus.ui.h:104
+#: ../mousepad/resources/gtk/menus.ui.h:36
 msgid "No style scheme"
 msgstr "Stil şeması yok"
 
-#: ../mousepad/resources/gtk/menus.ui.h:105
+#: ../mousepad/resources/gtk/menus.ui.h:37
 msgid "Line N_umbers"
 msgstr "Satır _Numaraları"
 
-#: ../mousepad/resources/gtk/menus.ui.h:106
+#: ../mousepad/resources/gtk/menus.ui.h:38
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "Show line numbers"
 msgstr "Satır numaralarını göster"
 
-#: ../mousepad/resources/gtk/menus.ui.h:107
+#: ../mousepad/resources/gtk/menus.ui.h:39
 msgid "_Menubar"
 msgstr "_Menü Çubuğu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:108
+#: ../mousepad/resources/gtk/menus.ui.h:40
 msgid "Change the visibility of the main menubar"
 msgstr "Ana menü çubuğunun görünürlüğünü değiştir"
 
-#: ../mousepad/resources/gtk/menus.ui.h:109
+#: ../mousepad/resources/gtk/menus.ui.h:41
 msgid "_Toolbar"
 msgstr "_Araç Çubuğu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:110
+#: ../mousepad/resources/gtk/menus.ui.h:42
 msgid "Change the visibility of the toolbar"
 msgstr "Araç çubuğunun görünürlüğünü değiştir"
 
-#: ../mousepad/resources/gtk/menus.ui.h:111
+#: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "St_atusbar"
 msgstr "_Durum Çubuğu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:112
+#: ../mousepad/resources/gtk/menus.ui.h:44
 msgid "Change the visibility of the statusbar"
 msgstr "Durum çubuğunun görünürlüğünü değiştir"
 
-#: ../mousepad/resources/gtk/menus.ui.h:115
+#: ../mousepad/resources/gtk/menus.ui.h:45
 msgid "_Document"
 msgstr "_Belge"
 
-#: ../mousepad/resources/gtk/menus.ui.h:116
+#: ../mousepad/resources/gtk/menus.ui.h:46
 msgid "Document menu"
 msgstr "Belge menüsü"
 
-#: ../mousepad/resources/gtk/menus.ui.h:117
+#: ../mousepad/resources/gtk/menus.ui.h:47
 msgid "_Word Wrap"
 msgstr "_Sözcük Kaydır"
 
-#: ../mousepad/resources/gtk/menus.ui.h:118
+#: ../mousepad/resources/gtk/menus.ui.h:48
 msgid "Toggle breaking lines in between words"
 msgstr "Sözcükler arasında kesme çizgisi kullan"
 
-#: ../mousepad/resources/gtk/menus.ui.h:119
+#: ../mousepad/resources/gtk/menus.ui.h:49
 msgid "_Auto Indent"
 msgstr "_Kendiliğinden Girintile"
 
-#: ../mousepad/resources/gtk/menus.ui.h:120
+#: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Auto indent a new line"
 msgstr "Yeni satırı kendiliğinden girintile"
 
-#: ../mousepad/resources/gtk/menus.ui.h:121
+#: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "Tab _Size"
 msgstr "Sekme _Boyutu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:122
+#: ../mousepad/resources/gtk/menus.ui.h:52
 msgid "The number of space characters for a tabulation"
 msgstr "Tablolama için boşluk karakterlerinin sayısı"
 
-#: ../mousepad/resources/gtk/menus.ui.h:123
+#: ../mousepad/resources/gtk/menus.ui.h:53
 msgid "Two spaces"
 msgstr "Çift boşluk"
 
-#: ../mousepad/resources/gtk/menus.ui.h:124
+#: ../mousepad/resources/gtk/menus.ui.h:54
 msgid "Three spaces"
 msgstr "Üç boşluk"
 
-#: ../mousepad/resources/gtk/menus.ui.h:125
+#: ../mousepad/resources/gtk/menus.ui.h:55
 msgid "Four spaces"
 msgstr "Dört boşluk"
 
-#: ../mousepad/resources/gtk/menus.ui.h:126
+#: ../mousepad/resources/gtk/menus.ui.h:56
 msgid "Eight spaces"
 msgstr "Sekiz boşluk"
 
-#: ../mousepad/resources/gtk/menus.ui.h:127
+#: ../mousepad/resources/gtk/menus.ui.h:57
 msgid "Other..."
 msgstr "Diğer..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:128
+#: ../mousepad/resources/gtk/menus.ui.h:58
 msgid "Set custom tab size"
 msgstr "Özel sekme boyutu belirle"
 
-#: ../mousepad/resources/gtk/menus.ui.h:129
+#: ../mousepad/resources/gtk/menus.ui.h:59
 msgid "Insert _Spaces"
 msgstr "_Boşluk Ekle"
 
-#: ../mousepad/resources/gtk/menus.ui.h:130
+#: ../mousepad/resources/gtk/menus.ui.h:60
 msgid "Insert spaces when the tab button is pressed"
 msgstr "Sekme tuşuna basıldığında boşluk ekle"
 
-#: ../mousepad/resources/gtk/menus.ui.h:131
+#: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "_Filetype"
 msgstr "_Dosya Türü"
 
-#: ../mousepad/resources/gtk/menus.ui.h:132
+#: ../mousepad/resources/gtk/menus.ui.h:62
 msgid "Language to use for syntax highlighting"
 msgstr "Söz dizimi vurgulamada kullanılacak dil"
 
-#: ../mousepad/resources/gtk/menus.ui.h:133
+#: ../mousepad/resources/gtk/menus.ui.h:63
 msgid "Plain Text"
 msgstr "Düz Metin"
 
-#: ../mousepad/resources/gtk/menus.ui.h:134
+#: ../mousepad/resources/gtk/menus.ui.h:64
 msgid "No filetype"
 msgstr "Dosya türü yok"
 
-#: ../mousepad/resources/gtk/menus.ui.h:135
+#: ../mousepad/resources/gtk/menus.ui.h:65
 msgid "Line E_nding"
 msgstr "Satır _Sonlandırma"
 
-#: ../mousepad/resources/gtk/menus.ui.h:136
+#: ../mousepad/resources/gtk/menus.ui.h:66
 msgid "Character(s) to use as end of line"
 msgstr "Satır sonu olarak kullanılacak karakter(ler)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:137
+#: ../mousepad/resources/gtk/menus.ui.h:67
 msgid "Set the line ending of the document to Unix (LF)"
 msgstr "Belgenin satır sonunu Unix için ayarla (LF)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:138
+#: ../mousepad/resources/gtk/menus.ui.h:68
 msgid "Set the line ending of the document to Mac (CR)"
 msgstr "Belgenin satır sonunu Mac için ayarla (CR)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:139
+#: ../mousepad/resources/gtk/menus.ui.h:69
 msgid "Set the line ending of the document to DOS / Windows (CR LF)"
 msgstr "Belgenin satır sonunu DOS / Windows için ayarla (CR LF)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:140
+#: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "Write Unicode _BOM"
 msgstr "Unicode _BOM Yaz"
 
-#: ../mousepad/resources/gtk/menus.ui.h:141
+#: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "Store the byte-order mark in the file"
 msgstr "Byte-sıra işaretini dosyada sakla"
 
-#: ../mousepad/resources/gtk/menus.ui.h:142
+#: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "_Previous Tab"
 msgstr "_Önceki Sekme"
 
-#: ../mousepad/resources/gtk/menus.ui.h:143
+#: ../mousepad/resources/gtk/menus.ui.h:73
 msgid "Select the previous tab"
 msgstr "Önceki sekmeyi seç"
 
-#: ../mousepad/resources/gtk/menus.ui.h:144
+#: ../mousepad/resources/gtk/menus.ui.h:74
 msgid "_Next Tab"
 msgstr "_Sonraki Sekme"
 
-#: ../mousepad/resources/gtk/menus.ui.h:145
+#: ../mousepad/resources/gtk/menus.ui.h:75
 msgid "Select the next tab"
 msgstr "Sonraki sekmeyi seç"
 
-#: ../mousepad/resources/gtk/menus.ui.h:146
+#: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Help"
 msgstr "_Yardım"
 
-#: ../mousepad/resources/gtk/menus.ui.h:147
+#: ../mousepad/resources/gtk/menus.ui.h:77
 msgid "Help menu"
 msgstr "Yardım menüsü"
 
-#: ../mousepad/resources/gtk/menus.ui.h:148
+#: ../mousepad/resources/gtk/menus.ui.h:78
 msgid "_Contents"
 msgstr "_İçerikler"
 
-#: ../mousepad/resources/gtk/menus.ui.h:149
+#: ../mousepad/resources/gtk/menus.ui.h:79
 msgid "Display the Mousepad user manual"
 msgstr "Mousepad kullanım kılavuzunu görüntüle"
 
-#: ../mousepad/resources/gtk/menus.ui.h:150
+#: ../mousepad/resources/gtk/menus.ui.h:80
 msgid "_About"
 msgstr "_Hakkında"
 
-#: ../mousepad/resources/gtk/menus.ui.h:151
+#: ../mousepad/resources/gtk/menus.ui.h:81
 msgid "About this application"
 msgstr "Bu uygulama hakkında"
 
+#: ../mousepad/resources/gtk/menus-common.ui.h:1
+msgid "_New"
+msgstr "_Yeni"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:2
+msgid "Create a new document"
+msgstr "Yeni belge oluştur"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:3
+msgid "_Open..."
+msgstr "_Aç..."
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:4
+msgid "Open a file"
+msgstr "Dosya aç"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:6
+msgid "Save the current document"
+msgstr "Geçerli belgeyi kaydet"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:7
+msgid "Save _As..."
+msgstr "F_arklı Kaydet.."
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:8
+msgid "Save current document as another file"
+msgstr "Geçerli belgeyi farklı dosya olarak kaydet"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:11
+msgid "_Detach Tab"
+msgstr "Sekmeyi _Ayır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:12
+msgid "Move the current document to a new window"
+msgstr "Geçerli belgeyi yeni pencereye taşı"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:13
+msgid "Close _Tab"
+msgstr "Sekmeyi _Kapat"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:14
+msgid "Close the current document"
+msgstr "Geçerli belgeyi kapat"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:15
+msgid "_Undo"
+msgstr "_Geri Al"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:16
+msgid "Undo the last action"
+msgstr "Son işlemi geri al"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:17
+msgid "_Redo"
+msgstr "_Yinele"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:18
+msgid "Redo the last undone action"
+msgstr "Son geri alınan işlemi yenile"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:19
+msgid "Cu_t"
+msgstr "_Kes"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:20
+msgid "Cut the selection"
+msgstr "Seçimi kes"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:21
+msgid "_Copy"
+msgstr "_Kopyala"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:22
+msgid "Copy the selection"
+msgstr "Seçimi kopyala"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:23
+msgid "_Paste"
+msgstr "Ya_pıştır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:24
+msgid "Paste the clipboard"
+msgstr "Panodan yapıştır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:25
+msgid "Select _All"
+msgstr "_Tümünü Seç"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:26
+msgid "Select the text in the entire document"
+msgstr "Tüm belgedeki metni seç"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:28
+msgid "Search for text"
+msgstr "Metin ara"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:29
+msgid "Find and Rep_lace..."
+msgstr "Bul ve _Değiştir.."
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:30
+msgid "Search for and replace text"
+msgstr "Metin bul ve değiştir"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:31
+msgid "_Go to..."
+msgstr "_Git..."
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:32
+msgid "Go to a specific location in the document"
+msgstr "Belge içinde belirli konuma git"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:33
+msgid "_Fullscreen"
+msgstr "_Tam ekran"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:35
+msgid "Paste _Special"
+msgstr "Öze_l Yapıştır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:36
+msgid "Paste the clipboard in a special way"
+msgstr "Panoyu özel yolla yapıştır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:37
+msgid "Paste from _History"
+msgstr "_Geçmişten Yapıştır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:38
+msgid "Paste from the clipboard history"
+msgstr "Pano geçmişinden yapıştır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:39
+msgid "Paste as _Column"
+msgstr "_Sütun Olarak Yapıştır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:40
+msgid "Paste the clipboard text into a column"
+msgstr "Pano metnini sütuna yapıştır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:41
+msgid "_Delete"
+msgstr "_Sil"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:42
+msgid "Delete the current selection"
+msgstr "Geçerli seçimi sil"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:43
+msgid "Conve_rt"
+msgstr "_Dönüştürme"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:44
+msgid "Convert text in different ways"
+msgstr "Metni değişik yollarda dönüştür"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:45
+msgid "To _Lowercase"
+msgstr "_Küçük Harfle"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:46
+msgid "Change the case of the selection to lowercase"
+msgstr "Seçimi küçük harfe dönüştür"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:47
+msgid "To _Uppercase"
+msgstr "_Büyük Harfle"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:48
+msgid "Change the case of the selection to uppercase"
+msgstr "Seçimi büyük harfe dönüştür"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:49
+msgid "To _Title Case"
+msgstr "_Başlık Durumuyla"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:50
+msgid "Change the case of the selection to title case"
+msgstr "Seçimdeki sözcüklerin ilk harflerini büyüt"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:51
+msgid "To _Opposite Case"
+msgstr "_Tersiyle"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:52
+msgid "Change the case of the selection opposite case"
+msgstr "Seçimi büyükse/küçük küçükse/büyük harfe değiştir"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:53
+msgid "_Tabs to Spaces"
+msgstr "_Sekmeleri Boşluklara Dönüştür"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:54
+msgid "Convert all tabs to spaces in the selection or document"
+msgstr "Seçimde veya belgedeki tüm sekmeleri boşluklara dönüştür"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:55
+msgid "_Spaces to Tabs"
+msgstr "_Boşlukları Sekmelere Dönüştür"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:56
+msgid ""
+"Convert all the leading spaces to tabs in the selected line(s) or document"
+msgstr "Seçili satır(lar)da veya belgedeki tüm boşlukları sekmelere dönüştür"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:57
+msgid "St_rip Trailing Spaces"
+msgstr "Gereksiz _Boşlukları Temizle"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:58
+msgid "Remove all the trailing spaces from the selected line(s) or document"
+msgstr "Seçili satır(lar)da veya belgedeki tüm gereksiz boşlukları kaldır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:59
+msgid "_Transpose"
+msgstr "_Transpoze"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:60
+msgid "Reverse the order of something"
+msgstr "Bir şeyin sırasını tersine çevir"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:61
+msgid "_Move Selection"
+msgstr "_Seçimi Taşı"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:62
+msgid "Move the selection in different ways"
+msgstr "Seçimi değişik yollarda taşı"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:63
+msgid "Line _Up"
+msgstr "_Üst Satıra"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:64
+msgid "Move the selection one line up"
+msgstr "Seçimi bir satır yukarı taşı"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:65
+msgid "Line _Down"
+msgstr "_Alt Satıra"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:66
+msgid "Move the selection one line down"
+msgstr "Seçimi bir satır aşağı taşı"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:67
+msgid "Dup_licate Line / Selection"
+msgstr "Satırı / Seçimi Yinele"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:68
+msgid "Duplicate the current line or selection"
+msgstr "Geçerli satırı veya seçimi yinele"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:69
+msgid "_Increase Indent"
+msgstr "Girintiyi _Arttır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:70
+msgid "Increase the indentation of the selection or current line"
+msgstr "Seçimin veya geçerli satırın girintisini arttır"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:71
+msgid "_Decrease Indent"
+msgstr "Girintiyi A_zalt"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:72
+msgid "Decrease the indentation of the selection or current line"
+msgstr "Seçimin veya geçerli satırın girintisini azat"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:73
+msgid "label-to-be-filled-in"
+msgstr "doldurulacak-etiket"
+
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
-msgid "Disabled"
-msgstr "Devre Dışı"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
-msgid "Before"
-msgstr "Önce"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
-msgid "After"
-msgstr "Sonra"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
-msgid "Always"
-msgstr "Her Zaman"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
-msgid "Insert Tabs"
-msgstr "Sekme Ekle"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
-msgid "Insert Spaces"
-msgstr "Boşluk Ekle"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "none"
 msgstr "hiçbiri"
 
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
+msgid "Insert Tabs"
+msgstr "Sekme Ekle"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
+msgid "Insert Spaces"
+msgstr "Boşluk Ekle"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
+msgid "Never"
+msgstr "Asla"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
+msgid "First key press"
+msgstr "İlk tuş basımı"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
+msgid "Second key press"
+msgstr "İkinci tuş basımı"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
+msgid "Always"
+msgstr "Her Zaman"
+
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:9
-msgid "Menu"
-msgstr "Menü"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:10
-msgid "Small Toolbar"
-msgstr "Küçük Araç Çubuğu"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:11
-msgid "Large Toolbar"
-msgstr "Büyük Araç Çubuğu"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:12
-msgid "Button"
-msgstr "Düğme"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:13
-msgid "Drag & Drop"
-msgstr "Sürükle ve Bırak"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
-msgid "Dialog"
-msgstr "Diyalog"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:15
 msgid "Icons Only"
 msgstr "Yalnızca Simgeler"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:16
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:10
 msgid "Text Only"
 msgstr "Yalnızca Metin"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:17
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:11
 msgid "Text Below Icons"
 msgstr "Simgelerin Altındaki Metin"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:18
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:12
 msgid "Text Beside Icons"
 msgstr "Simgelerin Yanındaki Metin"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:13
+msgid "Menu"
+msgstr "Menü"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
+msgid "Small Toolbar"
+msgstr "Küçük Araç Çubuğu"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:15
+msgid "Large Toolbar"
+msgstr "Büyük Araç Çubuğu"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:16
+msgid "Button"
+msgstr "Düğme"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:17
+msgid "Drag & Drop"
+msgstr "Sürükle ve Bırak"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:18
+msgid "Dialog"
+msgstr "Diyalog"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
@@ -1481,8 +1480,8 @@ msgid "<b>Indentation</b>"
 msgstr "<b>Girinti</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
-msgid "Behaviour:"
-msgstr "Tutum:"
+msgid "Detect leading/trailing whitespace:"
+msgstr "Öndeki/arkadaki boşlukları sapta:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "<b>Home/End Keys</b>"
