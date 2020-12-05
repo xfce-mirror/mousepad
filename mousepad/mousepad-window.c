@@ -1857,6 +1857,7 @@ gint
 mousepad_window_open_files (MousepadWindow  *window,
                             gchar          **uris)
 {
+  GFile *file;
   gchar *filename;
   guint  n;
 
@@ -1871,7 +1872,9 @@ mousepad_window_open_files (MousepadWindow  *window,
   for (n = 0; uris[n] != NULL; ++n)
     {
       /* retrieve the filename */
-      filename = g_filename_from_uri (uris[n], NULL, NULL);
+      file = g_file_new_for_uri (uris[n]);
+      filename = g_file_get_path (file);
+      g_object_unref (file);
 
       /* open a new tab with the file */
       mousepad_window_open_file (window, filename, MOUSEPAD_ENCODING_UTF_8);

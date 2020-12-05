@@ -768,7 +768,6 @@ mousepad_application_open (GApplication  *gapplication,
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GtkWidget           *window;
-  GError              *error = NULL;
   GPtrArray           *uris;
   gpointer            *data;
   gchar               *filename, *uri;
@@ -780,7 +779,7 @@ mousepad_application_open (GApplication  *gapplication,
   for (n = 0; n < n_files; n++)
     {
       uri = g_file_get_uri (files[n]);
-      filename = g_filename_from_uri (uri, NULL, &error);
+      filename = g_file_get_path (files[n]);
 
       /* there could be invalid uris when the call comes from gdbus */
       if (filename)
@@ -790,8 +789,7 @@ mousepad_application_open (GApplication  *gapplication,
         }
       else
         {
-          g_message ("%s", error->message);
-          g_clear_error (&error);
+          g_message ("Invalid URI: %s", uri);
           g_free (uri);
         }
 
