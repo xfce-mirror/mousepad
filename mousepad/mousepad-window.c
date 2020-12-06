@@ -174,7 +174,6 @@ static void              mousepad_window_menu_tab_sizes_update        (MousepadW
 static void              mousepad_window_menu_textview_popup          (GtkTextView            *textview,
                                                                        GtkMenu                *old_menu,
                                                                        MousepadWindow         *window);
-static void              mousepad_window_update_actions               (MousepadWindow         *window);
 static void              mousepad_window_update_menu_item             (MousepadWindow         *window,
                                                                        const gchar            *menu_id,
                                                                        gint                    index,
@@ -2229,6 +2228,87 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
  * Notebook Signal Functions
  **/
 static void
+mousepad_window_update_actions (MousepadWindow *window)
+{
+  GAction            *action;
+  GtkNotebook        *notebook;
+  MousepadDocument   *document;
+  GtkSourceLanguage  *language;
+  MousepadLineEnding  line_ending;
+  gboolean            cycle_tabs, sensitive, value;
+  gint                n_pages, page_num;
+  const gchar        *language_id;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  notebook = GTK_NOTEBOOK (window->notebook);
+  document = window->active;
+
+  /* update the actions for the active document */
+  if (G_LIKELY (document))
+    {
+      /* avoid menu actions */
+      lock_menu_updates++;
+
+      /* determine the number of pages and the current page number */
+      n_pages = gtk_notebook_get_n_pages (notebook);
+      page_num = gtk_notebook_page_num (notebook, GTK_WIDGET (document));
+
+      /* whether we cycle tabs */
+      cycle_tabs = MOUSEPAD_SETTING_GET_BOOLEAN (CYCLE_TABS);
+
+      /* set the sensitivity of the back and forward buttons in the go menu */
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "document.previous-tab");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
+                                   (cycle_tabs && n_pages > 1) || page_num > 0);
+
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "document.next-tab");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
+                                   (cycle_tabs && n_pages > 1 ) || page_num < n_pages - 1);
+
+      /* set the reload, detach and save sensitivity */
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
+                                   ! mousepad_file_get_read_only (document->file));
+
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.detach-tab");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), n_pages > 1);
+
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.reload");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
+                                   mousepad_file_get_filename (document->file) != NULL);
+
+      /* set the sensitivity of the undo and redo actions */
+      mousepad_window_can_undo (window, NULL, G_OBJECT (document->buffer));
+      mousepad_window_can_redo (window, NULL, G_OBJECT (document->buffer));
+
+      /* set the current line ending type */
+      line_ending = mousepad_file_get_line_ending (document->file);
+      g_action_group_change_action_state (G_ACTION_GROUP (window), "document.line-ending",
+                                          g_variant_new_int32 (line_ending));
+
+      /* write bom */
+      value = mousepad_file_get_write_bom (document->file, &sensitive);
+      g_action_group_change_action_state (G_ACTION_GROUP (window), "document.write-unicode-bom",
+                                          g_variant_new_boolean (value));
+
+      /* update the currently active language */
+      language = gtk_source_buffer_get_language (GTK_SOURCE_BUFFER (window->active->buffer));
+      language_id = language ? gtk_source_language_get_id (language) : "plain-text";
+      g_action_group_change_action_state (G_ACTION_GROUP (window), "document.filetype",
+                                          g_variant_new_string (language_id));
+
+      /* update document dependent menu items */
+      mousepad_window_update_document_menu_items (window);
+
+      /* allow menu actions again */
+      lock_menu_updates--;
+    }
+}
+
+
+
+static void
 mousepad_window_notebook_switch_page (GtkNotebook    *notebook,
                                       GtkWidget      *page,
                                       guint           page_num,
@@ -2312,7 +2392,6 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
                                   guint            page_num,
                                   MousepadWindow  *window)
 {
-  gint              npages;
   MousepadDocument *document = MOUSEPAD_DOCUMENT (page);
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -2333,24 +2412,15 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
 
-  /* get the number of pages in this notebook */
-  npages = gtk_notebook_get_n_pages (notebook);
-
-  /* update the window */
-  if (npages == 0)
+  /* window contains no tabs: save geometry and destroy it */
+  if (gtk_notebook_get_n_pages (notebook) == 0)
     {
-      /* window contains no tabs: save geometry and destroy it */
       mousepad_window_configure_event (GTK_WIDGET (window), NULL);
       gtk_widget_destroy (GTK_WIDGET (window));
     }
+  /* change the visibility of the tabs accordingly */
   else
-    {
-      /* change the visibility of the tabs accordingly */
-      mousepad_window_update_tabs (window, NULL, NULL);
-
-      /* update action entries */
-      mousepad_window_update_actions (window);
-    }
+    mousepad_window_update_tabs (window, NULL, NULL);
 }
 
 
@@ -3014,87 +3084,6 @@ mousepad_window_menu_textview_popup (GtkTextView    *textview,
                     G_CALLBACK (mousepad_window_menu_textview_shown), window);
   g_signal_connect (menu, "deactivate",
                     G_CALLBACK (mousepad_window_menu_textview_deactivate), window);
-}
-
-
-
-static void
-mousepad_window_update_actions (MousepadWindow *window)
-{
-  GAction            *action;
-  GtkNotebook        *notebook;
-  MousepadDocument   *document;
-  GtkSourceLanguage  *language;
-  MousepadLineEnding  line_ending;
-  gboolean            cycle_tabs, sensitive, value;
-  gint                n_pages, page_num;
-  const gchar        *language_id;
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  notebook = GTK_NOTEBOOK (window->notebook);
-  document = window->active;
-
-  /* update the actions for the active document */
-  if (G_LIKELY (document))
-    {
-      /* avoid menu actions */
-      lock_menu_updates++;
-
-      /* determine the number of pages and the current page number */
-      n_pages = gtk_notebook_get_n_pages (notebook);
-      page_num = gtk_notebook_page_num (notebook, GTK_WIDGET (document));
-
-      /* whether we cycle tabs */
-      cycle_tabs = MOUSEPAD_SETTING_GET_BOOLEAN (CYCLE_TABS);
-
-      /* set the sensitivity of the back and forward buttons in the go menu */
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), "document.previous-tab");
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
-                                   (cycle_tabs && n_pages > 1) || page_num > 0);
-
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), "document.next-tab");
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
-                                   (cycle_tabs && n_pages > 1 ) || page_num < n_pages - 1);
-
-      /* set the reload, detach and save sensitivity */
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
-                                   ! mousepad_file_get_read_only (document->file));
-
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.detach-tab");
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), n_pages > 1);
-
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.reload");
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
-                                   mousepad_file_get_filename (document->file) != NULL);
-
-      /* set the sensitivity of the undo and redo actions */
-      mousepad_window_can_undo (window, NULL, G_OBJECT (document->buffer));
-      mousepad_window_can_redo (window, NULL, G_OBJECT (document->buffer));
-
-      /* set the current line ending type */
-      line_ending = mousepad_file_get_line_ending (document->file);
-      g_action_group_change_action_state (G_ACTION_GROUP (window), "document.line-ending",
-                                          g_variant_new_int32 (line_ending));
-
-      /* write bom */
-      value = mousepad_file_get_write_bom (document->file, &sensitive);
-      g_action_group_change_action_state (G_ACTION_GROUP (window), "document.write-unicode-bom",
-                                          g_variant_new_boolean (value));
-
-      /* update the currently active language */
-      language = gtk_source_buffer_get_language (GTK_SOURCE_BUFFER (window->active->buffer));
-      language_id = language ? gtk_source_language_get_id (language) : "plain-text";
-      g_action_group_change_action_state (G_ACTION_GROUP (window), "document.filetype",
-                                          g_variant_new_string (language_id));
-
-      /* update document dependent menu items */
-      mousepad_window_update_document_menu_items (window);
-
-      /* allow menu actions again */
-      lock_menu_updates--;
-    }
 }
 
 
