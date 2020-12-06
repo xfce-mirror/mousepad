@@ -67,9 +67,9 @@ enum
 #define MOUSEPAD_ACCELS_RELPATH ("Mousepad" G_DIR_SEPARATOR_S "accels.scm")
 
 /* handling flags */
-#define MOUSEPAD_SET_FLAG(flags,flag)   G_STMT_START{ ((flags) |= (flag)); }G_STMT_END
-#define MOUSEPAD_UNSET_FLAG(flags,flag) G_STMT_START{ ((flags) &= ~(flag)); }G_STMT_END
-#define MOUSEPAD_HAS_FLAG(flags,flag)   (((flags) & (flag)) != 0)
+#define MOUSEPAD_SET_FLAG(flags, flag)   G_STMT_START{ ((flags) |= (flag)); }G_STMT_END
+#define MOUSEPAD_UNSET_FLAG(flags, flag) G_STMT_START{ ((flags) &= ~(flag)); }G_STMT_END
+#define MOUSEPAD_HAS_FLAG(flags, flag)   (((flags) & (flag)) != 0)
 
 /* for personal testing */
 #define TIMER_START     GTimer *__FUNCTION__timer = g_timer_new ();
@@ -88,13 +88,13 @@ enum
 #define I_(string)  (g_intern_static_string (string))
 
 /* convienient function for setting object data */
-#define mousepad_object_set_data(object,key,data)              (g_object_set_qdata ((object), \
-                                                                g_quark_from_static_string (key), (data)))
-#define mousepad_object_set_data_full(object,key,data,destroy) (g_object_set_qdata_full ((object), \
-                                                                g_quark_from_static_string (key), (data), \
-                                                                (GDestroyNotify) (destroy)))
-#define mousepad_object_get_data(object,key)                   (g_object_get_qdata ((object), \
-                                                                g_quark_try_string (key)))
+#define mousepad_object_set_data(object, key, data)               (g_object_set_qdata (G_OBJECT (object), \
+                                                                   g_quark_from_static_string (key), (data)))
+#define mousepad_object_set_data_full(object, key, data, destroy) (g_object_set_qdata_full (G_OBJECT (object), \
+                                                                   g_quark_from_static_string (key), (data), \
+                                                                   (GDestroyNotify) (destroy)))
+#define mousepad_object_get_data(object, key)                     (g_object_get_qdata (G_OBJECT (object), \
+                                                                   g_quark_try_string (key)))
 
 /* avoid trivial g_value_get_*() function calls */
 #ifdef NDEBUG
@@ -123,10 +123,10 @@ enum
 #undef G_UNLIKELY
 
 #if defined (NDEBUG) && G_GNUC_CHECK_VERSION (3, 0)
-#define G_LIKELY(expr) (__builtin_expect (!!(expr), TRUE))
+#define G_LIKELY(expr)   (__builtin_expect (!!(expr), TRUE))
 #define G_UNLIKELY(expr) (__builtin_expect (!!(expr), FALSE))
 #else
-#define G_LIKELY(expr) (expr)
+#define G_LIKELY(expr)   (expr)
 #define G_UNLIKELY(expr) (expr)
 #endif
 
@@ -151,19 +151,6 @@ mousepad_disconnect_by_func_ (gpointer  instance,
 
 #define mousepad_disconnect_by_func(instance, callback, data) \
   mousepad_disconnect_by_func_ (instance, G_CALLBACK (callback), data)
-
-/*
- * To suppress warnings from GCC 8 onwards with -Wextra or -Wcast-function-type enabled
- * about the function types being incompatible.
- * See https://developer.gnome.org/glib/stable/glib-The-Main-Event-Loop.html#G-SOURCE-FUNC:CAPS
- * and https://gitlab.xfce.org/apps/mousepad/-/merge_requests/25#note_15876
- * Undef if GLib >= 2.58 to allow the use of GLIB_VERSION_MAX_ALLOWED < 2.58 without warning.
- */
-#if GLIB_CHECK_VERSION (2, 58, 0)
-# undef G_SOURCE_FUNC
-#endif
-#define G_SOURCE_FUNC(f) ((GSourceFunc) (void (*)(void)) (f))
-
 
 G_END_DECLS
 

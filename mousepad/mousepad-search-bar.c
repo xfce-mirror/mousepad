@@ -311,7 +311,7 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
   mousepad_search_bar_reset_display (bar);
 
   /* emit signal */
-  g_signal_emit (G_OBJECT (bar), search_bar_signals[SEARCH], 0, flags, string, NULL);
+  g_signal_emit (bar, search_bar_signals[SEARCH], 0, flags, string, NULL);
 }
 
 
@@ -359,7 +359,7 @@ mousepad_search_bar_hide_clicked (MousepadSearchBar *bar)
   g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (bar));
 
   /* emit the signal */
-  g_signal_emit (G_OBJECT (bar), search_bar_signals[HIDE_BAR], 0);
+  g_signal_emit (bar, search_bar_signals[HIDE_BAR], 0);
 }
 
 

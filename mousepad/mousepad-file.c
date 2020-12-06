@@ -151,7 +151,7 @@ mousepad_file_finalize (GObject *object)
   g_free (file->filename);
 
   /* release the reference from the buffer */
-  g_object_unref (G_OBJECT (file->buffer));
+  g_object_unref (file->buffer);
 
   (*G_OBJECT_CLASS (mousepad_file_parent_class)->finalize) (object);
 }
@@ -237,7 +237,7 @@ mousepad_file_new (GtkTextBuffer *buffer)
   file = g_object_new (MOUSEPAD_TYPE_FILE, NULL);
 
   /* set the buffer */
-  file->buffer = GTK_TEXT_BUFFER (g_object_ref (G_OBJECT (buffer)));
+  file->buffer = GTK_TEXT_BUFFER (g_object_ref (buffer));
 
   return file;
 }
@@ -267,7 +267,7 @@ mousepad_file_set_filename (MousepadFile *file,
       file->temporary = FALSE;
 
       /* send a signal that the name has been changed */
-      g_signal_emit (G_OBJECT (file), file_signals[FILENAME_CHANGED], 0, file->filename);
+      g_signal_emit (file, file_signals[FILENAME_CHANGED], 0, file->filename);
     }
   /* toggle filename state */
   else
@@ -330,7 +330,7 @@ mousepad_file_set_read_only (MousepadFile *file,
       file->readonly = readonly;
 
       /* emit signal */
-      g_signal_emit (G_OBJECT (file), file_signals[READONLY_CHANGED], 0, readonly);
+      g_signal_emit (file, file_signals[READONLY_CHANGED], 0, readonly);
     }
 }
 

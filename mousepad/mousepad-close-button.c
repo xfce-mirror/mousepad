@@ -52,10 +52,7 @@ mousepad_close_button_init (MousepadCloseButton *button)
   gtk_container_add (GTK_CONTAINER (button), image);
   gtk_widget_show (image);
 
-  g_object_set (G_OBJECT (button),
-                "relief", GTK_RELIEF_NONE,
-                "focus-on-click", FALSE,
-                NULL);
+  g_object_set (button, "relief", GTK_RELIEF_NONE, "focus-on-click", FALSE, NULL);
 }
 
 

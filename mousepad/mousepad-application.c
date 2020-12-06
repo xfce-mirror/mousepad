@@ -584,7 +584,7 @@ mousepad_application_startup (GApplication *gapplication)
   for (m = 0; m < N_WHITESPACE; m++)
     {
       action = g_action_map_lookup_action (G_ACTION_MAP (application), whitespace_actions[m].name);
-      mousepad_object_set_data (G_OBJECT (action), "flag", GUINT_TO_POINTER (1 << m));
+      mousepad_object_set_data (action, "flag", GUINT_TO_POINTER (1 << m));
     }
 
   for (m = 0; m < N_SETTING; m++)
@@ -907,9 +907,9 @@ mousepad_application_create_window (MousepadApplication *application)
   gtk_window_set_screen (GTK_WINDOW (window), gdk_screen_get_default ());
 
   /* connect signals */
-  g_signal_connect (G_OBJECT (window), "new-window-with-document",
+  g_signal_connect (window, "new-window-with-document",
                     G_CALLBACK (mousepad_application_new_window_with_document), application);
-  g_signal_connect (G_OBJECT (window), "new-window",
+  g_signal_connect (window, "new-window",
                     G_CALLBACK (mousepad_application_new_window), application);
 
   return window;
@@ -998,7 +998,7 @@ mousepad_application_prefs_dialog_response (MousepadApplication *application,
                                             gint                 response_id,
                                             MousepadPrefsDialog *dialog)
 {
-  gtk_widget_destroy (GTK_WIDGET (application->prefs_dialog));
+  gtk_widget_destroy (application->prefs_dialog);
   application->prefs_dialog = NULL;
 }
 
@@ -1089,8 +1089,7 @@ mousepad_application_update_menu_item (GMenuModel *shared_item,
     {
       value = g_menu_model_get_item_attribute_value (shared_item, 0, "item-share-id",
                                                      G_VARIANT_TYPE_STRING);
-      n = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (model),
-                                                     g_variant_get_string (value, NULL)));
+      n = GPOINTER_TO_INT (mousepad_object_get_data (model, g_variant_get_string (value, NULL)));
       g_variant_unref (value);
 
       item = g_menu_item_new_from_model (shared_item, 0);
@@ -1144,8 +1143,7 @@ mousepad_application_set_shared_menu_parts (MousepadApplication *application,
 
               shared_item = G_MENU_MODEL (gtk_application_get_menu_by_id (
                                             GTK_APPLICATION (application), share_id));
-              mousepad_object_set_data (G_OBJECT (model), g_intern_string (share_id),
-                                        GINT_TO_POINTER (n));
+              mousepad_object_set_data (model, g_intern_string (share_id), GINT_TO_POINTER (n));
               mousepad_application_update_menu_item (shared_item, 0, 0, 1, model);
 
               g_signal_connect_object (shared_item, "items-changed",
@@ -1357,7 +1355,7 @@ mousepad_application_action_whitespace (GSimpleAction *action,
 
   /* update the space location flags */
   flags = MOUSEPAD_APPLICATION (data)->space_location_flags;
-  flag = GPOINTER_TO_UINT (mousepad_object_get_data (G_OBJECT (action), "flag"));
+  flag = GPOINTER_TO_UINT (mousepad_object_get_data (action, "flag"));
   g_variant_get_boolean (state) ? (flags |= flag) : (flags &= ~flag);
 
   /* set the application property */

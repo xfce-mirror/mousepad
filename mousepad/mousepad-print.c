@@ -229,7 +229,7 @@ mousepad_print_settings_load (GtkPrintOperation *operation)
           gtk_print_operation_set_default_page_setup (operation, page_setup);
 
           /* release reference */
-          g_object_unref (G_OBJECT (page_setup));
+          g_object_unref (page_setup);
         }
 
       /* restore print settings */
@@ -253,7 +253,7 @@ mousepad_print_settings_load (GtkPrintOperation *operation)
       line_numbers_font = g_strdup (gtk_print_settings_get (settings, "line-numbers-font-name"));
 
       /* release reference */
-      g_object_unref (G_OBJECT (settings));
+      g_object_unref (settings);
     }
 
     /* if no font name is set, get the one used in the widget */
@@ -596,10 +596,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_show (label);
 
   button = mousepad_util_image_button ("document-properties", _("_Adjust page size and orientation"));
-  g_signal_connect (G_OBJECT (button),
-                    "clicked",
-                    G_CALLBACK (mousepad_print_page_setup_dialog),
-                    operation);
+  g_signal_connect (button, "clicked", G_CALLBACK (mousepad_print_page_setup_dialog), operation);
   gtk_widget_set_halign (button, GTK_ALIGN_START);
   gtk_widget_set_margin_start (button, 12);
   gtk_widget_set_margin_end (button, 6);
@@ -630,14 +627,14 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   button = print->widget_page_headers = gtk_check_button_new_with_mnemonic (_("Print page _headers"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 gtk_source_print_compositor_get_print_header (print->compositor));
-  g_signal_connect (G_OBJECT (button), "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
+  g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
   gtk_widget_show (button);
 
   button = print->widget_line_numbers = gtk_check_button_new_with_mnemonic (_("Print _line numbers"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 print->print_line_numbers);
-  g_signal_connect (G_OBJECT (button), "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
+  g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
   gtk_widget_show (button);
 
@@ -665,10 +662,8 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
       "number on every other line, and so on."));
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (print->widget_line_numbers_spin),
                              (gdouble) print->line_number_increment);
-  g_signal_connect (G_OBJECT (print->widget_line_numbers_spin),
-                    "value-changed",
-                    G_CALLBACK (mousepad_print_spin_value_changed),
-                    print);
+  g_signal_connect (print->widget_line_numbers_spin, "value-changed",
+                    G_CALLBACK (mousepad_print_spin_value_changed), print);
   gtk_box_pack_start (GTK_BOX (print->widget_line_numbers_hbox),
                       print->widget_line_numbers_spin, FALSE, TRUE, 0);
   gtk_widget_show (print->widget_line_numbers_spin);
@@ -677,14 +672,14 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 gtk_source_print_compositor_get_wrap_mode (print->compositor)
                                   == GTK_WRAP_NONE ? FALSE : TRUE);
-  g_signal_connect (G_OBJECT (button), "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
+  g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
   gtk_widget_show (button);
 
   button = print->widget_syntax_highlighting = gtk_check_button_new_with_mnemonic (_("Enable _syntax highlighting"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 gtk_source_print_compositor_get_highlight_syntax (print->compositor));
-  g_signal_connect (G_OBJECT (button), "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
+  g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
   gtk_widget_show (button);
 
@@ -718,8 +713,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   print->widget_header_font = gtk_font_button_new_with_font (
                                 gtk_source_print_compositor_get_header_font_name (print->compositor));
   gtk_grid_attach (GTK_GRID (grid), print->widget_header_font, 1, 0, 1, 1);
-  g_signal_connect (G_OBJECT (print->widget_header_font),
-                    "font-set",
+  g_signal_connect (print->widget_header_font, "font-set",
                     G_CALLBACK (mousepad_print_button_font_set), print);
   gtk_widget_show (print->widget_header_font);
 
@@ -732,8 +726,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   print->widget_body_font = gtk_font_button_new_with_font (
                               gtk_source_print_compositor_get_body_font_name (print->compositor));
   gtk_grid_attach (GTK_GRID (grid), print->widget_body_font, 1, 1, 1, 1);
-  g_signal_connect (G_OBJECT (print->widget_body_font),
-                    "font-set",
+  g_signal_connect (print->widget_body_font, "font-set",
                     G_CALLBACK (mousepad_print_button_font_set), print);
   gtk_widget_show (print->widget_body_font);
 
@@ -745,8 +738,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
 
   print->widget_line_numbers_font = gtk_font_button_new_with_font (gtk_source_print_compositor_get_line_numbers_font_name (print->compositor));
   gtk_grid_attach (GTK_GRID (grid), print->widget_line_numbers_font, 1, 2, 1, 1);
-  g_signal_connect (G_OBJECT (print->widget_line_numbers_font),
-                    "font-set",
+  g_signal_connect (print->widget_line_numbers_font, "font-set",
                     G_CALLBACK (mousepad_print_button_font_set), print);
   gtk_widget_show (print->widget_line_numbers_font);
 

@@ -257,7 +257,7 @@ mousepad_document_init (MousepadDocument *document)
   document->file = mousepad_file_new (document->buffer);
 
   /* connect signals to the file */
-  g_signal_connect_swapped (G_OBJECT (document->file), "filename-changed",
+  g_signal_connect_swapped (document->file, "filename-changed",
                             G_CALLBACK (mousepad_document_filename_changed), document);
 
   /* setup the textview */
@@ -270,19 +270,19 @@ mousepad_document_init (MousepadDocument *document)
   gtk_target_list_add_table (target_list, drop_targets, G_N_ELEMENTS (drop_targets));
 
   /* attach signals to the text view and buffer */
-  g_signal_connect (G_OBJECT (document->buffer), "notify::cursor-position",
+  g_signal_connect (document->buffer, "notify::cursor-position",
                     G_CALLBACK (mousepad_document_notify_cursor_position), document);
-  g_signal_connect (G_OBJECT (document->buffer), "notify::has-selection",
+  g_signal_connect (document->buffer, "notify::has-selection",
                     G_CALLBACK (mousepad_document_notify_has_selection), document);
-  g_signal_connect_swapped (G_OBJECT (document->buffer), "modified-changed",
+  g_signal_connect_swapped (document->buffer, "modified-changed",
                             G_CALLBACK (mousepad_document_label_color), document);
-  g_signal_connect_swapped (G_OBJECT (document->file), "readonly-changed",
+  g_signal_connect_swapped (document->file, "readonly-changed",
                             G_CALLBACK (mousepad_document_label_color), document);
-  g_signal_connect (G_OBJECT (document->textview), "notify::overwrite",
+  g_signal_connect (document->textview, "notify::overwrite",
                     G_CALLBACK (mousepad_document_notify_overwrite), document);
-  g_signal_connect (G_OBJECT (document->textview), "drag-data-received",
+  g_signal_connect (document->textview, "drag-data-received",
                     G_CALLBACK (mousepad_document_drag_data_received), document);
-  g_signal_connect (G_OBJECT (document->buffer), "notify::language",
+  g_signal_connect (document->buffer, "notify::language",
                     G_CALLBACK (mousepad_document_notify_language), document);
 }
 
@@ -299,11 +299,11 @@ mousepad_document_finalize (GObject *object)
   g_object_unref (document->priv->css_provider);
 
   /* release the file */
-  g_object_unref (G_OBJECT (document->file));
+  g_object_unref (document->file);
 
   /* release the buffer reference and the search context reference */
-  g_object_unref (G_OBJECT (document->buffer));
-  g_object_unref (G_OBJECT (document->priv->search_context));
+  g_object_unref (document->buffer);
+  g_object_unref (document->priv->search_context);
 
   (*G_OBJECT_CLASS (mousepad_document_parent_class)->finalize) (object);
 }
@@ -338,7 +338,7 @@ mousepad_document_notify_cursor_position (GtkTextBuffer    *buffer,
   selection = mousepad_view_get_selection_length (document->textview, NULL);
 
   /* emit the signal */
-  g_signal_emit (G_OBJECT (document), document_signals[CURSOR_CHANGED], 0, line, column, selection);
+  g_signal_emit (document, document_signals[CURSOR_CHANGED], 0, line, column, selection);
 }
 
 
@@ -366,7 +366,7 @@ mousepad_document_notify_has_selection (GtkTextBuffer    *buffer,
     selection = 2;
 
   /* emit the signal */
-  g_signal_emit (G_OBJECT (document), document_signals[SELECTION_CHANGED], 0, selection);
+  g_signal_emit (document, document_signals[SELECTION_CHANGED], 0, selection);
 }
 
 
@@ -385,7 +385,7 @@ mousepad_document_notify_overwrite (GtkTextView      *textview,
   overwrite = gtk_text_view_get_overwrite (textview);
 
   /* emit the signal */
-  g_signal_emit (G_OBJECT (document), document_signals[OVERWRITE_CHANGED], 0, overwrite);
+  g_signal_emit (document, document_signals[OVERWRITE_CHANGED], 0, overwrite);
 }
 
 
@@ -404,7 +404,7 @@ mousepad_document_notify_language (GtkSourceBuffer  *buffer,
   language = gtk_source_buffer_get_language (buffer);
 
   /* emit the signal */
-  g_signal_emit (G_OBJECT (document), document_signals[LANGUAGE_CHANGED], 0, language);
+  g_signal_emit (document, document_signals[LANGUAGE_CHANGED], 0, language);
 }
 
 
@@ -423,7 +423,7 @@ mousepad_document_drag_data_received (GtkWidget        *widget,
 
   /* emit the drag-data-received signal from the document when a tab or uri has been dropped */
   if (info == TARGET_TEXT_URI_LIST || info == TARGET_GTK_NOTEBOOK_TAB)
-    g_signal_emit_by_name (G_OBJECT (document), "drag-data-received", context,
+    g_signal_emit_by_name (document, "drag-data-received", context,
                            x, y, selection_data, info, drag_time);
 }
 
@@ -590,7 +590,7 @@ mousepad_document_get_tab_label (MousepadDocument *document)
   /* pack button, add signal and tooltip */
   gtk_widget_set_tooltip_text (button, _("Close this tab"));
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  g_signal_connect (G_OBJECT (button), "clicked",
+  g_signal_connect (button, "clicked",
                     G_CALLBACK (mousepad_document_tab_button_clicked), document);
 
   return hbox;
@@ -602,7 +602,7 @@ static void
 mousepad_document_tab_button_clicked (GtkWidget        *widget,
                                       MousepadDocument *document)
 {
-  g_signal_emit (G_OBJECT (document), document_signals[CLOSE_TAB], 0);
+  g_signal_emit (document, document_signals[CLOSE_TAB], 0);
 }
 
 
@@ -659,8 +659,8 @@ mousepad_document_search_completed (GObject      *object,
     document = MOUSEPAD_DOCUMENT (data);
 
   /* retrieve the first stage data */
-  flags = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (search_context), "flags"));
-  replace = mousepad_object_get_data (G_OBJECT (search_context), "replace");
+  flags = GPOINTER_TO_INT (mousepad_object_get_data (search_context, "flags"));
+  replace = mousepad_object_get_data (search_context, "replace");
   search_settings = gtk_source_search_context_get_settings (search_context);
   string = gtk_source_search_settings_get_search_text (search_settings);
 
@@ -800,8 +800,8 @@ mousepad_document_search (MousepadDocument    *document,
     gtk_source_search_context_set_highlight (search_context, FALSE);
 
   /* attach some data for the second stage */
-  mousepad_object_set_data (G_OBJECT (search_context), "flags", GINT_TO_POINTER (flags));
-  mousepad_object_set_data_full (G_OBJECT (search_context), "replace", g_strdup (replace), g_free);
+  mousepad_object_set_data (search_context, "flags", GINT_TO_POINTER (flags));
+  mousepad_object_set_data_full (search_context, "replace", g_strdup (replace), g_free);
 
   /* search the string */
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
@@ -825,7 +825,7 @@ mousepad_document_emit_search_signal (MousepadDocument       *document,
   const gchar             *string;
 
   /* retrieve data */
-  flags = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (search_context), "flags"));
+  flags = GPOINTER_TO_INT (mousepad_object_get_data (search_context, "flags"));
   n_matches = gtk_source_search_context_get_occurrences_count (search_context);
   search_settings = gtk_source_search_context_get_settings (search_context);
   string = gtk_source_search_settings_get_search_text (search_settings);

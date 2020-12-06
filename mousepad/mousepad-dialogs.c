@@ -145,7 +145,7 @@ mousepad_dialogs_go_to_line_changed (GtkSpinButton *line_spin,
   g_return_if_fail (GTK_IS_SPIN_BUTTON (col_spin));
 
   /* get the text buffer */
-  buffer = mousepad_object_get_data (G_OBJECT (col_spin), "buffer");
+  buffer = mousepad_object_get_data (col_spin, "buffer");
 
   /* debug check */
   g_return_if_fail (GTK_IS_TEXT_BUFFER (buffer));
@@ -239,7 +239,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
 
   col_spin = gtk_spin_button_new_with_range (0, 0, 1);
   gtk_entry_set_activates_default (GTK_ENTRY (col_spin), TRUE);
-  mousepad_object_set_data (G_OBJECT (col_spin), "buffer", buffer);
+  mousepad_object_set_data (col_spin, "buffer", buffer);
   gtk_box_pack_start (GTK_BOX (hbox), col_spin, FALSE, FALSE, 0);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), col_spin);
   gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (col_spin), TRUE);
@@ -247,7 +247,8 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_widget_show (col_spin);
 
   /* signal to monitor column number */
-  g_signal_connect (G_OBJECT (line_spin), "value-changed", G_CALLBACK (mousepad_dialogs_go_to_line_changed), col_spin);
+  g_signal_connect (line_spin, "value-changed",
+                    G_CALLBACK (mousepad_dialogs_go_to_line_changed), col_spin);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (line_spin), line);
 
   /* run the dialog */
@@ -269,7 +270,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
     }
 
   /* release size group */
-  g_object_unref (G_OBJECT (size_group));
+  g_object_unref (size_group);
 
   /* destroy the dialog */
   gtk_widget_destroy (dialog);

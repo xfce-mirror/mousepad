@@ -402,7 +402,7 @@ mousepad_util_entry_error (GtkWidget *widget,
   g_return_if_fail (GTK_IS_WIDGET (widget));
 
   /* get the current error state */
-  pointer = mousepad_object_get_data (G_OBJECT (widget), "error-state");
+  pointer = mousepad_object_get_data (widget, "error-state");
 
   /* only change the state when really needed to avoid multiple widget calls */
   if (GPOINTER_TO_INT (pointer) != error)
@@ -415,7 +415,7 @@ mousepad_util_entry_error (GtkWidget *widget,
         gtk_style_context_remove_class (gtk_widget_get_style_context (widget), GTK_STYLE_CLASS_ERROR);
 
       /* set the new state */
-      mousepad_object_set_data (G_OBJECT (widget), "error-state", GINT_TO_POINTER (error));
+      mousepad_object_set_data (widget, "error-state", GINT_TO_POINTER (error));
     }
 }
 
@@ -434,7 +434,7 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
 
   /* remove the main vbox */
   dialog_vbox = gtk_bin_get_child (GTK_BIN (dialog));
-  g_object_ref (G_OBJECT (dialog_vbox));
+  g_object_ref (dialog_vbox);
   gtk_container_remove (GTK_CONTAINER (dialog), dialog_vbox);
 
   /* add a new vbox to the main window */
@@ -481,7 +481,7 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
 
   /* add the main dialog box to the new vbox */
   gtk_box_pack_start (GTK_BOX (vbox), dialog_vbox, TRUE, TRUE, 0);
-  g_object_unref (G_OBJECT (dialog_vbox));
+  g_object_unref (dialog_vbox);
 }
 
 

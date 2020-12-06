@@ -204,7 +204,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   /* set dialog properties */
   gtk_window_set_title (GTK_WINDOW (dialog), _("Find and Replace"));
   gtk_window_set_default_size (GTK_WINDOW (dialog), 400, -1);
-  g_signal_connect (G_OBJECT (dialog), "response",
+  g_signal_connect (dialog, "response",
                     G_CALLBACK (mousepad_replace_dialog_response), NULL);
 
   /* dialog buttons */
@@ -228,8 +228,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* horizontal box for search string */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
-  gtk_widget_set_margin_start (GTK_WIDGET (hbox), 6);
-  gtk_widget_set_margin_end (GTK_WIDGET (hbox), 6);
+  gtk_widget_set_margin_start (hbox, 6);
+  gtk_widget_set_margin_end (hbox, 6);
   gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
   /* create a size group */
@@ -248,11 +248,11 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* store as an entry widget */
   dialog->search_entry = gtk_bin_get_child (GTK_BIN (combo));
-  g_signal_connect_swapped (G_OBJECT (dialog->search_entry), "changed",
+  g_signal_connect_swapped (dialog->search_entry, "changed",
                             G_CALLBACK (mousepad_replace_dialog_changed), dialog);
-  g_signal_connect_swapped (G_OBJECT (dialog->search_entry), "activate",
+  g_signal_connect_swapped (dialog->search_entry, "activate",
                             G_CALLBACK (mousepad_replace_dialog_entry_activate), dialog);
-  g_signal_connect_swapped (G_OBJECT (dialog->search_entry), "reverse-activate",
+  g_signal_connect_swapped (dialog->search_entry, "reverse-activate",
                             G_CALLBACK (mousepad_replace_dialog_entry_reverse_activate), dialog);
 
   /* bind the sensitivity of the find and replace buttons to the search text length */
@@ -263,8 +263,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* horizontal box for replace string */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
-  gtk_widget_set_margin_start (GTK_WIDGET (hbox), 6);
-  gtk_widget_set_margin_end (GTK_WIDGET (hbox), 6);
+  gtk_widget_set_margin_start (hbox, 6);
+  gtk_widget_set_margin_end (hbox, 6);
   gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
   label = gtk_label_new_with_mnemonic (_("Replace _with:"));
@@ -283,8 +283,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* search direction */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
-  gtk_widget_set_margin_start (GTK_WIDGET (hbox), 6);
-  gtk_widget_set_margin_end (GTK_WIDGET (hbox), 6);
+  gtk_widget_set_margin_start (hbox, 6);
+  gtk_widget_set_margin_end (hbox, 6);
   gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
   label = gtk_label_new_with_mnemonic (_("Search _direction:"));
@@ -303,7 +303,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
                                         combo, "active");
 
   /* release size group */
-  g_object_unref (G_OBJECT (size_group));
+  g_object_unref (size_group);
 
   /* wrap around */
   check = gtk_check_button_new_with_mnemonic (_("_Wrap around"));
@@ -314,8 +314,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* case sensitive */
   check = gtk_check_button_new_with_mnemonic (_("Match _case"));
-  gtk_widget_set_margin_start (GTK_WIDGET (check), 6);
-  gtk_widget_set_margin_end (GTK_WIDGET (check), 6);
+  gtk_widget_set_margin_start (check, 6);
+  gtk_widget_set_margin_end (check, 6);
   gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
 
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_MATCH_CASE,
@@ -323,8 +323,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* match whole word */
   check = gtk_check_button_new_with_mnemonic (_("_Match whole word"));
-  gtk_widget_set_margin_start (GTK_WIDGET (check), 6);
-  gtk_widget_set_margin_end (GTK_WIDGET (check), 6);
+  gtk_widget_set_margin_start (check, 6);
+  gtk_widget_set_margin_end (check, 6);
   gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
 
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_MATCH_WHOLE_WORD,
@@ -332,8 +332,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* enable regex search */
   check = gtk_check_button_new_with_mnemonic (_("Regular e_xpression"));
-  gtk_widget_set_margin_start (GTK_WIDGET (check), 6);
-  gtk_widget_set_margin_end (GTK_WIDGET (check), 6);
+  gtk_widget_set_margin_start (check, 6);
+  gtk_widget_set_margin_end (check, 6);
   gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
 
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_ENABLE_REGEX,
@@ -341,8 +341,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* horizontal box for the replace all options */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
-  gtk_widget_set_margin_start (GTK_WIDGET (hbox), 6);
-  gtk_widget_set_margin_end (GTK_WIDGET (hbox), 6);
+  gtk_widget_set_margin_start (hbox, 6);
+  gtk_widget_set_margin_end (hbox, 6);
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 
   check = gtk_check_button_new_with_mnemonic (_("Replace _all in:"));
@@ -496,7 +496,7 @@ mousepad_replace_dialog_response (GtkWidget *widget,
   mousepad_replace_dialog_reset_display (dialog);
 
   /* emit the signal */
-  g_signal_emit (G_OBJECT (dialog), dialog_signals[SEARCH], 0, flags, search_str, replace_str);
+  g_signal_emit (dialog, dialog_signals[SEARCH], 0, flags, search_str, replace_str);
 }
 
 
