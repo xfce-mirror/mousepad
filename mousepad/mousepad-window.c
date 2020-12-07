@@ -3670,8 +3670,6 @@ mousepad_window_search (MousepadWindow      *window,
 static gboolean
 mousepad_window_scroll_to_cursor (MousepadWindow *window)
 {
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
-
   /* if there is a request to scroll to cursor just before closing, this test could fail */
   if (G_LIKELY (MOUSEPAD_IS_WINDOW (window) && MOUSEPAD_IS_DOCUMENT (window->active)
                 && MOUSEPAD_IS_VIEW (window->active->textview)))

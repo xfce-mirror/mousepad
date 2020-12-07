@@ -65,7 +65,7 @@ static void      mousepad_document_search_completed        (GObject             
 static void      mousepad_document_emit_search_signal      (MousepadDocument       *document,
                                                             GParamSpec             *pspec,
                                                             GtkSourceSearchContext *search_context);
-static void      mousepad_document_search_tool_visible     (MousepadDocument       *document,
+static void      mousepad_document_search_widget_visible   (MousepadDocument       *document,
                                                             GParamSpec             *pspec,
                                                             MousepadWindow         *window);
 
@@ -196,7 +196,7 @@ mousepad_document_post_init (MousepadDocument *document)
 
   /* connect to the "search-widget-visible" window property */
   g_signal_connect_object (window, "notify::search-widget-visible",
-                           G_CALLBACK (mousepad_document_search_tool_visible),
+                           G_CALLBACK (mousepad_document_search_widget_visible),
                            document, G_CONNECT_SWAPPED);
 
   /* get the window property */
@@ -649,7 +649,7 @@ mousepad_document_search_completed (GObject      *object,
                                     GAsyncResult *result,
                                     gpointer      data)
 {
-  MousepadDocument        *document = MOUSEPAD_DOCUMENT (data);
+  MousepadDocument        *document;
   GtkSourceSearchContext  *search_context = GTK_SOURCE_SEARCH_CONTEXT (object);
   GtkSourceSearchSettings *search_settings;
   GtkTextBuffer           *selection_buffer;
@@ -659,9 +659,12 @@ mousepad_document_search_completed (GObject      *object,
   const gchar             *string, *replace;
   gboolean                 found;
 
-  /* exit if the view was destroyed during the search process */
-  if (! MOUSEPAD_IS_VIEW (document->textview))
+  /* exit if the document or the view were destroyed during the search process */
+  if (! MOUSEPAD_IS_DOCUMENT (data)
+      || ! MOUSEPAD_IS_VIEW (MOUSEPAD_DOCUMENT (data)->textview))
     return;
+  else
+    document = MOUSEPAD_DOCUMENT (data);
 
   /* retrieve the first stage data */
   flags = GPOINTER_TO_INT (mousepad_object_get_data (G_OBJECT (search_context), "flags"));
@@ -866,9 +869,10 @@ mousepad_document_scanning_completed (MousepadDocument *document)
  * See https://gitlab.gnome.org/GNOME/gtksourceview/-/issues/164
  */
 static void
-mousepad_document_prevent_endless_scanning (MousepadDocument *document)
+mousepad_document_prevent_endless_scanning (MousepadDocument *document,
+                                            gboolean          visible)
 {
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_HIGHLIGHT_ALL)
+  if (visible && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_HIGHLIGHT_ALL)
       && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_ENABLE_REGEX))
     {
       g_signal_connect_swapped (document->buffer, "insert-text",
@@ -889,9 +893,9 @@ mousepad_document_prevent_endless_scanning (MousepadDocument *document)
 
 
 static void
-mousepad_document_search_tool_visible (MousepadDocument *document,
-                                       GParamSpec       *pspec,
-                                       MousepadWindow   *window)
+mousepad_document_search_widget_visible (MousepadDocument *document,
+                                         GParamSpec       *pspec,
+                                         MousepadWindow   *window)
 {
   gboolean visible;
 
@@ -909,13 +913,13 @@ mousepad_document_search_tool_visible (MousepadDocument *document,
                                          0, NULL, NULL, document->priv->search_context);
 
       /* activate the workaround to prevent endless buffer scanning */
-      mousepad_document_prevent_endless_scanning (document);
-      MOUSEPAD_SETTING_CONNECT (SEARCH_HIGHLIGHT_ALL,
-                                G_CALLBACK (mousepad_document_prevent_endless_scanning),
-                                document, G_CONNECT_SWAPPED);
-      MOUSEPAD_SETTING_CONNECT (SEARCH_ENABLE_REGEX,
-                                G_CALLBACK (mousepad_document_prevent_endless_scanning),
-                                document, G_CONNECT_SWAPPED);
+      mousepad_document_prevent_endless_scanning (document, visible);
+      MOUSEPAD_SETTING_CONNECT_OBJECT (SEARCH_HIGHLIGHT_ALL,
+                                       G_CALLBACK (mousepad_document_prevent_endless_scanning),
+                                       document, G_CONNECT_SWAPPED);
+      MOUSEPAD_SETTING_CONNECT_OBJECT (SEARCH_ENABLE_REGEX,
+                                       G_CALLBACK (mousepad_document_prevent_endless_scanning),
+                                       document, G_CONNECT_SWAPPED);
 
       /* bind the "highlight" search property to the settings */
       MOUSEPAD_SETTING_BIND (SEARCH_HIGHLIGHT_ALL, document->priv->search_context,
@@ -932,7 +936,7 @@ mousepad_document_search_tool_visible (MousepadDocument *document,
                                        0, NULL, NULL, document->priv->search_context);
 
       /* deactivate the workaround to prevent endless buffer scanning */
-      mousepad_document_prevent_endless_scanning (document);
+      mousepad_document_prevent_endless_scanning (document, visible);
       MOUSEPAD_SETTING_DISCONNECT (SEARCH_HIGHLIGHT_ALL,
                                    G_CALLBACK (mousepad_document_prevent_endless_scanning),
                                    document);
