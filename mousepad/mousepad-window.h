@@ -52,7 +52,8 @@ void            mousepad_window_add                        (MousepadWindow      
                                                             MousepadDocument     *document);
 
 gint            mousepad_window_open_files                 (MousepadWindow       *window,
-                                                            gchar               **uris);
+                                                            GFile               **files,
+                                                            gint                  n_files);
 
 void            mousepad_window_show_preferences           (MousepadWindow       *window);
 
