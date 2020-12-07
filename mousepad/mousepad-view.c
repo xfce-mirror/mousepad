@@ -180,7 +180,7 @@ mousepad_view_buffer_changed (MousepadView *view,
                               gpointer      user_data)
 {
   GtkSourceBuffer *buffer;
-  buffer = (GtkSourceBuffer*) gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+  buffer = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
 
   if (GTK_SOURCE_IS_BUFFER (buffer))
     {

@@ -684,8 +684,10 @@ mousepad_util_icon_for_mime_type (const gchar *mime_type)
 
 static void
 mousepad_util_container_foreach_counter (GtkWidget *widget,
-                                         guint     *n_children)
+                                         gpointer   data)
 {
+  guint *n_children = (guint *) data;
+
   *n_children = *n_children + 1;
 }
 
@@ -699,7 +701,7 @@ mousepad_util_container_has_children (GtkContainer *container)
   g_return_val_if_fail (GTK_IS_CONTAINER (container), FALSE);
 
   gtk_container_foreach (container,
-                         (GtkCallback) mousepad_util_container_foreach_counter,
+                         mousepad_util_container_foreach_counter,
                          &n_children);
 
   return (n_children > 0);
@@ -837,7 +839,7 @@ mousepad_util_get_sorted_section_names (void)
 
 static gint
 mousepad_util_languages_name_compare (gconstpointer a,
-                                              gconstpointer b)
+                                      gconstpointer b)
 {
   const gchar *name_a, *name_b;
 
@@ -886,7 +888,7 @@ mousepad_util_get_sorted_languages_for_section (const gchar *section)
       languages++;
     }
 
-  return g_slist_sort (list, (GCompareFunc) mousepad_util_languages_name_compare);
+  return g_slist_sort (list, mousepad_util_languages_name_compare);
 }
 
 

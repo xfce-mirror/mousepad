@@ -775,9 +775,9 @@ mousepad_file_save (MousepadFile  *file,
               memmove (contents + 3, contents, length + 1);
 
               /* write an utf-8 bom at the start of the contents */
-              contents[0] = (guchar) 0xef;
-              contents[1] = (guchar) 0xbb;
-              contents[2] = (guchar) 0xbf;
+              contents[0] = 0xef;
+              contents[1] = 0xbb;
+              contents[2] = 0xbf;
 
               /* increase the length */
               length += 3;

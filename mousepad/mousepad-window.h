@@ -37,8 +37,8 @@ enum
 
 static const GtkTargetEntry drop_targets[] =
 {
-  { (gchar *) "text/uri-list", 0, TARGET_TEXT_URI_LIST },
-  { (gchar *) "GTK_NOTEBOOK_TAB", GTK_TARGET_SAME_APP, TARGET_GTK_NOTEBOOK_TAB }
+  { "text/uri-list", 0, TARGET_TEXT_URI_LIST },
+  { "GTK_NOTEBOOK_TAB", GTK_TARGET_SAME_APP, TARGET_GTK_NOTEBOOK_TAB }
 };
 
 typedef struct _MousepadWindowClass MousepadWindowClass;

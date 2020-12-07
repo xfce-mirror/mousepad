@@ -188,8 +188,6 @@ static void              mousepad_window_update_tabs                  (MousepadW
 /* recent functions */
 static void              mousepad_window_recent_add                   (MousepadWindow         *window,
                                                                        MousepadFile           *file);
-static gint              mousepad_window_recent_sort                  (GtkRecentInfo          *a,
-                                                                       GtkRecentInfo          *b);
 static void              mousepad_window_recent_manager_init          (MousepadWindow         *window);
 static void              mousepad_window_recent_menu                  (GSimpleAction          *action,
                                                                        GVariant               *value,
@@ -2147,7 +2145,7 @@ mousepad_window_menubar_key_event (MousepadWindow *window,
           /* in case of a mnemonic key, repeat the same event to make its menu popup */
           if (event->keyval != GDK_KEY_Alt_L)
             {
-              event_bis = gdk_event_copy ((GdkEvent*) event);
+              event_bis = gdk_event_copy ((GdkEvent *) event);
               gtk_main_do_event (event_bis);
               gdk_event_free (event_bis);
             }
@@ -2448,7 +2446,7 @@ mousepad_window_is_position_on_tab_bar (GtkNotebook *notebook, GdkEventButton *e
                         "scroll-arrow-vlength", &scroll_arrow_vlength,
                         NULL);
 
-  if (! gdk_event_get_coords ((GdkEvent*) event, &x, &y))
+  if (! gdk_event_get_coords ((GdkEvent *) event, &x, &y))
     {
       x = event->x;
       y = event->y;
@@ -2519,7 +2517,7 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
 
               /* show the menu */
               if (event->button == 3)
-                gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), (GdkEvent*) event);
+                gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), (GdkEvent *) event);
               /* close the document */
               else if (event->button == 2)
                 g_action_group_activate_action (G_ACTION_GROUP (window), "file.close-tab", NULL);
@@ -2536,7 +2534,7 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
     {
       GtkWidget   *ev_widget, *nb_child;
 
-      ev_widget = gtk_get_event_widget ((GdkEvent*) event);
+      ev_widget = gtk_get_event_widget ((GdkEvent *) event);
       nb_child = gtk_notebook_get_nth_page (notebook,
                                             gtk_notebook_get_current_page (notebook));
       if (ev_widget == NULL || ev_widget == nb_child || gtk_widget_is_ancestor (ev_widget, nb_child))
@@ -3268,7 +3266,7 @@ mousepad_window_recent_add (MousepadWindow *window,
   gchar         *uri;
   gchar         *description;
   const gchar   *charset;
-  static gchar  *groups[] = { (gchar *) PACKAGE_NAME, NULL };
+  static gchar  *groups[] = { PACKAGE_NAME, NULL };
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
@@ -3281,10 +3279,10 @@ mousepad_window_recent_add (MousepadWindow *window,
 
   /* create the recent data */
   info.display_name = NULL;
-  info.description  = (gchar *) description;
-  info.mime_type    = (gchar *) "text/plain";
-  info.app_name     = (gchar *) PACKAGE_NAME;
-  info.app_exec     = (gchar *) PACKAGE " %u";
+  info.description  = description;
+  info.mime_type    = "text/plain";
+  info.app_name     = PACKAGE_NAME;
+  info.app_exec     = PACKAGE " %u";
   info.groups       = groups;
   info.is_private   = FALSE;
 
@@ -3310,9 +3308,11 @@ mousepad_window_recent_add (MousepadWindow *window,
 
 
 static gint
-mousepad_window_recent_sort (GtkRecentInfo *a,
-                             GtkRecentInfo *b)
+mousepad_window_recent_sort (gconstpointer ga,
+                             gconstpointer gb)
 {
+  GtkRecentInfo *a = (GtkRecentInfo *) ga, *b = (GtkRecentInfo *) gb;
+
   return (gtk_recent_info_get_modified (a) < gtk_recent_info_get_modified (b));
 }
 
@@ -3377,7 +3377,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
 
           /* insert the list, sorted by date */
           filtered = g_list_insert_sorted (filtered, li->data,
-                                           (GCompareFunc) mousepad_window_recent_sort);
+                                           mousepad_window_recent_sort);
         }
 
       /* get the recent menu limit number */

@@ -1197,7 +1197,7 @@ mousepad_application_create_languages_menu (MousepadApplication *application)
       item = g_menu_item_new_submenu (label, G_MENU_MODEL (submenu));
 
       /* set tooltip and append menu item */
-      tooltip = (gchar*) iter_sect->data;
+      tooltip = iter_sect->data;
       g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
       g_menu_append_item (menu, item);
       g_object_unref (item);
@@ -1213,7 +1213,7 @@ mousepad_application_create_languages_menu (MousepadApplication *application)
           item = g_menu_item_new (label, action_name);
 
           /* set tooltip */
-          tooltip = g_strdup_printf ("%s/%s", (gchar*) iter_sect->data, label);
+          tooltip = g_strdup_printf ("%s/%s", (gchar *) iter_sect->data, label);
           g_menu_item_set_attribute_value (item, "tooltip", g_variant_new_string (tooltip));
 
           /* append menu item */

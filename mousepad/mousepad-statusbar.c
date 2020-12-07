@@ -213,7 +213,7 @@ mousepad_statusbar_filetype_clicked (GtkWidget         *widget,
 
   /* make sure there's at least one item in the menu to show it */
   if (n_children)
-    gtk_menu_popup_at_pointer (menu, (GdkEvent*) event);
+    gtk_menu_popup_at_pointer (menu, (GdkEvent *) event);
 
   return TRUE;
 }

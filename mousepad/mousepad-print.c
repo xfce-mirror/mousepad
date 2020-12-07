@@ -661,7 +661,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
       "will print a line number on each line, a value of 2 will print a line "
       "number on every other line, and so on."));
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (print->widget_line_numbers_spin),
-                             (gdouble) print->line_number_increment);
+                             print->line_number_increment);
   g_signal_connect (print->widget_line_numbers_spin, "value-changed",
                     G_CALLBACK (mousepad_print_spin_value_changed), print);
   gtk_box_pack_start (GTK_BOX (print->widget_line_numbers_hbox),
