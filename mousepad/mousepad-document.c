@@ -246,7 +246,9 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->search_context = gtk_source_search_context_new (
                                      GTK_SOURCE_BUFFER (document->buffer), NULL);
 
-  /* bind search settings to Mousepad settings */
+  /* bind search settings to Mousepad settings, except "regex-enabled" to prevent prohibitive
+   * computation times in some situations (see
+   * mousepad_document_prevent_endless_scanning() below) */
   search_settings = gtk_source_search_context_get_settings (document->priv->search_context);
   MOUSEPAD_SETTING_BIND (SEARCH_WRAP_AROUND, search_settings,
                          "wrap-around", G_SETTINGS_BIND_GET);
@@ -254,8 +256,6 @@ mousepad_document_init (MousepadDocument *document)
                          "case-sensitive", G_SETTINGS_BIND_GET);
   MOUSEPAD_SETTING_BIND (SEARCH_MATCH_WHOLE_WORD, search_settings,
                          "at-word-boundaries", G_SETTINGS_BIND_GET);
-  MOUSEPAD_SETTING_BIND (SEARCH_ENABLE_REGEX, search_settings,
-                         "regex-enabled", G_SETTINGS_BIND_GET);
 
   /* forward the search context signal */
   g_signal_connect_swapped (document->priv->search_context, "notify::occurrences-count",
@@ -802,11 +802,8 @@ mousepad_document_search (MousepadDocument    *document,
   search_settings = gtk_source_search_context_get_settings (search_context);
   gtk_source_search_settings_set_search_text (search_settings, string);
 
-  /*
-   * Disable highlight during regex searches: a workaround to prevent prohibitive computation
-   * times in some situations (see also mousepad_document_prevent_endless_scanning() below).
-   * See https://gitlab.gnome.org/GNOME/gtksourceview/-/issues/164
-   */
+  /* disable highlight during regex searches to prevent prohibitive computation times in
+   * some situations (see mousepad_document_prevent_endless_scanning() below) */
   if (gtk_source_search_settings_get_regex_enabled (search_settings))
     gtk_source_search_context_set_highlight (search_context, FALSE);
 
@@ -865,7 +862,8 @@ mousepad_document_scanning_completed (MousepadDocument *document)
 
 /*
  * Disable highlight during regex searches: a workaround to prevent prohibitive computation
- * times in some situations (see also mousepad_document_search() above).
+ * times in some situations (see also mousepad_document_search() and mousepad_document_init()
+ * above).
  * See https://gitlab.gnome.org/GNOME/gtksourceview/-/issues/164
  */
 static void
@@ -897,10 +895,14 @@ mousepad_document_search_widget_visible (MousepadDocument *document,
                                          GParamSpec       *pspec,
                                          MousepadWindow   *window)
 {
-  gboolean visible;
+  GtkSourceSearchSettings *search_settings;
+  gboolean                 visible;
 
   /* get the window property */
   g_object_get (window, "search-widget-visible", &visible, NULL);
+
+  /* get the search settings */
+  search_settings = gtk_source_search_context_get_settings (document->priv->search_context);
 
   if (visible)
     {
@@ -921,9 +923,11 @@ mousepad_document_search_widget_visible (MousepadDocument *document,
                                        G_CALLBACK (mousepad_document_prevent_endless_scanning),
                                        document, G_CONNECT_SWAPPED);
 
-      /* bind the "highlight" search property to the settings */
+      /* bind "highlight" and "regex-enabled" search settings to Mousepad settings */
       MOUSEPAD_SETTING_BIND (SEARCH_HIGHLIGHT_ALL, document->priv->search_context,
                              "highlight", G_SETTINGS_BIND_GET);
+      MOUSEPAD_SETTING_BIND (SEARCH_ENABLE_REGEX, search_settings,
+                             "regex-enabled", G_SETTINGS_BIND_GET);
     }
   else
     {
@@ -944,9 +948,11 @@ mousepad_document_search_widget_visible (MousepadDocument *document,
                                    G_CALLBACK (mousepad_document_prevent_endless_scanning),
                                    document);
 
-      /* unbind the "highlight" search property and turn it off */
+      /* unbind "highlight" and "regex-enabled" search settings and turn them off */
       g_settings_unbind (document->priv->search_context, "highlight");
+      g_settings_unbind (search_settings, "regex-enabled");
       gtk_source_search_context_set_highlight (document->priv->search_context, FALSE);
+      gtk_source_search_settings_set_regex_enabled (search_settings, FALSE);
     }
 }
 
