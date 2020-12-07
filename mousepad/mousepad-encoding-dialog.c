@@ -254,65 +254,51 @@ static gboolean
 mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
 {
   MousepadEncodingDialog *dialog = MOUSEPAD_ENCODING_DIALOG (user_data);
-  GMappedFile            *mapped_file;
+  GFile                  *file;
+  const gchar            *subtitle;
+  gchar                  *contents, *encoded;
   gsize                   length, written;
   guint                   i, n;
-  const gchar            *filename, *contents, *subtitle;
-  gchar                  *encoded;
   gint                    result = 0;
 
-  /* get the filename */
-  filename = mousepad_file_get_filename (dialog->document->file);
+  /* get the file location */
+  file = mousepad_file_get_location (dialog->document->file);
 
   /* check if the file exists */
-  if (filename && g_file_test (filename, G_FILE_TEST_EXISTS))
+  if (G_LIKELY (file != NULL
+                && g_file_load_contents (file, NULL, &contents, &length, NULL, NULL)
+                && contents != NULL && length > 0))
     {
-      /* try to open the file */
-      mapped_file = g_mapped_file_new (filename, FALSE, NULL);
-
-      if (G_LIKELY (mapped_file))
+      /* test all the encodings */
+      for (i = 0, n = 0; i < n_encoding_infos && !dialog->cancel_testing; i++)
         {
-          /* get the mapped file contents and length */
-          contents = g_mapped_file_get_contents (mapped_file);
-          length = g_mapped_file_get_length (mapped_file);
+          /* set progress bar fraction */
+          gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (dialog->progress_bar),
+                                         (i + 1.00) / n_encoding_infos);
 
-          if (G_LIKELY (contents && length > 0))
+          /* try to convert the content */
+          encoded = g_convert (contents, length, "UTF-8", encoding_infos[i].charset,
+                               NULL, &written, NULL);
+
+          if (G_LIKELY (encoded != NULL))
             {
-              /* test all the encodings */
-              for (i = 0, n = 0; i < n_encoding_infos && !dialog->cancel_testing; i++)
-                {
-                  /* set progress bar fraction */
-                  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (dialog->progress_bar),
-                                                 (i + 1.00) / n_encoding_infos);
+              /* insert in the store */
+              if (G_LIKELY (g_utf8_validate (encoded, written, NULL)))
+                gtk_list_store_insert_with_values (dialog->store, NULL, n++,
+                                                   COLUMN_LABEL, encoding_infos[i].charset,
+                                                   COLUMN_ID, encoding_infos[i].encoding, -1);
+              else
+                gtk_list_store_insert_with_values (dialog->fallback_store, NULL, n++,
+                                                   COLUMN_LABEL, encoding_infos[i].charset,
+                                                   COLUMN_ID, encoding_infos[i].encoding, -1);
 
-                  /* try to convert the content */
-                  encoded = g_convert (contents, length, "UTF-8", encoding_infos[i].charset,
-                                       NULL, &written, NULL);
-
-                  if (G_LIKELY (encoded))
-                    {
-                      /* insert in the store */
-                      if (G_LIKELY (g_utf8_validate (encoded, written, NULL)))
-                        gtk_list_store_insert_with_values (dialog->store, NULL, n++,
-                                                           COLUMN_LABEL, encoding_infos[i].charset,
-                                                           COLUMN_ID, encoding_infos[i].encoding, -1);
-                      else
-                        gtk_list_store_insert_with_values (dialog->fallback_store, NULL, n++,
-                                                           COLUMN_LABEL, encoding_infos[i].charset,
-                                                           COLUMN_ID, encoding_infos[i].encoding, -1);
-
-                      /* cleanup */
-                      g_free (encoded);
-                    }
-
-                  /* iterate the main loop to update the gui */
-                  while (gtk_events_pending ())
-                    gtk_main_iteration ();
-                }
+              /* cleanup */
+              g_free (encoded);
             }
 
-          /* close the mapped file */
-          g_mapped_file_unref (mapped_file);
+          /* iterate the main loop to update the gui */
+          while (gtk_events_pending ())
+            gtk_main_iteration ();
         }
     }
 
@@ -439,7 +425,7 @@ mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
       mousepad_file_set_encoding (dialog->document->file, encoding);
 
       /* try to open the file */
-      result = mousepad_file_open (dialog->document->file, NULL, &error);
+      result = mousepad_file_open (dialog->document->file, TRUE, &error);
     }
   /* unsupported system charset */
   else
@@ -542,8 +528,8 @@ mousepad_encoding_dialog_new (GtkWindow    *parent,
   dialog = g_object_new (MOUSEPAD_TYPE_ENCODING_DIALOG, "transient-for", parent,
                          "destroy-with-parent", TRUE, "modal", TRUE, NULL);
 
-  /* set the filename */
-  mousepad_file_set_filename (dialog->document->file, mousepad_file_get_filename (file), TRUE);
+  /* set the file location */
+  mousepad_file_set_location (dialog->document->file, mousepad_file_get_location (file), TRUE);
 
   /* queue idle function */
   mousepad_encoding_dialog_test_encodings (dialog);
