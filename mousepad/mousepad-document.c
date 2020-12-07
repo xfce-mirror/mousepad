@@ -41,8 +41,8 @@ static void      mousepad_document_drag_data_received      (GtkWidget           
                                                             guint                   info,
                                                             guint                   drag_time,
                                                             MousepadDocument       *document);
-static void      mousepad_document_filename_changed        (MousepadDocument       *document,
-                                                            const gchar            *filename);
+static void      mousepad_document_location_changed        (MousepadDocument       *document,
+                                                            GFile                  *file);
 static void      mousepad_document_label_color             (MousepadDocument       *document);
 static void      mousepad_document_tab_button_clicked      (GtkWidget              *widget,
                                                             MousepadDocument       *document);
@@ -217,7 +217,7 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->label = NULL;
   document->priv->css_provider = gtk_css_provider_new ();
 
-  /* setup the scolled window */
+  /* setup the scrolled window */
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (document),
                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (document), GTK_SHADOW_ETCHED_IN);
@@ -246,10 +246,8 @@ mousepad_document_init (MousepadDocument *document)
 
   /* initialize the file */
   document->file = mousepad_file_new (document->buffer);
-
-  /* connect signals to the file */
-  g_signal_connect_swapped (document->file, "filename-changed",
-                            G_CALLBACK (mousepad_document_filename_changed), document);
+  g_signal_connect_swapped (document->file, "location-changed",
+                            G_CALLBACK (mousepad_document_location_changed), document);
 
   /* setup the textview */
   document->textview = g_object_new (MOUSEPAD_TYPE_VIEW, "buffer", document->buffer, NULL);
@@ -423,19 +421,18 @@ mousepad_document_drag_data_received (GtkWidget        *widget,
 
 
 static void
-mousepad_document_filename_changed (MousepadDocument *document,
-                                    const gchar      *filename)
+mousepad_document_location_changed (MousepadDocument *document,
+                                    GFile            *file)
 {
   gchar       *utf8_filename, *utf8_short_filename, *utf8_basename;
   const gchar *home;
   size_t       home_len;
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-  g_return_if_fail (filename != NULL);
+  g_return_if_fail (file != NULL);
 
   /* convert the title into a utf-8 valid version for display */
-  utf8_filename = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
-
+  utf8_filename = g_filename_to_utf8 (mousepad_util_get_path (file), -1, NULL, NULL, NULL);
   if (G_LIKELY (utf8_filename))
     {
       /* create a shorter display filename: replace $HOME with a tilde if user is not root */
