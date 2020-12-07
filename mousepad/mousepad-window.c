@@ -103,7 +103,7 @@ static gboolean          mousepad_window_tool_item_leave_event        (GtkWidget
 
 /* window functions */
 static gboolean          mousepad_window_open_file                    (MousepadWindow         *window,
-                                                                       const gchar            *filename,
+                                                                       GFile                  *file,
                                                                        MousepadEncoding        encoding);
 static gboolean          mousepad_window_close_document               (MousepadWindow         *window,
                                                                        MousepadDocument       *document);
@@ -555,7 +555,7 @@ static guint   window_signals[LAST_SIGNAL];
 static gint    lock_menu_updates = 0;
 static GSList *clipboard_history = NULL;
 static guint   clipboard_history_ref_count = 0;
-static gchar  *last_save_location = NULL;
+static GFile  *last_save_location = NULL;
 static guint   last_save_location_ref_count = 0;
 
 
@@ -682,7 +682,7 @@ mousepad_window_finalize (GObject *object)
   /* free last save location if needed */
   if (last_save_location_ref_count == 0 && last_save_location != NULL)
     {
-      g_free (last_save_location);
+      g_object_unref (last_save_location);
       last_save_location = NULL;
     }
 
@@ -1654,40 +1654,34 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
  **/
 static gboolean
 mousepad_window_open_file (MousepadWindow   *window,
-                           const gchar      *filename,
+                           GFile            *file,
                            MousepadEncoding  encoding)
 {
   MousepadDocument *document;
-  GError           *error = NULL;
-  gint              result;
-  gint              npages = 0, i;
-  gint              response;
-  const gchar      *charset;
-  const gchar      *opened_filename;
   GtkWidget        *dialog;
-  gboolean          encoding_from_recent = FALSE;
-  gchar            *uri;
   GtkRecentInfo    *info;
+  GError           *error = NULL;
+  GFile            *opened_file;
+  const gchar      *charset;
+  gchar            *uri;
+  gint              npages, result, i, response;
+  gboolean          encoding_from_recent = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
-  g_return_val_if_fail (filename != NULL && *filename != '\0', FALSE);
+  g_return_val_if_fail (file != NULL, FALSE);
 
   /* check if the file is already openend */
   npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
   for (i = 0; i < npages; i++)
     {
       document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i));
-
-      /* debug check */
-      g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (document), FALSE);
-
       if (G_LIKELY (document))
         {
-          /* get the filename */
-          opened_filename = mousepad_file_get_filename (MOUSEPAD_DOCUMENT (document)->file);
+          /* get the file location */
+          opened_file = mousepad_file_get_location (MOUSEPAD_DOCUMENT (document)->file);
 
           /* see if the file is already opened */
-          if (opened_filename && strcmp (filename, opened_filename) == 0)
+          if (opened_file != NULL && g_file_equal (file, opened_file))
             {
               /* switch to the tab */
               gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), i);
@@ -1704,8 +1698,8 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* make sure it's not a floating object */
   g_object_ref_sink (document);
 
-  /* set the filename */
-  mousepad_file_set_filename (document->file, filename, TRUE);
+  /* set the file location */
+  mousepad_file_set_location (document->file, file, TRUE);
 
   /* set the passed encoding */
   mousepad_file_set_encoding (document->file, encoding);
@@ -1716,7 +1710,7 @@ mousepad_window_open_file (MousepadWindow   *window,
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
   /* read the content into the buffer */
-  result = mousepad_file_open (document->file, NULL, &error);
+  result = mousepad_file_open (document->file, &error);
 
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
@@ -1746,10 +1740,10 @@ mousepad_window_open_file (MousepadWindow   *window,
             mousepad_window_recent_manager_init (window);
 
             /* build uri */
-            uri = g_filename_to_uri (filename, NULL, NULL);
+            uri = g_file_get_uri (file);
 
             /* try to lookup the recent item */
-            if (G_LIKELY (uri))
+            if (G_LIKELY (uri != NULL))
               {
                 info = gtk_recent_manager_lookup_item (window->recent_manager, uri, NULL);
 
@@ -1806,7 +1800,7 @@ mousepad_window_open_file (MousepadWindow   *window,
         /* something went wrong, release the document */
         g_object_unref (document);
 
-        if (G_LIKELY (error))
+        if (G_LIKELY (error != NULL))
           {
             /* show the warning */
             mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to open the document"));
@@ -1825,33 +1819,21 @@ mousepad_window_open_file (MousepadWindow   *window,
 
 gint
 mousepad_window_open_files (MousepadWindow  *window,
-                            gchar          **uris)
+                            GFile          **files,
+                            gint             n_files)
 {
-  GFile *file;
-  gchar *filename;
-  guint  n;
+  gint n;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), 0);
-  g_return_val_if_fail (uris != NULL, 0);
-  g_return_val_if_fail (*uris != NULL, 0);
+  g_return_val_if_fail (files != NULL, 0);
+  g_return_val_if_fail (*files != NULL, 0);
 
   /* block menu updates */
   lock_menu_updates++;
 
-  /* walk through all the filenames */
-  for (n = 0; uris[n] != NULL; ++n)
-    {
-      /* retrieve the filename */
-      file = g_file_new_for_uri (uris[n]);
-      filename = g_file_get_path (file);
-      g_object_unref (file);
-
-      /* open a new tab with the file */
-      mousepad_window_open_file (window, filename, MOUSEPAD_ENCODING_UTF_8);
-
-      /* cleanup */
-      g_free (filename);
-    }
+  /* open new tabs with the files */
+  for (n = 0; n < n_files; n++)
+    mousepad_window_open_file (window, files[n], MOUSEPAD_ENCODING_UTF_8);
 
   /* allow menu updates again */
   lock_menu_updates--;
@@ -1905,8 +1887,8 @@ mousepad_window_add (MousepadWindow   *window,
 
       /* destroy the previous tab if it was not modified, untitled and the new tab is not untitled */
       if (gtk_text_buffer_get_modified (prev_active->buffer) == FALSE
-          && mousepad_file_get_filename (prev_active->file) == NULL
-          && mousepad_file_get_filename (document->file) != NULL)
+          && ! mousepad_file_location_is_set (prev_active->file)
+          && mousepad_file_location_is_set (document->file))
         gtk_widget_destroy (GTK_WIDGET (prev_active));
     }
 
@@ -2256,7 +2238,7 @@ mousepad_window_update_actions (MousepadWindow *window)
 
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.reload");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
-                                   mousepad_file_get_filename (document->file) != NULL);
+                                   mousepad_file_location_is_set (document->file));
 
       /* set the sensitivity of the undo and redo actions */
       mousepad_window_can_undo (window, NULL, G_OBJECT (document->buffer));
@@ -2276,7 +2258,7 @@ mousepad_window_update_actions (MousepadWindow *window)
                                           g_variant_new_boolean (value));
 
       /* update the currently active language */
-      language = gtk_source_buffer_get_language (GTK_SOURCE_BUFFER (window->active->buffer));
+      language = gtk_source_buffer_get_language (GTK_SOURCE_BUFFER (document->buffer));
       language_id = language ? gtk_source_language_get_id (language) : "plain-text";
       g_action_group_change_action_state (G_ACTION_GROUP (window), "document.filetype",
                                           g_variant_new_string (language_id));
@@ -2358,7 +2340,7 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                             G_CALLBACK (mousepad_window_modified_changed), window);
   g_signal_connect_swapped (document->file, "readonly-changed",
                             G_CALLBACK (mousepad_window_readonly_changed), window);
-  g_signal_connect_swapped (document->file, "filename-changed",
+  g_signal_connect_swapped (document->file, "location-changed",
                             G_CALLBACK (mousepad_window_set_title), window);
   g_signal_connect (document->textview, "populate-popup",
                     G_CALLBACK (mousepad_window_menu_textview_popup), window);
@@ -3293,10 +3275,11 @@ mousepad_window_recent_menu (GSimpleAction *action,
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
   GtkApplication *application;
+  GtkRecentInfo  *info;
   GMenu          *menu;
   GMenuItem      *menu_item;
   GAction        *subaction;
-  GtkRecentInfo  *info;
+  GFile          *file;
   GList          *items, *li, *filtered = NULL;
   const gchar    *uri, *display_name;
   gchar          *label, *filename, *filename_utf8, *tooltip, *action_name;
@@ -3348,10 +3331,12 @@ mousepad_window_recent_menu (GSimpleAction *action,
 
           /* get the filename */
           uri = gtk_recent_info_get_uri (info);
-          filename = g_filename_from_uri (uri, NULL, NULL);
+          file = g_file_new_for_uri (uri);
+          filename = g_file_get_path (file);
+          g_object_unref (file);
 
           /* append to the menu if the file exists, else remove it from the history */
-          if (filename && g_file_test (filename, G_FILE_TEST_EXISTS))
+          if (filename != NULL && g_file_test (filename, G_FILE_TEST_EXISTS))
             {
               /* link the info data to the action via the unique detailed action name */
               action_name = g_strconcat ("win.file.open-recent.new('", filename, "')", NULL);
@@ -3380,11 +3365,9 @@ mousepad_window_recent_menu (GSimpleAction *action,
               /* update couters */
               n--;
             }
+          /* remove the item, don't both the user if this fails */
           else
-            {
-              /* remove the item. don't both the user if this fails */
-              gtk_recent_manager_remove_item (window->recent_manager, uri, NULL);
-            }
+            gtk_recent_manager_remove_item (window->recent_manager, uri, NULL);
 
           /* cleanup */
           g_free (filename);
@@ -3498,6 +3481,8 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
 {
   GtkWidget  *notebook, **document;
   GtkWidget  *child, *label;
+  GPtrArray  *files;
+  gpointer   *data;
   gchar     **uris;
   gint        i, n_pages;
 
@@ -3509,14 +3494,20 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
       && gtk_selection_data_get_format (selection_data) == 8
       && gtk_selection_data_get_length (selection_data) > 0)
     {
-      /* extract the uris from the data */
-      uris = g_uri_list_extract_uris ((const gchar *) gtk_selection_data_get_data (selection_data));
+      /* prepare the GFile array */
+      uris = gtk_selection_data_get_uris (selection_data);
+      n_pages = g_strv_length (uris);
+      files = g_ptr_array_sized_new (n_pages);
+      for (i = 0; i < n_pages; i++)
+        g_ptr_array_add (files, g_file_new_for_uri (uris[i]));
 
       /* open the files */
-      mousepad_window_open_files (window, uris);
+      data = g_ptr_array_free (files, FALSE);
+      mousepad_window_open_files (window, (GFile **) data, n_pages);
 
       /* cleanup */
       g_strfreev (uris);
+      g_free (data);
 
       /* finish the drag (copy) */
       gtk_drag_finish (context, TRUE, FALSE, drag_time);
@@ -3985,21 +3976,19 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
 {
   MousepadWindow    *window = MOUSEPAD_WINDOW (data);
   MousepadDocument  *document;
-  GtkSourceLanguage *language;
-  const gchar       *filename, *message;
+  GFile             *file;
   GError            *error = NULL;
+  const gchar       *filename, *message;
   gint               result;
 
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
-  /* get the language from the filename */
+  /* retrieve the filename */
   filename = g_variant_get_string (value, NULL);
-  language = gtk_source_language_manager_guess_language (
-               gtk_source_language_manager_get_default (), filename, NULL);
 
   /* test if the file exists */
-  if (G_LIKELY (filename))
+  if (G_LIKELY (filename != NULL))
     {
       /* create new document */
       document = mousepad_document_new ();
@@ -4010,19 +3999,23 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       /* lock the undo manager */
       gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
+      /* virtually set the file location */
+      file = g_file_new_for_path (filename);
+      mousepad_file_set_location (document->file, file, FALSE);
+      g_object_unref (file);
+
       /* try to load the template into the buffer */
-      result = mousepad_file_open (document->file, filename, &error);
+      result = mousepad_file_open (document->file, &error);
+
+      /* reset the file location */
+      mousepad_file_set_location (document->file, NULL, FALSE);
 
       /* release the lock */
       gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
-      /* handle the result */
+      /* no errors, insert the document */
       if (G_LIKELY (result == 0))
-        {
-          /* no errors, insert the document */
-          mousepad_window_add (window, document);
-          mousepad_file_set_language (window->active->file, language);
-        }
+        mousepad_window_add (window, document);
       else
         {
           /* release the document */
@@ -4063,26 +4056,26 @@ mousepad_window_action_open (GSimpleAction *action,
                              gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GSList         *filenames, *li;
+  GSList         *files, *file;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* run the dialog */
   if (G_LIKELY (mousepad_dialogs_open (GTK_WINDOW (window),
-                                       mousepad_file_get_filename (window->active->file),
-                                       &filenames)
+                                       mousepad_file_get_location (window->active->file),
+                                       &files)
                 == GTK_RESPONSE_ACCEPT))
     {
       /* lock menu updates */
       lock_menu_updates++;
 
-      /* open all the selected filenames in new tabs */
-      for (li = filenames; li != NULL; li = li->next)
-        mousepad_window_open_file (window, li->data, MOUSEPAD_ENCODING_UTF_8);
+      /* open all the selected locations in new tabs */
+      for (file = files; file != NULL; file = file->next)
+        mousepad_window_open_file (window, file->data, MOUSEPAD_ENCODING_UTF_8);
 
       /* cleanup */
-      g_slist_free_full (filenames, g_free);
+      g_slist_free_full (files, g_object_unref);
 
       /* allow menu updates again */
       lock_menu_updates--;
@@ -4097,12 +4090,13 @@ mousepad_window_action_open_recent (GSimpleAction *action,
                                     gpointer       data)
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
-  const gchar      *uri, *charset;
   MousepadEncoding  encoding;
-  GError           *error = NULL;
-  gchar            *filename, *action_name;
-  gboolean          succeed = FALSE;
   GtkRecentInfo    *info;
+  GFile            *file;
+  GError           *error = NULL;
+  const gchar      *uri, *charset;
+  gchar            *action_name;
+  gboolean          succeed = FALSE;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -4118,13 +4112,11 @@ mousepad_window_action_open_recent (GSimpleAction *action,
       /* get the file uri */
       uri = gtk_recent_info_get_uri (info);
 
-      /* build a filename from the uri */
-      filename = g_filename_from_uri (uri, NULL, NULL);
-
-      if (G_LIKELY (filename != NULL))
+      if (G_LIKELY (uri != NULL))
         {
           /* open the file in a new tab if it exists */
-          if (g_file_test (filename, G_FILE_TEST_EXISTS))
+          file = g_file_new_for_uri (uri);
+          if (g_file_query_exists (file, NULL))
             {
               /* try to get the charset from the description */
               charset = mousepad_window_recent_get_charset (info);
@@ -4133,22 +4125,24 @@ mousepad_window_action_open_recent (GSimpleAction *action,
               encoding = mousepad_encoding_find (charset);
 
               /* try to open the file */
-              succeed = mousepad_window_open_file (window, filename, encoding);
+              succeed = mousepad_window_open_file (window, file, encoding);
             }
           else
             {
               /* create an error */
               g_set_error (&error,  G_FILE_ERROR, G_FILE_ERROR_IO,
                            _("Failed to open \"%s\" for reading. It will be "
-                             "removed from the document history"), filename);
+                             "removed from the document history"), mousepad_util_get_path (file));
 
-              /* show the warning and cleanup */
+              /* show the warning */
               mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to open file"));
+
+              /* cleanup */
               g_error_free (error);
             }
 
           /* cleanup */
-          g_free (filename);
+          g_object_unref (file);
 
           /* update the document history */
           if (G_LIKELY (succeed))
@@ -4201,7 +4195,7 @@ mousepad_window_action_save (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  if (mousepad_file_get_filename (document->file) == NULL)
+  if (! mousepad_file_location_is_set (document->file))
     {
       /* file has no filename yet, open the save as dialog */
       g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
@@ -4216,16 +4210,12 @@ mousepad_window_action_save (GSimpleAction *action,
       if (G_UNLIKELY (error != NULL))
         goto showerror;
 
+      /* ask the user what to do */
       if (modified)
-        {
-          /* ask the user what to do */
-          response = mousepad_dialogs_externally_modified (GTK_WINDOW (window));
-        }
+        response = mousepad_dialogs_externally_modified (GTK_WINDOW (window));
+      /* save */
       else
-        {
-          /* save */
-          response = MOUSEPAD_RESPONSE_SAVE;
-        }
+        response = MOUSEPAD_RESPONSE_SAVE;
 
       switch (response)
         {
@@ -4273,23 +4263,24 @@ mousepad_window_action_save_as (GSimpleAction *action,
   MousepadDocument *document = window->active;
   GAction          *action_save;
   GVariant         *v_succeed;
-  gchar            *current_filename, *filename;
+  GFile            *current_file = NULL, *file;
   gboolean          succeed = FALSE;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* store a copy of the current filename to restore it in case of failure */
-  current_filename = g_strdup (mousepad_file_get_filename (document->file));
-
   /* run the dialog */
   if (mousepad_dialogs_save_as (GTK_WINDOW (window),
-                                mousepad_file_get_filename (document->file),
-                                last_save_location, &filename)
-      == GTK_RESPONSE_OK && G_LIKELY (filename))
+                                mousepad_file_get_location (document->file),
+                                last_save_location, &file)
+      == GTK_RESPONSE_OK && G_LIKELY (file != NULL))
     {
-      /* virtually set the new filename */
-      mousepad_file_set_filename (document->file, filename, FALSE);
+      /* keep a ref of the current file location to restore it in case of failure */
+      if (mousepad_file_location_is_set (document->file))
+        current_file = g_object_ref (mousepad_file_get_location (document->file));
+
+      /* virtually set the new file location */
+      mousepad_file_set_location (document->file, file, FALSE);
 
       /* save the file by an internal call (the save action may be disabled, depending
        * on the file status) */
@@ -4301,24 +4292,26 @@ mousepad_window_action_save_as (GSimpleAction *action,
 
       if (G_LIKELY (succeed))
         {
-          /* validate filename change */
-          mousepad_file_set_filename (document->file, filename, TRUE);
+          /* validate file location change */
+          mousepad_file_set_location (document->file, file, TRUE);
 
           /* add to the recent history */
           mousepad_window_recent_add (window, document->file);
 
           /* update last save location */
-          g_free (last_save_location);
-          last_save_location = g_path_get_dirname (filename);
+          if (last_save_location != NULL)
+            g_object_unref (last_save_location);
+          last_save_location = g_file_get_parent (file);
         }
-      /* revert filename change */
+      /* revert file location change */
       else
-        mousepad_file_set_filename (document->file, current_filename, FALSE);
-    }
+        mousepad_file_set_location (document->file, current_file, FALSE);
 
-  /* cleanup */
-  g_free (current_filename);
-  g_free (filename);
+      /* cleanup */
+      g_object_unref (file);
+      if (G_IS_FILE (current_file))
+        g_object_unref (current_file);
+    }
 
   /* store the save result as the action state */
   g_action_change_state (G_ACTION (action), g_variant_new_int32 (succeed));
@@ -4358,9 +4351,9 @@ mousepad_window_action_save_all (GSimpleAction *action,
         continue;
 
       /* we try to quickly save files, without bothering the user */
-      if (mousepad_file_get_filename (document->file) != NULL
-          && mousepad_file_get_read_only (document->file) == FALSE
-          && mousepad_file_get_externally_modified (document->file, NULL) == FALSE)
+      if (mousepad_file_location_is_set (document->file)
+          && ! mousepad_file_get_read_only (document->file)
+          && ! mousepad_file_get_externally_modified (document->file, NULL))
         {
           /* try to quickly save the file */
           succeed = mousepad_file_save (document->file, &error);
@@ -4403,7 +4396,7 @@ mousepad_window_action_save_all (GSimpleAction *action,
               /* focus the tab we're going to save */
               gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), page_num);
 
-              if (mousepad_file_get_filename (document->file) == NULL
+              if (! mousepad_file_location_is_set (document->file)
                   || mousepad_file_get_read_only (document->file))
                 {
                   /* trigger the save as function */
@@ -5556,7 +5549,7 @@ mousepad_window_action_language (GSimpleAction *action,
       g_action_change_state (G_ACTION (action), value);
       language = gtk_source_language_manager_get_language (gtk_source_language_manager_get_default (),
                                                            g_variant_get_string (value, NULL));
-      mousepad_file_set_language (window->active->file, language);
+      gtk_source_buffer_set_language (GTK_SOURCE_BUFFER (window->active->buffer), language);
 
       /* mark the file as having its language chosen explicitly by the user
        * so we don't clobber their choice by guessing ourselves */
