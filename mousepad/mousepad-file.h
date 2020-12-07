@@ -46,20 +46,27 @@ GType               mousepad_file_get_type                 (void) G_GNUC_CONST;
 
 MousepadFile       *mousepad_file_new                      (GtkTextBuffer       *buffer);
 
-void                mousepad_file_set_filename             (MousepadFile        *file,
-                                                            const gchar         *filename,
+void                mousepad_file_set_location             (MousepadFile        *file,
+                                                            GFile               *location,
                                                             gboolean             real);
 
-const gchar        *mousepad_file_get_filename             (MousepadFile        *file);
+GFile              *mousepad_file_get_location             (MousepadFile        *file);
+
+gboolean            mousepad_file_location_is_set          (MousepadFile        *file);
+
+const gchar        *mousepad_file_get_path                 (MousepadFile        *file);
 
 gchar              *mousepad_file_get_uri                  (MousepadFile        *file);
+
+gboolean            mousepad_file_get_externally_modified  (MousepadFile        *file,
+                                                            GError             **error);
+
+gboolean            mousepad_file_get_read_only            (MousepadFile        *file);
 
 void                mousepad_file_set_encoding             (MousepadFile        *file,
                                                             MousepadEncoding     encoding);
 
 MousepadEncoding    mousepad_file_get_encoding             (MousepadFile        *file);
-
-gboolean            mousepad_file_get_read_only            (MousepadFile        *file);
 
 void                mousepad_file_set_write_bom            (MousepadFile        *file,
                                                             gboolean             write_bom);
@@ -72,20 +79,10 @@ void                mousepad_file_set_line_ending          (MousepadFile        
 
 MousepadLineEnding  mousepad_file_get_line_ending          (MousepadFile        *file);
 
-void                mousepad_file_set_language             (MousepadFile        *file,
-                                                            GtkSourceLanguage   *language);
-
-GtkSourceLanguage  *mousepad_file_get_language             (MousepadFile        *file);
-
-void                mousepad_file_set_language_id          (MousepadFile        *file,
-                                                            const gchar         *language_id);
-
-const gchar        *mousepad_file_get_language_id          (MousepadFile        *file);
-
-GtkSourceLanguage  *mousepad_file_guess_language           (MousepadFile        *file);
+void                mousepad_file_set_user_set_language    (MousepadFile        *file,
+                                                            gboolean             set_by_user);
 
 gint                mousepad_file_open                     (MousepadFile        *file,
-                                                            const gchar         *template_filename,
                                                             GError             **error);
 
 gboolean            mousepad_file_save                     (MousepadFile        *file,
@@ -94,11 +91,6 @@ gboolean            mousepad_file_save                     (MousepadFile        
 gboolean            mousepad_file_reload                   (MousepadFile        *file,
                                                             GError             **error);
 
-gboolean            mousepad_file_get_externally_modified  (MousepadFile        *file,
-                                                            GError             **error);
-
-void                mousepad_file_set_user_set_language    (MousepadFile        *file,
-                                                            gboolean             set_by_user);
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_FILE_H__ */
