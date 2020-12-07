@@ -487,10 +487,10 @@ mousepad_dialogs_revert (GtkWindow *parent)
 
 
 gint
-mousepad_dialogs_save_as (GtkWindow    *parent,
-                          const gchar  *current_filename,
-                          const gchar  *last_save_location,
-                          gchar       **filename)
+mousepad_dialogs_save_as (GtkWindow  *parent,
+                          GFile      *current_file,
+                          GFile      *last_save_location,
+                          GFile     **file)
 {
   GtkWidget *dialog, *button;
   gint       response;
@@ -508,17 +508,18 @@ mousepad_dialogs_save_as (GtkWindow    *parent,
   gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
-  /* set the current filename if there is one, or use the last save location */
-  if (current_filename)
-    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), current_filename);
+  /* set the current location if there is one, or use the last save location */
+  if (current_file != NULL)
+    gtk_file_chooser_set_file (GTK_FILE_CHOOSER (dialog), current_file, NULL);
   else if (last_save_location)
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), last_save_location);
+    gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (dialog),
+                                              last_save_location, NULL);
 
   /* run the dialog */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-  /* get the new filename */
-  *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+  /* get the new location */
+  *file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
   /* destroy the dialog */
   gtk_widget_destroy (dialog);
@@ -529,9 +530,9 @@ mousepad_dialogs_save_as (GtkWindow    *parent,
 
 
 gint
-mousepad_dialogs_open (GtkWindow    *parent,
-                       const gchar  *filename,
-                       GSList      **filenames)
+mousepad_dialogs_open (GtkWindow  *parent,
+                       GFile      *file,
+                       GSList    **files)
 {
   GtkWidget *dialog, *button, *hbox, *label, *combobox;
   gint       response;
@@ -567,14 +568,14 @@ mousepad_dialogs_open (GtkWindow    *parent,
   gtk_widget_show (combobox);
 
   /* select the active document in the file chooser */
-  if (filename && g_file_test (filename, G_FILE_TEST_EXISTS))
-    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), filename);
+  if (file != NULL && g_file_query_exists (file, NULL))
+    gtk_file_chooser_set_file (GTK_FILE_CHOOSER (dialog), file, NULL);
 
   /* run the dialog */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-  /* get a list of selected filenames */
-  *filenames = gtk_file_chooser_get_filenames (GTK_FILE_CHOOSER (dialog));
+  /* get a list of selected locations */
+  *files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
 
   /* destroy the dialog */
   gtk_widget_destroy (dialog);
