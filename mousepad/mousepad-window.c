@@ -2658,13 +2658,11 @@ mousepad_window_cursor_changed (MousepadDocument *document,
                                 gint              selection,
                                 MousepadWindow   *window)
 {
-
-
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
   /* set the new statusbar cursor position and selection length */
-  if (window->statusbar)
+  if (window->statusbar && window->active == document)
     mousepad_statusbar_set_cursor_position (MOUSEPAD_STATUSBAR (window->statusbar), line, column, selection);
 }
 
