@@ -29,9 +29,6 @@ static void      mousepad_document_finalize                (GObject             
 static void      mousepad_document_notify_cursor_position  (GtkTextBuffer          *buffer,
                                                             GParamSpec             *pspec,
                                                             MousepadDocument       *document);
-static void      mousepad_document_notify_has_selection    (GtkTextBuffer          *buffer,
-                                                            GParamSpec             *pspec,
-                                                            MousepadDocument       *document);
 static void      mousepad_document_notify_overwrite        (GtkTextView            *textview,
                                                             GParamSpec             *pspec,
                                                             MousepadDocument       *document);
@@ -67,7 +64,6 @@ enum
 {
   CLOSE_TAB,
   CURSOR_CHANGED,
-  SELECTION_CHANGED,
   OVERWRITE_CHANGED,
   LANGUAGE_CHANGED,
   SEARCH_COMPLETED,
@@ -137,14 +133,6 @@ mousepad_document_class_init (MousepadDocumentClass *klass)
                   0, NULL, NULL,
                   _mousepad_marshal_VOID__INT_INT_INT,
                   G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT);
-
-  document_signals[SELECTION_CHANGED] =
-    g_signal_new (I_("selection-changed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__INT,
-                  G_TYPE_NONE, 1, G_TYPE_INT);
 
   document_signals[OVERWRITE_CHANGED] =
     g_signal_new (I_("overwrite-changed"),
@@ -272,8 +260,6 @@ mousepad_document_init (MousepadDocument *document)
   /* attach signals to the text view and buffer */
   g_signal_connect (document->buffer, "notify::cursor-position",
                     G_CALLBACK (mousepad_document_notify_cursor_position), document);
-  g_signal_connect (document->buffer, "notify::has-selection",
-                    G_CALLBACK (mousepad_document_notify_has_selection), document);
   g_signal_connect_swapped (document->buffer, "modified-changed",
                             G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->file, "readonly-changed",
@@ -316,8 +302,7 @@ mousepad_document_notify_cursor_position (GtkTextBuffer    *buffer,
                                           MousepadDocument *document)
 {
   GtkTextIter iter;
-  gint        line, column, selection;
-  gint        tab_size;
+  gint        line, column, selection, tab_size;
 
   g_return_if_fail (GTK_IS_TEXT_BUFFER (buffer));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
@@ -335,38 +320,10 @@ mousepad_document_notify_cursor_position (GtkTextBuffer    *buffer,
   column = mousepad_util_get_real_line_offset (&iter, tab_size);
 
   /* get length of the selection */
-  selection = mousepad_view_get_selection_length (document->textview, NULL);
+  selection = mousepad_view_get_selection_length (document->textview);
 
   /* emit the signal */
   g_signal_emit (document, document_signals[CURSOR_CHANGED], 0, line, column, selection);
-}
-
-
-
-static void
-mousepad_document_notify_has_selection (GtkTextBuffer    *buffer,
-                                        GParamSpec       *pspec,
-                                        MousepadDocument *document)
-{
-  gint     selection;
-  gboolean is_column_selection;
-
-  g_return_if_fail (GTK_IS_TEXT_BUFFER (buffer));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-
-  /* get length of the selection */
-  selection = mousepad_view_get_selection_length (document->textview, &is_column_selection);
-
-  /* don't send large numbers */
-  if (selection > 1)
-    selection = 1;
-
-  /* if it's a column selection with content */
-  if (selection == 1 && is_column_selection)
-    selection = 2;
-
-  /* emit the signal */
-  g_signal_emit (document, document_signals[SELECTION_CHANGED], 0, selection);
 }
 
 
@@ -548,9 +505,6 @@ mousepad_document_send_signals (MousepadDocument *document)
 
   /* re-send the overwrite signal */
   mousepad_document_notify_overwrite (GTK_TEXT_VIEW (document->textview), NULL, document);
-
-  /* re-send the selection status */
-  mousepad_document_notify_has_selection (document->buffer, NULL, document);
 
   /* re-send the language signal */
   mousepad_document_notify_language (GTK_SOURCE_BUFFER (document->buffer), NULL, document);

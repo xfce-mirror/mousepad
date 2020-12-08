@@ -73,27 +73,6 @@ struct _MousepadView
 {
   GtkSourceView         __parent__;
 
-  /* the selection style tag */
-  GtkTextTag           *selection_tag;
-
-  /* list with all the selection marks */
-  GSList               *selection_marks;
-
-  /* selection timeout id */
-  guint                 selection_timeout_id;
-
-  /* coordinates for the selection */
-  gint                  selection_start_x;
-  gint                  selection_start_y;
-  gint                  selection_end_x;
-  gint                  selection_end_y;
-
-  /* length of the selection (-1 = zerro width selection, 0 = no selection) */
-  gint                  selection_length;
-
-  /* if the selection is in editing mode */
-  guint                 selection_editing : 1;
-
   /* property related */
   gboolean                     show_whitespace;
   GtkSourceSpaceLocationFlags  space_location_flags;
@@ -231,13 +210,6 @@ mousepad_view_init (MousepadView *view)
 {
   GApplication *application;
 
-  /* initialize selection variables */
-  view->selection_timeout_id = 0;
-  view->selection_tag = NULL;
-  view->selection_marks = NULL;
-  view->selection_length = 0;
-  view->selection_editing = FALSE;
-
   /* initialize properties variables */
   view->show_whitespace = FALSE;
   view->space_location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
@@ -248,10 +220,6 @@ mousepad_view_init (MousepadView *view)
   /* make sure any buffers set on the view get the color scheme applied to them */
   g_signal_connect (view, "notify::buffer",
                     G_CALLBACK (mousepad_view_buffer_changed), NULL);
-
-  /* reset drag coordinates */
-  view->selection_start_x = view->selection_end_x = -1;
-  view->selection_start_y = view->selection_end_y = -1;
 
   /* bind Gsettings */
 #define BIND_(setting, prop) \
@@ -293,14 +261,6 @@ static void
 mousepad_view_finalize (GObject *object)
 {
   MousepadView *view = MOUSEPAD_VIEW (object);
-
-  /* stop a running selection timeout */
-  if (G_UNLIKELY (view->selection_timeout_id != 0))
-    g_source_remove (view->selection_timeout_id);
-
-  /* free the selection marks list (marks are owned by the buffer) */
-  if (G_UNLIKELY (view->selection_marks != NULL))
-    g_slist_free (view->selection_marks);
 
   /* cleanup color scheme name */
   g_free (view->color_scheme);
@@ -358,16 +318,12 @@ mousepad_view_key_press_event (GtkWidget   *widget,
   GtkTextIter    iter;
   GtkTextMark   *cursor;
   guint          modifiers;
-  gboolean       is_editable;
 
   /* get the modifiers state */
   modifiers = event->state & gtk_accelerator_get_default_mod_mask ();
 
   /* get the textview buffer */
   buffer = mousepad_view_get_buffer (view);
-
-  /* whether the textview is editable */
-  is_editable = gtk_text_view_get_editable (GTK_TEXT_VIEW (view));
 
   /* handle the key event */
   switch (event->keyval)
@@ -420,17 +376,6 @@ mousepad_view_key_press_event (GtkWidget   *widget,
              mousepad_view_scroll_to_cursor (view);
 
              return TRUE;
-          }
-        break;
-
-      case GDK_KEY_Delete:
-      case GDK_KEY_KP_Delete:
-        if (view->selection_marks != NULL && is_editable)
-          {
-            /* delete or destroy the selection */
-            if (view->selection_length > 0)
-              mousepad_view_delete_selection (view);
-            return TRUE;
           }
         break;
 
@@ -859,7 +804,7 @@ mousepad_view_clipboard_cut (MousepadView *view)
   GtkTextBuffer *buffer;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-  g_return_if_fail (mousepad_view_get_selection_length (view, NULL) > 0);
+  g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
 
   /* get the clipboard */
   clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
@@ -883,7 +828,7 @@ mousepad_view_clipboard_copy (MousepadView *view)
   GtkTextBuffer *buffer;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-  g_return_if_fail (mousepad_view_get_selection_length (view, NULL) > 0);
+  g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
 
   /* get the clipboard */
   clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
@@ -1013,7 +958,7 @@ mousepad_view_delete_selection (MousepadView *view)
   GtkTextBuffer *buffer;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-  g_return_if_fail (mousepad_view_get_selection_length (view, NULL) > 0);
+  g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
 
   /* get the buffer */
   buffer = mousepad_view_get_buffer (view);
@@ -1051,15 +996,13 @@ void
 mousepad_view_convert_selection_case (MousepadView *view,
                                       gint          type)
 {
-  gchar         *text;
-  gchar         *converted;
   GtkTextBuffer *buffer;
   GtkTextIter    start_iter, end_iter;
-  gint           offset = -1;
-  GSList        *li = NULL;
+  gchar         *text, *converted;
+  gint           offset;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-  g_return_if_fail (mousepad_view_get_selection_length (view, NULL) > 0);
+  g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
 
   /* get the buffer */
   buffer = mousepad_view_get_buffer (view);
@@ -1067,88 +1010,59 @@ mousepad_view_convert_selection_case (MousepadView *view,
   /* begin a user action */
   gtk_text_buffer_begin_user_action (buffer);
 
-  if (view->selection_marks == NULL)
+  /* get selection bounds */
+  gtk_text_buffer_get_selection_bounds (buffer, &start_iter, &end_iter);
+
+  /* get string offset */
+  offset = gtk_text_iter_get_offset (&start_iter);
+
+  /* get the selected string */
+  text = gtk_text_buffer_get_slice (buffer, &start_iter, &end_iter, FALSE);
+  if (G_LIKELY (text != NULL))
     {
-      /* get selection bounds */
-      gtk_text_buffer_get_selection_bounds (buffer, &start_iter, &end_iter);
-
-      /* get string offset */
-      offset = gtk_text_iter_get_offset (&start_iter);
-
-      /* enter the loop without hassle */
-      goto selection_enter;
-    }
-
-  /* replace all selected items */
-  for (li = view->selection_marks; li != NULL; li = li->next)
-    {
-      /* get iters from column selection */
-      gtk_text_buffer_get_iter_at_mark (buffer, &start_iter, li->data);
-      li = li->next;
-      gtk_text_buffer_get_iter_at_mark (buffer, &end_iter, li->data);
-
-      /* label for normal selections */
-      selection_enter:
-
-      /* get the selected string */
-      text = gtk_text_buffer_get_slice (buffer, &start_iter, &end_iter, FALSE);
-      if (G_LIKELY (text != NULL))
+      switch (type)
         {
-          switch (type)
-            {
-              case LOWERCASE:
-                converted = g_utf8_strdown (text, -1);
-                break;
+          case LOWERCASE:
+            converted = g_utf8_strdown (text, -1);
+            break;
 
-              case UPPERCASE:
-                converted = g_utf8_strup (text, -1);
-                break;
+          case UPPERCASE:
+            converted = g_utf8_strup (text, -1);
+            break;
 
-              case TITLECASE:
-                converted = mousepad_util_utf8_strcapital (text);
-                break;
+          case TITLECASE:
+            converted = mousepad_util_utf8_strcapital (text);
+            break;
 
-              case OPPOSITE_CASE:
-                converted = mousepad_util_utf8_stropposite (text);
-                break;
+          case OPPOSITE_CASE:
+            converted = mousepad_util_utf8_stropposite (text);
+            break;
 
-              default:
-                g_assert_not_reached ();
-                break;
-            }
-
-          /* only update the buffer if the string changed */
-          if (G_LIKELY (converted && strcmp (text, converted) != 0))
-            {
-              /* debug check */
-              g_return_if_fail (g_utf8_validate (converted, -1, NULL));
-
-              /* delete old string */
-              gtk_text_buffer_delete (buffer, &start_iter, &end_iter);
-
-              /* insert string */
-              gtk_text_buffer_insert (buffer, &end_iter, converted, -1);
-            }
-
-          /* cleanup */
-          g_free (converted);
-          g_free (text);
+          default:
+            g_assert_not_reached ();
+            break;
         }
 
-      /* leave for normal selections */
-      if (offset != -1)
-        break;
+      /* only update the buffer if the string changed */
+      if (G_LIKELY (converted && strcmp (text, converted) != 0))
+        {
+          /* delete old string */
+          gtk_text_buffer_delete (buffer, &start_iter, &end_iter);
+
+          /* insert string */
+          gtk_text_buffer_insert (buffer, &end_iter, converted, -1);
+        }
+
+      /* cleanup */
+      g_free (converted);
+      g_free (text);
     }
 
-  /* restore selection if needed */
-  if (offset != -1)
-    {
-      /* restore start iter */
-      gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, offset);
+  /* restore start iter */
+  gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, offset);
 
-      /* select range */
-      gtk_text_buffer_select_range (buffer, &end_iter, &start_iter);
-    }
+  /* select range */
+  gtk_text_buffer_select_range (buffer, &end_iter, &start_iter);
 
   /* end user action */
   gtk_text_buffer_end_user_action (buffer);
@@ -1580,41 +1494,23 @@ mousepad_view_indent (MousepadView *view,
 
 
 
-gboolean
-mousepad_view_get_selection_length (MousepadView *view,
-                                    gboolean     *is_column_selection)
+gint
+mousepad_view_get_selection_length (MousepadView *view)
 {
   GtkTextBuffer *buffer;
-  GtkTextIter    sel_start, sel_end;
-  gint           sel_length = 0;
-  gboolean       column_selection;
+  GtkTextIter    start, end;
+  gint           length = 0;
 
   g_return_val_if_fail (MOUSEPAD_IS_VIEW (view), FALSE);
 
   /* get the text buffer */
   buffer = mousepad_view_get_buffer (view);
 
-  /* whether this is a column selection */
-  column_selection = view->selection_marks != NULL || view->selection_start_x != -1;
+  /* calculate the selection length from the iter offset (absolute) */
+  if (gtk_text_buffer_get_selection_bounds (buffer, &start, &end))
+    length = ABS (gtk_text_iter_get_offset (&end) - gtk_text_iter_get_offset (&start));
 
-  /* we have a vertical selection */
-  if (column_selection)
-    {
-      /* get the selection count from the selection draw function */
-      sel_length = view->selection_length;
-    }
-  else if (gtk_text_buffer_get_selection_bounds (buffer, &sel_start, &sel_end))
-    {
-      /* calculate the selection length from the iter offset (absolute) */
-      sel_length = ABS (gtk_text_iter_get_offset (&sel_end) - gtk_text_iter_get_offset (&sel_start));
-    }
-
-  /* whether this is a column selection */
-  if (is_column_selection)
-    *is_column_selection = column_selection;
-
-  /* return length */
-  return sel_length;
+  return length;
 }
 
 

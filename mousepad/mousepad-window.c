@@ -147,9 +147,7 @@ static void              mousepad_window_cursor_changed               (MousepadD
                                                                        gint                    column,
                                                                        gint                    selection,
                                                                        MousepadWindow         *window);
-static void              mousepad_window_selection_changed            (MousepadDocument       *document,
-                                                                       gint                    selection,
-                                                                       MousepadWindow         *window);
+static void              mousepad_window_has_selection                (MousepadWindow         *window);
 static void              mousepad_window_overwrite_changed            (MousepadDocument       *document,
                                                                        gboolean                overwrite,
                                                                        MousepadWindow         *window);
@@ -2280,6 +2278,9 @@ mousepad_window_update_actions (MousepadWindow *window)
       mousepad_window_can_undo (window, NULL, G_OBJECT (document->buffer));
       mousepad_window_can_redo (window, NULL, G_OBJECT (document->buffer));
 
+      /* set the sensitivity of the selection-related actions */
+      mousepad_window_has_selection (window);
+
       /* set the current line ending type */
       line_ending = mousepad_file_get_line_ending (document->file);
       g_action_group_change_action_state (G_ACTION_GROUP (window), "document.line-ending",
@@ -2357,14 +2358,14 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_button_close_tab), window);
   g_signal_connect (page, "cursor-changed",
                     G_CALLBACK (mousepad_window_cursor_changed), window);
-  g_signal_connect (page, "selection-changed",
-                    G_CALLBACK (mousepad_window_selection_changed), window);
   g_signal_connect (page, "overwrite-changed",
                     G_CALLBACK (mousepad_window_overwrite_changed), window);
   g_signal_connect (page, "language-changed",
                     G_CALLBACK (mousepad_window_buffer_language_changed), window);
   g_signal_connect (page, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
+  g_signal_connect_swapped (document->buffer, "notify::has-selection",
+                            G_CALLBACK (mousepad_window_has_selection), window);
   g_signal_connect_swapped (document->buffer, "notify::can-undo",
                             G_CALLBACK (mousepad_window_can_undo), window);
   g_signal_connect_swapped (document->buffer, "notify::can-redo",
@@ -2399,10 +2400,10 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   /* disconnect the old document signals */
   mousepad_disconnect_by_func (page, mousepad_window_button_close_tab, window);
   mousepad_disconnect_by_func (page, mousepad_window_cursor_changed, window);
-  mousepad_disconnect_by_func (page, mousepad_window_selection_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_overwrite_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_buffer_language_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_drag_data_received, window);
+  mousepad_disconnect_by_func (document->buffer, mousepad_window_has_selection, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_undo, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_redo, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_modified_changed, window);
@@ -2662,49 +2663,26 @@ mousepad_window_cursor_changed (MousepadDocument *document,
 
 
 static void
-mousepad_window_selection_changed (MousepadDocument *document,
-                                   gint              selection,
-                                   MousepadWindow   *window)
+mousepad_window_has_selection (MousepadWindow *window)
 {
   GAction     *action;
-  guint        i;
-  gboolean     sensitive;
-  const gchar *action_names_1[] = { "edit.convert.tabs-to-spaces",
-                                    "edit.convert.spaces-to-tabs",
-                                    "edit.duplicate-line-selection",
-                                    "edit.convert.strip-trailing-spaces" };
-  const gchar *action_names_2[] = { "edit.move-selection.line-up",
-                                    "edit.move-selection.line-down" };
-  const gchar *action_names_3[] = { "edit.cut",
-                                    "edit.copy",
-                                    "edit.delete",
-                                    "edit.convert.to-lowercase",
-                                    "edit.convert.to-uppercase",
-                                    "edit.convert.to-title-case",
-                                    "edit.convert.to-opposite-case" };
+  guint        n;
+  gboolean     has_selection;
+  const gchar *action_names[] =
+  {
+    "edit.move-selection.line-down", "edit.move-selection.line-up", "edit.cut",
+    "edit.copy", "edit.delete", "edit.convert.to-lowercase", "edit.convert.to-uppercase",
+    "edit.convert.to-title-case", "edit.convert.to-opposite-case"
+  };
 
-  /* actions that are unsensitive during a column selection */
-  sensitive = (selection == 0 || selection == 1);
-  for (i = 0; i < G_N_ELEMENTS (action_names_1); i++)
-    {
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names_1[i]);
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), sensitive);
-    }
+  /* get the buffer property */
+  g_object_get (window->active->buffer, "has-selection", &has_selection, NULL);
 
-  /* action that are only sensitive for normal selections */
-  sensitive = (selection == 1);
-  for (i = 0; i < G_N_ELEMENTS (action_names_2); i++)
+  /* actions enabled only for selections */
+  for (n = 0; n < G_N_ELEMENTS (action_names); n++)
     {
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names_2[i]);
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), sensitive);
-    }
-
-  /* actions that are sensitive for all selections with content */
-  sensitive = (selection > 0);
-  for (i = 0; i < G_N_ELEMENTS (action_names_3); i++)
-    {
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names_3[i]);
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), sensitive);
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names[n]);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), has_selection);
     }
 }
 

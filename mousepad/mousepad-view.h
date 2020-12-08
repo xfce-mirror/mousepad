@@ -89,8 +89,7 @@ void            mousepad_view_duplicate                 (MousepadView      *view
 void            mousepad_view_indent                    (MousepadView      *view,
                                                          gint               type);
 
-gint            mousepad_view_get_selection_length      (MousepadView      *view,
-                                                         gboolean          *is_column_selection);
+gint            mousepad_view_get_selection_length      (MousepadView      *view);
 
 G_END_DECLS
 
