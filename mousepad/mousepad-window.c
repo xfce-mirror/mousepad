@@ -142,16 +142,16 @@ static GtkNotebook      *mousepad_window_notebook_create_window       (GtkNotebo
 /* document signals */
 static void              mousepad_window_modified_changed             (MousepadWindow         *window);
 static void              mousepad_window_readonly_changed             (MousepadWindow         *window);
+static void              mousepad_window_has_selection                (MousepadWindow         *window);
 static void              mousepad_window_cursor_changed               (MousepadDocument       *document,
                                                                        gint                    line,
                                                                        gint                    column,
                                                                        gint                    selection,
                                                                        MousepadWindow         *window);
-static void              mousepad_window_has_selection                (MousepadWindow         *window);
 static void              mousepad_window_overwrite_changed            (MousepadDocument       *document,
                                                                        gboolean                overwrite,
                                                                        MousepadWindow         *window);
-static void              mousepad_window_buffer_language_changed      (MousepadDocument       *document,
+static void              mousepad_window_language_changed             (MousepadDocument       *document,
                                                                        GtkSourceLanguage      *language,
                                                                        MousepadWindow         *window);
 static void              mousepad_window_can_undo                     (MousepadWindow         *window,
@@ -691,18 +691,6 @@ mousepad_window_finalize (GObject *object)
 
 
 
-/* Called in response to any settings changed which affect the statusbar labels. */
-static void
-mousepad_window_update_statusbar_settings (MousepadWindow *window,
-                                           gchar          *key,
-                                           GSettings      *settings)
-{
-  if (G_LIKELY (MOUSEPAD_IS_DOCUMENT (window->active)))
-    mousepad_document_send_signals (window->active);
-}
-
-
-
 /* Called when always-show-tabs setting changes to update the UI. */
 static void
 mousepad_window_update_tabs (MousepadWindow *window,
@@ -1189,10 +1177,6 @@ mousepad_window_create_statusbar (MousepadWindow *window)
     mousepad_document_send_signals (window->active);
 
   /* connect to some signals to keep in sync */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH,
-                                   G_CALLBACK (mousepad_window_update_statusbar_settings),
-                                   window, G_CONNECT_SWAPPED);
-
   MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE,
                                    G_CALLBACK (mousepad_window_update_bar_visibility),
                                    window, G_CONNECT_SWAPPED);
@@ -2361,7 +2345,7 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
   g_signal_connect (page, "overwrite-changed",
                     G_CALLBACK (mousepad_window_overwrite_changed), window);
   g_signal_connect (page, "language-changed",
-                    G_CALLBACK (mousepad_window_buffer_language_changed), window);
+                    G_CALLBACK (mousepad_window_language_changed), window);
   g_signal_connect (page, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
   g_signal_connect_swapped (document->buffer, "notify::has-selection",
@@ -2401,7 +2385,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (page, mousepad_window_button_close_tab, window);
   mousepad_disconnect_by_func (page, mousepad_window_cursor_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_overwrite_changed, window);
-  mousepad_disconnect_by_func (page, mousepad_window_buffer_language_changed, window);
+  mousepad_disconnect_by_func (page, mousepad_window_language_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_drag_data_received, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_has_selection, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_undo, window);
@@ -2642,27 +2626,6 @@ mousepad_window_readonly_changed (MousepadWindow *window)
 
 
 static void
-mousepad_window_cursor_changed (MousepadDocument *document,
-                                gint              line,
-                                gint              column,
-                                gint              selection,
-                                MousepadWindow   *window)
-{
-
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-
-  if (window->statusbar)
-    {
-      /* set the new statusbar cursor position and selection length */
-      mousepad_statusbar_set_cursor_position (MOUSEPAD_STATUSBAR (window->statusbar), line, column, selection);
-    }
-}
-
-
-
-static void
 mousepad_window_has_selection (MousepadWindow *window)
 {
   GAction     *action;
@@ -2689,6 +2652,25 @@ mousepad_window_has_selection (MousepadWindow *window)
 
 
 static void
+mousepad_window_cursor_changed (MousepadDocument *document,
+                                gint              line,
+                                gint              column,
+                                gint              selection,
+                                MousepadWindow   *window)
+{
+
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
+
+  /* set the new statusbar cursor position and selection length */
+  if (window->statusbar)
+    mousepad_statusbar_set_cursor_position (MOUSEPAD_STATUSBAR (window->statusbar), line, column, selection);
+}
+
+
+
+static void
 mousepad_window_overwrite_changed (MousepadDocument *document,
                                    gboolean          overwrite,
                                    MousepadWindow   *window)
@@ -2704,15 +2686,16 @@ mousepad_window_overwrite_changed (MousepadDocument *document,
 
 
 static void
-mousepad_window_buffer_language_changed (MousepadDocument  *document,
-                                         GtkSourceLanguage *language,
-                                         MousepadWindow    *window)
+mousepad_window_language_changed (MousepadDocument  *document,
+                                  GtkSourceLanguage *language,
+                                  MousepadWindow    *window)
 {
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
   /* update the filetype shown in the statusbar */
-  mousepad_statusbar_set_language (MOUSEPAD_STATUSBAR (window->statusbar), language);
+  if (window->statusbar)
+    mousepad_statusbar_set_language (MOUSEPAD_STATUSBAR (window->statusbar), language);
 }
 
 

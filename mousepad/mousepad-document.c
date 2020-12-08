@@ -26,9 +26,7 @@
 
 
 static void      mousepad_document_finalize                (GObject                *object);
-static void      mousepad_document_notify_cursor_position  (GtkTextBuffer          *buffer,
-                                                            GParamSpec             *pspec,
-                                                            MousepadDocument       *document);
+static void      mousepad_document_notify_cursor_position  (MousepadDocument       *document);
 static void      mousepad_document_notify_overwrite        (GtkTextView            *textview,
                                                             GParamSpec             *pspec,
                                                             MousepadDocument       *document);
@@ -257,17 +255,22 @@ mousepad_document_init (MousepadDocument *document)
   target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (document->textview));
   gtk_target_list_add_table (target_list, drop_targets, G_N_ELEMENTS (drop_targets));
 
-  /* attach signals to the text view and buffer */
-  g_signal_connect (document->buffer, "notify::cursor-position",
-                    G_CALLBACK (mousepad_document_notify_cursor_position), document);
+  /* connect handlers to the document attribute signals */
   g_signal_connect_swapped (document->buffer, "modified-changed",
                             G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->file, "readonly-changed",
                             G_CALLBACK (mousepad_document_label_color), document);
+  g_signal_connect_swapped (document->textview, "drag-data-received",
+                            G_CALLBACK (mousepad_document_drag_data_received), document);
+
+  /* forward some document attribute signals more or less directly */
+  g_signal_connect_swapped (document->buffer, "notify::cursor-position",
+                            G_CALLBACK (mousepad_document_notify_cursor_position), document);
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH,
+                                   G_CALLBACK (mousepad_document_notify_cursor_position),
+                                   document, G_CONNECT_SWAPPED);
   g_signal_connect (document->textview, "notify::overwrite",
                     G_CALLBACK (mousepad_document_notify_overwrite), document);
-  g_signal_connect (document->textview, "drag-data-received",
-                    G_CALLBACK (mousepad_document_drag_data_received), document);
   g_signal_connect (document->buffer, "notify::language",
                     G_CALLBACK (mousepad_document_notify_language), document);
 }
@@ -297,18 +300,16 @@ mousepad_document_finalize (GObject *object)
 
 
 static void
-mousepad_document_notify_cursor_position (GtkTextBuffer    *buffer,
-                                          GParamSpec       *pspec,
-                                          MousepadDocument *document)
+mousepad_document_notify_cursor_position (MousepadDocument *document)
 {
   GtkTextIter iter;
   gint        line, column, selection, tab_size;
 
-  g_return_if_fail (GTK_IS_TEXT_BUFFER (buffer));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
   /* get the current iter position */
-  gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+  gtk_text_buffer_get_iter_at_mark (document->buffer, &iter,
+                                    gtk_text_buffer_get_insert (document->buffer));
 
   /* get the current line number */
   line = gtk_text_iter_get_line (&iter) + 1;
@@ -501,7 +502,7 @@ mousepad_document_send_signals (MousepadDocument *document)
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
   /* re-send the cursor changed signal */
-  mousepad_document_notify_cursor_position (document->buffer, NULL, document);
+  mousepad_document_notify_cursor_position (document);
 
   /* re-send the overwrite signal */
   mousepad_document_notify_overwrite (GTK_TEXT_VIEW (document->textview), NULL, document);
