@@ -316,6 +316,17 @@ mousepad_file_get_read_only (MousepadFile *file)
 
 
 
+gboolean
+mousepad_file_is_savable (MousepadFile *file)
+{
+  g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
+
+  return file->location == NULL
+         || (! file->readonly && gtk_text_buffer_get_modified (file->buffer));
+}
+
+
+
 void
 mousepad_file_set_encoding (MousepadFile     *file,
                             MousepadEncoding  encoding)
