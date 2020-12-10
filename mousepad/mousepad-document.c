@@ -260,8 +260,8 @@ mousepad_document_init (MousepadDocument *document)
                             G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->file, "readonly-changed",
                             G_CALLBACK (mousepad_document_label_color), document);
-  g_signal_connect_swapped (document->textview, "drag-data-received",
-                            G_CALLBACK (mousepad_document_drag_data_received), document);
+  g_signal_connect (document->textview, "drag-data-received",
+                    G_CALLBACK (mousepad_document_drag_data_received), document);
 
   /* forward some document attribute signals more or less directly */
   g_signal_connect_swapped (document->buffer, "notify::cursor-position",
