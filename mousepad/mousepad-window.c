@@ -2235,7 +2235,7 @@ mousepad_window_update_actions (MousepadWindow *window)
       /* set the reload, detach and save sensitivity */
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
-                                   ! mousepad_file_get_read_only (document->file));
+                                   mousepad_file_is_savable (document->file));
 
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.detach-tab");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), n_pages > 1);
@@ -2620,7 +2620,7 @@ mousepad_window_readonly_changed (MousepadFile   *file,
 
       /* set the save action sensitivity */
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), ! readonly);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), mousepad_file_is_savable (file));
     }
 }
 
@@ -2630,12 +2630,19 @@ static void
 mousepad_window_modified_changed (GtkTextBuffer  *buffer,
                                   MousepadWindow *window)
 {
+  GAction *action;
+
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   if (window->active->buffer == buffer)
     {
       /* update window title */
       mousepad_window_set_title (window);
+
+      /* set the save action sensitivity */
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
+                                   mousepad_file_is_savable (window->active->file));
 
       /* update document dependent menu items */
       mousepad_window_update_document_menu_items (window);
