@@ -1527,7 +1527,7 @@ mousepad_view_set_font (MousepadView *view,
 
   /* from font string to css string through pango description */
   font_desc = pango_font_description_from_string (font);
-  css_font_desc = mousepad_pango_font_description_to_css (font_desc);
+  css_font_desc = mousepad_util_pango_font_description_to_css (font_desc);
   css_string = g_strdup_printf ("textview { %s }", css_font_desc);
 
   /* set font */

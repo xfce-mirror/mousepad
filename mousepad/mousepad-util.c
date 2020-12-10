@@ -52,7 +52,7 @@ mousepad_util_iter_word_characters (const GtkTextIter *iter)
 
 
 
-gboolean
+static gboolean
 mousepad_util_iter_starts_word (const GtkTextIter *iter)
 {
   GtkTextIter prev;
@@ -77,7 +77,7 @@ mousepad_util_iter_starts_word (const GtkTextIter *iter)
 
 
 
-gboolean
+static gboolean
 mousepad_util_iter_ends_word (const GtkTextIter *iter)
 {
   if (!gtk_text_iter_ends_word (iter))
@@ -665,23 +665,6 @@ mousepad_util_save_key_file (GKeyFile    *keyfile,
 
 
 
-GIcon *
-mousepad_util_icon_for_mime_type (const gchar *mime_type)
-{
-  gchar *content_type;
-  GIcon *icon = NULL;
-
-  g_return_val_if_fail (mime_type != NULL, NULL);
-
-  content_type = g_content_type_from_mime_type (mime_type);
-  if (content_type != NULL)
-    icon = g_content_type_get_icon (content_type);
-
-  return icon;
-}
-
-
-
 static void
 mousepad_util_container_foreach_counter (GtkWidget *widget,
                                          gpointer   data)
@@ -749,7 +732,7 @@ mousepad_util_container_move_children (GtkContainer *source,
 
 static gint
 mousepad_util_style_schemes_name_compare (gconstpointer a,
-                                                  gconstpointer b)
+                                          gconstpointer b)
 {
   const gchar *name_a, *name_b;
 
@@ -790,7 +773,7 @@ mousepad_util_get_style_schemes (void)
 
 
 GSList *
-mousepad_util_style_schemes_get_sorted (void)
+mousepad_util_get_sorted_style_schemes (void)
 {
   return g_slist_sort (mousepad_util_get_style_schemes (),
                        mousepad_util_style_schemes_name_compare);
@@ -799,7 +782,7 @@ mousepad_util_style_schemes_get_sorted (void)
 
 
 GSList *
-mousepad_util_get_sorted_section_names (void)
+mousepad_util_get_sorted_language_sections (void)
 {
   GSList                   *list = NULL;
   const gchar *const       *languages;
@@ -914,7 +897,7 @@ mousepad_util_get_default_font (void)
  * https://gitlab.gnome.org/GNOME/gedit/-/blob/21fac3f0c87db0db104d7af7eaeb6f63d8216a14/gedit/gedit-pango.c#L37
  */
 /**
- * mousepad_pango_font_description_to_css:
+ * mousepad_util_pango_font_description_to_css:
  *
  * This function will generate CSS suitable for Gtk's CSS engine
  * based on the properties of the #PangoFontDescription.
@@ -923,7 +906,7 @@ mousepad_util_get_default_font (void)
  *    CSS describing the font description.
  */
 gchar *
-mousepad_pango_font_description_to_css (const PangoFontDescription *font_desc)
+mousepad_util_pango_font_description_to_css (const PangoFontDescription *font_desc)
 {
   PangoFontMask  mask;
   GString       *str;

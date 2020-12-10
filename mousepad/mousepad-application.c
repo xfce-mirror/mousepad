@@ -1187,7 +1187,7 @@ mousepad_application_create_languages_menu (MousepadApplication *application)
   /* get the empty "Filetype" submenu and populate it */
   menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "document.filetype.list");
 
-  sections = mousepad_util_get_sorted_section_names ();
+  sections = mousepad_util_get_sorted_language_sections ();
 
   for (iter_sect = sections; iter_sect != NULL; iter_sect = g_slist_next (iter_sect))
     {
@@ -1246,7 +1246,7 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
   /* get the empty "Color Scheme" submenu and populate it */
   menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "view.color-scheme.list");
 
-  schemes = mousepad_util_style_schemes_get_sorted ();
+  schemes = mousepad_util_get_sorted_style_schemes ();
 
   for (iter = schemes; iter != NULL; iter = g_slist_next (iter))
     {
