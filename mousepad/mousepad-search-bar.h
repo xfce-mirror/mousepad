@@ -35,8 +35,6 @@ GType           mousepad_search_bar_get_type        (void) G_GNUC_CONST;
 
 GtkWidget      *mousepad_search_bar_new             (void);
 
-GtkEditable    *mousepad_search_bar_entry           (MousepadSearchBar *bar);
-
 void            mousepad_search_bar_focus           (MousepadSearchBar *bar);
 
 void            mousepad_search_bar_find_next       (MousepadSearchBar *bar);

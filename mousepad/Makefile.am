@@ -50,10 +50,10 @@ mousepad_SOURCES = \
 	mousepad-settings-store.h \
 	mousepad-statusbar.c \
 	mousepad-statusbar.h \
-	mousepad-view.c \
-	mousepad-view.h \
 	mousepad-util.c \
 	mousepad-util.h \
+	mousepad-view.c \
+	mousepad-view.h \
 	mousepad-window.c \
 	mousepad-window.h
 

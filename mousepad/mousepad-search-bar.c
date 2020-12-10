@@ -395,17 +395,6 @@ mousepad_search_bar_entry_changed (MousepadSearchBar *bar)
 
 
 
-GtkEditable *
-mousepad_search_bar_entry (MousepadSearchBar *bar)
-{
-  if (bar && gtk_widget_has_focus (bar->entry))
-    return GTK_EDITABLE (bar->entry);
-  else
-    return NULL;
-}
-
-
-
 void
 mousepad_search_bar_focus (MousepadSearchBar *bar)
 {

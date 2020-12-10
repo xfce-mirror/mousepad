@@ -4642,19 +4642,12 @@ mousepad_window_action_cut (GSimpleAction *action,
                             gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GtkEditable    *entry;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* get searchbar entry */
-  entry = mousepad_search_bar_entry (MOUSEPAD_SEARCH_BAR (window->search_bar));
-
-  /* cut from search bar entry or textview */
-  if (G_UNLIKELY (entry))
-    gtk_editable_cut_clipboard (entry);
-  else
-    mousepad_view_clipboard_cut (window->active->textview);
+  /* cut from textview */
+  mousepad_view_clipboard_cut (window->active->textview);
 
   /* update the history */
   mousepad_window_paste_history_add (window);
@@ -4668,19 +4661,12 @@ mousepad_window_action_copy (GSimpleAction *action,
                              gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GtkEditable    *entry;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* get searchbar entry */
-  entry = mousepad_search_bar_entry (MOUSEPAD_SEARCH_BAR (window->search_bar));
-
-  /* copy from search bar entry or textview */
-  if (G_UNLIKELY (entry))
-    gtk_editable_copy_clipboard (entry);
-  else
-    mousepad_view_clipboard_copy (window->active->textview);
+  /* copy from textview */
+  mousepad_view_clipboard_copy (window->active->textview);
 
   /* update the history */
   mousepad_window_paste_history_add (window);
@@ -4694,19 +4680,12 @@ mousepad_window_action_paste (GSimpleAction *action,
                               gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GtkEditable    *entry;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* get searchbar entry */
-  entry = mousepad_search_bar_entry (MOUSEPAD_SEARCH_BAR (window->search_bar));
-
-  /* paste in search bar entry or textview */
-  if (G_UNLIKELY (entry))
-    gtk_editable_paste_clipboard (entry);
-  else
-    mousepad_view_clipboard_paste (window->active->textview, NULL, FALSE);
+  /* paste in textview */
+  mousepad_view_clipboard_paste (window->active->textview, NULL, FALSE);
 }
 
 
@@ -4766,19 +4745,12 @@ mousepad_window_action_delete (GSimpleAction *action,
                                gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GtkEditable *entry;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* get searchbar entry */
-  entry = mousepad_search_bar_entry (MOUSEPAD_SEARCH_BAR (window->search_bar));
-
-  /* delete selection in search bar entry or textview */
-  if (G_UNLIKELY (entry))
-    gtk_editable_delete_selection (entry);
-  else
-    mousepad_view_delete_selection (window->active->textview);
+  /* delete selection in textview */
+  mousepad_view_delete_selection (window->active->textview);
 }
 
 
