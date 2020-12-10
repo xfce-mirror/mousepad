@@ -6,6 +6,7 @@
 # Andreas Eitel <github-aneitel@online.de>, 2019-2020
 # Ettore Atalan <atalanttore@googlemail.com>, 2020
 # Mark Trompell <mark@marktrompell.de>, 2012
+# Mark Trompell <mark@marktrompell.de>, 2012
 # Tobias Bannert <tobannert@gmail.com>, 2013-2015
 # Vinzenz Vietzke <vinz@vinzv.de>, 2018-2019
 msgid ""
@@ -13,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-01 00:46+0100\n"
-"PO-Revision-Date: 2020-12-01 17:02+0000\n"
-"Last-Translator: Andreas Eitel <github-aneitel@online.de>\n"
+"PO-Revision-Date: 2020-12-10 22:14+0000\n"
+"Last-Translator: Ingo Brückl <ib@wupperonline.de>\n"
 "Language-Team: German (http://www.transifex.com/xfce/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,11 +29,11 @@ msgstr "Nicht am D-BUS-Sitzungsnachrichtenbus registrieren"
 
 #: ../mousepad/mousepad-application.c:122
 msgid "Quit a running Mousepad primary instance"
-msgstr "Beenden einer laufenden primären Mousepad-Instanz"
+msgstr "Eine laufende primäre Mousepad-Instanz beenden"
 
 #: ../mousepad/mousepad-application.c:127
 msgid "Print version information and exit"
-msgstr "Versionsinformationen anzeigen und Programm beenden."
+msgstr "Programmversion anzeigen und beenden"
 
 #: ../mousepad/mousepad-application.c:132
 msgid "[FILES...]"
@@ -46,7 +47,7 @@ msgstr "Mousepad"
 #: ../mousepad/mousepad-application.c:308
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr "Datei-Öffnungsmodus: \"%s\", \"%s\" oder \"%s\" (Öffnen der Reiter in einem neuen Fenster)"
+msgstr "Datei-Öffnungsmodus: »%s«, »%s« oder »%s« (Reiter in einem neuen Fenster öffnen)"
 
 #: ../mousepad/mousepad-application.c:311
 msgid "MODE"
@@ -59,7 +60,7 @@ msgstr "Die Entwicklungsmannschaft von Xfce. Alle Rechte vorbehalten."
 #: ../mousepad/mousepad-application.c:332
 #, c-format
 msgid "Please report bugs to <%s>."
-msgstr "Bitte Fehler an »%s« melden."
+msgstr "Fehler bitte an »%s« melden."
 
 #: ../mousepad/mousepad-application.c:1266
 #, c-format
@@ -72,7 +73,7 @@ msgstr "Mousepad ist eine schnelle Textbearbeitung für die Xfce-Arbeitsumgebung
 
 #: ../mousepad/mousepad-dialogs.c:47
 msgid "translator-credits"
-msgstr "Christoph Wickert\nMark Trompell\nTobias Bannert"
+msgstr "Christoph Wickert\nMark Trompell\nTobias Bannert\nIngo Brückl"
 
 #. display an error message to the user
 #: ../mousepad/mousepad-dialogs.c:93
@@ -82,7 +83,7 @@ msgstr "Der Dokumentationsbetrachter konnte nicht geöffnet werden"
 #. build dialog
 #: ../mousepad/mousepad-dialogs.c:109
 msgid "Select Tab Size"
-msgstr "Tabulaturgröße auswählen"
+msgstr "Tabulaturweite auswählen"
 
 #. add buttons
 #. cancel button
@@ -107,7 +108,7 @@ msgstr "Gehen zu"
 
 #: ../mousepad/mousepad-dialogs.c:195
 msgid "_Jump to"
-msgstr "_Sprung zu"
+msgstr "_Springen"
 
 #: ../mousepad/mousepad-dialogs.c:215
 msgid "_Line number:"
@@ -120,7 +121,7 @@ msgstr "_Spalte:"
 #. create the question dialog
 #: ../mousepad/mousepad-dialogs.c:295
 msgid "Clear Documents History"
-msgstr "Den gesamten Verlauf löschen."
+msgstr "Dokumentenverlauf löschen"
 
 #: ../mousepad/mousepad-dialogs.c:300
 msgid "Clea_r"
@@ -135,7 +136,7 @@ msgstr "<big><b>Sollen alle Einträge aus dem Verlauf entfernt werden?</b></big>
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
-msgstr "Das Löschen des Dokumentenverlaufs wird alle zur Zeit aufgelisteten Einträge dauerhaft löschen."
+msgstr "Das Löschen des Dokumentenverlaufs wird alle zurzeit aufgelisteten Einträge dauerhaft löschen."
 
 #. create the question dialog
 #: ../mousepad/mousepad-dialogs.c:359
@@ -168,11 +169,11 @@ msgstr "Falls Sie nicht speichern, gehen alle vorgenommenen Änderungen unwiderr
 #: ../mousepad/mousepad-dialogs.c:435
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
-msgstr "Das Dokument wurde von dritter Stelle geändert. Wollen Sie es trotzdem speichern und somit überschreiben?"
+msgstr "Das Dokument wurde von Dritten geändert. Möchten Sie es trotzdem speichern und somit überschreiben?"
 
 #: ../mousepad/mousepad-dialogs.c:437
 msgid "Externally Modified"
-msgstr "Extern verändert"
+msgstr "Externe Änderung"
 
 #: ../mousepad/mousepad-dialogs.c:439
 msgid "If you save the document, all of the external changes will be lost."
@@ -184,15 +185,15 @@ msgstr "Speichern _unter"
 
 #: ../mousepad/mousepad-dialogs.c:470
 msgid "Do you want to save your changes before reloading?"
-msgstr "Wollen sie Ihre Änderungen speichern, bevor das Dokument erneut geladen wird?"
+msgstr "Möchten Sie Ihre Änderungen speichern, bevor das Dokument erneut geladen wird?"
 
 #: ../mousepad/mousepad-dialogs.c:472
 msgid "If you revert the file, all unsaved changes will be lost."
-msgstr "Wenn Sie neu laden, gehen alle nicht gespeicherten Änderungen verloren. Möchten Sie trotzdem neu laden?"
+msgstr "Wenn Sie neu laden, gehen alle nicht gespeicherten Änderungen verloren. Möchten Sie trotzdem fortfahren?"
 
 #: ../mousepad/mousepad-dialogs.c:476
 msgid "_Revert"
-msgstr "_Zurücksetzen"
+msgstr "_Wiederherstellen"
 
 #. create the dialog
 #: ../mousepad/mousepad-dialogs.c:500
@@ -215,7 +216,7 @@ msgstr "_Kodierung:"
 #. pack button, add signal and tooltip
 #: ../mousepad/mousepad-document.c:599
 msgid "Close this tab"
-msgstr "Diesen Reiter schließen."
+msgstr "Diesen Reiter schließen"
 
 #. create an unique untitled document name
 #: ../mousepad/mousepad-document.c:629
@@ -226,7 +227,7 @@ msgstr "Unbenannt"
 #: ../mousepad/mousepad-encoding-dialog.c:352
 #: ../mousepad/mousepad-encoding-dialog.c:372
 msgid "The document was not UTF-8 valid."
-msgstr "Dieses Dokument ist kein gültiges UTF-8."
+msgstr "Dieses Dokument enthält kein gültiges UTF-8."
 
 #. encoding radio buttons
 #. default encoding: UTF-8
@@ -244,7 +245,7 @@ msgstr "Andere:"
 
 #: ../mousepad/mousepad-encoding-dialog.c:188
 msgid "Checking encodings..."
-msgstr "Zeichensätze werden geprüft …"
+msgstr "Zeichenkodierung wird geprüft …"
 
 #: ../mousepad/mousepad-encoding-dialog.c:336
 msgid "Other (partial):"
@@ -252,11 +253,11 @@ msgstr "Andere (teilweise):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:347
 msgid "Other valid encodings were found, please choose below."
-msgstr "Andere gültige Kodierungen wurden gefunden, bitte wählen Sie unten."
+msgstr "Andere gültige Kodierungen wurden gefunden, bitte wählen Sie:"
 
 #: ../mousepad/mousepad-encoding-dialog.c:349
 msgid "Other partially valid encodings were found, please choose below."
-msgstr "Andere teilweise gültige Kodierungen wurden gefunden, bitte wählen Sie unten."
+msgstr "Andere teilweise gültige Kodierungen wurden gefunden, bitte wählen Sie:"
 
 #: ../mousepad/mousepad-encoding-dialog.c:373
 msgid "No other valid encoding was found."
@@ -330,7 +331,7 @@ msgstr "Hebräisch"
 
 #: ../mousepad/mousepad-encoding.c:58
 msgid "Hebrew Visual"
-msgstr "Hebräisch visuell"
+msgstr "Hebräisch, visuell"
 
 #. asian
 #: ../mousepad/mousepad-encoding.c:61
@@ -387,17 +388,17 @@ msgstr "Koreanisch"
 #: ../mousepad/mousepad-file.c:566
 #, c-format
 msgid "Invalid byte sequence in conversion input"
-msgstr "Ungültige Bytefolge in Konvertierungseingabe"
+msgstr "Ungültige Bytefolge bei der Konvertierung"
 
 #: ../mousepad/mousepad-file.c:912
 #, c-format
 msgid "The file \"%s\" you tried to reload does not exist anymore"
-msgstr "Die Datei »%s«, die Sie erneut laden wollten, ist nicht mehr vorhanden"
+msgstr "Die Datei »%s«, die Sie neu laden wollten, ist nicht mehr vorhanden"
 
 #: ../mousepad/mousepad-file.c:953
 #, c-format
 msgid "Failed to read the status of \"%s\""
-msgstr "Status von »%s« konnte nicht gelesen werden."
+msgstr "Der Status von »%s« konnte nicht ermittelt werden"
 
 #. add the close button
 #: ../mousepad/mousepad-prefs-dialog.c:445
@@ -445,15 +446,15 @@ msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
-msgstr "Der Abstand, in dem die Zeilennummern gedruckt werden sollen. Zum Beispiel, wird bei einem Wert von 1 jede Zeilennummer gedruckt. Bei einem Wert von 2 wird eine Zeilennummer auf jeder zweiten Zeile gedruckt und so weiter."
+msgstr "Der Abstand, in dem die Zeilennummern gedruckt werden sollen. Bei einem Wert von 1 wird jede Zeilennummer gedruckt, bei einem Wert von 2 wird eine Zeilennummer auf jeder zweiten Zeile gedruckt und so weiter."
 
 #: ../mousepad/mousepad-print.c:677
 msgid "Enable text _wrapping"
-msgstr "_Zeilenumbruch aktivieren"
+msgstr "Automatischer _Zeilenumbruch"
 
 #: ../mousepad/mousepad-print.c:685
 msgid "Enable _syntax highlighting"
-msgstr "_Syntaxhervorhebung aktivieren"
+msgstr "_Syntax-Hervorhebung drucken"
 
 #: ../mousepad/mousepad-print.c:697
 msgid "Fonts"
@@ -501,7 +502,7 @@ msgstr "Ersetzen _durch:"
 
 #: ../mousepad/mousepad-replace-dialog.c:290
 msgid "Search _direction:"
-msgstr "Such_richtung"
+msgstr "Such_richtung:"
 
 #: ../mousepad/mousepad-replace-dialog.c:299
 msgid "Up"
@@ -514,7 +515,7 @@ msgstr "Abwärts"
 #. wrap around
 #: ../mousepad/mousepad-replace-dialog.c:309
 msgid "_Wrap around"
-msgstr "_Bei Ende von vorn beginnen"
+msgstr "_Rundum-Suche durchführen"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
@@ -522,7 +523,7 @@ msgstr "_Bei Ende von vorn beginnen"
 #: ../mousepad/mousepad-replace-dialog.c:316
 #: ../mousepad/mousepad-search-bar.c:218 ../mousepad/mousepad-search-bar.c:229
 msgid "Match _case"
-msgstr "Groß- und Kleinschreibung _beachten"
+msgstr "Groß-/Kleinschreibung _beachten"
 
 #. match whole word
 #: ../mousepad/mousepad-replace-dialog.c:325
@@ -559,8 +560,8 @@ msgstr "Allen Dokumenten"
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
-msgstr[0] "%d Vorkommniss"
-msgstr[1] "%d Vorkommnisse"
+msgstr[0] "%d Vorkommen"
+msgstr[1] "%d Vorkommen"
 
 #: ../mousepad/mousepad-statusbar.c:125
 msgid "Choose a filetype"
@@ -598,12 +599,12 @@ msgstr "Zeile: %d Spalte: %d"
 #. add the label with the root warning
 #: ../mousepad/mousepad-window.c:1092
 msgid "Warning: you are using the root account. You may harm your system."
-msgstr "Achtung: Sie benutzen das Systemverwalterkonto und können Ihr System beschädigen."
+msgstr "Achtung: Sie verwenden das Systemverwalterkonto und könnten Ihr System beschädigen."
 
 #. show the warning
 #: ../mousepad/mousepad-window.c:1841
 msgid "Failed to open the document"
-msgstr "Dokument konnte nicht geöffnet werden"
+msgstr "Das Dokument konnte nicht geöffnet werden"
 
 #: ../mousepad/mousepad-window.c:2049
 msgid "Read Only"
@@ -612,21 +613,21 @@ msgstr "Schreibgeschützt"
 #: ../mousepad/mousepad-window.c:2816
 #, c-format
 msgid "Use '%s' as template"
-msgstr "Benutze '%s' als Vorlage"
+msgstr "»%s« als Vorlage verwenden"
 
 #: ../mousepad/mousepad-window.c:2842
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
-msgstr "Keine Vorlagedateien in\n»%s« gefunden"
+msgstr "Keine Vorlagedateien in »%s« gefunden"
 
 #: ../mousepad/mousepad-window.c:2899
 #, c-format
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr "Verzeichnis der Vorlagen fehlt\n'%s'"
+msgstr "Vorlagen-Verzeichnis »%s« fehlt"
 
 #. create suitable text label for the "Other" menu
 #: ../mousepad/mousepad-window.c:2951
@@ -644,7 +645,7 @@ msgstr "_Wiederherstellen"
 
 #: ../mousepad/mousepad-window.c:3137
 msgid "Revert to the saved version of the file"
-msgstr "Die gespeicherte Version dieser Datei wiederherstellen"
+msgstr "Gespeicherte Version dieser Datei wiederherstellen"
 
 #: ../mousepad/mousepad-window.c:3141
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
@@ -658,12 +659,12 @@ msgstr "Datei von Festplatte neu laden"
 
 #: ../mousepad/mousepad-window.c:3149
 msgid "Leave fullscreen mode"
-msgstr "Den Vollbildmodus verlassen"
+msgstr "Vollbildmodus verlassen"
 
 #: ../mousepad/mousepad-window.c:3154
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
-msgstr "Zum Vollbildmodus wechseln"
+msgstr "In den Vollbildmodus wechseln"
 
 #. build description
 #. get the offset length: 'Encoding: '
@@ -682,7 +683,7 @@ msgstr "Keine Einträge gefunden"
 
 #: ../mousepad/mousepad-window.c:3540
 msgid "Failed to clear the recent history"
-msgstr "Verlaufseintrag konnte nicht entfernt werden."
+msgstr "Der Verlaufseintrag konnte nicht entfernt werden"
 
 #. create an item to inform the user
 #: ../mousepad/mousepad-window.c:3987
@@ -692,17 +693,17 @@ msgstr "Keine Daten in der Zwischenablage"
 #. set error message
 #: ../mousepad/mousepad-window.c:4093
 msgid "Templates should be UTF-8 valid"
-msgstr "Vorlagen sollten gültiges UTF-8 sein"
+msgstr "Vorlagen sollten gültiges UTF-8 enthalten"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:4098
 msgid "Reading the template failed"
-msgstr "Vorlage konnte nicht gelesen werden"
+msgstr "Die Vorlage konnte nicht gelesen werden"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:4103
 msgid "Loading the template failed"
-msgstr "Vorlage konnte nicht geladen werden."
+msgstr "Die Vorlage konnte nicht geladen werden"
 
 #: ../mousepad/mousepad-window.c:4198
 #, c-format
@@ -714,22 +715,22 @@ msgstr "»%s« konnte nicht geöffnet werden und wird aus dem Dokumentenverlauf 
 #. show the warning and cleanup
 #: ../mousepad/mousepad-window.c:4202
 msgid "Failed to open file"
-msgstr "Datei konnte nicht geöffnet werden."
+msgstr "Datei konnte nicht geöffnet werden"
 
 #. show the error
 #: ../mousepad/mousepad-window.c:4312 ../mousepad/mousepad-window.c:4441
 msgid "Failed to save the document"
-msgstr "Dokument konnte nicht gespeichert werden."
+msgstr "Das Dokument konnte nicht gespeichert werden"
 
 #. show the error
 #: ../mousepad/mousepad-window.c:4536
 msgid "Failed to reload the document"
-msgstr "Dokument konnte nicht erneut geladen werden."
+msgstr "Das Dokument konnte nicht neu geladen werden"
 
 #. show the error
 #: ../mousepad/mousepad-window.c:4565
 msgid "Failed to print the document"
-msgstr "Dokument konnte nicht gedruckt werden."
+msgstr "Das Dokument konnte nicht gedruckt werden"
 
 #: ../mousepad/mousepad-window.c:5355
 msgid "Choose Mousepad Font"
@@ -757,7 +758,7 @@ msgstr "Neu aus _Vorlage"
 
 #: ../mousepad/resources/gtk/menus.ui.h:6
 msgid "Create a new document from a template"
-msgstr "Ein neues Dokument aus einer Vorlage erstellen"
+msgstr "Neues Dokument aus einer Vorlage erstellen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "Op_en Recent"
@@ -805,11 +806,11 @@ msgstr "_Bearbeiten"
 
 #: ../mousepad/resources/gtk/menus.ui.h:18
 msgid "Edit menu"
-msgstr "Bearbeitenmenü"
+msgstr "Bearbeitungsmenü"
 
 #: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Show the preferences dialog"
-msgstr "Den Einstellungsdialog anzeigen"
+msgstr "Einstellungsdialog anzeigen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "_Search"
@@ -833,7 +834,7 @@ msgstr "_Vorheriges suchen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:26
 msgid "Search backwards for the same text"
-msgstr "Den gleichen Text rückwärts suchen"
+msgstr "Rückwärts nach dem gleichen Text suchen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:27
 msgid "Highlight _All"
@@ -841,7 +842,7 @@ msgstr "_Alle hervorheben"
 
 #: ../mousepad/resources/gtk/menus.ui.h:28
 msgid "Highlight the search occurrences"
-msgstr "Markieren der Suchvorkommen"
+msgstr "Suchvorkommen markieren"
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_View"
@@ -865,16 +866,16 @@ msgstr "_Farbschema"
 
 #: ../mousepad/resources/gtk/menus.ui.h:34
 msgid "Color scheme to use for the text view"
-msgstr "Für die Textansicht zu verwendendes Farbschema"
+msgstr "Farbschema, das für die Textansicht verwendet wird"
 
 #: ../mousepad/resources/gtk/menus.ui.h:35
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "None"
-msgstr "Nichts"
+msgstr "Kein"
 
 #: ../mousepad/resources/gtk/menus.ui.h:36
 msgid "No style scheme"
-msgstr "Kein Stilschema"
+msgstr "Kein Farbschema"
 
 #: ../mousepad/resources/gtk/menus.ui.h:37
 msgid "Line N_umbers"
@@ -891,7 +892,7 @@ msgstr "_Menüleiste"
 
 #: ../mousepad/resources/gtk/menus.ui.h:40
 msgid "Change the visibility of the main menubar"
-msgstr "Die Sichtbarkeit der Hauptmenüleiste ändern"
+msgstr "Hauptmenüleiste anzeigen oder verbergen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:41
 msgid "_Toolbar"
@@ -899,7 +900,7 @@ msgstr "_Werkzeugleiste"
 
 #: ../mousepad/resources/gtk/menus.ui.h:42
 msgid "Change the visibility of the toolbar"
-msgstr "Die Sichtbarkeit der Werkzeugleiste ändern"
+msgstr "Werkzeugleiste anzeigen oder verbergen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "St_atusbar"
@@ -907,7 +908,7 @@ msgstr "Sta_tusleiste"
 
 #: ../mousepad/resources/gtk/menus.ui.h:44
 msgid "Change the visibility of the statusbar"
-msgstr "Die Sichtbarkeit der Statusleiste ändern"
+msgstr "Statusleiste anzeigen oder verbergen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:45
 msgid "_Document"
@@ -923,7 +924,7 @@ msgstr "Zeilen_umbruch"
 
 #: ../mousepad/resources/gtk/menus.ui.h:48
 msgid "Toggle breaking lines in between words"
-msgstr "Zeilen zwischen Wörtern umbrechen"
+msgstr "Zeilen am Fensterrand umbrechen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:49
 msgid "_Auto Indent"
@@ -931,15 +932,15 @@ msgstr "Automa_tisch einrücken"
 
 #: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Auto indent a new line"
-msgstr "Neue Zeile automatisch einrücken"
+msgstr "Neue Zeilen automatisch einrücken"
 
 #: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "Tab _Size"
-msgstr "Tabulator_größe"
+msgstr "Tabulator_weite"
 
 #: ../mousepad/resources/gtk/menus.ui.h:52
 msgid "The number of space characters for a tabulation"
-msgstr "Die Anzahl der Leerzeichen für eine Tabellierung"
+msgstr "Anzahl der Leerzeichen für eine Tabellierung"
 
 #: ../mousepad/resources/gtk/menus.ui.h:53
 msgid "Two spaces"
@@ -963,7 +964,7 @@ msgstr "Andere..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:58
 msgid "Set custom tab size"
-msgstr "Tabulatorbreite einstellen"
+msgstr "Benutzerdefinierte Tabulatorweite einstellen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:59
 msgid "Insert _Spaces"
@@ -979,7 +980,7 @@ msgstr "_Dateityp"
 
 #: ../mousepad/resources/gtk/menus.ui.h:62
 msgid "Language to use for syntax highlighting"
-msgstr "Zu verwendende Sprache für die Syntaxhervorhebung"
+msgstr "Für die Syntax-Hervorhebung zu verwendende Sprache"
 
 #: ../mousepad/resources/gtk/menus.ui.h:63
 msgid "Plain Text"
@@ -995,27 +996,27 @@ msgstr "Zeilen_ende"
 
 #: ../mousepad/resources/gtk/menus.ui.h:66
 msgid "Character(s) to use as end of line"
-msgstr "Als Zeilenende zu verwendende(s) Zeichen"
+msgstr "Zeichen, das/die als Zeilenende verwendet werden soll(en)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:67
 msgid "Set the line ending of the document to Unix (LF)"
-msgstr "Das Zeilenende auf »Unix« (LF) einstellen"
+msgstr "Zeilenende auf »Unix« (LF) einstellen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:68
 msgid "Set the line ending of the document to Mac (CR)"
-msgstr "Das Zeilenende auf »Mac« (CR) einstellen"
+msgstr "Zeilenende auf »Mac« (CR) einstellen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:69
 msgid "Set the line ending of the document to DOS / Windows (CR LF)"
-msgstr "Das Zeilenende auf »DOS / WIndows« (CR LF) einstellen"
+msgstr "Zeilenende auf »DOS/Windows« (CR+LF) einstellen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "Write Unicode _BOM"
-msgstr "_Unicode-BOM schreiben"
+msgstr "_Unicode-BOM einfügen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "Store the byte-order mark in the file"
-msgstr "Die Bytereihenfolge im Dokument speichern"
+msgstr "Bytereihenfolge-Markierung im Dokument speichern"
 
 #: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "_Previous Tab"
@@ -1047,7 +1048,7 @@ msgstr "_Inhalt"
 
 #: ../mousepad/resources/gtk/menus.ui.h:79
 msgid "Display the Mousepad user manual"
-msgstr "Handbuch zu Mousepad anzeigen"
+msgstr "Mousepad-Benutzerhandbuch anzeigen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:80
 msgid "_About"
@@ -1091,7 +1092,7 @@ msgstr "Reiter _abtrennen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:12
 msgid "Move the current document to a new window"
-msgstr "Das aktuelle Dokument in ein neues Fenster verschieben"
+msgstr "Aktuelles Dokument in ein neues Fenster verschieben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:13
 msgid "Close _Tab"
@@ -1099,23 +1100,23 @@ msgstr "Reiter s_chließen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:14
 msgid "Close the current document"
-msgstr "Das aktuelle Dokument schließen"
+msgstr "Aktuelles Dokument schließen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:15
 msgid "_Undo"
-msgstr "_Rückgängig machen"
+msgstr "_Rückgängig"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:16
 msgid "Undo the last action"
-msgstr "Den letzten Vorgang rückgängig machen"
+msgstr "Letzten Vorgang rückgängig machen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:17
 msgid "_Redo"
-msgstr "_Wiederholen "
+msgstr "_Wiederholen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:18
 msgid "Redo the last undone action"
-msgstr "Den letzten rückgängig gemachten Vorgang wiederholen"
+msgstr "Letzten rückgängig gemachten Vorgang wiederholen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:19
 msgid "Cu_t"
@@ -1123,7 +1124,7 @@ msgstr "Ausschnei_den"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:20
 msgid "Cut the selection"
-msgstr "Die Auswahl ausschneiden"
+msgstr "Auswahl ausschneiden"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:21
 msgid "_Copy"
@@ -1131,7 +1132,7 @@ msgstr "_Kopieren"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:22
 msgid "Copy the selection"
-msgstr "Die Auswahl kopieren"
+msgstr "Auswahl kopieren"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:23
 msgid "_Paste"
@@ -1139,7 +1140,7 @@ msgstr "Ei_nfügen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:24
 msgid "Paste the clipboard"
-msgstr "Die Zwischenablage einfügen"
+msgstr "Zwischenablage einfügen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:25
 msgid "Select _All"
@@ -1147,7 +1148,7 @@ msgstr "_Alles auswählen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:26
 msgid "Select the text in the entire document"
-msgstr "Text im gesamten Dokument auswählen"
+msgstr "Gesamten Text im Dokument auswählen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:28
 msgid "Search for text"
@@ -1175,7 +1176,7 @@ msgstr "_Vollbild"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:35
 msgid "Paste _Special"
-msgstr "Einfügen spe_zial"
+msgstr "Spe_zielles Einfügen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:36
 msgid "Paste the clipboard in a special way"
@@ -1183,19 +1184,19 @@ msgstr "Einfügen der Zwischenablage auf besondere Weise"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:37
 msgid "Paste from _History"
-msgstr "Aus dem _Verlauf einfügen"
+msgstr "Aus dem _Verlauf der Zwischenablage"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:38
 msgid "Paste from the clipboard history"
-msgstr "Aus der Zwischenablage einfügen"
+msgstr "Aus dem Verlauf der Zwischenablage einfügen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:39
 msgid "Paste as _Column"
-msgstr "Als S_palte einfügen"
+msgstr "Als S_palte"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:40
 msgid "Paste the clipboard text into a column"
-msgstr "Den Inhalt der Zwischenablage in eine Spalte einfügen"
+msgstr "Inhalt der Zwischenablage in eine Spalte einfügen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
 msgid "_Delete"
@@ -1207,15 +1208,15 @@ msgstr "Aktuelle Auswahl löschen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:43
 msgid "Conve_rt"
-msgstr "_Konvertieren"
+msgstr "_Umwandeln"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:44
 msgid "Convert text in different ways"
-msgstr "Text auf verschiedene Arten konvertieren"
+msgstr "Text auf verschiedene Arten umwandeln"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "To _Lowercase"
-msgstr "Zu _Kleinbuchstaben"
+msgstr "In _Kleinbuchstaben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Change the case of the selection to lowercase"
@@ -1223,7 +1224,7 @@ msgstr "Auswahl in Kleinschrift umwandeln"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Uppercase"
-msgstr "Zu _Großbuchstaben"
+msgstr "In _Großbuchstaben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:48
 msgid "Change the case of the selection to uppercase"
@@ -1231,7 +1232,7 @@ msgstr "Auswahl in Großschrift umwandeln"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:49
 msgid "To _Title Case"
-msgstr "Zu großen _Anfangsbuchstaben"
+msgstr "In große _Anfangsbuchstaben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:50
 msgid "Change the case of the selection to title case"
@@ -1239,28 +1240,28 @@ msgstr "Alle ausgewählten Wörter mit Großbuchstaben beginnen lassen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:51
 msgid "To _Opposite Case"
-msgstr "Zum _umgekehrten Fall"
+msgstr "Groß-/Kleinb_uchstaben vertauschen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:52
 msgid "Change the case of the selection opposite case"
-msgstr "Groß- und Kleinschreibung, im ausgewählten Text, vertauschen"
+msgstr "Groß- und Kleinschreibung im ausgewählten Text vertauschen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:53
 msgid "_Tabs to Spaces"
-msgstr "_Tabulatoren in Leerzeichen umwandeln"
+msgstr "_Tabulatoren in Leerzeichen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:54
 msgid "Convert all tabs to spaces in the selection or document"
-msgstr "Alle Tabulatoren im ausgewählten Text oder Dokument in Leerzeichen umwandeln."
+msgstr "Alle Tabulatoren im ausgewählten Text oder Dokument in Leerzeichen umwandeln"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:55
 msgid "_Spaces to Tabs"
-msgstr "_Leerzeichen in Tabulatoren umwandeln"
+msgstr "_Leerzeichen in Tabulatoren"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:56
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr "Alle führenden Leerzeichen in den ausgewählten Zeilen oder im Dokument in Tabulatoren umwandeln."
+msgstr "Alle führenden Leerzeichen in den ausgewählten Zeilen oder im Dokument in Tabulatoren umwandeln"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "St_rip Trailing Spaces"
@@ -1268,15 +1269,15 @@ msgstr "Leerzeichen am Zeilenende _entfernen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr "Alle Leerzeichen vom Zeilenende, der ausgewählten Zeilen oder des Dokumentes, entfernen."
+msgstr "Alle Leerzeichen am Zeilenende der ausgewählten Zeilen oder des Dokumentes entfernen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:59
 msgid "_Transpose"
-msgstr "_Vertauschen"
+msgstr "_Umstellen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:60
 msgid "Reverse the order of something"
-msgstr "Reihenfolge umstellen"
+msgstr "Reihenfolgen vertauschen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:61
 msgid "_Move Selection"
@@ -1284,11 +1285,11 @@ msgstr "Auswahl verschie_ben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:62
 msgid "Move the selection in different ways"
-msgstr "Verschieben der Auswahl auf verschiedene Weise"
+msgstr "Verschieben der Auswahl auf unterschiedliche Weise"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "Line _Up"
-msgstr "Zeile(n) nach _oben bewegen"
+msgstr "Über die _vorherige Zeile"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move the selection one line up"
@@ -1296,7 +1297,7 @@ msgstr "Auswahl um eine Zeile nach oben bewegen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Down"
-msgstr "Zeile(n) nach _unten bewegen"
+msgstr "Unter die _folgende Zeile"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move the selection one line down"
@@ -1316,7 +1317,7 @@ msgstr "Einzug _erhöhen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Increase the indentation of the selection or current line"
-msgstr "Einzug der aktuellen Zeile oder der augewählten Zeilen erhöhen"
+msgstr "Einzug der aktuellen oder der augewählten Zeilen erhöhen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "_Decrease Indent"
@@ -1324,7 +1325,7 @@ msgstr "Einzug _verringern"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Decrease the indentation of the selection or current line"
-msgstr "Einzug der aktuellen Zeile oder der augewählten Zeilen verringern"
+msgstr "Einzug der aktuellen oder der augewählten Zeilen verringern"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "label-to-be-filled-in"
@@ -1332,7 +1333,7 @@ msgstr "auszufüllendes Label"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
 msgid "none"
-msgstr "nichts"
+msgstr "kein"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
 msgid "Insert Tabs"
@@ -1376,42 +1377,42 @@ msgstr "Text neben Symbolen"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:13
 msgid "Menu"
-msgstr "Menü"
+msgstr "Menügröße"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
 msgid "Small Toolbar"
-msgstr "Kleine Werkzeugleiste"
+msgstr "Klein"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:15
 msgid "Large Toolbar"
-msgstr "Große Werkzeugleiste"
+msgstr "Groß"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:16
 msgid "Button"
-msgstr "Knopf"
+msgstr "Schaltflächengröße"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:17
 msgid "Drag & Drop"
-msgstr "Ziehen & Ablegen"
+msgstr "Sehr groß"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:18
 msgid "Dialog"
-msgstr "Dialog"
+msgstr "Extrem groß"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
 msgid "new tabs"
-msgstr "neuer Reiter"
+msgstr "Neuen Reitern"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
 msgid "new windows"
-msgstr "neues Fenster"
+msgstr "Neuen Fenstern"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "new tabs in a new window"
-msgstr "neuer Reiter in neuem Fenster"
+msgstr "Reitern in einem neuem Fenster"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "Display whitespace"
@@ -1423,7 +1424,7 @@ msgstr "Zeilenumbrüche anzeigen"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
 msgid "Long line margin at column:"
-msgstr "Seitenrand, für lange Zeilen, bei Spalte:"
+msgstr "Seitenrand-Markierung bei Spalte:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
 msgid "Highlight current line"
@@ -1443,7 +1444,7 @@ msgstr "<b>Anzeige</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
 msgid "Use system monospace font"
-msgstr "System-Monospace-Schrift benutzen"
+msgstr "Nichtproportionale Systemschrift verwenden"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
 msgid "<b>Font</b>"
@@ -1459,7 +1460,7 @@ msgstr "Ansicht"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
 msgid "Tab width:"
-msgstr "Tabulatorbreite:"
+msgstr "Tabulatorweite:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:38
 msgid "Tab mode:"
@@ -1475,7 +1476,7 @@ msgstr "<b>Einzug</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Detect leading/trailing whitespace:"
-msgstr "Erkennen von vor- und nachlaufenden Leerzeichen:"
+msgstr "Erkennung führender/anhängender Leerzeichen:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "<b>Home/End Keys</b>"
@@ -1527,19 +1528,19 @@ msgstr "<b>Werkzeugleiste</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
 msgid "Always show tabs even with one file"
-msgstr "Reiter immer anzeigen, auch bei einer Datei"
+msgstr "Reiter auch bei nur einer Datei anzeigen"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
 msgid "Cycled notebook tab switching"
-msgstr "Kreisender Notizbuchreiterwechsel"
+msgstr "Zyklischer Reiterwechsel"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "Open files in:"
-msgstr "Öffne Datei in:"
+msgstr "Dateien öffnen in:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "<b>Notebook tabs</b>"
-msgstr "<b>Notizbuchreiter</b>"
+msgstr "<b>Reiter</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
 msgid "Window"
@@ -1558,7 +1559,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr "Mousepad soll ein einfach zu bedienender und schneller Editor sein. Unser Ziel ist ein Editor zur schnellen Bearbeitung von Textdateien, keine Entwicklungsumgebung oder ein Editor mit einem riesigen Menge Plugins."
+msgstr "Mousepad soll ein einfach zu bedienender und schneller Editor sein. Unser Ziel ist ein Editor zur schnellen Bearbeitung von Textdateien, keine Entwicklungsumgebung oder ein Editor mit einer Vielzahl von Plugins."
 
 #: ../mousepad.appdata.xml.in.h:2
 msgid ""
@@ -1566,7 +1567,7 @@ msgid ""
 "means that if Gtk adds something new in a major release that is useful for "
 "the editor, we will likely bump the Gtk dependency and integrate this new "
 "feature in Mousepad."
-msgstr "Auf der anderen Seite versuchen wir, die neuesten verfügbaren Gtk+-Funktionen zu verwenden, was bedeutet, dass wir, wenn Gtk etwas Neues in einer Hauptversion hinzufügt, das für den Editor nützlich ist, wahrscheinlich die Gtk-Abhängigkeit aufheben und diese neue Funktion in Mousepad integrieren werden."
+msgstr "Auf der anderen Seite versuchen wir, die neuesten verfügbaren Gtk+-Funktionen zu verwenden. Das bedeutet, dass wir wahrscheinlich die Gtk-Abhängigkeit anheben und neue Funktionen in Mousepad integrieren, wenn Gtk etwas Neues in einer Hauptversion hinzufügt, das für den Editor nützlich ist."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
@@ -1578,4 +1579,4 @@ msgstr "Mousepad als Systemverwalter ausführen"
 
 #: ../org.xfce.mousepad.policy.in.in.h:7
 msgid "Authentication is required to run Mousepad as root."
-msgstr "Authentifizierung notwendig, um Mousepad als Systemverwalter auszuführen."
+msgstr "Eine Authentifizierung ist notwendig, um Mousepad als Systemverwalter auszuführen."
