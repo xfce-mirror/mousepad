@@ -63,6 +63,8 @@ gboolean            mousepad_file_get_externally_modified  (MousepadFile        
 
 gboolean            mousepad_file_get_read_only            (MousepadFile        *file);
 
+gboolean            mousepad_file_is_savable               (MousepadFile        *file);
+
 void                mousepad_file_set_encoding             (MousepadFile        *file,
                                                             MousepadEncoding     encoding);
 
