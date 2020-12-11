@@ -257,37 +257,6 @@ mousepad_file_get_uri (MousepadFile *file)
 
 
 
-gboolean
-mousepad_file_get_externally_modified (MousepadFile  *file,
-                                       GError       **error)
-{
-  GFileInfo *fileinfo;
-  gboolean   modified;
-
-  g_return_val_if_fail (MOUSEPAD_IS_FILE (file), TRUE);
-  g_return_val_if_fail (file->location != NULL, TRUE);
-  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-
-  /* file does not exist, so never modified */
-  if (! g_file_query_exists (file->location, NULL))
-    return FALSE;
-
-  /* check if our modification time differs from the current one */
-  if (G_LIKELY (fileinfo = g_file_query_info (file->location, G_FILE_ATTRIBUTE_ETAG_VALUE,
-                                              G_FILE_QUERY_INFO_NONE, NULL, error)))
-    {
-      modified = ! file->temporary && file->etag != NULL
-                 && g_strcmp0 (g_file_info_get_etag (fileinfo), file->etag) != 0;
-      g_object_unref (fileinfo);
-
-      return modified;
-    }
-
-  return TRUE;
-}
-
-
-
 static void
 mousepad_file_set_read_only (MousepadFile *file,
                              gboolean      readonly)
@@ -698,6 +667,7 @@ mousepad_file_open (MousepadFile  *file,
 
 gboolean
 mousepad_file_save (MousepadFile  *file,
+                    gboolean       forced,
                     GError       **error)
 {
   GtkTextIter   start, end;
@@ -810,8 +780,9 @@ mousepad_file_save (MousepadFile  *file,
         }
 
       /* write the buffer to the file */
-      if (g_file_replace_contents (file->location, contents, length, NULL, FALSE,
-                                   G_FILE_CREATE_NONE, &etag, NULL, error))
+      if (g_file_replace_contents (file->location, contents, length,
+                                   (file->temporary || forced) ? NULL : file->etag,
+                                   FALSE, G_FILE_CREATE_NONE, &etag, NULL, error))
         {
           g_free (file->etag);
           file->etag = etag;
