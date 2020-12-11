@@ -58,9 +58,6 @@ const gchar        *mousepad_file_get_path                 (MousepadFile        
 
 gchar              *mousepad_file_get_uri                  (MousepadFile        *file);
 
-gboolean            mousepad_file_get_externally_modified  (MousepadFile        *file,
-                                                            GError             **error);
-
 gboolean            mousepad_file_get_read_only            (MousepadFile        *file);
 
 void                mousepad_file_set_encoding             (MousepadFile        *file,
@@ -86,6 +83,7 @@ gint                mousepad_file_open                     (MousepadFile        
                                                             GError             **error);
 
 gboolean            mousepad_file_save                     (MousepadFile        *file,
+                                                            gboolean             forced,
                                                             GError             **error);
 
 gboolean            mousepad_file_reload                   (MousepadFile        *file,
