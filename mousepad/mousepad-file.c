@@ -17,6 +17,7 @@
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-file.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-settings.h>
 
 
 
@@ -798,7 +799,8 @@ mousepad_file_save (MousepadFile  *file,
       /* write the buffer to the file */
       if (g_file_replace_contents (file->location, contents, length,
                                    (file->temporary || forced) ? NULL : file->etag,
-                                   FALSE, G_FILE_CREATE_NONE, &etag, NULL, error))
+                                   MOUSEPAD_SETTING_GET_BOOLEAN (BACKUP),
+                                   G_FILE_CREATE_NONE, &etag, NULL, error))
         {
           g_free (file->etag);
           file->etag = etag;
