@@ -43,6 +43,7 @@
   </schema>
 
   <schema id="org.xfce.mousepad.preferences" path="/org/xfce/mousepad/preferences/" gettext-domain="mousepad">
+    <child name="file" schema="org.xfce.mousepad.preferences.file"/>
     <child name="view" schema="org.xfce.mousepad.preferences.view"/>
     <child name="window" schema="org.xfce.mousepad.preferences.window"/>
   </schema>
@@ -50,6 +51,18 @@
   <schema id="org.xfce.mousepad.state" path="/org/xfce/mousepad/state/" gettext-domain="mousepad">
     <child name="search" schema="org.xfce.mousepad.state.search"/>
     <child name="window" schema="org.xfce.mousepad.state.window"/>
+  </schema>
+
+  <!-- File preferences -->
+  <schema id="org.xfce.mousepad.preferences.file" path="/org/xfce/mousepad/preferences/file/" gettext-domain="mousepad">
+    <key name="backup" type="b">
+      <default>false</default>
+      <summary>Create a backup file on saving</summary>
+      <description>
+        When true a backup file will be created on saving, by appending a '~'
+        at the end of the original filename.
+      </description>
+    </key>
   </schema>
 
   <!-- Textview preferences -->
