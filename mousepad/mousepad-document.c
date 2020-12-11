@@ -172,23 +172,28 @@ mousepad_document_post_init (MousepadDocument *document)
   /* get the ancestor MousepadWindow */
   window = gtk_widget_get_ancestor (GTK_WIDGET (document), MOUSEPAD_TYPE_WINDOW);
 
-  /* connect to the "search-widget-visible" window property */
-  g_signal_connect_object (window, "notify::search-widget-visible",
-                           G_CALLBACK (mousepad_document_search_widget_visible),
-                           document, G_CONNECT_SWAPPED);
-
-  /* get the window property */
-  g_object_get (window, "search-widget-visible", &visible, NULL);
-
-  /* block search context handlers to prevent useless searches */
-  if (! visible)
+  /* there might not be a MousepadWindow ancestor, e.g. when the document is packed
+   * in a MousepadEncodingDialog */
+  if (window != NULL)
     {
-      g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
-                                       g_signal_lookup ("insert-text", GTK_TYPE_TEXT_BUFFER),
-                                       0, NULL, NULL, document->priv->search_context);
-      g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
-                                       g_signal_lookup ("delete-range", GTK_TYPE_TEXT_BUFFER),
-                                       0, NULL, NULL, document->priv->search_context);
+      /* connect to the "search-widget-visible" window property */
+      g_signal_connect_object (window, "notify::search-widget-visible",
+                               G_CALLBACK (mousepad_document_search_widget_visible),
+                               document, G_CONNECT_SWAPPED);
+
+      /* get the window property */
+      g_object_get (window, "search-widget-visible", &visible, NULL);
+
+      /* block search context handlers to prevent useless searches */
+      if (! visible)
+        {
+          g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
+                                           g_signal_lookup ("insert-text", GTK_TYPE_TEXT_BUFFER),
+                                           0, NULL, NULL, document->priv->search_context);
+          g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
+                                           g_signal_lookup ("delete-range", GTK_TYPE_TEXT_BUFFER),
+                                           0, NULL, NULL, document->priv->search_context);
+        }
     }
 }
 
