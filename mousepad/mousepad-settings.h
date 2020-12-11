@@ -22,6 +22,7 @@
 G_BEGIN_DECLS
 
 /* Setting names */
+#define MOUSEPAD_SETTING_MAKE_BACKUP                  "preferences.file.make-backup"
 #define MOUSEPAD_SETTING_AUTO_INDENT                  "preferences.view.auto-indent"
 #define MOUSEPAD_SETTING_FONT                         "preferences.view.font-name"
 #define MOUSEPAD_SETTING_USE_DEFAULT_FONT             "preferences.view.use-default-monospace-font"
