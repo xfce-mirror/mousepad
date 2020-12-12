@@ -793,7 +793,7 @@ mousepad_application_open (GApplication  *gapplication,
           window = mousepad_application_get_window_for_files (application);
 
           /* open the files */
-          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid);
+          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid, FALSE);
 
           /* if at least one file was finally opened, show the window */
           if (opened > 0)
@@ -810,7 +810,7 @@ mousepad_application_open (GApplication  *gapplication,
               window = mousepad_application_create_window (application);
 
               /* open the file */
-              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files + n, 1);
+              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files + n, 1, FALSE);
 
               /* if the file was finally opened, show the window */
               if (opened > 0)
