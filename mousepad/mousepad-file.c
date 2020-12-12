@@ -467,6 +467,7 @@ mousepad_file_encoding_read_bom (const gchar *contents,
 
 gint
 mousepad_file_open (MousepadFile  *file,
+                    gboolean       must_exist,
                     GError       **error)
 {
   MousepadEncoding  bom_encoding;
@@ -482,19 +483,23 @@ mousepad_file_open (MousepadFile  *file,
   g_return_val_if_fail (file->location != NULL, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-  /* check if the file exists, if not, it's a location from the command line */
-  if (! g_file_query_exists (file->location, NULL))
+  /* if the file does not exist and this is allowed, no problem */
+  if (! g_file_load_contents (file->location, NULL, &contents, &file_size, &(file->etag), error)
+      && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND) && ! must_exist)
     {
-      /* update readonly status */
       mousepad_file_set_read_only (file, FALSE);
+      g_clear_error (error);
 
       return 0;
     }
-
-  if (G_LIKELY (g_file_load_contents (file->location, NULL, &contents,
-                                      &file_size, &(file->etag), error)))
+  /* the file was sucessfully loaded */
+  else if (G_LIKELY (error == NULL || *error == NULL))
     {
-      if (G_LIKELY (contents != NULL && file_size > 0))
+      /* make sure the buffer is empty, in particular for reloading */
+      gtk_text_buffer_get_bounds (file->buffer, &start, &end);
+      gtk_text_buffer_delete (file->buffer, &start, &end);
+
+      if (G_LIKELY (file_size > 0))
         {
           /* detect if there is a bom with the encoding type */
           bom_encoding = mousepad_file_encoding_read_bom (contents, file_size, &bom_length);
@@ -811,39 +816,4 @@ mousepad_file_save (MousepadFile  *file,
     }
 
   return succeed;
-}
-
-
-
-gboolean
-mousepad_file_reload (MousepadFile  *file,
-                      GError       **error)
-{
-  GtkTextIter start, end;
-  gint        succeed;
-
-  g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
-  g_return_val_if_fail (GTK_IS_TEXT_BUFFER (file->buffer), FALSE);
-  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-  g_return_val_if_fail (file->location != NULL, FALSE);
-
-  /* simple test if the file has not been removed */
-  if (G_UNLIKELY (! g_file_query_exists (file->location, NULL)))
-    {
-      /* set an error */
-      g_set_error (error, G_FILE_ERROR, G_FILE_ERROR_NOENT,
-                   _("The file \"%s\" you tried to reload does not exist anymore"),
-                   mousepad_file_get_path (file));
-
-      return FALSE;
-    }
-
-  /* clear the buffer */
-  gtk_text_buffer_get_bounds (file->buffer, &start, &end);
-  gtk_text_buffer_delete (file->buffer, &start, &end);
-
-  /* reload the file */
-  succeed = mousepad_file_open (file, error);
-
-  return (succeed == 0);
 }
