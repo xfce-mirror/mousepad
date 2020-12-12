@@ -104,7 +104,8 @@ static gboolean          mousepad_window_tool_item_leave_event        (GtkWidget
 /* window functions */
 static gboolean          mousepad_window_open_file                    (MousepadWindow         *window,
                                                                        GFile                  *file,
-                                                                       MousepadEncoding        encoding);
+                                                                       MousepadEncoding        encoding,
+                                                                       gboolean                must_exist);
 static gboolean          mousepad_window_close_document               (MousepadWindow         *window,
                                                                        MousepadDocument       *document);
 static void              mousepad_window_button_close_tab             (MousepadDocument       *document,
@@ -1663,7 +1664,8 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
 static gboolean
 mousepad_window_open_file (MousepadWindow   *window,
                            GFile            *file,
-                           MousepadEncoding  encoding)
+                           MousepadEncoding  encoding,
+                           gboolean          must_exist)
 {
   MousepadDocument *document;
   GtkWidget        *dialog;
@@ -1718,7 +1720,7 @@ mousepad_window_open_file (MousepadWindow   *window,
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
   /* read the content into the buffer */
-  result = mousepad_file_open (document->file, &error);
+  result = mousepad_file_open (document->file, must_exist, &error);
 
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
@@ -1827,7 +1829,8 @@ mousepad_window_open_file (MousepadWindow   *window,
 gint
 mousepad_window_open_files (MousepadWindow  *window,
                             GFile          **files,
-                            gint             n_files)
+                            gint             n_files,
+                            gboolean         must_exist)
 {
   gint n;
 
@@ -1840,7 +1843,7 @@ mousepad_window_open_files (MousepadWindow  *window,
 
   /* open new tabs with the files */
   for (n = 0; n < n_files; n++)
-    mousepad_window_open_file (window, files[n], MOUSEPAD_ENCODING_UTF_8);
+    mousepad_window_open_file (window, files[n], MOUSEPAD_ENCODING_UTF_8, must_exist);
 
   /* allow menu updates again */
   lock_menu_updates--;
@@ -3548,7 +3551,7 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
 
       /* open the files */
       data = g_ptr_array_free (files, FALSE);
-      mousepad_window_open_files (window, (GFile **) data, n_pages);
+      mousepad_window_open_files (window, (GFile **) data, n_pages, TRUE);
 
       /* cleanup */
       g_strfreev (uris);
@@ -4061,7 +4064,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       g_object_unref (file);
 
       /* try to load the template into the buffer */
-      result = mousepad_file_open (document->file, &error);
+      result = mousepad_file_open (document->file, TRUE, &error);
 
       /* reset the file location */
       mousepad_file_set_location (document->file, NULL, FALSE);
@@ -4128,7 +4131,7 @@ mousepad_window_action_open (GSimpleAction *action,
 
       /* open all the selected locations in new tabs */
       for (file = files; file != NULL; file = file->next)
-        mousepad_window_open_file (window, file->data, MOUSEPAD_ENCODING_UTF_8);
+        mousepad_window_open_file (window, file->data, MOUSEPAD_ENCODING_UTF_8, TRUE);
 
       /* cleanup */
       g_slist_free_full (files, g_object_unref);
@@ -4149,7 +4152,6 @@ mousepad_window_action_open_recent (GSimpleAction *action,
   MousepadEncoding  encoding;
   GtkRecentInfo    *info;
   GFile            *file;
-  GError           *error = NULL;
   const gchar      *uri, *charset;
   gchar            *action_name;
   gboolean          succeed = FALSE;
@@ -4170,37 +4172,18 @@ mousepad_window_action_open_recent (GSimpleAction *action,
 
       if (G_LIKELY (uri != NULL))
         {
-          /* open the file in a new tab if it exists */
+          /* try to get the charset from the description */
+          charset = mousepad_window_recent_get_charset (info);
+
+          /* lookup the encoding */
+          encoding = mousepad_encoding_find (charset);
+
+          /* try to open the file */
           file = g_file_new_for_uri (uri);
-          if (g_file_query_exists (file, NULL))
-            {
-              /* try to get the charset from the description */
-              charset = mousepad_window_recent_get_charset (info);
-
-              /* lookup the encoding */
-              encoding = mousepad_encoding_find (charset);
-
-              /* try to open the file */
-              succeed = mousepad_window_open_file (window, file, encoding);
-            }
-          else
-            {
-              /* create an error */
-              g_set_error (&error,  G_FILE_ERROR, G_FILE_ERROR_IO,
-                           _("Failed to open \"%s\" for reading. It will be "
-                             "removed from the document history"), mousepad_util_get_path (file));
-
-              /* show the warning */
-              mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to open file"));
-
-              /* cleanup */
-              g_error_free (error);
-            }
-
-          /* cleanup */
+          succeed = mousepad_window_open_file (window, file, encoding, TRUE);
           g_object_unref (file);
 
-          /* update the document history */
+          /* update the document history, don't both the user if this fails */
           if (G_LIKELY (succeed))
             gtk_recent_manager_add_item (window->recent_manager, uri);
           else
@@ -4484,46 +4467,47 @@ mousepad_window_action_reload (GSimpleAction *action,
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document = window->active;
-  GVariant         *v_succeed;
   GError           *error = NULL;
-  gint              response;
-  gboolean          succeed;
+  gint              retval;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
   /* ask the user if he really wants to do this when the file is modified */
   if (gtk_text_buffer_get_modified (document->buffer))
     {
       /* ask the user if he really wants to revert */
-      response = mousepad_dialogs_revert (GTK_WINDOW (window));
-
-      if (response == MOUSEPAD_RESPONSE_SAVE_AS)
+      switch (mousepad_dialogs_revert (GTK_WINDOW (window)))
         {
-          /* open the save as dialog */
-          g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
-          v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
-          succeed = g_variant_get_int32 (v_succeed);
-          g_variant_unref (v_succeed);
+          case MOUSEPAD_RESPONSE_SAVE_AS:
+            /* open the save as dialog */
+            g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
 
-          /* exit regardless of save status */
-          return;
+            /* exit regardless of save status */
+            return;
+            break;
+
+          case MOUSEPAD_RESPONSE_OK:
+            /* reload below */
+            break;
+
+          /* revert cancelled */
+          default:
+            return;
+            break;
         }
-      /* revert cancelled */
-      else if (response == MOUSEPAD_RESPONSE_CANCEL || response < 0)
-        return;
     }
 
   /* lock the undo manager */
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
   /* reload the file */
-  succeed = mousepad_file_reload (document->file, &error);
+  retval = mousepad_file_open (document->file, TRUE, &error);
 
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
-  if (G_UNLIKELY (succeed == FALSE))
+  if (G_UNLIKELY (retval != 0))
     {
       /* show the error */
       mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to reload the document"));
