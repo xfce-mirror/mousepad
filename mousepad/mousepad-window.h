@@ -53,7 +53,8 @@ void            mousepad_window_add                        (MousepadWindow      
 
 gint            mousepad_window_open_files                 (MousepadWindow       *window,
                                                             GFile               **files,
-                                                            gint                  n_files);
+                                                            gint                  n_files,
+                                                            gboolean              must_exist);
 
 void            mousepad_window_show_preferences           (MousepadWindow       *window);
 

@@ -80,13 +80,11 @@ void                mousepad_file_set_user_set_language    (MousepadFile        
                                                             gboolean             set_by_user);
 
 gint                mousepad_file_open                     (MousepadFile        *file,
+                                                            gboolean             must_exist,
                                                             GError             **error);
 
 gboolean            mousepad_file_save                     (MousepadFile        *file,
                                                             gboolean             forced,
-                                                            GError             **error);
-
-gboolean            mousepad_file_reload                   (MousepadFile        *file,
                                                             GError             **error);
 
 G_END_DECLS
