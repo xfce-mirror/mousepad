@@ -425,7 +425,7 @@ mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
       mousepad_file_set_encoding (dialog->document->file, encoding);
 
       /* try to open the file */
-      result = mousepad_file_open (dialog->document->file, &error);
+      result = mousepad_file_open (dialog->document->file, TRUE, &error);
     }
   /* unsupported system charset */
   else
