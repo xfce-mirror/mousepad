@@ -141,9 +141,19 @@ static GtkNotebook      *mousepad_window_notebook_create_window       (GtkNotebo
                                                                        MousepadWindow         *window);
 
 /* document signals */
-static void              mousepad_window_modified_changed             (MousepadWindow         *window);
-static void              mousepad_window_readonly_changed             (MousepadWindow         *window);
-static void              mousepad_window_has_selection                (MousepadWindow         *window);
+static void              mousepad_window_externally_modified          (MousepadFile           *file,
+                                                                       MousepadWindow         *window);
+static void              mousepad_window_modified_changed             (GtkTextBuffer          *buffer,
+                                                                       MousepadWindow         *window);
+static void              mousepad_window_readonly_changed             (MousepadFile           *file,
+                                                                       gboolean                readonly,
+                                                                       MousepadWindow         *window);
+static void              mousepad_window_location_changed             (MousepadFile           *file,
+                                                                       GFile                  *location,
+                                                                       MousepadWindow         *window);
+static void              mousepad_window_has_selection                (GtkTextBuffer          *buffer,
+                                                                       GParamSpec             *pspec,
+                                                                       MousepadWindow         *window);
 static void              mousepad_window_cursor_changed               (MousepadDocument       *document,
                                                                        gint                    line,
                                                                        gint                    column,
@@ -155,12 +165,12 @@ static void              mousepad_window_overwrite_changed            (MousepadD
 static void              mousepad_window_language_changed             (MousepadDocument       *document,
                                                                        GtkSourceLanguage      *language,
                                                                        MousepadWindow         *window);
-static void              mousepad_window_can_undo                     (MousepadWindow         *window,
+static void              mousepad_window_can_undo                     (GtkTextBuffer          *buffer,
                                                                        GParamSpec             *unused,
-                                                                       GObject                *buffer);
-static void              mousepad_window_can_redo                     (MousepadWindow         *window,
+                                                                       MousepadWindow         *window);
+static void              mousepad_window_can_redo                     (GtkTextBuffer          *buffer,
                                                                        GParamSpec             *unused,
-                                                                       GObject                *buffer);
+                                                                       MousepadWindow         *window);
 
 /* menu functions */
 static void              mousepad_window_menu_templates_fill          (MousepadWindow         *window,
@@ -2237,11 +2247,11 @@ mousepad_window_update_actions (MousepadWindow *window)
                                    mousepad_file_location_is_set (document->file));
 
       /* set the sensitivity of the undo and redo actions */
-      mousepad_window_can_undo (window, NULL, G_OBJECT (document->buffer));
-      mousepad_window_can_redo (window, NULL, G_OBJECT (document->buffer));
+      mousepad_window_can_undo (document->buffer, NULL, window);
+      mousepad_window_can_redo (document->buffer, NULL, window);
 
       /* set the sensitivity of the selection-related actions */
-      mousepad_window_has_selection (window);
+      mousepad_window_has_selection (document->buffer, NULL, window);
 
       /* set the current line ending type */
       line_ending = mousepad_file_get_line_ending (document->file);
@@ -2326,18 +2336,20 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_language_changed), window);
   g_signal_connect (page, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
-  g_signal_connect_swapped (document->buffer, "notify::has-selection",
-                            G_CALLBACK (mousepad_window_has_selection), window);
-  g_signal_connect_swapped (document->buffer, "notify::can-undo",
-                            G_CALLBACK (mousepad_window_can_undo), window);
-  g_signal_connect_swapped (document->buffer, "notify::can-redo",
-                            G_CALLBACK (mousepad_window_can_redo), window);
-  g_signal_connect_swapped (document->buffer, "modified-changed",
-                            G_CALLBACK (mousepad_window_modified_changed), window);
-  g_signal_connect_swapped (document->file, "readonly-changed",
-                            G_CALLBACK (mousepad_window_readonly_changed), window);
-  g_signal_connect_swapped (document->file, "location-changed",
-                            G_CALLBACK (mousepad_window_set_title), window);
+  g_signal_connect (document->buffer, "notify::has-selection",
+                    G_CALLBACK (mousepad_window_has_selection), window);
+  g_signal_connect (document->buffer, "notify::can-undo",
+                    G_CALLBACK (mousepad_window_can_undo), window);
+  g_signal_connect (document->buffer, "notify::can-redo",
+                    G_CALLBACK (mousepad_window_can_redo), window);
+  g_signal_connect (document->buffer, "modified-changed",
+                    G_CALLBACK (mousepad_window_modified_changed), window);
+  g_signal_connect (document->file, "externally-modified",
+                    G_CALLBACK (mousepad_window_externally_modified), window);
+  g_signal_connect (document->file, "readonly-changed",
+                    G_CALLBACK (mousepad_window_readonly_changed), window);
+  g_signal_connect (document->file, "location-changed",
+                    G_CALLBACK (mousepad_window_location_changed), window);
   g_signal_connect (document->textview, "populate-popup",
                     G_CALLBACK (mousepad_window_menu_textview_popup), window);
 
@@ -2369,8 +2381,9 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_undo, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_redo, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_modified_changed, window);
-  mousepad_disconnect_by_func (document->file, mousepad_window_set_title, window);
+  mousepad_disconnect_by_func (document->file, mousepad_window_externally_modified, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
+  mousepad_disconnect_by_func (document->file, mousepad_window_location_changed, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
 
   /* window contains no tabs: save geometry and destroy it */
@@ -2574,44 +2587,171 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
 /**
  * Document Signals Functions
  **/
-static void
-mousepad_window_modified_changed (MousepadWindow *window)
+static gboolean
+mousepad_window_pending_widget_idle (gpointer data)
 {
-  GAction *action;
+  MousepadDocument *document;
+  MousepadWindow   *window;
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  /* the window or its attributes may no longer exist when we get here */
+  if (MOUSEPAD_IS_DOCUMENT (data))
+    {
+      document = MOUSEPAD_DOCUMENT (data);
+      window = MOUSEPAD_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (data), MOUSEPAD_TYPE_WINDOW));
+      if (MOUSEPAD_IS_WINDOW (window) && MOUSEPAD_IS_FILE (document->file))
+        mousepad_window_externally_modified (document->file, window);
+    }
 
-  /* update window title */
-  mousepad_window_set_title (window);
-
-  /* set the save action sensitivity */
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
-                               mousepad_file_is_savable (window->active->file));
-
-  /* update document dependent menu items */
-  mousepad_window_update_document_menu_items (window);
+  return FALSE;
 }
 
 
 
 static void
-mousepad_window_readonly_changed (MousepadWindow *window)
+mousepad_window_pending_window (MousepadWindow *window)
 {
-  GAction *action;
+  /* disconnect this handler */
+  mousepad_disconnect_by_func (window, mousepad_window_pending_window, NULL);
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  /* set the save action sensitivity */
-  action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
-                               mousepad_file_is_savable (window->active->file));
+  /* try again to inform the user about this file whenever idle, to allow for a possible
+   * closing process to take place before */
+  g_idle_add (mousepad_window_pending_widget_idle, window->active);
 }
 
 
 
 static void
-mousepad_window_has_selection (MousepadWindow *window)
+mousepad_window_pending_tab (GtkNotebook  *notebook,
+                             GtkWidget    *page,
+                             guint         page_num,
+                             MousepadFile *file)
+{
+  if (MOUSEPAD_DOCUMENT (page)->file == file)
+    {
+      /* disconnect this handler */
+      mousepad_disconnect_by_func (notebook, mousepad_window_pending_tab, file);
+
+      /* try again to inform the user about this file whenever idle, to allow for a possible
+       * closing process to take place before */
+      g_idle_add (mousepad_window_pending_widget_idle, page);
+    }
+}
+
+
+
+static void
+mousepad_window_externally_modified (MousepadFile   *file,
+                                     MousepadWindow *window)
+{
+  MousepadDocument *document = window->active;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_FILE (file));
+
+  /* disconnect this handler, the time we ask the user what to do or the file is active */
+  mousepad_disconnect_by_func (file, mousepad_window_externally_modified, window);
+
+  /* the file is active */
+  if (document->file == file && gtk_window_is_active (GTK_WINDOW (window)))
+    {
+      /* ask the user what to do */
+      if (mousepad_dialogs_externally_modified (GTK_WINDOW (window), FALSE,
+                                                gtk_text_buffer_get_modified (document->buffer))
+          == MOUSEPAD_RESPONSE_RELOAD)
+        {
+          gtk_text_buffer_set_modified (document->buffer, FALSE);
+          g_action_group_activate_action (G_ACTION_GROUP (window), "file.reload", NULL);
+        }
+
+      /* reconnect this handler */
+      g_signal_connect (file, "externally-modified",
+                        G_CALLBACK (mousepad_window_externally_modified), window);
+    }
+  /* the file is inactive in an inactive tab */
+  else if (document->file != file)
+    g_signal_connect (window->notebook, "switch-page",
+                      G_CALLBACK (mousepad_window_pending_tab), file);
+  /* the file is inactive in the active tab of an inactive window */
+  else
+    g_signal_connect (window, "notify::is-active",
+                      G_CALLBACK (mousepad_window_pending_window), NULL);
+}
+
+
+
+static void
+mousepad_window_modified_changed (GtkTextBuffer  *buffer,
+                                  MousepadWindow *window)
+{
+  GAction *action;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  if (window->active->buffer == buffer)
+    {
+      /* update window title */
+      mousepad_window_set_title (window);
+
+      /* set the save action sensitivity */
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action),
+                                   mousepad_file_is_savable (window->active->file));
+
+      /* update document dependent menu items */
+      mousepad_window_update_document_menu_items (window);
+    }
+}
+
+
+
+static void
+mousepad_window_readonly_changed (MousepadFile   *file,
+                                  gboolean        readonly,
+                                  MousepadWindow *window)
+{
+  GAction *action;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  if (window->active->file == file)
+    {
+      /* update window title */
+      mousepad_window_set_title (window);
+
+      /* set the save action sensitivity */
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), mousepad_file_is_savable (file));
+    }
+}
+
+
+
+static void
+mousepad_window_location_changed (MousepadFile   *file,
+                                  GFile          *location,
+                                  MousepadWindow *window)
+{
+  GAction *action;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  if (window->active->file == file)
+    {
+      /* update window title */
+      mousepad_window_set_title (window);
+
+      /* set the reload action sensitivity */
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.reload");
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), mousepad_file_location_is_set (file));
+    }
+}
+
+
+
+static void
+mousepad_window_has_selection (GtkTextBuffer  *buffer,
+                               GParamSpec     *pspec,
+                               MousepadWindow *window)
 {
   GAction     *action;
   guint        n;
@@ -2623,14 +2763,17 @@ mousepad_window_has_selection (MousepadWindow *window)
     "edit.convert.to-title-case", "edit.convert.to-opposite-case"
   };
 
-  /* get the buffer property */
-  g_object_get (window->active->buffer, "has-selection", &has_selection, NULL);
-
-  /* actions enabled only for selections */
-  for (n = 0; n < G_N_ELEMENTS (action_names); n++)
+  if (window->active->buffer == buffer)
     {
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names[n]);
-      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), has_selection);
+      /* get the buffer property */
+      g_object_get (buffer, "has-selection", &has_selection, NULL);
+
+      /* actions enabled only for selections */
+      for (n = 0; n < G_N_ELEMENTS (action_names); n++)
+        {
+          action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names[n]);
+          g_simple_action_set_enabled (G_SIMPLE_ACTION (action), has_selection);
+        }
     }
 }
 
@@ -2648,7 +2791,8 @@ mousepad_window_cursor_changed (MousepadDocument *document,
 
   /* set the new statusbar cursor position and selection length */
   if (window->statusbar && window->active == document)
-    mousepad_statusbar_set_cursor_position (MOUSEPAD_STATUSBAR (window->statusbar), line, column, selection);
+    mousepad_statusbar_set_cursor_position (MOUSEPAD_STATUSBAR (window->statusbar),
+                                            line, column, selection);
 }
 
 
@@ -2662,7 +2806,7 @@ mousepad_window_overwrite_changed (MousepadDocument *document,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
   /* set the new overwrite mode in the statusbar */
-  if (window->statusbar)
+  if (window->statusbar && window->active == document)
     mousepad_statusbar_set_overwrite (MOUSEPAD_STATUSBAR (window->statusbar), overwrite);
 }
 
@@ -2677,16 +2821,16 @@ mousepad_window_language_changed (MousepadDocument  *document,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
   /* update the filetype shown in the statusbar */
-  if (window->statusbar)
+  if (window->statusbar && window->active == document)
     mousepad_statusbar_set_language (MOUSEPAD_STATUSBAR (window->statusbar), language);
 }
 
 
 
 static void
-mousepad_window_can_undo (MousepadWindow *window,
+mousepad_window_can_undo (GtkTextBuffer  *buffer,
                           GParamSpec     *unused,
-                          GObject        *buffer)
+                          MousepadWindow *window)
 {
   GAction  *action;
   gboolean  can_undo;
@@ -2700,9 +2844,9 @@ mousepad_window_can_undo (MousepadWindow *window,
 
 
 static void
-mousepad_window_can_redo (MousepadWindow *window,
+mousepad_window_can_redo (GtkTextBuffer  *buffer,
                           GParamSpec     *unused,
-                          GObject        *buffer)
+                          MousepadWindow *window)
 {
   GAction  *action;
   gboolean  can_redo;
@@ -4197,7 +4341,7 @@ mousepad_window_action_save (GSimpleAction *action,
           g_clear_error (&error);
 
           /* ask the user what to do */
-          switch (mousepad_dialogs_externally_modified (GTK_WINDOW (window)))
+          switch (mousepad_dialogs_externally_modified (GTK_WINDOW (window), TRUE, TRUE))
             {
               case MOUSEPAD_RESPONSE_CANCEL:
                 /* do nothing */

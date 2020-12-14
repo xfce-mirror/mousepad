@@ -419,27 +419,60 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
 
 
 gint
-mousepad_dialogs_externally_modified (GtkWindow *parent)
+mousepad_dialogs_externally_modified (GtkWindow *parent,
+                                      gboolean   saving,
+                                      gboolean   modified)
 {
-  GtkWidget *dialog;
-  GtkWidget *button;
-  gint       response;
+  GtkWidget   *dialog, *button;
+  const gchar *text_1, *text_2, *icon, *label;
+  gint         button_response, response;
+
+  /* set icons and texts to display */
+  if (saving)
+    {
+      text_1 = _("The document has been externally modified. Do you want to continue saving?");
+      text_2 = _("If you save the document, all of the external changes will be lost.");
+      icon = "document-save-as";
+      label = _("Save _As");
+      button_response = MOUSEPAD_RESPONSE_SAVE_AS;
+    }
+  else
+    {
+      text_1 = _("The document has been externally modified. Do you want to reload it from disk?");
+      button_response = MOUSEPAD_RESPONSE_RELOAD;
+
+      if (modified)
+        {
+          text_2 = _("You have unsaved changes. If you revert the file, they will be lost.");
+          icon = "document-revert";
+          label = _("_Revert");
+        }
+      else
+        {
+          text_2 = NULL;
+          icon = "view-refresh";
+          label = _("Re_load");
+        }
+    }
 
   /* create the question dialog */
-  dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                   GTK_MESSAGE_WARNING, GTK_BUTTONS_NONE,
-                                   _("The document has been externally modified. "
-                                     "Do you want to continue saving?"));
+  dialog = gtk_message_dialog_new_with_markup (parent, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                   GTK_MESSAGE_WARNING, GTK_BUTTONS_NONE, "<b><big>%s</big></b>", text_1);
   gtk_window_set_title (GTK_WINDOW (dialog), _("Externally Modified"));
-  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
-                                            _("If you save the document, all of the external "
-                                              "changes will be lost."));
+  if (text_2 != NULL)
+    gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text_2);
+
   gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
-  button = mousepad_util_image_button ("document-save-as", _("Save _As"));
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
-  button = mousepad_util_image_button ("document-save", _("_Save"));
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
+
+  button = mousepad_util_image_button (icon, label);
+  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, button_response);
+
+  if (saving)
+    {
+      button = mousepad_util_image_button ("document-save", _("_Save"));
+      gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
+    }
 
   /* run the dialog */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -470,7 +503,7 @@ mousepad_dialogs_revert (GtkWindow *parent)
   button = mousepad_util_image_button ("document-save-as", _("_Save As"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
   button = mousepad_util_image_button ("document-revert", _("_Revert"));
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_REVERT);
+  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_RELOAD);
 
   /* run the dialog */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
