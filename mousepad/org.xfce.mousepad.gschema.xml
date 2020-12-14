@@ -63,6 +63,14 @@
         at the end of the original filename.
       </description>
     </key>
+    <key name="monitor" type="b">
+      <default>true</default>
+      <summary>File monitoring</summary>
+      <description>
+        When true Mousepad continuously watches opened files for changes, to inform
+        the user in case of external modification of contents or status.
+      </description>
+    </key>
   </schema>
 
   <!-- Textview preferences -->
