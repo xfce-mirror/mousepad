@@ -141,6 +141,8 @@ static GtkNotebook      *mousepad_window_notebook_create_window       (GtkNotebo
                                                                        MousepadWindow         *window);
 
 /* document signals */
+static void              mousepad_window_externally_modified          (MousepadFile           *file,
+                                                                       MousepadWindow         *window);
 static void              mousepad_window_location_changed             (MousepadFile           *file,
                                                                        GFile                  *location,
                                                                        MousepadWindow         *window);
@@ -2341,6 +2343,8 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_can_redo), window);
   g_signal_connect (document->buffer, "modified-changed",
                     G_CALLBACK (mousepad_window_modified_changed), window);
+  g_signal_connect (document->file, "externally-modified",
+                    G_CALLBACK (mousepad_window_externally_modified), window);
   g_signal_connect (document->file, "location-changed",
                     G_CALLBACK (mousepad_window_location_changed), window);
   g_signal_connect (document->file, "readonly-changed",
@@ -2376,6 +2380,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_undo, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_redo, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_modified_changed, window);
+  mousepad_disconnect_by_func (document->file, mousepad_window_externally_modified, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_location_changed, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
@@ -2581,6 +2586,98 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
 /**
  * Document Signals Functions
  **/
+static gboolean
+mousepad_window_pending_widget_idle (gpointer data)
+{
+  MousepadDocument *document;
+  MousepadWindow   *window;
+
+  /* the window or its attributes may no longer exist when we get here */
+  if (MOUSEPAD_IS_DOCUMENT (data))
+    {
+      document = MOUSEPAD_DOCUMENT (data);
+      window = MOUSEPAD_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (data), MOUSEPAD_TYPE_WINDOW));
+      if (MOUSEPAD_IS_WINDOW (window) && MOUSEPAD_IS_FILE (document->file))
+        mousepad_window_externally_modified (document->file, window);
+    }
+
+  return FALSE;
+}
+
+
+
+static void
+mousepad_window_pending_window (MousepadWindow *window)
+{
+  /* disconnect this handler */
+  mousepad_disconnect_by_func (window, mousepad_window_pending_window, NULL);
+
+  /* try again to inform the user about this file whenever idle, to allow for a possible
+   * closing process to take place before */
+  g_idle_add (mousepad_window_pending_widget_idle, window->active);
+}
+
+
+
+static void
+mousepad_window_pending_tab (GtkNotebook  *notebook,
+                             GtkWidget    *page,
+                             guint         page_num,
+                             MousepadFile *file)
+{
+  if (MOUSEPAD_DOCUMENT (page)->file == file)
+    {
+      /* disconnect this handler */
+      mousepad_disconnect_by_func (notebook, mousepad_window_pending_tab, file);
+
+      /* try again to inform the user about this file whenever idle, to allow for a possible
+       * closing process to take place before */
+      g_idle_add (mousepad_window_pending_widget_idle, page);
+    }
+}
+
+
+
+static void
+mousepad_window_externally_modified (MousepadFile   *file,
+                                     MousepadWindow *window)
+{
+  MousepadDocument *document = window->active;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_FILE (file));
+
+  /* disconnect this handler, the time we ask the user what to do or the file is active */
+  mousepad_disconnect_by_func (file, mousepad_window_externally_modified, window);
+
+  /* the file is active */
+  if (document->file == file && gtk_window_is_active (GTK_WINDOW (window)))
+    {
+      /* ask the user what to do */
+      if (mousepad_dialogs_externally_modified (GTK_WINDOW (window), FALSE,
+                                                gtk_text_buffer_get_modified (document->buffer))
+          == MOUSEPAD_RESPONSE_RELOAD)
+        {
+          gtk_text_buffer_set_modified (document->buffer, FALSE);
+          g_action_group_activate_action (G_ACTION_GROUP (window), "file.reload", NULL);
+        }
+
+      /* reconnect this handler */
+      g_signal_connect (file, "externally-modified",
+                        G_CALLBACK (mousepad_window_externally_modified), window);
+    }
+  /* the file is inactive in an inactive tab */
+  else if (document->file != file)
+    g_signal_connect (window->notebook, "switch-page",
+                      G_CALLBACK (mousepad_window_pending_tab), file);
+  /* the file is inactive in the active tab of an inactive window */
+  else
+    g_signal_connect (window, "notify::is-active",
+                      G_CALLBACK (mousepad_window_pending_window), NULL);
+}
+
+
+
 static void
 mousepad_window_location_changed (MousepadFile   *file,
                                   GFile          *location,
@@ -4249,7 +4346,7 @@ mousepad_window_action_save (GSimpleAction *action,
           g_clear_error (&error);
 
           /* ask the user what to do */
-          switch (mousepad_dialogs_externally_modified (GTK_WINDOW (window)))
+          switch (mousepad_dialogs_externally_modified (GTK_WINDOW (window), TRUE, TRUE))
             {
               case MOUSEPAD_RESPONSE_CANCEL:
                 /* do nothing */
