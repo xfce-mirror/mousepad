@@ -23,7 +23,7 @@
 
 enum
 {
-  /* EXTERNALLY_MODIFIED, */
+  EXTERNALLY_MODIFIED,
   LOCATION_CHANGED,
   READONLY_CHANGED,
   LAST_SIGNAL
@@ -36,6 +36,7 @@ static void mousepad_file_finalize      (GObject      *object);
 /* MousepadFile own functions */
 static void mousepad_file_set_read_only (MousepadFile *file,
                                          gboolean      readonly);
+static void mousepad_file_set_monitor   (MousepadFile *file);
 
 
 
@@ -55,6 +56,10 @@ struct _MousepadFile
   GFile              *location;
   gboolean            temporary;
 
+  /* file monitoring */
+  GFileMonitor       *monitor;
+  gboolean            readonly;
+
   /* encoding of the file */
   MousepadEncoding    encoding;
 
@@ -63,9 +68,6 @@ struct _MousepadFile
 
   /* our last modification time */
   gchar              *etag;
-
-  /* if file is read-only */
-  gboolean            readonly;
 
   /* whether we write the bom at the start of the file */
   gboolean            write_bom;
@@ -92,16 +94,13 @@ mousepad_file_class_init (MousepadFileClass *klass)
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_file_finalize;
 
-#if 0
-  /* TODO implement this signal */
   file_signals[EXTERNALLY_MODIFIED] =
     g_signal_new (I_("externally-modified"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   0, NULL, NULL,
-                  g_cclosure_marshal_VOID__BOOLEAN,
-                  G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
-#endif
+                  g_cclosure_marshal_VOID__VOID,
+                  G_TYPE_NONE, 0);
 
   file_signals[READONLY_CHANGED] =
     g_signal_new (I_("readonly-changed"),
@@ -128,16 +127,21 @@ mousepad_file_init (MousepadFile *file)
   /* initialize */
   file->location          = NULL;
   file->temporary         = FALSE;
+  file->monitor           = NULL;
+  file->readonly          = FALSE;
   file->encoding          = MOUSEPAD_ENCODING_UTF_8;
 #ifdef G_OS_WIN32
   file->line_ending       = MOUSEPAD_EOL_DOS;
 #else
   file->line_ending       = MOUSEPAD_EOL_UNIX;
 #endif
-  file->readonly          = TRUE;
   file->etag              = NULL;
   file->write_bom         = FALSE;
   file->user_set_language = FALSE;
+
+  /* file monitoring */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (MONITOR, G_CALLBACK (mousepad_file_set_monitor),
+                                   file, G_CONNECT_SWAPPED);
 }
 
 
@@ -152,6 +156,9 @@ mousepad_file_finalize (GObject *object)
 
   if (G_IS_FILE (file->location))
     g_object_unref (file->location);
+
+  if (G_IS_FILE_MONITOR (file->monitor))
+    g_object_unref (file->monitor);
 
   if (GTK_IS_TEXT_BUFFER (file->buffer))
     g_object_unref (file->buffer);
@@ -174,6 +181,65 @@ mousepad_file_new (GtkTextBuffer *buffer)
   file->buffer = GTK_TEXT_BUFFER (g_object_ref (buffer));
 
   return file;
+}
+
+
+
+static void
+mousepad_file_monitor_changed (GFileMonitor      *monitor,
+                               GFile             *location,
+                               GFile             *other_location,
+                               GFileMonitorEvent  event_type,
+                               MousepadFile      *file)
+{
+  GFileInfo *fileinfo;
+
+  /* update readonly status */
+  if (event_type & G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED
+      && G_LIKELY (fileinfo = g_file_query_info (location, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
+                                                 G_FILE_QUERY_INFO_NONE, NULL, NULL)))
+    {
+      mousepad_file_set_read_only (file,
+        ! g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
+      g_object_unref (fileinfo);
+    }
+
+  /* the file has been externally modified */
+  if (event_type & (G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT | G_FILE_MONITOR_EVENT_MOVED_IN))
+    g_signal_emit (file, file_signals[EXTERNALLY_MODIFIED], 0);
+}
+
+
+
+static void
+mousepad_file_set_monitor (MousepadFile *file)
+{
+  GError *error = NULL;
+
+  if (file->monitor != NULL)
+    {
+      g_object_unref (file->monitor);
+      file->monitor = NULL;
+    }
+
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR))
+    {
+      file->monitor = g_file_monitor_file (file->location,
+                                           G_FILE_MONITOR_WATCH_MOVES
+                                           | G_FILE_MONITOR_WATCH_HARD_LINKS,
+                                           NULL, &error);
+
+      /* inform the user */
+      if (error != NULL)
+        {
+          g_message ("File monitoring is disabled for this file: %s", error->message);
+          g_error_free (error);
+        }
+      /* watch file for changes */
+      else
+        g_signal_connect (file->monitor, "changed",
+                          G_CALLBACK (mousepad_file_monitor_changed), file);
+    }
 }
 
 
@@ -207,6 +273,9 @@ mousepad_file_set_location (MousepadFile *file,
     {
       /* this is a definitve location */
       file->temporary = FALSE;
+
+      /* file monitoring */
+      mousepad_file_set_monitor (file);
 
       /* send a signal that the name has been changed */
       g_signal_emit (file, file_signals[LOCATION_CHANGED], 0, file->location);
@@ -281,7 +350,7 @@ mousepad_file_get_read_only (MousepadFile *file)
 {
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
 
-  return file->location ? file->readonly : FALSE;
+  return file->readonly;
 }
 
 
@@ -499,9 +568,7 @@ mousepad_file_open (MousepadFile  *file,
   if (! g_file_load_contents (file->location, NULL, &contents, &file_size, &(file->etag), error)
       && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND) && ! must_exist)
     {
-      mousepad_file_set_read_only (file, FALSE);
       g_clear_error (error);
-
       return 0;
     }
   /* the file was sucessfully loaded */
@@ -655,7 +722,6 @@ mousepad_file_open (MousepadFile  *file,
         {
           g_free (file->etag);
           file->etag = NULL;
-          mousepad_file_set_read_only (file, FALSE);
         }
 
       failed:
@@ -678,6 +744,39 @@ mousepad_file_open (MousepadFile  *file,
     }
 
   return retval;
+}
+
+
+
+static gboolean
+mousepad_file_replace_contents (MousepadFile      *m_file,
+                                GFile             *file,
+                                const char        *contents,
+                                gsize              length,
+                                const char        *etag,
+                                gboolean           make_backup,
+                                GFileCreateFlags   flags,
+                                char             **new_etag,
+                                GCancellable      *cancellable,
+                                GError           **error)
+{
+  gboolean succeed;
+
+  /* disable file monitoring */
+  if (m_file->monitor != NULL)
+    {
+      g_object_unref (m_file->monitor);
+      m_file->monitor = NULL;
+    }
+
+  /* replace contents */
+  succeed = g_file_replace_contents (file, contents, length, etag, make_backup,
+                                     flags, new_etag, cancellable, error);
+
+  /* re-enable file monitoring */
+  mousepad_file_set_monitor (m_file);
+
+  return succeed;
 }
 
 
@@ -797,10 +896,10 @@ mousepad_file_save (MousepadFile  *file,
         }
 
       /* write the buffer to the file */
-      if (g_file_replace_contents (file->location, contents, length,
-                                   (file->temporary || forced) ? NULL : file->etag,
-                                   MOUSEPAD_SETTING_GET_BOOLEAN (BACKUP),
-                                   G_FILE_CREATE_NONE, &etag, NULL, error))
+      if (mousepad_file_replace_contents (file, file->location, contents, length,
+                                          (file->temporary || forced) ? NULL : file->etag,
+                                          MOUSEPAD_SETTING_GET_BOOLEAN (BACKUP),
+                                          G_FILE_CREATE_NONE, &etag, NULL, error))
         {
           g_free (file->etag);
           file->etag = etag;
@@ -810,9 +909,6 @@ mousepad_file_save (MousepadFile  *file,
 
       /* everything has been saved */
       gtk_text_buffer_set_modified (file->buffer, FALSE);
-
-      /* we saved succesfully */
-      mousepad_file_set_read_only (file, FALSE);
 
       /* if the user hasn't set the filetype, try and re-guess it now
        * that we have a new location to go by */
