@@ -63,6 +63,25 @@
         at the end of the original filename.
       </description>
     </key>
+    <key name="monitor-changes" type="b">
+      <default>true</default>
+      <summary>File monitoring</summary>
+      <description>
+        When true Mousepad continuously watches opened files for changes, to inform
+        the user in case of external modification of contents or status.
+      </description>
+    </key>
+    <key name="monitor-disabling-timer" type="i">
+      <range min="0" max="10000"/>
+      <default>500</default>
+      <summary>Millisecond timer to ignore own changes when saving</summary>
+      <description>
+        File monitoring must be disabled when saving, to not consider own changes
+        as external modifications. Increase this duration if Mousepad makes this
+        error, probably because you are working with slow backup media. Otherwise,
+        you should leave it alone.
+      </description>
+    </key>
   </schema>
 
   <!-- Textview preferences -->
