@@ -1805,15 +1805,11 @@ mousepad_window_open_file (MousepadWindow   *window,
         /* handle */
         if (response == GTK_RESPONSE_OK)
           goto retry;
-        else
-          g_object_unref (document);
 
         break;
 
       default:
-        /* something went wrong, release the document */
-        g_object_unref (document);
-
+        /* something went wrong */
         if (G_LIKELY (error))
           {
             /* show the warning */
@@ -1825,6 +1821,9 @@ mousepad_window_open_file (MousepadWindow   *window,
 
         break;
     }
+
+  /* decrease reference count if everything went well, else release the document */
+  g_object_unref (document);
 
   return (result == 0);
 }
@@ -4078,9 +4077,6 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
         }
       else
         {
-          /* release the document */
-          g_object_unref (document);
-
           /* handle the error */
           switch (result)
             {
@@ -4105,6 +4101,9 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
           mousepad_dialogs_show_error (GTK_WINDOW (window), error, message);
           g_clear_error (&error);
         }
+
+      /* decrease reference count if everything went well, else release the document */
+      g_object_unref (document);
     }
 }
 
