@@ -283,9 +283,21 @@ mousepad_document_init (MousepadDocument *document)
 
 
 static void
+mousepad_document_post_finalize (GtkSourceSearchContext *search_context,
+                                 GParamSpec             *pspec,
+                                 GtkTextBuffer          *buffer)
+{
+  g_object_unref (search_context);
+  g_object_unref (buffer);
+}
+
+
+
+static void
 mousepad_document_finalize (GObject *object)
 {
-  MousepadDocument *document = MOUSEPAD_DOCUMENT (object);
+  MousepadDocument        *document = MOUSEPAD_DOCUMENT (object);
+  GtkSourceSearchSettings *search_settings;
 
   /* cleanup */
   g_free (document->priv->utf8_filename);
@@ -295,9 +307,27 @@ mousepad_document_finalize (GObject *object)
   /* release the file */
   g_object_unref (document->file);
 
-  /* release the buffer reference and the search context reference */
-  g_object_unref (document->buffer);
-  g_object_unref (document->priv->search_context);
+  /*
+   * We will release the buffer and the search context when a last search is completed,
+   * including buffer scanning, to prevent too late accesses to the buffer.
+   */
+
+  /* disconnect any handler connected to the buffer or the search context, to not interfer
+   * with what follows */
+  g_signal_handlers_disconnect_by_data (document->priv->search_context, document);
+  g_signal_handlers_disconnect_by_data (document->buffer, document);
+
+  /* reset some critical settings to ensure that the last search is almost instantaneous
+   * (see mousepad_document_prevent_endless_scanning() below) */
+  search_settings = gtk_source_search_context_get_settings (document->priv->search_context);
+  gtk_source_search_context_set_highlight (document->priv->search_context, FALSE);
+  gtk_source_search_settings_set_regex_enabled (search_settings, FALSE);
+
+  /* cancel any current search by launching a last one, the result of which will trigger
+   * post_finalize() */
+  g_signal_connect (document->priv->search_context, "notify::occurrences-count",
+                    G_CALLBACK (mousepad_document_post_finalize), document->buffer);
+  gtk_source_search_settings_set_search_text (search_settings, NULL);
 
   (*G_OBJECT_CLASS (mousepad_document_parent_class)->finalize) (object);
 }
