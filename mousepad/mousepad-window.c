@@ -3699,14 +3699,24 @@ mousepad_window_search_completed (MousepadWindow      *window,
       && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL)
       && MOUSEPAD_SETTING_GET_INT (SEARCH_REPLACE_ALL_LOCATION) == 2)
     {
-      /* update the current search string or exit if the search is irrelevant */
-      if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)
+      /* update the current search string and reset other static variables, or exit if
+       * the search is irrelevant */
+      if (g_strcmp0 (multi_string, string) != 0)
         {
-          g_free (multi_string);
-          multi_string = g_strdup (string);
+          if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)
+            {
+              g_free (multi_string);
+              multi_string = g_strdup (string);
+              g_list_free (documents);
+              g_list_free (n_matches_docs);
+              documents = NULL;
+              n_matches_docs = NULL;
+              n_documents = 0;
+              n_matches = 0;
+            }
+          else
+            return;
         }
-      else if (g_strcmp0 (multi_string, string) != 0)
-        return;
 
       /* remove obsolete document results */
       if (documents != NULL)
@@ -3754,11 +3764,12 @@ mousepad_window_search_completed (MousepadWindow      *window,
           documents = g_list_prepend (documents, document);
           n_matches_docs = g_list_prepend (n_matches_docs, GINT_TO_POINTER (n_matches_doc));
           n_matches += n_matches_doc;
-
-          /* exit if all documents have not yet send their result */
-          if (++n_documents < gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook)))
-            return;
+          n_documents++;
         }
+
+      /* exit if all documents have not yet send their result */
+      if (n_documents < gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook)))
+        return;
 
       /* send the final result, only relevant for the replace dialog */
       g_signal_emit (window, window_signals[SEARCH_COMPLETED], 0, n_matches, string,

@@ -510,21 +510,27 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
   gchar       *message;
   const gchar *string;
 
-  /* stop the spinner */
-  gtk_spinner_stop (GTK_SPINNER (dialog->spinner));
-
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
 
   /* leave the dialog unchanged if the search was launched from the search bar
-   * for a different string or if irrelevant settings for it are in use here */
-  if (g_strcmp0 (string, search_string) != 0 || (
-        MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL)
-        && MOUSEPAD_SETTING_GET_INT (SEARCH_REPLACE_ALL_LOCATION) != IN_DOCUMENT
-        && ! (flags & (MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
-                       | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS))
-     ))
+   * for a different string... */
+  if (g_strcmp0 (string, search_string) != 0)
+    {
+      /* stop the spinner */
+      gtk_spinner_stop (GTK_SPINNER (dialog->spinner));
+      return;
+    }
+  /* ... or if irrelevant settings for it are in use here, without stopping the spinner
+   * in this case (we are in multi-document mode and this is a partial result) */
+  else if (MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL)
+           && MOUSEPAD_SETTING_GET_INT (SEARCH_REPLACE_ALL_LOCATION) != IN_DOCUMENT
+           && ! (flags & (MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
+                          | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)))
     return;
+
+  /* stop the spinner */
+  gtk_spinner_stop (GTK_SPINNER (dialog->spinner));
 
   if (string != NULL && *string != '\0')
     {
