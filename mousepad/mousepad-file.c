@@ -667,12 +667,6 @@ mousepad_file_open (MousepadFile  *file,
                 }
             }
 
-          /* text view doesn't expect a line ending at end of last line, but Unix and Mac files do */
-          if ((n = g_utf8_find_prev_char (contents, endc))
-              && (*n == '\r' || (*n == '\n' && (! (n = g_utf8_find_prev_char (contents, n))
-                                                || *n != '\r'))))
-            endc--;
-
           /* get the iter at the beginning of the document */
           gtk_text_buffer_get_start_iter (file->buffer, &start);
 
@@ -858,8 +852,8 @@ mousepad_file_save (MousepadFile  *file,
       /* add and utf-8 bom at the start of the contents if needed */
       if (file->write_bom && mousepad_encoding_is_unicode (file->encoding))
         {
-          /* realloc the contents string. +1 in case we append extra line ending */
-          contents = g_realloc (contents, length + 5);
+          /* realloc the contents string */
+          contents = g_realloc (contents, length + 4);
 
           /* move the existing contents 3 bytes */
           memmove (contents + 3, contents, length + 1);
@@ -873,16 +867,44 @@ mousepad_file_save (MousepadFile  *file,
           length += 3;
         }
 
-      /* text view doesn't expect a line ending at end of last line, but Unix and Mac files do */
-      if (file->line_ending != MOUSEPAD_EOL_DOS && 0 < length)
+      /* add line ending at end of last line if not present */
+      if (length > 0 && MOUSEPAD_SETTING_GET_BOOLEAN (ADD_LAST_EOL))
         {
-          /* realloc contents. does nothing if realloc above already resized */
-          contents = g_realloc (contents, length + 2);
+          switch (file->line_ending)
+            {
+              case MOUSEPAD_EOL_UNIX:
+                if (contents[length - 1] != '\n')
+                  {
+                    contents = g_realloc (contents, length + 2);
+                    contents[length] = '\n';
+                    gtk_text_buffer_insert (file->buffer, &end, "\n", 1);
+                    length++;
+                  }
+                break;
 
-          contents[length] = file->line_ending == MOUSEPAD_EOL_MAC ? '\r' : '\n';
-          contents[length + 1] = '\0';
+              case MOUSEPAD_EOL_MAC:
+                if (contents[length - 1] != '\r')
+                  {
+                    contents = g_realloc (contents, length + 2);
+                    contents[length] = '\r';
+                    gtk_text_buffer_insert (file->buffer, &end, "\r", 1);
+                    length++;
+                  }
+                break;
 
-          length++;
+              case MOUSEPAD_EOL_DOS:
+                if (contents[length - 1] != '\n' || (length > 1 && contents[length - 2] != '\r'))
+                  {
+                    contents = g_realloc (contents, length + 3);
+                    contents[length] = '\r';
+                    contents[length + 1] = '\n';
+                    gtk_text_buffer_insert (file->buffer, &end, "\r\n", 2);
+                    length += 2;
+                  }
+                break;
+            }
+
+          contents[length] = '\0';
         }
 
       /* convert to the encoding if set */

@@ -55,6 +55,14 @@
 
   <!-- File preferences -->
   <schema id="org.xfce.mousepad.preferences.file" path="/org/xfce/mousepad/preferences/file/" gettext-domain="mousepad">
+    <key name="add-last-end-of-line" type="b">
+      <default>false</default>
+      <summary>Add an end-of-line character at end of file on saving</summary>
+      <description>
+        When true, if not present, an end-of-line character is added at the end of
+        the file when saving, to conform to the POSIX definition of a file.
+      </description>
+    </key>
     <key name="make-backup" type="b">
       <default>false</default>
       <summary>Create a backup file on saving</summary>
