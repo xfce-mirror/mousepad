@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-18 00:56+0200\n"
-"PO-Revision-Date: 2020-10-18 08:25+0000\n"
+"POT-Creation-Date: 2020-12-01 00:46+0100\n"
+"PO-Revision-Date: 2020-12-23 19:17+0000\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/xfce/xfce-apps/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -21,48 +21,46 @@ msgstr ""
 "Language: cs\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: ../mousepad/mousepad-application.c:84
-msgctxt ""
-"The words 'tab', 'window' and 'mixed' enclosed in quotation marks must not "
-"be translated"
-msgid "File opening mode: \"tab\", \"window\" or \"mixed\" (open tabs in a new window)"
-msgstr "Režim otevírání souboru: \"karta\", \"okno\", \"kombinovaný\" (otevře karty v novém okně)"
-
-#: ../mousepad/mousepad-application.c:85
-msgid "MODE"
-msgstr "REŹIM"
-
-#: ../mousepad/mousepad-application.c:90
+#: ../mousepad/mousepad-application.c:117
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Neregistrovat se sběrnicí zpráv relace D-BUS"
 
-#: ../mousepad/mousepad-application.c:95
+#: ../mousepad/mousepad-application.c:122
 msgid "Quit a running Mousepad primary instance"
 msgstr "Ukončí primární instanci aplikace Mousepad"
 
-#: ../mousepad/mousepad-application.c:100
+#: ../mousepad/mousepad-application.c:127
 msgid "Print version information and exit"
 msgstr "Vytiskne informace o verzi a ukončí se"
 
-#: ../mousepad/mousepad-application.c:105
+#: ../mousepad/mousepad-application.c:132
 msgid "[FILES...]"
 msgstr "[SOUBORY...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:153 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:299 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:175
+#: ../mousepad/mousepad-application.c:308
+#, c-format
+msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
+msgstr "Režim otevírání souboru: \"%s\", \"%s\" nebo \"%s\" (otevře karty v novém okně)"
+
+#: ../mousepad/mousepad-application.c:311
+msgid "MODE"
+msgstr "REŹIM"
+
+#: ../mousepad/mousepad-application.c:331
 msgid "The Xfce development team. All rights reserved."
 msgstr "Tým vývojářů Xfce. Všechna práva vyhrazena."
 
-#: ../mousepad/mousepad-application.c:176
+#: ../mousepad/mousepad-application.c:332
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Prosíme, abyste chyby hlásili na emailovou adresu <%s>."
 
-#: ../mousepad/mousepad-application.c:705
+#: ../mousepad/mousepad-application.c:1266
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autoři: %s | Název souboru: %s"
@@ -76,150 +74,150 @@ msgid "translator-credits"
 msgstr "Michal Várady <miko.vaji@gmail.com> 2012"
 
 #. display an error message to the user
-#: ../mousepad/mousepad-dialogs.c:112 ../mousepad/mousepad-dialogs.c:131
+#: ../mousepad/mousepad-dialogs.c:93
 msgid "Failed to open the documentation browser"
 msgstr "Otevření prohlížeče dokumentace se nezdařilo"
 
 #. build dialog
-#: ../mousepad/mousepad-dialogs.c:153
+#: ../mousepad/mousepad-dialogs.c:109
 msgid "Select Tab Size"
 msgstr "Vyberte velikost tabulátoru"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:156 ../mousepad/mousepad-dialogs.c:240
-#: ../mousepad/mousepad-dialogs.c:348 ../mousepad/mousepad-dialogs.c:415
-#: ../mousepad/mousepad-dialogs.c:497 ../mousepad/mousepad-dialogs.c:532
-#: ../mousepad/mousepad-dialogs.c:564 ../mousepad/mousepad-dialogs.c:609
+#: ../mousepad/mousepad-dialogs.c:112 ../mousepad/mousepad-dialogs.c:193
+#: ../mousepad/mousepad-dialogs.c:298 ../mousepad/mousepad-dialogs.c:362
+#: ../mousepad/mousepad-dialogs.c:441 ../mousepad/mousepad-dialogs.c:473
+#: ../mousepad/mousepad-dialogs.c:502 ../mousepad/mousepad-dialogs.c:544
 #: ../mousepad/mousepad-encoding-dialog.c:121
 #: ../mousepad/mousepad-encoding-dialog.c:193
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: ../mousepad/mousepad-dialogs.c:157
+#: ../mousepad/mousepad-dialogs.c:113
 #: ../mousepad/mousepad-encoding-dialog.c:122
 msgid "_OK"
 msgstr "_OK"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:237
+#: ../mousepad/mousepad-dialogs.c:190
 msgid "Go To"
 msgstr "Přejít na"
 
-#: ../mousepad/mousepad-dialogs.c:242
+#: ../mousepad/mousepad-dialogs.c:195
 msgid "_Jump to"
 msgstr "_Přeskočit na"
 
-#: ../mousepad/mousepad-dialogs.c:265
+#: ../mousepad/mousepad-dialogs.c:215
 msgid "_Line number:"
 msgstr "Číslo řá_dku::"
 
-#: ../mousepad/mousepad-dialogs.c:285
+#: ../mousepad/mousepad-dialogs.c:235
 msgid "C_olumn number:"
 msgstr "Číslo _sloupce"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:345
+#: ../mousepad/mousepad-dialogs.c:295
 msgid "Clear Documents History"
 msgstr "Vymazat historii dokumentů"
 
-#: ../mousepad/mousepad-dialogs.c:350
+#: ../mousepad/mousepad-dialogs.c:300
 msgid "Clea_r"
 msgstr "Vy_mazat"
 
-#: ../mousepad/mousepad-dialogs.c:377
+#: ../mousepad/mousepad-dialogs.c:324
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr "<big><b>Odebrat z historie dokumentů všechny položky?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:382
+#: ../mousepad/mousepad-dialogs.c:329
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "Vymazáním historie dokumentů trvale odeberete všechny aktuálně vypsané položky."
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:412
+#: ../mousepad/mousepad-dialogs.c:359
 msgid "Save Changes"
 msgstr "Uložit změny"
 
-#: ../mousepad/mousepad-dialogs.c:419
+#: ../mousepad/mousepad-dialogs.c:366
 msgid "_Don't Save"
 msgstr "_Neukládat"
 
-#: ../mousepad/mousepad-dialogs.c:429 ../mousepad/mousepad-dialogs.c:533
+#: ../mousepad/mousepad-dialogs.c:373 ../mousepad/mousepad-dialogs.c:474
 msgid "_Save As"
 msgstr "_Uložit jako"
 
-#: ../mousepad/mousepad-dialogs.c:437 ../mousepad/mousepad-dialogs.c:500
-#: ../mousepad/mousepad-dialogs.c:567 ../mousepad/mousepad-window.c:888
-#: ../mousepad/resources/gtk/menus.ui.h:15
+#: ../mousepad/mousepad-dialogs.c:381 ../mousepad/mousepad-dialogs.c:444
+#: ../mousepad/mousepad-dialogs.c:505
+#: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "_Uložit"
 
-#: ../mousepad/mousepad-dialogs.c:461
+#: ../mousepad/mousepad-dialogs.c:405
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr "<big><b>Chcete před zavřením uložit změny?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:466
+#: ../mousepad/mousepad-dialogs.c:410
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "Neuložíte-li dokument, budou všechny změny ztraceny."
 
-#: ../mousepad/mousepad-dialogs.c:491
+#: ../mousepad/mousepad-dialogs.c:435
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "Dokument byl změněn jiným procesem. Chcete pokračovat v ukládání?"
 
-#: ../mousepad/mousepad-dialogs.c:493
+#: ../mousepad/mousepad-dialogs.c:437
 msgid "Externally Modified"
 msgstr "Změněno jiným procesem"
 
-#: ../mousepad/mousepad-dialogs.c:495
+#: ../mousepad/mousepad-dialogs.c:439
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "Uložíte-li dokument, budou všechny změny provedené jiným procesem ztraceny."
 
-#: ../mousepad/mousepad-dialogs.c:498
+#: ../mousepad/mousepad-dialogs.c:442
 msgid "Save _As"
 msgstr "Uložit _jako"
 
-#: ../mousepad/mousepad-dialogs.c:529
+#: ../mousepad/mousepad-dialogs.c:470
 msgid "Do you want to save your changes before reloading?"
 msgstr "Chcete uložit vaše změny před opětovným načtením?"
 
-#: ../mousepad/mousepad-dialogs.c:531
+#: ../mousepad/mousepad-dialogs.c:472
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Vrátíte-li soubor do původního stavu, budou všechny neuložené změny ztraceny"
 
-#: ../mousepad/mousepad-dialogs.c:535
+#: ../mousepad/mousepad-dialogs.c:476
 msgid "_Revert"
 msgstr "_Obnovit původní"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:562
+#: ../mousepad/mousepad-dialogs.c:500
 msgid "Save As"
 msgstr "Uložit jako"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:606
+#: ../mousepad/mousepad-dialogs.c:541
 msgid "Open File"
 msgstr "Otevřít soubor"
 
-#: ../mousepad/mousepad-dialogs.c:611
+#: ../mousepad/mousepad-dialogs.c:546
 msgid "_Open"
 msgstr "_Otevřít"
 
-#: ../mousepad/mousepad-dialogs.c:627
+#: ../mousepad/mousepad-dialogs.c:559
 msgid "_Encoding:"
 msgstr "_Kódování:"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:503
+#: ../mousepad/mousepad-document.c:599
 msgid "Close this tab"
 msgstr "Zavřít tuto kartu"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:533
+#: ../mousepad/mousepad-document.c:629
 msgid "Untitled"
 msgstr "Nepojmenovaný"
 
@@ -385,30 +383,30 @@ msgstr "Japonština"
 msgid "Korean"
 msgstr "Korejština"
 
-#: ../mousepad/mousepad-file.c:569
+#: ../mousepad/mousepad-file.c:566
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Neplatná posloupnout byjtů ve vstupu pro konverzi"
 
-#: ../mousepad/mousepad-file.c:915
+#: ../mousepad/mousepad-file.c:912
 #, c-format
 msgid "The file \"%s\" you tried to reload does not exist anymore"
 msgstr "Soubor %s, který jste se pokusili načíst, již neexistuje"
 
-#: ../mousepad/mousepad-file.c:956
+#: ../mousepad/mousepad-file.c:953
 #, c-format
 msgid "Failed to read the status of \"%s\""
 msgstr "Nelze načíst stav položky %s"
 
 #. add the close button
-#: ../mousepad/mousepad-prefs-dialog.c:461
-#: ../mousepad/mousepad-replace-dialog.c:177
+#: ../mousepad/mousepad-prefs-dialog.c:445
+#: ../mousepad/mousepad-replace-dialog.c:220
 msgid "_Close"
 msgstr "_Zavřít"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:467
-#: ../mousepad/resources/gtk/menus.ui.h:83
+#: ../mousepad/mousepad-prefs-dialog.c:451
+#: ../mousepad/resources/gtk/menus.ui.h:19
 msgid "Preferences"
 msgstr "Předvolby"
 
@@ -472,81 +470,91 @@ msgstr "Tělo dokumentu:"
 msgid "Line numbers:"
 msgstr "Čísla řádků:"
 
+#: ../mousepad/mousepad-replace-dialog.c:160
+msgid "_Replace All"
+msgstr "_Nahradit vše"
+
+#: ../mousepad/mousepad-replace-dialog.c:160
+#: ../mousepad/mousepad-replace-dialog.c:216
+msgid "_Replace"
+msgstr "Nah_radit"
+
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:164
+#: ../mousepad/mousepad-replace-dialog.c:205
 msgid "Find and Replace"
 msgstr "Najít a nahradit"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:170 ../mousepad/mousepad-window.c:914
-#: ../mousepad/resources/gtk/menus.ui.h:87
+#: ../mousepad/mousepad-replace-dialog.c:211
+#: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "_Najít"
 
-#: ../mousepad/mousepad-replace-dialog.c:174
-#: ../mousepad/mousepad-replace-dialog.c:507
-msgid "_Replace"
-msgstr "Nah_radit"
-
-#: ../mousepad/mousepad-replace-dialog.c:197
+#: ../mousepad/mousepad-replace-dialog.c:238
 msgid "_Search for:"
 msgstr "_Hledaný výraz:"
 
-#: ../mousepad/mousepad-replace-dialog.c:226
+#: ../mousepad/mousepad-replace-dialog.c:270
 msgid "Replace _with:"
 msgstr "Nahra_dit pomocí:"
 
-#: ../mousepad/mousepad-replace-dialog.c:249
+#: ../mousepad/mousepad-replace-dialog.c:290
 msgid "Search _direction:"
 msgstr "_Směr hledání:"
 
-#: ../mousepad/mousepad-replace-dialog.c:259
+#: ../mousepad/mousepad-replace-dialog.c:299
 msgid "Up"
 msgstr "Nahoru"
 
-#: ../mousepad/mousepad-replace-dialog.c:260
+#: ../mousepad/mousepad-replace-dialog.c:300
 msgid "Down"
 msgstr "Dolů"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:270
+#: ../mousepad/mousepad-replace-dialog.c:309
 msgid "_Wrap around"
 msgstr "_Orámování"
 
 #. case sensitive
-#: ../mousepad/mousepad-replace-dialog.c:278
-#: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:270
+#. check button for case sensitive, including the proxy menu item
+#. overflow menu item for when window is too narrow to show the tool bar item
+#: ../mousepad/mousepad-replace-dialog.c:316
+#: ../mousepad/mousepad-search-bar.c:218 ../mousepad/mousepad-search-bar.c:229
 msgid "Match _case"
 msgstr "Rozlišovat _velikost písmen"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:288
+#: ../mousepad/mousepad-replace-dialog.c:325
 msgid "_Match whole word"
 msgstr "_Celá slova"
 
 #. enable regex search
-#: ../mousepad/mousepad-replace-dialog.c:298
-#: ../mousepad/mousepad-search-bar.c:287 ../mousepad/mousepad-search-bar.c:300
+#. check button for enabling regex, including the proxy menu item
+#. overflow menu item for when window is too narrow to show the tool bar item
+#: ../mousepad/mousepad-replace-dialog.c:334
+#: ../mousepad/mousepad-search-bar.c:237 ../mousepad/mousepad-search-bar.c:248
 msgid "Regular e_xpression"
 msgstr "_Regulární výraz"
 
-#: ../mousepad/mousepad-replace-dialog.c:314
+#: ../mousepad/mousepad-replace-dialog.c:348
 msgid "Replace _all in:"
 msgstr "Nahradit _vše v:"
 
-#: ../mousepad/mousepad-replace-dialog.c:323
+#: ../mousepad/mousepad-replace-dialog.c:353
 msgid "Selection"
 msgstr "Výběru"
 
-#: ../mousepad/mousepad-replace-dialog.c:324
+#: ../mousepad/mousepad-replace-dialog.c:354
 msgid "Document"
 msgstr "Dokumentu"
 
-#: ../mousepad/mousepad-replace-dialog.c:325
+#: ../mousepad/mousepad-replace-dialog.c:355
 msgid "All Documents"
 msgstr "Všech dokumentech"
 
-#: ../mousepad/mousepad-replace-dialog.c:486
+#. update counter
+#: ../mousepad/mousepad-replace-dialog.c:535
+#: ../mousepad/mousepad-search-bar.c:336
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -555,20 +563,12 @@ msgstr[1] "%d výskyty"
 msgstr[2] "%d výskytů"
 msgstr[3] "%d výskytů"
 
-#: ../mousepad/mousepad-replace-dialog.c:507
-msgid "_Replace All"
-msgstr "_Nahradit vše"
-
-#: ../mousepad/mousepad-search-bar.c:240
-msgid "Highlight _All"
-msgstr "_Vybrat vše"
-
 #: ../mousepad/mousepad-statusbar.c:125
 msgid "Choose a filetype"
 msgstr "Zvolte typ souboru"
 
 #. language/filetype
-#: ../mousepad/mousepad-statusbar.c:130 ../mousepad/mousepad-statusbar.c:249
+#: ../mousepad/mousepad-statusbar.c:130 ../mousepad/mousepad-statusbar.c:230
 msgid "Filetype: None"
 msgstr "Typ souboru: Žádný"
 
@@ -581,184 +581,48 @@ msgstr "Přepnout režim přepisování"
 msgid "OVR"
 msgstr "OVR"
 
-#: ../mousepad/mousepad-statusbar.c:252
+#: ../mousepad/mousepad-statusbar.c:233
 #, c-format
 msgid "Filetype: %s"
 msgstr "Typ souboru: %s"
 
-#: ../mousepad/mousepad-statusbar.c:272
+#: ../mousepad/mousepad-statusbar.c:253
 #, c-format
 msgid "Line: %d Column: %d Selection: %d"
 msgstr "Řádek: %d Sloupec: %d Výběr: %d"
 
-#: ../mousepad/mousepad-statusbar.c:274
+#: ../mousepad/mousepad-statusbar.c:255
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Řádek: %d Sloupec: %d"
 
-#. show warning to the user
-#: ../mousepad/mousepad-util.c:595
-#, c-format
-msgid "Unable to create base directory \"%s\". Saving to file \"%s\" will be aborted."
-msgstr "Nelze vytvořit základní adresář %s. Ukládání souboru %s bude zrušeno."
-
-#. print error
-#: ../mousepad/mousepad-util.c:641
-#, c-format
-msgid "Failed to store the preferences to \"%s\": %s"
-msgstr "Uložení předvoleb do %s se nezdařilo: %s"
-
-#. insert items
-#: ../mousepad/mousepad-window.c:884 ../mousepad/resources/gtk/menus.ui.h:3
-msgid "_New"
-msgstr "_nový"
-
-#: ../mousepad/mousepad-window.c:885 ../mousepad/resources/gtk/menus.ui.h:4
-msgid "Create a new document"
-msgstr "Vytvoří nový dokument"
-
-#: ../mousepad/mousepad-window.c:886 ../mousepad/resources/gtk/menus.ui.h:9
-msgid "_Open..."
-msgstr "_Otevřít…"
-
-#: ../mousepad/mousepad-window.c:887 ../mousepad/resources/gtk/menus.ui.h:10
-msgid "Open a file"
-msgstr "Otevře soubor"
-
-#: ../mousepad/mousepad-window.c:889 ../mousepad/resources/gtk/menus.ui.h:16
-msgid "Save the current document"
-msgstr "Uloží tento dokument"
-
-#: ../mousepad/mousepad-window.c:890 ../mousepad/resources/gtk/menus.ui.h:17
-msgid "Save _As..."
-msgstr "Uložit j_ako…"
-
-#: ../mousepad/mousepad-window.c:891 ../mousepad/resources/gtk/menus.ui.h:18
-msgid "Save current document as another file"
-msgstr "Uloží tento dokument pod jiným názvem"
-
-#: ../mousepad/mousepad-window.c:892 ../mousepad/mousepad-window.c:2345
-#: ../mousepad/resources/gtk/menus.ui.h:21
-msgid "Re_load"
-msgstr "_Znovu načíst"
-
-#: ../mousepad/mousepad-window.c:893 ../mousepad/mousepad-window.c:2352
-#: ../mousepad/resources/gtk/menus.ui.h:22
-msgid "Reload file from disk"
-msgstr "Znovu načte dokument z disku"
-
-#: ../mousepad/mousepad-window.c:894 ../mousepad/resources/gtk/menus.ui.h:27
-msgid "Close _Tab"
-msgstr "_Zavřít kartu"
-
-#: ../mousepad/mousepad-window.c:895 ../mousepad/resources/gtk/menus.ui.h:28
-msgid "Close the current document"
-msgstr "Zavře tento dokument"
-
-#: ../mousepad/mousepad-window.c:900 ../mousepad/resources/gtk/menus.ui.h:33
-msgid "_Undo"
-msgstr "_Zpět"
-
-#: ../mousepad/mousepad-window.c:901 ../mousepad/resources/gtk/menus.ui.h:34
-msgid "Undo the last action"
-msgstr "Vrátí zpět poslední akci"
-
-#: ../mousepad/mousepad-window.c:902 ../mousepad/resources/gtk/menus.ui.h:35
-msgid "_Redo"
-msgstr "_Znovu"
-
-#: ../mousepad/mousepad-window.c:903 ../mousepad/resources/gtk/menus.ui.h:36
-msgid "Redo the last undone action"
-msgstr "Zopakuje poslední vrácenou akci"
-
-#: ../mousepad/mousepad-window.c:904 ../mousepad/resources/gtk/menus.ui.h:37
-msgid "Cu_t"
-msgstr "_Vyjmout"
-
-#: ../mousepad/mousepad-window.c:905 ../mousepad/resources/gtk/menus.ui.h:38
-msgid "Cut the selection"
-msgstr "Vyjme výběr a uloží jej do schránky"
-
-#: ../mousepad/mousepad-window.c:906 ../mousepad/resources/gtk/menus.ui.h:39
-msgid "_Copy"
-msgstr "_Kopírovat"
-
-#: ../mousepad/mousepad-window.c:907 ../mousepad/resources/gtk/menus.ui.h:40
-msgid "Copy the selection"
-msgstr "Zkopíruje výběr a uloží jej do schránky"
-
-#: ../mousepad/mousepad-window.c:908 ../mousepad/resources/gtk/menus.ui.h:41
-msgid "_Paste"
-msgstr "Vlož_it"
-
-#: ../mousepad/mousepad-window.c:909 ../mousepad/resources/gtk/menus.ui.h:42
-msgid "Paste the clipboard"
-msgstr "Vloží obsah schránky"
-
-#: ../mousepad/mousepad-window.c:915 ../mousepad/resources/gtk/menus.ui.h:88
-msgid "Search for text"
-msgstr "Hledání textu"
-
-#: ../mousepad/mousepad-window.c:916 ../mousepad/resources/gtk/menus.ui.h:93
-msgid "Find and Rep_lace..."
-msgstr "_Najít a nahradit..."
-
-#: ../mousepad/mousepad-window.c:917 ../mousepad/resources/gtk/menus.ui.h:94
-msgid "Search for and replace text"
-msgstr "Hledá a nahradí text"
-
-#: ../mousepad/mousepad-window.c:918 ../mousepad/resources/gtk/menus.ui.h:95
-msgid "_Go to..."
-msgstr "_Přejít na..."
-
-#: ../mousepad/mousepad-window.c:919 ../mousepad/resources/gtk/menus.ui.h:96
-msgid "Go to a specific location in the document"
-msgstr "Přejde na zadané umístění v dokumentu"
-
-#: ../mousepad/mousepad-window.c:927 ../mousepad/resources/gtk/menus.ui.h:113
-msgid "_Fullscreen"
-msgstr "_Celá obrazovka"
-
-#: ../mousepad/mousepad-window.c:928 ../mousepad/mousepad-window.c:5441
-#: ../mousepad/resources/gtk/menus.ui.h:114
-msgid "Make the window fullscreen"
-msgstr "Přepnout do režimu celé obrazovky"
-
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1003
+#: ../mousepad/mousepad-window.c:1092
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Varování: používáte účet správce systému root. Můžete poškodit systém."
 
 #. show the warning
-#: ../mousepad/mousepad-window.c:1728
+#: ../mousepad/mousepad-window.c:1841
 msgid "Failed to open the document"
 msgstr "Otevření dokumentu se nezdařilo"
 
-#: ../mousepad/mousepad-window.c:1911
+#: ../mousepad/mousepad-window.c:2049
 msgid "Read Only"
 msgstr "Pouze pro čtení"
 
-#: ../mousepad/mousepad-window.c:2345
-msgid "Re_vert"
-msgstr "_Vrátit změny"
-
-#: ../mousepad/mousepad-window.c:2352
-msgid "Revert to the saved version of the file"
-msgstr "Zruší všechny změny dokumentu od posledního uložení"
-
-#: ../mousepad/mousepad-window.c:2644
+#: ../mousepad/mousepad-window.c:2816
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Použít %s jako šablonu"
 
-#: ../mousepad/mousepad-window.c:2672
+#: ../mousepad/mousepad-window.c:2842
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Nenalezena šablona souboru v\n'%s'"
 
-#: ../mousepad/mousepad-window.c:2734
+#: ../mousepad/mousepad-window.c:2899
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -766,55 +630,82 @@ msgid ""
 msgstr "Adresář šablon chybí \n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:2789
+#: ../mousepad/mousepad-window.c:2951
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_Jiné (%d)..."
 
-#: ../mousepad/mousepad-window.c:2799
+#: ../mousepad/mousepad-window.c:2961
 msgid "Ot_her..."
 msgstr "_Jiné..."
 
+#: ../mousepad/mousepad-window.c:3135
+msgid "Re_vert"
+msgstr "_Vrátit změny"
+
+#: ../mousepad/mousepad-window.c:3137
+msgid "Revert to the saved version of the file"
+msgstr "Zruší všechny změny dokumentu od posledního uložení"
+
+#: ../mousepad/mousepad-window.c:3141
+#: ../mousepad/resources/gtk/menus-common.ui.h:9
+msgid "Re_load"
+msgstr "_Znovu načíst"
+
+#: ../mousepad/mousepad-window.c:3143
+#: ../mousepad/resources/gtk/menus-common.ui.h:10
+msgid "Reload file from disk"
+msgstr "Znovu načte dokument z disku"
+
+#: ../mousepad/mousepad-window.c:3149
+msgid "Leave fullscreen mode"
+msgstr "Opustit režim celé obrazovky"
+
+#: ../mousepad/mousepad-window.c:3154
+#: ../mousepad/resources/gtk/menus-common.ui.h:34
+msgid "Make the window fullscreen"
+msgstr "Přepnout do režimu celé obrazovky"
+
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3158 ../mousepad/mousepad-window.c:3352
+#: ../mousepad/mousepad-window.c:3299 ../mousepad/mousepad-window.c:3491
 msgid "Charset"
 msgstr "Znaková sada"
 
-#: ../mousepad/mousepad-window.c:3284
+#: ../mousepad/mousepad-window.c:3429
 #, c-format
 msgid "Open '%s'"
 msgstr "Otevřít %s"
 
-#: ../mousepad/mousepad-window.c:3312
+#: ../mousepad/mousepad-window.c:3457
 msgid "No items found"
 msgstr "Nenalezeny žádné položky"
 
-#: ../mousepad/mousepad-window.c:3401
+#: ../mousepad/mousepad-window.c:3540
 msgid "Failed to clear the recent history"
 msgstr "Vymazání nedávné historie se nezdařilo"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:3844
+#: ../mousepad/mousepad-window.c:3987
 msgid "No clipboard data"
 msgstr "Schránka neobsahuje data"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:3989
+#: ../mousepad/mousepad-window.c:4093
 msgid "Templates should be UTF-8 valid"
 msgstr "Šablony by měly být platnými dokumenty UTF-8"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:3994
+#: ../mousepad/mousepad-window.c:4098
 msgid "Reading the template failed"
 msgstr "Načtení šablony se nezdařilo"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:3999
+#: ../mousepad/mousepad-window.c:4103
 msgid "Loading the template failed"
 msgstr "Načtění šablony se nezdařilo"
 
-#: ../mousepad/mousepad-window.c:4094
+#: ../mousepad/mousepad-window.c:4198
 #, c-format
 msgid ""
 "Failed to open \"%s\" for reading. It will be removed from the document "
@@ -822,32 +713,28 @@ msgid ""
 msgstr "Otevření souboru %s pro čtění se nezdařilo. Soubor bude odebrán z historie dokumentů"
 
 #. show the warning and cleanup
-#: ../mousepad/mousepad-window.c:4098
+#: ../mousepad/mousepad-window.c:4202
 msgid "Failed to open file"
 msgstr "Otevření souboru se nezdařilo"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4208 ../mousepad/mousepad-window.c:4337
+#: ../mousepad/mousepad-window.c:4312 ../mousepad/mousepad-window.c:4441
 msgid "Failed to save the document"
 msgstr "Uložení dokumentu se nezdařilo"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4432
+#: ../mousepad/mousepad-window.c:4536
 msgid "Failed to reload the document"
 msgstr "Opětovné načtení dokumentu se nezdařilo"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4461
+#: ../mousepad/mousepad-window.c:4565
 msgid "Failed to print the document"
 msgstr "Tisk dokumentu se nezdařil"
 
-#: ../mousepad/mousepad-window.c:5196
+#: ../mousepad/mousepad-window.c:5355
 msgid "Choose Mousepad Font"
 msgstr "Zvolit písmo aplikace Mousepad"
-
-#: ../mousepad/mousepad-window.c:5434
-msgid "Leave fullscreen mode"
-msgstr "Opustit režim celé obrazovky"
 
 #: ../mousepad/resources/gtk/menus.ui.h:1
 msgid "_File"
@@ -857,560 +744,672 @@ msgstr "_Soubor"
 msgid "File menu"
 msgstr "Nabídka soubor"
 
-#: ../mousepad/resources/gtk/menus.ui.h:5
+#: ../mousepad/resources/gtk/menus.ui.h:3
 msgid "New _Window"
 msgstr "Nové o_kno"
 
-#: ../mousepad/resources/gtk/menus.ui.h:6
+#: ../mousepad/resources/gtk/menus.ui.h:4
 msgid "Create a new document in a new window"
 msgstr "Vytvoří nový dokument v novém okně"
 
-#: ../mousepad/resources/gtk/menus.ui.h:7
+#: ../mousepad/resources/gtk/menus.ui.h:5
 msgid "New From Te_mplate"
 msgstr "Nový _ze šablony"
 
-#: ../mousepad/resources/gtk/menus.ui.h:8
+#: ../mousepad/resources/gtk/menus.ui.h:6
 msgid "Create a new document from a template"
 msgstr "Vytvoří nový dokument ze šablony"
 
-#: ../mousepad/resources/gtk/menus.ui.h:11
+#: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "Op_en Recent"
 msgstr "Otevřít n_edávnou položku"
 
-#: ../mousepad/resources/gtk/menus.ui.h:12
+#: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "Open a recently used file"
 msgstr "Otevře nedávno použitý soubor"
 
-#: ../mousepad/resources/gtk/menus.ui.h:13
+#: ../mousepad/resources/gtk/menus.ui.h:9
 msgid "Clear _History"
 msgstr "Vymazat historii"
 
-#: ../mousepad/resources/gtk/menus.ui.h:14
+#: ../mousepad/resources/gtk/menus.ui.h:10
 msgid "Clear the recently used files history"
 msgstr "Vymaže historii nedávno použitých souborů"
 
-#: ../mousepad/resources/gtk/menus.ui.h:19
+#: ../mousepad/resources/gtk/menus.ui.h:11
 msgid "Save A_ll"
 msgstr "Uložit _vše"
 
-#: ../mousepad/resources/gtk/menus.ui.h:20
+#: ../mousepad/resources/gtk/menus.ui.h:12
 msgid "Save all document in this window"
 msgstr "Uloží všechny dokumenty v tomto okně"
 
-#: ../mousepad/resources/gtk/menus.ui.h:23
+#: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "_Print..."
 msgstr "_Tisknout..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:24
+#: ../mousepad/resources/gtk/menus.ui.h:14
 msgid "Print the current document"
 msgstr "Vytiskne tento dokument"
 
-#: ../mousepad/resources/gtk/menus.ui.h:25
-msgid "_Detach Tab"
-msgstr "O_dpojit kartu"
-
-#: ../mousepad/resources/gtk/menus.ui.h:26
-msgid "Move the current document to a new window"
-msgstr "Přesune tento dokument do nového okna"
-
-#: ../mousepad/resources/gtk/menus.ui.h:29
+#: ../mousepad/resources/gtk/menus.ui.h:15
 msgid "_Close Window"
 msgstr "_Zavřít okno"
 
-#: ../mousepad/resources/gtk/menus.ui.h:30
+#: ../mousepad/resources/gtk/menus.ui.h:16
 msgid "Close this window"
 msgstr "Zavře toto okno"
 
-#: ../mousepad/resources/gtk/menus.ui.h:31
+#: ../mousepad/resources/gtk/menus.ui.h:17
 msgid "_Edit"
 msgstr "Ú_pravy"
 
-#: ../mousepad/resources/gtk/menus.ui.h:32
+#: ../mousepad/resources/gtk/menus.ui.h:18
 msgid "Edit menu"
 msgstr "Nabídka úpravy"
 
-#: ../mousepad/resources/gtk/menus.ui.h:43
-msgid "Paste _Special"
-msgstr "Vložit _jinak"
-
-#: ../mousepad/resources/gtk/menus.ui.h:44
-msgid "Paste the clipboard in a special way"
-msgstr "Vloží obsah schránky jiným způsobem"
-
-#: ../mousepad/resources/gtk/menus.ui.h:45
-msgid "Paste from _History"
-msgstr "Vložit z _historie"
-
-#: ../mousepad/resources/gtk/menus.ui.h:46
-msgid "Paste from the clipboard history"
-msgstr "Vloží obsah historie schránky"
-
-#: ../mousepad/resources/gtk/menus.ui.h:47
-msgid "Paste as _Column"
-msgstr "Vložit jako _sloupec"
-
-#: ../mousepad/resources/gtk/menus.ui.h:48
-msgid "Paste the clipboard text into a column"
-msgstr "Vloží text ze schránky do sloupce"
-
-#: ../mousepad/resources/gtk/menus.ui.h:49
-msgid "_Delete"
-msgstr "_Vymazat"
-
-#: ../mousepad/resources/gtk/menus.ui.h:50
-msgid "Delete the current selection"
-msgstr "Smaže současný výběr"
-
-#: ../mousepad/resources/gtk/menus.ui.h:51
-msgid "Select _All"
-msgstr "_Vybrat vše"
-
-#: ../mousepad/resources/gtk/menus.ui.h:52
-msgid "Select the text in the entire document"
-msgstr "Vybere text celého dokumentu"
-
-#: ../mousepad/resources/gtk/menus.ui.h:53
-msgid "Conve_rt"
-msgstr "Konverto_vat"
-
-#: ../mousepad/resources/gtk/menus.ui.h:54
-msgid "Convert text in different ways"
-msgstr "Zkonvertuje text různými způsoby"
-
-#: ../mousepad/resources/gtk/menus.ui.h:55
-msgid "To _Lowercase"
-msgstr "Na _malá písmena"
-
-#: ../mousepad/resources/gtk/menus.ui.h:56
-msgid "Change the case of the selection to lowercase"
-msgstr "Změní velikost písmen ve výběru na malá"
-
-#: ../mousepad/resources/gtk/menus.ui.h:57
-msgid "To _Uppercase"
-msgstr "Na _velká písmena"
-
-#: ../mousepad/resources/gtk/menus.ui.h:58
-msgid "Change the case of the selection to uppercase"
-msgstr "Změní velikost písmen ve výběru na velká"
-
-#: ../mousepad/resources/gtk/menus.ui.h:59
-msgid "To _Title Case"
-msgstr "_První písmena na velká"
-
-#: ../mousepad/resources/gtk/menus.ui.h:60
-msgid "Change the case of the selection to title case"
-msgstr "Změní velikost prvních písmen ve výběru na velká"
-
-#: ../mousepad/resources/gtk/menus.ui.h:61
-msgid "To _Opposite Case"
-msgstr "Na _opačnou velikost písmen"
-
-#: ../mousepad/resources/gtk/menus.ui.h:62
-msgid "Change the case of the selection opposite case"
-msgstr "Změní velikost písmen ve výběru na opačná"
-
-#: ../mousepad/resources/gtk/menus.ui.h:63
-msgid "_Tabs to Spaces"
-msgstr "_Tabulátory na mezery"
-
-#: ../mousepad/resources/gtk/menus.ui.h:64
-msgid "Convert all tabs to spaces in the selection or document"
-msgstr "Změní všechny tabulátory ve výběru nebo v dokumentu na mezery"
-
-#: ../mousepad/resources/gtk/menus.ui.h:65
-msgid "_Spaces to Tabs"
-msgstr "_Mezery na tabulátory"
-
-#: ../mousepad/resources/gtk/menus.ui.h:66
-msgid ""
-"Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr "Změní všechny mezery na začátcích řádků ve výběru nebo v dokumentu na tabulátory"
-
-#: ../mousepad/resources/gtk/menus.ui.h:67
-msgid "St_rip Trailing Spaces"
-msgstr "Odst_ranit mezery na konci řádků"
-
-#: ../mousepad/resources/gtk/menus.ui.h:68
-msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr "Odstraní všechny mezery na koncích řádků ve výběru nebo v dokumentu"
-
-#: ../mousepad/resources/gtk/menus.ui.h:69
-msgid "_Transpose"
-msgstr "_Transponovat"
-
-#: ../mousepad/resources/gtk/menus.ui.h:70
-msgid "Reverse the order of something"
-msgstr "Změní pořadí"
-
-#: ../mousepad/resources/gtk/menus.ui.h:71
-msgid "_Move Selection"
-msgstr "_Přesunout výběr"
-
-#: ../mousepad/resources/gtk/menus.ui.h:72
-msgid "Move the selection in different ways"
-msgstr "Přesune výběr různými způsoby"
-
-#: ../mousepad/resources/gtk/menus.ui.h:73
-msgid "Line _Up"
-msgstr "O řádek _výše"
-
-#: ../mousepad/resources/gtk/menus.ui.h:74
-msgid "Move the selection one line up"
-msgstr "Přesune výběr o jeden řádek výše"
-
-#: ../mousepad/resources/gtk/menus.ui.h:75
-msgid "Line _Down"
-msgstr "O řádek _níže"
-
-#: ../mousepad/resources/gtk/menus.ui.h:76
-msgid "Move the selection one line down"
-msgstr "Přesune výběr o jeden řádek níže"
-
-#: ../mousepad/resources/gtk/menus.ui.h:77
-msgid "Dup_licate Line / Selection"
-msgstr "Dup_likovat řádek / výběr"
-
-#: ../mousepad/resources/gtk/menus.ui.h:78
-msgid "Duplicate the current line or selection"
-msgstr "Duplikuje vybraný řádek nebo výběr"
-
-#: ../mousepad/resources/gtk/menus.ui.h:79
-msgid "_Increase Indent"
-msgstr "_Zvýšit odsazení"
-
-#: ../mousepad/resources/gtk/menus.ui.h:80
-msgid "Increase the indentation of the selection or current line"
-msgstr "Zvýší odsazení výběru nebo vybraného řádku"
-
-#: ../mousepad/resources/gtk/menus.ui.h:81
-msgid "_Decrease Indent"
-msgstr "_Snížit odsazení"
-
-#: ../mousepad/resources/gtk/menus.ui.h:82
-msgid "Decrease the indentation of the selection or current line"
-msgstr "Sníží odsazení výběru nebo vybraného řádku"
-
-#: ../mousepad/resources/gtk/menus.ui.h:84
+#: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Show the preferences dialog"
 msgstr "Zobrazit dialogové okno s předvolbami"
 
-#: ../mousepad/resources/gtk/menus.ui.h:85
+#: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "_Search"
 msgstr "_Hledat"
 
-#: ../mousepad/resources/gtk/menus.ui.h:86
+#: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Search menu"
 msgstr "Nabídka hledat"
 
-#: ../mousepad/resources/gtk/menus.ui.h:89
+#: ../mousepad/resources/gtk/menus.ui.h:23
 msgid "Find _Next"
 msgstr "Najít _další"
 
-#: ../mousepad/resources/gtk/menus.ui.h:90
+#: ../mousepad/resources/gtk/menus.ui.h:24
 msgid "Search forwards for the same text"
 msgstr "Hledá stejný text dopředu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:91
+#: ../mousepad/resources/gtk/menus.ui.h:25
 msgid "Find _Previous"
 msgstr "Najít _předchozí"
 
-#: ../mousepad/resources/gtk/menus.ui.h:92
+#: ../mousepad/resources/gtk/menus.ui.h:26
 msgid "Search backwards for the same text"
 msgstr "Hledá stejný text dozadu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:97
+#: ../mousepad/resources/gtk/menus.ui.h:27
+msgid "Highlight _All"
+msgstr "Z_výraznit vše"
+
+#: ../mousepad/resources/gtk/menus.ui.h:28
+msgid "Highlight the search occurrences"
+msgstr "Zvýraznit hledané výskyty"
+
+#: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: ../mousepad/resources/gtk/menus.ui.h:98
+#: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "View menu"
 msgstr "Nabídka zobrazit"
 
-#: ../mousepad/resources/gtk/menus.ui.h:99
+#: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Select F_ont..."
 msgstr "Vybrat _písmo..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:100
+#: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Change the editor font"
 msgstr "Změní písmo editoru"
 
-#: ../mousepad/resources/gtk/menus.ui.h:101
+#: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_Color Scheme"
 msgstr "_Barevné schéma"
 
-#: ../mousepad/resources/gtk/menus.ui.h:102
+#: ../mousepad/resources/gtk/menus.ui.h:34
 msgid "Color scheme to use for the text view"
 msgstr "Barevné schéma použité ke zobrazení textu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:103
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
+#: ../mousepad/resources/gtk/menus.ui.h:35
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "None"
 msgstr "Žádný"
 
-#: ../mousepad/resources/gtk/menus.ui.h:104
+#: ../mousepad/resources/gtk/menus.ui.h:36
 msgid "No style scheme"
 msgstr "Žádné schéma stylu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:105
+#: ../mousepad/resources/gtk/menus.ui.h:37
 msgid "Line N_umbers"
 msgstr "Čí_sla řádků"
 
-#: ../mousepad/resources/gtk/menus.ui.h:106
+#: ../mousepad/resources/gtk/menus.ui.h:38
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "Show line numbers"
 msgstr "Zobrazovat čísla řádků"
 
-#: ../mousepad/resources/gtk/menus.ui.h:107
+#: ../mousepad/resources/gtk/menus.ui.h:39
 msgid "_Menubar"
 msgstr "_Panel s nabídkou"
 
-#: ../mousepad/resources/gtk/menus.ui.h:108
+#: ../mousepad/resources/gtk/menus.ui.h:40
 msgid "Change the visibility of the main menubar"
 msgstr "Změnit viditelnost hlavního panelu s nabídkou"
 
-#: ../mousepad/resources/gtk/menus.ui.h:109
+#: ../mousepad/resources/gtk/menus.ui.h:41
 msgid "_Toolbar"
 msgstr "_Panel nástrojů"
 
-#: ../mousepad/resources/gtk/menus.ui.h:110
+#: ../mousepad/resources/gtk/menus.ui.h:42
 msgid "Change the visibility of the toolbar"
 msgstr "Změnit viditelnost stavového řádku"
 
-#: ../mousepad/resources/gtk/menus.ui.h:111
+#: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "St_atusbar"
 msgstr "Sta_vový řádek"
 
-#: ../mousepad/resources/gtk/menus.ui.h:112
+#: ../mousepad/resources/gtk/menus.ui.h:44
 msgid "Change the visibility of the statusbar"
 msgstr "Mění viditelnost stavového řádku"
 
-#: ../mousepad/resources/gtk/menus.ui.h:115
+#: ../mousepad/resources/gtk/menus.ui.h:45
 msgid "_Document"
 msgstr "_Dokument"
 
-#: ../mousepad/resources/gtk/menus.ui.h:116
+#: ../mousepad/resources/gtk/menus.ui.h:46
 msgid "Document menu"
 msgstr "Nabídka dokument"
 
-#: ../mousepad/resources/gtk/menus.ui.h:117
+#: ../mousepad/resources/gtk/menus.ui.h:47
 msgid "_Word Wrap"
 msgstr "_Zalamování řádku"
 
-#: ../mousepad/resources/gtk/menus.ui.h:118
+#: ../mousepad/resources/gtk/menus.ui.h:48
 msgid "Toggle breaking lines in between words"
 msgstr "Přepíná funkci zalamování řádků"
 
-#: ../mousepad/resources/gtk/menus.ui.h:119
+#: ../mousepad/resources/gtk/menus.ui.h:49
 msgid "_Auto Indent"
 msgstr "_Odsazovat automaticky"
 
-#: ../mousepad/resources/gtk/menus.ui.h:120
+#: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Auto indent a new line"
 msgstr "Automaticky odsadí nový řádek"
 
-#: ../mousepad/resources/gtk/menus.ui.h:121
+#: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "Tab _Size"
 msgstr "Velikost _tabulátoru"
 
-#: ../mousepad/resources/gtk/menus.ui.h:122
+#: ../mousepad/resources/gtk/menus.ui.h:52
 msgid "The number of space characters for a tabulation"
 msgstr "Počet mezer pro vyjádření tabulátoru"
 
-#: ../mousepad/resources/gtk/menus.ui.h:123
+#: ../mousepad/resources/gtk/menus.ui.h:53
 msgid "Two spaces"
 msgstr "Dvě mezery"
 
-#: ../mousepad/resources/gtk/menus.ui.h:124
+#: ../mousepad/resources/gtk/menus.ui.h:54
 msgid "Three spaces"
 msgstr "Tři mezery"
 
-#: ../mousepad/resources/gtk/menus.ui.h:125
+#: ../mousepad/resources/gtk/menus.ui.h:55
 msgid "Four spaces"
 msgstr "Čtyři mezery"
 
-#: ../mousepad/resources/gtk/menus.ui.h:126
+#: ../mousepad/resources/gtk/menus.ui.h:56
 msgid "Eight spaces"
 msgstr "Osm mezer"
 
-#: ../mousepad/resources/gtk/menus.ui.h:127
+#: ../mousepad/resources/gtk/menus.ui.h:57
 msgid "Other..."
 msgstr "Jiné..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:128
+#: ../mousepad/resources/gtk/menus.ui.h:58
 msgid "Set custom tab size"
 msgstr "Nastavit vlastní velikost tabulátoru"
 
-#: ../mousepad/resources/gtk/menus.ui.h:129
+#: ../mousepad/resources/gtk/menus.ui.h:59
 msgid "Insert _Spaces"
 msgstr "Vkládat _mezery"
 
-#: ../mousepad/resources/gtk/menus.ui.h:130
+#: ../mousepad/resources/gtk/menus.ui.h:60
 msgid "Insert spaces when the tab button is pressed"
 msgstr "Vloží mezery při stisknutí tlačítka tabulátor"
 
-#: ../mousepad/resources/gtk/menus.ui.h:131
+#: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "_Filetype"
 msgstr "_Typ souboru"
 
-#: ../mousepad/resources/gtk/menus.ui.h:132
+#: ../mousepad/resources/gtk/menus.ui.h:62
 msgid "Language to use for syntax highlighting"
 msgstr "Jazyk použitý pro zvýraznění syntaxe"
 
-#: ../mousepad/resources/gtk/menus.ui.h:133
+#: ../mousepad/resources/gtk/menus.ui.h:63
 msgid "Plain Text"
 msgstr "Čistý text"
 
-#: ../mousepad/resources/gtk/menus.ui.h:134
+#: ../mousepad/resources/gtk/menus.ui.h:64
 msgid "No filetype"
 msgstr "Žádný typ souboru"
 
-#: ../mousepad/resources/gtk/menus.ui.h:135
+#: ../mousepad/resources/gtk/menus.ui.h:65
 msgid "Line E_nding"
 msgstr "_Konec řádku"
 
-#: ../mousepad/resources/gtk/menus.ui.h:136
+#: ../mousepad/resources/gtk/menus.ui.h:66
 msgid "Character(s) to use as end of line"
 msgstr "Znak(y) použité na konci řádku"
 
-#: ../mousepad/resources/gtk/menus.ui.h:137
+#: ../mousepad/resources/gtk/menus.ui.h:67
 msgid "Set the line ending of the document to Unix (LF)"
 msgstr "Nastaví konce řádků dokumentu na typ Unix (LF)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:138
+#: ../mousepad/resources/gtk/menus.ui.h:68
 msgid "Set the line ending of the document to Mac (CR)"
 msgstr "Nastaví konce řádků dokumentu na typ Mac (CR)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:139
+#: ../mousepad/resources/gtk/menus.ui.h:69
 msgid "Set the line ending of the document to DOS / Windows (CR LF)"
 msgstr "Nastaví konce řádků dokumentu na typ DOS / Windows (CR LF)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:140
+#: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "Write Unicode _BOM"
 msgstr "Zapisovat _BOM v dokumentech Unicode"
 
-#: ../mousepad/resources/gtk/menus.ui.h:141
+#: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "Store the byte-order mark in the file"
 msgstr "Ukládá značku o pořadí bajtů v souboru"
 
-#: ../mousepad/resources/gtk/menus.ui.h:142
+#: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "_Previous Tab"
 msgstr "_Předchozí karta"
 
-#: ../mousepad/resources/gtk/menus.ui.h:143
+#: ../mousepad/resources/gtk/menus.ui.h:73
 msgid "Select the previous tab"
 msgstr "Vybere předchozí kartu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:144
+#: ../mousepad/resources/gtk/menus.ui.h:74
 msgid "_Next Tab"
 msgstr "_Následující karta"
 
-#: ../mousepad/resources/gtk/menus.ui.h:145
+#: ../mousepad/resources/gtk/menus.ui.h:75
 msgid "Select the next tab"
 msgstr "Vybere další kartu"
 
-#: ../mousepad/resources/gtk/menus.ui.h:146
+#: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: ../mousepad/resources/gtk/menus.ui.h:147
+#: ../mousepad/resources/gtk/menus.ui.h:77
 msgid "Help menu"
 msgstr "Nabídka nápověda"
 
-#: ../mousepad/resources/gtk/menus.ui.h:148
+#: ../mousepad/resources/gtk/menus.ui.h:78
 msgid "_Contents"
 msgstr "_Obsah"
 
-#: ../mousepad/resources/gtk/menus.ui.h:149
+#: ../mousepad/resources/gtk/menus.ui.h:79
 msgid "Display the Mousepad user manual"
 msgstr "Zobrazí uživatelskou příručku aplikace Mousepad"
 
-#: ../mousepad/resources/gtk/menus.ui.h:150
+#: ../mousepad/resources/gtk/menus.ui.h:80
 msgid "_About"
 msgstr "O _aplikaci"
 
-#: ../mousepad/resources/gtk/menus.ui.h:151
+#: ../mousepad/resources/gtk/menus.ui.h:81
 msgid "About this application"
 msgstr "O aplikaci"
 
+#: ../mousepad/resources/gtk/menus-common.ui.h:1
+msgid "_New"
+msgstr "_nový"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:2
+msgid "Create a new document"
+msgstr "Vytvoří nový dokument"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:3
+msgid "_Open..."
+msgstr "_Otevřít…"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:4
+msgid "Open a file"
+msgstr "Otevře soubor"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:6
+msgid "Save the current document"
+msgstr "Uloží tento dokument"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:7
+msgid "Save _As..."
+msgstr "Uložit j_ako…"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:8
+msgid "Save current document as another file"
+msgstr "Uloží tento dokument pod jiným názvem"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:11
+msgid "_Detach Tab"
+msgstr "O_dpojit kartu"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:12
+msgid "Move the current document to a new window"
+msgstr "Přesune tento dokument do nového okna"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:13
+msgid "Close _Tab"
+msgstr "_Zavřít kartu"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:14
+msgid "Close the current document"
+msgstr "Zavře tento dokument"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:15
+msgid "_Undo"
+msgstr "_Zpět"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:16
+msgid "Undo the last action"
+msgstr "Vrátí zpět poslední akci"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:17
+msgid "_Redo"
+msgstr "_Znovu"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:18
+msgid "Redo the last undone action"
+msgstr "Zopakuje poslední vrácenou akci"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:19
+msgid "Cu_t"
+msgstr "_Vyjmout"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:20
+msgid "Cut the selection"
+msgstr "Vyjme výběr a uloží jej do schránky"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:21
+msgid "_Copy"
+msgstr "_Kopírovat"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:22
+msgid "Copy the selection"
+msgstr "Zkopíruje výběr a uloží jej do schránky"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:23
+msgid "_Paste"
+msgstr "Vlož_it"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:24
+msgid "Paste the clipboard"
+msgstr "Vloží obsah schránky"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:25
+msgid "Select _All"
+msgstr "_Vybrat vše"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:26
+msgid "Select the text in the entire document"
+msgstr "Vybere text celého dokumentu"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:28
+msgid "Search for text"
+msgstr "Hledání textu"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:29
+msgid "Find and Rep_lace..."
+msgstr "_Najít a nahradit..."
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:30
+msgid "Search for and replace text"
+msgstr "Hledá a nahradí text"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:31
+msgid "_Go to..."
+msgstr "_Přejít na..."
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:32
+msgid "Go to a specific location in the document"
+msgstr "Přejde na zadané umístění v dokumentu"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:33
+msgid "_Fullscreen"
+msgstr "_Celá obrazovka"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:35
+msgid "Paste _Special"
+msgstr "Vložit _jinak"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:36
+msgid "Paste the clipboard in a special way"
+msgstr "Vloží obsah schránky jiným způsobem"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:37
+msgid "Paste from _History"
+msgstr "Vložit z _historie"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:38
+msgid "Paste from the clipboard history"
+msgstr "Vloží obsah historie schránky"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:39
+msgid "Paste as _Column"
+msgstr "Vložit jako _sloupec"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:40
+msgid "Paste the clipboard text into a column"
+msgstr "Vloží text ze schránky do sloupce"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:41
+msgid "_Delete"
+msgstr "_Vymazat"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:42
+msgid "Delete the current selection"
+msgstr "Smaže současný výběr"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:43
+msgid "Conve_rt"
+msgstr "Konverto_vat"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:44
+msgid "Convert text in different ways"
+msgstr "Zkonvertuje text různými způsoby"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:45
+msgid "To _Lowercase"
+msgstr "Na _malá písmena"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:46
+msgid "Change the case of the selection to lowercase"
+msgstr "Změní velikost písmen ve výběru na malá"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:47
+msgid "To _Uppercase"
+msgstr "Na _velká písmena"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:48
+msgid "Change the case of the selection to uppercase"
+msgstr "Změní velikost písmen ve výběru na velká"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:49
+msgid "To _Title Case"
+msgstr "_První písmena na velká"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:50
+msgid "Change the case of the selection to title case"
+msgstr "Změní velikost prvních písmen ve výběru na velká"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:51
+msgid "To _Opposite Case"
+msgstr "Na _opačnou velikost písmen"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:52
+msgid "Change the case of the selection opposite case"
+msgstr "Změní velikost písmen ve výběru na opačná"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:53
+msgid "_Tabs to Spaces"
+msgstr "_Tabulátory na mezery"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:54
+msgid "Convert all tabs to spaces in the selection or document"
+msgstr "Změní všechny tabulátory ve výběru nebo v dokumentu na mezery"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:55
+msgid "_Spaces to Tabs"
+msgstr "_Mezery na tabulátory"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:56
+msgid ""
+"Convert all the leading spaces to tabs in the selected line(s) or document"
+msgstr "Změní všechny mezery na začátcích řádků ve výběru nebo v dokumentu na tabulátory"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:57
+msgid "St_rip Trailing Spaces"
+msgstr "Odst_ranit mezery na konci řádků"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:58
+msgid "Remove all the trailing spaces from the selected line(s) or document"
+msgstr "Odstraní všechny mezery na koncích řádků ve výběru nebo v dokumentu"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:59
+msgid "_Transpose"
+msgstr "_Transponovat"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:60
+msgid "Reverse the order of something"
+msgstr "Změní pořadí"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:61
+msgid "_Move Selection"
+msgstr "_Přesunout výběr"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:62
+msgid "Move the selection in different ways"
+msgstr "Přesune výběr různými způsoby"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:63
+msgid "Line _Up"
+msgstr "O řádek _výše"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:64
+msgid "Move the selection one line up"
+msgstr "Přesune výběr o jeden řádek výše"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:65
+msgid "Line _Down"
+msgstr "O řádek _níže"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:66
+msgid "Move the selection one line down"
+msgstr "Přesune výběr o jeden řádek níže"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:67
+msgid "Dup_licate Line / Selection"
+msgstr "Dup_likovat řádek / výběr"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:68
+msgid "Duplicate the current line or selection"
+msgstr "Duplikuje vybraný řádek nebo výběr"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:69
+msgid "_Increase Indent"
+msgstr "_Zvýšit odsazení"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:70
+msgid "Increase the indentation of the selection or current line"
+msgstr "Zvýší odsazení výběru nebo vybraného řádku"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:71
+msgid "_Decrease Indent"
+msgstr "_Snížit odsazení"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:72
+msgid "Decrease the indentation of the selection or current line"
+msgstr "Sníží odsazení výběru nebo vybraného řádku"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:73
+msgid "label-to-be-filled-in"
+msgstr "popisek-k-vyplnění"
+
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
-msgid "Disabled"
-msgstr "Zakázáno"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
-msgid "Before"
-msgstr "Předtím"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
-msgid "After"
-msgstr "Potom"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
-msgid "Always"
-msgstr "Vždy"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
-msgid "Insert Tabs"
-msgstr "Vložit karty"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
-msgid "Insert Spaces"
-msgstr "Vložit mezery"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "none"
 msgstr "žádný"
 
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
+msgid "Insert Tabs"
+msgstr "Vložit karty"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
+msgid "Insert Spaces"
+msgstr "Vložit mezery"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
+msgid "Never"
+msgstr "Nikdy"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
+msgid "First key press"
+msgstr "Stisknutí první klávesy"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
+msgid "Second key press"
+msgstr "Stisknutí druhé klávesy"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
+msgid "Always"
+msgstr "Vždy"
+
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:9
-msgid "Menu"
-msgstr "Menu"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:10
-msgid "Small Toolbar"
-msgstr "Malý panel nástrojů"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:11
-msgid "Large Toolbar"
-msgstr "Velký panel nástrojů"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:12
-msgid "Button"
-msgstr "Tlačítko"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:13
-msgid "Drag & Drop"
-msgstr "Táhni a pusť"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
-msgid "Dialog"
-msgstr "Dialogové okno"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:15
 msgid "Icons Only"
 msgstr "Pouze ikony"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:16
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:10
 msgid "Text Only"
 msgstr "Pouze text"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:17
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:11
 msgid "Text Below Icons"
 msgstr "Text pod ikonami"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:18
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:12
 msgid "Text Beside Icons"
 msgstr "Text vedle ikon"
 
-#. Preceded by:
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:13
+msgid "Menu"
+msgstr "Menu"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
+msgid "Small Toolbar"
+msgstr "Malý panel nástrojů"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:15
+msgid "Large Toolbar"
+msgstr "Velký panel nástrojů"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:16
+msgid "Button"
+msgstr "Tlačítko"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:17
+msgid "Drag & Drop"
+msgstr "Táhni a pusť"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:18
+msgid "Dialog"
+msgstr "Dialogové okno"
+
+#. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
 msgid "new tabs"
 msgstr "nové karty"
 
-#. Preceded by:
+#. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
 msgid "new windows"
 msgstr "nová okna"
 
-#. Preceded by:
+#. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "new tabs in a new window"
 msgstr "nové karty v novém okně"
@@ -1452,7 +1451,7 @@ msgid "<b>Font</b>"
 msgstr "<b>Font</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:35
-msgid "<b>Colour scheme</b>"
+msgid "<b>Color scheme</b>"
 msgstr "<b>Barevné schéma</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
@@ -1476,8 +1475,8 @@ msgid "<b>Indentation</b>"
 msgstr "<b>Odsazování</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
-msgid "Behaviour:"
-msgstr "Chování:"
+msgid "Detect leading/trailing whitespace:"
+msgstr "Detekovat mezery na začátku a na konci:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "<b>Home/End Keys</b>"
