@@ -1,3 +1,37 @@
+0.5.1
+======
+- Dependency Changes:
+  - GLib >= 2.52.0
+  - GTK >= 3.22.0
+
+- New Features:
+  - Allow to change the font size from keyboard/mouse (#46, #54, !60)
+  - Switch to asynchronous search (!58)
+  - Give more choice for whitespace display (#44, !46)
+
+- Appearance Changes:
+  - Improve the look of the search bar
+  - Add a spinner to the search widgets
+  - Make the occurrences count appear in the search bar
+  - Reformulate "Home/End Keys" setting description
+
+- Code Refactoring:
+  - Code refactoring around MousepadView properties (!60)
+  - Code refactoring around GMenuModel-bindings (!50)
+
+- Bug Fixes:
+  - Decrease reference count of anchored documents
+  - Filter document signals on the active document
+  - Fix a memory leak in the templates menu
+  - Fix wrong conversion from uri to filename (#81)
+  - Warn when using GLib functions newer than requirements
+    (Mousepad 0.5.0 actually required GLib 2.60 due to such an oversight)
+
+- Translation Updates:
+  Catalan, Chinese (Taiwan), French, German, Italian, Japanese,
+  Lithuanian, Norwegian Bokmål, Portuguese, Portuguese (Brazil),
+  Russian, Serbian, Spanish, Swedish, Turkish
+
 0.5.0
 ======
 - Bump required GTK+ in `mousepad-prefs-dialog.ui` (#78)
