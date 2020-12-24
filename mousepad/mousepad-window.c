@@ -151,7 +151,7 @@ static void              mousepad_window_readonly_changed             (MousepadF
                                                                        MousepadWindow         *window);
 static void              mousepad_window_modified_changed             (GtkTextBuffer          *buffer,
                                                                        MousepadWindow         *window);
-static void              mousepad_window_has_selection                (GtkTextBuffer          *buffer,
+static void              mousepad_window_enable_edit_actions          (GObject                *object,
                                                                        GParamSpec             *pspec,
                                                                        MousepadWindow         *window);
 static void              mousepad_window_cursor_changed               (MousepadDocument       *document,
@@ -2249,9 +2249,6 @@ mousepad_window_update_actions (MousepadWindow *window)
       mousepad_window_can_undo (GTK_SOURCE_BUFFER (document->buffer), NULL, window);
       mousepad_window_can_redo (GTK_SOURCE_BUFFER (document->buffer), NULL, window);
 
-      /* set the sensitivity of the selection-related actions */
-      mousepad_window_has_selection (document->buffer, NULL, window);
-
       /* set the current line ending type */
       line_ending = mousepad_file_get_line_ending (document->file);
       g_action_group_change_action_state (G_ACTION_GROUP (window), "document.line-ending",
@@ -2336,7 +2333,7 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
   g_signal_connect (page, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
   g_signal_connect (document->buffer, "notify::has-selection",
-                    G_CALLBACK (mousepad_window_has_selection), window);
+                    G_CALLBACK (mousepad_window_enable_edit_actions), window);
   g_signal_connect (document->buffer, "notify::can-undo",
                     G_CALLBACK (mousepad_window_can_undo), window);
   g_signal_connect (document->buffer, "notify::can-redo",
@@ -2351,6 +2348,8 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_readonly_changed), window);
   g_signal_connect (document->textview, "populate-popup",
                     G_CALLBACK (mousepad_window_menu_textview_popup), window);
+  g_signal_connect (document->textview, "notify::has-focus",
+                    G_CALLBACK (mousepad_window_enable_edit_actions), window);
 
   /* change the visibility of the tabs accordingly */
   mousepad_window_update_tabs (window, NULL, NULL);
@@ -2376,7 +2375,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (page, mousepad_window_overwrite_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_language_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_drag_data_received, window);
-  mousepad_disconnect_by_func (document->buffer, mousepad_window_has_selection, window);
+  mousepad_disconnect_by_func (document->buffer, mousepad_window_enable_edit_actions, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_undo, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_redo, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_modified_changed, window);
@@ -2384,6 +2383,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->file, mousepad_window_location_changed, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
+  mousepad_disconnect_by_func (document->textview, mousepad_window_enable_edit_actions, window);
 
   /* window contains no tabs: save geometry and destroy it */
   if (gtk_notebook_get_n_pages (notebook) == 0)
@@ -2748,30 +2748,43 @@ mousepad_window_modified_changed (GtkTextBuffer  *buffer,
 
 
 static void
-mousepad_window_has_selection (GtkTextBuffer  *buffer,
-                               GParamSpec     *pspec,
-                               MousepadWindow *window)
+mousepad_window_enable_edit_actions (GObject        *object,
+                                     GParamSpec     *pspec,
+                                     MousepadWindow *window)
 {
-  GAction     *action;
-  guint        n;
-  gboolean     has_selection;
-  const gchar *action_names[] =
+  MousepadDocument *document = window->active;
+  GList            *items;
+  GAction          *action;
+  guint             n;
+  gboolean          enabled;
+  const gchar      *focus_actions[] = { "edit.paste", "edit.select-all" };
+  const gchar      *select_actions[] =
   {
-    "edit.move-selection.line-down", "edit.move-selection.line-up", "edit.cut",
-    "edit.copy", "edit.delete", "edit.convert.to-lowercase", "edit.convert.to-uppercase",
-    "edit.convert.to-title-case", "edit.convert.to-opposite-case"
+    "edit.cut", "edit.copy", "edit.delete",
+    "edit.convert.to-lowercase", "edit.convert.to-uppercase",
+    "edit.convert.to-title-case", "edit.convert.to-opposite-case",
+    "edit.move-selection.line-up", "edit.move-selection.line-down"
   };
 
-  if (window->active->buffer == buffer)
+  if (GTK_IS_TEXT_VIEW (object) || document->buffer == GTK_TEXT_BUFFER (object))
     {
-      /* get the buffer property */
-      g_object_get (buffer, "has-selection", &has_selection, NULL);
-
-      /* actions enabled only for selections */
-      for (n = 0; n < G_N_ELEMENTS (action_names); n++)
+      /* actions enabled only in a focused text view or in the text view menu,
+       * to prevent conflicts with GtkEntry keybindings */
+      items = gtk_container_get_children (GTK_CONTAINER (window->textview_menu));
+      enabled = gtk_widget_has_focus (GTK_WIDGET (document->textview)) || items == NULL;
+      g_list_free (items);
+      for (n = 0; n < G_N_ELEMENTS (focus_actions); n++)
         {
-          action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names[n]);
-          g_simple_action_set_enabled (G_SIMPLE_ACTION (action), has_selection);
+          action = g_action_map_lookup_action (G_ACTION_MAP (window), focus_actions[n]);
+          g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enabled);
+        }
+
+      /* actions enabled only for selections, in addition to the above conditions */
+      enabled = enabled && gtk_text_buffer_get_has_selection (document->buffer);
+      for (n = 0; n < G_N_ELEMENTS (select_actions); n++)
+        {
+          action = g_action_map_lookup_action (G_ACTION_MAP (window), select_actions[n]);
+          g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enabled);
         }
     }
 }
