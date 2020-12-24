@@ -768,40 +768,24 @@ mousepad_application_open (GApplication  *gapplication,
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GtkWidget           *window;
-  GPtrArray           *uris;
-  gpointer            *data;
-  gchar               *filename, *uri;
-  gchar               *temp_uri[] = { NULL, NULL };
+  GFile               *valid_files[n_files];
+  gchar               *uri;
   gint                 n, valid = 0, opened = 0;
 
-  /* prepare the uris array */
-  uris = g_ptr_array_new ();
+  /* URIs may be invalid when entered by the user */
   for (n = 0; n < n_files; n++)
-    {
-      uri = g_file_get_uri (files[n]);
-      filename = g_file_get_path (files[n]);
-
-      /* there could be invalid uris when the call comes from gdbus */
-      if (filename)
-        {
-          g_ptr_array_add (uris, uri);
-          valid++;
-        }
-      else
-        {
-          g_message ("Invalid URI: %s", uri);
-          g_free (uri);
-        }
-
-      g_free (filename);
-    }
+    if (mousepad_util_get_path (files[n]) == NULL)
+      {
+        /* inform the user */
+        uri = g_file_get_uri (files[n]);
+        g_message ("Invalid URI: %s", uri);
+        g_free (uri);
+      }
+    else
+      valid_files[valid++] = files[n];
 
   if (valid > 0)
     {
-      /* get the underlying filename array */
-      g_ptr_array_add (uris, NULL);
-      data = g_ptr_array_free (uris, FALSE);
-
       /* open the files in tabs */
       if (application->opening_mode != WINDOW)
         {
@@ -809,7 +793,7 @@ mousepad_application_open (GApplication  *gapplication,
           window = mousepad_application_get_window_for_files (application);
 
           /* open the files */
-          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), (gchar **) data);
+          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid, FALSE);
 
           /* if at least one file was finally opened, show the window */
           if (opened > 0)
@@ -826,8 +810,7 @@ mousepad_application_open (GApplication  *gapplication,
               window = mousepad_application_create_window (application);
 
               /* open the file */
-              temp_uri[0] = data[n];
-              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), temp_uri);
+              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files + n, 1, FALSE);
 
               /* if the file was finally opened, show the window */
               if (opened > 0)
@@ -836,12 +819,7 @@ mousepad_application_open (GApplication  *gapplication,
                 gtk_widget_destroy (window);
             }
         }
-
-      /* cleanup */
-      g_strfreev ((gchar **) data);
     }
-  else
-    g_ptr_array_free (uris, TRUE);
 }
 
 

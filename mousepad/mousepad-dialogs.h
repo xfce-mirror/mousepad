@@ -33,8 +33,8 @@ enum {
   MOUSEPAD_RESPONSE_JUMP_TO,
   MOUSEPAD_RESPONSE_OK,
   MOUSEPAD_RESPONSE_OVERWRITE,
+  MOUSEPAD_RESPONSE_RELOAD,
   MOUSEPAD_RESPONSE_REPLACE,
-  MOUSEPAD_RESPONSE_REVERT,
   MOUSEPAD_RESPONSE_SAVE,
   MOUSEPAD_RESPONSE_SAVE_AS,
 };
@@ -61,18 +61,20 @@ gboolean   mousepad_dialogs_clear_recent        (GtkWindow     *parent);
 gint       mousepad_dialogs_save_changes        (GtkWindow     *parent,
                                                  gboolean       readonly);
 
-gint       mousepad_dialogs_externally_modified (GtkWindow     *parent);
+gint       mousepad_dialogs_externally_modified (GtkWindow     *parent,
+                                                 gboolean       saving,
+                                                 gboolean       modified);
 
 gint       mousepad_dialogs_revert              (GtkWindow     *parent);
 
 gint       mousepad_dialogs_save_as             (GtkWindow     *parent,
-                                                 const gchar   *current_filename,
-                                                 const gchar   *last_save_location,
-                                                 gchar        **filename);
+                                                 GFile         *current_file,
+                                                 GFile         *last_save_location,
+                                                 GFile        **file);
 
 gint       mousepad_dialogs_open                (GtkWindow     *parent,
-                                                 const gchar   *filename,
-                                                 GSList       **filenames);
+                                                 GFile         *file,
+                                                 GSList       **files);
 
 G_END_DECLS
 
