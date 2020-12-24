@@ -154,6 +154,9 @@ static void              mousepad_window_modified_changed             (GtkTextBu
 static void              mousepad_window_has_selection                (GtkTextBuffer          *buffer,
                                                                        GParamSpec             *pspec,
                                                                        MousepadWindow         *window);
+static void              mousepad_window_has_focus                    (GtkWidget              *view,
+                                                                       GParamSpec             *pspec,
+                                                                       MousepadWindow         *window);
 static void              mousepad_window_cursor_changed               (MousepadDocument       *document,
                                                                        gint                    line,
                                                                        gint                    column,
@@ -2351,6 +2354,8 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_readonly_changed), window);
   g_signal_connect (document->textview, "populate-popup",
                     G_CALLBACK (mousepad_window_menu_textview_popup), window);
+  g_signal_connect (document->textview, "notify::has-focus",
+                    G_CALLBACK (mousepad_window_has_focus), window);
 
   /* change the visibility of the tabs accordingly */
   mousepad_window_update_tabs (window, NULL, NULL);
@@ -2384,6 +2389,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->file, mousepad_window_location_changed, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
+  mousepad_disconnect_by_func (document->textview, mousepad_window_has_focus, window);
 
   /* window contains no tabs: save geometry and destroy it */
   if (gtk_notebook_get_n_pages (notebook) == 0)
@@ -2754,25 +2760,47 @@ mousepad_window_has_selection (GtkTextBuffer  *buffer,
 {
   GAction     *action;
   guint        n;
-  gboolean     has_selection;
+  gboolean     enabled;
   const gchar *action_names[] =
   {
-    "edit.move-selection.line-down", "edit.move-selection.line-up", "edit.cut",
-    "edit.copy", "edit.delete", "edit.convert.to-lowercase", "edit.convert.to-uppercase",
-    "edit.convert.to-title-case", "edit.convert.to-opposite-case"
+    "edit.cut", "edit.copy", "edit.delete",
+    "edit.convert.to-lowercase", "edit.convert.to-uppercase",
+    "edit.convert.to-title-case", "edit.convert.to-opposite-case",
+    "edit.move-selection.line-up", "edit.move-selection.line-down"
   };
 
   if (window->active->buffer == buffer)
     {
-      /* get the buffer property */
-      g_object_get (buffer, "has-selection", &has_selection, NULL);
-
-      /* actions enabled only for selections */
+      /* actions enabled only for selections in a focused text view */
+      enabled = gtk_text_buffer_get_has_selection (buffer)
+                && gtk_widget_has_focus (GTK_WIDGET (window->active->textview));
       for (n = 0; n < G_N_ELEMENTS (action_names); n++)
         {
           action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names[n]);
-          g_simple_action_set_enabled (G_SIMPLE_ACTION (action), has_selection);
+          g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enabled);
         }
+    }
+}
+
+
+
+static void
+mousepad_window_has_focus (GtkWidget      *view,
+                           GParamSpec     *pspec,
+                           MousepadWindow *window)
+{
+  GAction     *action;
+  guint        n;
+  gboolean     enabled;
+  const gchar *action_names[] = { "edit.paste", "edit.select-all" };
+
+  /* actions enabled only when the view is focused, to prevent conflicts with
+   * GtkEntry keybindings */
+  enabled = gtk_widget_has_focus (view);
+  for (n = 0; n < G_N_ELEMENTS (action_names); n++)
+    {
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), action_names[n]);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enabled);
     }
 }
 

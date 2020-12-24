@@ -134,7 +134,6 @@
         <attribute name="label" translatable="yes">Select _All</attribute>
         <attribute name="tooltip" translatable="yes">Select the text in the entire document</attribute>
         <attribute name="action">win.edit.select-all</attribute>
-        <attribute name="accel">&lt;Control&gt;A</attribute>
         <attribute name="icon">edit-select-all</attribute>
       </item>
     </section>
@@ -238,7 +237,6 @@
         <attribute name="label" translatable="yes">_Delete</attribute>
         <attribute name="tooltip" translatable="yes">Delete the current selection</attribute>
         <attribute name="action">win.edit.delete</attribute>
-        <attribute name="accel">Delete</attribute>
         <attribute name="icon">edit-delete</attribute>
       </item>
     </section>

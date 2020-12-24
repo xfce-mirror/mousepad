@@ -115,22 +115,35 @@ mousepad_search_bar_class_init (MousepadSearchBarClass *klass)
 
   /* add an activate-backwards signal to GtkEntry */
   entry_class = g_type_class_ref (GTK_TYPE_ENTRY);
+  binding_set = gtk_binding_set_by_class (entry_class);
   if (G_LIKELY (g_signal_lookup ("activate-backward", GTK_TYPE_ENTRY) == 0))
     {
-      /* install the signal */
-      g_signal_new ("activate-backward",
-                   GTK_TYPE_ENTRY,
-                   G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-                   0, NULL, NULL,
-                   g_cclosure_marshal_VOID__VOID,
-                   G_TYPE_NONE, 0);
-      binding_set = gtk_binding_set_by_class (entry_class);
+      g_signal_new ("activate-backward", GTK_TYPE_ENTRY, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                    0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
       gtk_binding_entry_add_signal (binding_set, GDK_KEY_Return,
                                     GDK_SHIFT_MASK, "activate-backward", 0);
       gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Enter,
                                     GDK_SHIFT_MASK, "activate-backward", 0);
     }
+
+  /* add a select-all signal to GtkEntry */
+  if (G_LIKELY (g_signal_lookup ("select-all", GTK_TYPE_ENTRY) == 0))
+    {
+      g_signal_new ("select-all", GTK_TYPE_ENTRY, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                    0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
+      gtk_binding_entry_add_signal (binding_set, GDK_KEY_a, GDK_CONTROL_MASK, "select-all", 0);
+    }
+
+  /* cleanup */
   g_type_class_unref (entry_class);
+}
+
+
+
+static void
+mousepad_search_bar_entry_select_all (GtkEntry *entry)
+{
+  gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
 }
 
 
@@ -138,18 +151,47 @@ mousepad_search_bar_class_init (MousepadSearchBarClass *klass)
 static void
 mousepad_search_bar_post_init (MousepadSearchBar *bar)
 {
-  GtkWidget *window;
+  GtkApplication   *application;
+  GtkWidget        *window;
+  GtkBindingSet    *binding_set;
+  GdkModifierType   accel_mods;
+  guint             n, accel_key;
+  gchar           **accels;
+  const gchar      *actions[] = { "win.edit.cut", "win.edit.copy", "win.edit.paste",
+                                  "win.edit.select-all" };
+  const gchar      *signals[] = { "cut-clipboard", "copy-clipboard", "paste-clipboard",
+                                  "select-all" };
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (bar, mousepad_search_bar_post_init, NULL);
 
-  /* get the ancestor MousepadWindow */
+  /* get the ancestor MousepadWindow and the application */
   window = gtk_widget_get_ancestor (GTK_WIDGET (bar), MOUSEPAD_TYPE_WINDOW);
+  application = gtk_window_get_application (GTK_WINDOW (window));
 
   /* connect to the "search-completed" window signal */
   g_signal_connect_object (window, "search-completed",
                            G_CALLBACK (mousepad_search_bar_search_completed),
                            bar, G_CONNECT_SWAPPED);
+
+  /* make search entry keybindings consistent with those of the text view */
+  binding_set = gtk_binding_set_by_class (g_type_class_peek (GTK_TYPE_ENTRY));
+
+  accels = gtk_application_get_accels_for_action (application, "win.edit.delete");
+  gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
+  gtk_binding_entry_remove (binding_set, accel_key, accel_mods);
+  gtk_binding_entry_add_signal (binding_set, accel_key, accel_mods, "delete-from-cursor",
+                                2, GTK_TYPE_DELETE_TYPE, GTK_DELETE_CHARS, G_TYPE_INT, 1);
+  g_strfreev (accels);
+
+  for (n = 0; n < G_N_ELEMENTS (actions); n++)
+    {
+      accels = gtk_application_get_accels_for_action (application, actions[n]);
+      gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
+      gtk_binding_entry_remove (binding_set, accel_key, accel_mods);
+      gtk_binding_entry_add_signal (binding_set, accel_key, accel_mods, signals[n], 0);
+      g_strfreev (accels);
+    }
 }
 
 
@@ -189,6 +231,8 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
                             G_CALLBACK (mousepad_search_bar_entry_activate), bar);
   g_signal_connect_swapped (bar->entry, "activate-backward",
                             G_CALLBACK (mousepad_search_bar_entry_activate_backward), bar);
+  g_signal_connect (bar->entry, "select-all",
+                    G_CALLBACK (mousepad_search_bar_entry_select_all), NULL);
   gtk_box_pack_start (GTK_BOX (box), bar->entry, FALSE, FALSE, 0);
 
   /* previous button */
