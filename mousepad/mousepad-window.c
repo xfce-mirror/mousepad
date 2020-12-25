@@ -297,7 +297,10 @@ static void              mousepad_window_action_paste_history         (GSimpleAc
 static void              mousepad_window_action_paste_column          (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
-static void              mousepad_window_action_delete                (GSimpleAction          *action,
+static void              mousepad_window_action_delete_selection      (GSimpleAction          *action,
+                                                                       GVariant               *value,
+                                                                       gpointer                data);
+static void              mousepad_window_action_delete_line           (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
 static void              mousepad_window_action_select_all            (GSimpleAction          *action,
@@ -496,7 +499,8 @@ static const GActionEntry action_entries[] =
   /* "Paste Special" submenu */
     { "edit.paste-special.paste-from-history", mousepad_window_action_paste_history, NULL, NULL, NULL },
     { "edit.paste-special.paste-as-column", mousepad_window_action_paste_column, NULL, NULL, NULL },
-  { "edit.delete", mousepad_window_action_delete, NULL, NULL, NULL },
+  { "edit.delete-selection", mousepad_window_action_delete_selection, NULL, NULL, NULL },
+  { "edit.delete-line", mousepad_window_action_delete_line, NULL, NULL, NULL },
 
   { "edit.select-all", mousepad_window_action_select_all, NULL, NULL, NULL },
 
@@ -2757,7 +2761,7 @@ mousepad_window_enable_edit_actions (GObject        *object,
   GAction          *action;
   guint             n;
   gboolean          enabled;
-  const gchar      *focus_actions[] = { "edit.paste", "edit.delete", "edit.select-all" };
+  const gchar      *focus_actions[] = { "edit.paste", "edit.delete-selection", "edit.select-all" };
   const gchar      *select_actions[] =
   {
     "edit.cut", "edit.copy",
@@ -4889,9 +4893,9 @@ mousepad_window_action_paste_column (GSimpleAction *action,
 
 
 static void
-mousepad_window_action_delete (GSimpleAction *action,
-                               GVariant      *value,
-                               gpointer       data)
+mousepad_window_action_delete_selection (GSimpleAction *action,
+                                         GVariant      *value,
+                                         gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
 
@@ -4900,6 +4904,22 @@ mousepad_window_action_delete (GSimpleAction *action,
 
   /* delete selection in textview */
   g_signal_emit_by_name (window->active->textview, "delete-from-cursor", GTK_DELETE_CHARS, 1);
+}
+
+
+
+static void
+mousepad_window_action_delete_line (GSimpleAction *action,
+                                    GVariant      *value,
+                                    gpointer       data)
+{
+  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+  /* delete selection in textview */
+  g_signal_emit_by_name (window->active->textview, "delete-from-cursor", GTK_DELETE_PARAGRAPHS, 1);
 }
 
 

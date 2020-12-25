@@ -204,7 +204,7 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
   /* make text entries keybindings consistent with those of the text view */
   binding_set = gtk_binding_set_by_class (g_type_class_peek (GTK_TYPE_ENTRY));
 
-  accels = gtk_application_get_accels_for_action (application, "win.edit.delete");
+  accels = gtk_application_get_accels_for_action (application, "win.edit.delete-selection");
   if (accels[0] != NULL)
     {
       gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);

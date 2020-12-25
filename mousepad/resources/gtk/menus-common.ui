@@ -234,10 +234,15 @@
         </item>
       </submenu>
       <item>
-        <attribute name="label" translatable="yes">_Delete</attribute>
+        <attribute name="label" translatable="yes">_Delete Selection</attribute>
         <attribute name="tooltip" translatable="yes">Delete the current selection</attribute>
-        <attribute name="action">win.edit.delete</attribute>
+        <attribute name="action">win.edit.delete-selection</attribute>
         <attribute name="icon">edit-delete</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Delete _Line</attribute>
+        <attribute name="tooltip" translatable="yes">Delete the current line</attribute>
+        <attribute name="action">win.edit.delete-line</attribute>
       </item>
     </section>
 
