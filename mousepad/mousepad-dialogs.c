@@ -522,8 +522,9 @@ mousepad_dialogs_save_as (GtkWindow  *parent,
                           GFile      *last_save_location,
                           GFile     **file)
 {
-  GtkWidget *dialog, *button;
-  gint       response;
+  GtkWidget     *dialog, *button;
+  GtkFileFilter *filter;
+  gint           response;
 
   /* create the dialog */
   dialog = gtk_file_chooser_dialog_new (_("Save As"),
@@ -537,6 +538,17 @@ mousepad_dialogs_save_as (GtkWindow  *parent,
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+  /* file filter on mime type */
+  filter = gtk_file_filter_new ();
+  gtk_file_filter_add_mime_type (filter, "text/plain");
+  gtk_file_filter_set_name (filter, _("All Text Files"));
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+
+  filter = gtk_file_filter_new ();
+  gtk_file_filter_add_pattern (filter, "*");
+  gtk_file_filter_set_name (filter, _("All Files"));
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
   /* set the current location if there is one, or use the last save location */
   if (current_file != NULL)
@@ -564,8 +576,9 @@ mousepad_dialogs_open (GtkWindow  *parent,
                        GFile      *file,
                        GSList    **files)
 {
-  GtkWidget *dialog, *button, *hbox, *label, *combobox;
-  gint       response;
+  GtkWidget     *dialog, *button, *hbox, *label, *combobox;
+  GtkFileFilter *filter;
+  gint           response;
 
   /* create new file chooser dialog */
   dialog = gtk_file_chooser_dialog_new (_("Open File"),
@@ -579,6 +592,17 @@ mousepad_dialogs_open (GtkWindow  *parent,
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
+
+  /* file filter on mime type */
+  filter = gtk_file_filter_new ();
+  gtk_file_filter_add_mime_type (filter, "text/plain");
+  gtk_file_filter_set_name (filter, _("All Text Files"));
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+
+  filter = gtk_file_filter_new ();
+  gtk_file_filter_add_pattern (filter, "*");
+  gtk_file_filter_set_name (filter, _("All Files"));
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
   /* encoding selector */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
