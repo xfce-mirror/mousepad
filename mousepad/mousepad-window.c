@@ -2757,10 +2757,10 @@ mousepad_window_enable_edit_actions (GObject        *object,
   GAction          *action;
   guint             n;
   gboolean          enabled;
-  const gchar      *focus_actions[] = { "edit.paste", "edit.select-all" };
+  const gchar      *focus_actions[] = { "edit.paste", "edit.delete", "edit.select-all" };
   const gchar      *select_actions[] =
   {
-    "edit.cut", "edit.copy", "edit.delete",
+    "edit.cut", "edit.copy",
     "edit.convert.to-lowercase", "edit.convert.to-uppercase",
     "edit.convert.to-title-case", "edit.convert.to-opposite-case",
     "edit.move-selection.line-up", "edit.move-selection.line-down"
@@ -4899,7 +4899,7 @@ mousepad_window_action_delete (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* delete selection in textview */
-  mousepad_view_delete_selection (window->active->textview);
+  g_signal_emit_by_name (window->active->textview, "delete-from-cursor", GTK_DELETE_CHARS, 1);
 }
 
 
@@ -4915,7 +4915,7 @@ mousepad_window_action_select_all (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* select everything in the document */
-  mousepad_view_select_all (window->active->textview);
+  g_signal_emit_by_name (window->active->textview, "select-all");
 }
 
 
