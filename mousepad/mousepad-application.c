@@ -478,8 +478,8 @@ mousepad_application_set_accels (MousepadApplication *application)
     /* "Edit" menu */
     { "win.edit.undo", "<Control>Z" }, { "win.edit.redo", "<Control>Y" },
     { "win.edit.cut", "<Control>X" }, { "win.edit.copy", "<Control>C" },
-    { "win.edit.paste", "<Control>V" }, { "win.edit.delete", "Delete" },
-    { "win.edit.select-all", "<Control>A" },
+    { "win.edit.paste", "<Control>V" }, { "win.edit.delete-selection", "Delete" },
+    { "win.edit.delete-line", "<Control><Shift>Delete" }, { "win.edit.select-all", "<Control>A" },
     { "win.edit.convert.to-opposite-case", "<Alt><Control>U" },
     { "win.edit.convert.transpose", "<Control>T" },
     { "win.edit.move-selection.line-up", "<Alt>Page_Up" },
