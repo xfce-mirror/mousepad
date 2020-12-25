@@ -516,6 +516,26 @@ mousepad_dialogs_revert (GtkWindow *parent)
 
 
 
+static void
+mousepad_dialogs_add_file_filter (GtkFileChooser *dialog)
+{
+  GtkFileFilter *filter;
+
+  /* file filter on mime type */
+  filter = gtk_file_filter_new ();
+  gtk_file_filter_add_mime_type (filter, "text/plain");
+  gtk_file_filter_set_name (filter, _("Text Files"));
+  gtk_file_chooser_add_filter (dialog, filter);
+
+  /* no filter */
+  filter = gtk_file_filter_new ();
+  gtk_file_filter_add_pattern (filter, "*");
+  gtk_file_filter_set_name (filter, _("All Files"));
+  gtk_file_chooser_add_filter (dialog, filter);
+}
+
+
+
 gint
 mousepad_dialogs_save_as (GtkWindow  *parent,
                           GFile      *current_file,
@@ -537,6 +557,9 @@ mousepad_dialogs_save_as (GtkWindow  *parent,
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+  /* add file filter */
+  mousepad_dialogs_add_file_filter (GTK_FILE_CHOOSER (dialog));
 
   /* set the current location if there is one, or use the last save location */
   if (current_file != NULL)
@@ -579,6 +602,9 @@ mousepad_dialogs_open (GtkWindow  *parent,
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
+
+  /* add file filter */
+  mousepad_dialogs_add_file_filter (GTK_FILE_CHOOSER (dialog));
 
   /* encoding selector */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
