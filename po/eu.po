@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-25 00:46+0100\n"
-"PO-Revision-Date: 2020-12-25 17:49+0000\n"
+"PO-Revision-Date: 2020-12-26 12:37+0000\n"
 "Last-Translator: beriain\n"
 "Language-Team: Basque (http://www.transifex.com/xfce/xfce-apps/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -738,7 +738,7 @@ msgstr "Sortu dokumentu berria bat leiho berrian"
 
 #: ../mousepad/resources/gtk/menus.ui.h:5
 msgid "New From Te_mplate"
-msgstr "Berria &txantiloitik"
+msgstr "Berria txantiloitik"
 
 #: ../mousepad/resources/gtk/menus.ui.h:6
 msgid "Create a new document from a template"
