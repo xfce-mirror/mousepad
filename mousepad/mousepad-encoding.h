@@ -110,13 +110,19 @@ extern const MousepadEncodingInfo encoding_infos[];
 
 extern guint                      n_encoding_infos;
 
-const gchar      *mousepad_encoding_get_charset (MousepadEncoding  encoding);
+const gchar      *mousepad_encoding_get_charset (MousepadEncoding   encoding);
 
-const gchar      *mousepad_encoding_get_name    (MousepadEncoding  encoding);
+const gchar      *mousepad_encoding_get_name    (MousepadEncoding   encoding);
 
-MousepadEncoding  mousepad_encoding_find        (const gchar      *charset);
+MousepadEncoding  mousepad_encoding_find        (const gchar       *charset);
 
-gboolean          mousepad_encoding_is_unicode  (MousepadEncoding  encoding);
+MousepadEncoding  mousepad_encoding_read_bom    (const gchar       *contents,
+                                                 gsize              length,
+                                                 gsize             *bom_length);
+
+void              mousepad_encoding_write_bom   (MousepadEncoding  *encoding,
+                                                 gint              *length,
+                                                 gchar            **contents);
 
 G_END_DECLS
 

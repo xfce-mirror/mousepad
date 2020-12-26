@@ -70,8 +70,7 @@ MousepadEncoding    mousepad_file_get_encoding             (MousepadFile        
 void                mousepad_file_set_write_bom            (MousepadFile        *file,
                                                             gboolean             write_bom);
 
-gboolean            mousepad_file_get_write_bom            (MousepadFile        *file,
-                                                            gboolean            *sensitive);
+gboolean            mousepad_file_get_write_bom            (MousepadFile        *file);
 
 void                mousepad_file_set_line_ending          (MousepadFile        *file,
                                                             MousepadLineEnding   line_ending);

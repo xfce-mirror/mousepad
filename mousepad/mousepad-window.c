@@ -2202,7 +2202,7 @@ mousepad_window_update_actions (MousepadWindow *window)
   MousepadDocument   *document;
   GtkSourceLanguage  *language;
   MousepadLineEnding  line_ending;
-  gboolean            cycle_tabs, sensitive, value;
+  gboolean            cycle_tabs, value;
   gint                n_pages, page_num;
   const gchar        *language_id;
 
@@ -2258,7 +2258,7 @@ mousepad_window_update_actions (MousepadWindow *window)
                                           g_variant_new_int32 (line_ending));
 
       /* write bom */
-      value = mousepad_file_get_write_bom (document->file, &sensitive);
+      value = mousepad_file_get_write_bom (document->file);
       g_action_group_change_action_state (G_ACTION_GROUP (window), "document.write-unicode-bom",
                                           g_variant_new_boolean (value));
 
