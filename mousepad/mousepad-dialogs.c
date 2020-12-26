@@ -516,6 +516,38 @@ mousepad_dialogs_revert (GtkWindow *parent)
 
 
 
+gint
+mousepad_dialogs_confirm_encoding (const gchar *charset,
+                                   const gchar *user_charset)
+{
+  GtkWindow *parent;
+  GtkWidget *dialog;
+  gint       response;
+
+  /* get the parent window */
+  parent = gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ()));
+
+  /* setup the question dialog */
+  dialog = gtk_message_dialog_new (parent,
+                                   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                   GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+                                   _("The file seems to be encoded in %s, but you have chosen %s"
+                                     " encoding. Do you confirm this choice?"),
+                                   charset, user_charset);
+  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+                                            _("If not, the guessed encoding will be used."));
+
+  /* run the dialog */
+  response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+  /* destroy the dialog */
+  gtk_widget_destroy (dialog);
+
+  return response;
+}
+
+
+
 static void
 mousepad_dialogs_add_file_filter (GtkFileChooser *dialog)
 {
