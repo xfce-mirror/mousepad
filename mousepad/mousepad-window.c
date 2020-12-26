@@ -1722,7 +1722,7 @@ mousepad_window_open_file (MousepadWindow   *window,
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
   /* read the content into the buffer */
-  result = mousepad_file_open (document->file, must_exist, &error);
+  result = mousepad_file_open (document->file, must_exist, FALSE, &error);
 
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
@@ -2202,7 +2202,7 @@ mousepad_window_update_actions (MousepadWindow *window)
   MousepadDocument   *document;
   GtkSourceLanguage  *language;
   MousepadLineEnding  line_ending;
-  gboolean            cycle_tabs, sensitive, value;
+  gboolean            cycle_tabs, value;
   gint                n_pages, page_num;
   const gchar        *language_id;
 
@@ -2258,7 +2258,7 @@ mousepad_window_update_actions (MousepadWindow *window)
                                           g_variant_new_int32 (line_ending));
 
       /* write bom */
-      value = mousepad_file_get_write_bom (document->file, &sensitive);
+      value = mousepad_file_get_write_bom (document->file);
       g_action_group_change_action_state (G_ACTION_GROUP (window), "document.write-unicode-bom",
                                           g_variant_new_boolean (value));
 
@@ -4168,7 +4168,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       g_object_unref (file);
 
       /* try to load the template into the buffer */
-      result = mousepad_file_open (document->file, TRUE, &error);
+      result = mousepad_file_open (document->file, TRUE, FALSE, &error);
 
       /* reset the file location */
       mousepad_file_set_location (document->file, NULL, FALSE);
@@ -4606,7 +4606,7 @@ mousepad_window_action_reload (GSimpleAction *action,
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
   /* reload the file */
-  retval = mousepad_file_open (document->file, TRUE, &error);
+  retval = mousepad_file_open (document->file, TRUE, FALSE, &error);
 
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
