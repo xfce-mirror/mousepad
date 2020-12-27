@@ -58,6 +58,9 @@ struct _MousepadEncodingDialog
   /* the file */
   MousepadDocument *document;
 
+  /* dialog title */
+  gchar            *title;
+
   /* encoding test idle id */
   guint             timer_id;
 
@@ -117,10 +120,9 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Cancel"), GTK_RESPONSE_CANCEL);
   dialog->button_ok = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_OK"), GTK_RESPONSE_OK);
 
-  /* create the header */
-  mousepad_util_dialog_create_header (GTK_DIALOG (dialog),
-                                      _("The document was not UTF-8 valid."),
-                                      NULL, "text-x-generic");
+  /* create an empty header */
+  dialog->title = NULL;
+  mousepad_util_dialog_create_header (GTK_DIALOG (dialog), dialog->title, NULL, NULL);
 
   /* dialog vbox */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -230,6 +232,7 @@ mousepad_encoding_dialog_finalize (GObject *object)
     g_source_remove (dialog->timer_id);
 
   /* clear and release stores */
+  g_free (dialog->title);
   gtk_list_store_clear (dialog->store);
   gtk_list_store_clear (dialog->fallback_store);
   g_object_unref (dialog->store);
@@ -330,8 +333,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
       else
         subtitle = _("Other partially valid encodings were found, please choose below.");
 
-      mousepad_util_dialog_update_header (GTK_DIALOG (dialog),
-                                          _("The document was not UTF-8 valid."),
+      mousepad_util_dialog_update_header (GTK_DIALOG (dialog), dialog->title,
                                           subtitle, "text-x-generic");
 
       /* show the default and system radio buttons */
@@ -350,8 +352,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
   else
     {
       /* update the dialog header */
-      mousepad_util_dialog_update_header (GTK_DIALOG (dialog),
-                                          _("The document was not UTF-8 valid."),
+      mousepad_util_dialog_update_header (GTK_DIALOG (dialog), dialog->title,
                                           _("No other valid encoding was found."),
                                           "text-x-generic");
 
@@ -527,6 +528,13 @@ mousepad_encoding_dialog_new (GtkWindow    *parent,
   /* create the dialog */
   dialog = g_object_new (MOUSEPAD_TYPE_ENCODING_DIALOG, "transient-for", parent,
                          "destroy-with-parent", TRUE, "modal", TRUE, NULL);
+
+  /* dialog title */
+  dialog->title = g_strdup_printf (_("The document was not %s valid."),
+                    mousepad_encoding_get_charset (mousepad_file_get_encoding (file)));
+
+  /* update the dialog header */
+  mousepad_util_dialog_update_header (GTK_DIALOG (dialog), dialog->title, NULL, "text-x-generic");
 
   /* set the file location */
   mousepad_file_set_location (dialog->document->file, mousepad_file_get_location (file), TRUE);

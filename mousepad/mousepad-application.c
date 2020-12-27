@@ -95,8 +95,9 @@ struct _MousepadApplication
   GtkWidget                   *prefs_dialog;
   GtkSourceSpaceLocationFlags  space_location_flags;
 
-  /* opening mode provided on the command line */
-  gint                         opening_mode;
+  /* command line options */
+  gint             opening_mode;
+  MousepadEncoding encoding;
 };
 
 /* MousepadApplication properties */
@@ -111,6 +112,16 @@ enum
 /* command line options */
 static const GOptionEntry option_entries[] =
 {
+  {
+    "encoding", 'e', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_STRING, NULL,
+    N_("Encoding to be used to open files"), N_("ENCODING")
+  },
+  {
+    "list-encodings", '\0', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_NONE, NULL,
+    N_("Display a list of possible encodings to open files"), NULL
+  },
   {
     "disable-server", '\0', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
@@ -321,8 +332,10 @@ static gint
 mousepad_application_handle_local_options (GApplication *gapplication,
                                            GVariantDict *options)
 {
+  MousepadEncoding   encoding;
   GApplicationFlags  flags;
   GError            *error = NULL;
+  const gchar       *charset;
 
   if (g_variant_dict_contains (options, "version"))
     {
@@ -331,6 +344,15 @@ mousepad_application_handle_local_options (GApplication *gapplication,
       g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
       g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
       g_print ("\n");
+
+      return EXIT_SUCCESS;
+    }
+
+  if (g_variant_dict_contains (options, "list-encodings"))
+    {
+      for (encoding = 1; (charset = mousepad_encoding_get_charset (encoding)) != NULL;
+           encoding++, encoding += (encoding == MOUSEPAD_ENCODING_UTF_8_FORCED))
+        g_print ("%s\n", charset);
 
       return EXIT_SUCCESS;
     }
@@ -569,6 +591,7 @@ mousepad_application_startup (GApplication *gapplication)
   application->prefs_dialog = NULL;
   application->space_location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
   application->opening_mode = TAB;
+  application->encoding = MOUSEPAD_ENCODING_UTF_8;
 
   /* initialize mousepad settings */
   mousepad_settings_init ();
@@ -642,7 +665,7 @@ mousepad_application_command_line (GApplication            *gapplication,
   GPtrArray            *files;
   GFile                *file;
   gpointer             *data;
-  const gchar          *opening_mode, *working_directory;
+  const gchar          *opening_mode, *encoding, *working_directory;
   gchar               **filenames = NULL;
   gint                  n, n_files;
 
@@ -678,6 +701,10 @@ mousepad_application_command_line (GApplication            *gapplication,
   /* use the opening mode stored in the settings */
   else
     application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
+
+  /* use encoding provided on the command line, if any */
+  if (g_variant_dict_lookup (options, "encoding", "&s", &encoding))
+    application->encoding = mousepad_encoding_find (encoding);
 
   /* extract filenames */
   g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);
@@ -793,7 +820,8 @@ mousepad_application_open (GApplication  *gapplication,
           window = mousepad_application_get_window_for_files (application);
 
           /* open the files */
-          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid, FALSE);
+          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid,
+                                               application->encoding, FALSE);
 
           /* if at least one file was finally opened, show the window */
           if (opened > 0)
@@ -810,7 +838,8 @@ mousepad_application_open (GApplication  *gapplication,
               window = mousepad_application_create_window (application);
 
               /* open the file */
-              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files + n, 1, FALSE);
+              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files + n, 1,
+                                                   application->encoding, FALSE);
 
               /* if the file was finally opened, show the window */
               if (opened > 0)

@@ -1716,6 +1716,9 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* set the passed encoding */
   mousepad_file_set_encoding (document->file, encoding);
 
+  /* make sure the recent manager is initialized */
+  mousepad_window_recent_manager_init (window);
+
   retry:
 
   /* lock the undo manager */
@@ -1742,14 +1745,11 @@ mousepad_window_open_file (MousepadWindow   *window,
         /* clear the error */
         g_clear_error (&error);
 
-        /* try to lookup the encoding from the recent history */
-        if (encoding_from_recent == FALSE)
+        /* try to lookup the encoding from the recent history only if the default was used */
+        if (encoding_from_recent == FALSE && encoding == MOUSEPAD_ENCODING_UTF_8)
           {
             /* we only try this once */
             encoding_from_recent = TRUE;
-
-            /* make sure the recent manager is initialized */
-            mousepad_window_recent_manager_init (window);
 
             /* build uri */
             uri = g_file_get_uri (file);
@@ -1762,11 +1762,10 @@ mousepad_window_open_file (MousepadWindow   *window,
                 /* cleanup */
                 g_free (uri);
 
-                if (info)
+                if (G_LIKELY (info != NULL))
                   {
                     /* try to find the encoding */
                     charset = mousepad_window_recent_get_charset (info);
-
                     encoding = mousepad_encoding_find (charset);
 
                     /* set the new encoding */
@@ -1829,10 +1828,11 @@ mousepad_window_open_file (MousepadWindow   *window,
 
 
 gint
-mousepad_window_open_files (MousepadWindow  *window,
-                            GFile          **files,
-                            gint             n_files,
-                            gboolean         must_exist)
+mousepad_window_open_files (MousepadWindow    *window,
+                            GFile            **files,
+                            gint               n_files,
+                            MousepadEncoding   encoding,
+                            gboolean           must_exist)
 {
   gint n;
 
@@ -1845,7 +1845,7 @@ mousepad_window_open_files (MousepadWindow  *window,
 
   /* open new tabs with the files */
   for (n = 0; n < n_files; n++)
-    mousepad_window_open_file (window, files[n], MOUSEPAD_ENCODING_UTF_8, must_exist);
+    mousepad_window_open_file (window, files[n], encoding, must_exist);
 
   /* allow menu updates again */
   lock_menu_updates--;
@@ -3655,7 +3655,7 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
 
       /* open the files */
       data = g_ptr_array_free (files, FALSE);
-      mousepad_window_open_files (window, (GFile **) data, n_pages, TRUE);
+      mousepad_window_open_files (window, (GFile **) data, n_pages, MOUSEPAD_ENCODING_UTF_8, TRUE);
 
       /* cleanup */
       g_strfreev (uris);
