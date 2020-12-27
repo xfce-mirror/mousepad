@@ -51,6 +51,10 @@ static void        mousepad_application_open                      (GApplication 
 static void        mousepad_application_shutdown                  (GApplication             *gapplication);
 
 /* MousepadApplication own functions */
+static gboolean    mousepad_application_parse_encoding            (const gchar              *option_name,
+                                                                   const gchar              *value,
+                                                                   gpointer                  data,
+                                                                   GError                  **error);
 static GtkWidget  *mousepad_application_create_window             (MousepadApplication      *application);
 static void        mousepad_application_new_window_with_document  (MousepadWindow           *existing,
                                                                    MousepadDocument         *document,
@@ -95,8 +99,9 @@ struct _MousepadApplication
   GtkWidget                   *prefs_dialog;
   GtkSourceSpaceLocationFlags  space_location_flags;
 
-  /* opening mode provided on the command line */
-  gint                         opening_mode;
+  /* command line options */
+  gint             opening_mode;
+  MousepadEncoding encoding;
 };
 
 /* MousepadApplication properties */
@@ -111,6 +116,17 @@ enum
 /* command line options */
 static const GOptionEntry option_entries[] =
 {
+  {
+    "encoding", 'e', G_OPTION_FLAG_OPTIONAL_ARG,
+    G_OPTION_ARG_CALLBACK, mousepad_application_parse_encoding,
+    N_("Encoding to be used to open files (leave empty to open files in the encoding dialog)"),
+    N_("ENCODING")
+  },
+  {
+    "list-encodings", '\0', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_NONE, NULL,
+    N_("Display a list of possible encodings to open files"), NULL
+  },
   {
     "disable-server", '\0', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
@@ -295,6 +311,12 @@ mousepad_application_init (MousepadApplication *application)
 {
   gchar *option_desc;
 
+  /* initialize application attributes */
+  application->prefs_dialog = NULL;
+  application->space_location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
+  application->opening_mode = TAB;
+  application->encoding = MOUSEPAD_ENCODING_UTF_8;
+
   /* default application name */
   g_set_application_name (_("Mousepad"));
 
@@ -317,10 +339,42 @@ mousepad_application_init (MousepadApplication *application)
 
 
 
+static gboolean
+mousepad_application_parse_encoding (const gchar  *option_name,
+                                     const gchar  *value,
+                                     gpointer      data,
+                                     GError      **error)
+{
+  MousepadApplication *application;
+
+  application = MOUSEPAD_APPLICATION (g_application_get_default ());
+
+  /* we will redirect the user to the encoding dialog */
+  if (value == NULL)
+    application->encoding = MOUSEPAD_ENCODING_NONE;
+  else
+    {
+      /* try to find the encoding for the charset provided on the command line */
+      application->encoding = mousepad_encoding_find (value);
+
+      /* fallback to default if charset was invalid */
+      if (application->encoding == MOUSEPAD_ENCODING_NONE)
+        {
+          g_printerr ("Invalid encoding '%s': ignored\n", value);
+          application->encoding = MOUSEPAD_ENCODING_UTF_8;
+        }
+    }
+
+  return TRUE;
+}
+
+
+
 static gint
 mousepad_application_handle_local_options (GApplication *gapplication,
                                            GVariantDict *options)
 {
+  MousepadEncoding   encoding;
   GApplicationFlags  flags;
   GError            *error = NULL;
 
@@ -331,6 +385,14 @@ mousepad_application_handle_local_options (GApplication *gapplication,
       g_print ("\t%s\n\n", _("The Xfce development team. All rights reserved."));
       g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
       g_print ("\n");
+
+      return EXIT_SUCCESS;
+    }
+
+  if (g_variant_dict_contains (options, "list-encodings"))
+    {
+      for (encoding = 1; encoding < N_ENCODINGS; encoding++)
+        g_print ("%s\n", mousepad_encoding_get_charset (encoding));
 
       return EXIT_SUCCESS;
     }
@@ -565,11 +627,6 @@ mousepad_application_startup (GApplication *gapplication)
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
 
-  /* initialize application attributes */
-  application->prefs_dialog = NULL;
-  application->space_location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
-  application->opening_mode = TAB;
-
   /* initialize mousepad settings */
   mousepad_settings_init ();
 
@@ -793,7 +850,8 @@ mousepad_application_open (GApplication  *gapplication,
           window = mousepad_application_get_window_for_files (application);
 
           /* open the files */
-          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid, FALSE);
+          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid,
+                                               application->encoding, FALSE);
 
           /* if at least one file was finally opened, show the window */
           if (opened > 0)
@@ -810,7 +868,8 @@ mousepad_application_open (GApplication  *gapplication,
               window = mousepad_application_create_window (application);
 
               /* open the file */
-              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files + n, 1, FALSE);
+              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files + n, 1,
+                                                   application->encoding, FALSE);
 
               /* if the file was finally opened, show the window */
               if (opened > 0)
