@@ -487,6 +487,8 @@ mousepad_file_set_user_set_language (MousepadFile *file,
 gint
 mousepad_file_open (MousepadFile  *file,
                     gboolean       must_exist,
+                    gboolean       ignore_bom,
+                    gboolean       make_valid,
                     GError       **error)
 {
   MousepadEncoding  bom_encoding;
@@ -522,30 +524,33 @@ mousepad_file_open (MousepadFile  *file,
           charset = mousepad_encoding_get_charset (file->encoding);
 
           /* detect if there is a bom with the encoding type */
-          bom_encoding = mousepad_encoding_read_bom (contents, file_size, &bom_length);
-          if (G_UNLIKELY (bom_encoding != MOUSEPAD_ENCODING_NONE))
+          if (! ignore_bom)
             {
-              /* ask the user what to do if he has set a different encoding */
-              bom_charset = mousepad_encoding_get_charset (bom_encoding);
-              if (file->encoding == MOUSEPAD_ENCODING_UTF_8 || file->encoding == bom_encoding
-                  || mousepad_dialogs_confirm_encoding (bom_charset, charset) != GTK_RESPONSE_YES)
+              bom_encoding = mousepad_encoding_read_bom (contents, file_size, &bom_length);
+              if (G_UNLIKELY (bom_encoding != MOUSEPAD_ENCODING_NONE))
                 {
-                  /* we've found a valid bom at the start of the contents */
-                  file->write_bom = TRUE;
+                  /* ask the user what to do if he has set a different encoding */
+                  bom_charset = mousepad_encoding_get_charset (bom_encoding);
+                  if (file->encoding == MOUSEPAD_ENCODING_UTF_8 || file->encoding == bom_encoding
+                      || mousepad_dialogs_confirm_encoding (bom_charset, charset) != GTK_RESPONSE_YES)
+                    {
+                      /* we've found a valid bom at the start of the contents */
+                      file->write_bom = TRUE;
 
-                  /* advance the contents offset and decrease size */
-                  temp = g_strdup (contents + bom_length);
-                  g_free (contents);
-                  contents = temp;
-                  file_size -= bom_length;
+                      /* advance the contents offset and decrease size */
+                      temp = g_strdup (contents + bom_length);
+                      g_free (contents);
+                      contents = temp;
+                      file_size -= bom_length;
 
-                  /* set the detected encoding */
-                  file->encoding = bom_encoding;
+                      /* set the detected encoding */
+                      file->encoding = bom_encoding;
+                    }
                 }
             }
 
           /* leave when the contents is not utf-8 valid */
-          if (G_LIKELY (file->encoding == MOUSEPAD_ENCODING_UTF_8)
+          if (! make_valid && file->encoding == MOUSEPAD_ENCODING_UTF_8
               && g_utf8_validate (contents, file_size, &endc) == FALSE)
             {
               /* set return value */
@@ -559,7 +564,7 @@ mousepad_file_open (MousepadFile  *file,
             }
           else
             {
-              if (file->encoding != MOUSEPAD_ENCODING_UTF_8_FORCED)
+              if (file->encoding != MOUSEPAD_ENCODING_UTF_8)
                 {
                   /* convert the contents */
                   temp = g_convert (contents, file_size, "UTF-8", charset, NULL, &written, error);
