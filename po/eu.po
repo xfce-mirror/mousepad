@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-25 00:46+0100\n"
-"PO-Revision-Date: 2020-12-26 12:37+0000\n"
+"PO-Revision-Date: 2020-12-27 12:18+0000\n"
 "Last-Translator: beriain\n"
 "Language-Team: Basque (http://www.transifex.com/xfce/xfce-apps/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:311
 msgid "MODE"
-msgstr ""
+msgstr "MODUA"
 
 #: ../mousepad/mousepad-application.c:331
 msgid "The Xfce development team. All rights reserved."
@@ -126,14 +126,14 @@ msgstr "Ga_rbitu"
 
 #: ../mousepad/mousepad-dialogs.c:320
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
-msgstr ""
+msgstr "<big><b>Kendu sarrera guztiak dokumentuen historiatik?</b></big>"
 
 #. secondary text
 #: ../mousepad/mousepad-dialogs.c:325
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
-msgstr ""
+msgstr "Dokumentuen historia garbitzeak une honetan zerrendatutako sarrera guztiak betiko ezabatuko ditu."
 
 #. create the question dialog
 #: ../mousepad/mousepad-dialogs.c:355
@@ -156,7 +156,7 @@ msgstr "_Gorde"
 
 #: ../mousepad/mousepad-dialogs.c:401
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
-msgstr ""
+msgstr "<big><b>Aldaketak gorde nahi dituzu itxi baino lehen?</b></big>"
 
 #. secondary text
 #: ../mousepad/mousepad-dialogs.c:406
@@ -180,11 +180,11 @@ msgstr "Gorde honela"
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "Dokumentua kanpotik aldatua izan da. Diskotik birkargatu nahi duzu?"
 
 #: ../mousepad/mousepad-dialogs.c:446
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr ""
+msgstr "Gorde gabeko aldaketak dituzu. Fitxategia leheneratzen baduzu, galduko dira."
 
 #: ../mousepad/mousepad-dialogs.c:448 ../mousepad/mousepad-dialogs.c:505
 msgid "_Revert"
@@ -253,7 +253,7 @@ msgstr "Sistema"
 
 #: ../mousepad/mousepad-encoding-dialog.c:159
 msgid "Other:"
-msgstr "Besteak:"
+msgstr "Beste bat:"
 
 #: ../mousepad/mousepad-encoding-dialog.c:184
 msgid "Checking encodings..."
@@ -261,24 +261,24 @@ msgstr "Kodeketak analizatzen..."
 
 #: ../mousepad/mousepad-encoding-dialog.c:318
 msgid "Other (partial):"
-msgstr ""
+msgstr "Beste bat (partzialak):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:329
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "Beste kodeketa baliodun batzuk aurkitu dira, mesedez hautatu azpian."
 
 #: ../mousepad/mousepad-encoding-dialog.c:331
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "Beste partzialki baliodun kodeketak aurkitu dira, mesedez hautatu azpian."
 
 #: ../mousepad/mousepad-encoding-dialog.c:355
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "Ez da beste kodeketa baliodunik aurkitu."
 
 #: ../mousepad/mousepad-encoding-dialog.c:453 ../mousepad/mousepad-file.c:919
 #, c-format
 msgid "Unsupported character set"
-msgstr ""
+msgstr "Karaktere multzo ez onartua"
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:25
