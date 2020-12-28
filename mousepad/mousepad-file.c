@@ -135,7 +135,7 @@ mousepad_file_init (MousepadFile *file)
   file->temporary         = FALSE;
   file->monitor           = NULL;
   file->readonly          = FALSE;
-  file->encoding          = MOUSEPAD_ENCODING_UTF_8;
+  file->encoding          = MOUSEPAD_ENCODING_NONE;
 #ifdef G_OS_WIN32
   file->line_ending       = MOUSEPAD_EOL_DOS;
 #else
@@ -505,7 +505,7 @@ mousepad_file_open (MousepadFile  *file,
   GtkTextIter       start, end;
   GFileInfo        *fileinfo;
   const gchar      *charset, *bom_charset, *endc, *n, *m;
-  gchar            *contents = NULL, *temp;
+  gchar            *contents = NULL, *etag, *temp;
   gsize             file_size, written, bom_length;
   gint              retval = ERROR_READING_FAILED;
 
@@ -515,7 +515,7 @@ mousepad_file_open (MousepadFile  *file,
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   /* if the file does not exist and this is allowed, no problem */
-  if (! g_file_load_contents (file->location, NULL, &contents, &file_size, &(file->etag), error)
+  if (! g_file_load_contents (file->location, NULL, &contents, &file_size, &etag, error)
       && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND) && ! must_exist)
     {
       g_clear_error (error);
@@ -524,6 +524,10 @@ mousepad_file_open (MousepadFile  *file,
   /* the file was sucessfully loaded */
   else if (G_LIKELY (error == NULL || *error == NULL))
     {
+      /* update etag */
+      g_free (file->etag);
+      file->etag = etag;
+
       /* make sure the buffer is empty, in particular for reloading */
       gtk_text_buffer_get_bounds (file->buffer, &start, &end);
       gtk_text_buffer_delete (file->buffer, &start, &end);
@@ -794,7 +798,7 @@ mousepad_file_save (MousepadFile  *file,
             {
               /* set an error */
               g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_NO_CONVERSION,
-                           _("Unsupported character set"));
+                           MOUSEPAD_MESSAGE_UNSUPPORTED_ENCODING);
 
               goto failed;
             }

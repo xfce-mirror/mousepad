@@ -31,6 +31,9 @@ static const struct MousepadEncodingInfo encoding_infos[MOUSEPAD_N_ENCODINGS] =
   /* none */
   { MOUSEPAD_ENCODING_NONE,         NULL,               NULL },
 
+  /* ASCII */
+  { MOUSEPAD_ENCODING_ASCII,        "ANSI_X3.4-1968",   "US-ASCII" },
+
   /* west european */
   { MOUSEPAD_ENCODING_ISO_8859_14,  "ISO-8859-14",      N_("Celtic") },
   { MOUSEPAD_ENCODING_ISO_8859_7,   "ISO-8859-7",       N_("Greek") },

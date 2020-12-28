@@ -21,6 +21,10 @@
 
 G_BEGIN_DECLS
 
+/* error dialog messages */
+#define MOUSEPAD_MESSAGE_IO_ERROR             _("Failed to open the document")
+#define MOUSEPAD_MESSAGE_UNSUPPORTED_ENCODING _("Unsupported character set")
+
 /* dialog responses */
 enum {
   MOUSEPAD_RESPONSE_CANCEL,
