@@ -135,7 +135,7 @@ mousepad_file_init (MousepadFile *file)
   file->temporary         = FALSE;
   file->monitor           = NULL;
   file->readonly          = FALSE;
-  file->encoding          = MOUSEPAD_ENCODING_UTF_8;
+  file->encoding          = MOUSEPAD_ENCODING_NONE;
 #ifdef G_OS_WIN32
   file->line_ending       = MOUSEPAD_EOL_DOS;
 #else
