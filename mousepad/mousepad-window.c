@@ -1674,14 +1674,13 @@ mousepad_window_open_file (MousepadWindow   *window,
                            gboolean          must_exist)
 {
   MousepadDocument *document;
-  GtkWidget        *dialog;
   GtkRecentInfo    *info;
   GError           *error = NULL;
   GFile            *opened_file;
   const gchar      *charset;
   gchar            *uri;
-  gint              npages, result, i, response;
-  gboolean          encoding_from_recent = FALSE;
+  gint              npages, result, i;
+  gboolean          make_valid = FALSE, encoding_from_recent = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (file != NULL, FALSE);
@@ -1717,19 +1716,36 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* set the file location */
   mousepad_file_set_location (document->file, file, TRUE);
 
-  /* set the passed encoding */
-  mousepad_file_set_encoding (document->file, encoding);
+  /* the user chose to open the file in the encoding dialog */
+  if (encoding == MOUSEPAD_ENCODING_NONE)
+    {
+      /* run the encoding dialog */
+      if (mousepad_encoding_dialog (GTK_WINDOW (window), document->file, FALSE, &encoding)
+          != GTK_RESPONSE_OK)
+        {
+          /* release the document */
+          g_object_unref (document);
+
+          return FALSE;
+        }
+    }
 
   retry:
+
+  /* set the file encoding */
+  mousepad_file_set_encoding (document->file, encoding);
 
   /* lock the undo manager */
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
   /* read the content into the buffer */
-  result = mousepad_file_open (document->file, must_exist, FALSE, FALSE, &error);
+  result = mousepad_file_open (document->file, must_exist, FALSE, make_valid, &error);
 
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+
+  /* make sure the recent manager is initialized */
+  mousepad_window_recent_manager_init (window);
 
   switch (result)
     {
@@ -1752,9 +1768,6 @@ mousepad_window_open_file (MousepadWindow   *window,
             /* we only try this once */
             encoding_from_recent = TRUE;
 
-            /* make sure the recent manager is initialized */
-            mousepad_window_recent_manager_init (window);
-
             /* build uri */
             uri = g_file_get_uri (file);
 
@@ -1766,47 +1779,27 @@ mousepad_window_open_file (MousepadWindow   *window,
                 /* cleanup */
                 g_free (uri);
 
-                if (info)
+                if (G_LIKELY (info != NULL))
                   {
                     /* try to find the encoding */
                     charset = mousepad_window_recent_get_charset (info);
-
                     encoding = mousepad_encoding_find (charset);
-
-                    /* set the new encoding */
-                    mousepad_file_set_encoding (document->file, encoding);
-
-                    /* release */
                     gtk_recent_info_unref (info);
 
                     /* try to open again with the last used encoding */
-                    if (G_LIKELY (encoding))
+                    if (G_LIKELY (encoding != MOUSEPAD_ENCODING_NONE))
                       goto retry;
                   }
               }
           }
 
         /* run the encoding dialog */
-        dialog = mousepad_encoding_dialog_new (GTK_WINDOW (window), document->file);
-
-        /* run the dialog */
-        response = gtk_dialog_run (GTK_DIALOG (dialog));
-
-        if (response == GTK_RESPONSE_OK)
+        if (mousepad_encoding_dialog (GTK_WINDOW (window), document->file, FALSE, &encoding)
+            == GTK_RESPONSE_OK)
           {
-            /* set the new encoding */
-            encoding = mousepad_encoding_dialog_get_encoding (MOUSEPAD_ENCODING_DIALOG (dialog));
-
-            /* set encoding */
-            mousepad_file_set_encoding (document->file, encoding);
+            make_valid = TRUE;
+            goto retry;
           }
-
-        /* destroy the dialog */
-        gtk_widget_destroy (dialog);
-
-        /* handle */
-        if (response == GTK_RESPONSE_OK)
-          goto retry;
 
         break;
 
@@ -1815,7 +1808,7 @@ mousepad_window_open_file (MousepadWindow   *window,
         if (G_LIKELY (error != NULL))
           {
             /* show the warning */
-            mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to open the document"));
+            mousepad_dialogs_show_error (GTK_WINDOW (window), error, MOUSEPAD_MESSAGE_IO_ERROR);
 
             /* cleanup */
             g_error_free (error);
@@ -4184,6 +4177,9 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       mousepad_file_set_location (document->file, file, FALSE);
       g_object_unref (file);
 
+      /* set encoding to default */
+      mousepad_file_set_encoding (document->file, MOUSEPAD_ENCODING_UTF_8);
+
       /* try to load the template into the buffer */
       result = mousepad_file_open (document->file, TRUE, FALSE, FALSE, &error);
 
@@ -4434,6 +4430,8 @@ mousepad_window_action_save_as (GSimpleAction *action,
       /* keep a ref of the current file location to restore it in case of failure */
       if (mousepad_file_location_is_set (document->file))
         current_file = g_object_ref (mousepad_file_get_location (document->file));
+      else
+        mousepad_file_set_encoding (document->file, MOUSEPAD_ENCODING_UTF_8);
 
       /* virtually set the new file location */
       mousepad_file_set_location (document->file, file, FALSE);
@@ -4461,7 +4459,11 @@ mousepad_window_action_save_as (GSimpleAction *action,
         }
       /* revert file location change */
       else
-        mousepad_file_set_location (document->file, current_file, FALSE);
+        {
+          mousepad_file_set_location (document->file, current_file, FALSE);
+          if (current_file == NULL)
+            mousepad_file_set_encoding (document->file, MOUSEPAD_ENCODING_NONE);
+        }
 
       /* cleanup */
       g_object_unref (file);

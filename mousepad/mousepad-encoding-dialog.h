@@ -31,12 +31,12 @@ G_BEGIN_DECLS
 typedef struct _MousepadEncodingDialogClass MousepadEncodingDialogClass;
 typedef struct _MousepadEncodingDialog      MousepadEncodingDialog;
 
-GType             mousepad_encoding_dialog_get_type            (void) G_GNUC_CONST;
+GType mousepad_encoding_dialog_get_type (void) G_GNUC_CONST;
 
-GtkWidget        *mousepad_encoding_dialog_new                 (GtkWindow              *parent,
-                                                                MousepadFile           *file);
-
-MousepadEncoding  mousepad_encoding_dialog_get_encoding        (MousepadEncodingDialog *dialog);
+gint  mousepad_encoding_dialog          (GtkWindow        *parent,
+                                         MousepadFile     *file,
+                                         gboolean          valid,
+                                         MousepadEncoding *encoding);
 
 G_END_DECLS
 
