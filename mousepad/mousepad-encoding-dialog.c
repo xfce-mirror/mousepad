@@ -425,7 +425,7 @@ mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
       mousepad_file_set_encoding (dialog->document->file, encoding);
 
       /* try to open the file */
-      result = mousepad_file_open (dialog->document->file, TRUE, TRUE, &error);
+      result = mousepad_file_open (dialog->document->file, TRUE, TRUE, TRUE, &error);
     }
   /* unsupported system charset */
   else
@@ -478,7 +478,7 @@ mousepad_encoding_dialog_button_toggled (GtkWidget              *button,
       if (button == dialog->radio_utf8)
         {
           /* open the file */
-          mousepad_encoding_dialog_read_file (dialog, MOUSEPAD_ENCODING_UTF_8_FORCED);
+          mousepad_encoding_dialog_read_file (dialog, MOUSEPAD_ENCODING_UTF_8);
         }
       else if (button == dialog->radio_system)
         {
