@@ -498,6 +498,7 @@ gint
 mousepad_file_open (MousepadFile  *file,
                     gboolean       must_exist,
                     gboolean       ignore_bom,
+                    gboolean       make_valid,
                     GError       **error)
 {
   MousepadEncoding  bom_encoding;
@@ -558,47 +559,51 @@ mousepad_file_open (MousepadFile  *file,
                 }
             }
 
-          /* leave when the contents is not utf-8 valid */
-          if (G_LIKELY (file->encoding == MOUSEPAD_ENCODING_UTF_8)
-              && g_utf8_validate (contents, file_size, &endc) == FALSE)
+          /* try to convert the contents if needed */
+          if (file->encoding != MOUSEPAD_ENCODING_UTF_8)
             {
-              /* set return value */
-              retval = ERROR_NOT_UTF8_VALID;
+              temp = g_convert (contents, file_size, "UTF-8", charset, NULL, &written, error);
 
-              /* set an error */
-              g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-                           _("Invalid byte sequence in conversion input"));
-
-              goto failed;
-            }
-          else
-            {
-              if (file->encoding != MOUSEPAD_ENCODING_UTF_8_FORCED)
+              /* check if the conversion succeed at least partially */
+              if (temp == NULL)
                 {
-                  /* convert the contents */
-                  temp = g_convert (contents, file_size, "UTF-8", charset, NULL, &written, error);
+                  /* set return value */
+                  retval = ERROR_CONVERTING_FAILED;
 
-                  /* check if the encoding succeed */
-                  if (G_UNLIKELY (temp == NULL))
-                    {
-                      /* set return value */
-                      retval = ERROR_CONVERTING_FAILED;
-
-                      goto failed;
-                    }
-
-                  /* set new values */
+                  goto failed;
+                }
+              /* set new values */
+              else
+                {
+                  file_size = written;
                   g_free (contents);
                   contents = temp;
-                  file_size = written;
                 }
-
-              /* force UTF-8 encoding validity and update location for end of valid data */
-              temp = g_utf8_make_valid (contents, file_size);
-              g_free (contents);
-              contents = temp;
-              g_utf8_validate (contents, -1, &endc);
             }
+
+          if (! g_utf8_validate (contents, file_size, &endc))
+          {
+            /* leave when the encoding is not valid... */
+            if (! make_valid)
+              {
+                /* set return value */
+                retval = ERROR_ENCODING_NOT_VALID;
+
+                /* set an error */
+                g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
+                             _("Invalid byte sequence in conversion input"));
+
+                goto failed;
+              }
+            /* ... or make it valid and update location for end of valid data */
+            else
+              {
+                temp = g_utf8_make_valid (contents, file_size);
+                g_free (contents);
+                contents = temp;
+                g_utf8_validate (contents, -1, &endc);
+              }
+          }
 
           /* detect the line ending, based on the first eol we match */
           for (n = contents; n < endc; n = g_utf8_next_char (n))
