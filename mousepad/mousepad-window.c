@@ -1670,13 +1670,12 @@ mousepad_window_open_file (MousepadWindow   *window,
                            gboolean          must_exist)
 {
   MousepadDocument *document;
-  GtkWidget        *dialog;
   GtkRecentInfo    *info;
   GError           *error = NULL;
   GFile            *opened_file;
   const gchar      *charset;
   gchar            *uri;
-  gint              npages, result, i, response;
+  gint              npages, result, i;
   gboolean          encoding_from_recent = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
@@ -1727,6 +1726,9 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
+  /* make sure the recent manager is initialized */
+  mousepad_window_recent_manager_init (window);
+
   switch (result)
     {
       case 0:
@@ -1748,9 +1750,6 @@ mousepad_window_open_file (MousepadWindow   *window,
             /* we only try this once */
             encoding_from_recent = TRUE;
 
-            /* make sure the recent manager is initialized */
-            mousepad_window_recent_manager_init (window);
-
             /* build uri */
             uri = g_file_get_uri (file);
 
@@ -1762,11 +1761,10 @@ mousepad_window_open_file (MousepadWindow   *window,
                 /* cleanup */
                 g_free (uri);
 
-                if (info)
+                if (G_LIKELY (info != NULL))
                   {
                     /* try to find the encoding */
                     charset = mousepad_window_recent_get_charset (info);
-
                     encoding = mousepad_encoding_find (charset);
 
                     /* set the new encoding */
@@ -1783,26 +1781,12 @@ mousepad_window_open_file (MousepadWindow   *window,
           }
 
         /* run the encoding dialog */
-        dialog = mousepad_encoding_dialog_new (GTK_WINDOW (window), document->file);
-
-        /* run the dialog */
-        response = gtk_dialog_run (GTK_DIALOG (dialog));
-
-        if (response == GTK_RESPONSE_OK)
+        if (mousepad_encoding_dialog (GTK_WINDOW (window), document->file, FALSE, &encoding)
+            == GTK_RESPONSE_OK)
           {
-            /* set the new encoding */
-            encoding = mousepad_encoding_dialog_get_encoding (MOUSEPAD_ENCODING_DIALOG (dialog));
-
-            /* set encoding */
             mousepad_file_set_encoding (document->file, encoding);
+            goto retry;
           }
-
-        /* destroy the dialog */
-        gtk_widget_destroy (dialog);
-
-        /* handle */
-        if (response == GTK_RESPONSE_OK)
-          goto retry;
 
         break;
 

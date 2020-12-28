@@ -21,6 +21,9 @@
 
 const MousepadEncodingInfo encoding_infos[] =
 {
+  /* ASCII */
+  { MOUSEPAD_ENCODING_ASCII,        "ANSI_X3.4-1968",   "US-ASCII" },
+
   /* west european */
   { MOUSEPAD_ENCODING_ISO_8859_14,  "ISO-8859-14",      N_("Celtic") },
   { MOUSEPAD_ENCODING_ISO_8859_7,   "ISO-8859-7",       N_("Greek") },
