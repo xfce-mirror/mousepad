@@ -35,6 +35,8 @@ typedef struct _MousepadFile       MousepadFile;
 #define MOUSEPAD_FILE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_FILE, MousepadFileClass))
 
 /* I/O errors */
+#define IO_ERROR_MESSAGE N_("Failed to open the document")
+
 enum
 {
   ERROR_READING_FAILED     = -1,
