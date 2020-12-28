@@ -135,7 +135,7 @@ mousepad_file_init (MousepadFile *file)
   file->temporary         = FALSE;
   file->monitor           = NULL;
   file->readonly          = FALSE;
-  file->encoding          = MOUSEPAD_ENCODING_UTF_8;
+  file->encoding          = MOUSEPAD_ENCODING_NONE;
 #ifdef G_OS_WIN32
   file->line_ending       = MOUSEPAD_EOL_DOS;
 #else
@@ -794,7 +794,7 @@ mousepad_file_save (MousepadFile  *file,
             {
               /* set an error */
               g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_NO_CONVERSION,
-                           _("Unsupported character set"));
+                           MOUSEPAD_MESSAGE_UNSUPPORTED_ENCODING);
 
               goto failed;
             }
