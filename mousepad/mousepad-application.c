@@ -409,8 +409,7 @@ mousepad_application_complete_accel_map (GtkApplication *application)
   gchar        *accel_path, *filename;
   guint         n;
   gchar       **action_names;
-  const gchar  *accels[] = { NULL };
-  const gchar  *excluded_actions[] = { "win.edit.delete", "win.edit.select-all", "win.insensitive" };
+  const gchar  *excluded_actions[] = { "win.insensitive" };
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (application, mousepad_application_complete_accel_map, NULL);
@@ -432,19 +431,10 @@ mousepad_application_complete_accel_map (GtkApplication *application)
 
   g_strfreev (action_names);
 
-  /*
-   * Some accels are already active at the widget level for some widgets, so we don't need and
-   * should not activate them at the action level, to not introduce conflicts.
-   * But we want them to appear in the menubar, as an indication for the user.
-   * So this trick does the job: adding them to the GtkBuilder UI file, and deactivating them
-   * when the menubar is set.
-  */
+  /* prevent actions that should not have a (configurable) keybinding from being saved
+   * in the accels file at shutdown */
   for (n = 0; n < G_N_ELEMENTS (excluded_actions); n++)
     {
-      /* deactivate accel in the application */
-      gtk_application_set_accels_for_action (GTK_APPLICATION (application), excluded_actions[n], accels);
-
-      /* prevent accel from being saved in the accels file at shutdown */
       accel_path = g_strconcat ("<Actions>/", excluded_actions[n], NULL);
       gtk_accel_map_add_filter (accel_path);
       g_free (accel_path);
@@ -488,7 +478,8 @@ mousepad_application_set_accels (MousepadApplication *application)
     /* "Edit" menu */
     { "win.edit.undo", "<Control>Z" }, { "win.edit.redo", "<Control>Y" },
     { "win.edit.cut", "<Control>X" }, { "win.edit.copy", "<Control>C" },
-    { "win.edit.paste", "<Control>V" }, { "win.edit.copy", "<Control>C" },
+    { "win.edit.paste", "<Control>V" }, { "win.edit.delete", "Delete" },
+    { "win.edit.select-all", "<Control>A" },
     { "win.edit.convert.to-opposite-case", "<Alt><Control>U" },
     { "win.edit.convert.transpose", "<Control>T" },
     { "win.edit.move-selection.line-up", "<Alt>Page_Up" },
@@ -497,14 +488,16 @@ mousepad_application_set_accels (MousepadApplication *application)
 
     /* "Search" menu */
     { "win.search.find", "<Control>F" }, { "win.search.find-next", "<Control>G" },
-    { "win.search.find-previous", "<Control><Shift>G" }, { "win.search.find-and-replace", "<Control>R" },
+    { "win.search.find-previous", "<Control><Shift>G" },
+    { "win.search.find-and-replace", "<Control>R" },
     { "win.search.go-to", "<Control>L" },
 
     /* "View" menu */
     { "win.preferences.window.menubar-visible", "<Control>M" }, { "win.view.fullscreen", "F11" },
 
     /* "Document" menu */
-    { "win.document.previous-tab", "<Control>Page_Up" }, { "win.document.next-tab", "<Control>Page_Down" },
+    { "win.document.previous-tab", "<Control>Page_Up" },
+    { "win.document.next-tab", "<Control>Page_Down" },
     { "win.document.go-to-tab(0)", "<Alt>1" }, { "win.document.go-to-tab(1)", "<Alt>2" },
     { "win.document.go-to-tab(2)", "<Alt>3" }, { "win.document.go-to-tab(3)", "<Alt>4" },
     { "win.document.go-to-tab(4)", "<Alt>5" }, { "win.document.go-to-tab(5)", "<Alt>6" },

@@ -69,10 +69,6 @@ void            mousepad_view_clipboard_paste           (MousepadView      *view
                                                          const gchar       *string,
                                                          gboolean           paste_as_column);
 
-void            mousepad_view_delete_selection          (MousepadView      *view);
-
-void            mousepad_view_select_all                (MousepadView      *view);
-
 void            mousepad_view_convert_selection_case    (MousepadView      *view,
                                                          gint               type);
 

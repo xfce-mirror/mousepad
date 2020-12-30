@@ -953,46 +953,6 @@ mousepad_view_clipboard_paste (MousepadView *view,
 
 
 void
-mousepad_view_delete_selection (MousepadView *view)
-{
-  GtkTextBuffer *buffer;
-
-  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-  g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
-
-  /* get the buffer */
-  buffer = mousepad_view_get_buffer (view);
-
-  /* delete the selection */
-  gtk_text_buffer_delete_selection (buffer, TRUE, gtk_text_view_get_editable (GTK_TEXT_VIEW (view)));
-
-  /* put cursor on screen */
-  mousepad_view_scroll_to_cursor (view);
-}
-
-
-
-void
-mousepad_view_select_all (MousepadView *view)
-{
-  GtkTextIter    start, end;
-  GtkTextBuffer *buffer;
-
-  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-
-  /* get the buffer */
-  buffer = mousepad_view_get_buffer (view);
-
-  /* get the start and end iter */
-  gtk_text_buffer_get_bounds (buffer, &start, &end);
-
-  /* select everything between those iters */
-  gtk_text_buffer_select_range (buffer, &end, &start);
-}
-
-
-
-void
 mousepad_view_convert_selection_case (MousepadView *view,
                                       gint          type)
 {
