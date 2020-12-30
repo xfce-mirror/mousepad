@@ -82,6 +82,8 @@ void                mousepad_file_set_write_bom            (MousepadFile        
 
 gboolean            mousepad_file_get_write_bom            (MousepadFile        *file);
 
+GtkTextBuffer      *mousepad_file_get_buffer               (MousepadFile        *file);
+
 void                mousepad_file_set_line_ending          (MousepadFile        *file,
                                                             MousepadLineEnding   line_ending);
 
