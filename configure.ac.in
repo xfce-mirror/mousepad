@@ -20,7 +20,7 @@ dnl ***************************
 AC_COPYRIGHT([Copyright (c) 2007-2020
         The Xfce development team. All rights reserved.])
 AC_INIT([Mousepad],[mousepad_version],[https://gitlab.xfce.org/apps/mousepad],[mousepad])
-AC_PREREQ([2.70])
+AC_PREREQ([2.50])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_TARGET()
 AC_REVISION([])
