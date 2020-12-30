@@ -4232,8 +4232,9 @@ mousepad_window_action_open (GSimpleAction *action,
                              GVariant      *value,
                              gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GSList         *files, *file;
+  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
+  MousepadEncoding  encoding;
+  GSList           *files, *file;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -4241,7 +4242,7 @@ mousepad_window_action_open (GSimpleAction *action,
   /* run the dialog */
   if (G_LIKELY (mousepad_dialogs_open (GTK_WINDOW (window),
                                        mousepad_file_get_location (window->active->file),
-                                       &files)
+                                       &files, &encoding)
                 == GTK_RESPONSE_ACCEPT))
     {
       /* lock menu updates */
@@ -4249,7 +4250,7 @@ mousepad_window_action_open (GSimpleAction *action,
 
       /* open all the selected locations in new tabs */
       for (file = files; file != NULL; file = file->next)
-        mousepad_window_open_file (window, file->data, MOUSEPAD_ENCODING_UTF_8, TRUE);
+        mousepad_window_open_file (window, file->data, encoding, TRUE);
 
       /* cleanup */
       g_slist_free_full (files, g_object_unref);
@@ -4414,28 +4415,30 @@ mousepad_window_action_save_as (GSimpleAction *action,
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document = window->active;
+  MousepadEncoding  encoding, current_encoding = MOUSEPAD_ENCODING_NONE;
   GAction          *action_save;
   GVariant         *v_succeed;
-  GFile            *current_file = NULL, *file;
+  GFile            *file, *current_file = NULL;
   gboolean          succeed = FALSE;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
   /* run the dialog */
-  if (mousepad_dialogs_save_as (GTK_WINDOW (window),
-                                mousepad_file_get_location (document->file),
-                                last_save_location, &file)
+  if (mousepad_dialogs_save_as (GTK_WINDOW (window), document->file,
+                                last_save_location, &file, &encoding)
       == GTK_RESPONSE_OK && G_LIKELY (file != NULL))
     {
       /* keep a ref of the current file location to restore it in case of failure */
       if (mousepad_file_location_is_set (document->file))
-        current_file = g_object_ref (mousepad_file_get_location (document->file));
-      else
-        mousepad_file_set_encoding (document->file, MOUSEPAD_ENCODING_UTF_8);
+        {
+          current_file = g_object_ref (mousepad_file_get_location (document->file));
+          current_encoding = mousepad_file_get_encoding (document->file);
+        }
 
       /* virtually set the new file location */
       mousepad_file_set_location (document->file, file, FALSE);
+      mousepad_file_set_encoding (document->file, encoding);
 
       /* save the file by an internal call (the save action may be disabled, depending
        * on the file status) */
@@ -4462,8 +4465,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
       else
         {
           mousepad_file_set_location (document->file, current_file, FALSE);
-          if (current_file == NULL)
-            mousepad_file_set_encoding (document->file, MOUSEPAD_ENCODING_NONE);
+          mousepad_file_set_encoding (document->file, current_encoding);
         }
 
       /* cleanup */
