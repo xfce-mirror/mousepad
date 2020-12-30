@@ -17,6 +17,7 @@
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-dialogs.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-encoding-dialog.h>
 
 
 
@@ -548,14 +549,272 @@ mousepad_dialogs_confirm_encoding (const gchar *charset,
 
 
 
-gint
-mousepad_dialogs_save_as (GtkWindow  *parent,
-                          GFile      *current_file,
-                          GFile      *last_save_location,
-                          GFile     **file)
+static gboolean
+mousepad_dialogs_combo_insert_separator (GtkTreeModel *model,
+                                         GtkTreeIter  *iter,
+                                         gpointer      data)
 {
-  GtkWidget *dialog, *button;
-  gint       response;
+  gint row_type;
+
+  /* get the selected row type */
+  gtk_tree_model_get (model, iter, 1, &row_type, -1);
+
+  return row_type == -1;
+}
+
+
+
+static void
+mousepad_dialogs_combo_changed (GtkComboBox *combo,
+                                GtkWidget   *dialog)
+{
+  MousepadFile        *file = NULL, *current_file;
+  MousepadEncoding     encoding, cell_encoding;
+  GtkTreeModel        *model;
+  GtkListStore        *list;
+  GtkTreeIter          iter;
+  GSList              *files;
+  GFile               *g_file;
+  GFileIOStream       *iostream = NULL;
+  GError              *error = NULL;
+  gint                 row_type, n_rows = 2;
+  gboolean             found = FALSE;
+  static GtkTreeModel *short_model = NULL;
+
+  /* get the model */
+  model = gtk_combo_box_get_model (combo);
+
+  /* get the selected row type */
+  if (gtk_combo_box_get_active_iter (combo, &iter))
+    gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &row_type, -1);
+
+  /* request for opening the encoding dialog */
+  if (row_type == -2)
+    {
+      /* fallback to default encoding as a last resort */
+      gtk_combo_box_set_active (combo, 2);
+
+      /* "Open" dialog */
+      if (gtk_file_chooser_get_action (GTK_FILE_CHOOSER (dialog))
+          == GTK_FILE_CHOOSER_ACTION_OPEN)
+        {
+          /* get a list of selected locations, must be non empty */
+          if ((files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog))) != NULL)
+            {
+              file = mousepad_file_new (GTK_TEXT_BUFFER (gtk_source_buffer_new (NULL)));
+              mousepad_file_set_location (file, files->data, TRUE);
+              g_slist_free_full (files, g_object_unref);
+            }
+          /* ask the user to select a file */
+          else
+            mousepad_dialogs_show_error (GTK_WINDOW (dialog), NULL, _("Please select a file"));
+        }
+      /* "Save As" dialog */
+      else
+        {
+          /* try to create a temporary file to save the current buffer */
+          if ((g_file = g_file_new_tmp (NULL, &iostream, &error)) != NULL)
+            {
+              current_file = mousepad_object_get_data (dialog, "file");
+              file = mousepad_file_new (mousepad_file_get_buffer (current_file));
+              mousepad_file_set_location (file, g_file, TRUE);
+              if ((encoding = mousepad_file_get_encoding (current_file)) != MOUSEPAD_ENCODING_NONE)
+                mousepad_file_set_encoding (file, encoding);
+              else
+                mousepad_file_set_encoding (file, MOUSEPAD_ENCODING_UTF_8);
+
+              mousepad_file_save (file, FALSE, &error);
+
+              /* cleanup */
+              g_object_unref (g_file);
+              g_object_unref (iostream);
+            }
+
+          /* inform the user in case of problem */
+          if (error != NULL)
+            {
+              mousepad_dialogs_show_error (GTK_WINDOW (dialog), error,
+                _("Failed to prepare the temporary file for encoding tests"));
+
+              /* cleanup */
+              g_error_free (error);
+              if (file != NULL)
+                {
+                  g_file_delete (mousepad_file_get_location (file), NULL, NULL);
+                  g_object_unref (file);
+                  file = NULL;
+                }
+            }
+        }
+
+      /* run the encoding dialog */
+      if (file != NULL && mousepad_encoding_dialog (GTK_WINDOW (dialog), file, FALSE, &encoding)
+          == GTK_RESPONSE_OK
+          && gtk_tree_model_iter_nth_child (model, &iter, NULL, 1))
+        {
+          /* cleanup */
+          if (gtk_file_chooser_get_action (GTK_FILE_CHOOSER (dialog))
+              == GTK_FILE_CHOOSER_ACTION_SAVE)
+            g_file_delete (mousepad_file_get_location (file), NULL, NULL);
+
+          g_object_unref (file);
+
+          /* try to find the chosen encoding in the combo box */
+          while (gtk_tree_model_iter_next (model, &iter))
+            {
+              gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 1, &cell_encoding, -1);
+              if (encoding == cell_encoding)
+                {
+                  found = TRUE;
+                  break;
+                }
+              else
+                n_rows++;
+            }
+
+          /* add encoding to the combo box if needed */
+          if (! found)
+            {
+              n_rows++;
+              gtk_list_store_insert_with_values (GTK_LIST_STORE (model), NULL, n_rows - 3,
+                                                 0, mousepad_encoding_get_charset (encoding),
+                                                 1, encoding, -1);
+              gtk_tree_model_iter_nth_child (model, &iter, NULL, n_rows - 3);
+            }
+
+          /* select encoding in the combo box */
+          gtk_combo_box_set_active_iter (combo, &iter);
+        }
+    }
+  /* request for showing all encodings or going back to shorten list */
+  else if (row_type == -3)
+    {
+      /* show all encodings */
+      if (short_model == NULL)
+        {
+          /* store the shorten list */
+          short_model = model;
+
+          /* create a new list */
+          list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+          gtk_list_store_insert_with_values (list, NULL, 0, 0, _("Open encoding dialog"),
+                                             1, -2, -1);
+          gtk_list_store_insert_with_values (list, NULL, 1, 0, _("Go back to shorten list"),
+                                             1, -3, -1);
+
+          /* insert all encodings */
+          for (encoding = 1; encoding < N_ENCODINGS; encoding++)
+            gtk_list_store_insert_with_values (list, NULL, encoding + 1,
+                                               0, mousepad_encoding_get_charset (encoding),
+                                               1, encoding, -1);
+
+          /* set full list, spreading it over several columns */
+          gtk_combo_box_set_model (combo, GTK_TREE_MODEL (list));
+          gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 2);
+          n_rows = N_ENCODINGS + 1;
+          gtk_combo_box_set_wrap_width (combo, n_rows / 10 + (n_rows % 10 != 0));
+        }
+      /* go back to shorten list */
+      else
+        {
+          /* set shorten list */
+          gtk_combo_box_set_model (combo, short_model);
+          gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 2);
+          gtk_combo_box_set_wrap_width (combo, 1);
+
+          /* cleanup */
+          g_object_unref (model);
+          short_model = NULL;
+        }
+    }
+}
+
+
+
+static GtkComboBox *
+mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
+{
+  GtkWidget        *hbox, *widget, *combo;
+  GtkListStore     *list;
+  GtkCellRenderer  *cell;
+  const gchar      *system_charset;
+  gchar            *label;
+  guint             n_rows = 0, n;
+  MousepadEncoding  encodings[] = { MOUSEPAD_ENCODING_ISO_8859_15 };
+
+  /* packing */
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+  gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), hbox);
+  gtk_widget_show (hbox);
+
+  /* combo box label */
+  widget = gtk_label_new_with_mnemonic (_("_Encoding:"));
+  gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+  gtk_widget_show (widget);
+
+  /* build the combo box model */
+  list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+  gtk_list_store_insert_with_values (list, NULL, n_rows++,
+                                     0, _("Open encoding dialog"), 1, -2, -1);
+  gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, NULL, 1, -1, -1);
+  gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, _("Default (UTF-8)"),
+                                     1, MOUSEPAD_ENCODING_UTF_8, -1);
+
+  /* add system charset if different from default */
+  g_get_charset (&system_charset);
+  if (g_strcmp0 (system_charset, "UTF-8") != 0)
+    {
+      label = g_strdup_printf ("%s (%s)", _("System"), system_charset);
+      gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, label, 1, -1, -1);
+      g_free (label);
+    }
+
+  /* add other encodings */
+  for (n = 0; n < G_N_ELEMENTS (encodings); n++)
+    gtk_list_store_insert_with_values (list, NULL, n + n_rows++,
+                                       0, mousepad_encoding_get_charset (encodings[n]),
+                                       1, encodings[n], -1);
+
+  /* add last items */
+  gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, NULL, 1, -1, -1);
+  gtk_list_store_insert_with_values (list, NULL, n_rows++,
+                                     0, _("Show all encodings"), 1, -3, -1);
+
+  /* create combo box */
+  combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list));
+  gtk_box_pack_start (GTK_BOX (hbox), combo, FALSE, FALSE, 0);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (widget), combo);
+  gtk_widget_show (combo);
+
+  /* set combo box handlers */
+  gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (combo),
+                                        mousepad_dialogs_combo_insert_separator, NULL, NULL);
+  g_signal_connect (combo, "changed", G_CALLBACK (mousepad_dialogs_combo_changed), dialog);
+
+  /* set combo box cell renderer */
+  cell = gtk_cell_renderer_text_new ();
+  gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+  gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 0, NULL);
+
+  /* select default encoding */
+  gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 2);
+
+  return GTK_COMBO_BOX (combo);
+}
+
+
+
+gint
+mousepad_dialogs_save_as (GtkWindow         *parent,
+                          MousepadFile      *current_file,
+                          GFile             *last_save_location,
+                          GFile            **file,
+                          MousepadEncoding  *encoding)
+{
+  GtkWidget   *dialog, *button;
+  GtkComboBox *combo;
+  GtkTreeIter  iter;
+  gint         response;
 
   /* create the dialog */
   dialog = gtk_file_chooser_dialog_new (_("Save As"),
@@ -570,9 +829,14 @@ mousepad_dialogs_save_as (GtkWindow  *parent,
   gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
+  /* encoding selector */
+  combo = mousepad_dialogs_add_encoding_combo (dialog);
+  mousepad_object_set_data (dialog, "file", current_file);
+
   /* set the current location if there is one, or use the last save location */
-  if (current_file != NULL)
-    gtk_file_chooser_set_file (GTK_FILE_CHOOSER (dialog), current_file, NULL);
+  if (mousepad_file_location_is_set (current_file))
+    gtk_file_chooser_set_file (GTK_FILE_CHOOSER (dialog),
+                               mousepad_file_get_location (current_file), NULL);
   else if (last_save_location != NULL)
     gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (dialog),
                                               last_save_location, NULL);
@@ -583,6 +847,10 @@ mousepad_dialogs_save_as (GtkWindow  *parent,
   /* get the new location */
   *file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
 
+  /* get the selected encoding */
+  gtk_combo_box_get_active_iter (combo, &iter);
+  gtk_tree_model_get (gtk_combo_box_get_model (combo), &iter, 1, encoding, -1);
+
   /* destroy the dialog */
   gtk_widget_destroy (dialog);
 
@@ -592,12 +860,15 @@ mousepad_dialogs_save_as (GtkWindow  *parent,
 
 
 gint
-mousepad_dialogs_open (GtkWindow  *parent,
-                       GFile      *file,
-                       GSList    **files)
+mousepad_dialogs_open (GtkWindow         *parent,
+                       GFile             *file,
+                       GSList           **files,
+                       MousepadEncoding  *encoding)
 {
-  GtkWidget *dialog, *button, *hbox, *label, *combobox;
-  gint       response;
+  GtkWidget   *dialog, *button;
+  GtkComboBox *combo;
+  GtkTreeIter  iter;
+  gint         response;
 
   /* create new file chooser dialog */
   dialog = gtk_file_chooser_dialog_new (_("Open File"),
@@ -605,6 +876,7 @@ mousepad_dialogs_open (GtkWindow  *parent,
                                          GTK_FILE_CHOOSER_ACTION_OPEN,
                                          _("_Cancel"), GTK_RESPONSE_CANCEL,
                                          NULL);
+
   button = mousepad_util_image_button ("document-open", _("_Open"));
   gtk_widget_set_can_default (button, TRUE);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
@@ -613,21 +885,7 @@ mousepad_dialogs_open (GtkWindow  *parent,
   gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
 
   /* encoding selector */
-  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-  gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
-  gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), hbox);
-  gtk_widget_show (hbox);
-
-  label = gtk_label_new_with_mnemonic (_("_Encoding:"));
-  gtk_label_set_xalign (GTK_LABEL (label), 1.0);
-  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
-
-  combobox = gtk_combo_box_new ();
-  gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label), combobox);
-  gtk_widget_show (combobox);
+  combo = mousepad_dialogs_add_encoding_combo (dialog);
 
   /* select the active document in the file chooser */
   if (file != NULL && g_file_query_exists (file, NULL))
@@ -638,6 +896,10 @@ mousepad_dialogs_open (GtkWindow  *parent,
 
   /* get a list of selected locations */
   *files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
+
+  /* get the selected encoding */
+  gtk_combo_box_get_active_iter (combo, &iter);
+  gtk_tree_model_get (gtk_combo_box_get_model (combo), &iter, 1, encoding, -1);
 
   /* destroy the dialog */
   gtk_widget_destroy (dialog);

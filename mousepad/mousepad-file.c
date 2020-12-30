@@ -432,6 +432,15 @@ mousepad_file_get_write_bom (MousepadFile *file)
 }
 
 
+GtkTextBuffer *
+mousepad_file_get_buffer (MousepadFile *file)
+{
+  g_return_val_if_fail (MOUSEPAD_IS_FILE (file), NULL);
+
+  return file->buffer;
+}
+
+
 
 void
 mousepad_file_set_line_ending (MousepadFile       *file,
