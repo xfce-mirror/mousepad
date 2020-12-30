@@ -76,7 +76,7 @@ struct _MousepadEncodingDialog
   GtkWidget        *progress_bar;
 
   /* radio buttons */
-  GtkWidget        *radio_utf8;
+  GtkWidget        *radio_default;
   GtkWidget        *radio_system;
   GtkWidget        *radio_other;
 
@@ -109,7 +109,7 @@ mousepad_encoding_dialog_class_init (MousepadEncodingDialogClass *klass)
 static void
 mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 {
-  const gchar     *system_charset;
+  const gchar     *system_charset, *default_charset;
   GtkWidget       *area, *vbox, *hbox, *icon;
   GtkCellRenderer *cell;
 
@@ -136,17 +136,19 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 
   /* encoding radio buttons */
 
-  /* default encoding: UTF-8 */
-  dialog->radio_utf8 = gtk_radio_button_new_with_label (NULL, NULL);
-  g_signal_connect (dialog->radio_utf8, "toggled",
+  /* default encoding */
+  dialog->radio_default = gtk_radio_button_new_with_label (NULL, NULL);
+  g_signal_connect (dialog->radio_default, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_utf8, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_default, FALSE, FALSE, 0);
 
   /* system charset: added only if different from default */
-  if (! g_get_charset (&system_charset))
+  g_get_charset (&system_charset);
+  default_charset = mousepad_encoding_get_charset (mousepad_encoding_get_default ());
+  if (g_strcmp0 (system_charset, default_charset) != 0)
     {
       dialog->radio_system = gtk_radio_button_new_with_label_from_widget (
-                               GTK_RADIO_BUTTON (dialog->radio_utf8), NULL);
+                               GTK_RADIO_BUTTON (dialog->radio_default), NULL);
       g_signal_connect (dialog->radio_system, "toggled",
                         G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
       gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_system, FALSE, FALSE, 0);
@@ -156,7 +158,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 
   /* valid conversions to UTF-8 if there are any, else partially valid conversions, else hidden */
   dialog->radio_other = gtk_radio_button_new_with_label_from_widget (
-                          GTK_RADIO_BUTTON (dialog->radio_utf8), _("Other:"));
+                          GTK_RADIO_BUTTON (dialog->radio_default), _("Other:"));
   g_signal_connect (dialog->radio_other, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_other, FALSE, FALSE, 0);
@@ -255,7 +257,7 @@ static gboolean
 mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
 {
   MousepadEncodingDialog *dialog = MOUSEPAD_ENCODING_DIALOG (user_data);
-  MousepadEncoding        system_encoding;
+  MousepadEncoding        default_encoding, system_encoding;
   GError                 *error = NULL;
   const gchar            *charset, *subtitle;
   gchar                  *contents, *label, *encoded;
@@ -282,8 +284,12 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
 
   /* see if default and system encodings are valid and set their button labels */
   default_valid = g_utf8_validate (contents, length, NULL);
-  label = default_valid ? _("Default (UTF-8)") : _("Default (UTF-8, partial)");
-  gtk_button_set_label (GTK_BUTTON (dialog->radio_utf8), label);
+  default_encoding = mousepad_encoding_get_default ();
+  charset = mousepad_encoding_get_charset (default_encoding);
+  label = default_valid ? g_strdup_printf ("%s (%s)", _("Default"), charset)
+                        : g_strdup_printf (_("%s (%s, partial)"), _("Default"), charset);
+  gtk_button_set_label (GTK_BUTTON (dialog->radio_default), label);
+  g_free (label);
 
   /* get the system charset */
   g_get_charset (&charset);
@@ -316,7 +322,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
   for (i = 1, n = 0; i < MOUSEPAD_N_ENCODINGS && ! dialog->cancel_testing; i++)
     {
       /* skip default and system encodings */
-      if (i == MOUSEPAD_ENCODING_UTF_8 || i == system_encoding)
+      if (i == default_encoding || i == system_encoding)
         continue;
 
       /* set progress bar fraction */
@@ -378,7 +384,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
                                           subtitle, "text-x-generic");
 
       /* show the default and system radio buttons */
-      gtk_widget_show (dialog->radio_utf8);
+      gtk_widget_show (dialog->radio_default);
       if (dialog->radio_system)
         gtk_widget_show (dialog->radio_system);
 
@@ -394,7 +400,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
 
       /* activate the first valid encoding */
       if (default_valid)
-        gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (dialog->radio_utf8));
+        gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (dialog->radio_default));
       else if (system_valid)
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->radio_system), TRUE);
       else
@@ -408,15 +414,15 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
                                           "text-x-generic");
 
       /* the system charset won't be recognized here, this is just to inform the user
-       * that it is different from UTF-8 */
+       * that it is different from default */
       if (dialog->radio_system)
         {
-          gtk_widget_show (dialog->radio_utf8);
+          gtk_widget_show (dialog->radio_default);
           gtk_widget_show (dialog->radio_system);
         }
 
       /* activate the radio button (maybe hidden) */
-      gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (dialog->radio_utf8));
+      gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (dialog->radio_default));
     }
 
   return FALSE;
@@ -529,10 +535,10 @@ mousepad_encoding_dialog_button_toggled (GtkWidget              *button,
       /* set sensitivity of the other combobox */
       gtk_widget_set_sensitive (dialog->combo, (button == dialog->radio_other));
 
-      if (button == dialog->radio_utf8)
+      if (button == dialog->radio_default)
         {
           /* open the file */
-          mousepad_encoding_dialog_read_file (dialog, MOUSEPAD_ENCODING_UTF_8);
+          mousepad_encoding_dialog_read_file (dialog, mousepad_encoding_get_default ());
         }
       else if (button == dialog->radio_system)
         {
@@ -591,7 +597,7 @@ mousepad_encoding_dialog (GtkWindow        *parent,
   /* try first to read the file with the default encoding if needed */
   if (mousepad_file_get_encoding (file) == MOUSEPAD_ENCODING_NONE)
     {
-      mousepad_file_set_encoding (file, MOUSEPAD_ENCODING_UTF_8);
+      mousepad_file_set_encoding (file, mousepad_encoding_get_default ());
       result = mousepad_file_open (file, TRUE, TRUE, FALSE, &error);
 
       /* handle error */

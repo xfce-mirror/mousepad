@@ -22,6 +22,7 @@
 G_BEGIN_DECLS
 
 /* Setting names */
+#define MOUSEPAD_SETTING_DEFAULT_ENCODING             "preferences.file.default-encoding"
 #define MOUSEPAD_SETTING_ADD_LAST_EOL                 "preferences.file.add-last-end-of-line"
 #define MOUSEPAD_SETTING_MAKE_BACKUP                  "preferences.file.make-backup"
 #define MOUSEPAD_SETTING_MONITOR_CHANGES              "preferences.file.monitor-changes"
