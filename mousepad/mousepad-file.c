@@ -31,17 +31,17 @@ enum
 
 
 /* GObject virtual functions */
-static void mousepad_file_finalize        (GObject           *object);
+static void     mousepad_file_finalize        (GObject           *object);
 
 /* MousepadFile own functions */
-static void mousepad_file_set_monitor     (MousepadFile      *file);
-static void mousepad_file_monitor_changed (GFileMonitor      *monitor,
-                                           GFile             *location,
-                                           GFile             *other_location,
-                                           GFileMonitorEvent  event_type,
-                                           MousepadFile      *file);
-static void mousepad_file_set_read_only   (MousepadFile      *file,
-                                           gboolean           readonly);
+static gboolean mousepad_file_set_monitor     (gpointer           data);
+static void     mousepad_file_monitor_changed (GFileMonitor      *monitor,
+                                               GFile             *location,
+                                               GFile             *other_location,
+                                               GFileMonitorEvent  event_type,
+                                               MousepadFile      *file);
+static void     mousepad_file_set_read_only   (MousepadFile      *file,
+                                               gboolean           readonly);
 
 
 
@@ -216,33 +216,41 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
 
 
 
-static void
-mousepad_file_set_monitor (MousepadFile *file)
+static gboolean
+mousepad_file_set_monitor (gpointer data)
 {
-  GError *error = NULL;
+  MousepadFile *file;
+  GError       *error = NULL;
 
-  if (G_IS_FILE_MONITOR (file->monitor))
-    g_object_unref (file->monitor);
-
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
+  /* the file may have been released during the delay */
+  if (MOUSEPAD_IS_FILE (data))
     {
-      file->monitor = g_file_monitor_file (file->location,
-                                           G_FILE_MONITOR_WATCH_MOVES
-                                           | G_FILE_MONITOR_WATCH_HARD_LINKS,
-                                           NULL, &error);
+      file = MOUSEPAD_FILE (data);
+      if (G_IS_FILE_MONITOR (file->monitor))
+        g_object_unref (file->monitor);
 
-      /* inform the user */
-      if (error != NULL)
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
         {
-          g_message ("File monitoring is disabled for file '%s': %s",
-                     mousepad_file_get_path (file), error->message);
-          g_error_free (error);
+          file->monitor = g_file_monitor_file (file->location,
+                                               G_FILE_MONITOR_WATCH_MOVES
+                                               | G_FILE_MONITOR_WATCH_HARD_LINKS,
+                                               NULL, &error);
+
+          /* inform the user */
+          if (error != NULL)
+            {
+              g_message ("File monitoring is disabled for file '%s': %s",
+                         mousepad_file_get_path (file), error->message);
+              g_error_free (error);
+            }
+          /* watch file for changes */
+          else
+            g_signal_connect (file->monitor, "changed",
+                              G_CALLBACK (mousepad_file_monitor_changed), file);
         }
-      /* watch file for changes */
-      else
-        g_signal_connect (file->monitor, "changed",
-                          G_CALLBACK (mousepad_file_monitor_changed), file);
     }
+
+  return FALSE;
 }
 
 
@@ -277,8 +285,10 @@ mousepad_file_set_location (MousepadFile *file,
       /* this is a definitve location */
       file->temporary = FALSE;
 
-      /* file monitoring */
-      mousepad_file_set_monitor (file);
+      /* activate file monitoring with a delay, to not consider our own saving as
+       * external modification after a save as */
+      g_timeout_add (MOUSEPAD_SETTING_GET_INT (MONITOR_DISABLING_TIMER),
+                     mousepad_file_set_monitor, file);
 
       /* send a signal that the name has been changed */
       g_signal_emit (file, file_signals[LOCATION_CHANGED], 0, file->location);
@@ -778,7 +788,8 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
   gboolean succeed;
 
   /* suspend file monitoring */
-  g_signal_handlers_block_by_func (m_file->monitor, mousepad_file_monitor_changed, m_file);
+  if (G_IS_FILE_MONITOR (m_file->monitor))
+    g_signal_handlers_block_by_func (m_file->monitor, mousepad_file_monitor_changed, m_file);
 
   /* replace contents */
   succeed = g_file_replace_contents (file, contents, length, etag, make_backup,
@@ -786,8 +797,9 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
 
   /* reactivate file monitoring with a delay, to not consider our own saving as
    * external modification */
-  g_timeout_add (MOUSEPAD_SETTING_GET_INT (MONITOR_DISABLING_TIMER),
-                 mousepad_file_monitor_unblock, m_file);
+  if (G_IS_FILE_MONITOR (m_file->monitor))
+    g_timeout_add (MOUSEPAD_SETTING_GET_INT (MONITOR_DISABLING_TIMER),
+                   mousepad_file_monitor_unblock, m_file);
 
   return succeed;
 }
