@@ -1763,7 +1763,7 @@ mousepad_window_open_file (MousepadWindow   *window,
         g_clear_error (&error);
 
         /* try to lookup the encoding from the recent history only if the default was used */
-        if (encoding_from_recent == FALSE && encoding == MOUSEPAD_ENCODING_UTF_8)
+        if (encoding_from_recent == FALSE && encoding == mousepad_encoding_get_default ())
           {
             /* we only try this once */
             encoding_from_recent = TRUE;
@@ -3666,7 +3666,8 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
 
       /* open the files */
       data = g_ptr_array_free (files, FALSE);
-      mousepad_window_open_files (window, (GFile **) data, n_pages, MOUSEPAD_ENCODING_UTF_8, TRUE);
+      mousepad_window_open_files (window, (GFile **) data, n_pages,
+                                  mousepad_encoding_get_default (), TRUE);
 
       /* cleanup */
       g_strfreev (uris);
@@ -4150,9 +4151,11 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
 {
   MousepadWindow    *window = MOUSEPAD_WINDOW (data);
   MousepadDocument  *document;
+  MousepadEncoding   encoding;
   GFile             *file;
   GError            *error = NULL;
-  const gchar       *filename, *message;
+  const gchar       *filename;
+  gchar             *message;
   gint               result;
 
 
@@ -4179,7 +4182,8 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       g_object_unref (file);
 
       /* set encoding to default */
-      mousepad_file_set_encoding (document->file, MOUSEPAD_ENCODING_UTF_8);
+      encoding = mousepad_encoding_get_default ();
+      mousepad_file_set_encoding (document->file, encoding);
 
       /* try to load the template into the buffer */
       result = mousepad_file_open (document->file, TRUE, FALSE, FALSE, &error);
@@ -4201,23 +4205,27 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
               case ERROR_ENCODING_NOT_VALID:
               case ERROR_CONVERTING_FAILED:
                 /* set error message */
-                message = _("Templates should be UTF-8 valid");
+                message = g_strdup_printf (_("Templates should be %s valid"),
+                                           mousepad_encoding_get_charset (encoding));
                 break;
 
               case ERROR_READING_FAILED:
                 /* set error message */
-                message = _("Reading the template failed");
+                message = g_strdup (_("Reading the template failed"));
                 break;
 
               default:
                 /* set error message */
-                message = _("Loading the template failed");
+                message = g_strdup (_("Loading the template failed"));
                 break;
             }
 
           /* show the error */
           mousepad_dialogs_show_error (GTK_WINDOW (window), error, message);
-          g_clear_error (&error);
+
+          /* cleanup */
+          g_free (message);
+          g_error_free (error);
         }
 
       /* decrease reference count if everything went well, else release the document */
