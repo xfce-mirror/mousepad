@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-25 00:46+0100\n"
-"PO-Revision-Date: 2020-12-26 14:13+0000\n"
-"Last-Translator: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>\n"
+"PO-Revision-Date: 2020-12-30 11:21+0000\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -520,7 +520,7 @@ msgstr "下"
 #. wrap around
 #: ../mousepad/mousepad-replace-dialog.c:309
 msgid "_Wrap around"
-msgstr "行の折り返しを含む(_W)"
+msgstr "循環する(_W)"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
@@ -719,7 +719,7 @@ msgstr "文書の印刷に失敗しました"
 
 #: ../mousepad/mousepad-window.c:5408
 msgid "Choose Mousepad Font"
-msgstr "Mousepad 上のフォントの選択"
+msgstr "Mousepad のフォントを選択する"
 
 #: ../mousepad/resources/gtk/menus.ui.h:1
 msgid "_File"
@@ -839,7 +839,7 @@ msgstr "表示メニュー"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Select F_ont..."
-msgstr "フォントの選択(_O)..."
+msgstr "フォントを選択(_O)..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Change the editor font"
@@ -905,7 +905,7 @@ msgstr "文書メニュー"
 
 #: ../mousepad/resources/gtk/menus.ui.h:47
 msgid "_Word Wrap"
-msgstr "行の折り返し(_W)"
+msgstr "行を折り返す(_W)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:48
 msgid "Toggle breaking lines in between words"
