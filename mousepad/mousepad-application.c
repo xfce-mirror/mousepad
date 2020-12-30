@@ -311,11 +311,14 @@ mousepad_application_init (MousepadApplication *application)
 {
   gchar *option_desc;
 
+  /* initialize mousepad settings */
+  mousepad_settings_init ();
+
   /* initialize application attributes */
   application->prefs_dialog = NULL;
   application->space_location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
   application->opening_mode = TAB;
-  application->encoding = MOUSEPAD_ENCODING_UTF_8;
+  application->encoding = mousepad_encoding_get_default ();
 
   /* default application name */
   g_set_application_name (_("Mousepad"));
@@ -361,7 +364,7 @@ mousepad_application_parse_encoding (const gchar  *option_name,
       if (application->encoding == MOUSEPAD_ENCODING_NONE)
         {
           g_printerr ("Invalid encoding '%s': ignored\n", value);
-          application->encoding = MOUSEPAD_ENCODING_UTF_8;
+          application->encoding = mousepad_encoding_get_default ();
         }
     }
 
@@ -619,9 +622,6 @@ mousepad_application_startup (GApplication *gapplication)
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
-
-  /* initialize mousepad settings */
-  mousepad_settings_init ();
 
   /* add application actions */
   g_action_map_add_action_entries (G_ACTION_MAP (application), stateless_actions,

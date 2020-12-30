@@ -21,7 +21,6 @@
 
 
 static MousepadSettingsStore *settings_store = NULL;
-static gint                   settings_init_count = 0;
 
 
 
@@ -29,10 +28,6 @@ void
 mousepad_settings_finalize (void)
 {
   g_settings_sync ();
-
-  settings_init_count--;
-  if (settings_init_count > 0)
-    return;
 
   if (MOUSEPAD_IS_SETTINGS_STORE (settings_store))
     {
@@ -46,14 +41,8 @@ mousepad_settings_finalize (void)
 void
 mousepad_settings_init (void)
 {
-
-  if (settings_init_count == 0)
-    {
-      if (! MOUSEPAD_IS_SETTINGS_STORE (settings_store))
-        settings_store = mousepad_settings_store_new ();
-    }
-
-  settings_init_count++;
+  if (! MOUSEPAD_IS_SETTINGS_STORE (settings_store))
+    settings_store = mousepad_settings_store_new ();
 }
 
 

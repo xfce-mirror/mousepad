@@ -16,6 +16,7 @@
 
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-encoding.h>
+#include <mousepad/mousepad-settings.h>
 
 
 
@@ -150,6 +151,28 @@ mousepad_encoding_find (const gchar *charset)
 
   /* no encoding charset found */
   return MOUSEPAD_ENCODING_NONE;
+}
+
+
+
+MousepadEncoding
+mousepad_encoding_get_default (void)
+{
+  MousepadEncoding  encoding;
+  gchar            *charset;
+
+  charset = MOUSEPAD_SETTING_GET_STRING (DEFAULT_ENCODING);
+  encoding = mousepad_encoding_find (charset);
+
+  if (encoding == MOUSEPAD_ENCODING_NONE)
+    {
+      g_warning ("Invalid encoding '%s': falling back to default UTF-8", charset);
+      encoding = MOUSEPAD_ENCODING_UTF_8;
+    }
+
+  g_free (charset);
+
+  return encoding;
 }
 
 

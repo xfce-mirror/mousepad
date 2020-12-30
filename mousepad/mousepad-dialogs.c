@@ -631,7 +631,7 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
               if ((encoding = mousepad_file_get_encoding (current_file)) != MOUSEPAD_ENCODING_NONE)
                 mousepad_file_set_encoding (file, encoding);
               else
-                mousepad_file_set_encoding (file, MOUSEPAD_ENCODING_UTF_8);
+                mousepad_file_set_encoding (file, mousepad_encoding_get_default ());
 
               mousepad_file_save (file, FALSE, &error);
 
@@ -747,7 +747,7 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
 static GtkComboBox *
 mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
 {
-  MousepadEncoding  system_encoding;
+  MousepadEncoding  default_encoding, system_encoding;
   GtkWidget        *hbox, *widget, *combo;
   GtkListStore     *list;
   GtkCellRenderer  *cell;
@@ -771,13 +771,18 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   gtk_list_store_insert_with_values (list, NULL, n_rows++,
                                      0, _("Open encoding dialog"), 1, -2, -1);
   gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, NULL, 1, -1, -1);
-  gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, _("Default (UTF-8)"),
-                                     1, MOUSEPAD_ENCODING_UTF_8, -1);
+
+  /* add default charset */
+  default_encoding = mousepad_encoding_get_default ();
+  label = g_strdup_printf ("%s (%s)", _("Default"),
+                           mousepad_encoding_get_charset (default_encoding));
+  gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, label, 1, default_encoding, -1);
+  g_free (label);
 
   /* add system charset if supported and different from default */
   g_get_charset (&system_charset);
   system_encoding = mousepad_encoding_find (system_charset);
-  if (system_encoding != MOUSEPAD_ENCODING_NONE && system_encoding != MOUSEPAD_ENCODING_UTF_8)
+  if (system_encoding != MOUSEPAD_ENCODING_NONE && system_encoding != default_encoding)
     {
       label = g_strdup_printf ("%s (%s)", _("System"), system_charset);
       gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, label, 1, system_encoding, -1);
