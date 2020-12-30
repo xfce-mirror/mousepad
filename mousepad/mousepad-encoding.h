@@ -107,6 +107,8 @@ const gchar      *mousepad_encoding_get_name    (MousepadEncoding   encoding);
 
 MousepadEncoding  mousepad_encoding_find        (const gchar       *charset);
 
+MousepadEncoding  mousepad_encoding_get_default (void);
+
 MousepadEncoding  mousepad_encoding_read_bom    (const gchar       *contents,
                                                  gsize              length,
                                                  gsize             *bom_length);

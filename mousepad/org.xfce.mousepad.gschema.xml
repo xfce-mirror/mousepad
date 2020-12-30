@@ -55,6 +55,14 @@
 
   <!-- File preferences -->
   <schema id="org.xfce.mousepad.preferences.file" path="/org/xfce/mousepad/preferences/file/" gettext-domain="mousepad">
+    <key name="default-encoding" type="s">
+      <default>'UTF-8'</default>
+      <summary>Default encoding to be used to open and save files</summary>
+      <description>
+        Default encoding to be used to open and save files, overrided by those
+        provided via the command line option or the "Open" and "Save As" dialogs, if any.
+      </description>
+    </key>
     <key name="add-last-end-of-line" type="b">
       <default>false</default>
       <summary>Add an end-of-line character at end of file on saving</summary>
@@ -297,7 +305,8 @@
       <default>'tab'</default>
       <summary>File opening mode</summary>
       <description>
-        File opening mode: "tab", "window" or "mixed" (open tabs in a new window).
+        File opening mode: "tab", "window" or "mixed" (open tabs in a new window),
+        overrided by the one provided via the command line option, if any.
       </description>
     </key>
     <key name="default-tab-sizes" type="s">

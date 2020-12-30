@@ -553,7 +553,8 @@ mousepad_file_open (MousepadFile  *file,
               bom_encoding = mousepad_encoding_read_bom (contents, file_size, &bom_length);
               if (G_UNLIKELY (bom_encoding != MOUSEPAD_ENCODING_NONE))
                 {
-                  /* ask the user what to do if he has set an encoding different from default */
+                  /* ask the user what to do if he has set an encoding different from default
+                   * (including with respect to GSettings, i.e. UTF-8 only) */
                   bom_charset = mousepad_encoding_get_charset (bom_encoding);
                   if (file->encoding == MOUSEPAD_ENCODING_UTF_8 || file->encoding == bom_encoding
                       || mousepad_dialogs_confirm_encoding (bom_charset, charset) != GTK_RESPONSE_YES)
