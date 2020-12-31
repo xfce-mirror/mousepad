@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-25 00:46+0100\n"
-"PO-Revision-Date: 2020-12-26 13:12+0000\n"
+"POT-Creation-Date: 2020-12-30 12:49+0100\n"
+"PO-Revision-Date: 2020-12-31 07:16+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/xfce/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "Xfce utvecklingsteam. Alla rättigheter reserverade."
 msgid "Please report bugs to <%s>."
 msgstr "Rapportera buggar till <%s>."
 
-#: ../mousepad/mousepad-application.c:1240
+#: ../mousepad/mousepad-application.c:1233
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Upphovsmän: %s | Filnamn: %s"
@@ -89,7 +89,7 @@ msgstr "Välj tabblängd"
 #: ../mousepad/mousepad-dialogs.c:110 ../mousepad/mousepad-dialogs.c:188
 #: ../mousepad/mousepad-dialogs.c:294 ../mousepad/mousepad-dialogs.c:358
 #: ../mousepad/mousepad-dialogs.c:465 ../mousepad/mousepad-dialogs.c:502
-#: ../mousepad/mousepad-dialogs.c:531 ../mousepad/mousepad-dialogs.c:574
+#: ../mousepad/mousepad-dialogs.c:551 ../mousepad/mousepad-dialogs.c:597
 #: ../mousepad/mousepad-encoding-dialog.c:117
 #: ../mousepad/mousepad-encoding-dialog.c:189
 msgid "_Cancel"
@@ -151,7 +151,7 @@ msgid "_Save As"
 msgstr "_Spara som"
 
 #: ../mousepad/mousepad-dialogs.c:377 ../mousepad/mousepad-dialogs.c:473
-#: ../mousepad/mousepad-dialogs.c:534
+#: ../mousepad/mousepad-dialogs.c:554
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "_Spara"
@@ -192,7 +192,7 @@ msgstr "Du har osparade ändringar. Om du återgår, så kommer alla osparade ä
 msgid "_Revert"
 msgstr "_Återgå"
 
-#: ../mousepad/mousepad-dialogs.c:454 ../mousepad/mousepad-window.c:3212
+#: ../mousepad/mousepad-dialogs.c:454 ../mousepad/mousepad-window.c:3229
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "La_dda om"
@@ -209,21 +209,29 @@ msgstr "Vill du spara dina ändringar innan omläsning?"
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Om du återgår, kommer alla osparade ändringar att förloras."
 
+#: ../mousepad/mousepad-dialogs.c:527
+msgid "Text Files"
+msgstr "Textfiler"
+
+#: ../mousepad/mousepad-dialogs.c:533
+msgid "All Files"
+msgstr "Alla filer"
+
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:529
+#: ../mousepad/mousepad-dialogs.c:549
 msgid "Save As"
 msgstr "Spara som"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:571
+#: ../mousepad/mousepad-dialogs.c:594
 msgid "Open File"
 msgstr "Öppna fil"
 
-#: ../mousepad/mousepad-dialogs.c:576
+#: ../mousepad/mousepad-dialogs.c:599
 msgid "_Open"
 msgstr "_Öppna"
 
-#: ../mousepad/mousepad-dialogs.c:589
+#: ../mousepad/mousepad-dialogs.c:615
 msgid "_Encoding:"
 msgstr "_Kodning:"
 
@@ -277,7 +285,7 @@ msgstr "Andra delvis giltiga kodningar hittades, välj nedan."
 msgid "No other valid encoding was found."
 msgstr "Ingen annan giltig kodning hittades."
 
-#: ../mousepad/mousepad-encoding-dialog.c:453 ../mousepad/mousepad-file.c:919
+#: ../mousepad/mousepad-encoding-dialog.c:453 ../mousepad/mousepad-file.c:931
 #, c-format
 msgid "Unsupported character set"
 msgstr "Teckenuppsättning som inte stöds"
@@ -400,14 +408,14 @@ msgstr "Japansk"
 msgid "Korean"
 msgstr "Koreansk"
 
-#: ../mousepad/mousepad-file.c:612
+#: ../mousepad/mousepad-file.c:622
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Ogiltig bytessekvens i konverteringsindata"
 
 #. add the close button
 #: ../mousepad/mousepad-prefs-dialog.c:443
-#: ../mousepad/mousepad-replace-dialog.c:220
+#: ../mousepad/mousepad-replace-dialog.c:272
 msgid "_Close"
 msgstr "_Stäng"
 
@@ -477,89 +485,89 @@ msgstr "Brödtext:"
 msgid "Line numbers:"
 msgstr "Radnummer:"
 
-#: ../mousepad/mousepad-replace-dialog.c:160
+#: ../mousepad/mousepad-replace-dialog.c:173
 msgid "_Replace All"
 msgstr "E_rsätt alla"
 
-#: ../mousepad/mousepad-replace-dialog.c:160
-#: ../mousepad/mousepad-replace-dialog.c:216
+#: ../mousepad/mousepad-replace-dialog.c:173
+#: ../mousepad/mousepad-replace-dialog.c:268
 msgid "_Replace"
 msgstr "_Ersätt"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:205
+#: ../mousepad/mousepad-replace-dialog.c:257
 msgid "Find and Replace"
 msgstr "Sök och Ersätt"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:211
+#: ../mousepad/mousepad-replace-dialog.c:263
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "_Sök"
 
-#: ../mousepad/mousepad-replace-dialog.c:238
+#: ../mousepad/mousepad-replace-dialog.c:290
 msgid "_Search for:"
 msgstr "_Sök efter:"
 
-#: ../mousepad/mousepad-replace-dialog.c:270
+#: ../mousepad/mousepad-replace-dialog.c:324
 msgid "Replace _with:"
 msgstr "Ersätt_med"
 
-#: ../mousepad/mousepad-replace-dialog.c:290
+#: ../mousepad/mousepad-replace-dialog.c:346
 msgid "Search _direction:"
 msgstr "Sök r_iktning:"
 
-#: ../mousepad/mousepad-replace-dialog.c:299
+#: ../mousepad/mousepad-replace-dialog.c:355
 msgid "Up"
 msgstr "Upp"
 
-#: ../mousepad/mousepad-replace-dialog.c:300
+#: ../mousepad/mousepad-replace-dialog.c:356
 msgid "Down"
 msgstr "Ner"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:309
+#: ../mousepad/mousepad-replace-dialog.c:365
 msgid "_Wrap around"
 msgstr "_Linda runt"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:316
-#: ../mousepad/mousepad-search-bar.c:207 ../mousepad/mousepad-search-bar.c:215
+#: ../mousepad/mousepad-replace-dialog.c:372
+#: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:265
 msgid "Match _case"
 msgstr "Mat_cha skiftläge"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:325
+#: ../mousepad/mousepad-replace-dialog.c:381
 msgid "_Match whole word"
 msgstr "_Matcha helt ord"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:334
-#: ../mousepad/mousepad-search-bar.c:221 ../mousepad/mousepad-search-bar.c:229
+#: ../mousepad/mousepad-replace-dialog.c:390
+#: ../mousepad/mousepad-search-bar.c:271 ../mousepad/mousepad-search-bar.c:279
 msgid "Regular e_xpression"
 msgstr "Regelutrryck"
 
-#: ../mousepad/mousepad-replace-dialog.c:348
+#: ../mousepad/mousepad-replace-dialog.c:404
 msgid "Replace _all in:"
 msgstr "Ersätt_alla i:"
 
-#: ../mousepad/mousepad-replace-dialog.c:353
+#: ../mousepad/mousepad-replace-dialog.c:409
 msgid "Selection"
 msgstr "Markering"
 
-#: ../mousepad/mousepad-replace-dialog.c:354
+#: ../mousepad/mousepad-replace-dialog.c:410
 msgid "Document"
 msgstr "Dokument"
 
-#: ../mousepad/mousepad-replace-dialog.c:355
+#: ../mousepad/mousepad-replace-dialog.c:411
 msgid "All Documents"
 msgstr "Alla dokument"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:541
-#: ../mousepad/mousepad-search-bar.c:347
+#: ../mousepad/mousepad-replace-dialog.c:597
+#: ../mousepad/mousepad-search-bar.c:397
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -600,32 +608,32 @@ msgid "Line: %d Column: %d"
 msgstr "Rad: %d kolumn: %d"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1082
+#: ../mousepad/mousepad-window.c:1086
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Varning: du använder rootkontot. Du kan skada ditt ditt system."
 
 #. show the warning
-#: ../mousepad/mousepad-window.c:1814
+#: ../mousepad/mousepad-window.c:1818
 msgid "Failed to open the document"
 msgstr "Misslyckades med att öppna dokument"
 
-#: ../mousepad/mousepad-window.c:2010
+#: ../mousepad/mousepad-window.c:2014
 msgid "Read Only"
 msgstr "Skrivskyddat"
 
-#: ../mousepad/mousepad-window.c:2969
+#: ../mousepad/mousepad-window.c:2986
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Använd '%s' som mall "
 
-#: ../mousepad/mousepad-window.c:2995
+#: ../mousepad/mousepad-window.c:3012
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Inga malldokument hittades i\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3051
+#: ../mousepad/mousepad-window.c:3068
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -633,92 +641,92 @@ msgid ""
 msgstr "Saknar mallmapp\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3103
+#: ../mousepad/mousepad-window.c:3120
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Ann_at (%d)..."
 
-#: ../mousepad/mousepad-window.c:3113
+#: ../mousepad/mousepad-window.c:3130
 msgid "Ot_her..."
 msgstr "Ann_at..."
 
-#: ../mousepad/mousepad-window.c:3206
+#: ../mousepad/mousepad-window.c:3223
 msgid "Re_vert"
 msgstr "Åter_gå"
 
-#: ../mousepad/mousepad-window.c:3208
+#: ../mousepad/mousepad-window.c:3225
 msgid "Revert to the saved version of the file"
 msgstr "Återgå till sparad version av filen"
 
-#: ../mousepad/mousepad-window.c:3214
+#: ../mousepad/mousepad-window.c:3231
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Ladda om fil från disk"
 
-#: ../mousepad/mousepad-window.c:3220
+#: ../mousepad/mousepad-window.c:3237
 msgid "Leave fullscreen mode"
 msgstr "Lämna fullskämsläge"
 
-#: ../mousepad/mousepad-window.c:3225
+#: ../mousepad/mousepad-window.c:3242
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Visa fönstret i fullskärmsläge"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3370 ../mousepad/mousepad-window.c:3565
+#: ../mousepad/mousepad-window.c:3387 ../mousepad/mousepad-window.c:3582
 msgid "Charset"
 msgstr "Teckenuppsättning"
 
-#: ../mousepad/mousepad-window.c:3505
+#: ../mousepad/mousepad-window.c:3522
 #, c-format
 msgid "Open '%s'"
 msgstr "Öppna '%s'"
 
-#: ../mousepad/mousepad-window.c:3531
+#: ../mousepad/mousepad-window.c:3548
 msgid "No items found"
 msgstr "Inga objekt hittades"
 
-#: ../mousepad/mousepad-window.c:3614
+#: ../mousepad/mousepad-window.c:3631
 msgid "Failed to clear the recent history"
 msgstr "Misslyckades med att rensa senaste historik"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4085
+#: ../mousepad/mousepad-window.c:4102
 msgid "No clipboard data"
 msgstr "Ingen data i urklipp"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4190
+#: ../mousepad/mousepad-window.c:4207
 msgid "Templates should be UTF-8 valid"
 msgstr "Mallar bör vara UTF-8 giltiga"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4195
+#: ../mousepad/mousepad-window.c:4212
 msgid "Reading the template failed"
 msgstr "Läsning av mallen misslyckades"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4200
+#: ../mousepad/mousepad-window.c:4217
 msgid "Loading the template failed"
 msgstr "Läsning av mallen misslyckades"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4385 ../mousepad/mousepad-window.c:4519
+#: ../mousepad/mousepad-window.c:4402 ../mousepad/mousepad-window.c:4536
 msgid "Failed to save the document"
 msgstr "Misslyckades med att spara dokumentet"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4617
+#: ../mousepad/mousepad-window.c:4634
 msgid "Failed to reload the document"
 msgstr "Misslyckades med att läsa om dokumentet"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4646
+#: ../mousepad/mousepad-window.c:4663
 msgid "Failed to print the document"
 msgstr "Misslyckades med att skriva ut dokumentet"
 
-#: ../mousepad/mousepad-window.c:5408
+#: ../mousepad/mousepad-window.c:5441
 msgid "Choose Mousepad Font"
 msgstr "Välj Mousepad-typsnitt"
 
@@ -1185,135 +1193,143 @@ msgid "Paste the clipboard text into a column"
 msgstr "klistra in urklippstexten i en kolumn"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
-msgid "_Delete"
-msgstr "_Ta bort"
+msgid "_Delete Selection"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:42
 msgid "Delete the current selection"
 msgstr "Radera aktiv markering"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:43
+msgid "Delete _Line"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:44
+msgid "Delete the current line"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
 msgstr "Konverte_ra"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:44
+#: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
 msgstr "Konvertera text på olika sätt"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:45
+#: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
 msgstr "Till _gemener"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:46
+#: ../mousepad/resources/gtk/menus-common.ui.h:48
 msgid "Change the case of the selection to lowercase"
 msgstr "Ändra markerad text till gemener"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:47
+#: ../mousepad/resources/gtk/menus-common.ui.h:49
 msgid "To _Uppercase"
 msgstr "Till _versaler"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:48
+#: ../mousepad/resources/gtk/menus-common.ui.h:50
 msgid "Change the case of the selection to uppercase"
 msgstr "Ändra markerad text till versaler"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:49
+#: ../mousepad/resources/gtk/menus-common.ui.h:51
 msgid "To _Title Case"
 msgstr "Till r_ubrik"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:50
+#: ../mousepad/resources/gtk/menus-common.ui.h:52
 msgid "Change the case of the selection to title case"
 msgstr "Ändra markerad texts skiftläge till rubrik"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:51
+#: ../mousepad/resources/gtk/menus-common.ui.h:53
 msgid "To _Opposite Case"
 msgstr "Till m_otsatt skiftläge"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:52
+#: ../mousepad/resources/gtk/menus-common.ui.h:54
 msgid "Change the case of the selection opposite case"
 msgstr "Ändra markering till motsatt skiftläge"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:53
+#: ../mousepad/resources/gtk/menus-common.ui.h:55
 msgid "_Tabs to Spaces"
 msgstr "_Tabbar till blanksteg"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:54
+#: ../mousepad/resources/gtk/menus-common.ui.h:56
 msgid "Convert all tabs to spaces in the selection or document"
 msgstr "Konvertera alla tabbar till blanksteg i markeringen eller dokument"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:55
+#: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Spaces to Tabs"
 msgstr "_Blanksteg till tabbar"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:56
+#: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
 msgstr "Konvertera alla inledande blanksteg till tabbar i de markerade raderna eller dokumentet"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:57
+#: ../mousepad/resources/gtk/menus-common.ui.h:59
 msgid "St_rip Trailing Spaces"
 msgstr "Ta bo_rt blanksteg i radslut"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:58
+#: ../mousepad/resources/gtk/menus-common.ui.h:60
 msgid "Remove all the trailing spaces from the selected line(s) or document"
 msgstr "Ta bort alla blanksteg i slutet på de markerade raderna eller dokument"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:59
+#: ../mousepad/resources/gtk/menus-common.ui.h:61
 msgid "_Transpose"
 msgstr "Fly_tta om"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:60
+#: ../mousepad/resources/gtk/menus-common.ui.h:62
 msgid "Reverse the order of something"
 msgstr "Vänd om ordningen på något"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:61
+#: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move Selection"
 msgstr "_Flytta markering"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:62
+#: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move the selection in different ways"
 msgstr "Flytta markeringen på olika sätt"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:63
+#: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
 msgstr "Rad _upp"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:64
+#: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move the selection one line up"
 msgstr "Flytta markeringen en rad upp"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:65
+#: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
 msgstr "Ra_d ner"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:66
+#: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move the selection one line down"
 msgstr "Flytta markeringen en rad ner"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:67
+#: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Dup_licate Line / Selection"
 msgstr "Dup_licera rad / markering"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:68
+#: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Duplicate the current line or selection"
 msgstr "Duplicera den aktiv raden eller markeringen"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:69
+#: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "_Increase Indent"
 msgstr "_Öka indrag"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:70
+#: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Increase the indentation of the selection or current line"
 msgstr "Öka indrag för markeringen eller aktiva raden"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:71
+#: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "_Decrease Indent"
 msgstr "_Minska indrag"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:72
+#: ../mousepad/resources/gtk/menus-common.ui.h:74
 msgid "Decrease the indentation of the selection or current line"
 msgstr "Minska indrag för markeringen eller aktiva raden"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:73
+#: ../mousepad/resources/gtk/menus-common.ui.h:75
 msgid "label-to-be-filled-in"
 msgstr "etikett-som-ska-fyllas-i"
 
