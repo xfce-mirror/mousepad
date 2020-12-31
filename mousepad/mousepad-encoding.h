@@ -19,8 +19,6 @@
 
 G_BEGIN_DECLS
 
-typedef struct _MousepadEncodingInfo MousepadEncodingInfo;
-
 typedef enum
 {
   MOUSEPAD_ENCODING_NONE,
@@ -93,21 +91,13 @@ typedef enum
   MOUSEPAD_ENCODING_WINDOWS_1255,
   MOUSEPAD_ENCODING_WINDOWS_1256,
   MOUSEPAD_ENCODING_WINDOWS_1257,
-  MOUSEPAD_ENCODING_WINDOWS_1258
+  MOUSEPAD_ENCODING_WINDOWS_1258,
+
+  MOUSEPAD_N_ENCODINGS
 }
 MousepadEncoding;
 
-struct _MousepadEncodingInfo
-{
-  MousepadEncoding  encoding;
-  const gchar      *charset;
-  const gchar      *name;
-};
 
-
-extern const MousepadEncodingInfo encoding_infos[];
-
-extern guint                      n_encoding_infos;
 
 const gchar      *mousepad_encoding_get_charset (MousepadEncoding   encoding);
 

@@ -255,7 +255,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
 {
   MousepadEncodingDialog *dialog = MOUSEPAD_ENCODING_DIALOG (user_data);
   GFile                  *file;
-  const gchar            *subtitle;
+  const gchar            *charset, *subtitle;
   gchar                  *contents, *encoded;
   gsize                   length, written;
   guint                   i, n;
@@ -270,27 +270,25 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
                 && contents != NULL && length > 0))
     {
       /* test all the encodings */
-      for (i = 0, n = 0; i < n_encoding_infos && !dialog->cancel_testing; i++)
+      for (i = 1, n = 0; i < MOUSEPAD_N_ENCODINGS && !dialog->cancel_testing; i++)
         {
           /* set progress bar fraction */
           gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (dialog->progress_bar),
-                                         (i + 1.00) / n_encoding_infos);
+                                         (i + 1.00) / MOUSEPAD_N_ENCODINGS);
 
           /* try to convert the content */
-          encoded = g_convert (contents, length, "UTF-8", encoding_infos[i].charset,
-                               NULL, &written, NULL);
+          charset = mousepad_encoding_get_charset (i);
+          encoded = g_convert (contents, length, "UTF-8", charset, NULL, &written, NULL);
 
           if (G_LIKELY (encoded != NULL))
             {
               /* insert in the store */
               if (G_LIKELY (g_utf8_validate (encoded, written, NULL)))
                 gtk_list_store_insert_with_values (dialog->store, NULL, n++,
-                                                   COLUMN_LABEL, encoding_infos[i].charset,
-                                                   COLUMN_ID, encoding_infos[i].encoding, -1);
+                                                   COLUMN_LABEL, charset, COLUMN_ID, i, -1);
               else
                 gtk_list_store_insert_with_values (dialog->fallback_store, NULL, n++,
-                                                   COLUMN_LABEL, encoding_infos[i].charset,
-                                                   COLUMN_ID, encoding_infos[i].encoding, -1);
+                                                   COLUMN_LABEL, charset, COLUMN_ID, i, -1);
 
               /* cleanup */
               g_free (encoded);
@@ -469,6 +467,8 @@ static void
 mousepad_encoding_dialog_button_toggled (GtkWidget              *button,
                                          MousepadEncodingDialog *dialog)
 {
+  const gchar* charset;
+
   /* ignore inactive buttons */
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
     {
@@ -483,7 +483,8 @@ mousepad_encoding_dialog_button_toggled (GtkWidget              *button,
       else if (button == dialog->radio_system)
         {
           /* open the file */
-          mousepad_encoding_dialog_read_file (dialog, mousepad_encoding_find (NULL));
+          g_get_charset (&charset);
+          mousepad_encoding_dialog_read_file (dialog, mousepad_encoding_find (charset));
         }
       else
         {
