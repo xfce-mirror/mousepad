@@ -19,8 +19,18 @@
 
 
 
-const MousepadEncodingInfo encoding_infos[] =
+struct MousepadEncodingInfo
 {
+  MousepadEncoding  encoding;
+  const gchar      *charset;
+  const gchar      *name;
+};
+
+static const struct MousepadEncodingInfo encoding_infos[MOUSEPAD_N_ENCODINGS] =
+{
+  /* none */
+  { MOUSEPAD_ENCODING_NONE,         NULL,               NULL },
+
   /* west european */
   { MOUSEPAD_ENCODING_ISO_8859_14,  "ISO-8859-14",      N_("Celtic") },
   { MOUSEPAD_ENCODING_ISO_8859_7,   "ISO-8859-7",       N_("Greek") },
@@ -97,17 +107,13 @@ const MousepadEncodingInfo encoding_infos[] =
 
 
 
-guint n_encoding_infos = G_N_ELEMENTS (encoding_infos);
-
-
-
 const gchar *
 mousepad_encoding_get_charset (MousepadEncoding encoding)
 {
   guint i;
 
   /* try to find and return the charset */
-  for (i = 0; i < G_N_ELEMENTS (encoding_infos); i++)
+  for (i = 0; i < MOUSEPAD_N_ENCODINGS; i++)
     if (encoding_infos[i].encoding == encoding)
       return encoding_infos[i].charset;
 
@@ -122,7 +128,7 @@ mousepad_encoding_get_name (MousepadEncoding encoding)
   guint i;
 
   /* try to find and return the translated name */
-  for (i = 0; i < G_N_ELEMENTS (encoding_infos); i++)
+  for (i = 0; i < MOUSEPAD_N_ENCODINGS; i++)
     if (encoding_infos[i].encoding == encoding)
       return _(encoding_infos[i].name);
 
@@ -134,19 +140,26 @@ mousepad_encoding_get_name (MousepadEncoding encoding)
 MousepadEncoding
 mousepad_encoding_find (const gchar *charset)
 {
-  guint i;
+  MousepadEncoding  encoding = MOUSEPAD_ENCODING_NONE;
+  gchar            *up_charset = NULL;
+  guint             i;
 
-  /* fallback to system charset if nul */
-  if (charset == NULL)
-    g_get_charset (&charset);
+  /* switch to ASCII upper case */
+  if (charset != NULL)
+    up_charset = g_ascii_strup (charset, -1);
 
   /* find the charset */
-  for (i = 0; i < G_N_ELEMENTS (encoding_infos); i++)
-    if (strcasecmp (encoding_infos[i].charset, charset) == 0)
-      return encoding_infos[i].encoding;
+  for (i = 0; i < MOUSEPAD_N_ENCODINGS; i++)
+    if (g_strcmp0 (encoding_infos[i].charset, up_charset) == 0)
+      {
+        encoding = encoding_infos[i].encoding;
+        break;
+      }
 
-  /* no encoding charset found */
-  return MOUSEPAD_ENCODING_NONE;
+  /* clenaup */
+  g_free (up_charset);
+
+  return encoding;
 }
 
 
