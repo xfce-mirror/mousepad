@@ -51,6 +51,7 @@ struct _MousepadStatusbar
 
   /* extra labels in the statusbar */
   GtkWidget          *language;
+  GtkWidget          *encoding;
   GtkWidget          *position;
   GtkWidget          *overwrite;
 };
@@ -131,6 +132,16 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
   statusbar->language = gtk_label_new (_("Filetype: None"));
   gtk_container_add (GTK_CONTAINER (ebox), statusbar->language);
   gtk_widget_show (statusbar->language);
+
+  /* separator */
+  separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, 0);
+  gtk_widget_show (separator);
+
+  /* encoding */
+  statusbar->encoding = gtk_label_new (NULL);
+  gtk_container_add (GTK_CONTAINER (box), statusbar->encoding);
+  gtk_widget_show (statusbar->encoding);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
@@ -221,6 +232,43 @@ mousepad_statusbar_filetype_clicked (GtkWidget         *widget,
 
 
 void
+mousepad_statusbar_set_cursor_position (MousepadStatusbar *statusbar,
+                                        gint               line,
+                                        gint               column,
+                                        gint               selection)
+{
+  gchar string[64];
+
+  g_return_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar));
+
+  /* create printable string */
+  if (G_UNLIKELY (selection > 0))
+    g_snprintf (string, sizeof (string), _("Line: %d Column: %d Selection: %d"),
+                line, column, selection);
+  else
+    g_snprintf (string, sizeof (string), _("Line: %d Column: %d"), line, column);
+
+  /* set label */
+  gtk_label_set_text (GTK_LABEL (statusbar->position), string);
+}
+
+
+
+void
+mousepad_statusbar_set_encoding (MousepadStatusbar *statusbar,
+                                 MousepadEncoding   encoding)
+{
+  g_return_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar));
+
+  if (encoding == MOUSEPAD_ENCODING_NONE)
+    encoding = mousepad_encoding_get_default ();
+
+  gtk_label_set_text (GTK_LABEL (statusbar->encoding), mousepad_encoding_get_charset (encoding));
+}
+
+
+
+void
 mousepad_statusbar_set_language (MousepadStatusbar *statusbar,
                                  GtkSourceLanguage *language)
 {
@@ -236,28 +284,6 @@ mousepad_statusbar_set_language (MousepadStatusbar *statusbar,
       gtk_label_set_text (GTK_LABEL (statusbar->language), label);
       g_free (label);
     }
-}
-
-
-
-void
-mousepad_statusbar_set_cursor_position (MousepadStatusbar *statusbar,
-                                        gint               line,
-                                        gint               column,
-                                        gint               selection)
-{
-  gchar string[64];
-
-  g_return_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar));
-
-  /* create printable string */
-  if (G_UNLIKELY (selection > 0))
-    g_snprintf (string, sizeof (string), _("Line: %d Column: %d Selection: %d"), line, column, selection);
-  else
-    g_snprintf (string, sizeof (string), _("Line: %d Column: %d"), line, column);
-
-  /* set label */
-  gtk_label_set_text (GTK_LABEL (statusbar->position), string);
 }
 
 

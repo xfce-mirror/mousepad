@@ -159,11 +159,14 @@ static void              mousepad_window_cursor_changed               (MousepadD
                                                                        gint                    column,
                                                                        gint                    selection,
                                                                        MousepadWindow         *window);
-static void              mousepad_window_overwrite_changed            (MousepadDocument       *document,
-                                                                       gboolean                overwrite,
+static void              mousepad_window_encoding_changed             (MousepadDocument       *document,
+                                                                       MousepadEncoding        encoding,
                                                                        MousepadWindow         *window);
 static void              mousepad_window_language_changed             (MousepadDocument       *document,
                                                                        GtkSourceLanguage      *language,
+                                                                       MousepadWindow         *window);
+static void              mousepad_window_overwrite_changed            (MousepadDocument       *document,
+                                                                       gboolean                overwrite,
                                                                        MousepadWindow         *window);
 static void              mousepad_window_can_undo                     (GtkSourceBuffer        *buffer,
                                                                        GParamSpec             *unused,
@@ -2324,10 +2327,12 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_button_close_tab), window);
   g_signal_connect (page, "cursor-changed",
                     G_CALLBACK (mousepad_window_cursor_changed), window);
-  g_signal_connect (page, "overwrite-changed",
-                    G_CALLBACK (mousepad_window_overwrite_changed), window);
+  g_signal_connect (page, "encoding-changed",
+                    G_CALLBACK (mousepad_window_encoding_changed), window);
   g_signal_connect (page, "language-changed",
                     G_CALLBACK (mousepad_window_language_changed), window);
+  g_signal_connect (page, "overwrite-changed",
+                    G_CALLBACK (mousepad_window_overwrite_changed), window);
   g_signal_connect (page, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
   g_signal_connect (document->buffer, "notify::has-selection",
@@ -2370,8 +2375,9 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   /* disconnect the old document signals */
   mousepad_disconnect_by_func (page, mousepad_window_button_close_tab, window);
   mousepad_disconnect_by_func (page, mousepad_window_cursor_changed, window);
-  mousepad_disconnect_by_func (page, mousepad_window_overwrite_changed, window);
+  mousepad_disconnect_by_func (page, mousepad_window_encoding_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_language_changed, window);
+  mousepad_disconnect_by_func (page, mousepad_window_overwrite_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_drag_data_received, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_enable_edit_actions, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_undo, window);
@@ -2808,16 +2814,16 @@ mousepad_window_cursor_changed (MousepadDocument *document,
 
 
 static void
-mousepad_window_overwrite_changed (MousepadDocument *document,
-                                   gboolean          overwrite,
-                                   MousepadWindow   *window)
+mousepad_window_encoding_changed (MousepadDocument  *document,
+                                  MousepadEncoding   encoding,
+                                  MousepadWindow    *window)
 {
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
-  /* set the new overwrite mode in the statusbar */
+  /* update the encoding shown in the statusbar */
   if (window->statusbar && window->active == document)
-    mousepad_statusbar_set_overwrite (MOUSEPAD_STATUSBAR (window->statusbar), overwrite);
+    mousepad_statusbar_set_encoding (MOUSEPAD_STATUSBAR (window->statusbar), encoding);
 }
 
 
@@ -2833,6 +2839,21 @@ mousepad_window_language_changed (MousepadDocument  *document,
   /* update the filetype shown in the statusbar */
   if (window->statusbar && window->active == document)
     mousepad_statusbar_set_language (MOUSEPAD_STATUSBAR (window->statusbar), language);
+}
+
+
+
+static void
+mousepad_window_overwrite_changed (MousepadDocument *document,
+                                   gboolean          overwrite,
+                                   MousepadWindow   *window)
+{
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
+
+  /* set the new overwrite mode in the statusbar */
+  if (window->statusbar && window->active == document)
+    mousepad_statusbar_set_overwrite (MOUSEPAD_STATUSBAR (window->statusbar), overwrite);
 }
 
 
