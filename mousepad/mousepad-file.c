@@ -24,6 +24,7 @@
 
 enum
 {
+  ENCODING_CHANGED,
   EXTERNALLY_MODIFIED,
   LOCATION_CHANGED,
   READONLY_CHANGED,
@@ -100,29 +101,21 @@ mousepad_file_class_init (MousepadFileClass *klass)
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_file_finalize;
 
+  file_signals[ENCODING_CHANGED] =
+    g_signal_new (I_("encoding-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__ENUM, G_TYPE_NONE, 1, G_TYPE_INT);
+
   file_signals[EXTERNALLY_MODIFIED] =
-    g_signal_new (I_("externally-modified"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE, 0);
+    g_signal_new (I_("externally-modified"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
   file_signals[READONLY_CHANGED] =
-    g_signal_new (I_("readonly-changed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__BOOLEAN,
-                  G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+    g_signal_new (I_("readonly-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__BOOLEAN, G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 
   file_signals[LOCATION_CHANGED] =
-    g_signal_new (I_("location-changed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__OBJECT,
-                  G_TYPE_NONE, 1, G_TYPE_FILE);
+    g_signal_new (I_("location-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1, G_TYPE_FILE);
 }
 
 
@@ -388,6 +381,9 @@ mousepad_file_set_encoding (MousepadFile     *file,
 
   /* set new encoding */
   file->encoding = encoding;
+
+  /* send a signal that the encoding has been changed */
+  g_signal_emit (file, file_signals[ENCODING_CHANGED], 0, file->encoding);
 }
 
 
