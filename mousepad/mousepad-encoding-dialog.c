@@ -595,7 +595,8 @@ mousepad_encoding_dialog (GtkWindow        *parent,
 
   /* create the dialog */
   dialog = g_object_new (MOUSEPAD_TYPE_ENCODING_DIALOG, "transient-for", parent,
-                         "destroy-with-parent", TRUE, "modal", TRUE, NULL);
+                         "modal", TRUE, NULL);
+  mousepad_dialogs_destroy_with_parent (GTK_WIDGET (dialog), parent);
 
   /* try first to read the file with the default encoding if needed */
   if (mousepad_file_get_encoding (file) == MOUSEPAD_ENCODING_NONE)
