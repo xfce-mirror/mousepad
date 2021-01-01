@@ -17,6 +17,16 @@
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-dialogs.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-settings.h>
+
+
+
+void
+mousepad_dialogs_response_cancel (GtkWindow *parent,
+                                  GtkDialog *dialog)
+{
+  gtk_dialog_response (dialog, MOUSEPAD_RESPONSE_CANCEL);
+}
 
 
 
@@ -57,11 +67,12 @@ mousepad_dialogs_show_error (GtkWindow    *parent,
   GtkWidget *dialog;
 
   /* create the warning dialog */
-  dialog = gtk_message_dialog_new (parent,
-                                   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                   GTK_MESSAGE_ERROR,
-                                   GTK_BUTTONS_CLOSE,
-                                   "%s.", message);
+  dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR,
+                                   GTK_BUTTONS_CLOSE, "%s.", message);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
 
   /* set secondary text if an error is provided */
   if (G_LIKELY (error != NULL))
@@ -104,12 +115,15 @@ mousepad_dialogs_other_tab_size (GtkWindow *parent,
   GtkWidget *scale;
 
   /* build dialog */
-  dialog = gtk_dialog_new_with_buttons (_("Select Tab Size"),
-                                        parent,
-                                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+  dialog = gtk_dialog_new_with_buttons (_("Select Tab Size"), parent, GTK_DIALOG_MODAL,
                                         _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL,
-                                        _("_OK"), MOUSEPAD_RESPONSE_OK,
-                                        NULL);
+                                        _("_OK"), MOUSEPAD_RESPONSE_OK, NULL);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
+
+  /* set properties */
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_OK);
 
   /* create scale widget */
@@ -182,11 +196,14 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   lines = gtk_text_buffer_get_line_count (buffer);
 
   /* build the dialog */
-  dialog = gtk_dialog_new_with_buttons (_("Go To"),
-                                        parent,
-                                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL,
-                                        NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Go To"), parent, GTK_DIALOG_MODAL,
+                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
+
+  /* add button */
   button = mousepad_util_image_button ("go-jump", _("_Jump to"));
   gtk_widget_set_can_default (button, TRUE);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_JUMP_TO);
@@ -288,11 +305,14 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
   gboolean   succeed = FALSE;
 
   /* create the question dialog */
-  dialog = gtk_dialog_new_with_buttons (_("Clear Documents History"),
-                                        parent,
-                                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL,
-                                        NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Clear Documents History"), parent, GTK_DIALOG_MODAL,
+                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
+
+  /* set button */
   button = mousepad_util_image_button ("edit-clear", _("Clea_r"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_CLEAR);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
@@ -352,11 +372,14 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   gint       response;
 
   /* create the question dialog */
-  dialog = gtk_dialog_new_with_buttons (_("Save Changes"),
-                                        parent,
-                                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL,
-                                        NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Save Changes"), parent, GTK_DIALOG_MODAL,
+                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
+
+  /* set properties */
   gtk_window_set_default_size (GTK_WINDOW (dialog), 400, -1);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
                                 mousepad_util_image_button ("edit-delete", _("_Don't Save")),
@@ -456,12 +479,19 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
     }
 
   /* create the question dialog */
-  dialog = gtk_message_dialog_new_with_markup (parent, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                   GTK_MESSAGE_WARNING, GTK_BUTTONS_NONE, "<b><big>%s</big></b>", text_1);
+  dialog = gtk_message_dialog_new_with_markup (parent, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING,
+                                               GTK_BUTTONS_NONE, "<b><big>%s</big></b>", text_1);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
+
+  /* add title */
   gtk_window_set_title (GTK_WINDOW (dialog), _("Externally Modified"));
   if (text_2 != NULL)
     gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text_2);
 
+  /* add buttons */
   gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
@@ -493,15 +523,21 @@ mousepad_dialogs_revert (GtkWindow *parent)
   gint       response;
 
   /* setup the question dialog */
-  dialog = gtk_message_dialog_new (parent,
-                                   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+  dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
                                    GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
                                    _("Do you want to save your changes before reloading?"));
   gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
                                    _("If you revert the file, all unsaved changes will be lost."));
   gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
+
+  /* add buttons */
   button = mousepad_util_image_button ("document-save-as", _("_Save As"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
+
   button = mousepad_util_image_button ("document-revert", _("_Revert"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_RELOAD);
 
@@ -546,17 +582,22 @@ mousepad_dialogs_save_as (GtkWindow  *parent,
   gint       response;
 
   /* create the dialog */
-  dialog = gtk_file_chooser_dialog_new (_("Save As"),
-                                        parent, GTK_FILE_CHOOSER_ACTION_SAVE,
-                                        _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                        NULL);
+  dialog = gtk_file_chooser_dialog_new (_("Save As"), parent, GTK_FILE_CHOOSER_ACTION_SAVE,
+                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
 
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
+
+  /* add button */
   button = mousepad_util_image_button ("document-save", _("_Save"));
   gtk_widget_set_can_default (button, TRUE);
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_OK);
+  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_OK);
+
+  /* set properties */
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_OK);
 
   /* add file filter */
   mousepad_dialogs_add_file_filter (GTK_FILE_CHOOSER (dialog));
@@ -591,15 +632,20 @@ mousepad_dialogs_open (GtkWindow  *parent,
   gint       response;
 
   /* create new file chooser dialog */
-  dialog = gtk_file_chooser_dialog_new (_("Open File"),
-                                         parent,
-                                         GTK_FILE_CHOOSER_ACTION_OPEN,
-                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                         NULL);
+  dialog = gtk_file_chooser_dialog_new (_("Open File"), parent, GTK_FILE_CHOOSER_ACTION_OPEN,
+                                         _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
+
+  /* add button */
   button = mousepad_util_image_button ("document-open", _("_Open"));
   gtk_widget_set_can_default (button, TRUE);
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_OK);
+
+  /* set properties */
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_OK);
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
 
@@ -637,4 +683,46 @@ mousepad_dialogs_open (GtkWindow  *parent,
   gtk_widget_destroy (dialog);
 
   return response;
+}
+
+
+
+void
+mousepad_dialogs_select_font (GtkWindow *parent)
+{
+  GtkWidget *dialog;
+  gchar     *font;
+
+  /* create new font chooser dialog */
+  dialog = gtk_font_chooser_dialog_new (_("Choose Mousepad Font"), parent);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_response_cancel), dialog, 0);
+
+  /* set the current font */
+  if ((font = MOUSEPAD_SETTING_GET_STRING (FONT)) != NULL)
+    {
+      gtk_font_chooser_set_font (GTK_FONT_CHOOSER (dialog), font);
+      g_free (font);
+    }
+
+  /* run the dialog */
+  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+    {
+      /* get the selected font from the dialog */
+      font = gtk_font_chooser_get_font (GTK_FONT_CHOOSER (dialog));
+
+      /* store the font in the preferences */
+      MOUSEPAD_SETTING_SET_STRING (FONT, font);
+
+      /* stop using default font */
+      MOUSEPAD_SETTING_SET_BOOLEAN (USE_DEFAULT_FONT, FALSE);
+
+      /* cleanup */
+      g_free (font);
+    }
+
+  /* destroy the dialog */
+  gtk_widget_destroy (dialog);
 }

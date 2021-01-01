@@ -40,6 +40,9 @@ enum {
 };
 
 
+void       mousepad_dialogs_response_cancel     (GtkWindow     *parent,
+                                                 GtkDialog     *dialog);
+
 void       mousepad_dialogs_show_about          (GtkWindow     *parent);
 
 void       mousepad_dialogs_show_error          (GtkWindow     *parent,
@@ -75,6 +78,8 @@ gint       mousepad_dialogs_save_as             (GtkWindow     *parent,
 gint       mousepad_dialogs_open                (GtkWindow     *parent,
                                                  GFile         *file,
                                                  GSList       **files);
+
+void       mousepad_dialogs_select_font         (GtkWindow *parent);
 
 G_END_DECLS
 
