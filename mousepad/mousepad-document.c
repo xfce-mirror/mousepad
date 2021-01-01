@@ -86,8 +86,9 @@ struct _MousepadDocumentPrivate
   gchar                  *utf8_filename;
   gchar                  *utf8_basename;
 
-  /* search context */
-  GtkSourceSearchContext *search_context;
+  /* search contexts */
+  GtkSourceSearchContext *search_context, *selection_context;
+  GtkSourceBuffer        *selection_buffer;
 };
 
 
@@ -216,6 +217,8 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->utf8_basename = NULL;
   document->priv->label = NULL;
   document->priv->css_provider = gtk_css_provider_new ();
+  document->priv->selection_context = NULL;
+  document->priv->selection_buffer = NULL;
 
   /* setup the scrolled window */
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (document),
@@ -283,7 +286,7 @@ mousepad_document_init (MousepadDocument *document)
 static void
 mousepad_document_post_finalize (GtkSourceSearchContext *search_context,
                                  GParamSpec             *pspec,
-                                 GtkTextBuffer          *buffer)
+                                 gpointer                buffer)
 {
   g_object_unref (search_context);
   g_object_unref (buffer);
@@ -292,10 +295,36 @@ mousepad_document_post_finalize (GtkSourceSearchContext *search_context,
 
 
 static void
+mousepad_document_finalize_search (MousepadDocument       *document,
+                                   gpointer                buffer,
+                                   GtkSourceSearchContext *search_context)
+{
+  GtkSourceSearchSettings *search_settings;
+
+  /* disconnect any handler connected to the buffer or the search context, to not interfer
+   * with what follows */
+  g_signal_handlers_disconnect_by_data (search_context, document);
+  g_signal_handlers_disconnect_by_data (buffer, document);
+
+  /* reset some critical settings to ensure that the last search is almost instantaneous
+   * (see mousepad_document_prevent_endless_scanning() below) */
+  search_settings = gtk_source_search_context_get_settings (search_context);
+  gtk_source_search_context_set_highlight (search_context, FALSE);
+  gtk_source_search_settings_set_regex_enabled (search_settings, FALSE);
+
+  /* cancel any current search by launching a last one, the result of which will trigger
+   * post_finalize() */
+  g_signal_connect (search_context, "notify::occurrences-count",
+                    G_CALLBACK (mousepad_document_post_finalize), buffer);
+  gtk_source_search_settings_set_search_text (search_settings, NULL);
+}
+
+
+
+static void
 mousepad_document_finalize (GObject *object)
 {
-  MousepadDocument        *document = MOUSEPAD_DOCUMENT (object);
-  GtkSourceSearchSettings *search_settings;
+  MousepadDocument *document = MOUSEPAD_DOCUMENT (object);
 
   /* cleanup */
   g_free (document->priv->utf8_filename);
@@ -306,26 +335,13 @@ mousepad_document_finalize (GObject *object)
   g_object_unref (document->file);
 
   /*
-   * We will release the buffer and the search context when a last search is completed,
-   * including buffer scanning, to prevent too late accesses to the buffer.
+   * We will release buffers and search contexts when a last search is completed,
+   * including buffers scanning, to prevent too late accesses to the buffers.
    */
-
-  /* disconnect any handler connected to the buffer or the search context, to not interfer
-   * with what follows */
-  g_signal_handlers_disconnect_by_data (document->priv->search_context, document);
-  g_signal_handlers_disconnect_by_data (document->buffer, document);
-
-  /* reset some critical settings to ensure that the last search is almost instantaneous
-   * (see mousepad_document_prevent_endless_scanning() below) */
-  search_settings = gtk_source_search_context_get_settings (document->priv->search_context);
-  gtk_source_search_context_set_highlight (document->priv->search_context, FALSE);
-  gtk_source_search_settings_set_regex_enabled (search_settings, FALSE);
-
-  /* cancel any current search by launching a last one, the result of which will trigger
-   * post_finalize() */
-  g_signal_connect (document->priv->search_context, "notify::occurrences-count",
-                    G_CALLBACK (mousepad_document_post_finalize), document->buffer);
-  gtk_source_search_settings_set_search_text (search_settings, NULL);
+  mousepad_document_finalize_search (document, document->buffer, document->priv->search_context);
+  if (GTK_SOURCE_IS_BUFFER (document->priv->selection_buffer))
+    mousepad_document_finalize_search (document, document->priv->selection_buffer,
+                                       document->priv->selection_context);
 
   (*G_OBJECT_CLASS (mousepad_document_parent_class)->finalize) (object);
 }
@@ -721,12 +737,10 @@ mousepad_document_search (MousepadDocument    *document,
                           const gchar         *replace,
                           MousepadSearchFlags  flags)
 {
-  static GtkSourceBuffer        *selection_buffer = NULL;
-  static GtkSourceSearchContext *selection_context = NULL;
-  GtkSourceSearchContext        *search_context;
-  GtkSourceSearchSettings       *search_settings, *search_settings_doc;
-  GtkTextIter                    iter, start, end;
-  gchar                         *selected_text;
+  GtkSourceSearchContext  *search_context;
+  GtkSourceSearchSettings *search_settings, *search_settings_doc;
+  GtkTextIter              iter, start, end;
+  gchar                   *selected_text;
 
   /* get the search iter */
   if (flags & MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START)
@@ -738,24 +752,26 @@ mousepad_document_search (MousepadDocument    *document,
    * and work inside */
   if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION)
     {
+      /* initialize selection buffer and search context if needed */
+      if (! GTK_SOURCE_IS_BUFFER (document->priv->selection_buffer))
+        {
+          document->priv->selection_buffer = gtk_source_buffer_new (NULL);
+          document->priv->selection_context =
+            gtk_source_search_context_new (document->priv->selection_buffer, NULL);
+        }
+
       /* get the text in the selection area */
       gtk_text_buffer_get_selection_bounds (document->buffer, &start, &end);
       selected_text = gtk_text_buffer_get_text (document->buffer, &start, &end, FALSE);
 
-      /* put the text in a new buffer */
-      if (GTK_SOURCE_IS_BUFFER (selection_buffer))
-        g_object_unref (selection_buffer);
-
-      selection_buffer = gtk_source_buffer_new (NULL);
-      gtk_text_buffer_set_text (GTK_TEXT_BUFFER (selection_buffer), selected_text, -1);
-      gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (selection_buffer), &iter);
+      /* put the text in the selection buffer */
+      gtk_text_buffer_set_text (GTK_TEXT_BUFFER (document->priv->selection_buffer),
+                                selected_text, -1);
+      gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (document->priv->selection_buffer), &iter);
       g_free (selected_text);
 
-      /* associate a new search context */
-      if (GTK_SOURCE_IS_SEARCH_CONTEXT (selection_context))
-        g_object_unref (selection_context);
-
-      search_context = selection_context = gtk_source_search_context_new (selection_buffer, NULL);
+      /* associate the search context */
+      search_context = document->priv->selection_context;
       gtk_source_search_context_set_highlight (search_context, FALSE);
       g_signal_connect_swapped (search_context, "notify::occurrences-count",
                                 G_CALLBACK (mousepad_document_emit_search_signal), document);
