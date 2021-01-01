@@ -538,7 +538,7 @@ mousepad_application_set_accels (MousepadApplication *application)
     { "win.file.open", "<Control>O" }, { "win.file.save", "<Control>S" },
     { "win.file.save-as", "<Control><Shift>S" }, { "win.file.print", "<Control>P" },
     { "win.file.detach-tab", "<Control>D" }, { "win.file.close-tab", "<Control>W" },
-    { "win.file.close-window", "<Control>Q" },
+    { "win.file.close-window", "<Control><Shift>W" }, { "app.quit", "<Control>Q" },
 
     /* "Edit" menu */
     { "win.edit.undo", "<Control>Z" }, { "win.edit.redo", "<Control>Y" },
@@ -849,7 +849,7 @@ mousepad_application_open (GApplication  *gapplication,
           /* if at least one file was finally opened, show the window */
           if (opened > 0)
             gtk_widget_show (window);
-          else
+          else if (GTK_IS_WIDGET (window))
             gtk_widget_destroy (window);
         }
       /* open the files in windows */
@@ -867,7 +867,7 @@ mousepad_application_open (GApplication  *gapplication,
               /* if the file was finally opened, show the window */
               if (opened > 0)
                 gtk_widget_show (window);
-              else
+              else if (GTK_IS_WIDGET (window))
                 gtk_widget_destroy (window);
             }
         }
@@ -1315,7 +1315,25 @@ mousepad_application_action_quit (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  g_application_quit (G_APPLICATION (data));
+  GList    *windows, *window;
+  GAction  *close_action;
+  GVariant *v_succeed;
+  gboolean  succeed;
+
+  /* try to close all windows, abort at the first failure */
+  windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (data)));
+  for (window = windows; window != NULL; window = window->next)
+    {
+      close_action = g_action_map_lookup_action (G_ACTION_MAP (window->data), "file.close-window");
+      g_action_activate (close_action, NULL);
+      v_succeed = g_action_get_state (close_action);
+      succeed = g_variant_get_int32 (v_succeed);
+      g_variant_unref (v_succeed);
+      if (! succeed)
+        break;
+    }
+
+  g_list_free (windows);
 }
 
 
