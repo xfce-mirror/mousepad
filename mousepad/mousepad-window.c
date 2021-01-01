@@ -1120,11 +1120,6 @@ mousepad_window_create_notebook (MousepadWindow *window)
   /* set the group id */
   gtk_notebook_set_group_name (GTK_NOTEBOOK (window->notebook), NOTEBOOK_GROUP);
 
-  /* destroy the notebook first when destroying the window,
-   * so that mousepad_window_notebook_removed() executes properly */
-  g_signal_connect_swapped (window, "destroy",
-                            G_CALLBACK (gtk_widget_destroy), window->notebook);
-
   /* connect signals to the notebooks */
   g_signal_connect (window->notebook, "switch-page",
                     G_CALLBACK (mousepad_window_notebook_switch_page), window);
@@ -1792,7 +1787,7 @@ mousepad_window_open_file (MousepadWindow   *window,
         /* run the dialog */
         response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-        if (response == GTK_RESPONSE_OK)
+        if (response == MOUSEPAD_RESPONSE_OK)
           {
             /* set the new encoding */
             encoding = mousepad_encoding_dialog_get_encoding (MOUSEPAD_ENCODING_DIALOG (dialog));
@@ -1805,7 +1800,7 @@ mousepad_window_open_file (MousepadWindow   *window,
         gtk_widget_destroy (dialog);
 
         /* handle */
-        if (response == GTK_RESPONSE_OK)
+        if (response == MOUSEPAD_RESPONSE_OK)
           goto retry;
 
         break;
@@ -1855,7 +1850,10 @@ mousepad_window_open_files (MousepadWindow  *window,
   lock_menu_updates--;
 
   /* return the number of opened documents */
-  return gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
+  if (GTK_IS_WIDGET (window->notebook))
+    return gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
+  else
+    return -1;
 }
 
 
@@ -2666,9 +2664,10 @@ mousepad_window_externally_modified (MousepadFile   *file,
           g_action_group_activate_action (G_ACTION_GROUP (window), "file.reload", NULL);
         }
 
-      /* reconnect this handler */
-      g_signal_connect (file, "externally-modified",
-                        G_CALLBACK (mousepad_window_externally_modified), window);
+      /* reconnect this handler (if the file wasn't released e.g. following an "app.quit") */
+      if (MOUSEPAD_IS_FILE (file))
+        g_signal_connect (file, "externally-modified",
+                          G_CALLBACK (mousepad_window_externally_modified), window);
     }
   /* the file is inactive in an inactive tab */
   else if (document->file != file)
@@ -3033,8 +3032,10 @@ mousepad_window_menu_templates (GSimpleAction *action,
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
-  /* opening the menu */
-  if (g_variant_get_boolean (value))
+  /* open the menu, ensuring the window has not been removed from the application list,
+   * e.g. following an "app.quit" */
+  if (g_variant_get_boolean (value)
+      && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
     {
       /* lock menu updates */
       lock_menu_updates++;
@@ -3051,7 +3052,6 @@ mousepad_window_menu_templates (GSimpleAction *action,
         templates_path = g_strdup (templates_path);
 
       /* get and empty the "Templates" submenu */
-      application = gtk_window_get_application (GTK_WINDOW (window));
       menu = gtk_application_get_menu_by_id (application, "file.new-from-template");
       g_menu_remove_all (menu);
 
@@ -3306,14 +3306,15 @@ mousepad_window_update_gomenu (GSimpleAction *action,
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
-  /* opening the menu */
-  if (g_variant_get_boolean (value))
+  /* open the menu, ensuring the window has not been removed from the application list,
+   * e.g. following an "app.quit" */
+  if (g_variant_get_boolean (value)
+      && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
     {
       /* prevent menu updates */
       lock_menu_updates++;
 
       /* get the "Go to tab" submenu */
-      application = gtk_window_get_application (GTK_WINDOW (window));
       menu = gtk_application_get_menu_by_id (application, "document.go-to-tab");
 
       /* block tooltip updates */
@@ -3456,14 +3457,15 @@ mousepad_window_recent_menu (GSimpleAction *action,
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
-  /* opening the menu */
-  if (g_variant_get_boolean (value))
+  /* open the menu, ensuring the window has not been removed from the application list,
+   * e.g. following an "app.quit" */
+  if (g_variant_get_boolean (value)
+      && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
     {
       /* avoid updating the menu */
       lock_menu_updates++;
 
       /* get the "Recent" submenu */
-      application = gtk_window_get_application (GTK_WINDOW (window));
       menu = gtk_application_get_menu_by_id (application, "file.open-recent.list");
 
       /* block tooltip updates */
@@ -4245,7 +4247,7 @@ mousepad_window_action_open (GSimpleAction *action,
   if (G_LIKELY (mousepad_dialogs_open (GTK_WINDOW (window),
                                        mousepad_file_get_location (window->active->file),
                                        &files)
-                == GTK_RESPONSE_ACCEPT))
+                == MOUSEPAD_RESPONSE_OK))
     {
       /* lock menu updates */
       lock_menu_updates++;
@@ -4429,7 +4431,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
   if (mousepad_dialogs_save_as (GTK_WINDOW (window),
                                 mousepad_file_get_location (document->file),
                                 last_save_location, &file)
-      == GTK_RESPONSE_OK && G_LIKELY (file != NULL))
+      == MOUSEPAD_RESPONSE_OK && G_LIKELY (file != NULL))
     {
       /* keep a ref of the current file location to restore it in case of failure */
       if (mousepad_file_location_is_set (document->file))
@@ -4714,16 +4716,21 @@ mousepad_window_action_close_window (GSimpleAction *action,
   gint            npages, i;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* get the number of page in the notebook */
-  npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook)) - 1;
+  /* the window may be hidden without any document, e.g. when running the encoding
+   * dialog at startup */
+  if ((npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook))) == 0)
+    {
+      gtk_widget_destroy (GTK_WIDGET (window));
+
+      return;
+    }
 
   /* prevent menu updates */
   lock_menu_updates++;
 
   /* ask what to do with the modified document in this window */
-  for (i = npages; i >= 0; --i)
+  for (i = npages - 1; i >= 0; --i)
     {
       /* get the document */
       document = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i);
@@ -5431,42 +5438,10 @@ mousepad_window_action_select_font (GSimpleAction *action,
                                     GVariant      *value,
                                     gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GtkWidget      *dialog;
-  gchar          *font;
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
-
-  dialog = gtk_font_chooser_dialog_new (_("Choose Mousepad Font"), GTK_WINDOW (window));
-
-  /* set the current font */
-  font = MOUSEPAD_SETTING_GET_STRING (FONT);
-
-  if (G_LIKELY (font))
-    {
-      gtk_font_chooser_set_font (GTK_FONT_CHOOSER (dialog), font);
-      g_free (font);
-    }
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* run the dialog */
-  if (G_LIKELY (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK))
-    {
-      /* get the selected font from the dialog */
-      font = gtk_font_chooser_get_font (GTK_FONT_CHOOSER (dialog));
-
-      /* store the font in the preferences */
-      MOUSEPAD_SETTING_SET_STRING (FONT, font);
-
-      /* stop using default font */
-      MOUSEPAD_SETTING_SET_BOOLEAN (USE_DEFAULT_FONT, FALSE);
-
-      /* cleanup */
-      g_free (font);
-    }
-
-  /* destroy dialog */
-  gtk_widget_destroy (dialog);
+  mousepad_dialogs_select_font (GTK_WINDOW (data));
 }
 
 

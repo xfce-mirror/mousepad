@@ -19,6 +19,7 @@
 #include <mousepad/mousepad-encoding.h>
 #include <mousepad/mousepad-encoding-dialog.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-dialogs.h>
 
 
 
@@ -114,8 +115,8 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_window_set_default_size (GTK_WINDOW (dialog), 550, 350);
 
   /* add buttons */
-  gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Cancel"), GTK_RESPONSE_CANCEL);
-  dialog->button_ok = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_OK"), GTK_RESPONSE_OK);
+  gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL);
+  dialog->button_ok = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_OK"), MOUSEPAD_RESPONSE_OK);
 
   /* create the header */
   mousepad_util_dialog_create_header (GTK_DIALOG (dialog),
@@ -526,7 +527,11 @@ mousepad_encoding_dialog_new (GtkWindow    *parent,
 
   /* create the dialog */
   dialog = g_object_new (MOUSEPAD_TYPE_ENCODING_DIALOG, "transient-for", parent,
-                         "destroy-with-parent", TRUE, "modal", TRUE, NULL);
+                         "modal", TRUE, NULL);
+
+  /* gracefully destroy with parent */
+  g_signal_connect_object (parent, "destroy",
+                           G_CALLBACK (mousepad_dialogs_close_gracefully), dialog, 0);
 
   /* set the file location */
   mousepad_file_set_location (dialog->document->file, mousepad_file_get_location (file), TRUE);
