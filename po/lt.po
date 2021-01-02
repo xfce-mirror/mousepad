@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Algimantas Margevičius <margevicius.algimantas@gmail.com>, 2012
-# Moo, 2015-2020
+# Moo, 2015-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-25 00:46+0100\n"
-"PO-Revision-Date: 2020-12-25 17:18+0000\n"
+"POT-Creation-Date: 2020-12-30 12:49+0100\n"
+"PO-Revision-Date: 2021-01-02 21:36+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "Xfce kūrėjų komanda. Visos teisės saugomos."
 msgid "Please report bugs to <%s>."
 msgstr "Apie klaidas praneškite <%s>."
 
-#: ../mousepad/mousepad-application.c:1240
+#: ../mousepad/mousepad-application.c:1233
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autoriai: %s | Failo pavadinimas: %s"
@@ -86,7 +86,7 @@ msgstr "Pasirinkite kortelės dydį"
 #: ../mousepad/mousepad-dialogs.c:110 ../mousepad/mousepad-dialogs.c:188
 #: ../mousepad/mousepad-dialogs.c:294 ../mousepad/mousepad-dialogs.c:358
 #: ../mousepad/mousepad-dialogs.c:465 ../mousepad/mousepad-dialogs.c:502
-#: ../mousepad/mousepad-dialogs.c:531 ../mousepad/mousepad-dialogs.c:574
+#: ../mousepad/mousepad-dialogs.c:551 ../mousepad/mousepad-dialogs.c:597
 #: ../mousepad/mousepad-encoding-dialog.c:117
 #: ../mousepad/mousepad-encoding-dialog.c:189
 msgid "_Cancel"
@@ -148,7 +148,7 @@ msgid "_Save As"
 msgstr "Į_rašyti kaip"
 
 #: ../mousepad/mousepad-dialogs.c:377 ../mousepad/mousepad-dialogs.c:473
-#: ../mousepad/mousepad-dialogs.c:534
+#: ../mousepad/mousepad-dialogs.c:554
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "Į_rašyti"
@@ -189,7 +189,7 @@ msgstr "Turite neįrašytų pakeitimų. Jei sugrąžinsite failą, pakeitimai bu
 msgid "_Revert"
 msgstr "_Sugrąžinti"
 
-#: ../mousepad/mousepad-dialogs.c:454 ../mousepad/mousepad-window.c:3212
+#: ../mousepad/mousepad-dialogs.c:454 ../mousepad/mousepad-window.c:3229
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "Įke_lti iš naujo"
@@ -206,21 +206,29 @@ msgstr "Ar prieš įkeliant iš naujo norite įrašyti?"
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Jei sugrąžinsite failą, visi neįrašyti pakeitimai bus prarasti."
 
+#: ../mousepad/mousepad-dialogs.c:527
+msgid "Text Files"
+msgstr "Tekstiniai failai"
+
+#: ../mousepad/mousepad-dialogs.c:533
+msgid "All Files"
+msgstr "Visi failai"
+
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:529
+#: ../mousepad/mousepad-dialogs.c:549
 msgid "Save As"
 msgstr "Įrašyti kaip"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:571
+#: ../mousepad/mousepad-dialogs.c:594
 msgid "Open File"
 msgstr "Atverti failą"
 
-#: ../mousepad/mousepad-dialogs.c:576
+#: ../mousepad/mousepad-dialogs.c:599
 msgid "_Open"
 msgstr "_Atverti"
 
-#: ../mousepad/mousepad-dialogs.c:589
+#: ../mousepad/mousepad-dialogs.c:615
 msgid "_Encoding:"
 msgstr "K_oduotė:"
 
@@ -274,7 +282,7 @@ msgstr "Buvo rastos kitos dalinai tinkamos koduotės, pasirinkite žemiau."
 msgid "No other valid encoding was found."
 msgstr "Nebuvo rasta jokių kitų tinkamų koduočių."
 
-#: ../mousepad/mousepad-encoding-dialog.c:453 ../mousepad/mousepad-file.c:919
+#: ../mousepad/mousepad-encoding-dialog.c:453 ../mousepad/mousepad-file.c:931
 #, c-format
 msgid "Unsupported character set"
 msgstr "Nepalaikomas simbolių rinkinys"
@@ -397,14 +405,14 @@ msgstr "Japonų"
 msgid "Korean"
 msgstr "Korėjiečių"
 
-#: ../mousepad/mousepad-file.c:612
+#: ../mousepad/mousepad-file.c:622
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Įvestyje klaidinga baitų keitimo seka"
 
 #. add the close button
 #: ../mousepad/mousepad-prefs-dialog.c:443
-#: ../mousepad/mousepad-replace-dialog.c:220
+#: ../mousepad/mousepad-replace-dialog.c:272
 msgid "_Close"
 msgstr "_Užverti"
 
@@ -474,89 +482,89 @@ msgstr "Turinys:"
 msgid "Line numbers:"
 msgstr "Eilučių numeriai:"
 
-#: ../mousepad/mousepad-replace-dialog.c:160
+#: ../mousepad/mousepad-replace-dialog.c:173
 msgid "_Replace All"
 msgstr "P_akeisti visus"
 
-#: ../mousepad/mousepad-replace-dialog.c:160
-#: ../mousepad/mousepad-replace-dialog.c:216
+#: ../mousepad/mousepad-replace-dialog.c:173
+#: ../mousepad/mousepad-replace-dialog.c:268
 msgid "_Replace"
 msgstr "Pa_keisti"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:205
+#: ../mousepad/mousepad-replace-dialog.c:257
 msgid "Find and Replace"
 msgstr "Rasti ir pakeisti"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:211
+#: ../mousepad/mousepad-replace-dialog.c:263
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "_Rasti"
 
-#: ../mousepad/mousepad-replace-dialog.c:238
+#: ../mousepad/mousepad-replace-dialog.c:290
 msgid "_Search for:"
 msgstr "_Ieškoti:"
 
-#: ../mousepad/mousepad-replace-dialog.c:270
+#: ../mousepad/mousepad-replace-dialog.c:324
 msgid "Replace _with:"
 msgstr "Kuo pa_keisti:"
 
-#: ../mousepad/mousepad-replace-dialog.c:290
+#: ../mousepad/mousepad-replace-dialog.c:346
 msgid "Search _direction:"
 msgstr "Paieškos _kryptis:"
 
-#: ../mousepad/mousepad-replace-dialog.c:299
+#: ../mousepad/mousepad-replace-dialog.c:355
 msgid "Up"
 msgstr "Aukštyn"
 
-#: ../mousepad/mousepad-replace-dialog.c:300
+#: ../mousepad/mousepad-replace-dialog.c:356
 msgid "Down"
 msgstr "Žemyn"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:309
+#: ../mousepad/mousepad-replace-dialog.c:365
 msgid "_Wrap around"
 msgstr "_Ciklinė paieška"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:316
-#: ../mousepad/mousepad-search-bar.c:207 ../mousepad/mousepad-search-bar.c:215
+#: ../mousepad/mousepad-replace-dialog.c:372
+#: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:265
 msgid "Match _case"
 msgstr "Skirti _raidžių dydį"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:325
+#: ../mousepad/mousepad-replace-dialog.c:381
 msgid "_Match whole word"
 msgstr "Atitikti _visą žodį"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:334
-#: ../mousepad/mousepad-search-bar.c:221 ../mousepad/mousepad-search-bar.c:229
+#: ../mousepad/mousepad-replace-dialog.c:390
+#: ../mousepad/mousepad-search-bar.c:271 ../mousepad/mousepad-search-bar.c:279
 msgid "Regular e_xpression"
 msgstr "Reguliarus_is reiškinys"
 
-#: ../mousepad/mousepad-replace-dialog.c:348
+#: ../mousepad/mousepad-replace-dialog.c:404
 msgid "Replace _all in:"
 msgstr "Pakeisti _visus:"
 
-#: ../mousepad/mousepad-replace-dialog.c:353
+#: ../mousepad/mousepad-replace-dialog.c:409
 msgid "Selection"
 msgstr "Pasirinkta"
 
-#: ../mousepad/mousepad-replace-dialog.c:354
+#: ../mousepad/mousepad-replace-dialog.c:410
 msgid "Document"
 msgstr "Dokumentas"
 
-#: ../mousepad/mousepad-replace-dialog.c:355
+#: ../mousepad/mousepad-replace-dialog.c:411
 msgid "All Documents"
 msgstr "Visi dokumentai"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:541
-#: ../mousepad/mousepad-search-bar.c:347
+#: ../mousepad/mousepad-replace-dialog.c:597
+#: ../mousepad/mousepad-search-bar.c:397
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -599,32 +607,32 @@ msgid "Line: %d Column: %d"
 msgstr "Eilutė: %d Stulpelis: %d"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1082
+#: ../mousepad/mousepad-window.c:1086
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Įspėjimas: jūs naudojatės administratoriaus paskyra, dėl to galite pakenkti savo sistemai."
 
 #. show the warning
-#: ../mousepad/mousepad-window.c:1814
+#: ../mousepad/mousepad-window.c:1818
 msgid "Failed to open the document"
 msgstr "Nepavyko atverti failo"
 
-#: ../mousepad/mousepad-window.c:2010
+#: ../mousepad/mousepad-window.c:2014
 msgid "Read Only"
 msgstr "Tik skaityti"
 
-#: ../mousepad/mousepad-window.c:2969
+#: ../mousepad/mousepad-window.c:2986
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Naudoti \"%s\" kaip šabloną"
 
-#: ../mousepad/mousepad-window.c:2995
+#: ../mousepad/mousepad-window.c:3012
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Nerasta jokių šablono failų kataloge\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3051
+#: ../mousepad/mousepad-window.c:3068
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -632,92 +640,92 @@ msgid ""
 msgstr "Trūksta šablonų katalogo\n\"%s\""
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3103
+#: ../mousepad/mousepad-window.c:3120
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "K_ita (%d)..."
 
-#: ../mousepad/mousepad-window.c:3113
+#: ../mousepad/mousepad-window.c:3130
 msgid "Ot_her..."
 msgstr "_Kita..."
 
-#: ../mousepad/mousepad-window.c:3206
+#: ../mousepad/mousepad-window.c:3223
 msgid "Re_vert"
 msgstr "Sugrąž_inti"
 
-#: ../mousepad/mousepad-window.c:3208
+#: ../mousepad/mousepad-window.c:3225
 msgid "Revert to the saved version of the file"
 msgstr "Sugrąžinti iki įrašytos failo versijos"
 
-#: ../mousepad/mousepad-window.c:3214
+#: ../mousepad/mousepad-window.c:3231
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Įkelti failą iš disko"
 
-#: ../mousepad/mousepad-window.c:3220
+#: ../mousepad/mousepad-window.c:3237
 msgid "Leave fullscreen mode"
 msgstr "Išjungti viso ekrano veikseną"
 
-#: ../mousepad/mousepad-window.c:3225
+#: ../mousepad/mousepad-window.c:3242
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Rodyti langą visame ekrane"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3370 ../mousepad/mousepad-window.c:3565
+#: ../mousepad/mousepad-window.c:3387 ../mousepad/mousepad-window.c:3582
 msgid "Charset"
 msgstr "Koduotė"
 
-#: ../mousepad/mousepad-window.c:3505
+#: ../mousepad/mousepad-window.c:3522
 #, c-format
 msgid "Open '%s'"
 msgstr "Atverti „%s“"
 
-#: ../mousepad/mousepad-window.c:3531
+#: ../mousepad/mousepad-window.c:3548
 msgid "No items found"
 msgstr "Elementų nerasta"
 
-#: ../mousepad/mousepad-window.c:3614
+#: ../mousepad/mousepad-window.c:3631
 msgid "Failed to clear the recent history"
 msgstr "Nepavyko išvalyti paskiausiai naudotų dokumentų istorijos"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4085
+#: ../mousepad/mousepad-window.c:4102
 msgid "No clipboard data"
 msgstr "Iškarpinėj nėra duomenų"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4190
+#: ../mousepad/mousepad-window.c:4207
 msgid "Templates should be UTF-8 valid"
 msgstr "Šablonai turi būti tinkami UTF-8"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4195
+#: ../mousepad/mousepad-window.c:4212
 msgid "Reading the template failed"
 msgstr "Nepavyko perskaityti šablono"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4200
+#: ../mousepad/mousepad-window.c:4217
 msgid "Loading the template failed"
 msgstr "Įkelti šablono nepavyko"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4385 ../mousepad/mousepad-window.c:4519
+#: ../mousepad/mousepad-window.c:4402 ../mousepad/mousepad-window.c:4536
 msgid "Failed to save the document"
 msgstr "Dokumento įrašyti nepavyko"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4617
+#: ../mousepad/mousepad-window.c:4634
 msgid "Failed to reload the document"
 msgstr "dokumento įkelti iš naujo nepavyko"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4646
+#: ../mousepad/mousepad-window.c:4663
 msgid "Failed to print the document"
 msgstr "Nepavyko išspausdinti dokumento"
 
-#: ../mousepad/mousepad-window.c:5408
+#: ../mousepad/mousepad-window.c:5441
 msgid "Choose Mousepad Font"
 msgstr "Pasirinkite Mousepad šriftą"
 
@@ -1184,135 +1192,143 @@ msgid "Paste the clipboard text into a column"
 msgstr "Įdėti iškarpinės tekstą į stulpelį"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
-msgid "_Delete"
-msgstr "_Ištrinti"
+msgid "_Delete Selection"
+msgstr "_Ištrinti žymėjimą"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:42
 msgid "Delete the current selection"
 msgstr "Ištrinti dabartinį pasirinkimą"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:43
+msgid "Delete _Line"
+msgstr "Ištrinti ei_lutę"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:44
+msgid "Delete the current line"
+msgstr "Ištrinti dabartinę eilutę"
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
 msgstr "Konve_rtuoti"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:44
+#: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
 msgstr "Konvertuoti tekstą įvairiais būdais"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:45
+#: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
 msgstr "paversti _mažosiomis"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:46
+#: ../mousepad/resources/gtk/menus-common.ui.h:48
 msgid "Change the case of the selection to lowercase"
 msgstr "Pakeisti pažymėtą tekstą į mažąsias raides"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:47
+#: ../mousepad/resources/gtk/menus-common.ui.h:49
 msgid "To _Uppercase"
 msgstr "PAVERSTI _DIDŽIOSIOMIS"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:48
+#: ../mousepad/resources/gtk/menus-common.ui.h:50
 msgid "Change the case of the selection to uppercase"
 msgstr "Pakeisti pažymėtą tekstą į didžiąsias raides"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:49
+#: ../mousepad/resources/gtk/menus-common.ui.h:51
 msgid "To _Title Case"
 msgstr "Pirmosios D_idžiosios Raidės"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:50
+#: ../mousepad/resources/gtk/menus-common.ui.h:52
 msgid "Change the case of the selection to title case"
 msgstr "Pakeisti pažymėto teksto pirmas žodžio raides didžiosiomis"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:51
+#: ../mousepad/resources/gtk/menus-common.ui.h:53
 msgid "To _Opposite Case"
 msgstr "Į _priešingą dydį"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:52
+#: ../mousepad/resources/gtk/menus-common.ui.h:54
 msgid "Change the case of the selection opposite case"
 msgstr "Pakeisti raidžių dydį į priešingą"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:53
+#: ../mousepad/resources/gtk/menus-common.ui.h:55
 msgid "_Tabs to Spaces"
 msgstr "_Tabuliavimo ženklus pakeisti tarpais"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:54
+#: ../mousepad/resources/gtk/menus-common.ui.h:56
 msgid "Convert all tabs to spaces in the selection or document"
 msgstr "Pasirinkime arba dokumente pakeisti visus tabuliavimo ženklus į tarpus"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:55
+#: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Spaces to Tabs"
 msgstr "_Tarpus pakeisti tabuliavimo ženklu"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:56
+#: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
 msgstr "Pasirinktose eilutėse ar dokumente, visus priekyje esančius tarpus pakeisti tabuliavimo ženklais"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:57
+#: ../mousepad/resources/gtk/menus-common.ui.h:59
 msgid "St_rip Trailing Spaces"
 msgstr "_Pašalinti pradžios tarpus"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:58
+#: ../mousepad/resources/gtk/menus-common.ui.h:60
 msgid "Remove all the trailing spaces from the selected line(s) or document"
 msgstr "Iš pasirinktų eilučių ar dokumento pašalinti visus pradžioj esančius tarpus"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:59
+#: ../mousepad/resources/gtk/menus-common.ui.h:61
 msgid "_Transpose"
 msgstr "_Transponuoti"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:60
+#: ../mousepad/resources/gtk/menus-common.ui.h:62
 msgid "Reverse the order of something"
 msgstr "Pakeisti ko nors tvarką"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:61
+#: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move Selection"
 msgstr "_Perkelti žymėjimą"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:62
+#: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move the selection in different ways"
 msgstr "Perkelti žymėjimą įvairiais būdais"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:63
+#: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
 msgstr "Eilute aukštyn"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:64
+#: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move the selection one line up"
 msgstr "Perkelti pasirinkimą eilute aukščiau"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:65
+#: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
 msgstr "Eilute _žemyn"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:66
+#: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move the selection one line down"
 msgstr "Perkelia pasirinkimą eilute žemiau"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:67
+#: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Dup_licate Line / Selection"
 msgstr "Dub_liuoti eilutę / žymėjimą"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:68
+#: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Duplicate the current line or selection"
 msgstr "Dubliuoti pasirinkimą ar dabartinę eilutę"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:69
+#: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "_Increase Indent"
 msgstr "_Didinti įtrauką"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:70
+#: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Increase the indentation of the selection or current line"
 msgstr "Padidinti pasirinkto teksto ar esamos eilutės įtrauką"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:71
+#: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "_Decrease Indent"
 msgstr "_Sumažinti įtrauką"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:72
+#: ../mousepad/resources/gtk/menus-common.ui.h:74
 msgid "Decrease the indentation of the selection or current line"
 msgstr "Sumažinti pasirinkto teksto ar esamos eilutės įtrauką"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:73
+#: ../mousepad/resources/gtk/menus-common.ui.h:75
 msgid "label-to-be-filled-in"
 msgstr "label-to-be-filled-in"
 
