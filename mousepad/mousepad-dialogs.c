@@ -877,15 +877,15 @@ mousepad_dialogs_save_as (GtkWindow         *parent,
   /* create the dialog */
   dialog = gtk_file_chooser_dialog_new (_("Save As"),
                                         parent, GTK_FILE_CHOOSER_ACTION_SAVE,
-                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL,
+                                        _("_Cancel"), GTK_RESPONSE_CANCEL,
                                         NULL);
 
   button = mousepad_util_image_button ("document-save", _("_Save"));
   gtk_widget_set_can_default (button, TRUE);
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_OK);
+  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_OK);
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
   /* add file filter */
   mousepad_dialogs_add_file_filter (GTK_FILE_CHOOSER (dialog));
@@ -903,7 +903,7 @@ mousepad_dialogs_save_as (GtkWindow         *parent,
                                               last_save_location, NULL);
 
   /* run the dialog */
-  if ((response = gtk_dialog_run (GTK_DIALOG (dialog))) == MOUSEPAD_RESPONSE_OK)
+  if ((response = gtk_dialog_run (GTK_DIALOG (dialog))) == GTK_RESPONSE_ACCEPT)
     {
       /* get the new location */
       *file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
@@ -936,13 +936,13 @@ mousepad_dialogs_open (GtkWindow         *parent,
   dialog = gtk_file_chooser_dialog_new (_("Open File"),
                                          parent,
                                          GTK_FILE_CHOOSER_ACTION_OPEN,
-                                         _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL,
+                                         _("_Cancel"), GTK_RESPONSE_CANCEL,
                                          NULL);
 
   button = mousepad_util_image_button ("document-open", _("_Open"));
   gtk_widget_set_can_default (button, TRUE);
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_OK);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_OK);
+  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
 
@@ -957,7 +957,7 @@ mousepad_dialogs_open (GtkWindow         *parent,
     gtk_file_chooser_set_file (GTK_FILE_CHOOSER (dialog), file, NULL);
 
   /* run the dialog */
-  if ((response = gtk_dialog_run (GTK_DIALOG (dialog))) == MOUSEPAD_RESPONSE_OK)
+  if ((response = gtk_dialog_run (GTK_DIALOG (dialog))) == GTK_RESPONSE_ACCEPT)
     {
       /* get a list of selected locations */
       *files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));

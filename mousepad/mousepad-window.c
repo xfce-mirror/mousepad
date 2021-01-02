@@ -4272,7 +4272,7 @@ mousepad_window_action_open (GSimpleAction *action,
   if (G_LIKELY (mousepad_dialogs_open (GTK_WINDOW (window),
                                        mousepad_file_get_location (window->active->file),
                                        &files, &encoding)
-                == MOUSEPAD_RESPONSE_OK))
+                == GTK_RESPONSE_ACCEPT))
     {
       /* lock menu updates */
       lock_menu_updates++;
@@ -4456,7 +4456,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
   /* run the dialog */
   if (mousepad_dialogs_save_as (GTK_WINDOW (window), document->file,
                                 last_save_location, &file, &encoding)
-      == MOUSEPAD_RESPONSE_OK && G_LIKELY (file != NULL))
+      == GTK_RESPONSE_ACCEPT && G_LIKELY (file != NULL))
     {
       /* keep a ref of the current file location to restore it in case of failure */
       if (mousepad_file_location_is_set (document->file))
