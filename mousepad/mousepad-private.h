@@ -49,15 +49,6 @@
 
 G_BEGIN_DECLS
 
-/* errors inside mousepad */
-enum
-{
-  ERROR_READING_FAILED     = -1,
-  ERROR_CONVERTING_FAILED  = -2,
-  ERROR_NOT_UTF8_VALID     = -3,
-  ERROR_FILE_STATUS_FAILED = -4
-};
-
 /* Mousepad id, common to application, icon, settings, etc. */
 #define MOUSEPAD_ID     "org.xfce.mousepad"
 #define MOUSEPAD_ID_LEN G_N_ELEMENTS (MOUSEPAD_ID) - 1

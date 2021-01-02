@@ -34,6 +34,16 @@ typedef struct _MousepadFile       MousepadFile;
 #define MOUSEPAD_IS_FILE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MOUSEPAD_TYPE_FILE))
 #define MOUSEPAD_FILE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_FILE, MousepadFileClass))
 
+/* I/O errors */
+enum
+{
+  ERROR_READING_FAILED     = -1,
+  ERROR_CONVERTING_FAILED  = -2,
+  ERROR_ENCODING_NOT_VALID = -3,
+  ERROR_FILE_STATUS_FAILED = -4
+};
+
+/* line endings */
 typedef enum
 {
   MOUSEPAD_EOL_UNIX,
@@ -70,8 +80,9 @@ MousepadEncoding    mousepad_file_get_encoding             (MousepadFile        
 void                mousepad_file_set_write_bom            (MousepadFile        *file,
                                                             gboolean             write_bom);
 
-gboolean            mousepad_file_get_write_bom            (MousepadFile        *file,
-                                                            gboolean            *sensitive);
+gboolean            mousepad_file_get_write_bom            (MousepadFile        *file);
+
+GtkTextBuffer      *mousepad_file_get_buffer               (MousepadFile        *file);
 
 void                mousepad_file_set_line_ending          (MousepadFile        *file,
                                                             MousepadLineEnding   line_ending);
@@ -83,6 +94,8 @@ void                mousepad_file_set_user_set_language    (MousepadFile        
 
 gint                mousepad_file_open                     (MousepadFile        *file,
                                                             gboolean             must_exist,
+                                                            gboolean             ignore_bom,
+                                                            gboolean             make_valid,
                                                             GError             **error);
 
 gboolean            mousepad_file_save                     (MousepadFile        *file,

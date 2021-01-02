@@ -18,11 +18,13 @@
 #include <mousepad/mousepad-file.h>
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-settings.h>
+#include <mousepad/mousepad-dialogs.h>
 
 
 
 enum
 {
+  ENCODING_CHANGED,
   EXTERNALLY_MODIFIED,
   LOCATION_CHANGED,
   READONLY_CHANGED,
@@ -99,29 +101,21 @@ mousepad_file_class_init (MousepadFileClass *klass)
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_file_finalize;
 
+  file_signals[ENCODING_CHANGED] =
+    g_signal_new (I_("encoding-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__ENUM, G_TYPE_NONE, 1, G_TYPE_INT);
+
   file_signals[EXTERNALLY_MODIFIED] =
-    g_signal_new (I_("externally-modified"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE, 0);
+    g_signal_new (I_("externally-modified"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
   file_signals[READONLY_CHANGED] =
-    g_signal_new (I_("readonly-changed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__BOOLEAN,
-                  G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+    g_signal_new (I_("readonly-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__BOOLEAN, G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 
   file_signals[LOCATION_CHANGED] =
-    g_signal_new (I_("location-changed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__OBJECT,
-                  G_TYPE_NONE, 1, G_TYPE_FILE);
+    g_signal_new (I_("location-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1, G_TYPE_FILE);
 }
 
 
@@ -134,7 +128,7 @@ mousepad_file_init (MousepadFile *file)
   file->temporary         = FALSE;
   file->monitor           = NULL;
   file->readonly          = FALSE;
-  file->encoding          = MOUSEPAD_ENCODING_UTF_8;
+  file->encoding          = MOUSEPAD_ENCODING_NONE;
 #ifdef G_OS_WIN32
   file->line_ending       = MOUSEPAD_EOL_DOS;
 #else
@@ -387,6 +381,9 @@ mousepad_file_set_encoding (MousepadFile     *file,
 
   /* set new encoding */
   file->encoding = encoding;
+
+  /* send a signal that the encoding has been changed */
+  g_signal_emit (file, file_signals[ENCODING_CHANGED], 0, file->encoding);
 }
 
 
@@ -406,25 +403,38 @@ mousepad_file_set_write_bom (MousepadFile *file,
                              gboolean      write_bom)
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
-  g_return_if_fail (mousepad_encoding_is_unicode (file->encoding));
 
   /* set new value */
   file->write_bom = write_bom;
+
+  /* set the encoding to UTF-8 if not already compatible */
+  if (file->encoding != MOUSEPAD_ENCODING_UTF_7
+      && file->encoding != MOUSEPAD_ENCODING_UTF_8
+      && file->encoding != MOUSEPAD_ENCODING_UTF_16BE
+      && file->encoding != MOUSEPAD_ENCODING_UTF_16LE
+      && file->encoding != MOUSEPAD_ENCODING_UTF_32BE
+      && file->encoding != MOUSEPAD_ENCODING_UTF_32LE)
+    file->encoding = MOUSEPAD_ENCODING_UTF_8;
 }
 
 
 
 gboolean
-mousepad_file_get_write_bom (MousepadFile *file,
-                             gboolean     *sensitive)
+mousepad_file_get_write_bom (MousepadFile *file)
 {
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
 
-  /* return if we can write a bom */
-  if (G_LIKELY (sensitive))
-    *sensitive = mousepad_encoding_is_unicode (file->encoding);
-
   return file->write_bom;
+}
+
+
+
+GtkTextBuffer *
+mousepad_file_get_buffer (MousepadFile *file)
+{
+  g_return_val_if_fail (MOUSEPAD_IS_FILE (file), NULL);
+
+  return file->buffer;
 }
 
 
@@ -490,85 +500,18 @@ mousepad_file_set_user_set_language (MousepadFile *file,
 
 
 
-static MousepadEncoding
-mousepad_file_encoding_read_bom (const gchar *contents,
-                                 gsize        length,
-                                 gsize       *bom_length)
-{
-  const guchar     *bom = (const guchar *) contents;
-  MousepadEncoding  encoding = MOUSEPAD_ENCODING_NONE;
-  gsize             bytes = 0;
-
-  g_return_val_if_fail (contents != NULL && length > 0, MOUSEPAD_ENCODING_NONE);
-  g_return_val_if_fail (contents != NULL && length > 0, MOUSEPAD_ENCODING_NONE);
-
-  switch (bom[0])
-    {
-      case 0xef:
-        if (length >= 3 && bom[1] == 0xbb && bom[2] == 0xbf)
-          {
-            bytes = 3;
-            encoding = MOUSEPAD_ENCODING_UTF_8;
-          }
-        break;
-
-      case 0x00:
-        if (length >= 4 && bom[1] == 0x00 && bom[2] == 0xfe && bom[3] == 0xff)
-          {
-            bytes = 4;
-            encoding = MOUSEPAD_ENCODING_UTF_32BE;
-          }
-        break;
-
-      case 0xff:
-        if (length >= 4 && bom[1] == 0xfe && bom[2] == 0x00 && bom[3] == 0x00)
-          {
-            bytes = 4;
-            encoding = MOUSEPAD_ENCODING_UTF_32LE;
-          }
-        else if (length >= 2 && bom[1] == 0xfe)
-          {
-            bytes = 2;
-            encoding = MOUSEPAD_ENCODING_UTF_16LE;
-          }
-        break;
-
-      case 0x2b:
-        if (length >= 4 && (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76) &&
-            (bom[3] == 0x38 || bom[3] == 0x39 || bom[3] == 0x2b || bom[3] == 0x2f))
-          {
-            bytes = 4;
-            encoding = MOUSEPAD_ENCODING_UTF_7;
-          }
-        break;
-
-      case 0xfe:
-        if (length >= 2 && bom[1] == 0xff)
-          {
-            bytes = 2;
-            encoding = MOUSEPAD_ENCODING_UTF_16BE;
-          }
-        break;
-    }
-
-  if (bom_length)
-    *bom_length = bytes;
-
-  return encoding;
-}
-
-
-
 gint
 mousepad_file_open (MousepadFile  *file,
                     gboolean       must_exist,
+                    gboolean       ignore_bom,
+                    gboolean       make_valid,
                     GError       **error)
 {
   MousepadEncoding  bom_encoding;
   GtkTextIter       start, end;
   GFileInfo        *fileinfo;
-  const gchar      *charset, *endc, *n, *m;
-  gchar            *contents = NULL, *temp;
+  const gchar      *charset, *bom_charset, *endc, *n, *m;
+  gchar            *contents = NULL, *etag, *temp;
   gsize             file_size, written, bom_length;
   gint              retval = ERROR_READING_FAILED;
 
@@ -578,7 +521,7 @@ mousepad_file_open (MousepadFile  *file,
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   /* if the file does not exist and this is allowed, no problem */
-  if (! g_file_load_contents (file->location, NULL, &contents, &file_size, &(file->etag), error)
+  if (! g_file_load_contents (file->location, NULL, &contents, &file_size, &etag, error)
       && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND) && ! must_exist)
     {
       g_clear_error (error);
@@ -587,73 +530,91 @@ mousepad_file_open (MousepadFile  *file,
   /* the file was sucessfully loaded */
   else if (G_LIKELY (error == NULL || *error == NULL))
     {
+      /* update etag */
+      g_free (file->etag);
+      file->etag = etag;
+
       /* make sure the buffer is empty, in particular for reloading */
       gtk_text_buffer_get_bounds (file->buffer, &start, &end);
       gtk_text_buffer_delete (file->buffer, &start, &end);
 
       if (G_LIKELY (file_size > 0))
         {
+          /* get the encoding charset */
+          charset = mousepad_encoding_get_charset (file->encoding);
+
           /* detect if there is a bom with the encoding type */
-          bom_encoding = mousepad_file_encoding_read_bom (contents, file_size, &bom_length);
-          if (G_UNLIKELY (bom_encoding != MOUSEPAD_ENCODING_NONE))
+          if (! ignore_bom)
             {
-              /* we've found a valid bom at the start of the contents */
-              file->write_bom = TRUE;
-
-              /* advance the contents offset and decrease size */
-              temp = g_strdup (contents + bom_length);
-              g_free (contents);
-              contents = temp;
-              file_size -= bom_length;
-
-              /* set the detected encoding */
-              file->encoding = bom_encoding;
-            }
-
-          /* leave when the contents is not utf-8 valid */
-          if (G_LIKELY (file->encoding == MOUSEPAD_ENCODING_UTF_8)
-              && g_utf8_validate (contents, file_size, &endc) == FALSE)
-            {
-              /* set return value */
-              retval = ERROR_NOT_UTF8_VALID;
-
-              /* set an error */
-              g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-                           _("Invalid byte sequence in conversion input"));
-
-              goto failed;
-            }
-          else
-            {
-              if (file->encoding != MOUSEPAD_ENCODING_UTF_8_FORCED)
+              bom_encoding = mousepad_encoding_read_bom (contents, file_size, &bom_length);
+              if (G_UNLIKELY (bom_encoding != MOUSEPAD_ENCODING_NONE))
                 {
-                  /* get the encoding charset */
-                  charset = mousepad_encoding_get_charset (file->encoding);
-
-                  /* convert the contents */
-                  temp = g_convert (contents, file_size, "UTF-8", charset, NULL, &written, error);
-
-                  /* check if the encoding succeed */
-                  if (G_UNLIKELY (temp == NULL))
+                  /* ask the user what to do if he has set an encoding different from default
+                   * (including with respect to GSettings, i.e. UTF-8 only) */
+                  bom_charset = mousepad_encoding_get_charset (bom_encoding);
+                  if (file->encoding == MOUSEPAD_ENCODING_UTF_8 || file->encoding == bom_encoding
+                      || mousepad_dialogs_confirm_encoding (bom_charset, charset) != GTK_RESPONSE_YES)
                     {
-                      /* set return value */
-                      retval = ERROR_CONVERTING_FAILED;
+                      /* we've found a valid bom at the start of the contents */
+                      file->write_bom = TRUE;
 
-                      goto failed;
+                      /* advance the contents offset and decrease size */
+                      temp = g_strdup (contents + bom_length);
+                      g_free (contents);
+                      contents = temp;
+                      file_size -= bom_length;
+
+                      /* set the detected encoding */
+                      file->encoding = bom_encoding;
                     }
+                }
+            }
 
-                  /* set new values */
+          /* try to convert the contents if needed */
+          if (file->encoding != MOUSEPAD_ENCODING_UTF_8)
+            {
+              temp = g_convert (contents, file_size, "UTF-8", charset, NULL, &written, error);
+
+              /* check if the conversion succeed at least partially */
+              if (temp == NULL)
+                {
+                  /* set return value */
+                  retval = ERROR_CONVERTING_FAILED;
+
+                  goto failed;
+                }
+              /* set new values */
+              else
+                {
+                  file_size = written;
                   g_free (contents);
                   contents = temp;
-                  file_size = written;
                 }
-
-              /* force UTF-8 encoding validity and update location for end of valid data */
-              temp = g_utf8_make_valid (contents, file_size);
-              g_free (contents);
-              contents = temp;
-              g_utf8_validate (contents, -1, &endc);
             }
+
+          if (! g_utf8_validate (contents, file_size, &endc))
+          {
+            /* leave when the encoding is not valid... */
+            if (! make_valid)
+              {
+                /* set return value */
+                retval = ERROR_ENCODING_NOT_VALID;
+
+                /* set an error */
+                g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
+                             _("Invalid byte sequence in conversion input"));
+
+                goto failed;
+              }
+            /* ... or make it valid and update location for end of valid data */
+            else
+              {
+                temp = g_utf8_make_valid (contents, file_size);
+                g_free (contents);
+                contents = temp;
+                g_utf8_validate (contents, -1, &endc);
+              }
+          }
 
           /* detect the line ending, based on the first eol we match */
           for (n = contents; n < endc; n = g_utf8_next_char (n))
@@ -835,6 +796,35 @@ mousepad_file_save (MousepadFile  *file,
       /* get the content length */
       length = strlen (contents);
 
+      /* convert to the encoding if set */
+      if (G_UNLIKELY (file->encoding != MOUSEPAD_ENCODING_UTF_8))
+        {
+          /* get the charset */
+          charset = mousepad_encoding_get_charset (file->encoding);
+          if (G_UNLIKELY (charset == NULL))
+            {
+              /* set an error */
+              g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_NO_CONVERSION,
+                           MOUSEPAD_MESSAGE_UNSUPPORTED_ENCODING);
+
+              goto failed;
+            }
+
+          /* convert the content to the user encoding */
+          encoded = g_convert (contents, length, charset, "UTF-8", NULL, &written, error);
+
+          /* return if nothing was encoded */
+          if (G_UNLIKELY (encoded == NULL))
+            goto failed;
+
+          /* cleanup */
+          g_free (contents);
+
+          /* set the new contents */
+          contents = encoded;
+          length = written;
+        }
+
       /* handle line endings */
       if (file->line_ending == MOUSEPAD_EOL_MAC)
         {
@@ -859,24 +849,6 @@ mousepad_file_save (MousepadFile  *file,
 
           /* new contents length */
           length = strlen (contents);
-        }
-
-      /* add and utf-8 bom at the start of the contents if needed */
-      if (file->write_bom && mousepad_encoding_is_unicode (file->encoding))
-        {
-          /* realloc the contents string */
-          contents = g_realloc (contents, length + 4);
-
-          /* move the existing contents 3 bytes */
-          memmove (contents + 3, contents, length + 1);
-
-          /* write an utf-8 bom at the start of the contents */
-          contents[0] = 0xef;
-          contents[1] = 0xbb;
-          contents[2] = 0xbf;
-
-          /* increase the length */
-          length += 3;
         }
 
       /* add line ending at end of last line if not present */
@@ -919,34 +891,9 @@ mousepad_file_save (MousepadFile  *file,
           contents[length] = '\0';
         }
 
-      /* convert to the encoding if set */
-      if (G_UNLIKELY (file->encoding != MOUSEPAD_ENCODING_UTF_8))
-        {
-          /* get the charset */
-          charset = mousepad_encoding_get_charset (file->encoding);
-          if (G_UNLIKELY (charset == NULL))
-            {
-              /* set an error */
-              g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_NO_CONVERSION,
-                           _("Unsupported character set"));
-
-              goto failed;
-            }
-
-          /* convert the content to the user encoding */
-          encoded = g_convert (contents, length, charset, "UTF-8", NULL, &written, error);
-
-          /* return if nothing was encoded */
-          if (G_UNLIKELY (encoded == NULL))
-            goto failed;
-
-          /* cleanup */
-          g_free (contents);
-
-          /* set the new contents */
-          contents = encoded;
-          length = written;
-        }
+      /* add a bom at the start of the contents if needed */
+      if (file->write_bom)
+        mousepad_encoding_write_bom (&(file->encoding), &length, &contents);
 
       /* write the buffer to the file */
       if (mousepad_file_replace_contents (file, file->location, contents, length,

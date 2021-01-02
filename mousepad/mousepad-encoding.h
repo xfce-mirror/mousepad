@@ -19,11 +19,11 @@
 
 G_BEGIN_DECLS
 
-typedef struct _MousepadEncodingInfo MousepadEncodingInfo;
-
 typedef enum
 {
   MOUSEPAD_ENCODING_NONE,
+
+  MOUSEPAD_ENCODING_ASCII,
 
   MOUSEPAD_ENCODING_ISO_8859_1,
   MOUSEPAD_ENCODING_ISO_8859_2,
@@ -43,7 +43,6 @@ typedef enum
 
   MOUSEPAD_ENCODING_UTF_7,
   MOUSEPAD_ENCODING_UTF_8,
-  MOUSEPAD_ENCODING_UTF_8_FORCED,
   MOUSEPAD_ENCODING_UTF_16LE,
   MOUSEPAD_ENCODING_UTF_16BE,
   MOUSEPAD_ENCODING_UCS_2LE,
@@ -94,29 +93,29 @@ typedef enum
   MOUSEPAD_ENCODING_WINDOWS_1255,
   MOUSEPAD_ENCODING_WINDOWS_1256,
   MOUSEPAD_ENCODING_WINDOWS_1257,
-  MOUSEPAD_ENCODING_WINDOWS_1258
+  MOUSEPAD_ENCODING_WINDOWS_1258,
+
+  MOUSEPAD_N_ENCODINGS
 }
 MousepadEncoding;
 
-struct _MousepadEncodingInfo
-{
-  MousepadEncoding  encoding;
-  const gchar      *charset;
-  const gchar      *name;
-};
 
 
-extern const MousepadEncodingInfo encoding_infos[];
+const gchar      *mousepad_encoding_get_charset (MousepadEncoding   encoding);
 
-extern guint                      n_encoding_infos;
+const gchar      *mousepad_encoding_get_name    (MousepadEncoding   encoding);
 
-const gchar      *mousepad_encoding_get_charset (MousepadEncoding  encoding);
+MousepadEncoding  mousepad_encoding_find        (const gchar       *charset);
 
-const gchar      *mousepad_encoding_get_name    (MousepadEncoding  encoding);
+MousepadEncoding  mousepad_encoding_get_default (void);
 
-MousepadEncoding  mousepad_encoding_find        (const gchar      *charset);
+MousepadEncoding  mousepad_encoding_read_bom    (const gchar       *contents,
+                                                 gsize              length,
+                                                 gsize             *bom_length);
 
-gboolean          mousepad_encoding_is_unicode  (MousepadEncoding  encoding);
+void              mousepad_encoding_write_bom   (MousepadEncoding  *encoding,
+                                                 gint              *length,
+                                                 gchar            **contents);
 
 G_END_DECLS
 

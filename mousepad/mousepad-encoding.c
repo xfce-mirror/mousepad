@@ -16,11 +16,25 @@
 
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-encoding.h>
+#include <mousepad/mousepad-settings.h>
 
 
 
-const MousepadEncodingInfo encoding_infos[] =
+struct MousepadEncodingInfo
 {
+  MousepadEncoding  encoding;
+  const gchar      *charset;
+  const gchar      *name;
+};
+
+static const struct MousepadEncodingInfo encoding_infos[MOUSEPAD_N_ENCODINGS] =
+{
+  /* none */
+  { MOUSEPAD_ENCODING_NONE,         NULL,               NULL },
+
+  /* ASCII */
+  { MOUSEPAD_ENCODING_ASCII,        "ANSI_X3.4-1968",   "US-ASCII" },
+
   /* west european */
   { MOUSEPAD_ENCODING_ISO_8859_14,  "ISO-8859-14",      N_("Celtic") },
   { MOUSEPAD_ENCODING_ISO_8859_7,   "ISO-8859-7",       N_("Greek") },
@@ -97,17 +111,13 @@ const MousepadEncodingInfo encoding_infos[] =
 
 
 
-guint n_encoding_infos = G_N_ELEMENTS (encoding_infos);
-
-
-
 const gchar *
 mousepad_encoding_get_charset (MousepadEncoding encoding)
 {
   guint i;
 
   /* try to find and return the charset */
-  for (i = 0; i < G_N_ELEMENTS (encoding_infos); i++)
+  for (i = 0; i < MOUSEPAD_N_ENCODINGS; i++)
     if (encoding_infos[i].encoding == encoding)
       return encoding_infos[i].charset;
 
@@ -122,7 +132,7 @@ mousepad_encoding_get_name (MousepadEncoding encoding)
   guint i;
 
   /* try to find and return the translated name */
-  for (i = 0; i < G_N_ELEMENTS (encoding_infos); i++)
+  for (i = 0; i < MOUSEPAD_N_ENCODINGS; i++)
     if (encoding_infos[i].encoding == encoding)
       return _(encoding_infos[i].name);
 
@@ -134,36 +144,189 @@ mousepad_encoding_get_name (MousepadEncoding encoding)
 MousepadEncoding
 mousepad_encoding_find (const gchar *charset)
 {
-  guint i;
+  MousepadEncoding  encoding = MOUSEPAD_ENCODING_NONE;
+  gchar            *up_charset = NULL;
+  guint             i;
 
-  /* fallback to system charset if nul */
-  if (charset == NULL)
-    g_get_charset (&charset);
+  /* switch to ASCII upper case */
+  if (charset != NULL)
+    up_charset = g_ascii_strup (charset, -1);
 
   /* find the charset */
-  for (i = 0; i < G_N_ELEMENTS (encoding_infos); i++)
-    if (strcasecmp (encoding_infos[i].charset, charset) == 0)
-      return encoding_infos[i].encoding;
+  for (i = 0; i < MOUSEPAD_N_ENCODINGS; i++)
+    if (g_strcmp0 (encoding_infos[i].charset, up_charset) == 0)
+      {
+        encoding = encoding_infos[i].encoding;
+        break;
+      }
 
-  /* no encoding charset found */
-  return MOUSEPAD_ENCODING_NONE;
+  /* clenaup */
+  g_free (up_charset);
+
+  return encoding;
 }
 
 
 
-gboolean
-mousepad_encoding_is_unicode (MousepadEncoding encoding)
+MousepadEncoding
+mousepad_encoding_get_default (void)
 {
-  const gchar *charset;
+  MousepadEncoding  encoding;
+  gchar            *charset;
 
-  /* get the characterset name */
-  charset = mousepad_encoding_get_charset (encoding);
+  charset = MOUSEPAD_SETTING_GET_STRING (DEFAULT_ENCODING);
+  encoding = mousepad_encoding_find (charset);
 
-  /* check for unicode charset */
-  if (charset != NULL && (strncmp (charset, "UTF", 3) == 0
-      || strncmp (charset, "UCS", 3) == 0))
-    return TRUE;
+  if (encoding == MOUSEPAD_ENCODING_NONE)
+    {
+      g_warning ("Invalid encoding '%s': falling back to default UTF-8", charset);
+      encoding = MOUSEPAD_ENCODING_UTF_8;
+    }
 
-  /* not an unicode charset */
-  return FALSE;
+  g_free (charset);
+
+  return encoding;
+}
+
+
+
+MousepadEncoding
+mousepad_encoding_read_bom (const gchar *contents,
+                            gsize        length,
+                            gsize       *bom_length)
+{
+  const guchar     *bom = (const guchar *) contents;
+  MousepadEncoding  encoding = MOUSEPAD_ENCODING_NONE;
+  gsize             bytes = 0;
+
+  g_return_val_if_fail (contents != NULL && length > 0, MOUSEPAD_ENCODING_NONE);
+  g_return_val_if_fail (contents != NULL && length > 0, MOUSEPAD_ENCODING_NONE);
+
+  switch (bom[0])
+    {
+      case 0x2b:
+        if (length >= 4 && (bom[1] == 0x2f && bom[2] == 0x76) &&
+            (bom[3] == 0x38 || bom[3] == 0x39 || bom[3] == 0x2b || bom[3] == 0x2f))
+          {
+            bytes = 4;
+            encoding = MOUSEPAD_ENCODING_UTF_7;
+          }
+        break;
+
+      case 0xef:
+        if (length >= 3 && bom[1] == 0xbb && bom[2] == 0xbf)
+          {
+            bytes = 3;
+            encoding = MOUSEPAD_ENCODING_UTF_8;
+          }
+        break;
+
+      case 0xfe:
+        if (length >= 2 && bom[1] == 0xff)
+          {
+            bytes = 2;
+            encoding = MOUSEPAD_ENCODING_UTF_16BE;
+          }
+        break;
+
+      case 0xff:
+        if (length >= 4 && bom[1] == 0xfe && bom[2] == 0x00 && bom[3] == 0x00)
+          {
+            bytes = 4;
+            encoding = MOUSEPAD_ENCODING_UTF_32LE;
+          }
+        else if (length >= 2 && bom[1] == 0xfe)
+          {
+            bytes = 2;
+            encoding = MOUSEPAD_ENCODING_UTF_16LE;
+          }
+        break;
+
+      case 0x00:
+        if (length >= 4 && bom[1] == 0x00 && bom[2] == 0xfe && bom[3] == 0xff)
+          {
+            bytes = 4;
+            encoding = MOUSEPAD_ENCODING_UTF_32BE;
+          }
+        break;
+    }
+
+  if (bom_length != NULL)
+    *bom_length = bytes;
+
+  return encoding;
+}
+
+
+
+void
+mousepad_encoding_write_bom (MousepadEncoding  *encoding,
+                             gint              *length,
+                             gchar            **contents)
+{
+  guchar bom[4];
+  gsize  bytes = 0, n;
+
+  switch (*encoding)
+    {
+      /* don't preserve UTF-7 because of its strange BOM but preserve other encodings */
+      case MOUSEPAD_ENCODING_UTF_7:
+      case MOUSEPAD_ENCODING_UTF_8:
+        *encoding = MOUSEPAD_ENCODING_UTF_8;
+        bom[0] = 0xef;
+        bom[1] = 0xbb;
+        bom[2] = 0xbf;
+        bytes = 3;
+        break;
+
+      case MOUSEPAD_ENCODING_UTF_16BE:
+        bom[0] = 0xfe;
+        bom[1] = 0xff;
+        bytes = 2;
+        break;
+
+      case MOUSEPAD_ENCODING_UTF_16LE:
+        bom[0] = 0xff;
+        bom[1] = 0xfe;
+        bom[2] = 0x00;
+        bom[2] = 0x00;
+        bytes = 4;
+        break;
+
+      case MOUSEPAD_ENCODING_UTF_32BE:
+        bom[0] = 0x00;
+        bom[1] = 0x00;
+        bom[2] = 0xfe;
+        bom[2] = 0xff;
+        bytes = 4;
+        break;
+
+      case MOUSEPAD_ENCODING_UTF_32LE:
+        bom[0] = 0xff;
+        bom[1] = 0xfe;
+        bom[2] = 0x00;
+        bom[2] = 0x00;
+        bytes = 4;
+        break;
+
+      default:
+        return;
+        break;
+    }
+
+  if (G_LIKELY (bytes > 0))
+    {
+      /* realloc the contents string */
+      *contents = g_realloc (*contents, *length + bytes + 1);
+
+      /* move the existing contents */
+      memmove (*contents + bytes, *contents, *length + 1);
+
+      /* write the bom at the start of the contents */
+      for (n = 0; n < bytes; n++)
+        (*contents)[n] = bom[n];
+
+      /* increase the length */
+      *length += bytes;
+    }
 }

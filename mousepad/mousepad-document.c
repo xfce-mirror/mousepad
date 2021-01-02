@@ -27,10 +27,13 @@
 
 static void      mousepad_document_finalize                (GObject                *object);
 static void      mousepad_document_notify_cursor_position  (MousepadDocument       *document);
-static void      mousepad_document_notify_overwrite        (GtkTextView            *textview,
-                                                            GParamSpec             *pspec,
+static void      mousepad_document_notify_encoding         (MousepadFile           *file,
+                                                            MousepadEncoding        encoding,
                                                             MousepadDocument       *document);
 static void      mousepad_document_notify_language         (GtkSourceBuffer        *buffer,
+                                                            GParamSpec             *pspec,
+                                                            MousepadDocument       *document);
+static void      mousepad_document_notify_overwrite        (GtkTextView            *textview,
                                                             GParamSpec             *pspec,
                                                             MousepadDocument       *document);
 static void      mousepad_document_drag_data_received      (GtkWidget              *widget,
@@ -62,8 +65,9 @@ enum
 {
   CLOSE_TAB,
   CURSOR_CHANGED,
-  OVERWRITE_CHANGED,
+  ENCODING_CHANGED,
   LANGUAGE_CHANGED,
+  OVERWRITE_CHANGED,
   SEARCH_COMPLETED,
   LAST_SIGNAL
 };
@@ -118,45 +122,31 @@ mousepad_document_class_init (MousepadDocumentClass *klass)
   gobject_class->finalize = mousepad_document_finalize;
 
   document_signals[CLOSE_TAB] =
-    g_signal_new (I_("close-tab"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE, 0);
+    g_signal_new (I_("close-tab"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
   document_signals[CURSOR_CHANGED] =
-    g_signal_new (I_("cursor-changed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  _mousepad_marshal_VOID__INT_INT_INT,
+    g_signal_new (I_("cursor-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, _mousepad_marshal_VOID__INT_INT_INT,
                   G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT);
 
-  document_signals[OVERWRITE_CHANGED] =
-    g_signal_new (I_("overwrite-changed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__BOOLEAN,
-                  G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+  document_signals[ENCODING_CHANGED] =
+    g_signal_new (I_("encoding-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__ENUM, G_TYPE_NONE, 1, G_TYPE_INT);
 
   document_signals[LANGUAGE_CHANGED] =
-    g_signal_new (I_("language-changed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__OBJECT,
+    g_signal_new (I_("language-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT,
                   G_TYPE_NONE, 1, GTK_SOURCE_TYPE_LANGUAGE);
 
+  document_signals[OVERWRITE_CHANGED] =
+    g_signal_new (I_("overwrite-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__BOOLEAN, G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+
   document_signals[SEARCH_COMPLETED] =
-    g_signal_new (I_("search-completed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  _mousepad_marshal_VOID__INT_STRING_FLAGS,
-                  G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_STRING,
-                  MOUSEPAD_TYPE_SEARCH_FLAGS);
+    g_signal_new (I_("search-completed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, _mousepad_marshal_VOID__INT_STRING_FLAGS,
+                  G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_STRING, MOUSEPAD_TYPE_SEARCH_FLAGS);
 }
 
 
@@ -275,10 +265,12 @@ mousepad_document_init (MousepadDocument *document)
   MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH,
                                    G_CALLBACK (mousepad_document_notify_cursor_position),
                                    document, G_CONNECT_SWAPPED);
-  g_signal_connect (document->textview, "notify::overwrite",
-                    G_CALLBACK (mousepad_document_notify_overwrite), document);
+  g_signal_connect (document->file, "encoding-changed",
+                    G_CALLBACK (mousepad_document_notify_encoding), document);
   g_signal_connect (document->buffer, "notify::language",
                     G_CALLBACK (mousepad_document_notify_language), document);
+  g_signal_connect (document->textview, "notify::overwrite",
+                    G_CALLBACK (mousepad_document_notify_overwrite), document);
 }
 
 
@@ -379,20 +371,14 @@ mousepad_document_notify_cursor_position (MousepadDocument *document)
 
 
 static void
-mousepad_document_notify_overwrite (GtkTextView      *textview,
-                                    GParamSpec       *pspec,
-                                    MousepadDocument *document)
+mousepad_document_notify_encoding (MousepadFile     *file,
+                                   MousepadEncoding  encoding,
+                                   MousepadDocument *document)
 {
-  gboolean overwrite;
-
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-  g_return_if_fail (GTK_IS_TEXT_VIEW (textview));
-
-  /* whether overwrite is enabled */
-  overwrite = gtk_text_view_get_overwrite (textview);
 
   /* emit the signal */
-  g_signal_emit (document, document_signals[OVERWRITE_CHANGED], 0, overwrite);
+  g_signal_emit (document, document_signals[ENCODING_CHANGED], 0, encoding);
 }
 
 
@@ -412,6 +398,46 @@ mousepad_document_notify_language (GtkSourceBuffer  *buffer,
 
   /* emit the signal */
   g_signal_emit (document, document_signals[LANGUAGE_CHANGED], 0, language);
+}
+
+
+
+static void
+mousepad_document_notify_overwrite (GtkTextView      *textview,
+                                    GParamSpec       *pspec,
+                                    MousepadDocument *document)
+{
+  gboolean overwrite;
+
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
+  g_return_if_fail (GTK_IS_TEXT_VIEW (textview));
+
+  /* whether overwrite is enabled */
+  overwrite = gtk_text_view_get_overwrite (textview);
+
+  /* emit the signal */
+  g_signal_emit (document, document_signals[OVERWRITE_CHANGED], 0, overwrite);
+}
+
+
+
+void
+mousepad_document_send_signals (MousepadDocument *document)
+{
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
+
+  /* re-send the cursor changed signal */
+  mousepad_document_notify_cursor_position (document);
+
+  /* re-send the encoding signal */
+  mousepad_document_notify_encoding (document->file,
+                                     mousepad_file_get_encoding (document->file), document);
+
+  /* re-send the language signal */
+  mousepad_document_notify_language (GTK_SOURCE_BUFFER (document->buffer), NULL, document);
+
+  /* re-send the overwrite signal */
+  mousepad_document_notify_overwrite (GTK_TEXT_VIEW (document->textview), NULL, document);
 }
 
 
@@ -540,23 +566,6 @@ mousepad_document_focus_textview (MousepadDocument *document)
 
   /* focus the textview */
   gtk_widget_grab_focus (GTK_WIDGET (document->textview));
-}
-
-
-
-void
-mousepad_document_send_signals (MousepadDocument *document)
-{
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-
-  /* re-send the cursor changed signal */
-  mousepad_document_notify_cursor_position (document);
-
-  /* re-send the overwrite signal */
-  mousepad_document_notify_overwrite (GTK_TEXT_VIEW (document->textview), NULL, document);
-
-  /* re-send the language signal */
-  mousepad_document_notify_language (GTK_SOURCE_BUFFER (document->buffer), NULL, document);
 }
 
 

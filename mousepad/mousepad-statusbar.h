@@ -17,8 +17,9 @@
 #ifndef __MOUSEPAD_STATUSBAR_H__
 #define __MOUSEPAD_STATUSBAR_H__
 
-#include <gtk/gtk.h>
+#include <mousepad/mousepad-encoding.h>
 
+#include <gtk/gtk.h>
 #include <gtksourceview/gtksource.h>
 
 
@@ -43,11 +44,14 @@ void        mousepad_statusbar_set_cursor_position  (MousepadStatusbar *statusba
                                                      gint               column,
                                                      gint               selection);
 
-void        mousepad_statusbar_set_overwrite        (MousepadStatusbar *statusbar,
-                                                     gboolean           overwrite);
+void        mousepad_statusbar_set_encoding         (MousepadStatusbar *statusbar,
+                                                     MousepadEncoding   encoding);
 
 void        mousepad_statusbar_set_language         (MousepadStatusbar *statusbar,
                                                      GtkSourceLanguage *language);
+
+void        mousepad_statusbar_set_overwrite        (MousepadStatusbar *statusbar,
+                                                     gboolean           overwrite);
 
 void        mousepad_statusbar_push_tooltip         (MousepadStatusbar *statusbar,
                                                      const gchar       *tooltip);
