@@ -316,6 +316,11 @@
           <attribute name="tooltip" translatable="yes">Store the byte-order mark in the file</attribute>
           <attribute name="action">win.document.write-unicode-bom</attribute>
         </item>
+        <item>
+          <attribute name="label" translatable="yes">_Viewer Mode</attribute>
+          <attribute name="tooltip" translatable="yes">Disallow modifications via keyboard / mouse</attribute>
+          <attribute name="action">win.document.viewer-mode</attribute>
+        </item>
       </section>
       <section>
         <item>

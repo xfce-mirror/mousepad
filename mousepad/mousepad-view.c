@@ -861,6 +861,10 @@ mousepad_view_clipboard_paste (MousepadView *view,
   gchar         **pieces;
   gint            i, y;
 
+  /* leave when the view is not editable */
+  if (! gtk_text_view_get_editable (GTK_TEXT_VIEW (view)))
+    return;
+
   if (string == NULL)
     {
       /* get the clipboard */
