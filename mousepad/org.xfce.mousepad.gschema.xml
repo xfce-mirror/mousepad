@@ -423,7 +423,7 @@
       </description>
     </key>
     <key name="wrap-around" type="b">
-      <default>false</default>
+      <default>true</default>
       <summary>Wrap around</summary>
       <description>
         When true searches will wrap around, when false they will not.

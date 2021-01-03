@@ -793,8 +793,6 @@ mousepad_document_search (MousepadDocument    *document,
         search_settings, gtk_source_search_settings_get_case_sensitive (search_settings_doc));
       gtk_source_search_settings_set_at_word_boundaries (
         search_settings, gtk_source_search_settings_get_at_word_boundaries (search_settings_doc));
-      gtk_source_search_settings_set_wrap_around (
-        search_settings, gtk_source_search_settings_get_wrap_around (search_settings_doc));
       gtk_source_search_settings_set_regex_enabled (
         search_settings, gtk_source_search_settings_get_regex_enabled (search_settings_doc));
     }
@@ -805,6 +803,11 @@ mousepad_document_search (MousepadDocument    *document,
   /* set the string to search for */
   search_settings = gtk_source_search_context_get_settings (search_context);
   gtk_source_search_settings_set_search_text (search_settings, string);
+
+  /* set wrap around: always true for the search bar, bound to GSettings otherwise */
+  gtk_source_search_settings_set_wrap_around (search_settings,
+                                              (flags & MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND)
+                                              || MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_WRAP_AROUND));
 
   /* disable highlight during regex searches to prevent prohibitive computation times in
    * some situations (see mousepad_document_prevent_endless_scanning() below) */

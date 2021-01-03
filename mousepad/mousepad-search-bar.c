@@ -352,7 +352,8 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
   const gchar *string;
 
   /* always true when using the search bar */
-  flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
+  flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT
+           | MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND;
 
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
