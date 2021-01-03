@@ -399,6 +399,9 @@ static void              mousepad_window_action_language              (GSimpleAc
 static void              mousepad_window_action_write_bom             (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
+static void              mousepad_window_action_viewer_mode           (GSimpleAction          *action,
+                                                                       GVariant               *value,
+                                                                       gpointer                data);
 static void              mousepad_window_action_prev_tab              (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
@@ -555,6 +558,7 @@ static const GActionEntry action_entries[] =
     { "document.line-ending", mousepad_window_action_line_ending, "i", "0", NULL },
 
   { "document.write-unicode-bom", mousepad_window_action_write_bom, NULL, "false", NULL },
+  { "document.viewer-mode", mousepad_window_action_viewer_mode, NULL, "false", NULL },
 
   { "document.previous-tab", mousepad_window_action_prev_tab, NULL, NULL, NULL },
   { "document.next-tab", mousepad_window_action_next_tab, NULL, NULL, NULL },
@@ -2258,6 +2262,11 @@ mousepad_window_update_actions (MousepadWindow *window)
       /* write bom */
       value = mousepad_file_get_write_bom (document->file);
       g_action_group_change_action_state (G_ACTION_GROUP (window), "document.write-unicode-bom",
+                                          g_variant_new_boolean (value));
+
+      /* viewer mode */
+      value = ! gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview));
+      g_action_group_change_action_state (G_ACTION_GROUP (window), "document.viewer-mode",
                                           g_variant_new_boolean (value));
 
       /* update the currently active language */
@@ -5799,6 +5808,37 @@ mousepad_window_action_write_bom (GSimpleAction *action,
 
       /* make buffer as modified to show the user the change is not saved */
       gtk_text_buffer_set_modified (window->active->buffer, TRUE);
+
+      /* allow menu actions again */
+      lock_menu_updates--;
+    }
+}
+
+
+
+static void
+mousepad_window_action_viewer_mode (GSimpleAction *action,
+                                    GVariant      *value,
+                                    gpointer       data)
+{
+  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  gboolean        state;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+  /* leave when menu updates are locked */
+  if (lock_menu_updates == 0)
+    {
+      /* avoid menu actions */
+      lock_menu_updates++;
+
+      /* set the current state */
+      state = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+      g_action_change_state (G_ACTION (action), g_variant_new_boolean (state));
+
+      /* set new value */
+      gtk_text_view_set_editable (GTK_TEXT_VIEW (window->active->textview), ! state);
 
       /* allow menu actions again */
       lock_menu_updates--;
