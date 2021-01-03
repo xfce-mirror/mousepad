@@ -259,6 +259,8 @@ mousepad_document_init (MousepadDocument *document)
                             G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->file, "readonly-changed",
                             G_CALLBACK (mousepad_document_label_color), document);
+  g_signal_connect_swapped (document->textview, "notify::editable",
+                            G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect (document->textview, "drag-data-received",
                     G_CALLBACK (mousepad_document_drag_data_received), document);
 
@@ -531,7 +533,8 @@ mousepad_document_label_color (MousepadDocument *document)
       context = gtk_widget_get_style_context (document->priv->label);
 
       /* grey out the label text */
-      if (mousepad_file_get_read_only (document->file))
+      if (mousepad_file_get_read_only (document->file)
+          || ! gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview)))
         gtk_style_context_add_class (context, GTK_STYLE_CLASS_DIM_LABEL);
       else
         gtk_style_context_remove_class (context, GTK_STYLE_CLASS_DIM_LABEL);
