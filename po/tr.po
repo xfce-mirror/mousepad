@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Adem Kürşat Uzun <ademkursatuzun@gmail.com>, 2021
-# Demiray Muhterem <mdemiray@msn.com>, 2019-2020
+# Demiray Muhterem <mdemiray@msn.com>, 2019-2021
 # Demiray Muhterem <mdemiray@msn.com>, 2018
 # Emin Tufan Çetin <etcetin@gmail.com>, 2020
 # Emin Tufan Çetin <etcetin@gmail.com>, 2018,2020
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-30 12:49+0100\n"
-"PO-Revision-Date: 2021-01-01 09:43+0000\n"
-"Last-Translator: Adem Kürşat Uzun <ademkursatuzun@gmail.com>\n"
+"POT-Creation-Date: 2021-01-03 00:47+0100\n"
+"PO-Revision-Date: 2021-01-04 14:38+0000\n"
+"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/xfce/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,393 +29,457 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../mousepad/mousepad-application.c:117
+#: ../mousepad/mousepad-application.c:122
+msgid ""
+"Encoding to be used to open files (leave empty to open files in the encoding"
+" dialog)"
+msgstr "Dosyaları açmak için kullanılacak kodlama (dosyaları kodlama iletişim kutusunda açmak için boş bırakın)"
+
+#: ../mousepad/mousepad-application.c:123
+msgid "ENCODING"
+msgstr "KODLAMA"
+
+#: ../mousepad/mousepad-application.c:128
+msgid "Display a list of possible encodings to open files"
+msgstr "Dosyaları açmak için olası kodlamaların bir listesini görüntüleyin"
+
+#: ../mousepad/mousepad-application.c:133
 msgid "Do not register with the D-BUS session message bus"
 msgstr "D-BUS oturum mesaj veriyolu ile kaydetme"
 
-#: ../mousepad/mousepad-application.c:122
+#: ../mousepad/mousepad-application.c:138
 msgid "Quit a running Mousepad primary instance"
 msgstr "Ana Mousepad örneğinden çık"
 
-#: ../mousepad/mousepad-application.c:127
+#: ../mousepad/mousepad-application.c:143
 msgid "Print version information and exit"
 msgstr "Sürüm bilgisini görüntüle ve çık"
 
-#: ../mousepad/mousepad-application.c:132
+#: ../mousepad/mousepad-application.c:148
 msgid "[FILES...]"
 msgstr "[DOSYALAR...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:299 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:324 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:308
+#: ../mousepad/mousepad-application.c:333
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Dosya açma kipi: \"%s\", \"%s\" veya \"%s\" (sekmeleri yeni pencerede aç)"
 
-#: ../mousepad/mousepad-application.c:311
+#: ../mousepad/mousepad-application.c:336
 msgid "MODE"
 msgstr "KİP"
 
-#: ../mousepad/mousepad-application.c:331
+#: ../mousepad/mousepad-application.c:388
 msgid "The Xfce development team. All rights reserved."
 msgstr "Xfce geliştirme takımı. Tüm hakları saklıdır."
 
-#: ../mousepad/mousepad-application.c:332
+#: ../mousepad/mousepad-application.c:389
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Lütfen hataları <%s> adresine gönderin."
 
-#: ../mousepad/mousepad-application.c:1233
+#: ../mousepad/mousepad-application.c:1292
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Yazarlar: %s | Dosya Adı: %s"
 
-#: ../mousepad/mousepad-dialogs.c:38
+#: ../mousepad/mousepad-dialogs.c:39
 msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
 msgstr "Mousepad, Xfce Masaüstü Ortamı için hızlı metin düzenleyicisidir."
 
-#: ../mousepad/mousepad-dialogs.c:45
+#: ../mousepad/mousepad-dialogs.c:46
 msgid "translator-credits"
 msgstr "Volkan Gezer <volkangezer@gmail.com>\nEmin Tufan Çetin <etcetin@gmail.com>"
 
 #. display an error message to the user
-#: ../mousepad/mousepad-dialogs.c:91
+#: ../mousepad/mousepad-dialogs.c:92
 msgid "Failed to open the documentation browser"
 msgstr "Belgelendirme tarayıcısı açılamadı"
 
 #. build dialog
-#: ../mousepad/mousepad-dialogs.c:107
+#: ../mousepad/mousepad-dialogs.c:108
 msgid "Select Tab Size"
 msgstr "Sekme Boyutunu Seç"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:110 ../mousepad/mousepad-dialogs.c:188
-#: ../mousepad/mousepad-dialogs.c:294 ../mousepad/mousepad-dialogs.c:358
-#: ../mousepad/mousepad-dialogs.c:465 ../mousepad/mousepad-dialogs.c:502
-#: ../mousepad/mousepad-dialogs.c:551 ../mousepad/mousepad-dialogs.c:597
-#: ../mousepad/mousepad-encoding-dialog.c:117
-#: ../mousepad/mousepad-encoding-dialog.c:189
+#: ../mousepad/mousepad-dialogs.c:111 ../mousepad/mousepad-dialogs.c:189
+#: ../mousepad/mousepad-dialogs.c:295 ../mousepad/mousepad-dialogs.c:359
+#: ../mousepad/mousepad-dialogs.c:466 ../mousepad/mousepad-dialogs.c:503
+#: ../mousepad/mousepad-dialogs.c:880 ../mousepad/mousepad-dialogs.c:939
+#: ../mousepad/mousepad-encoding-dialog.c:120
+#: ../mousepad/mousepad-encoding-dialog.c:191
 msgid "_Cancel"
 msgstr "_İptal"
 
-#: ../mousepad/mousepad-dialogs.c:111
-#: ../mousepad/mousepad-encoding-dialog.c:118
+#: ../mousepad/mousepad-dialogs.c:112
+#: ../mousepad/mousepad-encoding-dialog.c:121
 msgid "_OK"
 msgstr "_Tamam"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:185
+#: ../mousepad/mousepad-dialogs.c:186
 msgid "Go To"
 msgstr "Git"
 
-#: ../mousepad/mousepad-dialogs.c:190
+#: ../mousepad/mousepad-dialogs.c:191
 msgid "_Jump to"
 msgstr "_Atla"
 
-#: ../mousepad/mousepad-dialogs.c:210
+#: ../mousepad/mousepad-dialogs.c:211
 msgid "_Line number:"
 msgstr "_Satır numarası:"
 
-#: ../mousepad/mousepad-dialogs.c:230
+#: ../mousepad/mousepad-dialogs.c:231
 msgid "C_olumn number:"
 msgstr "S_ütun numarası:"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:291
+#: ../mousepad/mousepad-dialogs.c:292
 msgid "Clear Documents History"
 msgstr "Belge Geçmişini Temizle"
 
-#: ../mousepad/mousepad-dialogs.c:296
+#: ../mousepad/mousepad-dialogs.c:297
 msgid "Clea_r"
 msgstr "_Temizle"
 
-#: ../mousepad/mousepad-dialogs.c:320
+#: ../mousepad/mousepad-dialogs.c:321
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr "<big><b>Tüm girdiler belge geçmişinden kaldırılsın mı?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:325
+#: ../mousepad/mousepad-dialogs.c:326
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "Belge geçmişini temizlemek, listelenen geçerli girdilerin tümünü kalıcı olarak kaldıracak."
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:355
+#: ../mousepad/mousepad-dialogs.c:356
 msgid "Save Changes"
 msgstr "Değişiklikleri Kaydet"
 
-#: ../mousepad/mousepad-dialogs.c:362
+#: ../mousepad/mousepad-dialogs.c:363
 msgid "_Don't Save"
 msgstr "_Kaydetme"
 
-#: ../mousepad/mousepad-dialogs.c:369 ../mousepad/mousepad-dialogs.c:503
+#: ../mousepad/mousepad-dialogs.c:370 ../mousepad/mousepad-dialogs.c:504
 msgid "_Save As"
 msgstr "_Farklı Kaydet"
 
-#: ../mousepad/mousepad-dialogs.c:377 ../mousepad/mousepad-dialogs.c:473
-#: ../mousepad/mousepad-dialogs.c:554
+#: ../mousepad/mousepad-dialogs.c:378 ../mousepad/mousepad-dialogs.c:474
+#: ../mousepad/mousepad-dialogs.c:883
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "_Kaydet"
 
-#: ../mousepad/mousepad-dialogs.c:401
+#: ../mousepad/mousepad-dialogs.c:402
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr "<big><b>Kapatmadan önce değişiklikleri kaydedilsin mi?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:406
+#: ../mousepad/mousepad-dialogs.c:407
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "Eğer belgeyi kaydetmezseniz, tüm değişiklikler yitirilecek."
 
-#: ../mousepad/mousepad-dialogs.c:433
+#: ../mousepad/mousepad-dialogs.c:434
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "Belge dışarıdan değiştirildi. Kaydetmeye devam etmek istiyor musunuz?"
 
-#: ../mousepad/mousepad-dialogs.c:434
+#: ../mousepad/mousepad-dialogs.c:435
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "Eğer belgeyi kaydederseniz, tüm dış değişiklikler yitirilecek."
 
-#: ../mousepad/mousepad-dialogs.c:436
+#: ../mousepad/mousepad-dialogs.c:437
 msgid "Save _As"
 msgstr "_Farklı Kaydet"
 
-#: ../mousepad/mousepad-dialogs.c:441
+#: ../mousepad/mousepad-dialogs.c:442
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
 msgstr "Belge dışarıdan değiştirildi. Diskten yeniden yüklemek ister misiniz?"
 
-#: ../mousepad/mousepad-dialogs.c:446
+#: ../mousepad/mousepad-dialogs.c:447
 msgid "You have unsaved changes. If you revert the file, they will be lost."
 msgstr "Kaydedilmemiş değişiklikleriniz var. Eğer dosyayı geri çevirirseniz bunlar yitirilecek."
 
-#: ../mousepad/mousepad-dialogs.c:448 ../mousepad/mousepad-dialogs.c:505
+#: ../mousepad/mousepad-dialogs.c:449 ../mousepad/mousepad-dialogs.c:506
 msgid "_Revert"
 msgstr "_Geri Döndür"
 
-#: ../mousepad/mousepad-dialogs.c:454 ../mousepad/mousepad-window.c:3229
+#: ../mousepad/mousepad-dialogs.c:455 ../mousepad/mousepad-window.c:3244
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "Yeniden _yükle"
 
-#: ../mousepad/mousepad-dialogs.c:461
+#: ../mousepad/mousepad-dialogs.c:462
 msgid "Externally Modified"
 msgstr "Dışarıdan Değiştirildi"
 
-#: ../mousepad/mousepad-dialogs.c:499
+#: ../mousepad/mousepad-dialogs.c:500
 msgid "Do you want to save your changes before reloading?"
 msgstr "Yeniden yüklemeden önce değişikliklerinizi kaydetmek ister misiniz?"
 
-#: ../mousepad/mousepad-dialogs.c:501
+#: ../mousepad/mousepad-dialogs.c:502
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Eğer dosyayı geri döndürürseniz, tüm kaydedilmemiş değişiklikler yitirilecek."
 
-#: ../mousepad/mousepad-dialogs.c:527
+#: ../mousepad/mousepad-dialogs.c:535
+#, c-format
+msgid ""
+"The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
+"confirm this choice?"
+msgstr "Dosya %s'de kodlanmış gibi görünüyor, ancak %s kodlamasını seçtiniz. Bu seçimi onaylıyor musunuz?"
+
+#: ../mousepad/mousepad-dialogs.c:539
+msgid "If not, the guessed encoding will be used."
+msgstr "Değilse, tahmin edilen kodlama kullanılacaktır."
+
+#: ../mousepad/mousepad-dialogs.c:620
+msgid "Please select a file"
+msgstr "Lütfen bir dosya seçin"
+
+#: ../mousepad/mousepad-dialogs.c:647
+msgid "Failed to prepare the temporary file for encoding tests"
+msgstr "Geçici dosya kodlama testleri için hazırlanamadı"
+
+#: ../mousepad/mousepad-dialogs.c:710 ../mousepad/mousepad-dialogs.c:773
+msgid "Open encoding dialog"
+msgstr "Kodlama iletişim kutusunu aç"
+
+#: ../mousepad/mousepad-dialogs.c:712
+msgid "Go back to shorten list"
+msgstr "Listeyi kısaltmak için geri dön"
+
+#. combo box label
+#: ../mousepad/mousepad-dialogs.c:766
+msgid "_Encoding:"
+msgstr "_Kodlama:"
+
+#: ../mousepad/mousepad-dialogs.c:778
+#: ../mousepad/mousepad-encoding-dialog.c:289
+#: ../mousepad/mousepad-encoding-dialog.c:290
+msgid "Default"
+msgstr "Öntanımlı"
+
+#: ../mousepad/mousepad-dialogs.c:788
+#: ../mousepad/mousepad-encoding-dialog.c:305
+#: ../mousepad/mousepad-encoding-dialog.c:307
+#: ../mousepad/mousepad-encoding-dialog.c:311
+msgid "System"
+msgstr "Sistem"
+
+#: ../mousepad/mousepad-dialogs.c:801
+msgid "Current"
+msgstr "Mevcut"
+
+#: ../mousepad/mousepad-dialogs.c:819
+msgid "Show all encodings"
+msgstr "Tüm kodlamaları göster"
+
+#: ../mousepad/mousepad-dialogs.c:853
 msgid "Text Files"
 msgstr "Metin Dosyaları"
 
-#: ../mousepad/mousepad-dialogs.c:533
+#: ../mousepad/mousepad-dialogs.c:859
 msgid "All Files"
 msgstr "Tüm Dosyalar"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:549
+#: ../mousepad/mousepad-dialogs.c:878
 msgid "Save As"
 msgstr "Farklı Kaydet"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:594
+#: ../mousepad/mousepad-dialogs.c:936
 msgid "Open File"
 msgstr "Dosya Aç"
 
-#: ../mousepad/mousepad-dialogs.c:599
+#: ../mousepad/mousepad-dialogs.c:942
 msgid "_Open"
 msgstr "_Aç"
 
-#: ../mousepad/mousepad-dialogs.c:615
-msgid "_Encoding:"
-msgstr "_Kodlama:"
-
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:578
+#: ../mousepad/mousepad-document.c:603
 msgid "Close this tab"
 msgstr "Bu sekmeyi kapat"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:608
+#: ../mousepad/mousepad-document.c:633
 msgid "Untitled"
 msgstr "Adsız"
 
-#: ../mousepad/mousepad-encoding-dialog.c:122
-#: ../mousepad/mousepad-encoding-dialog.c:334
-#: ../mousepad/mousepad-encoding-dialog.c:354
-msgid "The document was not UTF-8 valid."
-msgstr "Belge, UTF-8 uyumlu değil."
-
-#. encoding radio buttons
-#. default encoding: UTF-8
-#: ../mousepad/mousepad-encoding-dialog.c:138
-msgid "Default (UTF-8)"
-msgstr "Öntanımlı (UTF-8)"
-
-#: ../mousepad/mousepad-encoding-dialog.c:146
-msgid "System"
-msgstr "Sistem"
-
-#: ../mousepad/mousepad-encoding-dialog.c:159
+#: ../mousepad/mousepad-encoding-dialog.c:161
 msgid "Other:"
 msgstr "Diğer:"
 
-#: ../mousepad/mousepad-encoding-dialog.c:184
+#: ../mousepad/mousepad-encoding-dialog.c:186
 msgid "Checking encodings..."
 msgstr "Kodlamalar denetleniyor..."
 
-#: ../mousepad/mousepad-encoding-dialog.c:318
+#: ../mousepad/mousepad-encoding-dialog.c:290
+#: ../mousepad/mousepad-encoding-dialog.c:307
+#, c-format
+msgid "%s (%s, partial)"
+msgstr "%s (%s, kısmi)"
+
+#: ../mousepad/mousepad-encoding-dialog.c:305
+#, c-format
+msgid "%s (%s, failed)"
+msgstr "%s (%s, başarısız)"
+
+#: ../mousepad/mousepad-encoding-dialog.c:371
 msgid "Other (partial):"
 msgstr "Diğer (kısmi):"
 
-#: ../mousepad/mousepad-encoding-dialog.c:329
+#: ../mousepad/mousepad-encoding-dialog.c:382
 msgid "Other valid encodings were found, please choose below."
 msgstr "Diğer geçerli kodlamalar bulundu, lütfen aşağıdan seçin."
 
-#: ../mousepad/mousepad-encoding-dialog.c:331
+#: ../mousepad/mousepad-encoding-dialog.c:384
 msgid "Other partially valid encodings were found, please choose below."
 msgstr "Diğer kısmi geçerli kodlamalar bulundu, lütfen aşağıdan seçin."
 
-#: ../mousepad/mousepad-encoding-dialog.c:355
+#: ../mousepad/mousepad-encoding-dialog.c:416
 msgid "No other valid encoding was found."
 msgstr "Geçerli diğer kodlama bulunmadı."
 
-#: ../mousepad/mousepad-encoding-dialog.c:453 ../mousepad/mousepad-file.c:931
+#. dialog title
+#: ../mousepad/mousepad-encoding-dialog.c:619
 #, c-format
-msgid "Unsupported character set"
-msgstr "Desteklenmeyen karakter takımı"
+msgid "The document is %s valid."
+msgstr "Belge %s doğrulandı."
+
+#: ../mousepad/mousepad-encoding-dialog.c:620
+#, c-format
+msgid "The document is not %s valid."
+msgstr "Belge %s doğrulanmadı"
 
 #. west european
-#: ../mousepad/mousepad-encoding.c:25
+#: ../mousepad/mousepad-encoding.c:39
 msgid "Celtic"
 msgstr "Keltik"
 
-#: ../mousepad/mousepad-encoding.c:26 ../mousepad/mousepad-encoding.c:27
+#: ../mousepad/mousepad-encoding.c:40 ../mousepad/mousepad-encoding.c:41
 msgid "Greek"
 msgstr "Yunanca"
 
-#: ../mousepad/mousepad-encoding.c:28
+#: ../mousepad/mousepad-encoding.c:42
 msgid "Nordic"
 msgstr "İskandinav"
 
-#: ../mousepad/mousepad-encoding.c:29
+#: ../mousepad/mousepad-encoding.c:43
 msgid "South European"
 msgstr "Güney Avrupa"
 
-#: ../mousepad/mousepad-encoding.c:30 ../mousepad/mousepad-encoding.c:31
-#: ../mousepad/mousepad-encoding.c:32 ../mousepad/mousepad-encoding.c:33
+#: ../mousepad/mousepad-encoding.c:44 ../mousepad/mousepad-encoding.c:45
+#: ../mousepad/mousepad-encoding.c:46 ../mousepad/mousepad-encoding.c:47
 msgid "Western"
 msgstr "Batı"
 
 #. east european
-#: ../mousepad/mousepad-encoding.c:36 ../mousepad/mousepad-encoding.c:37
-#: ../mousepad/mousepad-encoding.c:38
+#: ../mousepad/mousepad-encoding.c:50 ../mousepad/mousepad-encoding.c:51
+#: ../mousepad/mousepad-encoding.c:52
 msgid "Baltic"
 msgstr "Baltık"
 
-#: ../mousepad/mousepad-encoding.c:39 ../mousepad/mousepad-encoding.c:40
-#: ../mousepad/mousepad-encoding.c:41
+#: ../mousepad/mousepad-encoding.c:53 ../mousepad/mousepad-encoding.c:54
+#: ../mousepad/mousepad-encoding.c:55
 msgid "Central European"
 msgstr "Orta Avrupa"
 
-#: ../mousepad/mousepad-encoding.c:42 ../mousepad/mousepad-encoding.c:43
-#: ../mousepad/mousepad-encoding.c:44 ../mousepad/mousepad-encoding.c:45
-#: ../mousepad/mousepad-encoding.c:46
+#: ../mousepad/mousepad-encoding.c:56 ../mousepad/mousepad-encoding.c:57
+#: ../mousepad/mousepad-encoding.c:58 ../mousepad/mousepad-encoding.c:59
+#: ../mousepad/mousepad-encoding.c:60
 msgid "Cyrillic"
 msgstr "Kiril"
 
-#: ../mousepad/mousepad-encoding.c:47
+#: ../mousepad/mousepad-encoding.c:61
 msgid "Cyrillic/Russian"
 msgstr "Kiril/Rus"
 
-#: ../mousepad/mousepad-encoding.c:48
+#: ../mousepad/mousepad-encoding.c:62
 msgid "Cyrillic/Ukrainian"
 msgstr "Kiril/Ukrayna"
 
-#: ../mousepad/mousepad-encoding.c:49
+#: ../mousepad/mousepad-encoding.c:63
 msgid "Romanian"
 msgstr "Rumence"
 
 #. middle eastern
-#: ../mousepad/mousepad-encoding.c:52 ../mousepad/mousepad-encoding.c:53
-#: ../mousepad/mousepad-encoding.c:54
+#: ../mousepad/mousepad-encoding.c:66 ../mousepad/mousepad-encoding.c:67
+#: ../mousepad/mousepad-encoding.c:68
 msgid "Arabic"
 msgstr "Arapça"
 
-#: ../mousepad/mousepad-encoding.c:55 ../mousepad/mousepad-encoding.c:56
-#: ../mousepad/mousepad-encoding.c:57
+#: ../mousepad/mousepad-encoding.c:69 ../mousepad/mousepad-encoding.c:70
+#: ../mousepad/mousepad-encoding.c:71
 msgid "Hebrew"
 msgstr "İbranice"
 
-#: ../mousepad/mousepad-encoding.c:58
+#: ../mousepad/mousepad-encoding.c:72
 msgid "Hebrew Visual"
 msgstr "Görsel İbranice"
 
 #. asian
-#: ../mousepad/mousepad-encoding.c:61
+#: ../mousepad/mousepad-encoding.c:75
 msgid "Armenian"
 msgstr "Ermenice"
 
-#: ../mousepad/mousepad-encoding.c:62
+#: ../mousepad/mousepad-encoding.c:76
 msgid "Georgian"
 msgstr "Gürcüce"
 
-#: ../mousepad/mousepad-encoding.c:63
+#: ../mousepad/mousepad-encoding.c:77
 msgid "Thai"
 msgstr "Tay Dili"
 
-#: ../mousepad/mousepad-encoding.c:64 ../mousepad/mousepad-encoding.c:65
-#: ../mousepad/mousepad-encoding.c:66
+#: ../mousepad/mousepad-encoding.c:78 ../mousepad/mousepad-encoding.c:79
+#: ../mousepad/mousepad-encoding.c:80
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: ../mousepad/mousepad-encoding.c:67 ../mousepad/mousepad-encoding.c:68
-#: ../mousepad/mousepad-encoding.c:69
+#: ../mousepad/mousepad-encoding.c:81 ../mousepad/mousepad-encoding.c:82
+#: ../mousepad/mousepad-encoding.c:83
 msgid "Vietnamese"
 msgstr "Vietnamca"
 
 #. unicode
-#: ../mousepad/mousepad-encoding.c:72 ../mousepad/mousepad-encoding.c:73
-#: ../mousepad/mousepad-encoding.c:74 ../mousepad/mousepad-encoding.c:75
-#: ../mousepad/mousepad-encoding.c:76 ../mousepad/mousepad-encoding.c:77
-#: ../mousepad/mousepad-encoding.c:78 ../mousepad/mousepad-encoding.c:79
+#: ../mousepad/mousepad-encoding.c:86 ../mousepad/mousepad-encoding.c:87
+#: ../mousepad/mousepad-encoding.c:88 ../mousepad/mousepad-encoding.c:89
+#: ../mousepad/mousepad-encoding.c:90 ../mousepad/mousepad-encoding.c:91
+#: ../mousepad/mousepad-encoding.c:92 ../mousepad/mousepad-encoding.c:93
 msgid "Unicode"
 msgstr "Evrensel"
 
 #. east asian
-#: ../mousepad/mousepad-encoding.c:82 ../mousepad/mousepad-encoding.c:83
-#: ../mousepad/mousepad-encoding.c:84 ../mousepad/mousepad-encoding.c:85
+#: ../mousepad/mousepad-encoding.c:96 ../mousepad/mousepad-encoding.c:97
+#: ../mousepad/mousepad-encoding.c:98 ../mousepad/mousepad-encoding.c:99
 msgid "Chinese Simplified"
 msgstr "Basitleştirilmiş Çince"
 
-#: ../mousepad/mousepad-encoding.c:86 ../mousepad/mousepad-encoding.c:87
-#: ../mousepad/mousepad-encoding.c:88
+#: ../mousepad/mousepad-encoding.c:100 ../mousepad/mousepad-encoding.c:101
+#: ../mousepad/mousepad-encoding.c:102
 msgid "Chinese Traditional"
 msgstr "Geleneksel Çince"
 
-#: ../mousepad/mousepad-encoding.c:89 ../mousepad/mousepad-encoding.c:90
-#: ../mousepad/mousepad-encoding.c:91
+#: ../mousepad/mousepad-encoding.c:103 ../mousepad/mousepad-encoding.c:104
+#: ../mousepad/mousepad-encoding.c:105
 msgid "Japanese"
 msgstr "Japonca"
 
-#: ../mousepad/mousepad-encoding.c:92 ../mousepad/mousepad-encoding.c:93
-#: ../mousepad/mousepad-encoding.c:94 ../mousepad/mousepad-encoding.c:95
+#: ../mousepad/mousepad-encoding.c:106 ../mousepad/mousepad-encoding.c:107
+#: ../mousepad/mousepad-encoding.c:108 ../mousepad/mousepad-encoding.c:109
 msgid "Korean"
 msgstr "Korece"
 
-#: ../mousepad/mousepad-file.c:622
+#: ../mousepad/mousepad-file.c:605
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Dönüştürme girdisinde geçersiz bayt sırası"
@@ -581,66 +645,61 @@ msgid_plural "%d occurrences"
 msgstr[0] "%d olay"
 msgstr[1] "%d olay"
 
-#: ../mousepad/mousepad-statusbar.c:125
+#: ../mousepad/mousepad-statusbar.c:126
 msgid "Choose a filetype"
 msgstr "Dosya türü seç"
 
 #. language/filetype
-#: ../mousepad/mousepad-statusbar.c:131 ../mousepad/mousepad-statusbar.c:232
+#: ../mousepad/mousepad-statusbar.c:132 ../mousepad/mousepad-statusbar.c:280
 msgid "Filetype: None"
 msgstr "Dosya türü: Hiçbiri"
 
-#: ../mousepad/mousepad-statusbar.c:154
+#: ../mousepad/mousepad-statusbar.c:165
 msgid "Toggle the overwrite mode"
 msgstr "Üzerine yazma kipini değiştir"
 
 #. overwrite label
-#: ../mousepad/mousepad-statusbar.c:160
+#: ../mousepad/mousepad-statusbar.c:171
 msgid "OVR"
 msgstr "ÜZRYZ"
 
-#: ../mousepad/mousepad-statusbar.c:235
-#, c-format
-msgid "Filetype: %s"
-msgstr "Dosya türü: %s"
-
-#: ../mousepad/mousepad-statusbar.c:255
+#: ../mousepad/mousepad-statusbar.c:246
 #, c-format
 msgid "Line: %d Column: %d Selection: %d"
 msgstr "Satır: %d Sütun: %d Seçim: %d"
 
-#: ../mousepad/mousepad-statusbar.c:257
+#: ../mousepad/mousepad-statusbar.c:249
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Satır: %d Sütun: %d"
 
+#: ../mousepad/mousepad-statusbar.c:283
+#, c-format
+msgid "Filetype: %s"
+msgstr "Dosya türü: %s"
+
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1086
+#: ../mousepad/mousepad-window.c:1089
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Uyarı: Kök hesabı kullanıyorsunuz. Sisteminize zarar verebilirsiniz."
 
-#. show the warning
-#: ../mousepad/mousepad-window.c:1818
-msgid "Failed to open the document"
-msgstr "Belge açılamadı"
-
-#: ../mousepad/mousepad-window.c:2014
+#: ../mousepad/mousepad-window.c:2011
 msgid "Read Only"
 msgstr "Salt okunur"
 
-#: ../mousepad/mousepad-window.c:2986
+#: ../mousepad/mousepad-window.c:3001
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Şablon olarak '%s' kullanın"
 
-#: ../mousepad/mousepad-window.c:3012
+#: ../mousepad/mousepad-window.c:3027
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Şablon dosyaları bulunamadı\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3068
+#: ../mousepad/mousepad-window.c:3083
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -648,92 +707,93 @@ msgid ""
 msgstr "Taslak klasörü yok\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3120
+#: ../mousepad/mousepad-window.c:3135
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Diğer (%d)..."
 
-#: ../mousepad/mousepad-window.c:3130
+#: ../mousepad/mousepad-window.c:3145
 msgid "Ot_her..."
 msgstr "_Diğer..."
 
-#: ../mousepad/mousepad-window.c:3223
+#: ../mousepad/mousepad-window.c:3238
 msgid "Re_vert"
 msgstr "Geri _Döndür"
 
-#: ../mousepad/mousepad-window.c:3225
+#: ../mousepad/mousepad-window.c:3240
 msgid "Revert to the saved version of the file"
 msgstr "Dosyanın kayıtlı sürümüne geri dön"
 
-#: ../mousepad/mousepad-window.c:3231
+#: ../mousepad/mousepad-window.c:3246
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Diskten dosyayı yeniden yükle"
 
-#: ../mousepad/mousepad-window.c:3237
+#: ../mousepad/mousepad-window.c:3252
 msgid "Leave fullscreen mode"
 msgstr "Tam ekran kipinden çık"
 
-#: ../mousepad/mousepad-window.c:3242
+#: ../mousepad/mousepad-window.c:3257
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Pencereyi tam ekran yap"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3387 ../mousepad/mousepad-window.c:3582
+#: ../mousepad/mousepad-window.c:3402 ../mousepad/mousepad-window.c:3597
 msgid "Charset"
 msgstr "Karakter Takımı"
 
-#: ../mousepad/mousepad-window.c:3522
+#: ../mousepad/mousepad-window.c:3537
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s' aç"
 
-#: ../mousepad/mousepad-window.c:3548
+#: ../mousepad/mousepad-window.c:3563
 msgid "No items found"
 msgstr "Öge bulunamadı"
 
-#: ../mousepad/mousepad-window.c:3631
+#: ../mousepad/mousepad-window.c:3646
 msgid "Failed to clear the recent history"
 msgstr "Güncel geçmiş temizlenemedi"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4102
+#: ../mousepad/mousepad-window.c:4118
 msgid "No clipboard data"
 msgstr "Panoda veri yok"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4207
-msgid "Templates should be UTF-8 valid"
-msgstr "Şablonlar UTF-8 geçerli olmalı"
+#: ../mousepad/mousepad-window.c:4229
+#, c-format
+msgid "Templates should be %s valid"
+msgstr "Şablon %s doğrulanmış olmalıdır"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4212
+#: ../mousepad/mousepad-window.c:4235
 msgid "Reading the template failed"
 msgstr "Şablon okunamadı"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4217
+#: ../mousepad/mousepad-window.c:4240
 msgid "Loading the template failed"
 msgstr "Şablon yüklenemedi"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4402 ../mousepad/mousepad-window.c:4536
+#: ../mousepad/mousepad-window.c:4429 ../mousepad/mousepad-window.c:4570
 msgid "Failed to save the document"
 msgstr "Belge kaydedilemedi"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4634
+#: ../mousepad/mousepad-window.c:4668
 msgid "Failed to reload the document"
 msgstr "Belge yeniden yüklenemedi"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4663
+#: ../mousepad/mousepad-window.c:4697
 msgid "Failed to print the document"
 msgstr "Belge yazdırılamadı"
 
-#: ../mousepad/mousepad-window.c:5441
+#: ../mousepad/mousepad-window.c:5475
 msgid "Choose Mousepad Font"
 msgstr "Mousepad Yazı Tipini Seç"
 
