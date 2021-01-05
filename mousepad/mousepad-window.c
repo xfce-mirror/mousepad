@@ -2389,6 +2389,12 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_enable_edit_actions, window);
 
+  /* reset the reference to NULL to avoid illegal memory access */
+  if (window->previous)
+    {
+      window->previous = NULL;
+    }
+
   /* window contains no tabs: save geometry and destroy it */
   if (gtk_notebook_get_n_pages (notebook) == 0)
     {
