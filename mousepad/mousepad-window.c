@@ -2294,8 +2294,7 @@ mousepad_window_notebook_switch_page (GtkNotebook    *notebook,
   if (G_LIKELY (window->active != document))
     {
       /* set old and new active documents */
-      window->previous = gtk_notebook_page_num (notebook, GTK_WIDGET (window->active)) != -1 ?
-                           window->active : NULL;
+      window->previous = window->active;
       window->active = document;
 
       /* set the window title */
