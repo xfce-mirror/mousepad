@@ -2391,9 +2391,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
 
   /* reset the reference to NULL to avoid illegal memory access */
   if (window->previous == document)
-    {
-      window->previous = NULL;
-    }
+    window->previous = NULL;
 
   /* window contains no tabs: save geometry and destroy it */
   if (gtk_notebook_get_n_pages (notebook) == 0)
