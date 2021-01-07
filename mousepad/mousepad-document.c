@@ -167,7 +167,7 @@ mousepad_document_post_init (MousepadDocument *document)
    * in a MousepadEncodingDialog */
   if (window != NULL)
     {
-      /* connect to the "search-widget-visible" window property */
+      /* bind some search properties to the "search-widget-visible" window property */
       g_signal_connect_object (window, "notify::search-widget-visible",
                                G_CALLBACK (mousepad_document_search_widget_visible),
                                document, G_CONNECT_SWAPPED);
@@ -175,8 +175,8 @@ mousepad_document_post_init (MousepadDocument *document)
       /* get the window property */
       g_object_get (window, "search-widget-visible", &visible, NULL);
 
-      /* block search context handlers to prevent useless searches */
-      if (! visible)
+      /* block search context handlers, so that they are unblocked below without warnings */
+      if (visible)
         {
           g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
                                            g_signal_lookup ("insert-text", GTK_TYPE_TEXT_BUFFER),
@@ -185,6 +185,9 @@ mousepad_document_post_init (MousepadDocument *document)
                                            g_signal_lookup ("delete-range", GTK_TYPE_TEXT_BUFFER),
                                            0, NULL, NULL, document->priv->search_context);
         }
+
+      /* initialize binding */
+      mousepad_document_search_widget_visible (document, NULL, MOUSEPAD_WINDOW (window));
     }
 }
 
