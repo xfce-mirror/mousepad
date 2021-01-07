@@ -2294,8 +2294,7 @@ mousepad_window_notebook_switch_page (GtkNotebook    *notebook,
   if (G_LIKELY (window->active != document))
     {
       /* set old and new active documents */
-      window->previous = gtk_notebook_page_num (notebook, GTK_WIDGET (window->active)) != -1 ?
-                           window->active : NULL;
+      window->previous = window->active;
       window->active = document;
 
       /* set the window title */
@@ -2388,6 +2387,10 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_enable_edit_actions, window);
+
+  /* reset the reference to NULL to avoid illegal memory access */
+  if (window->previous == document)
+    window->previous = NULL;
 
   /* window contains no tabs: save geometry and destroy it */
   if (gtk_notebook_get_n_pages (notebook) == 0)
