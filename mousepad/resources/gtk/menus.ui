@@ -86,6 +86,11 @@
           <attribute name="label" translatable="yes">_Close Window</attribute>
           <attribute name="tooltip" translatable="yes">Close this window</attribute>
           <attribute name="action">win.file.close-window</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">_Quit</attribute>
+          <attribute name="tooltip" translatable="yes">Quit Mousepad</attribute>
+          <attribute name="action">app.quit</attribute>
           <attribute name="icon">application-exit</attribute>
         </item>
       </section>
