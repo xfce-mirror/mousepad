@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 00:47+0100\n"
-"PO-Revision-Date: 2021-01-08 15:42+0000\n"
+"POT-Creation-Date: 2021-01-08 18:03+0100\n"
+"PO-Revision-Date: 2021-01-12 08:28+0000\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/xfce/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "KODLAMA"
 
 #: ../mousepad/mousepad-application.c:128
 msgid "Display a list of possible encodings to open files"
-msgstr "Dosyaları açmak için olası kodlamaların bir listesini görüntüleyin"
+msgstr "Dosyaları açmak için olası kodlamaların listesini görüntüle"
 
 #: ../mousepad/mousepad-application.c:133
 msgid "Do not register with the D-BUS session message bus"
@@ -216,7 +216,7 @@ msgstr "Kaydedilmemiş değişiklikleriniz var. Eğer dosyayı geri çevirirseni
 msgid "_Revert"
 msgstr "_Geri Döndür"
 
-#: ../mousepad/mousepad-dialogs.c:483 ../mousepad/mousepad-window.c:3252
+#: ../mousepad/mousepad-dialogs.c:483 ../mousepad/mousepad-window.c:3265
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "Yeniden _Yükle"
@@ -316,12 +316,12 @@ msgid "Choose Mousepad Font"
 msgstr "Mousepad Yazı Tipini Seç"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:606
+#: ../mousepad/mousepad-document.c:609
 msgid "Close this tab"
 msgstr "Bu sekmeyi kapat"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:636
+#: ../mousepad/mousepad-document.c:639
 msgid "Untitled"
 msgstr "Adsız"
 
@@ -689,27 +689,31 @@ msgid "Filetype: %s"
 msgstr "Dosya türü: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1089
+#: ../mousepad/mousepad-window.c:1093
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Uyarı: Kök hesabı kullanıyorsunuz. Sisteminize zarar verebilirsiniz."
 
-#: ../mousepad/mousepad-window.c:2014
+#: ../mousepad/mousepad-window.c:2018
 msgid "Read Only"
 msgstr "Salt okunur"
 
-#: ../mousepad/mousepad-window.c:3008
+#: ../mousepad/mousepad-window.c:2022
+msgid "Viewer Mode"
+msgstr "Görüntüleyici Kip"
+
+#: ../mousepad/mousepad-window.c:3021
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Şablon olarak '%s' kullanın"
 
-#: ../mousepad/mousepad-window.c:3034
+#: ../mousepad/mousepad-window.c:3047
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Şablon dosyaları bulunamadı\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3091
+#: ../mousepad/mousepad-window.c:3104
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -717,89 +721,89 @@ msgid ""
 msgstr "Taslak klasörü yok\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3143
+#: ../mousepad/mousepad-window.c:3156
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Diğer (%d)..."
 
-#: ../mousepad/mousepad-window.c:3153
+#: ../mousepad/mousepad-window.c:3166
 msgid "Ot_her..."
 msgstr "_Diğer..."
 
-#: ../mousepad/mousepad-window.c:3246
+#: ../mousepad/mousepad-window.c:3259
 msgid "Re_vert"
 msgstr "Geri _Döndür"
 
-#: ../mousepad/mousepad-window.c:3248
+#: ../mousepad/mousepad-window.c:3261
 msgid "Revert to the saved version of the file"
 msgstr "Dosyanın kayıtlı sürümüne geri dön"
 
-#: ../mousepad/mousepad-window.c:3254
+#: ../mousepad/mousepad-window.c:3267
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Diskten dosyayı yeniden yükle"
 
-#: ../mousepad/mousepad-window.c:3260
+#: ../mousepad/mousepad-window.c:3273
 msgid "Leave fullscreen mode"
 msgstr "Tam ekran kipinden çık"
 
-#: ../mousepad/mousepad-window.c:3265
+#: ../mousepad/mousepad-window.c:3278
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Pencereyi tam ekran yap"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3411 ../mousepad/mousepad-window.c:3607
+#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3620
 msgid "Charset"
 msgstr "Karakter Takımı"
 
-#: ../mousepad/mousepad-window.c:3547
+#: ../mousepad/mousepad-window.c:3560
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s' aç"
 
-#: ../mousepad/mousepad-window.c:3573
+#: ../mousepad/mousepad-window.c:3586
 msgid "No items found"
 msgstr "Öge bulunamadı"
 
-#: ../mousepad/mousepad-window.c:3656
+#: ../mousepad/mousepad-window.c:3669
 msgid "Failed to clear the recent history"
 msgstr "Güncel geçmiş temizlenemedi"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4128
+#: ../mousepad/mousepad-window.c:4141
 msgid "No clipboard data"
 msgstr "Panoda veri yok"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4239
+#: ../mousepad/mousepad-window.c:4252
 #, c-format
 msgid "Templates should be %s valid"
-msgstr "Şablon %s doğrulanmış olmalıdır"
+msgstr "Şablon, %s uyumlu olmalıdır"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4245
+#: ../mousepad/mousepad-window.c:4258
 msgid "Reading the template failed"
 msgstr "Şablon okunamadı"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4250
+#: ../mousepad/mousepad-window.c:4263
 msgid "Loading the template failed"
 msgstr "Şablon yüklenemedi"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4439 ../mousepad/mousepad-window.c:4580
+#: ../mousepad/mousepad-window.c:4452 ../mousepad/mousepad-window.c:4593
 msgid "Failed to save the document"
 msgstr "Belge kaydedilemedi"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4678
+#: ../mousepad/mousepad-window.c:4691
 msgid "Failed to reload the document"
 msgstr "Belge yeniden yüklenemedi"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4707
+#: ../mousepad/mousepad-window.c:4720
 msgid "Failed to print the document"
 msgstr "Belge yazdırılamadı"
 
@@ -1094,42 +1098,50 @@ msgid "Store the byte-order mark in the file"
 msgstr "Byte-sıra işaretini dosyada sakla"
 
 #: ../mousepad/resources/gtk/menus.ui.h:74
+msgid "_Viewer Mode"
+msgstr "_Görüntüleyici Kip"
+
+#: ../mousepad/resources/gtk/menus.ui.h:75
+msgid "Disallow modifications via keyboard / mouse"
+msgstr "Klavye veya fareyle düzenlemeyi önle"
+
+#: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Previous Tab"
 msgstr "_Önceki Sekme"
 
-#: ../mousepad/resources/gtk/menus.ui.h:75
+#: ../mousepad/resources/gtk/menus.ui.h:77
 msgid "Select the previous tab"
 msgstr "Önceki sekmeyi seç"
 
-#: ../mousepad/resources/gtk/menus.ui.h:76
+#: ../mousepad/resources/gtk/menus.ui.h:78
 msgid "_Next Tab"
 msgstr "_Sonraki Sekme"
 
-#: ../mousepad/resources/gtk/menus.ui.h:77
+#: ../mousepad/resources/gtk/menus.ui.h:79
 msgid "Select the next tab"
 msgstr "Sonraki sekmeyi seç"
 
-#: ../mousepad/resources/gtk/menus.ui.h:78
+#: ../mousepad/resources/gtk/menus.ui.h:80
 msgid "_Help"
 msgstr "_Yardım"
 
-#: ../mousepad/resources/gtk/menus.ui.h:79
+#: ../mousepad/resources/gtk/menus.ui.h:81
 msgid "Help menu"
 msgstr "Yardım menüsü"
 
-#: ../mousepad/resources/gtk/menus.ui.h:80
+#: ../mousepad/resources/gtk/menus.ui.h:82
 msgid "_Contents"
 msgstr "_İçerikler"
 
-#: ../mousepad/resources/gtk/menus.ui.h:81
+#: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Display the Mousepad user manual"
 msgstr "Mousepad kullanım kılavuzunu görüntüle"
 
-#: ../mousepad/resources/gtk/menus.ui.h:82
+#: ../mousepad/resources/gtk/menus.ui.h:84
 msgid "_About"
 msgstr "_Hakkında"
 
-#: ../mousepad/resources/gtk/menus.ui.h:83
+#: ../mousepad/resources/gtk/menus.ui.h:85
 msgid "About this application"
 msgstr "Bu uygulama hakkında"
 
@@ -1287,7 +1299,7 @@ msgstr "_Satırı Sil"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:44
 msgid "Delete the current line"
-msgstr "Mevcut satırı sil"
+msgstr "Geçerli satırı sil"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
