@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-08 18:03+0100\n"
-"PO-Revision-Date: 2021-01-11 21:22+0000\n"
+"PO-Revision-Date: 2021-01-12 20:54+0000\n"
 "Last-Translator: ivmazurenko <ivmazurenko@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -811,7 +811,7 @@ msgstr "_Файл"
 
 #: ../mousepad/resources/gtk/menus.ui.h:2
 msgid "File menu"
-msgstr ""
+msgstr "Меню файла"
 
 #: ../mousepad/resources/gtk/menus.ui.h:3
 msgid "New _Window"
@@ -875,7 +875,7 @@ msgstr "_Выйти"
 
 #: ../mousepad/resources/gtk/menus.ui.h:18
 msgid "Quit Mousepad"
-msgstr ""
+msgstr "Завершить работу с приложением"
 
 #: ../mousepad/resources/gtk/menus.ui.h:19
 msgid "_Edit"
@@ -883,7 +883,7 @@ msgstr "_Правка"
 
 #: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Edit menu"
-msgstr ""
+msgstr "Меню правки"
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -895,7 +895,7 @@ msgstr "Поис_к"
 
 #: ../mousepad/resources/gtk/menus.ui.h:24
 msgid "Search menu"
-msgstr ""
+msgstr "Меню поиска"
 
 #: ../mousepad/resources/gtk/menus.ui.h:25
 msgid "Find _Next"
@@ -919,7 +919,7 @@ msgstr "Подсветить _всё"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Highlight the search occurrences"
-msgstr ""
+msgstr "Подсвечивать поисковые совпадения"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "_View"
@@ -927,7 +927,7 @@ msgstr "_Вид"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "View menu"
-msgstr ""
+msgstr "Меню вида"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "Select F_ont..."
@@ -943,7 +943,7 @@ msgstr "_Цветовая схема"
 
 #: ../mousepad/resources/gtk/menus.ui.h:36
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Выбрать цветовую схему для области редактирования"
 
 #: ../mousepad/resources/gtk/menus.ui.h:37
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
@@ -993,7 +993,7 @@ msgstr "_Документ"
 
 #: ../mousepad/resources/gtk/menus.ui.h:48
 msgid "Document menu"
-msgstr ""
+msgstr "Меню документа"
 
 #: ../mousepad/resources/gtk/menus.ui.h:49
 msgid "_Word Wrap"
@@ -1017,7 +1017,7 @@ msgstr "_Размер табуляции"
 
 #: ../mousepad/resources/gtk/menus.ui.h:54
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "Настроить число пробелов в табуляции"
 
 #: ../mousepad/resources/gtk/menus.ui.h:55
 msgid "Two spaces"
@@ -1057,7 +1057,7 @@ msgstr "_Тип файла"
 
 #: ../mousepad/resources/gtk/menus.ui.h:64
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "Настроить подсветку синтаксиса для языка"
 
 #: ../mousepad/resources/gtk/menus.ui.h:65
 msgid "Plain Text"
@@ -1073,7 +1073,7 @@ msgstr "_Завершение строк"
 
 #: ../mousepad/resources/gtk/menus.ui.h:68
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "Настроить символ(ы), используемые для разрыва строки"
 
 #: ../mousepad/resources/gtk/menus.ui.h:69
 msgid "Set the line ending of the document to Unix (LF)"
@@ -1101,7 +1101,7 @@ msgstr "Режим только для чтения"
 
 #: ../mousepad/resources/gtk/menus.ui.h:75
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Запретить вносить изменения клавиатурой или мышью"
 
 #: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Previous Tab"
@@ -1125,7 +1125,7 @@ msgstr "_Справка"
 
 #: ../mousepad/resources/gtk/menus.ui.h:81
 msgid "Help menu"
-msgstr ""
+msgstr "Меню справки"
 
 #: ../mousepad/resources/gtk/menus.ui.h:82
 msgid "_Contents"
@@ -1265,7 +1265,7 @@ msgstr "_Специальная вставка"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:36
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "Вставить текст из буфера особым образом"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:37
 msgid "Paste from _History"
@@ -1297,7 +1297,7 @@ msgstr "Удалить строку"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:44
 msgid "Delete the current line"
-msgstr ""
+msgstr "Удалить текущую строку"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
@@ -1305,7 +1305,7 @@ msgstr "_Преобразовать"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Преобразовать выделенный текст особым образом"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
@@ -1378,7 +1378,7 @@ msgstr "Перемес_тить выделение"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move the selection in different ways"
-msgstr ""
+msgstr "Переместить выделенный текст особым образом"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1442,11 +1442,11 @@ msgstr "Никогда"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "First key press"
-msgstr ""
+msgstr "Первое нажатие клавиши"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "Second key press"
-msgstr ""
+msgstr "Второе нажатие клавиши"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
 msgid "Always"
@@ -1569,7 +1569,7 @@ msgstr "<b>Отступы</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Учитывать отступы и завершающие пробельные символы в строке:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "<b>Home/End Keys</b>"
