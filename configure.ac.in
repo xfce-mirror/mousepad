@@ -17,8 +17,8 @@ m4_define([mousepad_debug_default], [ifelse(mousepad_version_tag(), [git], [yes]
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
-AC_COPYRIGHT([Copyright (c) 2007-2020
-        The Xfce development team. All rights reserved.])
+AC_COPYRIGHT([Copyright (C) 2005-2021
+        The Mousepad developers. All rights reserved.])
 AC_INIT([Mousepad], [mousepad_version], [https://gitlab.xfce.org/apps/mousepad], [mousepad])
 AC_PREREQ([2.50])
 AC_CONFIG_MACRO_DIR([m4])
