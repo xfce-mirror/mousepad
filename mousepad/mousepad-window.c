@@ -2926,8 +2926,7 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
 {
   GDir         *dir;
   GSList       *files_list = NULL, *dirs_list = NULL, *li;
-  gchar        *absolute_path, *label, *dot, *message,
-               *action_name, *filename_utf8, *tooltip;
+  gchar        *absolute_path, *label, *dot, *message, *filename_utf8, *tooltip;
   const gchar  *name;
   gboolean      files_added = FALSE;
   GMenu        *submenu;
@@ -3011,10 +3010,11 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
       if (dot != NULL)
         *dot = '\0';
 
-      /* create the menu item */
-      action_name = g_strconcat ("win.file.new-from-template.new('", li->data, "')", NULL);
-      item = g_menu_item_new (label, action_name);
-      g_free (action_name);
+      /* create menu item, adding the action target separately to avoid any
+       * character escape issue */
+      item = g_menu_item_new (label, NULL);
+      g_menu_item_set_action_and_target_value (item, "win.file.new-from-template.new",
+                                               g_variant_new_string (li->data));
 
       /* create an utf-8 valid version of the filename for the tooltip */
       filename_utf8 = g_filename_to_utf8 (li->data, -1, NULL, NULL, NULL);
@@ -3488,7 +3488,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
   GFile          *file;
   GList          *items, *li, *filtered = NULL;
   const gchar    *uri, *display_name;
-  gchar          *label, *filename, *filename_utf8, *tooltip, *action_name;
+  gchar          *label, *filename, *filename_utf8, *tooltip;
   gint            n;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -3545,10 +3545,9 @@ mousepad_window_recent_menu (GSimpleAction *action,
           /* append to the menu if the file exists, else remove it from the history */
           if (filename != NULL && g_file_test (filename, G_FILE_TEST_EXISTS))
             {
-              /* link the info data to the action via the unique detailed action name */
-              action_name = g_strconcat ("win.file.open-recent.new('", filename, "')", NULL);
+              /* link the info data to the action via the unique filename */
               subaction = g_action_map_lookup_action (G_ACTION_MAP (window), "file.open-recent.new");
-              mousepad_object_set_data_full (subaction, g_intern_string (action_name),
+              mousepad_object_set_data_full (subaction, g_intern_string (filename),
                                              gtk_recent_info_ref (info), gtk_recent_info_unref);
 
               /* get the name of the item and escape the underscores */
@@ -3560,16 +3559,18 @@ mousepad_window_recent_menu (GSimpleAction *action,
               tooltip = g_strdup_printf (_("Open '%s'"), filename_utf8);
               g_free (filename_utf8);
 
-              /* append menu item */
-              menu_item = g_menu_item_new (label, action_name);
+              /* append menu item, adding the action target separately to avoid any
+               * character escape issue */
+              menu_item = g_menu_item_new (label, NULL);
+              g_menu_item_set_action_and_target_value (menu_item, "win.file.open-recent.new",
+                                                       g_variant_new_string (filename));
               g_menu_item_set_attribute_value (menu_item, "tooltip", g_variant_new_string (tooltip));
               g_menu_append_item (menu, menu_item);
               g_object_unref (menu_item);
               g_free (label);
-              g_free (action_name);
               g_free (tooltip);
 
-              /* update couters */
+              /* update counter */
               n--;
             }
           /* remove the item, don't both the user if this fails */
@@ -4324,17 +4325,12 @@ mousepad_window_action_open_recent (GSimpleAction *action,
   GtkRecentInfo    *info;
   GFile            *file;
   const gchar      *uri, *charset;
-  gchar            *action_name;
   gboolean          succeed = FALSE;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* get the info */
-  action_name = g_strconcat ("win.file.open-recent.new('",
-                             g_variant_get_string (value, NULL),
-                             "')", NULL);
-  info = mousepad_object_get_data (action, action_name);
-  g_free (action_name);
+  info = mousepad_object_get_data (action, g_variant_get_string (value, NULL));
 
   if (G_LIKELY (info != NULL))
     {
