@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-08 18:03+0100\n"
-"PO-Revision-Date: 2021-01-12 20:54+0000\n"
+"PO-Revision-Date: 2021-01-13 04:41+0000\n"
 "Last-Translator: ivmazurenko <ivmazurenko@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "Кодировка, в которой будут открываться файлы (оставьте пустым, чтобы открывать файлы с помощью диалога выбора кодировки) "
 
 #: ../mousepad/mousepad-application.c:123
 msgid "ENCODING"
@@ -45,7 +45,7 @@ msgstr "Не регистрироваться в сессии D-BUS"
 
 #: ../mousepad/mousepad-application.c:138
 msgid "Quit a running Mousepad primary instance"
-msgstr ""
+msgstr "Завершить запущенный экземпляр приложения"
 
 #: ../mousepad/mousepad-application.c:143
 msgid "Print version information and exit"
@@ -63,7 +63,7 @@ msgstr "Mousepad"
 #: ../mousepad/mousepad-application.c:333
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "Режим открытия файлов: \"%s\", \"%s\" or \"%s\" (открывать вкладки в новом окне)"
 
 #: ../mousepad/mousepad-application.c:336
 msgid "MODE"
@@ -125,7 +125,7 @@ msgstr "Перейти к"
 #. add button
 #: ../mousepad/mousepad-dialogs.c:219
 msgid "_Jump to"
-msgstr ""
+msgstr "_Перейти"
 
 #: ../mousepad/mousepad-dialogs.c:239
 msgid "_Line number:"
@@ -202,20 +202,20 @@ msgstr ""
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "Файл был изменен извне. Перезагрузить его с диска?"
 
 #: ../mousepad/mousepad-dialogs.c:475
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr ""
+msgstr "В этом документе есть несохранённые изменения. Если вы перезагрузите файл, они будут утеряны."
 
 #: ../mousepad/mousepad-dialogs.c:477 ../mousepad/mousepad-dialogs.c:544
 msgid "_Revert"
-msgstr ""
+msgstr "Восстановить"
 
 #: ../mousepad/mousepad-dialogs.c:483 ../mousepad/mousepad-window.c:3265
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
-msgstr ""
+msgstr "Пере_загрузить"
 
 #. add title
 #: ../mousepad/mousepad-dialogs.c:493
@@ -251,11 +251,11 @@ msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Открыть диалог кодировки"
 
 #: ../mousepad/mousepad-dialogs.c:754
 msgid "Go back to shorten list"
-msgstr ""
+msgstr "Укороченный список"
 
 #. combo box label
 #: ../mousepad/mousepad-dialogs.c:808
@@ -281,11 +281,11 @@ msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Show all encodings"
-msgstr ""
+msgstr "Показать полный список"
 
 #: ../mousepad/mousepad-dialogs.c:895
 msgid "Text Files"
-msgstr ""
+msgstr "Текстовые файлы"
 
 #: ../mousepad/mousepad-dialogs.c:901
 msgid "All Files"
@@ -360,12 +360,12 @@ msgstr ""
 #: ../mousepad/mousepad-encoding-dialog.c:620
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "Документ корректен в %s. "
 
 #: ../mousepad/mousepad-encoding-dialog.c:621
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "Документ не корректен в %s. "
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
