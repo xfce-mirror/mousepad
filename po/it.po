@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 18:03+0100\n"
-"PO-Revision-Date: 2021-01-09 12:26+0000\n"
+"POT-Creation-Date: 2021-01-15 12:48+0100\n"
+"PO-Revision-Date: 2021-01-15 15:27+0000\n"
 "Last-Translator: Emanuele Petriglia <transifex@emanuelepetriglia.com>\n"
 "Language-Team: Italian (http://www.transifex.com/xfce/xfce-apps/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -66,8 +66,8 @@ msgid "MODE"
 msgstr "MODALITÀ"
 
 #: ../mousepad/mousepad-application.c:388
-msgid "The Xfce development team. All rights reserved."
-msgstr "Il team di sviluppo Xfce. Tutti i diritti riservati."
+msgid "The Mousepad developers. All rights reserved."
+msgstr "Gli sviluppatori di Mousepad. Tutti i diritti riservati."
 
 #: ../mousepad/mousepad-application.c:389
 #, c-format
@@ -746,56 +746,56 @@ msgstr "Mostra la finestra a schermo intero"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3620
+#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3621
 msgid "Charset"
 msgstr "Codifica caratteri"
 
-#: ../mousepad/mousepad-window.c:3560
+#: ../mousepad/mousepad-window.c:3559
 #, c-format
 msgid "Open '%s'"
 msgstr "Apre '%s'"
 
-#: ../mousepad/mousepad-window.c:3586
+#: ../mousepad/mousepad-window.c:3587
 msgid "No items found"
 msgstr "Nessun elemento trovato"
 
-#: ../mousepad/mousepad-window.c:3669
+#: ../mousepad/mousepad-window.c:3670
 msgid "Failed to clear the recent history"
 msgstr "Impossibile pulire la cronologia recente"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4141
+#: ../mousepad/mousepad-window.c:4142
 msgid "No clipboard data"
 msgstr "Nessun appunto"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4252
+#: ../mousepad/mousepad-window.c:4253
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "I modelli devono essere codificati correttamente in %s"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4258
+#: ../mousepad/mousepad-window.c:4259
 msgid "Reading the template failed"
 msgstr "Impossibile leggere il modello"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4263
+#: ../mousepad/mousepad-window.c:4264
 msgid "Loading the template failed"
 msgstr "Impossibile caricare il modello"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4452 ../mousepad/mousepad-window.c:4593
+#: ../mousepad/mousepad-window.c:4448 ../mousepad/mousepad-window.c:4589
 msgid "Failed to save the document"
 msgstr "Impossibile salvare il documento"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4691
+#: ../mousepad/mousepad-window.c:4687
 msgid "Failed to reload the document"
 msgstr "Impossibile ricaricare il documento"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4720
+#: ../mousepad/mousepad-window.c:4716
 msgid "Failed to print the document"
 msgstr "Impossibile stampare il documento"
 
