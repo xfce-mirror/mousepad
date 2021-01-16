@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 18:03+0100\n"
-"PO-Revision-Date: 2021-01-09 03:40+0000\n"
+"POT-Creation-Date: 2021-01-15 12:48+0100\n"
+"PO-Revision-Date: 2021-01-16 11:56+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/xfce/xfce-apps/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -67,8 +67,8 @@ msgid "MODE"
 msgstr "模式"
 
 #: ../mousepad/mousepad-application.c:388
-msgid "The Xfce development team. All rights reserved."
-msgstr "Xfce 開發團隊。著作權所有。"
+msgid "The Mousepad developers. All rights reserved."
+msgstr "Mousepad 開發者。保留所有權利。"
 
 #: ../mousepad/mousepad-application.c:389
 #, c-format
@@ -746,56 +746,56 @@ msgstr "讓視窗變為全螢幕"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3620
+#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3621
 msgid "Charset"
 msgstr "字元集"
 
-#: ../mousepad/mousepad-window.c:3560
+#: ../mousepad/mousepad-window.c:3559
 #, c-format
 msgid "Open '%s'"
 msgstr "開啟「%s」"
 
-#: ../mousepad/mousepad-window.c:3586
+#: ../mousepad/mousepad-window.c:3587
 msgid "No items found"
 msgstr "找不到項目"
 
-#: ../mousepad/mousepad-window.c:3669
+#: ../mousepad/mousepad-window.c:3670
 msgid "Failed to clear the recent history"
 msgstr "無法清除最近歷史"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4141
+#: ../mousepad/mousepad-window.c:4142
 msgid "No clipboard data"
 msgstr "剪貼簿沒有資料"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4252
+#: ../mousepad/mousepad-window.c:4253
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "範本應為 %s 有效"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4258
+#: ../mousepad/mousepad-window.c:4259
 msgid "Reading the template failed"
 msgstr "讀取範本失敗"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4263
+#: ../mousepad/mousepad-window.c:4264
 msgid "Loading the template failed"
 msgstr "範本載入失敗"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4452 ../mousepad/mousepad-window.c:4593
+#: ../mousepad/mousepad-window.c:4448 ../mousepad/mousepad-window.c:4589
 msgid "Failed to save the document"
 msgstr "未能儲存文件"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4691
+#: ../mousepad/mousepad-window.c:4687
 msgid "Failed to reload the document"
 msgstr "未能重新載入文件"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4720
+#: ../mousepad/mousepad-window.c:4716
 msgid "Failed to print the document"
 msgstr "未能列印文件"
 
