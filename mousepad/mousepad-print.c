@@ -75,6 +75,7 @@ struct _MousepadPrint
   GtkWidget                *widget_line_numbers_hbox;
 
   /* settings */
+  GtkPageSetup             *page_setup;
   gboolean                  print_line_numbers;
   gint                      line_number_increment;
 
@@ -111,6 +112,7 @@ static void
 mousepad_print_init (MousepadPrint *print)
 {
   /* init */
+  print->page_setup = NULL;
   print->print_line_numbers = FALSE;
   print->line_number_increment = 1;
   print->compositor = NULL;
@@ -127,6 +129,9 @@ mousepad_print_finalize (GObject *object)
   MousepadPrint *print = MOUSEPAD_PRINT (object);
 
   /* cleanup */
+  if (GTK_IS_PAGE_SETUP (print->page_setup))
+    g_object_unref (print->page_setup);
+
   g_object_unref (print->compositor);
 
   (*G_OBJECT_CLASS (mousepad_print_parent_class)->finalize) (object);
@@ -420,6 +425,10 @@ mousepad_print_begin_print (GtkPrintOperation *operation,
   gint              n_pages = 1;
   const gchar      *file_name;
 
+  /* apply the saved page setup, if any */
+  if (GTK_IS_PAGE_SETUP (print->page_setup))
+    gtk_print_operation_set_default_page_setup (operation, print->page_setup);
+
   /* print header */
   if (gtk_source_print_compositor_get_print_header (print->compositor))
     {
@@ -463,6 +472,7 @@ static void
 mousepad_print_page_setup_dialog (GtkWidget         *button,
                                   GtkPrintOperation *operation)
 {
+  MousepadPrint    *print = MOUSEPAD_PRINT (operation);
   GtkWidget        *toplevel;
   GtkPrintSettings *settings;
   GtkPageSetup     *page_setup;
@@ -480,11 +490,16 @@ mousepad_print_page_setup_dialog (GtkWidget         *button,
   /* get the page setup */
   page_setup = gtk_print_operation_get_default_page_setup (operation);
 
-  /* run the dialog */
-  page_setup = gtk_print_run_page_setup_dialog (GTK_WINDOW (toplevel), page_setup, settings);
+  /*
+   * For some reason (most likely a bug on GTK side, see
+   * https://gitlab.gnome.org/GNOME/gtk/-/issues/1752), the page setup is lost between
+   * this dialog and begin_print(). So let's save it here as a MousepadPrint attribute
+   * and apply it later in begin_print().
+   */
+  if (GTK_IS_PAGE_SETUP (print->page_setup))
+    g_object_unref (print->page_setup);
 
-  /* set the new page setup */
-  gtk_print_operation_set_default_page_setup (operation, page_setup);
+  print->page_setup = gtk_print_run_page_setup_dialog (GTK_WINDOW (toplevel), page_setup, settings);
 }
 
 
