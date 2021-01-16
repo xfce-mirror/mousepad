@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 18:03+0100\n"
-"PO-Revision-Date: 2021-01-09 13:22+0000\n"
+"POT-Creation-Date: 2021-01-15 12:48+0100\n"
+"PO-Revision-Date: 2021-01-16 12:32+0000\n"
 "Last-Translator: beriain\n"
 "Language-Team: Basque (http://www.transifex.com/xfce/xfce-apps/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -58,15 +58,15 @@ msgstr "Mousepad"
 #: ../mousepad/mousepad-application.c:333
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "Fitxategia irekitzeko modua: \"%s\", \"%s\" edo \"%s\" (fitxak leiho berrietan ireki)"
 
 #: ../mousepad/mousepad-application.c:336
 msgid "MODE"
 msgstr "MODUA"
 
 #: ../mousepad/mousepad-application.c:388
-msgid "The Xfce development team. All rights reserved."
-msgstr "Xfce garatzaile taldea. Eskubide guztiak erreserbaturik"
+msgid "The Mousepad developers. All rights reserved."
+msgstr "Mousepad-en garatzaileak. Eskubide guztiak erreserbaturik."
 
 #: ../mousepad/mousepad-application.c:389
 #, c-format
@@ -94,7 +94,7 @@ msgstr "Dokumentazio nabigatzailea irekitzeak huts egin du"
 #. build dialog
 #: ../mousepad/mousepad-dialogs.c:136
 msgid "Select Tab Size"
-msgstr "Hautatu fitxa tamaina"
+msgstr "Hautatu tabuladorearen tamaina"
 
 #. add buttons
 #. cancel button
@@ -230,11 +230,11 @@ msgstr "Fitxategia leheneratzen baduzu, gorde gabeko aldaketa guztiak galduko di
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "Fitxategi hau %s(r)ekin kodetuta dagoela dirudi, baina %s kodeketa hautatu duzu. Hautaketa hau baieztatzen duzu?"
 
 #: ../mousepad/mousepad-dialogs.c:579
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "Horrela ez bada, antzemandako kodeketa erabiliko da."
 
 #: ../mousepad/mousepad-dialogs.c:662
 msgid "Please select a file"
@@ -246,7 +246,7 @@ msgstr "Aldi baterako fitxategia kodeketa probetarako prestatzeak huts egin du"
 
 #: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Kodeketa leihoa ireki"
 
 #: ../mousepad/mousepad-dialogs.c:754
 msgid "Go back to shorten list"
@@ -328,7 +328,7 @@ msgstr "Kodeketak analizatzen..."
 #: ../mousepad/mousepad-encoding-dialog.c:307
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s (%s, partziala)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:305
 #, c-format
@@ -355,12 +355,12 @@ msgstr "Ez da beste kodeketa baliodunik aurkitu."
 #: ../mousepad/mousepad-encoding-dialog.c:620
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "Dokumentua %s balioduna da."
 
 #: ../mousepad/mousepad-encoding-dialog.c:621
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "Dokumentua ez da %s balioduna."
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
@@ -745,56 +745,56 @@ msgstr "Leihoa pantaila-osora moldatu"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3620
+#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3621
 msgid "Charset"
 msgstr "Karaktere-jokoa"
 
-#: ../mousepad/mousepad-window.c:3560
+#: ../mousepad/mousepad-window.c:3559
 #, c-format
 msgid "Open '%s'"
 msgstr "Ireki '%s'"
 
-#: ../mousepad/mousepad-window.c:3586
+#: ../mousepad/mousepad-window.c:3587
 msgid "No items found"
 msgstr "Ez da elementurik aurkitu"
 
-#: ../mousepad/mousepad-window.c:3669
+#: ../mousepad/mousepad-window.c:3670
 msgid "Failed to clear the recent history"
 msgstr "Azkenaldiko historia garbitzeak huts egin du"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4141
+#: ../mousepad/mousepad-window.c:4142
 msgid "No clipboard data"
 msgstr "Ez dago arbel daturik"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4252
+#: ../mousepad/mousepad-window.c:4253
 #, c-format
 msgid "Templates should be %s valid"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4258
+#: ../mousepad/mousepad-window.c:4259
 msgid "Reading the template failed"
 msgstr "Txantiloia irakurtzeak huts egin du"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4263
+#: ../mousepad/mousepad-window.c:4264
 msgid "Loading the template failed"
 msgstr "Txantiloia kargatzeak huts egin du"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4452 ../mousepad/mousepad-window.c:4593
+#: ../mousepad/mousepad-window.c:4448 ../mousepad/mousepad-window.c:4589
 msgid "Failed to save the document"
 msgstr "Fitxategia gordetzeak huts egin du"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4691
+#: ../mousepad/mousepad-window.c:4687
 msgid "Failed to reload the document"
 msgstr "Fitxategia birkargatzeak huts egin du"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4720
+#: ../mousepad/mousepad-window.c:4716
 msgid "Failed to print the document"
 msgstr "Fitxategia inprimatzeak huts egin du"
 
@@ -936,7 +936,7 @@ msgstr "Kolore eskema"
 
 #: ../mousepad/resources/gtk/menus.ui.h:36
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Testuaren ikuspegirako erabili beharreko kolore eskema"
 
 #: ../mousepad/resources/gtk/menus.ui.h:37
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
@@ -990,7 +990,7 @@ msgstr "Dokumentu menua"
 
 #: ../mousepad/resources/gtk/menus.ui.h:49
 msgid "_Word Wrap"
-msgstr ""
+msgstr "Hitzen bilgarria"
 
 #: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Toggle breaking lines in between words"
@@ -998,19 +998,19 @@ msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "_Auto Indent"
-msgstr ""
+msgstr "Koskatze automatikoa"
 
 #: ../mousepad/resources/gtk/menus.ui.h:52
 msgid "Auto indent a new line"
-msgstr ""
+msgstr "Lerro berri bat automatikoki koskatu"
 
 #: ../mousepad/resources/gtk/menus.ui.h:53
 msgid "Tab _Size"
-msgstr "Fitxa _tamaina"
+msgstr "Tabuladorearen _tamaina"
 
 #: ../mousepad/resources/gtk/menus.ui.h:54
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "Tabulazio batentzako zuriune karaktere kopurua"
 
 #: ../mousepad/resources/gtk/menus.ui.h:55
 msgid "Two spaces"
@@ -1034,7 +1034,7 @@ msgstr "Beste bat..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:60
 msgid "Set custom tab size"
-msgstr "Ezarri fitxa tamaina pertsonala"
+msgstr "Ezarri tabuladore tamaina pertsonala"
 
 #: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "Insert _Spaces"
@@ -1050,11 +1050,11 @@ msgstr "_Fitxategi-mota"
 
 #: ../mousepad/resources/gtk/menus.ui.h:64
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "Sintaxi nabarmenketarako erabili beharreko hizkuntza"
 
 #: ../mousepad/resources/gtk/menus.ui.h:65
 msgid "Plain Text"
-msgstr "Testu Hutsa"
+msgstr "Testu hutsa"
 
 #: ../mousepad/resources/gtk/menus.ui.h:66
 msgid "No filetype"
@@ -1066,19 +1066,19 @@ msgstr "Lerro lo_deketa"
 
 #: ../mousepad/resources/gtk/menus.ui.h:68
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "Lerro amaierarako erabili beharreko karakterea(k)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:69
 msgid "Set the line ending of the document to Unix (LF)"
-msgstr ""
+msgstr "Dokumentuaren lerro amaiera Unix-era ezarri (LF)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "Set the line ending of the document to Mac (CR)"
-msgstr ""
+msgstr "Dokumentuaren lerro amaiera Mac-era ezarri (CR)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "Set the line ending of the document to DOS / Windows (CR LF)"
-msgstr ""
+msgstr "Dokumentuaren lerro amaiera DOS / Windows-era ezarri (CR LF)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "Write Unicode _BOM"
@@ -1166,7 +1166,7 @@ msgstr "Gorde uneko dokumntua beste fitxategi batean"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
-msgstr "_Desuztartu fitxa"
+msgstr "Fitxak bereizi"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:12
 msgid "Move the current document to a new window"
