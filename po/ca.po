@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 18:03+0100\n"
-"PO-Revision-Date: 2021-01-10 06:08+0000\n"
-"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
+"POT-Creation-Date: 2021-01-15 12:48+0100\n"
+"PO-Revision-Date: 2021-01-15 11:48+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,8 +67,8 @@ msgid "MODE"
 msgstr "MODE"
 
 #: ../mousepad/mousepad-application.c:388
-msgid "The Xfce development team. All rights reserved."
-msgstr "L'equip de desenvolupadors de Xfce. Tots els drets reservats."
+msgid "The Mousepad developers. All rights reserved."
+msgstr ""
 
 #: ../mousepad/mousepad-application.c:389
 #, c-format
@@ -747,56 +747,56 @@ msgstr "Fes que la finestra ocupi tota la pantalla"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3620
+#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3621
 msgid "Charset"
 msgstr "Conjunt de caràcters"
 
-#: ../mousepad/mousepad-window.c:3560
+#: ../mousepad/mousepad-window.c:3559
 #, c-format
 msgid "Open '%s'"
 msgstr "Obre «%s»"
 
-#: ../mousepad/mousepad-window.c:3586
+#: ../mousepad/mousepad-window.c:3587
 msgid "No items found"
 msgstr "No s'han trobat elements"
 
-#: ../mousepad/mousepad-window.c:3669
+#: ../mousepad/mousepad-window.c:3670
 msgid "Failed to clear the recent history"
 msgstr "Ha fallat l'esborrament de l'historial recent"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4141
+#: ../mousepad/mousepad-window.c:4142
 msgid "No clipboard data"
 msgstr "No hi ha dades al porta-retalls"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4252
+#: ../mousepad/mousepad-window.c:4253
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Les plantilles haurien de ser vàlides segons les especificacions %s"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4258
+#: ../mousepad/mousepad-window.c:4259
 msgid "Reading the template failed"
 msgstr "Ha fallat la lectura de la plantilla"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4263
+#: ../mousepad/mousepad-window.c:4264
 msgid "Loading the template failed"
 msgstr "Ha fallat la càrrega de la plantilla"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4452 ../mousepad/mousepad-window.c:4593
+#: ../mousepad/mousepad-window.c:4448 ../mousepad/mousepad-window.c:4589
 msgid "Failed to save the document"
 msgstr "Ha fallat el desament del fitxer"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4691
+#: ../mousepad/mousepad-window.c:4687
 msgid "Failed to reload the document"
 msgstr "Ha fallat la recàrrega del document"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4720
+#: ../mousepad/mousepad-window.c:4716
 msgid "Failed to print the document"
 msgstr "Ha fallat la impressió del document"
 
