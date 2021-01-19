@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-25 00:46+0100\n"
-"PO-Revision-Date: 2020-12-29 12:29+0000\n"
-"Last-Translator: Źmicier Turok <nashtlumach@gmail.com>\n"
+"POT-Creation-Date: 2021-01-15 12:48+0100\n"
+"PO-Revision-Date: 2021-01-15 11:48+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Belarusian (http://www.transifex.com/xfce/xfce-apps/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,398 +26,480 @@ msgstr ""
 "Language: be\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: ../mousepad/mousepad-application.c:117
+#: ../mousepad/mousepad-application.c:122
+msgid ""
+"Encoding to be used to open files (leave empty to open files in the encoding"
+" dialog)"
+msgstr ""
+
+#: ../mousepad/mousepad-application.c:123
+msgid "ENCODING"
+msgstr ""
+
+#: ../mousepad/mousepad-application.c:128
+msgid "Display a list of possible encodings to open files"
+msgstr ""
+
+#: ../mousepad/mousepad-application.c:133
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Не рэгістравацца ў сеансе D-BUS"
 
-#: ../mousepad/mousepad-application.c:122
+#: ../mousepad/mousepad-application.c:138
 msgid "Quit a running Mousepad primary instance"
 msgstr "Закрыць асноўны асобнік Mousepad"
 
-#: ../mousepad/mousepad-application.c:127
+#: ../mousepad/mousepad-application.c:143
 msgid "Print version information and exit"
 msgstr "Вывесці інфармацыю пра версію і выйсці"
 
-#: ../mousepad/mousepad-application.c:132
+#: ../mousepad/mousepad-application.c:148
 msgid "[FILES...]"
 msgstr "[ФАЙЛЫ...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:299 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:324 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:308
+#: ../mousepad/mousepad-application.c:333
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Рэжым адкрыцця файлаў: \"%s\", \"%s\" ці \"%s\" (адкрыццё файлаў у новым акне)"
 
-#: ../mousepad/mousepad-application.c:311
+#: ../mousepad/mousepad-application.c:336
 msgid "MODE"
 msgstr "РЭЖЫМ"
 
-#: ../mousepad/mousepad-application.c:331
-msgid "The Xfce development team. All rights reserved."
-msgstr "Каманда распрацоўкі Xfce. Усе правы абароненыя."
+#: ../mousepad/mousepad-application.c:388
+msgid "The Mousepad developers. All rights reserved."
+msgstr ""
 
-#: ../mousepad/mousepad-application.c:332
+#: ../mousepad/mousepad-application.c:389
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Калі ласка, паведамляйце пра памылкі на <%s>."
 
-#: ../mousepad/mousepad-application.c:1240
+#: ../mousepad/mousepad-application.c:1283
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s| Аўтары: %s| Назва файла:%s"
 
-#: ../mousepad/mousepad-dialogs.c:38
+#: ../mousepad/mousepad-dialogs.c:69
 msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
 msgstr "Mousepad — хуткі тэкставы рэдактар для працоўнага асяроддзя Xfce."
 
-#: ../mousepad/mousepad-dialogs.c:45
+#: ../mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
 msgstr "Zmicer Turok zmicerturok@gmail.com"
 
 #. display an error message to the user
-#: ../mousepad/mousepad-dialogs.c:91
+#: ../mousepad/mousepad-dialogs.c:120
 msgid "Failed to open the documentation browser"
 msgstr "Немагчыма адкрыць праграму для прагляду дакументаў"
 
 #. build dialog
-#: ../mousepad/mousepad-dialogs.c:107
+#: ../mousepad/mousepad-dialogs.c:136
 msgid "Select Tab Size"
 msgstr "Абраць памер табуляцыі"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:110 ../mousepad/mousepad-dialogs.c:188
-#: ../mousepad/mousepad-dialogs.c:294 ../mousepad/mousepad-dialogs.c:358
-#: ../mousepad/mousepad-dialogs.c:465 ../mousepad/mousepad-dialogs.c:502
-#: ../mousepad/mousepad-dialogs.c:531 ../mousepad/mousepad-dialogs.c:574
-#: ../mousepad/mousepad-encoding-dialog.c:117
-#: ../mousepad/mousepad-encoding-dialog.c:189
+#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:215
+#: ../mousepad/mousepad-dialogs.c:321 ../mousepad/mousepad-dialogs.c:385
+#: ../mousepad/mousepad-dialogs.c:498 ../mousepad/mousepad-dialogs.c:539
+#: ../mousepad/mousepad-dialogs.c:921 ../mousepad/mousepad-dialogs.c:981
+#: ../mousepad/mousepad-encoding-dialog.c:120
+#: ../mousepad/mousepad-encoding-dialog.c:191
 msgid "_Cancel"
 msgstr "_Скасаваць"
 
-#: ../mousepad/mousepad-dialogs.c:111
-#: ../mousepad/mousepad-encoding-dialog.c:118
+#: ../mousepad/mousepad-dialogs.c:138
+#: ../mousepad/mousepad-encoding-dialog.c:121
 msgid "_OK"
 msgstr "_Добра"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:185
+#: ../mousepad/mousepad-dialogs.c:214
 msgid "Go To"
 msgstr "Перайсці да"
 
-#: ../mousepad/mousepad-dialogs.c:190
+#. add button
+#: ../mousepad/mousepad-dialogs.c:219
 msgid "_Jump to"
 msgstr "Пера_йсці"
 
-#: ../mousepad/mousepad-dialogs.c:210
+#: ../mousepad/mousepad-dialogs.c:239
 msgid "_Line number:"
 msgstr "Нумар _радка:"
 
-#: ../mousepad/mousepad-dialogs.c:230
+#: ../mousepad/mousepad-dialogs.c:259
 msgid "C_olumn number:"
 msgstr "Нумар _слупка:"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:291
+#: ../mousepad/mousepad-dialogs.c:320
 msgid "Clear Documents History"
 msgstr "Ачысціць гісторыю дакументаў"
 
-#: ../mousepad/mousepad-dialogs.c:296
+#. set button
+#: ../mousepad/mousepad-dialogs.c:325
 msgid "Clea_r"
 msgstr "_Ачысціць"
 
-#: ../mousepad/mousepad-dialogs.c:320
+#: ../mousepad/mousepad-dialogs.c:349
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr "<big><b>Выдаліць усе запісы з гісторыі адкрытых дакументаў?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:325
+#: ../mousepad/mousepad-dialogs.c:354
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "Ачыстка гісторыі апошніх дакументаў выдаліць усе файлы са спіса назаўсёды."
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:355
+#: ../mousepad/mousepad-dialogs.c:384
 msgid "Save Changes"
 msgstr "Захаваць змены"
 
-#: ../mousepad/mousepad-dialogs.c:362
+#: ../mousepad/mousepad-dialogs.c:391
 msgid "_Don't Save"
 msgstr "_Не захоўваць"
 
-#: ../mousepad/mousepad-dialogs.c:369 ../mousepad/mousepad-dialogs.c:503
+#: ../mousepad/mousepad-dialogs.c:398 ../mousepad/mousepad-dialogs.c:541
 msgid "_Save As"
 msgstr "_Захаваць як"
 
-#: ../mousepad/mousepad-dialogs.c:377 ../mousepad/mousepad-dialogs.c:473
-#: ../mousepad/mousepad-dialogs.c:534
+#. add button
+#: ../mousepad/mousepad-dialogs.c:406 ../mousepad/mousepad-dialogs.c:506
+#: ../mousepad/mousepad-dialogs.c:925
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "За_хаваць"
 
-#: ../mousepad/mousepad-dialogs.c:401
+#: ../mousepad/mousepad-dialogs.c:430
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr "<big><b>Захаваць змены перад закрыццём?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:406
+#: ../mousepad/mousepad-dialogs.c:435
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "Калі вы не захаваеце файл, то ўсе змены страцяцца."
 
-#: ../mousepad/mousepad-dialogs.c:433
+#: ../mousepad/mousepad-dialogs.c:462
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "Файл быў зменены звонку. Працягнуць захаванне?"
 
-#: ../mousepad/mousepad-dialogs.c:434
+#: ../mousepad/mousepad-dialogs.c:463
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "Калі вы захаваеце файл, усе вонкавыя змены страцяцца."
 
-#: ../mousepad/mousepad-dialogs.c:436
+#: ../mousepad/mousepad-dialogs.c:465
 msgid "Save _As"
 msgstr "Захаваць _як"
 
-#: ../mousepad/mousepad-dialogs.c:441
+#: ../mousepad/mousepad-dialogs.c:470
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
 msgstr "Дакумент быў зменены звонку. Перазагрузіць дакумент?"
 
-#: ../mousepad/mousepad-dialogs.c:446
+#: ../mousepad/mousepad-dialogs.c:475
 msgid "You have unsaved changes. If you revert the file, they will be lost."
 msgstr "Ёсць незахаваныя змены. Калі вы вернеце файл да першапачатковага стану, то яны страцяцца."
 
-#: ../mousepad/mousepad-dialogs.c:448 ../mousepad/mousepad-dialogs.c:505
+#: ../mousepad/mousepad-dialogs.c:477 ../mousepad/mousepad-dialogs.c:544
 msgid "_Revert"
 msgstr "_Адрабіць"
 
-#: ../mousepad/mousepad-dialogs.c:454 ../mousepad/mousepad-window.c:3212
+#: ../mousepad/mousepad-dialogs.c:483 ../mousepad/mousepad-window.c:3265
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "Пара_загрузіць"
 
-#: ../mousepad/mousepad-dialogs.c:461
+#. add title
+#: ../mousepad/mousepad-dialogs.c:493
 msgid "Externally Modified"
 msgstr "Змены звонку"
 
-#: ../mousepad/mousepad-dialogs.c:499
+#: ../mousepad/mousepad-dialogs.c:531
 msgid "Do you want to save your changes before reloading?"
 msgstr "Захаваць змены перад тым як перазагрузіць?"
 
-#: ../mousepad/mousepad-dialogs.c:501
+#: ../mousepad/mousepad-dialogs.c:536
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Калі вы перазагрузіце файл, то ўсе незахаваныя змены страцяцца."
 
+#: ../mousepad/mousepad-dialogs.c:572
+#, c-format
+msgid ""
+"The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
+"confirm this choice?"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:579
+msgid "If not, the guessed encoding will be used."
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:662
+msgid "Please select a file"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:689
+msgid "Failed to prepare the temporary file for encoding tests"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
+msgid "Open encoding dialog"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:754
+msgid "Go back to shorten list"
+msgstr ""
+
+#. combo box label
+#: ../mousepad/mousepad-dialogs.c:808
+msgid "_Encoding:"
+msgstr "_Кадаванне:"
+
+#: ../mousepad/mousepad-dialogs.c:820
+#: ../mousepad/mousepad-encoding-dialog.c:289
+#: ../mousepad/mousepad-encoding-dialog.c:290
+msgid "Default"
+msgstr "Прадвызначаны"
+
+#: ../mousepad/mousepad-dialogs.c:830
+#: ../mousepad/mousepad-encoding-dialog.c:305
+#: ../mousepad/mousepad-encoding-dialog.c:307
+#: ../mousepad/mousepad-encoding-dialog.c:311
+msgid "System"
+msgstr "Сістэма"
+
+#: ../mousepad/mousepad-dialogs.c:843
+msgid "Current"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:861
+msgid "Show all encodings"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:895
+msgid "Text Files"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:901
+msgid "All Files"
+msgstr "Усе файлы"
+
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:529
+#: ../mousepad/mousepad-dialogs.c:920
 msgid "Save As"
 msgstr "Захаваць як"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:571
+#: ../mousepad/mousepad-dialogs.c:980
 msgid "Open File"
 msgstr "Адкрыць файл"
 
-#: ../mousepad/mousepad-dialogs.c:576
+#. add button
+#: ../mousepad/mousepad-dialogs.c:985
 msgid "_Open"
 msgstr "_Адкрыць"
 
-#: ../mousepad/mousepad-dialogs.c:589
-msgid "_Encoding:"
-msgstr "_Кадаванне:"
+#. create new font chooser dialog
+#: ../mousepad/mousepad-dialogs.c:1030
+msgid "Choose Mousepad Font"
+msgstr "Абраць шрыфт"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:578
+#: ../mousepad/mousepad-document.c:609
 msgid "Close this tab"
 msgstr "Закрыць гэтую ўкладку"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:608
+#: ../mousepad/mousepad-document.c:639
 msgid "Untitled"
 msgstr "Без назвы"
 
-#: ../mousepad/mousepad-encoding-dialog.c:122
-#: ../mousepad/mousepad-encoding-dialog.c:334
-#: ../mousepad/mousepad-encoding-dialog.c:354
-msgid "The document was not UTF-8 valid."
-msgstr "Гэты файл не ёсць файлам з UTF-8."
-
-#. encoding radio buttons
-#. default encoding: UTF-8
-#: ../mousepad/mousepad-encoding-dialog.c:138
-msgid "Default (UTF-8)"
-msgstr "Прадвызначана (UTF-8)"
-
-#: ../mousepad/mousepad-encoding-dialog.c:146
-msgid "System"
-msgstr "Сістэма"
-
-#: ../mousepad/mousepad-encoding-dialog.c:159
+#: ../mousepad/mousepad-encoding-dialog.c:161
 msgid "Other:"
 msgstr "Іншае:"
 
-#: ../mousepad/mousepad-encoding-dialog.c:184
+#: ../mousepad/mousepad-encoding-dialog.c:186
 msgid "Checking encodings..."
 msgstr "Праверка кадавання..."
 
-#: ../mousepad/mousepad-encoding-dialog.c:318
+#: ../mousepad/mousepad-encoding-dialog.c:290
+#: ../mousepad/mousepad-encoding-dialog.c:307
+#, c-format
+msgid "%s (%s, partial)"
+msgstr ""
+
+#: ../mousepad/mousepad-encoding-dialog.c:305
+#, c-format
+msgid "%s (%s, failed)"
+msgstr ""
+
+#: ../mousepad/mousepad-encoding-dialog.c:371
 msgid "Other (partial):"
 msgstr "Іншае (часткова):"
 
-#: ../mousepad/mousepad-encoding-dialog.c:329
+#: ../mousepad/mousepad-encoding-dialog.c:382
 msgid "Other valid encodings were found, please choose below."
 msgstr "Знойдзены іншыя прыдатныя кадаванні. Калі ласка, абярыце ніжэй."
 
-#: ../mousepad/mousepad-encoding-dialog.c:331
+#: ../mousepad/mousepad-encoding-dialog.c:384
 msgid "Other partially valid encodings were found, please choose below."
 msgstr "Знойдзены іншыя часткова прыдатныя кадаванні. Калі ласка, абярыце ніжэй."
 
-#: ../mousepad/mousepad-encoding-dialog.c:355
+#: ../mousepad/mousepad-encoding-dialog.c:416
 msgid "No other valid encoding was found."
 msgstr "Іншых прыдатных кадаванняў не знойдзена."
 
-#: ../mousepad/mousepad-encoding-dialog.c:453 ../mousepad/mousepad-file.c:919
+#. dialog title
+#: ../mousepad/mousepad-encoding-dialog.c:620
 #, c-format
-msgid "Unsupported character set"
-msgstr "Кадаванне не падтрымліваецца"
+msgid "The document is %s valid."
+msgstr ""
+
+#: ../mousepad/mousepad-encoding-dialog.c:621
+#, c-format
+msgid "The document is not %s valid."
+msgstr ""
 
 #. west european
-#: ../mousepad/mousepad-encoding.c:25
+#: ../mousepad/mousepad-encoding.c:39
 msgid "Celtic"
 msgstr "Кельтскае"
 
-#: ../mousepad/mousepad-encoding.c:26 ../mousepad/mousepad-encoding.c:27
+#: ../mousepad/mousepad-encoding.c:40 ../mousepad/mousepad-encoding.c:41
 msgid "Greek"
 msgstr "Грэчаскае"
 
-#: ../mousepad/mousepad-encoding.c:28
+#: ../mousepad/mousepad-encoding.c:42
 msgid "Nordic"
 msgstr "Скандынаўскае"
 
-#: ../mousepad/mousepad-encoding.c:29
+#: ../mousepad/mousepad-encoding.c:43
 msgid "South European"
 msgstr "Паўднёваеўрапейскае"
 
-#: ../mousepad/mousepad-encoding.c:30 ../mousepad/mousepad-encoding.c:31
-#: ../mousepad/mousepad-encoding.c:32 ../mousepad/mousepad-encoding.c:33
+#: ../mousepad/mousepad-encoding.c:44 ../mousepad/mousepad-encoding.c:45
+#: ../mousepad/mousepad-encoding.c:46 ../mousepad/mousepad-encoding.c:47
 msgid "Western"
 msgstr "Западнае"
 
 #. east european
-#: ../mousepad/mousepad-encoding.c:36 ../mousepad/mousepad-encoding.c:37
-#: ../mousepad/mousepad-encoding.c:38
+#: ../mousepad/mousepad-encoding.c:50 ../mousepad/mousepad-encoding.c:51
+#: ../mousepad/mousepad-encoding.c:52
 msgid "Baltic"
 msgstr "Балтыйскае"
 
-#: ../mousepad/mousepad-encoding.c:39 ../mousepad/mousepad-encoding.c:40
-#: ../mousepad/mousepad-encoding.c:41
+#: ../mousepad/mousepad-encoding.c:53 ../mousepad/mousepad-encoding.c:54
+#: ../mousepad/mousepad-encoding.c:55
 msgid "Central European"
 msgstr "Цэнтральнаеўрапейскае"
 
-#: ../mousepad/mousepad-encoding.c:42 ../mousepad/mousepad-encoding.c:43
-#: ../mousepad/mousepad-encoding.c:44 ../mousepad/mousepad-encoding.c:45
-#: ../mousepad/mousepad-encoding.c:46
+#: ../mousepad/mousepad-encoding.c:56 ../mousepad/mousepad-encoding.c:57
+#: ../mousepad/mousepad-encoding.c:58 ../mousepad/mousepad-encoding.c:59
+#: ../mousepad/mousepad-encoding.c:60
 msgid "Cyrillic"
 msgstr "Кірыліца"
 
-#: ../mousepad/mousepad-encoding.c:47
+#: ../mousepad/mousepad-encoding.c:61
 msgid "Cyrillic/Russian"
 msgstr "Кірыліца/Расійскае"
 
-#: ../mousepad/mousepad-encoding.c:48
+#: ../mousepad/mousepad-encoding.c:62
 msgid "Cyrillic/Ukrainian"
 msgstr "Кірыліца/Украінскае"
 
-#: ../mousepad/mousepad-encoding.c:49
+#: ../mousepad/mousepad-encoding.c:63
 msgid "Romanian"
 msgstr "Румынскае"
 
 #. middle eastern
-#: ../mousepad/mousepad-encoding.c:52 ../mousepad/mousepad-encoding.c:53
-#: ../mousepad/mousepad-encoding.c:54
+#: ../mousepad/mousepad-encoding.c:66 ../mousepad/mousepad-encoding.c:67
+#: ../mousepad/mousepad-encoding.c:68
 msgid "Arabic"
 msgstr "Арабскае"
 
-#: ../mousepad/mousepad-encoding.c:55 ../mousepad/mousepad-encoding.c:56
-#: ../mousepad/mousepad-encoding.c:57
+#: ../mousepad/mousepad-encoding.c:69 ../mousepad/mousepad-encoding.c:70
+#: ../mousepad/mousepad-encoding.c:71
 msgid "Hebrew"
 msgstr "Іўрыт"
 
-#: ../mousepad/mousepad-encoding.c:58
+#: ../mousepad/mousepad-encoding.c:72
 msgid "Hebrew Visual"
 msgstr "Іўрыт (візуальнае)"
 
 #. asian
-#: ../mousepad/mousepad-encoding.c:61
+#: ../mousepad/mousepad-encoding.c:75
 msgid "Armenian"
 msgstr "Армянскае"
 
-#: ../mousepad/mousepad-encoding.c:62
+#: ../mousepad/mousepad-encoding.c:76
 msgid "Georgian"
 msgstr "Грузінскае"
 
-#: ../mousepad/mousepad-encoding.c:63
+#: ../mousepad/mousepad-encoding.c:77
 msgid "Thai"
 msgstr "Тайскае"
 
-#: ../mousepad/mousepad-encoding.c:64 ../mousepad/mousepad-encoding.c:65
-#: ../mousepad/mousepad-encoding.c:66
+#: ../mousepad/mousepad-encoding.c:78 ../mousepad/mousepad-encoding.c:79
+#: ../mousepad/mousepad-encoding.c:80
 msgid "Turkish"
 msgstr "Турэцкае"
 
-#: ../mousepad/mousepad-encoding.c:67 ../mousepad/mousepad-encoding.c:68
-#: ../mousepad/mousepad-encoding.c:69
+#: ../mousepad/mousepad-encoding.c:81 ../mousepad/mousepad-encoding.c:82
+#: ../mousepad/mousepad-encoding.c:83
 msgid "Vietnamese"
 msgstr "В'етнамскае"
 
 #. unicode
-#: ../mousepad/mousepad-encoding.c:72 ../mousepad/mousepad-encoding.c:73
-#: ../mousepad/mousepad-encoding.c:74 ../mousepad/mousepad-encoding.c:75
-#: ../mousepad/mousepad-encoding.c:76 ../mousepad/mousepad-encoding.c:77
-#: ../mousepad/mousepad-encoding.c:78 ../mousepad/mousepad-encoding.c:79
+#: ../mousepad/mousepad-encoding.c:86 ../mousepad/mousepad-encoding.c:87
+#: ../mousepad/mousepad-encoding.c:88 ../mousepad/mousepad-encoding.c:89
+#: ../mousepad/mousepad-encoding.c:90 ../mousepad/mousepad-encoding.c:91
+#: ../mousepad/mousepad-encoding.c:92 ../mousepad/mousepad-encoding.c:93
 msgid "Unicode"
 msgstr "Юнікод"
 
 #. east asian
-#: ../mousepad/mousepad-encoding.c:82 ../mousepad/mousepad-encoding.c:83
-#: ../mousepad/mousepad-encoding.c:84 ../mousepad/mousepad-encoding.c:85
+#: ../mousepad/mousepad-encoding.c:96 ../mousepad/mousepad-encoding.c:97
+#: ../mousepad/mousepad-encoding.c:98 ../mousepad/mousepad-encoding.c:99
 msgid "Chinese Simplified"
 msgstr "Кітайскае спрошчанае"
 
-#: ../mousepad/mousepad-encoding.c:86 ../mousepad/mousepad-encoding.c:87
-#: ../mousepad/mousepad-encoding.c:88
+#: ../mousepad/mousepad-encoding.c:100 ../mousepad/mousepad-encoding.c:101
+#: ../mousepad/mousepad-encoding.c:102
 msgid "Chinese Traditional"
 msgstr "Кітайскае традыцыйнае"
 
-#: ../mousepad/mousepad-encoding.c:89 ../mousepad/mousepad-encoding.c:90
-#: ../mousepad/mousepad-encoding.c:91
+#: ../mousepad/mousepad-encoding.c:103 ../mousepad/mousepad-encoding.c:104
+#: ../mousepad/mousepad-encoding.c:105
 msgid "Japanese"
 msgstr "Японскае"
 
-#: ../mousepad/mousepad-encoding.c:92 ../mousepad/mousepad-encoding.c:93
-#: ../mousepad/mousepad-encoding.c:94 ../mousepad/mousepad-encoding.c:95
+#: ../mousepad/mousepad-encoding.c:106 ../mousepad/mousepad-encoding.c:107
+#: ../mousepad/mousepad-encoding.c:108 ../mousepad/mousepad-encoding.c:109
 msgid "Korean"
 msgstr "Карэйскае"
 
-#: ../mousepad/mousepad-file.c:612
+#: ../mousepad/mousepad-file.c:605
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Хібная паслядоўнасць файлаў ва ўводзе"
 
 #. add the close button
 #: ../mousepad/mousepad-prefs-dialog.c:443
-#: ../mousepad/mousepad-replace-dialog.c:220
+#: ../mousepad/mousepad-replace-dialog.c:272
 msgid "_Close"
 msgstr "_Закрыць"
 
 #. setup the window properties
 #: ../mousepad/mousepad-prefs-dialog.c:449
-#: ../mousepad/resources/gtk/menus.ui.h:19
+#: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences"
 msgstr "Налады"
 
@@ -481,89 +563,89 @@ msgstr "Цела:"
 msgid "Line numbers:"
 msgstr "Нумар радка:"
 
-#: ../mousepad/mousepad-replace-dialog.c:160
+#: ../mousepad/mousepad-replace-dialog.c:173
 msgid "_Replace All"
 msgstr "_Замяніць усё"
 
-#: ../mousepad/mousepad-replace-dialog.c:160
-#: ../mousepad/mousepad-replace-dialog.c:216
+#: ../mousepad/mousepad-replace-dialog.c:173
+#: ../mousepad/mousepad-replace-dialog.c:268
 msgid "_Replace"
 msgstr "_Замяніць"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:205
+#: ../mousepad/mousepad-replace-dialog.c:257
 msgid "Find and Replace"
 msgstr "Знайсці і замяніць"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:211
+#: ../mousepad/mousepad-replace-dialog.c:263
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "З_найсці"
 
-#: ../mousepad/mousepad-replace-dialog.c:238
+#: ../mousepad/mousepad-replace-dialog.c:290
 msgid "_Search for:"
 msgstr "_Шукаць:"
 
-#: ../mousepad/mousepad-replace-dialog.c:270
+#: ../mousepad/mousepad-replace-dialog.c:324
 msgid "Replace _with:"
 msgstr "З_амяніць на:"
 
-#: ../mousepad/mousepad-replace-dialog.c:290
+#: ../mousepad/mousepad-replace-dialog.c:346
 msgid "Search _direction:"
 msgstr "Кірунак _пошуку:"
 
-#: ../mousepad/mousepad-replace-dialog.c:299
+#: ../mousepad/mousepad-replace-dialog.c:355
 msgid "Up"
 msgstr "Вышэй"
 
-#: ../mousepad/mousepad-replace-dialog.c:300
+#: ../mousepad/mousepad-replace-dialog.c:356
 msgid "Down"
 msgstr "Уніз"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:309
+#: ../mousepad/mousepad-replace-dialog.c:365
 msgid "_Wrap around"
 msgstr "_Абгарнуць"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:316
-#: ../mousepad/mousepad-search-bar.c:207 ../mousepad/mousepad-search-bar.c:215
+#: ../mousepad/mousepad-replace-dialog.c:372
+#: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:265
 msgid "Match _case"
 msgstr "Зважаць на _рэгістр"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:325
+#: ../mousepad/mousepad-replace-dialog.c:381
 msgid "_Match whole word"
 msgstr "Адпавядаць цэламу с_лову"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:334
-#: ../mousepad/mousepad-search-bar.c:221 ../mousepad/mousepad-search-bar.c:229
+#: ../mousepad/mousepad-replace-dialog.c:390
+#: ../mousepad/mousepad-search-bar.c:271 ../mousepad/mousepad-search-bar.c:279
 msgid "Regular e_xpression"
 msgstr "_Рэгулярны выраз"
 
-#: ../mousepad/mousepad-replace-dialog.c:348
+#: ../mousepad/mousepad-replace-dialog.c:404
 msgid "Replace _all in:"
 msgstr "Замяніць _усё ў:"
 
-#: ../mousepad/mousepad-replace-dialog.c:353
+#: ../mousepad/mousepad-replace-dialog.c:409
 msgid "Selection"
 msgstr "Вылучаным"
 
-#: ../mousepad/mousepad-replace-dialog.c:354
+#: ../mousepad/mousepad-replace-dialog.c:410
 msgid "Document"
 msgstr "Дакуменце"
 
-#: ../mousepad/mousepad-replace-dialog.c:355
+#: ../mousepad/mousepad-replace-dialog.c:411
 msgid "All Documents"
 msgstr "Усіх дакументах"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:541
-#: ../mousepad/mousepad-search-bar.c:347
+#: ../mousepad/mousepad-replace-dialog.c:597
+#: ../mousepad/mousepad-search-bar.c:398
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -572,66 +654,65 @@ msgstr[1] "%d выпадкі"
 msgstr[2] "%d выпадкаў"
 msgstr[3] "%d выпадкаў"
 
-#: ../mousepad/mousepad-statusbar.c:125
+#: ../mousepad/mousepad-statusbar.c:126
 msgid "Choose a filetype"
 msgstr "Абраць тып файла"
 
 #. language/filetype
-#: ../mousepad/mousepad-statusbar.c:131 ../mousepad/mousepad-statusbar.c:232
+#: ../mousepad/mousepad-statusbar.c:132 ../mousepad/mousepad-statusbar.c:280
 msgid "Filetype: None"
 msgstr "Тып файла: няма"
 
-#: ../mousepad/mousepad-statusbar.c:154
+#: ../mousepad/mousepad-statusbar.c:165
 msgid "Toggle the overwrite mode"
 msgstr "Пераключыць рэжым перазапісу"
 
 #. overwrite label
-#: ../mousepad/mousepad-statusbar.c:160
+#: ../mousepad/mousepad-statusbar.c:171
 msgid "OVR"
 msgstr "OVR"
 
-#: ../mousepad/mousepad-statusbar.c:235
-#, c-format
-msgid "Filetype: %s"
-msgstr "Тып файла: %s"
-
-#: ../mousepad/mousepad-statusbar.c:255
+#: ../mousepad/mousepad-statusbar.c:246
 #, c-format
 msgid "Line: %d Column: %d Selection: %d"
 msgstr "Радок: %d Слупок: %d Вылучэнне: %d"
 
-#: ../mousepad/mousepad-statusbar.c:257
+#: ../mousepad/mousepad-statusbar.c:249
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Радок: %d Слупок: %d"
 
+#: ../mousepad/mousepad-statusbar.c:283
+#, c-format
+msgid "Filetype: %s"
+msgstr "Тып файла: %s"
+
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1082
+#: ../mousepad/mousepad-window.c:1093
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Увага: вы выкарыстоўваеце root-акаўнт і можаце пашкодзіць сістэму."
 
-#. show the warning
-#: ../mousepad/mousepad-window.c:1814
-msgid "Failed to open the document"
-msgstr "Не атрымалася адкрыць дакумент"
-
-#: ../mousepad/mousepad-window.c:2010
+#: ../mousepad/mousepad-window.c:2018
 msgid "Read Only"
 msgstr "Толькі чытанне"
 
-#: ../mousepad/mousepad-window.c:2969
+#: ../mousepad/mousepad-window.c:2022
+msgid "Viewer Mode"
+msgstr ""
+
+#: ../mousepad/mousepad-window.c:3021
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Выкарыстаць \"%s\" як шаблон"
 
-#: ../mousepad/mousepad-window.c:2995
+#: ../mousepad/mousepad-window.c:3047
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "У \"%s\" не знойдзена шаблонаў"
 
-#: ../mousepad/mousepad-window.c:3051
+#: ../mousepad/mousepad-window.c:3104
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -639,94 +720,91 @@ msgid ""
 msgstr "Каталог шаблонаў \"%s\" адсутнічае"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3103
+#: ../mousepad/mousepad-window.c:3156
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_Іншы (%d)..."
 
-#: ../mousepad/mousepad-window.c:3113
+#: ../mousepad/mousepad-window.c:3166
 msgid "Ot_her..."
 msgstr "_Іншы..."
 
-#: ../mousepad/mousepad-window.c:3206
+#: ../mousepad/mousepad-window.c:3259
 msgid "Re_vert"
 msgstr "_Адвярнуць"
 
-#: ../mousepad/mousepad-window.c:3208
+#: ../mousepad/mousepad-window.c:3261
 msgid "Revert to the saved version of the file"
 msgstr "Вярнуцца да захаванай версіі файла"
 
-#: ../mousepad/mousepad-window.c:3214
+#: ../mousepad/mousepad-window.c:3267
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Перазагрузіць файлы з дыска"
 
-#: ../mousepad/mousepad-window.c:3220
+#: ../mousepad/mousepad-window.c:3273
 msgid "Leave fullscreen mode"
 msgstr "Выйсці з поўнаэкраннага рэжыму"
 
-#: ../mousepad/mousepad-window.c:3225
+#: ../mousepad/mousepad-window.c:3278
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Пераключыць акно ў поўнаэкранны рэжым"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3370 ../mousepad/mousepad-window.c:3565
+#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3621
 msgid "Charset"
 msgstr "Кадаванне"
 
-#: ../mousepad/mousepad-window.c:3505
+#: ../mousepad/mousepad-window.c:3559
 #, c-format
 msgid "Open '%s'"
 msgstr "Адкрыць \"%s\""
 
-#: ../mousepad/mousepad-window.c:3531
+#: ../mousepad/mousepad-window.c:3587
 msgid "No items found"
 msgstr "Элементы адсутнічаюць"
 
-#: ../mousepad/mousepad-window.c:3614
+#: ../mousepad/mousepad-window.c:3670
 msgid "Failed to clear the recent history"
 msgstr "Не атрымалася ачысціць гісторыю нядаўніх файлаў"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4085
+#: ../mousepad/mousepad-window.c:4142
 msgid "No clipboard data"
 msgstr "Буфер абмену пусты"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4190
-msgid "Templates should be UTF-8 valid"
-msgstr "Шаблоны мусяць быць у кадаванні UTF-8"
+#: ../mousepad/mousepad-window.c:4253
+#, c-format
+msgid "Templates should be %s valid"
+msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4195
+#: ../mousepad/mousepad-window.c:4259
 msgid "Reading the template failed"
 msgstr "Не атрымалася прачытаць шаблон"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4200
+#: ../mousepad/mousepad-window.c:4264
 msgid "Loading the template failed"
 msgstr "Не атрымалася загрузіць шаблон"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4385 ../mousepad/mousepad-window.c:4519
+#: ../mousepad/mousepad-window.c:4448 ../mousepad/mousepad-window.c:4589
 msgid "Failed to save the document"
 msgstr "Не атрымалася захаваць дакумент"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4617
+#: ../mousepad/mousepad-window.c:4687
 msgid "Failed to reload the document"
 msgstr "Не атрымалася перазагрузіць дакумент"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4646
+#: ../mousepad/mousepad-window.c:4716
 msgid "Failed to print the document"
 msgstr "Не атрымалася надрукаваць дакумент"
-
-#: ../mousepad/mousepad-window.c:5408
-msgid "Choose Mousepad Font"
-msgstr "Абраць шрыфт"
 
 #: ../mousepad/resources/gtk/menus.ui.h:1
 msgid "_File"
@@ -793,260 +871,276 @@ msgid "Close this window"
 msgstr "Закрыць гэтае акно"
 
 #: ../mousepad/resources/gtk/menus.ui.h:17
+msgid "_Quit"
+msgstr "_Выхад"
+
+#: ../mousepad/resources/gtk/menus.ui.h:18
+msgid "Quit Mousepad"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:19
 msgid "_Edit"
 msgstr "_Рэдагаваць"
 
-#: ../mousepad/resources/gtk/menus.ui.h:18
+#: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Edit menu"
 msgstr "Рэдагаваць меню"
 
-#: ../mousepad/resources/gtk/menus.ui.h:20
+#: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
 msgstr "Паказаць дыялог налад"
 
-#: ../mousepad/resources/gtk/menus.ui.h:21
+#: ../mousepad/resources/gtk/menus.ui.h:23
 msgid "_Search"
 msgstr "_Пошук"
 
-#: ../mousepad/resources/gtk/menus.ui.h:22
+#: ../mousepad/resources/gtk/menus.ui.h:24
 msgid "Search menu"
 msgstr "Меню пошуку"
 
-#: ../mousepad/resources/gtk/menus.ui.h:23
+#: ../mousepad/resources/gtk/menus.ui.h:25
 msgid "Find _Next"
 msgstr "Знайсці _наступнае"
 
-#: ../mousepad/resources/gtk/menus.ui.h:24
+#: ../mousepad/resources/gtk/menus.ui.h:26
 msgid "Search forwards for the same text"
 msgstr "Шукаць далей пэўны тэкст"
 
-#: ../mousepad/resources/gtk/menus.ui.h:25
+#: ../mousepad/resources/gtk/menus.ui.h:27
 msgid "Find _Previous"
 msgstr "Знайсці _папярэдняе"
 
-#: ../mousepad/resources/gtk/menus.ui.h:26
+#: ../mousepad/resources/gtk/menus.ui.h:28
 msgid "Search backwards for the same text"
 msgstr "Адваротны пошук пэўнага тэксту"
 
-#: ../mousepad/resources/gtk/menus.ui.h:27
+#: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "Highlight _All"
 msgstr "Падсвятліць _усё"
 
-#: ../mousepad/resources/gtk/menus.ui.h:28
+#: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Highlight the search occurrences"
 msgstr "Падсвятляць супадзенні пошуку"
 
-#: ../mousepad/resources/gtk/menus.ui.h:29
+#: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "_View"
 msgstr "Вы_гляд"
 
-#: ../mousepad/resources/gtk/menus.ui.h:30
+#: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "View menu"
 msgstr "Меню прагляду"
 
-#: ../mousepad/resources/gtk/menus.ui.h:31
+#: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "Select F_ont..."
 msgstr "Абраць _шрыфт..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:32
+#: ../mousepad/resources/gtk/menus.ui.h:34
 msgid "Change the editor font"
 msgstr "Змяніць шрыфт рэдактара"
 
-#: ../mousepad/resources/gtk/menus.ui.h:33
+#: ../mousepad/resources/gtk/menus.ui.h:35
 msgid "_Color Scheme"
 msgstr "_Каляровая схема"
 
-#: ../mousepad/resources/gtk/menus.ui.h:34
+#: ../mousepad/resources/gtk/menus.ui.h:36
 msgid "Color scheme to use for the text view"
 msgstr "Каляровая схема для тэксту"
 
-#: ../mousepad/resources/gtk/menus.ui.h:35
+#: ../mousepad/resources/gtk/menus.ui.h:37
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "None"
 msgstr "Няма"
 
-#: ../mousepad/resources/gtk/menus.ui.h:36
+#: ../mousepad/resources/gtk/menus.ui.h:38
 msgid "No style scheme"
 msgstr "Без схемы стылю"
 
-#: ../mousepad/resources/gtk/menus.ui.h:37
+#: ../mousepad/resources/gtk/menus.ui.h:39
 msgid "Line N_umbers"
 msgstr "_Нумараваць радкі"
 
-#: ../mousepad/resources/gtk/menus.ui.h:38
+#: ../mousepad/resources/gtk/menus.ui.h:40
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "Show line numbers"
 msgstr "Паказваць нумары радкоў"
 
-#: ../mousepad/resources/gtk/menus.ui.h:39
+#: ../mousepad/resources/gtk/menus.ui.h:41
 msgid "_Menubar"
 msgstr "_Панэль меню"
 
-#: ../mousepad/resources/gtk/menus.ui.h:40
+#: ../mousepad/resources/gtk/menus.ui.h:42
 msgid "Change the visibility of the main menubar"
 msgstr "Ці адлюстроўваць галоўную панэль меню"
 
-#: ../mousepad/resources/gtk/menus.ui.h:41
+#: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "_Toolbar"
 msgstr "_Панэль інструментаў"
 
-#: ../mousepad/resources/gtk/menus.ui.h:42
+#: ../mousepad/resources/gtk/menus.ui.h:44
 msgid "Change the visibility of the toolbar"
 msgstr "Ці адлюстроўваць панэль інструментаў"
 
-#: ../mousepad/resources/gtk/menus.ui.h:43
+#: ../mousepad/resources/gtk/menus.ui.h:45
 msgid "St_atusbar"
 msgstr "Рад_ок стану"
 
-#: ../mousepad/resources/gtk/menus.ui.h:44
+#: ../mousepad/resources/gtk/menus.ui.h:46
 msgid "Change the visibility of the statusbar"
 msgstr "Ці адлюстроўваць радок статусу"
 
-#: ../mousepad/resources/gtk/menus.ui.h:45
+#: ../mousepad/resources/gtk/menus.ui.h:47
 msgid "_Document"
 msgstr "_Дакумент"
 
-#: ../mousepad/resources/gtk/menus.ui.h:46
+#: ../mousepad/resources/gtk/menus.ui.h:48
 msgid "Document menu"
 msgstr "Меню дакументаў"
 
-#: ../mousepad/resources/gtk/menus.ui.h:47
+#: ../mousepad/resources/gtk/menus.ui.h:49
 msgid "_Word Wrap"
 msgstr "_Перанос слоў"
 
-#: ../mousepad/resources/gtk/menus.ui.h:48
+#: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Toggle breaking lines in between words"
 msgstr "Пераключыць перанос радкоў па словах"
 
-#: ../mousepad/resources/gtk/menus.ui.h:49
+#: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "_Auto Indent"
 msgstr "_Аўтаматычны водступ"
 
-#: ../mousepad/resources/gtk/menus.ui.h:50
+#: ../mousepad/resources/gtk/menus.ui.h:52
 msgid "Auto indent a new line"
 msgstr "Аўтаматычны водступ у новым радку"
 
-#: ../mousepad/resources/gtk/menus.ui.h:51
+#: ../mousepad/resources/gtk/menus.ui.h:53
 msgid "Tab _Size"
 msgstr "_Памер табуляцыі"
 
-#: ../mousepad/resources/gtk/menus.ui.h:52
+#: ../mousepad/resources/gtk/menus.ui.h:54
 msgid "The number of space characters for a tabulation"
 msgstr "Колькасць прагалаў у табуляцыі"
 
-#: ../mousepad/resources/gtk/menus.ui.h:53
+#: ../mousepad/resources/gtk/menus.ui.h:55
 msgid "Two spaces"
 msgstr "Два прагалы"
 
-#: ../mousepad/resources/gtk/menus.ui.h:54
+#: ../mousepad/resources/gtk/menus.ui.h:56
 msgid "Three spaces"
 msgstr "Тры прагалы"
 
-#: ../mousepad/resources/gtk/menus.ui.h:55
+#: ../mousepad/resources/gtk/menus.ui.h:57
 msgid "Four spaces"
 msgstr "Чатыры прагалы"
 
-#: ../mousepad/resources/gtk/menus.ui.h:56
+#: ../mousepad/resources/gtk/menus.ui.h:58
 msgid "Eight spaces"
 msgstr "Восем прагалаў"
 
-#: ../mousepad/resources/gtk/menus.ui.h:57
+#: ../mousepad/resources/gtk/menus.ui.h:59
 msgid "Other..."
 msgstr "Іншае..."
 
-#: ../mousepad/resources/gtk/menus.ui.h:58
+#: ../mousepad/resources/gtk/menus.ui.h:60
 msgid "Set custom tab size"
 msgstr "Вызначыць адвольны памер табуляцыі"
 
-#: ../mousepad/resources/gtk/menus.ui.h:59
+#: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "Insert _Spaces"
 msgstr "Устаўляць _прагалы"
 
-#: ../mousepad/resources/gtk/menus.ui.h:60
+#: ../mousepad/resources/gtk/menus.ui.h:62
 msgid "Insert spaces when the tab button is pressed"
 msgstr "Устаўляць прагалы клавішай Tab"
 
-#: ../mousepad/resources/gtk/menus.ui.h:61
+#: ../mousepad/resources/gtk/menus.ui.h:63
 msgid "_Filetype"
 msgstr "_Тып файла"
 
-#: ../mousepad/resources/gtk/menus.ui.h:62
+#: ../mousepad/resources/gtk/menus.ui.h:64
 msgid "Language to use for syntax highlighting"
 msgstr "Мова для падсвятлення сінтаксісу"
 
-#: ../mousepad/resources/gtk/menus.ui.h:63
+#: ../mousepad/resources/gtk/menus.ui.h:65
 msgid "Plain Text"
 msgstr "Просты тэкст"
 
-#: ../mousepad/resources/gtk/menus.ui.h:64
+#: ../mousepad/resources/gtk/menus.ui.h:66
 msgid "No filetype"
 msgstr "Файл без тыпу"
 
-#: ../mousepad/resources/gtk/menus.ui.h:65
+#: ../mousepad/resources/gtk/menus.ui.h:67
 msgid "Line E_nding"
 msgstr "_Завяршэнне радкоў"
 
-#: ../mousepad/resources/gtk/menus.ui.h:66
+#: ../mousepad/resources/gtk/menus.ui.h:68
 msgid "Character(s) to use as end of line"
 msgstr "Сімвалы для завяршэння радка"
 
-#: ../mousepad/resources/gtk/menus.ui.h:67
+#: ../mousepad/resources/gtk/menus.ui.h:69
 msgid "Set the line ending of the document to Unix (LF)"
 msgstr "Выкарыстоўваць пераносы радкоў як у Unix (LF)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:68
+#: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "Set the line ending of the document to Mac (CR)"
 msgstr "Выкарыстоўваць пераносы радкоў як у Mac (CR)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:69
+#: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "Set the line ending of the document to DOS / Windows (CR LF)"
 msgstr "Выкарыстоўваць пераносы радкоў як у DOS і Windows (CR LF)"
 
-#: ../mousepad/resources/gtk/menus.ui.h:70
+#: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "Write Unicode _BOM"
 msgstr "Выкарыстоўваць Unicode _BOM"
 
-#: ../mousepad/resources/gtk/menus.ui.h:71
+#: ../mousepad/resources/gtk/menus.ui.h:73
 msgid "Store the byte-order mark in the file"
 msgstr "Захоўваць пазнаку аб парадку файлаў у дакуменце"
 
-#: ../mousepad/resources/gtk/menus.ui.h:72
+#: ../mousepad/resources/gtk/menus.ui.h:74
+msgid "_Viewer Mode"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:75
+msgid "Disallow modifications via keyboard / mouse"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Previous Tab"
 msgstr "_Папярэдняя ўкладка"
 
-#: ../mousepad/resources/gtk/menus.ui.h:73
+#: ../mousepad/resources/gtk/menus.ui.h:77
 msgid "Select the previous tab"
 msgstr "Абраць папярэднюю ўкладку"
 
-#: ../mousepad/resources/gtk/menus.ui.h:74
+#: ../mousepad/resources/gtk/menus.ui.h:78
 msgid "_Next Tab"
 msgstr "_Наступная ўкладка"
 
-#: ../mousepad/resources/gtk/menus.ui.h:75
+#: ../mousepad/resources/gtk/menus.ui.h:79
 msgid "Select the next tab"
 msgstr "Абраць наступную ўкладку"
 
-#: ../mousepad/resources/gtk/menus.ui.h:76
+#: ../mousepad/resources/gtk/menus.ui.h:80
 msgid "_Help"
 msgstr "_Даведка"
 
-#: ../mousepad/resources/gtk/menus.ui.h:77
+#: ../mousepad/resources/gtk/menus.ui.h:81
 msgid "Help menu"
 msgstr "Меню даведкі"
 
-#: ../mousepad/resources/gtk/menus.ui.h:78
+#: ../mousepad/resources/gtk/menus.ui.h:82
 msgid "_Contents"
 msgstr "_Змест"
 
-#: ../mousepad/resources/gtk/menus.ui.h:79
+#: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Display the Mousepad user manual"
 msgstr "Паказаць дапаможнік па Mousepad"
 
-#: ../mousepad/resources/gtk/menus.ui.h:80
+#: ../mousepad/resources/gtk/menus.ui.h:84
 msgid "_About"
 msgstr "_Пра праграму"
 
-#: ../mousepad/resources/gtk/menus.ui.h:81
+#: ../mousepad/resources/gtk/menus.ui.h:85
 msgid "About this application"
 msgstr "Пра праграму"
 
@@ -1191,135 +1285,143 @@ msgid "Paste the clipboard text into a column"
 msgstr "Уставіць змесціва буфера абмену як слупок"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
-msgid "_Delete"
-msgstr "Вы_даліць"
+msgid "_Delete Selection"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:42
 msgid "Delete the current selection"
 msgstr "Прыбраць бягучае вылучэнне"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:43
+msgid "Delete _Line"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:44
+msgid "Delete the current line"
+msgstr ""
+
+#: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
 msgstr "_Пераўтварыць"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:44
+#: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
 msgstr "Адмысловае пераўтварэнне тэксту"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:45
+#: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
 msgstr "_У малыя"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:46
+#: ../mousepad/resources/gtk/menus-common.ui.h:48
 msgid "Change the case of the selection to lowercase"
 msgstr "Перавесці вылучаны тэкст у ніжні рэгістр"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:47
+#: ../mousepad/resources/gtk/menus-common.ui.h:49
 msgid "To _Uppercase"
 msgstr "_У вялікія"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:48
+#: ../mousepad/resources/gtk/menus-common.ui.h:50
 msgid "Change the case of the selection to uppercase"
 msgstr "Перавесці вылучаны тэкст ў верхні рэгістр"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:49
+#: ../mousepad/resources/gtk/menus-common.ui.h:51
 msgid "To _Title Case"
 msgstr "_З вялікай"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:50
+#: ../mousepad/resources/gtk/menus-common.ui.h:52
 msgid "Change the case of the selection to title case"
 msgstr "Перавесці першыя сімвалы вылучанага тэксту ў верхні рэгістр"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:51
+#: ../mousepad/resources/gtk/menus-common.ui.h:53
 msgid "To _Opposite Case"
 msgstr "_Адвярнуць рэгістр"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:52
+#: ../mousepad/resources/gtk/menus-common.ui.h:54
 msgid "Change the case of the selection opposite case"
 msgstr "Адвярнуць рэгістр вылучанага тэксту"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:53
+#: ../mousepad/resources/gtk/menus-common.ui.h:55
 msgid "_Tabs to Spaces"
 msgstr "Пераўтварыць _табуляцыі ў прагалы"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:54
+#: ../mousepad/resources/gtk/menus-common.ui.h:56
 msgid "Convert all tabs to spaces in the selection or document"
 msgstr "Пераўтварыць усе табуляцыі ў прагалы ў вылучаным альбо дакуменце"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:55
+#: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Spaces to Tabs"
 msgstr "Пераўтварыць _прагалы ў табуляцыі"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:56
+#: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
 msgstr "Пераўтварыць усе вядучыя прагалы ў табуляцыі ў абраных радках альбо дакуменце"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:57
+#: ../mousepad/resources/gtk/menus-common.ui.h:59
 msgid "St_rip Trailing Spaces"
 msgstr "Прыбраць _канцавыя прагалы"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:58
+#: ../mousepad/resources/gtk/menus-common.ui.h:60
 msgid "Remove all the trailing spaces from the selected line(s) or document"
 msgstr "Выдаліць усе канцавыя прагалы ў абраных радках альбо дакуменце"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:59
+#: ../mousepad/resources/gtk/menus-common.ui.h:61
 msgid "_Transpose"
 msgstr "_Адвярнуць"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:60
+#: ../mousepad/resources/gtk/menus-common.ui.h:62
 msgid "Reverse the order of something"
 msgstr "Змяніць на адваротны парадак"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:61
+#: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move Selection"
 msgstr "_Перамясціць вылучанае"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:62
+#: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move the selection in different ways"
 msgstr "Адмысловае перамяшчэнне вылучэння"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:63
+#: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
 msgstr "_Уверх"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:64
+#: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move the selection one line up"
 msgstr "Перамясціць вылучанае на радок вышэй"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:65
+#: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
 msgstr "_Уніз"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:66
+#: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move the selection one line down"
 msgstr "Перамясціць вылучанае на радок ніжэй"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:67
+#: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Dup_licate Line / Selection"
 msgstr "_Дубляваць радок / вылучанае"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:68
+#: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Duplicate the current line or selection"
 msgstr "Дубляваць бягучы радок альбо вылучанае"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:69
+#: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "_Increase Indent"
 msgstr "_Павялічыць водступ"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:70
+#: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Increase the indentation of the selection or current line"
 msgstr "Павялічыць водступ вылучанага альбо бягучага радка"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:71
+#: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "_Decrease Indent"
 msgstr "_Паменшыць водступ"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:72
+#: ../mousepad/resources/gtk/menus-common.ui.h:74
 msgid "Decrease the indentation of the selection or current line"
 msgstr "Паменшыць водступ вылучанага альбо бягучага радка"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:73
+#: ../mousepad/resources/gtk/menus-common.ui.h:75
 msgid "label-to-be-filled-in"
 msgstr "запаўненне адмеціны"
 
