@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 18:03+0100\n"
-"PO-Revision-Date: 2021-01-10 10:50+0000\n"
-"Last-Translator: Yannick Le Guen <leguen.yannick@gmail.com>\n"
+"POT-Creation-Date: 2021-01-15 12:48+0100\n"
+"PO-Revision-Date: 2021-01-15 11:48+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,8 +74,8 @@ msgid "MODE"
 msgstr "MODE"
 
 #: ../mousepad/mousepad-application.c:388
-msgid "The Xfce development team. All rights reserved."
-msgstr "L’équipe de développement de Xfce. Tous droits réservés."
+msgid "The Mousepad developers. All rights reserved."
+msgstr ""
 
 #: ../mousepad/mousepad-application.c:389
 #, c-format
@@ -754,56 +754,56 @@ msgstr "Basculer la fenêtre en plein écran"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3620
+#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3621
 msgid "Charset"
 msgstr "Jeu de caractères"
 
-#: ../mousepad/mousepad-window.c:3560
+#: ../mousepad/mousepad-window.c:3559
 #, c-format
 msgid "Open '%s'"
 msgstr "Ouvrir « %s »"
 
-#: ../mousepad/mousepad-window.c:3586
+#: ../mousepad/mousepad-window.c:3587
 msgid "No items found"
 msgstr "Aucun élément trouvé"
 
-#: ../mousepad/mousepad-window.c:3669
+#: ../mousepad/mousepad-window.c:3670
 msgid "Failed to clear the recent history"
 msgstr "Impossible d’effacer l’historique"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4141
+#: ../mousepad/mousepad-window.c:4142
 msgid "No clipboard data"
 msgstr "Le presse-papiers est vide"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4252
+#: ../mousepad/mousepad-window.c:4253
 #, c-format
 msgid "Templates should be %s valid"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4258
+#: ../mousepad/mousepad-window.c:4259
 msgid "Reading the template failed"
 msgstr "La lecture du modèle a échoué"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4263
+#: ../mousepad/mousepad-window.c:4264
 msgid "Loading the template failed"
 msgstr "Le chargement du modèle a échoué"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4452 ../mousepad/mousepad-window.c:4593
+#: ../mousepad/mousepad-window.c:4448 ../mousepad/mousepad-window.c:4589
 msgid "Failed to save the document"
 msgstr "Impossible d’enregistrer le document"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4691
+#: ../mousepad/mousepad-window.c:4687
 msgid "Failed to reload the document"
 msgstr "Impossible de recharger le document"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4720
+#: ../mousepad/mousepad-window.c:4716
 msgid "Failed to print the document"
 msgstr "Impossible d’imprimer le document"
 
