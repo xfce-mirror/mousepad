@@ -755,7 +755,7 @@ mousepad_document_search (MousepadDocument    *document,
   GtkSourceSearchContext  *search_context;
   GtkSourceSearchSettings *search_settings, *search_settings_doc;
   GtkTextIter              iter, start, end;
-  gchar                   *selected_text;
+  gchar                   *selected_text, *unescaped;
 
   /* get the search iter */
   if (flags & MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START)
@@ -815,14 +815,24 @@ mousepad_document_search (MousepadDocument    *document,
                                               (flags & MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND)
                                               || MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_WRAP_AROUND));
 
-  /* disable highlight during regex searches to prevent prohibitive computation times in
-   * some situations (see mousepad_document_prevent_endless_scanning() below) */
+  /* special treatments if regex search is enabled */
   if (gtk_source_search_settings_get_regex_enabled (search_settings))
-    gtk_source_search_context_set_highlight (search_context, FALSE);
+    {
+      /* disable highlight to prevent prohibitive computation times in some situations
+       * (see mousepad_document_prevent_endless_scanning() below) */
+      gtk_source_search_context_set_highlight (search_context, FALSE);
+
+      /* unescape replacement text, as requested at least by
+       * gtk_source_search_context_replace_all() in GtkSourceView 3: see
+       * https://gitlab.gnome.org/GNOME/gtksourceview/-/issues/172 */
+      unescaped = gtk_source_utils_unescape_search_text (replace);
+    }
+  else
+    unescaped = g_strdup (replace);
 
   /* attach some data for the second stage */
   mousepad_object_set_data (search_context, "flags", GINT_TO_POINTER (flags));
-  mousepad_object_set_data_full (search_context, "replace", g_strdup (replace), g_free);
+  mousepad_object_set_data_full (search_context, "replace", unescaped, g_free);
 
   /* search the string */
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
