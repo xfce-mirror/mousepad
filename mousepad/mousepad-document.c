@@ -755,7 +755,9 @@ mousepad_document_search (MousepadDocument    *document,
   GtkSourceSearchContext  *search_context;
   GtkSourceSearchSettings *search_settings, *search_settings_doc;
   GtkTextIter              iter, start, end;
-  gchar                   *selected_text, *unescaped;
+  gchar                   *selected_text;
+  const gchar             *reference = "";
+  gboolean                 has_references;
 
   /* get the search iter */
   if (flags & MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START)
@@ -822,17 +824,22 @@ mousepad_document_search (MousepadDocument    *document,
        * (see mousepad_document_prevent_endless_scanning() below) */
       gtk_source_search_context_set_highlight (search_context, FALSE);
 
-      /* unescape replacement text, as requested at least by
-       * gtk_source_search_context_replace_all() in GtkSourceView 3: see
+      /* trick gtk_source_search_context_replace_all() into thinking its replacement text
+       * contains back references even if it does not, so that g_regex_replace() is always
+       * used to replace text in this function, which finally behaves the same as
+       * gtk_source_search_context_replace(): see
        * https://gitlab.gnome.org/GNOME/gtksourceview/-/issues/172 */
-      unescaped = gtk_source_utils_unescape_search_text (replace);
+      if (replace != NULL && (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE)
+          && (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA)
+          && g_regex_check_replacement (replace, &has_references, NULL)
+          && ! has_references)
+        reference = "\\g<1>";
     }
-  else
-    unescaped = g_strdup (replace);
 
   /* attach some data for the second stage */
   mousepad_object_set_data (search_context, "flags", GINT_TO_POINTER (flags));
-  mousepad_object_set_data_full (search_context, "replace", unescaped, g_free);
+  mousepad_object_set_data_full (search_context, "replace",
+                                 g_strconcat (reference, replace, NULL), g_free);
 
   /* search the string */
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
