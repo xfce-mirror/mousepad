@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 12:48+0100\n"
-"PO-Revision-Date: 2021-01-16 12:32+0000\n"
+"PO-Revision-Date: 2021-01-26 16:40+0000\n"
 "Last-Translator: beriain\n"
 "Language-Team: Basque (http://www.transifex.com/xfce/xfce-apps/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,7 @@ msgstr "<big><b>Aldaketak gorde nahi dituzu itxi baino lehen?</b></big>"
 #. secondary text
 #: ../mousepad/mousepad-dialogs.c:435
 msgid "If you don't save the document, all the changes will be lost."
-msgstr "Dokumnetua ez baduzu gordetzen, aldaketa guztiak galduko dira."
+msgstr "Dokumentua ez baduzu gordetzen, aldaketa guztiak galduko dira."
 
 #: ../mousepad/mousepad-dialogs.c:462
 msgid ""
@@ -187,7 +187,7 @@ msgstr "Dokumentua kanpoaldetik eraldatua izan da. Gordetzen jarraitu nahi al du
 
 #: ../mousepad/mousepad-dialogs.c:463
 msgid "If you save the document, all of the external changes will be lost."
-msgstr "Dokumnetua gordetzen baduzu, kanpotik egindako aldaketa guztiak galduko dira."
+msgstr "Dokumentua gordetzen baduzu, kanpotik egindako aldaketa guztiak galduko dira."
 
 #: ../mousepad/mousepad-dialogs.c:465
 msgid "Save _As"
@@ -531,11 +531,11 @@ msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
-msgstr ""
+msgstr "Lerro zenbakiak erakusteko tartea. Adibidez 1eko balioa lerro zenbakia erakutsiko du lerro bakoitzean, 2ko balioa beste lerro guztietan, eta abar."
 
 #: ../mousepad/mousepad-print.c:671
 msgid "Enable text _wrapping"
-msgstr ""
+msgstr "Hitzak doitzea gaitu"
 
 #: ../mousepad/mousepad-print.c:679
 msgid "Enable _syntax highlighting"
@@ -607,7 +607,7 @@ msgstr "_Doitu ingurua"
 #: ../mousepad/mousepad-replace-dialog.c:372
 #: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:265
 msgid "Match _case"
-msgstr ""
+msgstr "Bereizi maiuskulak/minuskulak"
 
 #. match whole word
 #: ../mousepad/mousepad-replace-dialog.c:381
@@ -690,7 +690,7 @@ msgstr "Irakurtzeko soilik"
 
 #: ../mousepad/mousepad-window.c:2022
 msgid "Viewer Mode"
-msgstr ""
+msgstr "Ikusle modua"
 
 #: ../mousepad/mousepad-window.c:3021
 #, c-format
@@ -771,7 +771,7 @@ msgstr "Ez dago arbel daturik"
 #: ../mousepad/mousepad-window.c:4253
 #, c-format
 msgid "Templates should be %s valid"
-msgstr ""
+msgstr "Txantiloiak %s baliodunak izan behar dira"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:4259
@@ -844,7 +844,7 @@ msgstr "Gorde _dena"
 
 #: ../mousepad/resources/gtk/menus.ui.h:12
 msgid "Save all document in this window"
-msgstr "Gorde leiho honetako dokumnetu guztia"
+msgstr "Gorde leiho honetako dokumentu guztia"
 
 #: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "_Print..."
@@ -990,11 +990,11 @@ msgstr "Dokumentu menua"
 
 #: ../mousepad/resources/gtk/menus.ui.h:49
 msgid "_Word Wrap"
-msgstr "Hitzen bilgarria"
+msgstr "Hitzak doitu"
 
 #: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Toggle breaking lines in between words"
-msgstr ""
+msgstr "Txandakatu lerroak zatitzea hitzen artean"
 
 #: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "_Auto Indent"
@@ -1082,19 +1082,19 @@ msgstr "Dokumentuaren lerro amaiera DOS / Windows-era ezarri (CR LF)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:72
 msgid "Write Unicode _BOM"
-msgstr ""
+msgstr "Unicode _BOM idatzi"
 
 #: ../mousepad/resources/gtk/menus.ui.h:73
 msgid "Store the byte-order mark in the file"
-msgstr ""
+msgstr "Byte-order marka fitxategian gorde"
 
 #: ../mousepad/resources/gtk/menus.ui.h:74
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "Ikusle modua"
 
 #: ../mousepad/resources/gtk/menus.ui.h:75
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Teklatu / sagu bidezko aldaketak ez baimendu"
 
 #: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Previous Tab"
@@ -1162,7 +1162,7 @@ msgstr "Gorde honel_a..."
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:8
 msgid "Save current document as another file"
-msgstr "Gorde uneko dokumntua beste fitxategi batean"
+msgstr "Gorde uneko dokumentua beste fitxategi batean"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
@@ -1258,7 +1258,7 @@ msgstr "Itsatsi bere_zia"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:36
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "Arbela modu berezian itsatsi"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:37
 msgid "Paste from _History"
@@ -1278,7 +1278,7 @@ msgstr "Itsatsi arbeleko testua zutabe batetan"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
 msgid "_Delete Selection"
-msgstr ""
+msgstr "Hautaketa ezabatu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:42
 msgid "Delete the current selection"
@@ -1290,7 +1290,7 @@ msgstr "_Lerroa ezabatu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:44
 msgid "Delete the current line"
-msgstr ""
+msgstr "Uneko lerroa ezabatu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
@@ -1298,7 +1298,7 @@ msgstr "Bihurtu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Testua modu ezberdinetan eraldatu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
@@ -1318,19 +1318,19 @@ msgstr "Aldatu hautatutako testua maiuskuletara"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:51
 msgid "To _Title Case"
-msgstr ""
+msgstr "Hitz bakoitzeko lehen letra maiuskulaz"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:52
 msgid "Change the case of the selection to title case"
-msgstr ""
+msgstr "Hautapenaren hitz bakoitzeko lehen letra maiuskulaz jarri"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:53
 msgid "To _Opposite Case"
-msgstr ""
+msgstr "K_ontrakoa"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:54
 msgid "Change the case of the selection opposite case"
-msgstr ""
+msgstr "Hautapenaren maiuskulak eta minuskulak kontrakora bihurtu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:55
 msgid "_Tabs to Spaces"
@@ -1338,7 +1338,7 @@ msgstr "Tabuladoreak zuriune"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:56
 msgid "Convert all tabs to spaces in the selection or document"
-msgstr ""
+msgstr "Tabuladore guztiak zuriune bihurtu hautapenean edo dokumentuan"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Spaces to Tabs"
@@ -1347,31 +1347,31 @@ msgstr "Zuriuneak tabuladore"
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr ""
+msgstr "Hasierako hutsuneak tabuladore bihurtu hautatutako lerro(et)an edo dokumentuan"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:59
 msgid "St_rip Trailing Spaces"
-msgstr ""
+msgstr "Amaierako zuriuneak ezabatu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:60
 msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr ""
+msgstr "Amaierako zuriune guztiak kendu hautatutako lerro(et)an edo dokumentuan"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:61
 msgid "_Transpose"
-msgstr ""
+msgstr "Irauli"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:62
 msgid "Reverse the order of something"
-msgstr ""
+msgstr "Zerbaiten ordena alderantzikatu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move Selection"
-msgstr ""
+msgstr "Hautapena _mugitu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move the selection in different ways"
-msgstr ""
+msgstr "Hautapena hainbat modutan mugitu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1391,7 +1391,7 @@ msgstr "Mugitu hautapena lerro bat beherantz"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Dup_licate Line / Selection"
-msgstr ""
+msgstr "_Lerroa / hautapena bikoiztu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Duplicate the current line or selection"
@@ -1399,23 +1399,23 @@ msgstr "Bikoiztu uneko lerro edo hautapena"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "_Increase Indent"
-msgstr ""
+msgstr "Koska handitu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Increase the indentation of the selection or current line"
-msgstr ""
+msgstr "Hautapenaren edo uneko lerroaren koska handitu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "_Decrease Indent"
-msgstr ""
+msgstr "Koska txikiagotu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:74
 msgid "Decrease the indentation of the selection or current line"
-msgstr ""
+msgstr "Hautapenaren edo uneko lerroaren koska txikiagotu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:75
 msgid "label-to-be-filled-in"
-msgstr ""
+msgstr "bete-beharreko-etiketa"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
 msgid "none"
@@ -1435,11 +1435,11 @@ msgstr "Inoiz"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "First key press"
-msgstr ""
+msgstr "Lehen tekla sakatzean"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "Second key press"
-msgstr ""
+msgstr "Bigarren tekla sakatzean"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
 msgid "Always"
@@ -1479,26 +1479,26 @@ msgstr "Botoia"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:17
 msgid "Drag & Drop"
-msgstr ""
+msgstr "Arrastatu eta askatu"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:18
 msgid "Dialog"
-msgstr ""
+msgstr "Leihoa"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
 msgid "new tabs"
-msgstr ""
+msgstr "fitxa berrietan"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
 msgid "new windows"
-msgstr ""
+msgstr "leiho berrietan"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "fitxa berriak leiho berri batean"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "Display whitespace"
@@ -1562,7 +1562,7 @@ msgstr "<b>Koska</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Hasierako/amaierako zuriuneak detektatu:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "<b>Home/End Keys</b>"
@@ -1618,15 +1618,15 @@ msgstr "Beti erakutsi fitxak nahiz eta fitxategi bakarra egon"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
 msgid "Cycled notebook tab switching"
-msgstr ""
+msgstr "Koaderno fitxen txandakatze ziklikoa"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "Open files in:"
-msgstr ""
+msgstr "Ireki fitxategiak:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "<b>Notebook tabs</b>"
-msgstr ""
+msgstr "<b>Koaderno fitxak</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
 msgid "Window"
@@ -1645,7 +1645,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr ""
+msgstr "Mousepad editore erabilerraz eta azkar bat izan nahi du. Gure helburua testu fitxategiak azkar editatzeko editore bat da, ez garapen ingurumen bat edo plugin gehiegi dituen editore bat."
 
 #: ../mousepad.appdata.xml.in.h:2
 msgid ""
@@ -1653,7 +1653,7 @@ msgid ""
 "means that if Gtk adds something new in a major release that is useful for "
 "the editor, we will likely bump the Gtk dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "Bestalde Gtk+ren ezaugarri berrienak erabiltzen saiatzen gara, modu horretan Gtk-k argitaratze nagusi batean editorearentzako erabilgarria den zerbait berria argitaratzen badu, ziurrenik Gtk menpekotasunak igoko ditugu eta ezaugarri berri hori Mousepad txertatu."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
@@ -1661,8 +1661,8 @@ msgstr ""
 #. to. This isn't a good idea, but is common on single user systems.
 #: ../org.xfce.mousepad.policy.in.in.h:6
 msgid "Run Mousepad as root"
-msgstr ""
+msgstr "Mousepad root bezala exekutatu"
 
 #: ../org.xfce.mousepad.policy.in.in.h:7
 msgid "Authentication is required to run Mousepad as root."
-msgstr ""
+msgstr "Autentifikazioa behar da Mousepad root bezala exekutatzeko. "
