@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 12:48+0100\n"
-"PO-Revision-Date: 2021-01-15 14:46+0000\n"
+"PO-Revision-Date: 2021-01-28 10:11+0000\n"
 "Last-Translator: Pjotr <pjotrvertaalt@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/xfce/xfce-apps/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -538,7 +538,7 @@ msgstr "Schakel tekstomloop in"
 
 #: ../mousepad/mousepad-print.c:679
 msgid "Enable _syntax highlighting"
-msgstr "Schakel syntaxmarkering in"
+msgstr "Schakel _zinsbouwmarkering in"
 
 #: ../mousepad/mousepad-print.c:691
 msgid "Fonts"
