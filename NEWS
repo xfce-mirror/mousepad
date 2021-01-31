@@ -1,3 +1,57 @@
+0.5.2
+======
+- New Features:
+  - Add a "Viewer Mode" toggle (#50, !72)
+  - Improve `--quit` option: close all windows interactively (!71)
+  - Improve encoding management (#42, !69)
+    - Display the current encoding in the status bar
+    - Make the default encoding configurable via GSettings
+    - Allow to choose encoding in the "Open" and "Save As" dialogs (#42)
+    - Add a command line option to choose encoding
+  - Add a "Delete Line" action (#13, !66)
+  - Make automatic addition of the last EOL character configurable (#53, !65)
+  - Switch to GFile for I/O operations (#4, #27, #75, !64)
+    - Add file monitoring (#75)
+    - Add a setting to create a tilde-backup file when saving (#27)
+    - Make saving atomic (#4)
+
+- Appearance Changes:
+  - Filter files on mime type in the "Open" and "Save As" dialogs (#2, #35, !67)
+
+- Code Refactoring:
+  - Improve encoding management (#42, !69)
+    - Make encoding dialog more generic and self-contained
+    - Encodings definition review
+    - Clarify encoding management when opening files
+    - Improve unicode BOM management
+  - Switch to GFile for I/O operations (#4, #27, #75, !64)
+    - Set the save action sensitivity more precisely
+    - Let GFile APIs check for file existence when reading
+    - Let GFile APIs check for external modifications when saving
+    - Basic switch to GFile for I/O operations
+
+- Bug Fixes:
+  - Make "replace" and "replace all" behaviors consistent (#94)
+  - Ensure that the page setup is properly applied when printing (#90)
+  - Avoid character escape issues in menu item action names (#91)
+  - Properly initialize document search properties
+  - Avoid illegal memory access when searching with tab changes (!73)
+  - Revert to "Wrap Around" always true for the search bar (#83)
+  - Prevent too late accesses to the buffer in selection mode
+  - Direct call to keybinding signals for "Delete" and "Select All" (#83)
+  - Improve editing keybindings consistency (#83)
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Polish, Portuguese, Portuguese (Brazil), Romanian, Russian,
+  Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish,
+  Ukrainian, Uyghur
+
 0.5.1
 ======
 - Dependency Changes:
