@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 12:48+0100\n"
-"PO-Revision-Date: 2021-01-26 16:40+0000\n"
+"PO-Revision-Date: 2021-02-02 16:07+0000\n"
 "Last-Translator: beriain\n"
 "Language-Team: Basque (http://www.transifex.com/xfce/xfce-apps/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -1062,7 +1062,7 @@ msgstr "Fitxategi motarik ez"
 
 #: ../mousepad/resources/gtk/menus.ui.h:67
 msgid "Line E_nding"
-msgstr "Lerro lo_deketa"
+msgstr "Lerro ko_deketa"
 
 #: ../mousepad/resources/gtk/menus.ui.h:68
 msgid "Character(s) to use as end of line"
@@ -1242,7 +1242,7 @@ msgstr "Testua bilatu eta ordeztu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:31
 msgid "_Go to..."
-msgstr "_Joan ..."
+msgstr "_Joan..."
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:32
 msgid "Go to a specific location in the document"
@@ -1254,7 +1254,7 @@ msgstr "_Pantaila-osoa"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:35
 msgid "Paste _Special"
-msgstr "Itsatsi bere_zia"
+msgstr "Itsaste bere_zia"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:36
 msgid "Paste the clipboard in a special way"
@@ -1451,7 +1451,7 @@ msgstr "Ikonoak soilik"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:10
 msgid "Text Only"
-msgstr "Testua Soilik"
+msgstr "Testua soilik"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:11
 msgid "Text Below Icons"
