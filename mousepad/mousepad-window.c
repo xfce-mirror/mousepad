@@ -1541,12 +1541,13 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
                                    GMenuModel     *model,
                                    gint           *offset)
 {
-  GMenuModel  *section, *submodel;
-  GtkWidget   *submenu;
-  GVariant    *hidden_when, *action, *tooltip;
-  GList       *children, *child;
-  const gchar *action_name;
-  gint         n_items, n, suboffset = 0;
+  GMenuModel   *section, *submodel;
+  GtkWidget    *submenu;
+  GVariant     *hidden_when, *action, *tooltip;
+  GActionGroup *action_group = NULL;
+  GList        *children, *child;
+  const gchar  *action_name;
+  gint          n_items, n, suboffset = 0;
 
   /* initialization */
   n_items = g_menu_model_get_n_items (model);
@@ -1609,11 +1610,17 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
                 {
                   action_name = g_variant_get_string (action, NULL);
 
-                  /* we have to remove the group prefix if present */
-                  if (g_strstr_len (action_name, 4, "win."))
-                    action_name += 4;
+                  /* retrieve action group */
+                  if (g_str_has_prefix (action_name, "win."))
+                    action_group = G_ACTION_GROUP (window);
+                  else if (g_str_has_prefix (action_name, "app."))
+                    action_group = G_ACTION_GROUP (gtk_window_get_application (GTK_WINDOW (window)));
+                  /* in particular, the use of action namespaces in '.ui' files is not supported */
+                  else
+                    g_warn_if_reached ();
 
-                  if (! g_action_group_get_action_enabled (G_ACTION_GROUP (window), action_name))
+                  if (action_group != NULL
+                      && ! g_action_group_get_action_enabled (action_group, action_name + 4))
                     continue;
                 }
 

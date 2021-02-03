@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+  <!--
+    NB: The use of action namespaces is not fully supported, for at least two reasons:
+        * This is almost incompatible with shared menu items, sections and submenus
+          defined in './menus-common.ui'.
+        * This could be compatible with the use of GMenu in Mousepad code, but it is
+          not fully implemented (e.g. in mousepad_window_menu_set_tooltips() and
+          mousepad_window_update_toolbar_item()).
+        So always use full action names in this file.
+  -->
+
 <interface>
   <requires lib="gtk+" version="3.20"/>
 
