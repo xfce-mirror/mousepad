@@ -452,6 +452,7 @@ struct _MousepadWindow
   /* menubar related */
   GtkRecentManager    *recent_manager;
   const gchar         *gtkmenu_key, *offset_key;
+  gboolean             old_style_menu;
 
   /* search widgets related */
   gboolean             search_widget_visible;
@@ -1013,11 +1014,11 @@ mousepad_window_post_init (MousepadWindow *window)
   model = gtk_application_get_menubar (application);
   window->menubar = gtk_menu_bar_new_from_model (model);
 
-  /* set tooltips and connect handlers to the menubar items signals */
-  mousepad_window_menu_set_tooltips (window, window->menubar, model, NULL);
-
   /* insert the menubar in its previously reserved space */
   gtk_box_pack_start (GTK_BOX (window->menubar_box), window->menubar, TRUE, TRUE, 0);
+
+  /* set tooltips and connect handlers to the menubar items signals */
+  mousepad_window_menu_set_tooltips (window, window->menubar, model, NULL);
 
   /* update the menubar visibility and related actions state */
   mousepad_window_update_bar_visibility (window, MENUBAR);
@@ -1225,6 +1226,7 @@ mousepad_window_init (MousepadWindow *window)
   window->recent_manager = NULL;
   window->gtkmenu_key = NULL;
   window->offset_key = NULL;
+  window->old_style_menu = MOUSEPAD_SETTING_GET_BOOLEAN (OLD_STYLE_MENU);
 
   /* increase clipboard history ref count */
   clipboard_history_ref_count++;
@@ -1536,6 +1538,194 @@ mousepad_window_menu_update_tooltips (GMenuModel     *model,
 
 
 static void
+mousepad_window_radio_activate (GSimpleAction *action,
+                                GVariant      *state,
+                                gpointer       button)
+{
+  if (g_variant_equal (state, gtk_actionable_get_action_target_value (GTK_ACTIONABLE (button))))
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+}
+
+
+
+static GtkWidget *
+mousepad_window_menu_item_realign (MousepadWindow *window,
+                                   GtkWidget      *menu,
+                                   GtkWidget      *item,
+                                   const gchar    *action_name,
+                                   GVariant       *target,
+                                   gint            index)
+{
+  GtkWidget          *new_item, *box, *button = NULL, *icon = NULL, *label;
+  GActionMap         *action_map = NULL;
+  GAction            *action;
+  GList              *widgets;
+  const GVariantType *state_type = NULL, *param_type = NULL;
+  GVariant           *state;
+  const gchar        *label_text, *accel_padding = "      ";
+  gchar              *new_label_text;
+
+  static GtkRadioButton *last_button = NULL;
+  static const gchar    *last_action_name = NULL;
+  static GVariant       *last_target = NULL;
+
+  /* do not replace items with a submenu: this causes strange problems when transferring
+   * the submenu, and we don't need to do it, because these items never have an icon or
+   * a checkbox/radio. */
+  if (gtk_menu_item_get_submenu (GTK_MENU_ITEM (item)) != NULL)
+    {
+      label = gtk_bin_get_child (GTK_BIN (item));
+
+      /* alignment: width (GTK_ICON_SIZE_BUTTON) + 7 = 16 + 7 = 23, see below */
+      gtk_widget_set_margin_start (label, 23);
+
+      return item;
+    }
+
+  /* create new menu item (not a toggle menu item, as gtk_menu_new_from_model() does) */
+  new_item = gtk_menu_item_new ();
+
+  /* manage action widget */
+  if (action_name != NULL)
+    {
+      /* retrieve action map */
+      if (g_str_has_prefix (action_name, "win."))
+        action_map = G_ACTION_MAP (window);
+      else if (g_str_has_prefix (action_name, "app."))
+        action_map = G_ACTION_MAP (gtk_window_get_application (GTK_WINDOW (window)));
+      /* in particular, the use of action namespaces in '.ui' files is not supported */
+      else
+        g_warn_if_reached ();
+
+      if (action_map != NULL)
+        {
+          action = g_action_map_lookup_action (action_map, action_name + 4);
+          state_type = g_action_get_state_type (action);
+          param_type = g_action_get_parameter_type (action);
+        }
+
+      /* statefull action (does not necessarily mean toggle or radio) */
+      if (state_type != NULL)
+        {
+          /* toggle action */
+          if (g_variant_type_equal (state_type, G_VARIANT_TYPE_BOOLEAN))
+            {
+              button = gtk_check_button_new ();
+              gtk_actionable_set_action_name (GTK_ACTIONABLE (button), action_name);
+            }
+          /* radio action */
+          else if (param_type != NULL && g_variant_type_equal (state_type, param_type))
+            {
+              /* a new button in the current radio group */
+              if (last_button != NULL && g_strcmp0 (action_name, last_action_name) == 0
+                  && ! g_variant_equal (target, last_target))
+                button = gtk_radio_button_new_from_widget (last_button);
+              /* a new radio group */
+              else
+                {
+                  button = gtk_radio_button_new (NULL);
+                  g_signal_connect (button, "destroy",
+                                    G_CALLBACK (gtk_widget_destroyed), &last_button);
+                  last_button = GTK_RADIO_BUTTON (button);
+                  last_action_name = action_name;
+                  last_target = target;
+                }
+
+              /* we can't use gtk_actionable_set_action_name() as above for check buttons:
+               * this causes strange bugs/conflicts, so let's reserve this simple binding
+               * to the menu item below and use a classical signal handler instead */
+              gtk_actionable_set_action_target_value (GTK_ACTIONABLE (button), target);
+              g_signal_connect_object (action, "activate",
+                                       G_CALLBACK (mousepad_window_radio_activate), button, 0);
+
+              /* initialize button state */
+              state = g_action_get_state (action);
+              mousepad_window_radio_activate (G_SIMPLE_ACTION (action), state, button);
+              g_variant_unref (state);
+            }
+        }
+
+      /* make menu item actionable (target can be NULL) */
+      gtk_actionable_set_action_name (GTK_ACTIONABLE (new_item), action_name);
+      gtk_actionable_set_action_target_value (GTK_ACTIONABLE (new_item), target);
+    }
+
+  /* manage icon and label: pick up existing widgets, in particular the GtkAccelLabel */
+
+  /* a directly accessible label means no icon */
+  if ((label_text = gtk_menu_item_get_label (GTK_MENU_ITEM (item))) != NULL)
+    {
+      label = gtk_bin_get_child (GTK_BIN (item));
+      if (button == NULL)
+        icon = gtk_image_new_from_icon_name ("", GTK_ICON_SIZE_BUTTON);
+    }
+  else
+    {
+      box = gtk_bin_get_child (GTK_BIN (item));
+      widgets = gtk_container_get_children (GTK_CONTAINER (box));
+
+      /* the label is always the last widget in the box */
+      label = g_list_last (widgets)->data;
+      label_text = gtk_label_get_label (GTK_LABEL (label));
+
+      /* the first widget could be a button if we have already passed here */
+      if (GTK_IS_IMAGE (widgets->data))
+        icon = widgets->data;
+
+      g_list_free (widgets);
+    }
+
+  /* alignment: make icons fit buttons */
+  if (icon != NULL && button == NULL)
+    gtk_widget_set_margin_end (icon, 7);
+  /* more subjective */
+  else if (icon != NULL && button != NULL)
+    gtk_widget_set_margin_end (icon, 5);
+
+  /* we also need to put back some space between the text and the accel in the label,
+   * without doing it twice if we have already passed here */
+  if (! g_str_has_suffix (label_text, accel_padding))
+    {
+      new_label_text = g_strconcat (label_text, accel_padding, NULL);
+      gtk_label_set_label (GTK_LABEL (label), new_label_text);
+      g_free (new_label_text);
+    }
+
+  /* keep a reference on widgets before to destroy the menu item */
+  g_object_ref (label);
+  if (icon != NULL)
+    g_object_ref (icon);
+
+  /* destroying the menu item is needed in general, maybe to break circular references,
+   * anyway we can't simply remove it from the menu */
+  gtk_widget_destroy (item);
+
+  /* packing */
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+
+  if (button != NULL)
+    gtk_box_pack_start (GTK_BOX (box), button, FALSE, FALSE, 0);
+
+  if (icon != NULL)
+    {
+      gtk_box_pack_start (GTK_BOX (box), icon, FALSE, FALSE, 0);
+      g_object_unref (icon);
+    }
+
+  gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
+  g_object_unref (label);
+
+  gtk_container_add (GTK_CONTAINER (new_item), box);
+  gtk_widget_show_all (new_item);
+
+  gtk_menu_shell_insert (GTK_MENU_SHELL (menu), new_item, index);
+
+  return new_item;
+}
+
+
+
+static void
 mousepad_window_menu_set_tooltips (MousepadWindow *window,
                                    GtkWidget      *menu,
                                    GMenuModel     *model,
@@ -1543,13 +1733,15 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
 {
   GMenuModel   *section, *submodel;
   GtkWidget    *submenu;
-  GVariant     *hidden_when, *action, *tooltip;
+  GVariant     *hidden_when, *action, *target, *tooltip;
   GActionGroup *action_group;
   GList        *children, *child;
   const gchar  *action_name;
   gint          n_items, n, suboffset = 0;
+  gboolean      realign;
 
   /* initialization */
+  realign = window->old_style_menu && ! GTK_IS_MENU_BAR (menu);
   n_items = g_menu_model_get_n_items (model);
   children = gtk_container_get_children (GTK_CONTAINER (menu));
   child = children;
@@ -1566,6 +1758,10 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
   /* move to the right place in the GtkMenu if we are dealing with a section */
   for (n = 0; n < *offset; n++)
     child = child->next;
+
+  /* realign menu items */
+  if (realign)
+    gtk_menu_set_reserve_toggle_size (GTK_MENU (menu), FALSE);
 
   /* exit if we have reached the end of the GtkMenu */
   if (child == NULL)
@@ -1585,31 +1781,36 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
 
       /* section GMenuItem: one level down in the GMenuModel but same level in the GtkMenu,
        * so go ahead recursively only from GMenuModel point of view */
-      if ((section = g_menu_model_get_item_link (model, n, G_MENU_LINK_SECTION)))
+      if ((section = g_menu_model_get_item_link (model, n, G_MENU_LINK_SECTION)) != NULL)
         mousepad_window_menu_set_tooltips (window, menu, section, offset);
       /* real GMenuItem */
       else
         {
+          action = g_menu_model_get_item_attribute_value (model, n, "action",
+                                                          G_VARIANT_TYPE_STRING);
+          if (action != NULL)
+            {
+              action_name = g_variant_get_string (action, NULL);
+              g_variant_unref (action);
+            }
+          else
+            action_name = NULL;
+
           /* an hidden GMenuItem doesn't correspond to an hidden GtkMenuItem,
            * but to nothing, so we have to skip it in this case */
           hidden_when = g_menu_model_get_item_attribute_value (model, n, "hidden-when",
                                                                G_VARIANT_TYPE_STRING);
-          if (hidden_when)
+          if (hidden_when != NULL)
             {
-              action = g_menu_model_get_item_attribute_value (model, n, "action",
-                                                              G_VARIANT_TYPE_STRING);
-
               /* skip the GMenuItem if hidden when action is missing */
               if (g_strcmp0 (g_variant_get_string (hidden_when, NULL), "action-missing") == 0
-                  && ! action)
+                  && action_name == NULL)
                 continue;
 
               /* skip the GMenuItem if hidden when action is disabled (but not missing) */
               if (g_strcmp0 (g_variant_get_string (hidden_when, NULL), "action-disabled") == 0
-                  && action)
+                  && action_name != NULL)
                 {
-                  action_name = g_variant_get_string (action, NULL);
-
                   /* retrieve action group */
                   if (g_str_has_prefix (action_name, "win."))
                     action_group = G_ACTION_GROUP (window);
@@ -1629,14 +1830,22 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
 
               /* cleanup */
               g_variant_unref (hidden_when);
-              if (action)
-                g_variant_unref (action);
+            }
+
+          /* realign menu item */
+          if (realign)
+            {
+              target = g_menu_model_get_item_attribute_value (model, n, "target", NULL);
+              child->data = mousepad_window_menu_item_realign (window, menu, child->data,
+                                                               action_name, target, *offset);
+              if (target != NULL)
+                g_variant_unref (target);
             }
 
           /* set the tooltip on the corresponding GtkMenuItem */
           tooltip = g_menu_model_get_item_attribute_value (model, n, "tooltip",
                                                            G_VARIANT_TYPE_STRING);
-          if (tooltip)
+          if (tooltip != NULL)
             {
               gtk_widget_set_tooltip_text (child->data, g_variant_get_string (tooltip, NULL));
               g_variant_unref (tooltip);
@@ -1659,9 +1868,9 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
                                    window, 0);
 
           /* submenu GMenuItem: go ahead recursively */
-          if ((submodel = g_menu_model_get_item_link (model, n, G_MENU_LINK_SUBMENU)))
+          if ((submodel = g_menu_model_get_item_link (model, n, G_MENU_LINK_SUBMENU)) != NULL)
             {
-              submenu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (child->data));
+              submenu = gtk_menu_item_get_submenu (child->data);
               mousepad_window_menu_set_tooltips (window, submenu, submodel, NULL);
             }
 
@@ -3199,6 +3408,10 @@ mousepad_window_menu_textview_shown (GtkWidget      *menu,
 
   /* empty the original menu */
   mousepad_util_container_clear (GTK_CONTAINER (menu));
+
+  /* realign menu items */
+  if (window->old_style_menu)
+    gtk_menu_set_reserve_toggle_size (GTK_MENU (menu), FALSE);
 
   /* move the textview menu children into the other menu */
   mousepad_util_container_move_children (GTK_CONTAINER (window->textview_menu),
