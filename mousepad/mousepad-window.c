@@ -1647,7 +1647,8 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
       gtk_actionable_set_action_target_value (GTK_ACTIONABLE (new_item), target);
     }
 
-  /* manage icon and label: pick up existing widgets, in particular the GtkAccelLabel */
+  /* manage icon and label: pick up existing widgets, in particular the GtkAccelLabel,
+   * and drop the icon if there is a button */
 
   /* a directly accessible label means no icon */
   if ((label_text = gtk_menu_item_get_label (GTK_MENU_ITEM (item))) != NULL)
@@ -1666,18 +1667,15 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
       label_text = gtk_label_get_label (GTK_LABEL (label));
 
       /* the first widget could be a button if we have already passed here */
-      if (GTK_IS_IMAGE (widgets->data))
+      if (GTK_IS_IMAGE (widgets->data) && button == NULL)
         icon = widgets->data;
 
       g_list_free (widgets);
     }
 
   /* alignment: make icons fit buttons */
-  if (icon != NULL && button == NULL)
+  if (icon != NULL)
     gtk_widget_set_margin_end (icon, 7);
-  /* more subjective */
-  else if (icon != NULL && button != NULL)
-    gtk_widget_set_margin_end (icon, 5);
 
   /* we also need to put back some space between the text and the accel in the label,
    * without doing it twice if we have already passed here */
