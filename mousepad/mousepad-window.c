@@ -1544,7 +1544,7 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
   GMenuModel   *section, *submodel;
   GtkWidget    *submenu;
   GVariant     *hidden_when, *action, *tooltip;
-  GActionGroup *action_group = NULL;
+  GActionGroup *action_group;
   GList        *children, *child;
   const gchar  *action_name;
   gint          n_items, n, suboffset = 0;
@@ -1617,7 +1617,10 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
                     action_group = G_ACTION_GROUP (gtk_window_get_application (GTK_WINDOW (window)));
                   /* in particular, the use of action namespaces in '.ui' files is not supported */
                   else
-                    g_warn_if_reached ();
+                    {
+                      g_warn_if_reached ();
+                      action_group = NULL;
+                    }
 
                   if (action_group != NULL
                       && ! g_action_group_get_action_enabled (action_group, action_name + 4))
@@ -3102,9 +3105,10 @@ mousepad_window_menu_templates (GSimpleAction *action,
       if (g_file_test (templates_path, G_FILE_TEST_IS_DIR))
         {
           /* fill the menu, blocking tooltip update meanwhile */
-          g_signal_handlers_block_by_func (menu, mousepad_window_menu_set_tooltips, window);
+          g_signal_handlers_block_by_func (menu, mousepad_window_menu_update_tooltips, window);
           mousepad_window_menu_templates_fill (window, menu, templates_path);
-          g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_set_tooltips, window);
+          g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_update_tooltips, window);
+          mousepad_window_menu_update_tooltips (G_MENU_MODEL (menu), 0, 0, 0, window);
         }
       else
         {
@@ -3361,7 +3365,7 @@ mousepad_window_update_gomenu (GSimpleAction *action,
       menu = gtk_application_get_menu_by_id (application, "document.go-to-tab");
 
       /* block tooltip updates */
-      g_signal_handlers_block_by_func (menu, mousepad_window_menu_set_tooltips, window);
+      g_signal_handlers_block_by_func (menu, mousepad_window_menu_update_tooltips, window);
 
       /* empty the menu */
       g_menu_remove_all (menu);
@@ -3401,7 +3405,8 @@ mousepad_window_update_gomenu (GSimpleAction *action,
         }
 
       /* release our lock */
-      g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_set_tooltips, window);
+      g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_update_tooltips, window);
+      mousepad_window_menu_update_tooltips (G_MENU_MODEL (menu), 0, 0, 0, window);
       lock_menu_updates--;
     }
 }
@@ -3512,7 +3517,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
       menu = gtk_application_get_menu_by_id (application, "file.open-recent.list");
 
       /* block tooltip updates */
-      g_signal_handlers_block_by_func (menu, mousepad_window_menu_set_tooltips, window);
+      g_signal_handlers_block_by_func (menu, mousepad_window_menu_update_tooltips, window);
 
       /* empty the menu */
       g_menu_remove_all (menu);
@@ -3606,7 +3611,8 @@ mousepad_window_recent_menu (GSimpleAction *action,
       g_list_free (filtered);
 
       /* allow menu updates again */
-      g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_set_tooltips, window);
+      g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_update_tooltips, window);
+      mousepad_window_menu_update_tooltips (G_MENU_MODEL (menu), 0, 0, 0, window);
       lock_menu_updates--;
     }
 }
