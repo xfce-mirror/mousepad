@@ -410,7 +410,7 @@
       </description>
     </key>
     <key name="old-style-menu" type="b">
-      <default>false</default>
+      <default>true</default>
       <summary>Old style menu</summary>
       <description>
         When true, icons are aligned with the checkmarks for radio and check menuitems,
