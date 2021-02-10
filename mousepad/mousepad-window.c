@@ -1386,18 +1386,22 @@ mousepad_window_delete_event (GtkWidget   *widget,
 
 static gboolean
 mousepad_window_scroll_event (GtkWidget      *widget,
-                              GdkEventScroll *event)
+                              GdkEventScroll *scroll_event)
 {
+  GdkEvent           *event = (GdkEvent *) scroll_event;
+  GdkModifierType     state;
+  GdkScrollDirection  direction;
+
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (widget), FALSE);
 
-  if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_UP)
+  if (gdk_event_get_state (event, &state) && state & GDK_CONTROL_MASK
+      && gdk_event_get_scroll_direction (event, &direction))
     {
-      g_action_group_activate_action (G_ACTION_GROUP (widget), "increase-font-size", NULL);
-      return TRUE;
-    }
-  else if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_DOWN)
-    {
-      g_action_group_activate_action (G_ACTION_GROUP (widget), "decrease-font-size", NULL);
+      if (direction == GDK_SCROLL_UP)
+        g_action_group_activate_action (G_ACTION_GROUP (widget), "increase-font-size", NULL);
+      else if (direction == GDK_SCROLL_DOWN)
+        g_action_group_activate_action (G_ACTION_GROUP (widget), "decrease-font-size", NULL);
+
       return TRUE;
     }
 
@@ -2288,19 +2292,27 @@ mousepad_window_hide_menubar_event (MousepadWindow *window)
 
 static gboolean
 mousepad_window_menubar_key_event (MousepadWindow *window,
-                                   GdkEventKey    *event,
+                                   GdkEventKey    *key_event,
                                    GList          *mnemonics)
 {
-  GdkEvent *event_bis;
+  GdkEvent        *event = (GdkEvent *) key_event, *event_bis;
+  GdkEventType     type;
+  GdkModifierType  state;
+  guint            keyval = 0;
+
   static gboolean hidden_last_time = FALSE;
 
+  /* retrieve event attributes */
+  type = gdk_event_get_event_type (event);
+  gdk_event_get_state (event, &state);
+  gdk_event_get_keyval (event, &keyval);
+
   /* Alt key was pressed (alone or as a GdkModifierType) or released, or Esc key was pressed */
-  if (event->state & GDK_MOD1_MASK || event->keyval == GDK_KEY_Alt_L
-      || (event->keyval == GDK_KEY_Escape && event->type == GDK_KEY_PRESS))
+  if (state & GDK_MOD1_MASK || keyval == GDK_KEY_Alt_L
+      || (keyval == GDK_KEY_Escape && type == GDK_KEY_PRESS))
     {
       /* hide the menubar if Alt/Esc key was pressed */
-      if (event->type == GDK_KEY_PRESS
-          && (event->keyval == GDK_KEY_Alt_L || event->keyval == GDK_KEY_Escape)
+      if (type == GDK_KEY_PRESS && (keyval == GDK_KEY_Alt_L || keyval == GDK_KEY_Escape)
           && gtk_widget_get_visible (window->menubar))
         {
           /* disconnect signals and hide the menubar */
@@ -2316,9 +2328,9 @@ mousepad_window_menubar_key_event (MousepadWindow *window,
         }
       /* show the menubar if Alt key was released or if one of its mnemonic keys matched */
       else if (! hidden_last_time && ! gtk_widget_get_visible (window->menubar)
-               && ((event->keyval == GDK_KEY_Alt_L && event->type == GDK_KEY_RELEASE)
-                   || (event->type == GDK_KEY_PRESS && event->state & GDK_MOD1_MASK
-                       && g_list_find (mnemonics, GUINT_TO_POINTER (event->keyval)))))
+               && ((keyval == GDK_KEY_Alt_L && type == GDK_KEY_RELEASE)
+                   || (type == GDK_KEY_PRESS && state & GDK_MOD1_MASK
+                       && g_list_find (mnemonics, GUINT_TO_POINTER (keyval)))))
         {
           /* show the menubar and connect signals to hide it afterwards on user actions */
           gtk_widget_show (window->menubar);
@@ -2336,9 +2348,9 @@ mousepad_window_menubar_key_event (MousepadWindow *window,
                                     G_CALLBACK (mousepad_window_hide_menubar_event), window);
 
           /* in case of a mnemonic key, repeat the same event to make its menu popup */
-          if (event->keyval != GDK_KEY_Alt_L)
+          if (keyval != GDK_KEY_Alt_L)
             {
-              event_bis = gdk_event_copy ((GdkEvent *) event);
+              event_bis = gdk_event_copy (event);
               gtk_main_do_event (event_bis);
               gdk_event_free (event_bis);
             }
@@ -2664,14 +2676,15 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
 
 
 
-/* stolen from Geany notebook.c */
+/* stolen from Geany notebook.c and slightly modified */
 static gboolean
-mousepad_window_is_position_on_tab_bar (GtkNotebook *notebook, GdkEventButton *event)
+mousepad_window_is_position_on_tab_bar (GtkNotebook    *notebook,
+                                        GdkEventButton *event)
 {
   GtkWidget      *page, *tab, *nb;
   GtkPositionType tab_pos;
   gint            scroll_arrow_hlength, scroll_arrow_vlength;
-  gdouble         x, y;
+  gdouble         x = 0, y = 0;
 
   page = gtk_notebook_get_nth_page (notebook, 0);
   g_return_val_if_fail (page != NULL, FALSE);
@@ -2687,37 +2700,25 @@ mousepad_window_is_position_on_tab_bar (GtkNotebook *notebook, GdkEventButton *e
                         "scroll-arrow-vlength", &scroll_arrow_vlength,
                         NULL);
 
-  if (! gdk_event_get_coords ((GdkEvent *) event, &x, &y))
-    {
-      x = event->x;
-      y = event->y;
-    }
-
+  gdk_event_get_coords ((GdkEvent *) event, &x, &y);
   switch (tab_pos)
     {
-    case GTK_POS_TOP:
-    case GTK_POS_BOTTOM:
-      if (event->y >= 0 && event->y <= gtk_widget_get_allocated_height (tab))
-        {
-          if (! gtk_notebook_get_scrollable (notebook) || (
-            x > scroll_arrow_hlength &&
-            x < gtk_widget_get_allocated_width (nb) - scroll_arrow_hlength))
-          {
-            return TRUE;
-          }
-        }
-      break;
-    case GTK_POS_LEFT:
-    case GTK_POS_RIGHT:
-        if (event->x >= 0 && event->x <= gtk_widget_get_allocated_width (tab))
-          {
-            if (! gtk_notebook_get_scrollable (notebook) || (
+      case GTK_POS_TOP:
+      case GTK_POS_BOTTOM:
+        if (y >= 0 && y <= gtk_widget_get_allocated_height (tab) && (
+              ! gtk_notebook_get_scrollable (notebook) || (
+                x > scroll_arrow_hlength &&
+                x < gtk_widget_get_allocated_width (nb) - scroll_arrow_hlength)))
+          return TRUE;
+
+        break;
+      case GTK_POS_LEFT:
+      case GTK_POS_RIGHT:
+        if (x >= 0 && x <= gtk_widget_get_allocated_width (tab) && (
+              ! gtk_notebook_get_scrollable (notebook) || (
                 y > scroll_arrow_vlength &&
-                y < gtk_widget_get_allocated_height (nb) - scroll_arrow_vlength))
-              {
-                return TRUE;
-              }
-          }
+                y < gtk_widget_get_allocated_height (nb) - scroll_arrow_vlength)))
+          return TRUE;
     }
 
   return FALSE;
@@ -2727,16 +2728,24 @@ mousepad_window_is_position_on_tab_bar (GtkNotebook *notebook, GdkEventButton *e
 
 static gboolean
 mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
-                                             GdkEventButton *event,
+                                             GdkEventButton *button_event,
                                              MousepadWindow *window)
 {
-  GtkWidget *page, *label;
-  guint      page_num = 0;
-  gint       x_root;
+  GdkEvent     *event = (GdkEvent *) button_event;
+  GtkWidget    *page, *label;
+  GdkEventType  type;
+  gdouble       event_x_root = 0.0;
+  guint         page_num = 0, button = 0;
+  gint          x_root;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
 
-  if (event->type == GDK_BUTTON_PRESS && (event->button == 3 || event->button == 2))
+  /* retrieve event attributes */
+  type = gdk_event_get_event_type (event);
+  gdk_event_get_button (event, &button);
+  gdk_event_get_root_coords (event, &event_x_root, NULL);
+
+  if (type == GDK_BUTTON_PRESS && (button == 3 || button == 2))
     {
       /* walk through the tabs and look for the tab under the cursor */
       while ((page = gtk_notebook_get_nth_page (notebook, page_num)) != NULL)
@@ -2751,16 +2760,16 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
           x_root = x_root + alloc.x;
 
           /* check if the cursor is inside this label */
-          if (event->x_root >= x_root && event->x_root <= (x_root + alloc.width))
+          if (event_x_root >= x_root && event_x_root <= (x_root + alloc.width))
             {
               /* switch to this tab */
               gtk_notebook_set_current_page (notebook, page_num);
 
               /* show the menu */
-              if (event->button == 3)
-                gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), (GdkEvent *) event);
+              if (button == 3)
+                gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), event);
               /* close the document */
-              else if (event->button == 2)
+              else if (button == 2)
                 g_action_group_activate_action (G_ACTION_GROUP (window), "file.close-tab", NULL);
 
               /* we succeed */
@@ -2771,18 +2780,18 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
           ++page_num;
         }
     }
-  else if (event->type == GDK_2BUTTON_PRESS && event->button == 1)
+  else if (type == GDK_2BUTTON_PRESS && button == 1)
     {
-      GtkWidget   *ev_widget, *nb_child;
+      GtkWidget *ev_widget, *nb_child;
 
-      ev_widget = gtk_get_event_widget ((GdkEvent *) event);
+      ev_widget = gtk_get_event_widget (event);
       nb_child = gtk_notebook_get_nth_page (notebook,
                                             gtk_notebook_get_current_page (notebook));
       if (ev_widget == NULL || ev_widget == nb_child || gtk_widget_is_ancestor (ev_widget, nb_child))
         return FALSE;
 
       /* check if the event window is the notebook event window (not a tab) */
-      if (mousepad_window_is_position_on_tab_bar (notebook, event))
+      if (mousepad_window_is_position_on_tab_bar (notebook, button_event))
         {
           /* create new document */
           g_action_group_activate_action (G_ACTION_GROUP (window), "file.new", NULL);
