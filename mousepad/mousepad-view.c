@@ -343,22 +343,26 @@ mousepad_view_set_property (GObject      *object,
 
 static gboolean
 mousepad_view_key_press_event (GtkWidget   *widget,
-                               GdkEventKey *event)
+                               GdkEventKey *key_event)
 {
-  MousepadView  *view = MOUSEPAD_VIEW (widget);
-  GtkTextBuffer *buffer;
-  GtkTextIter    iter;
-  GtkTextMark   *cursor;
-  guint          modifiers;
+  MousepadView    *view = MOUSEPAD_VIEW (widget);
+  GdkEvent        *event = (GdkEvent *) key_event;
+  GtkTextBuffer   *buffer;
+  GtkTextIter      iter;
+  GtkTextMark     *cursor;
+  GdkModifierType  state;
+  guint            modifiers, keyval = 0;
 
   /* get the modifiers state */
-  modifiers = event->state & gtk_accelerator_get_default_mod_mask ();
+  gdk_event_get_state (event, &state);
+  modifiers = state & gtk_accelerator_get_default_mod_mask ();
 
   /* get the textview buffer */
   buffer = mousepad_view_get_buffer (view);
 
   /* handle the key event */
-  switch (event->keyval)
+  gdk_event_get_keyval (event, &keyval);
+  switch (keyval)
     {
       case GDK_KEY_End:
       case GDK_KEY_KP_End:
@@ -415,7 +419,7 @@ mousepad_view_key_press_event (GtkWidget   *widget,
         break;
     }
 
-  return (*GTK_WIDGET_CLASS (mousepad_view_parent_class)->key_press_event) (widget, event);
+  return (*GTK_WIDGET_CLASS (mousepad_view_parent_class)->key_press_event) (widget, key_event);
 }
 
 
