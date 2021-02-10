@@ -172,13 +172,17 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
 
 static gboolean
 mousepad_statusbar_overwrite_clicked (GtkWidget *widget,
-                                      GdkEventButton *event,
+                                      GdkEventButton *button_event,
                                       MousepadStatusbar *statusbar)
 {
+  GdkEvent *event = (GdkEvent *) button_event;
+  guint button;
+
   g_return_val_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar), FALSE);
 
   /* only respond on the left button click */
-  if (event->type != GDK_BUTTON_PRESS || event->button != 1)
+  if (gdk_event_get_event_type (event) != GDK_BUTTON_PRESS
+      || !gdk_event_get_button (event, &button) || button != 1)
     return FALSE;
 
   /* swap the overwrite mode */
@@ -194,18 +198,20 @@ mousepad_statusbar_overwrite_clicked (GtkWidget *widget,
 
 static gboolean
 mousepad_statusbar_filetype_clicked (GtkWidget *widget,
-                                     GdkEventButton *event,
+                                     GdkEventButton *button_event,
                                      MousepadStatusbar *statusbar)
 {
+  GdkEvent *event = (GdkEvent *) button_event;
   GtkWidget *window;
   GtkMenu *menu = NULL;
   GList *children;
-  gint n_children = 0;
+  guint button, n_children = 0;
 
   g_return_val_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar), FALSE);
 
   /* only respond on the left button click */
-  if (event->type != GDK_BUTTON_PRESS || event->button != 1)
+  if (gdk_event_get_event_type (event) != GDK_BUTTON_PRESS
+      || !gdk_event_get_button (event, &button) || button != 1)
     return FALSE;
 
   /* get the languages menu from the window */
@@ -218,8 +224,8 @@ mousepad_statusbar_filetype_clicked (GtkWidget *widget,
   g_list_free (children);
 
   /* make sure there's at least one item in the menu to show it */
-  if (n_children)
-    gtk_menu_popup_at_pointer (menu, (GdkEvent *) event);
+  if (n_children > 0)
+    gtk_menu_popup_at_pointer (menu, event);
 
   return TRUE;
 }
