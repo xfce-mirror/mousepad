@@ -409,6 +409,14 @@
         it is always visible in fullscreen.
       </description>
     </key>
+    <key name="old-style-menu" type="b">
+      <default>true</default>
+      <summary>Old style menu</summary>
+      <description>
+        When true, icons are aligned with the checkmarks for radio and check menuitems,
+        instead of being aligned with the labels. Restart Mousepad for this to take effect.
+      </description>
+    </key>
   </schema>
 
   <!-- search state -->
