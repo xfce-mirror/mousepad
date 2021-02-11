@@ -101,7 +101,7 @@ mousepad_encoding_dialog_class_init (MousepadEncodingDialogClass *klass)
 static void
 mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 {
-  GtkWidget       *area, *vbox, *hbox, *icon;
+  GtkWidget       *area, *hbox, *icon;
   GtkCellRenderer *cell;
 
   /* set some dialog properties */
@@ -116,23 +116,20 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   dialog->title = NULL;
   mousepad_util_dialog_create_header (GTK_DIALOG (dialog), dialog->title, NULL, NULL);
 
-  /* dialog vbox */
+  /* dialog area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-  gtk_box_pack_start (GTK_BOX (area), vbox, TRUE, TRUE, 0);
-  gtk_widget_show (vbox);
-
-  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-  gtk_widget_show (hbox);
+  gtk_box_set_spacing (GTK_BOX (area), 6);
 
   /* encoding radio buttons */
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+  gtk_box_pack_start (GTK_BOX (area), hbox, FALSE, TRUE, 0);
+  gtk_widget_show (hbox);
 
   /* default encoding */
   dialog->radio_default = gtk_radio_button_new_with_label (NULL, NULL);
   g_signal_connect (dialog->radio_default, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_default, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_default, FALSE, TRUE, 0);
 
   /* system charset: added only if different from default */
   if (mousepad_encoding_get_default () != mousepad_encoding_get_system ())
@@ -141,7 +138,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
                                GTK_RADIO_BUTTON (dialog->radio_default), NULL);
       g_signal_connect (dialog->radio_system, "toggled",
                         G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-      gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_system, FALSE, FALSE, 0);
+      gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_system, FALSE, TRUE, 0);
     }
   else
     dialog->radio_system = NULL;
@@ -151,14 +148,14 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
                             GTK_RADIO_BUTTON (dialog->radio_default), NULL);
   g_signal_connect (dialog->radio_history, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_history, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_history, FALSE, TRUE, 0);
 
   /* valid conversions to UTF-8 if there are any, else partially valid conversions, else hidden */
   dialog->radio_other = gtk_radio_button_new_with_label_from_widget (
                           GTK_RADIO_BUTTON (dialog->radio_default), _("Other:"));
   g_signal_connect (dialog->radio_other, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_other, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_other, FALSE, TRUE, 0);
 
   /* create stores */
   dialog->store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_INT);
@@ -166,7 +163,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 
   /* combobox with other charsets */
   dialog->combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (dialog->store));
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->combo, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->combo, FALSE, TRUE, 0);
   g_signal_connect (dialog->combo, "changed",
                     G_CALLBACK (mousepad_encoding_dialog_combo_changed), dialog);
 
@@ -178,7 +175,8 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 
   /* progress bar */
   dialog->progress_bar = gtk_progress_bar_new ();
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->progress_bar, TRUE, TRUE, 0);
+  gtk_widget_set_hexpand (dialog->progress_bar, TRUE);
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->progress_bar, FALSE, TRUE, 0);
   gtk_progress_bar_set_text (GTK_PROGRESS_BAR (dialog->progress_bar),
                              _("Checking encodings..."));
   gtk_progress_bar_set_show_text (GTK_PROGRESS_BAR (dialog->progress_bar), TRUE);
@@ -186,29 +184,30 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 
   /* cancel button */
   dialog->button_cancel = gtk_button_new_with_mnemonic (MOUSEPAD_LABEL_CANCEL);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->button_cancel, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), dialog->button_cancel, FALSE, TRUE, 0);
   g_signal_connect (dialog->button_cancel, "clicked",
                     G_CALLBACK (mousepad_encoding_dialog_cancel_encoding_test), dialog);
   gtk_widget_show (dialog->button_cancel);
 
   /* error box */
   dialog->error_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), dialog->error_box, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (area), dialog->error_box, FALSE, TRUE, 0);
 
   /* error icon */
   icon = gtk_image_new_from_icon_name ("dialog-error", GTK_ICON_SIZE_BUTTON);
-  gtk_box_pack_start (GTK_BOX (dialog->error_box), icon, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (dialog->error_box), icon, FALSE, TRUE, 0);
   gtk_widget_show (icon);
 
   /* error label */
   dialog->error_label = gtk_label_new (NULL);
-  gtk_box_pack_start (GTK_BOX (dialog->error_box), dialog->error_label, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (dialog->error_box), dialog->error_label, FALSE, TRUE, 0);
   gtk_label_set_use_markup (GTK_LABEL (dialog->error_label), TRUE);
   gtk_widget_show (dialog->error_label);
 
   /* create text view */
   dialog->document = mousepad_document_new ();
-  gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (dialog->document), TRUE, TRUE, 0);
+  gtk_widget_set_vexpand (GTK_WIDGET (dialog->document), TRUE);
+  gtk_box_pack_start (GTK_BOX (area), GTK_WIDGET (dialog->document), FALSE, TRUE, 0);
   gtk_text_view_set_editable (GTK_TEXT_VIEW (dialog->document->textview), FALSE);
   gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (dialog->document->textview), FALSE);
   g_settings_unbind (dialog->document->textview, "show-line-numbers");
