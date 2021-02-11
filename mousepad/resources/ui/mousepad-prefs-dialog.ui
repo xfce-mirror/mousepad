@@ -237,11 +237,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.show-line-numbers</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -249,11 +244,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.show-whitespace</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -261,11 +251,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.show-line-endings</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkBox">
@@ -278,11 +263,6 @@
                         <property name="visible">True</property>
                         <property name="action-name">app.preferences.view.show-right-margin</property>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child>
                       <!-- add an extra packing to ensure that the binding with the checkbox takes effect
@@ -305,25 +285,10 @@
                             <property name="adjustment">/prefs/view/display/right-margin-adjustment</property>
                             <property name="numeric">True</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -331,11 +296,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.highlight-current-line</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -343,11 +303,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.match-braces</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">5</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -355,11 +310,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.word-wrap</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">6</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -371,11 +321,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/view/font/frame">
@@ -424,11 +369,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/view/color-scheme/frame">
@@ -455,11 +395,6 @@
                       </attributes>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -471,11 +406,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
         </child>
       </object>
     </child>
@@ -586,11 +516,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/editor/smart-keys/frame">
@@ -611,11 +536,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.indent-on-tab</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -630,11 +550,6 @@
                       </object>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel">
@@ -642,11 +557,6 @@
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Home/End: Detect leading/trailing whitespace:</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkBox">
@@ -665,18 +575,8 @@
                           </attributes>
                         </child>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">3</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -688,11 +588,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
       </object>
       <packing>
@@ -736,11 +631,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.statusbar-visible</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -748,11 +638,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.path-in-title</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -760,11 +645,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.remember-size</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -772,11 +652,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.remember-position</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -784,11 +659,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.remember-state</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -800,11 +670,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/window/toolbar/frame">
@@ -905,11 +770,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/window/notebook/frame">
@@ -930,11 +790,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.always-show-tabs</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -942,11 +797,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.cycle-tabs</property>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkBox">
@@ -963,11 +813,6 @@
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Open files in:</property>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkComboBox" id="/prefs/window/notebook/opening-mode-combo">
@@ -986,18 +831,8 @@
                           </attributes>
                         </child>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -1009,11 +844,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
         </child>
       </object>
       <packing>
@@ -1057,11 +887,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.file.add-last-end-of-line</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
@@ -1069,11 +894,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.file.make-backup</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -1085,11 +905,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/file/history/frame">
@@ -1119,11 +934,6 @@
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Session restore:</property>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkComboBox" id="/prefs/file/history/session-combo">
@@ -1138,18 +948,8 @@
                           </attributes>
                         </child>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkBox">
@@ -1166,11 +966,6 @@
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Recent file menu length:</property>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="/prefs/file/history/recent-spin">
@@ -1185,18 +980,8 @@
                         <property name="numeric">True</property>
                         <property name="tooltip-text" translatable="yes">'0' disables and wipes recent history</property>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -1208,11 +993,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/file/miscellaneous/frame">
@@ -1233,11 +1013,6 @@
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.file.monitor-changes</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkBox">
@@ -1254,11 +1029,6 @@
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Default encoding:</property>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkComboBox" id="/prefs/file/history/encoding-combo">
@@ -1272,18 +1042,8 @@
                           </attributes>
                         </child>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -1295,11 +1055,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
         </child>
       </object>
       <packing>
