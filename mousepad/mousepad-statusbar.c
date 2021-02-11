@@ -110,13 +110,14 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
   g_object_ref (label);
   gtk_container_remove (GTK_CONTAINER (frame->data), label);
   gtk_container_add (GTK_CONTAINER (frame->data), box);
-  gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
+  gtk_widget_set_hexpand (label, TRUE);
+  gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
   g_object_unref (label);
   g_list_free (frame);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, TRUE, 0);
   gtk_widget_show (separator);
 
   /* language/filetype event box */
@@ -135,7 +136,7 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, TRUE, 0);
   gtk_widget_show (separator);
 
   /* encoding */
@@ -145,7 +146,7 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, TRUE, 0);
   gtk_widget_show (separator);
 
   /* line and column numbers */
@@ -155,7 +156,7 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, TRUE, 0);
   gtk_widget_show (separator);
 
   /* overwrite event box */
