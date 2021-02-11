@@ -580,7 +580,8 @@ mousepad_document_get_tab_label (MousepadDocument *document)
   /* the ebox */
   document->priv->ebox = g_object_new (GTK_TYPE_EVENT_BOX, "border-width", 2,
                                        "visible-window", FALSE, NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), document->priv->ebox, TRUE, TRUE, 0);
+  gtk_widget_set_hexpand (document->priv->ebox, TRUE);
+  gtk_box_pack_start (GTK_BOX (hbox), document->priv->ebox, FALSE, TRUE, 0);
   gtk_widget_set_tooltip_text (document->priv->ebox, document->priv->utf8_filename);
   gtk_widget_show (document->priv->ebox);
 
@@ -601,7 +602,7 @@ mousepad_document_get_tab_label (MousepadDocument *document)
 
   /* pack button, add signal and tooltip */
   gtk_widget_set_tooltip_text (button, _("Close this tab"));
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   g_signal_connect (button, "clicked",
                     G_CALLBACK (mousepad_document_tab_button_clicked), document);
 
