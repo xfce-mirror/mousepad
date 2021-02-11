@@ -241,19 +241,19 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
                             G_CALLBACK (mousepad_search_bar_entry_activate_backward), bar);
   g_signal_connect (bar->entry, "select-all",
                     G_CALLBACK (mousepad_search_bar_entry_select_all), NULL);
-  gtk_box_pack_start (GTK_BOX (box), bar->entry, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box), bar->entry, FALSE, TRUE, 0);
 
   /* previous button */
   widget = gtk_button_new_from_icon_name ("go-up-symbolic", GTK_ICON_SIZE_MENU);
   gtk_widget_set_can_focus (widget, FALSE);
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_previous), bar);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
 
   /* next button */
   widget = gtk_button_new_from_icon_name ("go-down-symbolic", GTK_ICON_SIZE_MENU);
   gtk_widget_set_can_focus (widget, FALSE);
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_next), bar);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
 
   /* check button for case sensitive, including the proxy menu item */
   widget = gtk_check_button_new_with_mnemonic (_("Match _case"));
@@ -309,11 +309,11 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   widget = gtk_label_new (NULL);
   gtk_style_context_add_class (gtk_widget_get_style_context (widget), GTK_STYLE_CLASS_DIM_LABEL);
   g_object_bind_property (bar->hits_label, "label", widget, "label", G_BINDING_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
 
   widget = gtk_spinner_new ();
   g_object_bind_property (bar->spinner, "active", widget, "active", G_BINDING_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
 
   /* show all widgets but the search bar */
   gtk_widget_show_all (GTK_WIDGET (bar));
