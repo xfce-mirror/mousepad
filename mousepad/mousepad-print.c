@@ -611,7 +611,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
 
   frame = gtk_frame_new (NULL);
   gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
   gtk_widget_show (frame);
 
   label = gtk_label_new (_("Page Setup"));
@@ -632,7 +632,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
 
   frame = gtk_frame_new (NULL);
   gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
   gtk_widget_show (frame);
 
   label = gtk_label_new (_("Appearance"));
@@ -654,7 +654,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 gtk_source_print_compositor_get_print_header (print->compositor));
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
-  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, TRUE, 0);
   gtk_widget_show (button);
 
   button = print->widget_line_numbers =
@@ -662,7 +662,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 print->print_line_numbers);
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
-  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, TRUE, 0);
   gtk_widget_show (button);
 
   print->widget_line_numbers_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
@@ -701,7 +701,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
                                 gtk_source_print_compositor_get_wrap_mode (print->compositor)
                                   == GTK_WRAP_NONE ? FALSE : TRUE);
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
-  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, TRUE, 0);
   gtk_widget_show (button);
 
   button = print->widget_syntax_highlighting =
@@ -709,12 +709,12 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 gtk_source_print_compositor_get_highlight_syntax (print->compositor));
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
-  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, TRUE, 0);
   gtk_widget_show (button);
 
   frame = gtk_frame_new (NULL);
   gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
   gtk_widget_show (frame);
 
   label = gtk_label_new (_("Fonts"));
