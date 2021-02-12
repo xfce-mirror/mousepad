@@ -27,12 +27,12 @@ mousepad/mousepad-window.c
 #
 # Desktop Files
 #
-mousepad.desktop.in.in
+org.xfce.mousepad.desktop.in.in
 
 #
 # Appdata Files
 #
-mousepad.appdata.xml.in
+org.xfce.mousepad.appdata.xml.in
 
 #
 # Polkit File
