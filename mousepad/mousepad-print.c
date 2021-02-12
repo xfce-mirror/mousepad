@@ -558,7 +558,10 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gchar *str;
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
+  gtk_widget_set_margin_start (vbox, 8);
+  gtk_widget_set_margin_end (vbox, 8);
+  gtk_widget_set_margin_top (vbox, 8);
+  gtk_widget_set_margin_bottom (vbox, 8);
 
   frame = gtk_frame_new (NULL);
   gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
@@ -600,7 +603,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_set_margin_end (print->widget_line_numbers_hbox, 0);
   gtk_widget_set_margin_top (print->widget_line_numbers_hbox, 0);
   gtk_widget_set_margin_bottom (print->widget_line_numbers_hbox, 0);
-  gtk_container_add (GTK_CONTAINER (vbox2), print->widget_line_numbers_hbox);
+  gtk_box_pack_start (GTK_BOX (vbox2), print->widget_line_numbers_hbox, FALSE, TRUE, 0);
   gtk_widget_show (print->widget_line_numbers_hbox);
 
   label = gtk_label_new (_("Numbering interval:"));
