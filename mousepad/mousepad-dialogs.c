@@ -246,8 +246,11 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
 
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+  gtk_widget_set_margin_start (vbox, 6);
+  gtk_widget_set_margin_end (vbox, 6);
+  gtk_widget_set_margin_top (vbox, 6);
+  gtk_widget_set_margin_bottom (vbox, 6);
   gtk_box_pack_start (GTK_BOX (area), vbox, FALSE, TRUE, 0);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
   gtk_widget_show (vbox);
 
   /* create size group */
