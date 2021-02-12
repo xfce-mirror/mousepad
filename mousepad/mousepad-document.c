@@ -504,7 +504,7 @@ mousepad_document_location_changed (MousepadDocument *document,
   g_return_if_fail (file != NULL);
 
   /* convert the title into a utf-8 valid version for display */
-  utf8_filename = (gchar *) mousepad_util_get_path (file);
+  utf8_filename = (gchar *) g_file_peek_path (file);
   if (G_LIKELY (utf8_filename != NULL))
     utf8_filename = g_filename_to_utf8 (utf8_filename, -1, NULL, NULL, NULL);
   else
