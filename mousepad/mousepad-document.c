@@ -75,8 +75,7 @@ enum
 
 struct _MousepadDocumentPrivate
 {
-  /* the tab label and its tooltip ebox */
-  GtkWidget              *ebox;
+  /* the tab label */
   GtkWidget              *label;
 
   /* utf-8 valid document names */
@@ -473,7 +472,7 @@ mousepad_document_location_changed (MousepadDocument *document,
       gtk_label_set_text (GTK_LABEL (document->priv->label), utf8_basename);
 
       /* set the tab tooltip */
-      gtk_widget_set_tooltip_text (document->priv->ebox, utf8_filename);
+      gtk_widget_set_tooltip_text (document->priv->label, utf8_filename);
 
       /* update label style */
       mousepad_document_style_label (document);
@@ -551,20 +550,13 @@ mousepad_document_get_tab_label (MousepadDocument *document)
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (hbox);
 
-  /* the ebox */
-  document->priv->ebox = g_object_new (GTK_TYPE_EVENT_BOX, "border-width", 2,
-                                       "visible-window", FALSE, NULL);
-  gtk_widget_set_hexpand (document->priv->ebox, TRUE);
-  gtk_box_pack_start (GTK_BOX (hbox), document->priv->ebox, FALSE, TRUE, 0);
-  gtk_widget_set_tooltip_text (document->priv->ebox, document->priv->utf8_filename);
-  gtk_widget_show (document->priv->ebox);
-
   /* create the label */
   document->priv->label = gtk_label_new (mousepad_document_get_basename (document));
   mousepad_document_expand_tabs_changed (document);
   MOUSEPAD_SETTING_CONNECT_OBJECT (EXPAND_TABS, mousepad_document_expand_tabs_changed,
                                    document, G_CONNECT_SWAPPED);
-  gtk_container_add (GTK_CONTAINER (document->priv->ebox), document->priv->label);
+  gtk_widget_set_tooltip_text (document->priv->label, document->priv->utf8_filename);
+  gtk_box_pack_start (GTK_BOX (hbox), document->priv->label, FALSE, TRUE, 0);
   gtk_widget_show (document->priv->label);
 
   /* set label style */
