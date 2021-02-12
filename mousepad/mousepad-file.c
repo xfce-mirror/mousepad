@@ -254,9 +254,7 @@ mousepad_file_set_monitor (gpointer data)
         location = g_object_ref (file->location);
 
       file->monitor = g_file_monitor_file (location,
-#if GLIB_CHECK_VERSION (2, 56, 2)
                                            G_FILE_MONITOR_WATCH_HARD_LINKS |
-#endif
                                            G_FILE_MONITOR_WATCH_MOVES,
                                            NULL, &error);
       g_object_unref (location);
