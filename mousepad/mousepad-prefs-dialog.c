@@ -436,7 +436,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* add the Glade/GtkBuilder notebook into this dialog */
   notebook = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
-  gtk_container_add (GTK_CONTAINER (content_area), notebook);
+  gtk_box_pack_start (GTK_BOX (content_area), notebook, FALSE, TRUE, 0);
   gtk_widget_show (notebook);
 
   /* add the close button */
