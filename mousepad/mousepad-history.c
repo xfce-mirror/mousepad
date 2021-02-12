@@ -413,11 +413,9 @@ mousepad_history_session_restore_changed (void)
                                                    NULL);
 #endif
 
-#if GTK_CHECK_VERSION (3, 24, 8)
       /* be aware of session logout */
       g_signal_connect (application, "query-end",
                         G_CALLBACK (mousepad_history_session_external_signal), NULL);
-#endif
     }
   /* any state -> disabled */
   else if (restore == MOUSEPAD_SESSION_RESTORE_NEVER)
