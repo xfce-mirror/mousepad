@@ -19,8 +19,8 @@ i18n = import('i18n')
 fs = import('fs')
 
 dependency_versions = {
-  'glib': '>= 2.56.2',
-  'gtk': '>= 3.22.0',
+  'glib': '>= 2.58.0',
+  'gtk': '>= 3.24.11',
   'gtksourceview3': '>= 3.24.0',
   'gtksourceview4': '>= 4.0.0',
 
