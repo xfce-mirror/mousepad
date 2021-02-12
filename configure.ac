@@ -4,8 +4,8 @@ dnl ***************************
 XDT_VERSION_INIT([0.6.1], [git])
 
 dnl minimum required versions
-m4_define([glib_min_version], [2.56.2])
-m4_define([gtk_min_version], [3.22.0])
+m4_define([glib_min_version], [2.58.0])
+m4_define([gtk_min_version], [3.24.11])
 m4_define([gtksourceview3_min_version], [3.24.0])
 m4_define([gtksourceview4_min_version], [4.0.0])
 m4_define([polkit_min_version], [0.102])
