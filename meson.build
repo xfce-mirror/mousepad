@@ -20,7 +20,7 @@ fs = import('fs')
 
 dependency_versions = {
   'glib': '>= 2.66.0',
-  'gtk': '>= 3.24.0',
+  'gtk': '>= 3.24.11',
   'gtksourceview3': '>= 3.24.0',
   'gtksourceview4': '>= 4.0.0',
 
