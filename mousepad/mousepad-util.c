@@ -364,8 +364,11 @@ mousepad_util_dialog_create_header (GtkDialog *dialog,
 
   /* create a hbox */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-  gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
-  gtk_container_add (GTK_CONTAINER (vbox), hbox);
+  gtk_widget_set_margin_start (hbox, 6);
+  gtk_widget_set_margin_end (hbox, 6);
+  gtk_widget_set_margin_top (hbox, 6);
+  gtk_widget_set_margin_bottom (hbox, 6);
+  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
   gtk_widget_show (hbox);
 
   /* title icon */

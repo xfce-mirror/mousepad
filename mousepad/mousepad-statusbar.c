@@ -136,7 +136,7 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
 
   /* encoding */
   statusbar->encoding = gtk_label_new (NULL);
-  gtk_container_add (GTK_CONTAINER (box), statusbar->encoding);
+  gtk_box_pack_start (GTK_BOX (box), statusbar->encoding, FALSE, TRUE, 0);
   gtk_widget_show (statusbar->encoding);
 
   /* separator */
