@@ -2363,7 +2363,7 @@ mousepad_window_menubar_key_event (MousepadWindow *window,
                                    GdkEventKey    *key_event,
                                    GList          *mnemonics)
 {
-  GdkEvent        *event = (GdkEvent *) key_event, *event_bis;
+  GdkEvent        *event = (GdkEvent *) key_event;
   GdkEventType     type;
   GdkModifierType  state;
   guint            keyval = 0;
@@ -2417,11 +2417,7 @@ mousepad_window_menubar_key_event (MousepadWindow *window,
 
           /* in case of a mnemonic key, repeat the same event to make its menu popup */
           if (keyval != GDK_KEY_Alt_L)
-            {
-              event_bis = gdk_event_copy (event);
-              gtk_main_do_event (event_bis);
-              gdk_event_free (event_bis);
-            }
+            gdk_display_put_event (gtk_widget_get_display (GTK_WIDGET (window)), event);
 
           return TRUE;
         }
