@@ -394,8 +394,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
         }
 
       /* iterate the main loop to update the gui */
-      while (gtk_events_pending ())
-        gtk_main_iteration ();
+      while (g_main_context_iteration (NULL, FALSE));
     }
 
   /* cleanup */
