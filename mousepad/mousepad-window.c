@@ -2107,7 +2107,7 @@ mousepad_window_add (MousepadWindow   *window,
   MousepadDocument *prev_active = window->active;
   GtkNotebook      *notebook = GTK_NOTEBOOK (window->notebook);
   GtkWidget        *label, *widget = GTK_WIDGET (document);
-  gint              page;
+  gint              prev_page, page;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
@@ -2117,10 +2117,10 @@ mousepad_window_add (MousepadWindow   *window,
   label = mousepad_document_get_tab_label (document);
 
   /* get active page */
-  page = gtk_notebook_get_current_page (notebook);
+  prev_page = gtk_notebook_get_current_page (notebook);
 
   /* insert the page right of the active tab */
-  page = gtk_notebook_insert_page (notebook, widget, label, page + 1);
+  page = gtk_notebook_insert_page (notebook, widget, label, prev_page + 1);
 
   /* set tab child properties */
   gtk_container_child_set (GTK_CONTAINER (notebook), widget, "tab-expand", TRUE, NULL);
@@ -2137,11 +2137,10 @@ mousepad_window_add (MousepadWindow   *window,
       gtk_notebook_set_current_page (notebook, page);
 
       /* remove the previous tab if it was not modified, untitled and the new tab is not untitled */
-      page = gtk_notebook_page_num (notebook, GTK_WIDGET (prev_active));
       if (! gtk_text_buffer_get_modified (prev_active->buffer)
           && ! mousepad_file_location_is_set (prev_active->file)
           && mousepad_file_location_is_set (document->file))
-        gtk_notebook_remove_page (notebook, page);
+        gtk_notebook_remove_page (notebook, prev_page);
     }
 
   /* make sure the textview is focused in the new document */
@@ -2154,9 +2153,10 @@ static gboolean
 mousepad_window_close_document (MousepadWindow   *window,
                                 MousepadDocument *document)
 {
-  GtkNotebook *notebook = GTK_NOTEBOOK (window->notebook);
-  GVariant    *value;
-  gboolean     succeed = FALSE;
+  GtkNotebook  *notebook = GTK_NOTEBOOK (window->notebook);
+  GActionGroup *action_group = G_ACTION_GROUP (window);
+  GVariant     *value;
+  gboolean      succeed = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (document), FALSE);
@@ -2178,21 +2178,21 @@ mousepad_window_close_document (MousepadWindow   *window,
             break;
 
           case MOUSEPAD_RESPONSE_SAVE:
-            g_action_group_activate_action (G_ACTION_GROUP (window), "file.save", NULL);
-            value = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save");
+            g_action_group_activate_action (action_group, "file.save", NULL);
+            value = g_action_group_get_action_state (action_group, "file.save");
             succeed = g_variant_get_int32 (value);
             g_variant_unref (value);
             break;
 
           case MOUSEPAD_RESPONSE_SAVE_AS:
-            g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
-            value = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
+            g_action_group_activate_action (action_group, "file.save-as", NULL);
+            value = g_action_group_get_action_state (action_group, "file.save-as");
             succeed = g_variant_get_int32 (value);
             g_variant_unref (value);
             break;
         }
     }
-  /* no changes in the document, safe to destroy it */
+  /* no changes in the document, safe to remove it */
   else
     succeed = TRUE;
 
