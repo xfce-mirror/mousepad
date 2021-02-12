@@ -2158,7 +2158,7 @@ mousepad_window_add (MousepadWindow   *window,
   MousepadDocument *prev_active = window->active;
   GtkNotebook      *notebook = GTK_NOTEBOOK (window->notebook);
   GtkWidget        *label, *widget = GTK_WIDGET (document);
-  gint              page;
+  gint              prev_page, page;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
@@ -2168,10 +2168,10 @@ mousepad_window_add (MousepadWindow   *window,
   label = mousepad_document_get_tab_label (document);
 
   /* get active page */
-  page = gtk_notebook_get_current_page (notebook);
+  prev_page = gtk_notebook_get_current_page (notebook);
 
   /* insert the page right of the active tab */
-  page = gtk_notebook_insert_page (notebook, widget, label, page + 1);
+  page = gtk_notebook_insert_page (notebook, widget, label, prev_page + 1);
 
   /* set tab child properties */
   gtk_notebook_set_tab_reorderable (notebook, widget, TRUE);
@@ -2187,11 +2187,10 @@ mousepad_window_add (MousepadWindow   *window,
       gtk_notebook_set_current_page (notebook, page);
 
       /* remove the previous tab if it was not modified, untitled and the new tab is not untitled */
-      page = gtk_notebook_page_num (notebook, GTK_WIDGET (prev_active));
       if (! gtk_text_buffer_get_modified (prev_active->buffer)
           && ! mousepad_file_location_is_set (prev_active->file)
           && mousepad_file_location_is_set (document->file))
-        gtk_notebook_remove_page (notebook, page);
+        gtk_notebook_remove_page (notebook, prev_page);
     }
 
   /* make sure the textview is focused in the new document */
