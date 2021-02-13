@@ -108,25 +108,6 @@ mousepad_dialogs_show_error (GtkWindow    *parent,
 
 
 
-void
-mousepad_dialogs_show_help (GtkWindow   *parent,
-                            const gchar *page,
-                            const gchar *offset)
-{
-  GError      *error = NULL;
-  const gchar *uri = "https://docs.xfce.org/apps/mousepad/start";
-
-  /* try to run the documentation browser */
-  if (!gtk_show_uri_on_window (parent, uri, gtk_get_current_event_time (), &error))
-    {
-      /* display an error message to the user */
-      mousepad_dialogs_show_error (parent, error, _("Failed to open the documentation browser"));
-      g_error_free (error);
-    }
-}
-
-
-
 gint
 mousepad_dialogs_other_tab_size (GtkWindow *parent,
                                  gint      active_size)
