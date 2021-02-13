@@ -22,15 +22,15 @@ option(
 option(
   'gspell-plugin',
   type: 'feature',
-  value: 'auto',
-  description: 'Spell checking support',
+  value: 'disabled',
+  description: 'Spell checking support (GTK 3 only)',
 )
 
 option(
   'shortcuts-plugin',
   type: 'feature',
-  value: 'auto',
-  description: 'Shortcut editor dialog support',
+  value: 'disabled',
+  description: 'Shortcut editor dialog support (GTK 3 only)',
 )
 
 option(
