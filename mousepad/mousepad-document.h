@@ -25,7 +25,7 @@ G_BEGIN_DECLS
 typedef struct _MousepadDocumentPrivate MousepadDocumentPrivate;
 
 #define MOUSEPAD_TYPE_DOCUMENT (mousepad_document_get_type ())
-G_DECLARE_FINAL_TYPE (MousepadDocument, mousepad_document, MOUSEPAD, DOCUMENT, GtkScrolledWindow)
+G_DECLARE_FINAL_TYPE (MousepadDocument, mousepad_document, MOUSEPAD, DOCUMENT, GtkBox)
 
 #define MOUSEPAD_TYPE_SEARCH_FLAGS (mousepad_document_search_flags_get_type ())
 
@@ -56,7 +56,7 @@ GType mousepad_document_search_flags_get_type (void) G_GNUC_CONST;
 
 struct _MousepadDocument
 {
-  GtkScrolledWindow        __parent__;
+  GtkBox                   __parent__;
 
   /* private structure */
   MousepadDocumentPrivate *priv;
