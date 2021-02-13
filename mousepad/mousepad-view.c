@@ -49,8 +49,6 @@ static void      mousepad_view_move_lines                    (GtkSourceView     
                                                               gboolean            copy,
                                                               gint                count);
 #endif
-static void      mousepad_view_redo                          (GtkSourceView      *source_view);
-static void      mousepad_view_undo                          (GtkSourceView      *source_view);
 
 /* MousepadView own functions */
 static void      mousepad_view_transpose_range               (GtkTextBuffer       *buffer,
@@ -132,8 +130,6 @@ mousepad_view_class_init (MousepadViewClass *klass)
   textview_class->paste_clipboard = mousepad_view_paste_clipboard;
 
   sourceview_class->move_lines = mousepad_view_move_lines;
-  sourceview_class->redo = mousepad_view_redo;
-  sourceview_class->undo = mousepad_view_undo;
 
   g_object_class_install_property (gobject_class, PROP_FONT,
     g_param_spec_string ("font", "Font", "The font to use in the view",
@@ -575,30 +571,6 @@ mousepad_view_move_lines (GtkSourceView *source_view,
 }
 
 #endif
-
-
-
-static void
-mousepad_view_redo (GtkSourceView *source_view)
-{
-  /* let GSV do the main job */
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->redo (source_view);
-
-  /* scroll to cursor in our way */
-  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
-}
-
-
-
-static void
-mousepad_view_undo (GtkSourceView *source_view)
-{
-  /* let GSV do the main job */
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->undo (source_view);
-
-  /* scroll to cursor in our way */
-  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
-}
 
 
 
