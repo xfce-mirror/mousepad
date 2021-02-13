@@ -18,8 +18,8 @@ i18n = import('i18n')
 fs = import('fs')
 
 dependency_versions = {
-  'glib': '>= 2.58.0',
-  'gtk': '>= 3.24.11',
+  'glib': '>= 2.66.0',
+  'gtk': '>= 4.6.0',
   'gtksourceview3': '>= 3.24.0',
   'gtksourceview4': '>= 4.0.0',
 
@@ -32,7 +32,7 @@ dependency_versions = {
 glib = dependency('glib-2.0', version: dependency_versions['glib'])
 gio = dependency('gio-2.0', version: dependency_versions['glib'])
 gmodule = dependency('gmodule-2.0', version: dependency_versions['glib'])
-gtk = dependency('gtk+-3.0', version: dependency_versions['gtk'])
+gtk = dependency('gtk4', version: dependency_versions['gtk'])
 gtksourceview = dependency('gtksourceview-4', version: dependency_versions['gtksourceview4'], required: get_option('gtksourceview4'))
 if not gtksourceview.found()
   gtksourceview = dependency('gtksourceview-3.0', version: dependency_versions['gtksourceview3'])
@@ -47,7 +47,9 @@ base_deps = [glib, gtk, gtksourceview]
 deps = base_deps
 deps += dependency('gspell-1', version: dependency_versions['gspell'], required: get_option('gspell-plugin'))
 plugin_deps += {'gspell': deps}
-enable_plugin += {'gspell': deps[-1].found()}
+# This plugin will probably never be portable to GTK 4, which might have a built-in spellchecker.
+# See https://gitlab.gnome.org/GNOME/gtk/-/issues/3814
+enable_plugin += {'gspell': false}
 
 deps = base_deps
 deps += dependency('libxfce4ui-2', version: dependency_versions['libxfce4ui'], required: get_option('shortcuts-plugin'))
@@ -55,7 +57,8 @@ if deps[-1].found()
   deps += dependency('libxfce4kbd-private-3', version: dependency_versions['libxfce4ui'], required: get_option('shortcuts-plugin'))
 endif
 plugin_deps += {'shortcuts': deps}
-enable_plugin += {'shortcuts': deps[-1].found()}
+# This plugin will not be portable to GTK 4 as long as it relies on GtkAccelMap.
+enable_plugin += {'shortcuts': false}
 
 plugin_deps += {'test': base_deps}
 enable_plugin += {'test': not get_option('test-plugin').disabled()}
@@ -143,6 +146,14 @@ if dependency_versions.has_key('glib')
     '-DG_LOG_USE_STRUCTURED=1',
   ]
 endif
+
+gtk_version_parts = dependency_versions['gtk'].split(' ')
+gtk_min_version_parts = gtk_version_parts[1].split('.')
+gtk_min_version_define = 'GDK_VERSION_@0@_@1@'.format(gtk_min_version_parts[0], gtk_min_version_parts[1])
+extra_cflags += [
+  '-DGDK_VERSION_MIN_REQUIRED=@0@'.format(gtk_min_version_define),
+  '-DGDK_VERSION_MAX_ALLOWED=@0@'.format(gtk_min_version_define),
+]
 
 version_parts = meson.project_version().split('-dev')[0].split('.')
 version_short = '@0@.@1@'.format(version_parts[0], version_parts[1])
