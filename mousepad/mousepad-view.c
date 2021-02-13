@@ -959,20 +959,21 @@ mousepad_view_transpose (MousepadView *view)
 void
 mousepad_view_clipboard_cut (MousepadView *view)
 {
-  GtkClipboard  *clipboard;
   GtkTextBuffer *buffer;
+  GdkClipboard  *clipboard;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
   g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
 
   /* get the clipboard */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
+  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view));
 
   /* get the buffer */
   buffer = mousepad_view_get_buffer (view);
 
   /* cut from buffer */
-  gtk_text_buffer_cut_clipboard (buffer, clipboard, gtk_text_view_get_editable (GTK_TEXT_VIEW (view)));
+  gtk_text_buffer_cut_clipboard (buffer, clipboard,
+                                 gtk_text_view_get_editable (GTK_TEXT_VIEW (view)));
 
   /* put cursor on screen */
   mousepad_view_scroll_to_cursor (view);
@@ -983,14 +984,14 @@ mousepad_view_clipboard_cut (MousepadView *view)
 void
 mousepad_view_clipboard_copy (MousepadView *view)
 {
-  GtkClipboard  *clipboard;
   GtkTextBuffer *buffer;
+  GdkClipboard  *clipboard;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
   g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
 
   /* get the clipboard */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
+  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view));
 
   /* get the buffer */
   buffer = mousepad_view_get_buffer (view);
@@ -1004,19 +1005,39 @@ mousepad_view_clipboard_copy (MousepadView *view)
 
 
 
+static void
+mousepad_view_clipboard_read_text (GObject      *object,
+                                   GAsyncResult *result,
+                                   gpointer      data)
+{
+  MousepadView *view = data;
+  GdkClipboard *clipboard = GDK_CLIPBOARD (object);
+  gchar        *string;
+  gboolean      paste_as_column;
+
+  string = gdk_clipboard_read_text_finish (clipboard, result, NULL);
+  paste_as_column = GPOINTER_TO_INT (mousepad_object_get_data (view, "paste-as-column"));
+
+  mousepad_object_set_data (view, "text-read", GINT_TO_POINTER (TRUE));
+  mousepad_view_clipboard_paste (view, string, paste_as_column);
+  mousepad_object_set_data (view, "text-read", GINT_TO_POINTER (FALSE));
+
+  g_free (string);
+}
+
+
+
 void
 mousepad_view_clipboard_paste (MousepadView *view,
                                const gchar  *string,
                                gboolean      paste_as_column)
 {
-  GtkClipboard   *clipboard;
   GtkTextBuffer  *buffer;
-  gchar          *text = NULL;
   GtkTextMark    *mark;
-  GtkTextIter     iter;
-  GtkTextIter     start_iter, end_iter;
-  gchar         **pieces;
-  gint            i, column;
+  GtkTextIter    iter, start_iter, end_iter;
+  GdkClipboard  *clipboard;
+  gchar        **pieces;
+  gint           i, column;
 
   /* leave when the view is not editable */
   if (! gtk_text_view_get_editable (GTK_TEXT_VIEW (view)))
@@ -1024,18 +1045,20 @@ mousepad_view_clipboard_paste (MousepadView *view,
 
   if (string == NULL)
     {
-      /* get the clipboard */
-      clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
-
-      /* get the clipboard text */
-      text = gtk_clipboard_wait_for_text (clipboard);
-
-      /* leave when the text is null */
-      if (G_UNLIKELY (text == NULL))
+      /* leave if we have already tried to read the text */
+      if (mousepad_object_get_data (view, "text-read"))
         return;
 
-      /* set the string */
-      string = text;
+      /* get the clipboard */
+      clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view));
+
+      /* get the clipboard text: we can't always get it from the content provider which
+       * may be NULL (gdk_clipboard_is_local() == FALSE), so let's get it asynchronously */
+      mousepad_object_set_data (view, "paste-as-column", GINT_TO_POINTER (paste_as_column));
+      gdk_clipboard_read_text_async (clipboard, NULL, mousepad_view_clipboard_read_text, view);
+
+      /* we'll be back */
+      return;
     }
 
   /* get the buffer */
@@ -1097,9 +1120,6 @@ mousepad_view_clipboard_paste (MousepadView *view,
       /* insert string */
       gtk_text_buffer_insert (buffer, &start_iter, string, -1);
     }
-
-  /* cleanup */
-  g_free (text);
 
   /* end user action */
   gtk_text_buffer_end_user_action (buffer);
