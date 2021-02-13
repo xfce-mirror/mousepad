@@ -4066,44 +4066,43 @@ mousepad_window_search_completed (MousepadDocument    *document,
 static void
 mousepad_window_paste_history_add (MousepadWindow *window)
 {
-  GtkClipboard *clipboard;
-  gchar        *text;
-  GSList       *li;
+  GdkClipboard       *clipboard;
+  GdkContentProvider *provider;
+  GSList             *li;
+  GValue              value = G_VALUE_INIT;
+  gchar              *text;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* get the current clipboard text */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window), GDK_SELECTION_CLIPBOARD);
-  text = gtk_clipboard_wait_for_text (clipboard);
+  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window));
+  provider = gdk_clipboard_get_content (clipboard);
+  g_value_init (&value, G_TYPE_STRING);
 
   /* leave when there is no text */
-  if (G_UNLIKELY (text == NULL))
+  if (G_UNLIKELY (! gdk_content_provider_get_value (provider, &value, NULL)))
     return;
+
+  text = (gchar *) g_value_get_string (&value);
+  g_value_unset (&value);
 
   /* check if the item is already in the history */
   for (li = clipboard_history; li != NULL; li = li->next)
-    if (strcmp (li->data, text) == 0)
+    if (g_strcmp0 (li->data, text) == 0)
       break;
 
-  /* append the item or remove it */
+  /* append the item if new */
   if (G_LIKELY (li == NULL))
     {
       /* add to the list */
-      clipboard_history = g_slist_prepend (clipboard_history, text);
+      clipboard_history = g_slist_prepend (clipboard_history, g_strdup (text));
 
-      /* get the 10th item from the list and remove it if it exists */
-      li = g_slist_nth (clipboard_history, 10);
-      if (li != NULL)
+      /* get the 11th item from the list and remove it if it exists */
+      if ((li = g_slist_nth (clipboard_history, 10)) != NULL)
         {
-          /* cleanup */
           g_free (li->data);
           clipboard_history = g_slist_delete_link (clipboard_history, li);
         }
-    }
-  else
-    {
-      /* already in the history, remove it */
-      g_free (text);
     }
 }
 
@@ -4201,14 +4200,15 @@ mousepad_window_paste_history_menu_item (const gchar *text,
 static GtkWidget *
 mousepad_window_paste_history_menu (MousepadWindow *window)
 {
-  GSList       *li;
-  gchar        *text;
-  gpointer      list_data = NULL;
-  GtkWidget    *item;
-  GtkWidget    *menu;
-  GtkClipboard *clipboard;
-  gchar         mnemonic[4];
-  gint          n;
+  GtkWidget          *item, *menu;
+  GdkClipboard       *clipboard;
+  GdkContentProvider *provider;
+  GSList             *li;
+  GValue              value = G_VALUE_INIT;
+  gpointer            list_data = NULL;
+  gchar               mnemonic[4];
+  const gchar        *text = NULL;
+  gint                n;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), NULL);
 
@@ -4219,14 +4219,19 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
   gtk_menu_set_screen (GTK_MENU (menu), gtk_widget_get_screen (GTK_WIDGET (window)));
 
   /* get the current clipboard text */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window), GDK_SELECTION_CLIPBOARD);
-  text = gtk_clipboard_wait_for_text (clipboard);
+  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window));
+  provider = gdk_clipboard_get_content (clipboard);
+  if (gdk_content_provider_get_value (provider, &value, NULL))
+    {
+      text = g_value_get_string (&value);
+      g_value_unset (&value);
+    }
 
   /* append the history items */
   for (li = clipboard_history, n = 1; li != NULL; li = li->next)
     {
       /* skip the active clipboard item */
-      if (G_UNLIKELY (list_data == NULL && text && strcmp (li->data, text) == 0))
+      if (G_UNLIKELY (list_data == NULL && text != NULL && g_strcmp0 (li->data, text) == 0))
         {
           /* store the pointer so we can attach it at the end of the menu */
           list_data = li->data;
@@ -4244,9 +4249,6 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
           gtk_widget_show (item);
         }
     }
-
-  /* cleanup */
-  g_free (text);
 
   if (list_data != NULL)
     {
