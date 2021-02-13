@@ -1,11 +1,4 @@
 option(
-  'gtksourceview4',
-  type: 'feature',
-  value: 'auto',
-  description: 'Build against GtkSourceView 4 instead of GtkSourceView 3',
-)
-
-option(
   'polkit',
   type: 'feature',
   value: 'auto',
