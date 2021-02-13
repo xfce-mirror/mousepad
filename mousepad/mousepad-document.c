@@ -81,12 +81,12 @@ enum
 
 struct _MousepadDocumentClass
 {
-  GtkScrolledWindowClass __parent__;
+  GtkBoxClass __parent__;
 };
 
 struct _MousepadDocumentPrivate
 {
-  GtkScrolledWindow      __parent__;
+  GtkBox      __parent__;
 
   /* the tab label */
   GtkWidget              *label;
@@ -116,7 +116,7 @@ mousepad_document_new (void)
 
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (MousepadDocument, mousepad_document, GTK_TYPE_SCROLLED_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (MousepadDocument, mousepad_document, GTK_TYPE_BOX)
 
 
 
@@ -212,6 +212,7 @@ mousepad_document_init (MousepadDocument *document)
 {
   GtkTargetList           *target_list;
   GtkSourceSearchSettings *search_settings;
+  GtkWidget               *scrolled_window;
 
   /* we will complete initialization when the document is anchored */
   g_signal_connect (document, "hierarchy-changed",
@@ -228,13 +229,6 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->selection_context = NULL;
   document->priv->selection_buffer = NULL;
   document->priv->prev_search_state = INIT;
-
-  /* setup the scrolled window */
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (document),
-                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (document), GTK_SHADOW_ETCHED_IN);
-  gtk_scrolled_window_set_hadjustment (GTK_SCROLLED_WINDOW (document), NULL);
-  gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (document), NULL);
 
   /* create a textbuffer and associated search context */
   document->buffer = GTK_TEXT_BUFFER (gtk_source_buffer_new (NULL));
@@ -263,8 +257,11 @@ mousepad_document_init (MousepadDocument *document)
 
   /* setup the textview */
   document->textview = g_object_new (MOUSEPAD_TYPE_VIEW, "buffer", document->buffer, NULL);
-  gtk_container_add (GTK_CONTAINER (document), GTK_WIDGET (document->textview));
-  gtk_widget_show (GTK_WIDGET (document->textview));
+  scrolled_window = gtk_scrolled_window_new ();
+  gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (scrolled_window),
+                                 GTK_WIDGET (document->textview));
+  gtk_widget_set_hexpand (scrolled_window, TRUE);
+  gtk_box_append (GTK_BOX (document), scrolled_window);
 
   /* also allow dropping of uris and tabs in the textview */
   target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (document->textview));
