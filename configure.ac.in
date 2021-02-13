@@ -87,11 +87,11 @@ XDT_I18N([@LINGUAS@])
 dnl ***********************************
 dnl *** Check for required packages ***
 dnl ***********************************
-AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, GLIB_VERSION_2_58, Warn when using post 2_58 APIs)
-AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, GLIB_VERSION_2_58, Don't warn about post 2_58 deprecations)
-XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.58.0])
-XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [2.58.0])
-XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.24.11])
+AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, GLIB_VERSION_2_66, Warn when using post 2_66 APIs)
+AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, GLIB_VERSION_2_66, Don't warn about post 2_66 deprecations)
+XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.66.0])
+XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [2.66.0])
+XDT_CHECK_PACKAGE([GTK], [gtk4], [4.0.0])
 
 dnl *******************************
 dnl *** GtkSourceView 4 support ***
