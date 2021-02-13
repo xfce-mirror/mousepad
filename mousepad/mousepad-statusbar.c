@@ -40,7 +40,10 @@ enum
 
 struct _MousepadStatusbar
 {
-  GtkStatusbar __parent__;
+  GtkBox __parent__;
+
+  /* the gtk statusbar, added as child widget */
+  GtkWidget *gtkbar;
 
   /* whether overwrite is enabled */
   guint overwrite_enabled : 1;
@@ -58,7 +61,7 @@ static guint statusbar_signals[LAST_SIGNAL];
 
 
 
-G_DEFINE_TYPE (MousepadStatusbar, mousepad_statusbar, GTK_TYPE_STATUSBAR)
+G_DEFINE_TYPE (MousepadStatusbar, mousepad_statusbar, GTK_TYPE_BOX)
 
 
 
@@ -90,34 +93,30 @@ mousepad_statusbar_class_init (MousepadStatusbarClass *klass)
 static void
 mousepad_statusbar_init (MousepadStatusbar *statusbar)
 {
-  GtkWidget *ebox, *box, *separator, *label;
-  GtkStatusbar *bar = GTK_STATUSBAR (statusbar);
-  GList *frame;
+  GtkBox *box;
+  GtkWidget *ebox, *separator, *label;
 
-  /* create a new horizontal box */
-  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
-  gtk_widget_show (box);
+  /* create a new gtk statusbar added as child widget */
+  statusbar->gtkbar = gtk_statusbar_new ();
+  gtk_widget_set_hexpand (statusbar->gtkbar, TRUE);
+  gtk_box_append (GTK_BOX (statusbar), statusbar->gtkbar);
 
-  /* reorder the gtk statusbar */
-  frame = gtk_container_get_children (GTK_CONTAINER (bar));
-  gtk_frame_set_shadow_type (GTK_FRAME (frame->data), GTK_SHADOW_NONE);
-  label = gtk_bin_get_child (GTK_BIN (frame->data));
-  g_object_ref (label);
-  gtk_container_remove (GTK_CONTAINER (frame->data), label);
-  gtk_container_add (GTK_CONTAINER (frame->data), box);
+  /* retrieve the gtk statusbar box */
+  box = GTK_BOX (gtk_widget_get_first_child (statusbar->gtkbar));
+  gtk_box_set_spacing (box, 8);
+
+  /* main label */
+  label = gtk_widget_get_first_child (GTK_WIDGET (box));
   gtk_widget_set_hexpand (label, TRUE);
-  gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
-  g_object_unref (label);
-  g_list_free (frame);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, TRUE, 0);
+  gtk_box_pack_start (box, separator, FALSE, TRUE, 0);
   gtk_widget_show (separator);
 
   /* language/filetype event box */
   ebox = gtk_event_box_new ();
-  gtk_box_pack_start (GTK_BOX (box), ebox, FALSE, TRUE, 0);
+  gtk_box_pack_start (box, ebox, FALSE, TRUE, 0);
   gtk_event_box_set_visible_window (GTK_EVENT_BOX (ebox), FALSE);
   gtk_widget_set_tooltip_text (ebox, _("Choose a filetype"));
   g_signal_connect (ebox, "button-press-event",
@@ -131,32 +130,32 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, TRUE, 0);
+  gtk_box_pack_start (box, separator, FALSE, TRUE, 0);
   gtk_widget_show (separator);
 
   /* encoding */
   statusbar->encoding = gtk_label_new (NULL);
-  gtk_box_pack_start (GTK_BOX (box), statusbar->encoding, FALSE, TRUE, 0);
+  gtk_box_pack_start (box, statusbar->encoding, FALSE, TRUE, 0);
   gtk_widget_show (statusbar->encoding);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, TRUE, 0);
+  gtk_box_pack_start (box, separator, FALSE, TRUE, 0);
   gtk_widget_show (separator);
 
   /* line and column numbers */
   statusbar->position = gtk_label_new (NULL);
-  gtk_box_pack_start (GTK_BOX (box), statusbar->position, FALSE, TRUE, 0);
+  gtk_box_pack_start (box, statusbar->position, FALSE, TRUE, 0);
   gtk_widget_show (statusbar->position);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (GTK_BOX (box), separator, FALSE, TRUE, 0);
+  gtk_box_pack_start (box, separator, FALSE, TRUE, 0);
   gtk_widget_show (separator);
 
   /* overwrite event box */
   ebox = gtk_event_box_new ();
-  gtk_box_pack_start (GTK_BOX (box), ebox, FALSE, TRUE, 0);
+  gtk_box_pack_start (box, ebox, FALSE, TRUE, 0);
   gtk_event_box_set_visible_window (GTK_EVENT_BOX (ebox), FALSE);
   gtk_widget_set_tooltip_text (ebox, _("Toggle the overwrite mode"));
   g_signal_connect (ebox, "button-press-event",
@@ -306,13 +305,14 @@ void
 mousepad_statusbar_push_tooltip (MousepadStatusbar *statusbar,
                                  const gchar *tooltip)
 {
+  GtkStatusbar *bar = GTK_STATUSBAR (statusbar->gtkbar);
   gint id;
 
   if (tooltip != NULL)
     {
       /* show the tooltip */
-      id = gtk_statusbar_get_context_id (GTK_STATUSBAR (statusbar), "tooltip");
-      gtk_statusbar_push (GTK_STATUSBAR (statusbar), id, tooltip);
+      id = gtk_statusbar_get_context_id (bar, "tooltip");
+      gtk_statusbar_push (bar, id, tooltip);
     }
 }
 
@@ -321,9 +321,10 @@ mousepad_statusbar_push_tooltip (MousepadStatusbar *statusbar,
 void
 mousepad_statusbar_pop_tooltip (MousepadStatusbar *statusbar)
 {
+  GtkStatusbar *bar = GTK_STATUSBAR (statusbar->gtkbar);
   gint id;
 
   /* drop the widget's tooltip from the statusbar */
-  id = gtk_statusbar_get_context_id (GTK_STATUSBAR (statusbar), "tooltip");
-  gtk_statusbar_pop (GTK_STATUSBAR (statusbar), id);
+  id = gtk_statusbar_get_context_id (bar, "tooltip");
+  gtk_statusbar_pop (bar, id);
 }
