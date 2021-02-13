@@ -69,11 +69,6 @@ mousepad_dialogs_show_error (GtkWindow *parent,
                              const GError *error,
                              const gchar *message);
 
-void
-mousepad_dialogs_show_help (GtkWindow *parent,
-                            const gchar *page,
-                            const gchar *offset);
-
 gint
 mousepad_dialogs_other_tab_size (GtkWindow *parent,
                                  gint active_size);
