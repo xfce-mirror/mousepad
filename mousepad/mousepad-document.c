@@ -657,11 +657,7 @@ mousepad_document_search_completed_idle (gpointer data)
       if (found && ! (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA))
         {
           /* replace selected occurrence */
-#if GTK_SOURCE_MAJOR_VERSION >= 4
           gtk_source_search_context_replace (search_context, start, end, replace, -1, NULL);
-#else
-          gtk_source_search_context_replace2 (search_context, start, end, replace, -1, NULL);
-#endif
 
           /* select next occurrence */
           flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
@@ -747,21 +743,12 @@ mousepad_document_search_completed (GObject      *object,
 
   /* get the search result */
   flags = GPOINTER_TO_INT (mousepad_object_get_data (search_context, "flags"));
-#if GTK_SOURCE_MAJOR_VERSION >= 4
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
     found = gtk_source_search_context_backward_finish (search_context, result,
                                                        &start, &end, NULL, &error);
   else
     found = gtk_source_search_context_forward_finish (search_context, result,
                                                       &start, &end, NULL, &error);
-#else
-  if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
-    found = gtk_source_search_context_backward_finish2 (search_context, result,
-                                                        &start, &end, NULL, &error);
-  else
-    found = gtk_source_search_context_forward_finish2 (search_context, result,
-                                                       &start, &end, NULL, &error);
-#endif
 
   /* exit if the operation was cancelled */
   if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
