@@ -1244,18 +1244,24 @@ mousepad_history_paste_finalize (void)
 
 
 void
-mousepad_history_paste_add (void)
+mousepad_history_paste_add (GObject *object,
+                            GAsyncResult *result,
+                            gpointer data)
 {
+  GError *error = NULL;
   GSList *li;
   gchar *text;
   gint n;
 
   /* get the current clipboard text */
-  text = gtk_clipboard_wait_for_text (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+  text = gdk_clipboard_read_text_finish (GDK_CLIPBOARD (object), result, &error);
 
   /* leave when there is no text */
   if (G_UNLIKELY (text == NULL || *text == '\0'))
-    return;
+    {
+      g_error_free (error);
+      return;
+    }
 
   clipboard_history = g_slist_prepend (clipboard_history, text);
 
