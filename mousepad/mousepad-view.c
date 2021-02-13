@@ -41,18 +41,10 @@ static void      mousepad_view_delete_from_cursor            (GtkTextView       
 static void      mousepad_view_paste_clipboard               (GtkTextView        *text_view);
 
 /* GtkSourceView virtual functions */
-#if GTK_SOURCE_MAJOR_VERSION >= 4
 static void      mousepad_view_move_lines                    (GtkSourceView      *source_view,
                                                               gboolean            down);
-#else
-static void      mousepad_view_move_lines                    (GtkSourceView      *source_view,
-                                                              gboolean            copy,
-                                                              gint                count);
-#endif
 static void      mousepad_view_move_words                    (GtkSourceView      *source_view,
                                                               gint                count);
-static void      mousepad_view_redo                          (GtkSourceView      *source_view);
-static void      mousepad_view_undo                          (GtkSourceView      *source_view);
 
 /* MousepadView own functions */
 static void      mousepad_view_transpose_range               (GtkTextBuffer       *buffer,
@@ -135,8 +127,6 @@ mousepad_view_class_init (MousepadViewClass *klass)
 
   sourceview_class->move_lines = mousepad_view_move_lines;
   sourceview_class->move_words = mousepad_view_move_words;
-  sourceview_class->redo = mousepad_view_redo;
-  sourceview_class->undo = mousepad_view_undo;
 
   g_object_class_install_property (gobject_class, PROP_FONT,
     g_param_spec_string ("font", "Font", "The font to use in the view",
@@ -478,8 +468,8 @@ mousepad_view_paste_clipboard (GtkTextView *text_view)
 
 
 static void
-_mousepad_view_move_lines (GtkSourceView *source_view,
-                           gboolean       down)
+mousepad_view_move_lines (GtkSourceView *source_view,
+                          gboolean       down)
 {
   GtkTextBuffer *buffer;
   GtkTextIter    start, end, iter;
@@ -529,11 +519,7 @@ _mousepad_view_move_lines (GtkSourceView *source_view,
     }
 
   /* let GSV move lines */
-#if GTK_SOURCE_MAJOR_VERSION >= 4
   GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_lines (source_view, down);
-#else
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_lines (source_view, FALSE, down ? 1 : -1);
-#endif
 
   /* delete fake text */
   if (inserted)
@@ -556,29 +542,6 @@ _mousepad_view_move_lines (GtkSourceView *source_view,
   gtk_text_buffer_end_user_action (buffer);
   g_object_thaw_notify (G_OBJECT (buffer));
 }
-
-
-
-#if GTK_SOURCE_MAJOR_VERSION >= 4
-
-static void
-mousepad_view_move_lines (GtkSourceView *source_view,
-                          gboolean       down)
-{
-  _mousepad_view_move_lines (source_view, down);
-}
-
-#else
-
-static void
-mousepad_view_move_lines (GtkSourceView *source_view,
-                          gboolean       copy,
-                          gint           count)
-{
-  _mousepad_view_move_lines (source_view, copy);
-}
-
-#endif
 
 
 
@@ -629,30 +592,6 @@ mousepad_view_move_words (GtkSourceView *source_view,
 
   /* let GSV move words */
   GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_words (source_view, count);
-}
-
-
-
-static void
-mousepad_view_redo (GtkSourceView *source_view)
-{
-  /* let GSV do the main job */
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->redo (source_view);
-
-  /* scroll to cursor in our way */
-  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
-}
-
-
-
-static void
-mousepad_view_undo (GtkSourceView *source_view)
-{
-  /* let GSV do the main job */
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->undo (source_view);
-
-  /* scroll to cursor in our way */
-  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
 }
 
 
