@@ -683,10 +683,10 @@ mousepad_document_search_completed (GObject      *object,
 
   /* get the search result */
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
-    found = gtk_source_search_context_backward_finish2 (search_context, result,
+    found = gtk_source_search_context_backward_finish (search_context, result,
                                                         &start, &end, NULL, NULL);
   else
-    found = gtk_source_search_context_forward_finish2 (search_context, result,
+    found = gtk_source_search_context_forward_finish (search_context, result,
                                                        &start, &end, NULL, NULL);
 
   /* force the signal emission, to cover cases where Mousepad search settings change without
@@ -704,7 +704,7 @@ mousepad_document_search_completed (GObject      *object,
       if (found && ! (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA))
         {
           /* replace selected occurrence */
-          gtk_source_search_context_replace2 (search_context, &start, &end, replace, -1, NULL);
+          gtk_source_search_context_replace (search_context, &start, &end, replace, -1, NULL);
 
           /* select next occurrence */
           flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
