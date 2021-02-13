@@ -1419,8 +1419,8 @@ mousepad_application_create_window (MousepadApplication *application)
   gtk_window_group_add_window (window_group, GTK_WINDOW (window));
   g_object_unref (window_group);
 
-  /* place the window on the right screen */
-  gtk_window_set_screen (GTK_WINDOW (window), gdk_screen_get_default ());
+  /* place the window on the right display */
+  gtk_window_set_display (GTK_WINDOW (window), gdk_display_get_default ());
 
   /* connect signals */
   g_signal_connect (window, "new-window-with-document",
@@ -1443,8 +1443,8 @@ mousepad_application_new_window_with_document (MousepadWindow      *existing,
                                                gint                 y,
                                                MousepadApplication *application)
 {
-  GtkWidget *window;
-  GdkScreen *screen;
+  GtkWidget  *window;
+  GdkDisplay *display;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (existing));
   g_return_if_fail (document == NULL || MOUSEPAD_IS_DOCUMENT (document));
@@ -1453,10 +1453,10 @@ mousepad_application_new_window_with_document (MousepadWindow      *existing,
   /* create a new window (signals added and already hooked up) */
   window = mousepad_application_create_window (application);
 
-  /* place the new window on the same screen as the existing window */
-  screen = gtk_window_get_screen (GTK_WINDOW (existing));
-  if (G_LIKELY (screen != NULL))
-    gtk_window_set_screen (GTK_WINDOW (window), screen);
+  /* place the new window on the same display as the existing window */
+  display = gtk_widget_get_display (GTK_WIDGET (existing));
+  if (G_LIKELY (display != NULL))
+    gtk_window_set_display (GTK_WINDOW (window), display);
 
   /* move the window on valid cooridinates */
   if (x > -1 && y > -1)
