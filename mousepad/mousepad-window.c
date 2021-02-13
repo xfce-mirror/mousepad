@@ -76,14 +76,14 @@ static void              mousepad_window_get_property                 (GObject  
                                                                        GParamSpec             *pspec);
 static void              mousepad_window_finalize                     (GObject                *object);
 
+/* event or property change handlers */
 static gboolean          mousepad_window_configure_event              (GtkWidget              *widget,
                                                                        GdkEventConfigure      *event);
 static gboolean          mousepad_window_delete_event                 (GtkWidget              *widget,
                                                                        GdkEventAny            *event);
 static gboolean          mousepad_window_scroll_event                 (GtkWidget              *widget,
                                                                        GdkEventScroll         *event);
-static gboolean          mousepad_window_window_state_event           (GtkWidget              *widget,
-                                                                       GdkEventWindowState    *event);
+static void              mousepad_window_fullscreened                 (MousepadWindow         *window);
 
 /* statusbar tooltips */
 static void              mousepad_window_menu_set_tooltips            (MousepadWindow         *window,
@@ -113,7 +113,6 @@ static gboolean          mousepad_window_close_document               (MousepadW
 static void              mousepad_window_button_close_tab             (MousepadDocument       *document,
                                                                        MousepadWindow         *window);
 static void              mousepad_window_set_title                    (MousepadWindow         *window);
-static gboolean          mousepad_window_get_in_fullscreen            (MousepadWindow         *window);
 static void              mousepad_window_update_bar_visibility        (MousepadWindow         *window,
                                                                        const gchar            *key);
 
@@ -617,7 +616,6 @@ mousepad_window_class_init (MousepadWindowClass *klass)
   gtkwidget_class->configure_event = mousepad_window_configure_event;
   gtkwidget_class->delete_event = mousepad_window_delete_event;
   gtkwidget_class->scroll_event = mousepad_window_scroll_event;
-  gtkwidget_class->window_state_event = mousepad_window_window_state_event;
 
   window_signals[NEW_WINDOW] =
     g_signal_new (I_("new-window"),
@@ -1270,6 +1268,10 @@ mousepad_window_init (MousepadWindow *window)
   g_signal_connect (window, "notify::application",
                     G_CALLBACK (mousepad_window_post_init), NULL);
 
+  /* listen to some property changes */
+  g_signal_connect (window, "notify::fullscreened",
+                    G_CALLBACK (mousepad_window_fullscreened), NULL);
+
   /* allow drops in the window */
   gtk_drag_dest_set (GTK_WIDGET (window),
                      GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
@@ -1301,9 +1303,8 @@ mousepad_window_init (MousepadWindow *window)
 static gboolean
 mousepad_window_save_geometry (gpointer data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GdkWindowState  state;
-  gboolean        remember_size, remember_position, remember_state;
+  GtkWindow *window = data;
+  gboolean   remember_size, remember_position, remember_state;
 
   /* check if we should remember the window geometry */
   remember_size = MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SIZE);
@@ -1315,18 +1316,21 @@ mousepad_window_save_geometry (gpointer data)
       /* check if the window is still visible */
       if (gtk_widget_get_visible (GTK_WIDGET (window)))
         {
+          gboolean maximized, fullscreened;
+
           /* determine the current state of the window */
-          state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window)));
+          maximized = gtk_window_is_maximized (window);
+          fullscreened = gtk_window_is_fullscreen (window);
 
           /* don't save geometry for maximized or fullscreen windows */
-          if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
+          if (! maximized && ! fullscreened)
             {
               if (remember_size)
                 {
                   gint width, height;
 
                   /* determine the current width/height of the window... */
-                  gtk_window_get_size (GTK_WINDOW (window), &width, &height);
+                  gtk_window_get_size (window, &width, &height);
 
                   /* ...and remember them as default for new windows */
                   MOUSEPAD_SETTING_SET_UINT (WINDOW_WIDTH, width);
@@ -1338,7 +1342,7 @@ mousepad_window_save_geometry (gpointer data)
                   gint left, top;
 
                   /* determine the current left/top position of the window */
-                  gtk_window_get_position (GTK_WINDOW (window), &left, &top);
+                  gtk_window_get_position (window, &left, &top);
 
                   /* and then remember it for next startup */
                   MOUSEPAD_SETTING_SET_UINT (WINDOW_LEFT, left);
@@ -1349,8 +1353,8 @@ mousepad_window_save_geometry (gpointer data)
           if (remember_state)
             {
               /* remember whether the window is maximized or full screen or not */
-              MOUSEPAD_SETTING_SET_BOOLEAN (WINDOW_MAXIMIZED, (state & GDK_WINDOW_STATE_MAXIMIZED));
-              MOUSEPAD_SETTING_SET_BOOLEAN (WINDOW_FULLSCREEN, (state & GDK_WINDOW_STATE_FULLSCREEN));
+              MOUSEPAD_SETTING_SET_BOOLEAN (WINDOW_MAXIMIZED, maximized);
+              MOUSEPAD_SETTING_SET_BOOLEAN (WINDOW_FULLSCREEN, fullscreened);
             }
         }
     }
@@ -1452,24 +1456,15 @@ mousepad_window_scroll_event (GtkWidget      *widget,
 
 
 
-static gboolean
-mousepad_window_window_state_event (GtkWidget           *widget,
-                                    GdkEventWindowState *event)
+static void
+mousepad_window_fullscreened (MousepadWindow *window)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (widget);
-
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* update bars visibility when entering/leaving fullscreen mode */
-  if (event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
-    {
-      mousepad_window_update_bar_visibility (window, MENUBAR);
-      mousepad_window_update_bar_visibility (window, TOOLBAR);
-      mousepad_window_update_bar_visibility (window, STATUSBAR);
-    }
-
-  /* let gtk+ handle the window state event */
-  return GTK_WIDGET_CLASS (mousepad_window_parent_class)->window_state_event (widget, event);
+  mousepad_window_update_bar_visibility (window, MENUBAR);
+  mousepad_window_update_bar_visibility (window, TOOLBAR);
+  mousepad_window_update_bar_visibility (window, STATUSBAR);
 }
 
 
@@ -2282,21 +2277,6 @@ mousepad_window_get_languages_menu (MousepadWindow *window)
 
 
 static gboolean
-mousepad_window_get_in_fullscreen (MousepadWindow *window)
-{
-  if (GTK_IS_WIDGET (window) && gtk_widget_get_visible (GTK_WIDGET (window)))
-    {
-      GdkWindow     *win = gtk_widget_get_window (GTK_WIDGET (window));
-      GdkWindowState state = gdk_window_get_state (win);
-      return (state & GDK_WINDOW_STATE_FULLSCREEN);
-    }
-
-  return FALSE;
-}
-
-
-
-static gboolean
 mousepad_window_hide_menubar_event (MousepadWindow *window)
 {
   /* disconnect signals and hide the menubar */
@@ -2420,7 +2400,7 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
   visible = mousepad_setting_get_boolean (setting);
 
   /* deduce the visibility setting if we are in fullscreen mode */
-  if (mousepad_window_get_in_fullscreen (window))
+  if (gtk_window_is_fullscreen (GTK_WINDOW (window)))
     {
       visible_fs = mousepad_setting_get_enum (setting_fs);
       visible = (visible_fs == AUTO) ? visible : (visible_fs == YES);
@@ -3567,7 +3547,7 @@ mousepad_window_update_window_menu_items (MousepadWindow *window)
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* update the "Fullscreen" menu item */
-  data = GINT_TO_POINTER (mousepad_window_get_in_fullscreen (window));
+  data = GINT_TO_POINTER (gtk_window_is_fullscreen (GTK_WINDOW (window)));
   mousepad_window_update_menu_item (window, "item.view.fullscreen", 0, data);
 }
 
@@ -5852,15 +5832,15 @@ mousepad_window_action_bar_activate (GSimpleAction *action,
                                      GVariant      *value,
                                      gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  gchar          *setting;
-  gboolean        state;
+  GtkWindow *window = data;
+  gchar     *setting;
+  gboolean   state;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   state = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
 
-  if (mousepad_window_get_in_fullscreen (window))
+  if (gtk_window_is_fullscreen (window))
     {
       setting = g_strconcat (g_action_get_name (G_ACTION (action)), "-in-fullscreen", NULL);
       mousepad_setting_set_boolean (setting, state ? YES : NO);
