@@ -64,7 +64,7 @@ GType mousepad_document_search_flags_get_type (void) G_GNUC_CONST;
 
 struct _MousepadDocument
 {
-  GtkScrolledWindow        __parent__;
+  GtkWidget                __parent__;
 
   /* private structure */
   MousepadDocumentPrivate *priv;
