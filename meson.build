@@ -21,8 +21,7 @@ fs = import('fs')
 dependency_versions = {
   'glib': '>= 2.66.0',
   'gtk': '>= 4.6.0',
-  'gtksourceview3': '>= 3.24.0',
-  'gtksourceview4': '>= 4.0.0',
+  'gtksourceview': '>= 5.0.0',
 
   'polkit': '>= 0.102',
 
@@ -34,10 +33,7 @@ glib = dependency('glib-2.0', version: dependency_versions['glib'])
 gio = dependency('gio-2.0', version: dependency_versions['glib'])
 gmodule = dependency('gmodule-2.0', version: dependency_versions['glib'])
 gtk = dependency('gtk4', version: dependency_versions['gtk'])
-gtksourceview = dependency('gtksourceview-4', version: dependency_versions['gtksourceview4'], required: get_option('gtksourceview4'))
-if not gtksourceview.found()
-  gtksourceview = dependency('gtksourceview-3.0', version: dependency_versions['gtksourceview3'])
-endif
+gtksourceview = dependency('gtksourceview-5', version: dependency_versions['gtksourceview'])
 
 polkit = dependency('polkit-gobject-1', version: dependency_versions['polkit'], required: get_option('polkit'))
 
