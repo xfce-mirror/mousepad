@@ -4904,7 +4904,8 @@ mousepad_window_action_cut (GSimpleAction *action,
   g_signal_emit_by_name (window->active->textview, "cut-clipboard");
 
   /* update the history */
-  mousepad_history_paste_add ();
+  gdk_clipboard_read_text_async (gtk_widget_get_clipboard (GTK_WIDGET (window)),
+                                 NULL, mousepad_history_paste_add, window);
 }
 
 
@@ -4923,7 +4924,8 @@ mousepad_window_action_copy (GSimpleAction *action,
   g_signal_emit_by_name (window->active->textview, "copy-clipboard");
 
   /* update the history */
-  mousepad_history_paste_add ();
+  gdk_clipboard_read_text_async (gtk_widget_get_clipboard (GTK_WIDGET (window)),
+                                 NULL, mousepad_history_paste_add, window);
 }
 
 
