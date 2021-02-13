@@ -4,8 +4,8 @@ dnl ***************************
 XDT_VERSION_INIT([0.6.0], [git])
 
 dnl minimum required versions
-m4_define([glib_min_version], [2.58.0])
-m4_define([gtk_min_version], [3.24.11])
+m4_define([glib_min_version], [2.66.0])
+m4_define([gtk_min_version], [4.0.0])
 m4_define([gtksourceview3_min_version], [3.24.0])
 m4_define([gtksourceview4_min_version], [4.0.0])
 
@@ -86,7 +86,7 @@ dnl *** Check for required packages ***
 dnl ***********************************
 XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [glib_min_version])
 XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [glib_min_version])
-XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [gtk_min_version])
+XDT_CHECK_PACKAGE([GTK], [gtk4], [gtk_min_version])
 
 dnl *******************************
 dnl *** GtkSourceView 4 support ***
