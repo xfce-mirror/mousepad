@@ -6173,7 +6173,7 @@ mousepad_window_action_contents (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* show help */
-  mousepad_dialogs_show_help (GTK_WINDOW (data), NULL, NULL);
+  gtk_show_uri (GTK_WINDOW (data), "https://docs.xfce.org/apps/mousepad/start", GDK_CURRENT_TIME);
 }
 
 
