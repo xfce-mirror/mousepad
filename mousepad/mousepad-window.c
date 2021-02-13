@@ -211,11 +211,11 @@ mousepad_window_overwrite_changed (MousepadDocument *document,
                                    gboolean overwrite,
                                    MousepadWindow *window);
 static void
-mousepad_window_can_undo (GtkSourceBuffer *buffer,
+mousepad_window_can_undo (GtkTextBuffer *buffer,
                           GParamSpec *unused,
                           MousepadWindow *window);
 static void
-mousepad_window_can_redo (GtkSourceBuffer *buffer,
+mousepad_window_can_redo (GtkTextBuffer *buffer,
                           GParamSpec *unused,
                           MousepadWindow *window);
 
@@ -2175,14 +2175,14 @@ retry:
   mousepad_file_set_encoding (document->file, encoding);
 
   /* lock the undo manager */
-  gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+  gtk_text_buffer_begin_irreversible_action (document->buffer);
 
   /* read the content into the buffer */
   result = mousepad_file_open (document->file, line, column, must_exist,
                                FALSE, user_set_encoding, &error);
 
   /* release the lock */
-  gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+  gtk_text_buffer_end_irreversible_action (document->buffer);
 
   switch (result)
     {
@@ -2780,8 +2780,8 @@ mousepad_window_update_actions (MousepadWindow *window)
                                    mousepad_file_location_is_set (document->file));
 
       /* set the sensitivity of the undo and redo actions */
-      mousepad_window_can_undo (GTK_SOURCE_BUFFER (document->buffer), NULL, window);
-      mousepad_window_can_redo (GTK_SOURCE_BUFFER (document->buffer), NULL, window);
+      mousepad_window_can_undo (document->buffer, NULL, window);
+      mousepad_window_can_redo (document->buffer, NULL, window);
 
       /* set the current line ending type */
       line_ending = mousepad_file_get_line_ending (document->file);
@@ -3409,16 +3409,16 @@ mousepad_window_overwrite_changed (MousepadDocument *document,
 
 
 static void
-mousepad_window_can_undo (GtkSourceBuffer *buffer,
+mousepad_window_can_undo (GtkTextBuffer *buffer,
                           GParamSpec *unused,
                           MousepadWindow *window)
 {
   GAction *action;
   gboolean can_undo;
 
-  if (window->active->buffer == GTK_TEXT_BUFFER (buffer))
+  if (window->active->buffer == buffer)
     {
-      can_undo = gtk_source_buffer_can_undo (buffer);
+      can_undo = gtk_text_buffer_get_can_undo (buffer);
 
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "edit.undo");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), can_undo);
@@ -3428,16 +3428,16 @@ mousepad_window_can_undo (GtkSourceBuffer *buffer,
 
 
 static void
-mousepad_window_can_redo (GtkSourceBuffer *buffer,
+mousepad_window_can_redo (GtkTextBuffer *buffer,
                           GParamSpec *unused,
                           MousepadWindow *window)
 {
   GAction *action;
   gboolean can_redo;
 
-  if (window->active->buffer == GTK_TEXT_BUFFER (buffer))
+  if (window->active->buffer == buffer)
     {
-      can_redo = gtk_source_buffer_can_redo (buffer);
+      can_redo = gtk_text_buffer_get_can_redo (buffer);
 
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "edit.redo");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), can_redo);
@@ -4424,7 +4424,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       g_object_ref_sink (document);
 
       /* lock the undo manager */
-      gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+      gtk_text_buffer_begin_irreversible_action (document->buffer);
 
       /* virtually set the file location */
       file = g_file_new_for_path (filename);
@@ -4442,7 +4442,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       mousepad_file_set_location (document->file, NULL, MOUSEPAD_LOCATION_REVERT);
 
       /* release the lock */
-      gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+      gtk_text_buffer_end_irreversible_action (document->buffer);
 
       /* no errors, insert the document */
       if (G_LIKELY (result == 0))
@@ -4901,13 +4901,13 @@ mousepad_window_action_reload (GSimpleAction *action,
   column = mousepad_util_get_real_line_offset (&cursor);
 
   /* lock the undo manager */
-  gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+  gtk_text_buffer_begin_irreversible_action (document->buffer);
 
   /* reload the file */
   retval = mousepad_file_open (document->file, line, column, TRUE, FALSE, TRUE, &error);
 
   /* release the lock */
-  gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+  gtk_text_buffer_end_irreversible_action (document->buffer);
 
   if (G_UNLIKELY (retval != 0))
     {
@@ -5067,7 +5067,7 @@ mousepad_window_action_undo (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* undo */
-  g_signal_emit_by_name (window->active->textview, "undo");
+  g_signal_emit_by_name (window->active->buffer, "undo");
 }
 
 
@@ -5083,7 +5083,7 @@ mousepad_window_action_redo (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* redo */
-  g_signal_emit_by_name (window->active->textview, "redo");
+  g_signal_emit_by_name (window->active->buffer, "redo");
 }
 
 
