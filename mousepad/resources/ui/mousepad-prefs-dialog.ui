@@ -800,6 +800,7 @@
                     <property name="position">2</property>
                   </packing>
                 </child>
+<!-- TODO: see mousepad_window_save_geometry()
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Remember window position</property>
@@ -814,6 +815,7 @@
                     <property name="position">3</property>
                   </packing>
                 </child>
+-->
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Remember window state</property>
