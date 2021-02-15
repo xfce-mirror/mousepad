@@ -27,9 +27,6 @@
 
 static void
 mousepad_document_finalize (GObject *object);
-static gboolean
-mousepad_document_scroll_event (GtkWidget *widget,
-                                GdkEventScroll *event);
 static void
 mousepad_document_notify_cursor_position (MousepadDocument *document);
 static void
@@ -124,13 +121,9 @@ static void
 mousepad_document_class_init (MousepadDocumentClass *klass)
 {
   GObjectClass *gobject_class;
-  GtkWidgetClass *gtkwidget_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_document_finalize;
-
-  gtkwidget_class = GTK_WIDGET_CLASS (klass);
-  gtkwidget_class->scroll_event = mousepad_document_scroll_event;
 
   document_signals[CLOSE_TAB] = g_signal_new (I_ ("close-tab"),
                                               G_TYPE_FROM_CLASS (gobject_class),
@@ -329,21 +322,6 @@ mousepad_document_finalize (GObject *object)
     }
 
   G_OBJECT_CLASS (mousepad_document_parent_class)->finalize (object);
-}
-
-
-
-static gboolean
-mousepad_document_scroll_event (GtkWidget *widget,
-                                GdkEventScroll *event)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (widget), FALSE);
-
-  /* do not scroll text while zooming in or out */
-  if (event->state & GDK_CONTROL_MASK)
-    return TRUE;
-
-  return GTK_WIDGET_CLASS (mousepad_document_parent_class)->scroll_event (widget, event);
 }
 
 
