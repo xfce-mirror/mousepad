@@ -25,13 +25,21 @@
 
 
 
-static void      mousepad_view_finalize                      (GObject            *object);
-static void      mousepad_view_set_property                  (GObject            *object,
-                                                              guint               prop_id,
-                                                              const GValue       *value,
-                                                              GParamSpec         *pspec);
-static gboolean  mousepad_view_key_press_event               (GtkWidget          *widget,
-                                                              GdkEventKey        *event);
+/* GObject virtual functions */
+static void mousepad_view_finalize     (GObject      *object);
+static void mousepad_view_set_property (GObject      *object,
+                                        guint         prop_id,
+                                        const GValue *value,
+                                        GParamSpec   *pspec);
+
+/* event handlers */
+static gboolean mousepad_view_key_pressed (GtkEventControllerKey *controller,
+                                           guint                  keyval,
+                                           guint                  keycode,
+                                           GdkModifierType        state,
+                                           MousepadView          *view);
+
+/* MousepadView own functions */
 static void      mousepad_view_indent_increase               (MousepadView       *view,
                                                               GtkTextIter        *iter);
 static void      mousepad_view_indent_decrease               (MousepadView       *view,
@@ -71,7 +79,7 @@ struct _MousepadViewClass
 
 struct _MousepadView
 {
-  GtkSourceView         __parent__;
+  GtkSourceView      __parent__;
 
   /* property related */
   gboolean                     show_whitespace;
@@ -105,15 +113,10 @@ G_DEFINE_TYPE (MousepadView, mousepad_view, GTK_SOURCE_TYPE_VIEW)
 static void
 mousepad_view_class_init (MousepadViewClass *klass)
 {
-  GObjectClass   *gobject_class;
-  GtkWidgetClass *widget_class;
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
-  gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_view_finalize;
   gobject_class->set_property = mousepad_view_set_property;
-
-  widget_class = GTK_WIDGET_CLASS (klass);
-  widget_class->key_press_event = mousepad_view_key_press_event;
 
   g_object_class_install_property (gobject_class, PROP_FONT,
     g_param_spec_string ("font", "Font", "The font to use in the view",
@@ -159,8 +162,8 @@ mousepad_view_buffer_changed (MousepadView *view,
                               gpointer      user_data)
 {
   GtkSourceBuffer *buffer;
-  buffer = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
 
+  buffer = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
   if (GTK_SOURCE_IS_BUFFER (buffer))
     {
       GtkSourceStyleSchemeManager *manager;
@@ -208,7 +211,8 @@ mousepad_view_use_default_font (MousepadView *view)
 static void
 mousepad_view_init (MousepadView *view)
 {
-  GApplication *application;
+  GtkEventController *controller;
+  GApplication       *application;
 
   /* initialize properties variables */
   view->show_whitespace = FALSE;
@@ -253,6 +257,12 @@ mousepad_view_init (MousepadView *view)
   /* bind the whitespace display property to that of the application */
   application = g_application_get_default ();
   g_object_bind_property (application, "space-location", view, "space-location", G_BINDING_SYNC_CREATE);
+
+  /* event handling */
+  controller = gtk_event_controller_key_new ();
+  g_signal_connect (controller, "key-pressed",
+                    G_CALLBACK (mousepad_view_key_pressed), view);
+  gtk_widget_add_controller (GTK_WIDGET (view), controller);
 }
 
 
@@ -310,26 +320,24 @@ mousepad_view_set_property (GObject      *object,
 
 
 static gboolean
-mousepad_view_key_press_event (GtkWidget   *widget,
-                               GdkEventKey *key_event)
+mousepad_view_key_pressed (GtkEventControllerKey *controller,
+                           guint                  keyval,
+                           guint                  keycode,
+                           GdkModifierType        state,
+                           MousepadView          *view)
 {
-  MousepadView    *view = MOUSEPAD_VIEW (widget);
-  GdkEvent        *event = (GdkEvent *) key_event;
-  GtkTextBuffer   *buffer;
-  GtkTextIter      iter;
-  GtkTextMark     *cursor;
-  GdkModifierType  state;
-  guint            modifiers, keyval = 0;
+  GtkTextBuffer *buffer;
+  GtkTextIter    iter;
+  GtkTextMark   *cursor;
+  guint          modifiers;
 
   /* get the modifiers state */
-  gdk_event_get_state (event, &state);
   modifiers = state & gtk_accelerator_get_default_mod_mask ();
 
   /* get the textview buffer */
   buffer = mousepad_view_get_buffer (view);
 
   /* handle the key event */
-  gdk_event_get_keyval (event, &keyval);
   switch (keyval)
     {
       case GDK_KEY_End:
@@ -367,19 +375,19 @@ mousepad_view_key_press_event (GtkWidget   *widget,
         if (gtk_text_iter_starts_line (&iter)
             && mousepad_util_forward_iter_to_text (&iter, NULL))
           {
-             /* label for the ctrl home/end events */
-             move_cursor:
+            /* label for the ctrl home/end events */
+            move_cursor:
 
-             /* move (select) or set (jump) cursor */
-             if (modifiers & GDK_SHIFT_MASK)
-               gtk_text_buffer_move_mark (buffer, cursor, &iter);
-             else
-               gtk_text_buffer_place_cursor (buffer, &iter);
+            /* move (select) or set (jump) cursor */
+            if (modifiers & GDK_SHIFT_MASK)
+              gtk_text_buffer_move_mark (buffer, cursor, &iter);
+            else
+              gtk_text_buffer_place_cursor (buffer, &iter);
 
-             /* make sure the cursor is visible for the user */
-             mousepad_view_scroll_to_cursor (view);
+            /* make sure the cursor is visible for the user */
+            mousepad_view_scroll_to_cursor (view);
 
-             return TRUE;
+            return TRUE;
           }
         break;
 
@@ -387,7 +395,7 @@ mousepad_view_key_press_event (GtkWidget   *widget,
         break;
     }
 
-  return (*GTK_WIDGET_CLASS (mousepad_view_parent_class)->key_press_event) (widget, key_event);
+  return FALSE;
 }
 
 
