@@ -27,51 +27,54 @@
 
 
 /* GObject virtual functions */
-static void      mousepad_view_finalize                      (GObject            *object);
-static void      mousepad_view_set_property                  (GObject            *object,
-                                                              guint               prop_id,
-                                                              const GValue       *value,
-                                                              GParamSpec         *pspec);
-
-/* GtkWidget virtual functions */
-static gboolean  mousepad_view_key_press_event               (GtkWidget          *widget,
-                                                              GdkEventKey        *event);
+static void      mousepad_view_finalize                      (GObject               *object);
+static void      mousepad_view_set_property                  (GObject               *object,
+                                                              guint                  prop_id,
+                                                              const GValue          *value,
+                                                              GParamSpec            *pspec);
 
 /* GtkTextView virtual functions */
-static void      mousepad_view_delete_from_cursor            (GtkTextView        *text_view,
-                                                              GtkDeleteType       type,
-                                                              int                 count);
+static void      mousepad_view_delete_from_cursor            (GtkTextView           *text_view,
+                                                              GtkDeleteType          type,
+                                                              int                    count);
+
+/* event handlers */
+static gboolean  mousepad_view_key_pressed                   (GtkEventControllerKey *controller,
+                                                              guint                  keyval,
+                                                              guint                  keycode,
+                                                              GdkModifierType        state,
+                                                              MousepadView          *view);
 
 /* MousepadView own functions */
-static void      mousepad_view_indent_increase               (MousepadView       *view,
-                                                              GtkTextIter        *iter);
-static void      mousepad_view_indent_decrease               (MousepadView       *view,
-                                                              GtkTextIter        *iter);
-static void      mousepad_view_indent_selection              (MousepadView       *view,
-                                                              gboolean            increase,
-                                                              gboolean            force);
-static void      mousepad_view_transpose_range               (GtkTextBuffer       *buffer,
-                                                              GtkTextIter         *start_iter,
-                                                              GtkTextIter         *end_iter);
-static void      mousepad_view_transpose_lines               (GtkTextBuffer       *buffer,
-                                                              GtkTextIter         *start_iter,
-                                                              GtkTextIter         *end_iter);
-static void      mousepad_view_transpose_words               (GtkTextBuffer       *buffer,
-                                                              GtkTextIter         *iter);
-static void      mousepad_view_set_font                      (MousepadView        *view,
-                                                              const gchar         *font);
-static void      mousepad_view_set_show_whitespace           (MousepadView        *view,
-                                                              gboolean             show);
-static void      mousepad_view_set_space_location_flags      (MousepadView        *view,
-                                                              gulong               flags);
-static void      mousepad_view_set_show_line_endings         (MousepadView        *view,
-                                                              gboolean             show);
-static void      mousepad_view_set_color_scheme              (MousepadView        *view,
-                                                              const gchar         *color_scheme);
-static void      mousepad_view_set_word_wrap                 (MousepadView        *view,
-                                                              gboolean             enabled);
-static void      mousepad_view_set_match_braces              (MousepadView        *view,
-                                                              gboolean             enabled);
+static void      mousepad_view_indent_increase               (MousepadView          *view,
+                                                              GtkTextIter           *iter);
+static void      mousepad_view_indent_decrease               (MousepadView          *view,
+                                                              GtkTextIter           *iter);
+static void      mousepad_view_indent_selection              (MousepadView          *view,
+                                                              gboolean               increase,
+                                                              gboolean               force);
+static void      mousepad_view_transpose_range               (GtkTextBuffer         *buffer,
+                                                              GtkTextIter           *start_iter,
+                                                              GtkTextIter           *end_iter);
+static void      mousepad_view_transpose_lines               (GtkTextBuffer         *buffer,
+                                                              GtkTextIter           *start_iter,
+                                                              GtkTextIter           *end_iter);
+static void      mousepad_view_transpose_words               (GtkTextBuffer         *buffer,
+                                                              GtkTextIter           *iter);
+static void      mousepad_view_set_font                      (MousepadView          *view,
+                                                              const gchar           *font);
+static void      mousepad_view_set_show_whitespace           (MousepadView          *view,
+                                                              gboolean               show);
+static void      mousepad_view_set_space_location_flags      (MousepadView          *view,
+                                                              gulong                 flags);
+static void      mousepad_view_set_show_line_endings         (MousepadView          *view,
+                                                              gboolean               show);
+static void      mousepad_view_set_color_scheme              (MousepadView          *view,
+                                                              const gchar           *color_scheme);
+static void      mousepad_view_set_word_wrap                 (MousepadView          *view,
+                                                              gboolean               enabled);
+static void      mousepad_view_set_match_braces              (MousepadView          *view,
+                                                              gboolean               enabled);
 
 
 
@@ -82,7 +85,7 @@ struct _MousepadViewClass
 
 struct _MousepadView
 {
-  GtkSourceView         __parent__;
+  GtkSourceView      __parent__;
 
   /* property related */
   GBinding                    *font_binding;
@@ -118,13 +121,10 @@ static void
 mousepad_view_class_init (MousepadViewClass *klass)
 {
   GObjectClass     *gobject_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass   *widget_class = GTK_WIDGET_CLASS (klass);
   GtkTextViewClass *textview_class = GTK_TEXT_VIEW_CLASS (klass);
 
   gobject_class->finalize = mousepad_view_finalize;
   gobject_class->set_property = mousepad_view_set_property;
-
-  widget_class->key_press_event = mousepad_view_key_press_event;
 
   textview_class->delete_from_cursor = mousepad_view_delete_from_cursor;
 
@@ -172,8 +172,8 @@ mousepad_view_buffer_changed (MousepadView *view,
                               gpointer      user_data)
 {
   GtkSourceBuffer *buffer;
-  buffer = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
 
+  buffer = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
   if (buffer != NULL)
     {
       GtkSourceStyleSchemeManager *manager;
@@ -226,7 +226,8 @@ mousepad_view_use_default_font (MousepadView *view)
 static void
 mousepad_view_init (MousepadView *view)
 {
-  GApplication *application;
+  GtkEventController *controller;
+  GApplication       *application;
 
   /* initialize properties variables */
   view->font_binding = NULL;
@@ -272,6 +273,12 @@ mousepad_view_init (MousepadView *view)
   /* bind the whitespace display property to that of the application */
   application = g_application_get_default ();
   g_object_bind_property (application, "space-location", view, "space-location", G_BINDING_SYNC_CREATE);
+
+  /* event handling */
+  controller = gtk_event_controller_key_new ();
+  g_signal_connect (controller, "key-pressed",
+                    G_CALLBACK (mousepad_view_key_pressed), view);
+  gtk_widget_add_controller (GTK_WIDGET (view), controller);
 }
 
 
@@ -329,26 +336,24 @@ mousepad_view_set_property (GObject      *object,
 
 
 static gboolean
-mousepad_view_key_press_event (GtkWidget   *widget,
-                               GdkEventKey *key_event)
+mousepad_view_key_pressed (GtkEventControllerKey *controller,
+                           guint                  keyval,
+                           guint                  keycode,
+                           GdkModifierType        state,
+                           MousepadView          *view)
 {
-  MousepadView    *view = MOUSEPAD_VIEW (widget);
-  GdkEvent        *event = (GdkEvent *) key_event;
-  GtkTextBuffer   *buffer;
-  GtkTextIter      iter;
-  GtkTextMark     *cursor;
-  GdkModifierType  state;
-  guint            modifiers, keyval = 0;
+  GtkTextBuffer *buffer;
+  GtkTextIter    iter;
+  GtkTextMark   *cursor;
+  guint          modifiers;
 
   /* get the modifiers state */
-  gdk_event_get_state (event, &state);
   modifiers = state & gtk_accelerator_get_default_mod_mask ();
 
   /* get the textview buffer */
   buffer = mousepad_view_get_buffer (view);
 
   /* handle the key event */
-  gdk_event_get_keyval (event, &keyval);
   switch (keyval)
     {
       case GDK_KEY_End:
@@ -386,19 +391,19 @@ mousepad_view_key_press_event (GtkWidget   *widget,
         if (gtk_text_iter_starts_line (&iter)
             && mousepad_util_forward_iter_to_text (&iter, NULL))
           {
-             /* label for the ctrl home/end events */
-             move_cursor:
+            /* label for the ctrl home/end events */
+            move_cursor:
 
-             /* move (select) or set (jump) cursor */
-             if (modifiers & GDK_SHIFT_MASK)
-               gtk_text_buffer_move_mark (buffer, cursor, &iter);
-             else
-               gtk_text_buffer_place_cursor (buffer, &iter);
+            /* move (select) or set (jump) cursor */
+            if (modifiers & GDK_SHIFT_MASK)
+              gtk_text_buffer_move_mark (buffer, cursor, &iter);
+            else
+              gtk_text_buffer_place_cursor (buffer, &iter);
 
-             /* make sure the cursor is visible for the user */
-             mousepad_view_scroll_to_cursor (view);
+            /* make sure the cursor is visible for the user */
+            mousepad_view_scroll_to_cursor (view);
 
-             return TRUE;
+            return TRUE;
           }
         break;
 
@@ -406,7 +411,7 @@ mousepad_view_key_press_event (GtkWidget   *widget,
         break;
     }
 
-  return (*GTK_WIDGET_CLASS (mousepad_view_parent_class)->key_press_event) (widget, key_event);
+  return FALSE;
 }
 
 
