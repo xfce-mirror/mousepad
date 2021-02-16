@@ -468,9 +468,9 @@ static const GActionEntry action_entries[] =
   { "textview.menubar", mousepad_window_action_textview, NULL, "false", NULL },
 
   /* increase/decrease font size from keyboard/mouse */
-  { "increase-font-size", mousepad_window_action_increase_font_size, NULL, NULL, NULL },
-  { "decrease-font-size", mousepad_window_action_decrease_font_size, NULL, NULL, NULL },
-  { "reset-font-size", mousepad_window_action_reset_font_size, NULL, NULL, NULL },
+  { "font-size-increase", mousepad_window_action_increase_font_size, NULL, NULL, NULL },
+  { "font-size-decrease", mousepad_window_action_decrease_font_size, NULL, NULL, NULL },
+  { "font-size-reset", mousepad_window_action_reset_font_size, NULL, NULL, NULL },
 
   /* "File" menu */
   { "file.new", mousepad_window_action_new, NULL, NULL, NULL },
@@ -1403,9 +1403,9 @@ mousepad_window_scroll_event (GtkWidget      *widget,
       && gdk_event_get_scroll_direction (event, &direction))
     {
       if (direction == GDK_SCROLL_UP)
-        g_action_group_activate_action (G_ACTION_GROUP (widget), "increase-font-size", NULL);
+        g_action_group_activate_action (G_ACTION_GROUP (widget), "font-size-increase", NULL);
       else if (direction == GDK_SCROLL_DOWN)
-        g_action_group_activate_action (G_ACTION_GROUP (widget), "decrease-font-size", NULL);
+        g_action_group_activate_action (G_ACTION_GROUP (widget), "font-size-decrease", NULL);
 
       return TRUE;
     }
