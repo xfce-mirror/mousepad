@@ -137,7 +137,7 @@ mousepad_dialogs_other_tab_size (GtkWindow *parent,
   gtk_scale_set_value_pos (GTK_SCALE (scale), GTK_POS_TOP);
 
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  gtk_box_pack_start (GTK_BOX (area), scale, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (area), scale);
   gtk_widget_show (scale);
 
   /* run the dialog */
@@ -231,7 +231,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_widget_set_margin_end (vbox, 6);
   gtk_widget_set_margin_top (vbox, 6);
   gtk_widget_set_margin_bottom (vbox, 6);
-  gtk_box_pack_start (GTK_BOX (area), vbox, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (area), vbox);
   gtk_widget_show (vbox);
 
   /* create size group */
@@ -240,10 +240,10 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   /* line number box */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
   gtk_widget_show (hbox);
-  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (vbox), hbox);
 
   label = gtk_label_new_with_mnemonic (_("_Line number:"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_size_group_add_widget (size_group, label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
@@ -251,7 +251,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
 
   line_spin = gtk_spin_button_new_with_range (-lines, lines, 1);
   gtk_entry_set_activates_default (GTK_ENTRY (line_spin), TRUE);
-  gtk_box_pack_start (GTK_BOX (hbox), line_spin, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), line_spin);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), line_spin);
   gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (line_spin), TRUE);
   gtk_entry_set_width_chars (GTK_ENTRY (line_spin), 8);
@@ -260,10 +260,10 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   /* column box */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
   gtk_widget_show (hbox);
-  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (vbox), hbox);
 
   label = gtk_label_new_with_mnemonic (_("C_olumn number:"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_size_group_add_widget (size_group, label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
@@ -275,7 +275,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   col_spin = gtk_spin_button_new_with_range (0, 0, 1);
   gtk_entry_set_activates_default (GTK_ENTRY (col_spin), TRUE);
   mousepad_object_set_data (col_spin, "buffer", buffer);
-  gtk_box_pack_start (GTK_BOX (hbox), col_spin, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), col_spin);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), col_spin);
   gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (col_spin), TRUE);
   gtk_entry_set_width_chars (GTK_ENTRY (col_spin), 8);
@@ -929,7 +929,7 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
 
   /* combo box label */
   widget = gtk_label_new_with_mnemonic (_("_Encoding:"));
-  gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), widget);
   gtk_widget_show (widget);
 
   /* build the combo box model */
@@ -985,7 +985,7 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
 
   /* create combo box */
   combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list));
-  gtk_box_pack_start (GTK_BOX (hbox), combo, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), combo);
   gtk_label_set_mnemonic_widget (GTK_LABEL (widget), combo);
   gtk_widget_show (combo);
 
