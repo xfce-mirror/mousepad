@@ -1214,3 +1214,12 @@ mousepad_util_source_autoremove (gpointer object)
 
   return object;
 }
+
+
+
+void
+mousepad_util_widget_destroyed (GtkWidget  *widget,
+                                GtkWidget **widget_pointer)
+{
+  *widget_pointer = NULL;
+}
