@@ -121,7 +121,7 @@ struct _MousepadApplication
   GtkApplication __parent__;
 
   /* preferences dialog */
-  GtkWidget *prefs_dialog;
+  GtkWindow *prefs_dialog;
   gboolean prefs_dialog_standalone;
 
   /* command line options */
@@ -1317,7 +1317,7 @@ mousepad_application_open (GApplication *gapplication,
         gtk_window_present (GTK_WINDOW (window));
       /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
       else if (G_LIKELY (mousepad_is_application_window (window)) && opened < 0)
-        gtk_widget_destroy (window);
+        gtk_window_destroy (GTK_WINDOW (window));
     }
   /* open the files in windows */
   else
@@ -1337,7 +1337,7 @@ mousepad_application_open (GApplication *gapplication,
             gtk_widget_show (window);
           /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
           else if (G_LIKELY (mousepad_is_application_window (window)))
-            gtk_widget_destroy (window);
+            gtk_window_destroy (GTK_WINDOW (window));
         }
     }
 }
@@ -1416,12 +1416,12 @@ mousepad_application_shutdown (GApplication *gapplication)
 
   /* destroy the preferences dialog */
   if (application->prefs_dialog != NULL)
-    gtk_widget_destroy (application->prefs_dialog);
+    gtk_window_destroy (application->prefs_dialog);
 
   /* destroy the windows if they are still opened */
   windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (application)));
   for (window = windows; window != NULL; window = window->next)
-    gtk_widget_destroy (window->data);
+    gtk_window_destroy (window->data);
 
   g_list_free (windows);
 
@@ -1796,7 +1796,7 @@ mousepad_application_prefs_dialog_response (MousepadApplication *application,
                                             gint response_id,
                                             MousepadPrefsDialog *dialog)
 {
-  g_clear_pointer (&application->prefs_dialog, gtk_widget_destroy);
+  g_clear_pointer (&application->prefs_dialog, gtk_window_destroy);
 
   /* decrease application use count, if needed */
   mousepad_application_prefs_dialog_standalone (application);
@@ -1814,7 +1814,7 @@ mousepad_application_action_preferences (GSimpleAction *action,
   /* if the dialog isn't already shown, create one */
   if (application->prefs_dialog == NULL)
     {
-      application->prefs_dialog = mousepad_prefs_dialog_new ();
+      application->prefs_dialog = GTK_WINDOW (mousepad_prefs_dialog_new ());
 
       /* destroy the dialog when it's close button is pressed */
       g_signal_connect_swapped (application->prefs_dialog, "response",
@@ -1823,11 +1823,11 @@ mousepad_application_action_preferences (GSimpleAction *action,
     }
 
   /* associate it with the active window, if any */
-  gtk_window_set_transient_for (GTK_WINDOW (application->prefs_dialog),
+  gtk_window_set_transient_for (application->prefs_dialog,
                                 gtk_application_get_active_window (data));
 
   /* show it to the user */
-  gtk_window_present (GTK_WINDOW (application->prefs_dialog));
+  gtk_window_present (application->prefs_dialog);
 }
 
 
@@ -2046,5 +2046,5 @@ mousepad_application_get_providers (MousepadApplication *application)
 GtkWidget *
 mousepad_application_get_prefs_dialog (MousepadApplication *application)
 {
-  return application->prefs_dialog;
+  return GTK_WIDGET (application->prefs_dialog);
 }
