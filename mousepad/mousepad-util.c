@@ -342,14 +342,8 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
   GtkWidget *icon, *label, *line;
   GtkWidget *dialog_vbox;
 
-  /* remove the main vbox */
-  dialog_vbox = gtk_window_get_child (GTK_WINDOW (dialog));
-  g_object_ref (dialog_vbox);
-  gtk_container_remove (GTK_CONTAINER (dialog), dialog_vbox);
-
-  /* add a new vbox to the main window */
+  /* create a new vbox for the main window */
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-  gtk_container_add (GTK_CONTAINER (dialog), vbox);
   gtk_widget_show (vbox);
 
   /* create a hbox */
@@ -392,7 +386,10 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
   gtk_box_append (GTK_BOX (vbox), line);
   gtk_widget_show (line);
 
-  /* add the main dialog box to the new vbox */
+  /* add the main dialog box to the new vbox and the latter to the main window */
+  dialog_vbox = gtk_window_get_child (GTK_WINDOW (dialog));
+  g_object_ref (dialog_vbox);
+  gtk_window_set_child (GTK_WINDOW (dialog), vbox);
   gtk_box_append (GTK_BOX (vbox), dialog_vbox);
   g_object_unref (dialog_vbox);
 }
@@ -406,20 +403,14 @@ mousepad_util_dialog_update_header (GtkDialog   *dialog,
                                     const gchar *icon_name)
 {
   gchar     *formated_title, *full_title;
-  GtkWidget *vbox, *hbox;
-  GtkWidget *icon, *label;
-  GList     *children, *child;
+  GtkWidget *vbox, *hbox, *icon, *label;
 
   /* retrieve the hbox */
   vbox = gtk_window_get_child (GTK_WINDOW (dialog));
-  children = gtk_container_get_children (GTK_CONTAINER (vbox));
-  hbox = children->data;
-  g_list_free (children);
+  hbox = gtk_widget_get_first_child (vbox);
 
   /* title icon */
-  children = gtk_container_get_children (GTK_CONTAINER (hbox));
-  child = children;
-  icon = child->data;
+  icon = gtk_widget_get_first_child (hbox);
   gtk_image_set_from_icon_name (GTK_IMAGE (icon), icon_name, GTK_ICON_SIZE_DIALOG);
 
   /* title label */
@@ -432,13 +423,11 @@ mousepad_util_dialog_update_header (GtkDialog   *dialog,
   else
     full_title = formated_title;
 
-  child = child->next;
-  label = child->data;
+  label = gtk_widget_get_last_child (hbox);
   gtk_label_set_markup (GTK_LABEL (label), full_title);
 
   /* cleanup */
   g_free (full_title);
-  g_list_free (children);
 }
 
 
@@ -746,32 +735,6 @@ mousepad_util_save_key_file (GKeyFile    *keyfile,
   g_free (contents);
 }
 
-
-
-static void
-mousepad_util_container_foreach_counter (GtkWidget *widget,
-                                         gpointer   data)
-{
-  guint *n_children = (guint *) data;
-
-  *n_children = *n_children + 1;
-}
-
-
-
-gboolean
-mousepad_util_container_has_children (GtkContainer *container)
-{
-  guint n_children = 0;
-
-  g_return_val_if_fail (GTK_IS_CONTAINER (container), FALSE);
-
-  gtk_container_foreach (container,
-                         mousepad_util_container_foreach_counter,
-                         &n_children);
-
-  return (n_children > 0);
-}
 
 
 void
