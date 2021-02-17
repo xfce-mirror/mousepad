@@ -188,7 +188,6 @@
                     <property name="label" translatable="yes">Show line numbers</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.view.show-line-numbers</property>
                   </object>
                 </child>
@@ -197,7 +196,6 @@
                     <property name="label" translatable="yes">Display whitespace</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.view.show-whitespace</property>
                   </object>
                 </child>
@@ -206,7 +204,6 @@
                     <property name="label" translatable="yes">Display line endings</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.view.show-line-endings</property>
                   </object>
                 </child>
@@ -220,7 +217,6 @@
                         <property name="label" translatable="yes">Long line margin at column:</property>
                         <property name="visible">True</property>
                         <property name="receives-default">False</property>
-                        <property name="draw-indicator">True</property>
                         <property name="action-name">app.preferences.view.show-right-margin</property>
                       </object>
                     </child>
@@ -255,7 +251,6 @@
                     <property name="label" translatable="yes">Highlight current line</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.view.highlight-current-line</property>
                   </object>
                 </child>
@@ -264,7 +259,6 @@
                     <property name="label" translatable="yes">Highlight matching brackets</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.view.match-braces</property>
                   </object>
                 </child>
@@ -273,7 +267,6 @@
                     <property name="label" translatable="yes">Wrap long lines</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.view.word-wrap</property>
                   </object>
                 </child>
@@ -307,7 +300,6 @@
                     <property name="label" translatable="yes">Use system monospace font</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.view.use-default-monospace-font</property>
                   </object>
                   <packing>
@@ -470,7 +462,6 @@
                     <property name="label" translatable="yes">Enable automatic indentation</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.view.auto-indent</property>
                   </object>
                   <packing>
@@ -584,7 +575,6 @@
                     <property name="label" translatable="yes">Show status bar</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.window.statusbar-visible</property>
                   </object>
                 </child>
@@ -593,7 +583,6 @@
                     <property name="label" translatable="yes">Show full filename in title bar</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.window.path-in-title</property>
                   </object>
                 </child>
@@ -602,7 +591,6 @@
                     <property name="label" translatable="yes">Remember window size</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.window.remember-size</property>
                   </object>
                 </child>
@@ -611,7 +599,6 @@
                     <property name="label" translatable="yes">Remember window position</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.window.remember-position</property>
                   </object>
                 </child>
@@ -620,7 +607,6 @@
                     <property name="label" translatable="yes">Remember window state</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.window.remember-state</property>
                   </object>
                 </child>
@@ -654,7 +640,6 @@
                     <property name="label" translatable="yes">Show toolbar</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.window.toolbar-visible</property>
                   </object>
                   <packing>
@@ -757,7 +742,6 @@
                     <property name="label" translatable="yes">Always show tabs even with one file</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.window.always-show-tabs</property>
                   </object>
                 </child>
@@ -766,7 +750,6 @@
                     <property name="label" translatable="yes">Cycled notebook tab switching</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="draw-indicator">True</property>
                     <property name="action-name">app.preferences.window.cycle-tabs</property>
                   </object>
                 </child>
