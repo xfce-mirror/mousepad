@@ -597,7 +597,7 @@ mousepad_history_session_restore (MousepadApplication *application)
               autosave_file = g_file_new_for_uri (autosave_uri);
 
               /* validate file */
-              if (mousepad_util_get_path (autosave_file) == NULL)
+              if (g_file_peek_path (autosave_file) == NULL)
                 {
                   g_warning (CORRUPTED_SESSION_DATA);
                   g_object_unref (autosave_file);
@@ -635,7 +635,7 @@ mousepad_history_session_restore (MousepadApplication *application)
           if (*uri != '\0')
             {
               file = g_file_new_for_uri (uri);
-              if (mousepad_util_get_path (file) == NULL)
+              if (g_file_peek_path (file) == NULL)
                 {
                   g_warning (CORRUPTED_SESSION_DATA);
                   g_object_unref (file);
