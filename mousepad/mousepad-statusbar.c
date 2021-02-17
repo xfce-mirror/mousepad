@@ -116,7 +116,7 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (box, separator, FALSE, TRUE, 0);
+  gtk_box_append (box, separator);
   gtk_widget_show (separator);
 
   /* language/filetype */
@@ -126,31 +126,31 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
   g_signal_connect (controller, "pressed",
                     G_CALLBACK (mousepad_statusbar_language_clicked), statusbar);
   gtk_widget_add_controller (label, controller);
-  gtk_box_pack_start (box, label, FALSE, TRUE, 0);
+  gtk_box_append (box, label);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (box, separator, FALSE, TRUE, 0);
+  gtk_box_append (box, separator);
   gtk_widget_show (separator);
 
   /* encoding */
   statusbar->encoding = gtk_label_new (NULL);
-  gtk_box_pack_start (box, statusbar->encoding, FALSE, TRUE, 0);
+  gtk_box_append (box, statusbar->encoding);
   gtk_widget_show (statusbar->encoding);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (box, separator, FALSE, TRUE, 0);
+  gtk_box_append (box, separator);
   gtk_widget_show (separator);
 
   /* line and column numbers */
   statusbar->position = gtk_label_new (NULL);
-  gtk_box_pack_start (box, statusbar->position, FALSE, TRUE, 0);
+  gtk_box_append (box, statusbar->position);
   gtk_widget_show (statusbar->position);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
-  gtk_box_pack_start (box, separator, FALSE, TRUE, 0);
+  gtk_box_append (box, separator);
   gtk_widget_show (separator);
 
   /* overwrite label */
@@ -160,7 +160,7 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
   g_signal_connect (controller, "pressed",
                     G_CALLBACK (mousepad_statusbar_overwrite_clicked), statusbar);
   gtk_widget_add_controller (label, controller);
-  gtk_box_pack_start (box, label, FALSE, TRUE, 0);
+  gtk_box_append (box, label);
 }
 
 
