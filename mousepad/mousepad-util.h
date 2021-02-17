@@ -134,6 +134,10 @@ mousepad_util_get_display_path (GFile *file);
 gpointer
 mousepad_util_source_autoremove (gpointer object);
 
+void
+mousepad_util_widget_destroyed (GtkWidget *widget,
+                                GtkWidget **widget_pointer);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_UTIL_H__ */
