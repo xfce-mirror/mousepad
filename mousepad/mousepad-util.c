@@ -343,7 +343,7 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
   GtkWidget *dialog_vbox;
 
   /* remove the main vbox */
-  dialog_vbox = gtk_bin_get_child (GTK_BIN (dialog));
+  dialog_vbox = gtk_window_get_child (GTK_WINDOW (dialog));
   g_object_ref (dialog_vbox);
   gtk_container_remove (GTK_CONTAINER (dialog), dialog_vbox);
 
@@ -411,7 +411,7 @@ mousepad_util_dialog_update_header (GtkDialog   *dialog,
   GList     *children, *child;
 
   /* retrieve the hbox */
-  vbox = gtk_bin_get_child (GTK_BIN (dialog));
+  vbox = gtk_window_get_child (GTK_WINDOW (dialog));
   children = gtk_container_get_children (GTK_CONTAINER (vbox));
   hbox = children->data;
   g_list_free (children);
