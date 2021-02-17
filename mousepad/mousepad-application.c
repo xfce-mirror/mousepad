@@ -60,12 +60,8 @@ static gboolean    mousepad_application_parse_encoding            (const gchar  
                                                                    gpointer                  data,
                                                                    GError                  **error);
 static GtkWidget  *mousepad_application_create_window             (MousepadApplication      *application);
-static void        mousepad_application_new_window_with_document  (MousepadWindow           *existing,
-                                                                   MousepadDocument         *document,
-                                                                   gint                      x,
-                                                                   gint                      y,
-                                                                   MousepadApplication      *application);
 static void        mousepad_application_new_window                (MousepadWindow           *existing,
+                                                                   MousepadDocument         *document,
                                                                    MousepadApplication      *application);
 static void        mousepad_application_active_window_changed     (MousepadApplication      *application);
 static void        mousepad_application_set_shared_menu_parts     (MousepadApplication      *application,
@@ -1415,8 +1411,6 @@ mousepad_application_create_window (MousepadApplication *application)
   gtk_window_set_display (GTK_WINDOW (window), gdk_display_get_default ());
 
   /* connect signals */
-  g_signal_connect (window, "new-window-with-document",
-                    G_CALLBACK (mousepad_application_new_window_with_document), application);
   g_signal_connect (window, "new-window",
                     G_CALLBACK (mousepad_application_new_window), application);
   notebook = mousepad_window_get_notebook (MOUSEPAD_WINDOW (window));
@@ -1431,11 +1425,9 @@ mousepad_application_create_window (MousepadApplication *application)
 
 
 static void
-mousepad_application_new_window_with_document (MousepadWindow      *existing,
-                                               MousepadDocument    *document,
-                                               gint                 x,
-                                               gint                 y,
-                                               MousepadApplication *application)
+mousepad_application_new_window (MousepadWindow      *existing,
+                                 MousepadDocument    *document,
+                                 MousepadApplication *application)
 {
   GtkWidget  *window;
   GdkDisplay *display;
@@ -1452,10 +1444,6 @@ mousepad_application_new_window_with_document (MousepadWindow      *existing,
   if (G_LIKELY (display != NULL))
     gtk_window_set_display (GTK_WINDOW (window), display);
 
-  /* move the window on valid cooridinates */
-  if (x > -1 && y > -1)
-    gtk_window_move (GTK_WINDOW (window), x, y);
-
   /* create an empty document if no document was send */
   if (document == NULL)
     document = mousepad_document_new ();
@@ -1465,16 +1453,6 @@ mousepad_application_new_window_with_document (MousepadWindow      *existing,
 
   /* show the window */
   gtk_widget_show (window);
-}
-
-
-
-static void
-mousepad_application_new_window (MousepadWindow      *existing,
-                                 MousepadApplication *application)
-{
-  /* trigger new document function */
-  mousepad_application_new_window_with_document (existing, NULL, -1, -1, application);
 }
 
 
