@@ -274,16 +274,29 @@ mousepad_util_escape_underscores (const gchar *str)
 
 GtkWidget *
 mousepad_util_image_button (const gchar *icon_name,
-                            const gchar *label)
+                            const gchar *label,
+                            gint margin_start,
+                            gint margin_end,
+                            gint margin_top,
+                            gint margin_bottom)
 {
-  GtkWidget *button, *image;
+  GtkWidget *button, *box, *widget;
 
-  image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image);
+  button = gtk_button_new ();
+  gtk_widget_set_margin_start (button, margin_start);
+  gtk_widget_set_margin_end (button, margin_end);
+  gtk_widget_set_margin_top (button, margin_top);
+  gtk_widget_set_margin_bottom (button, margin_bottom);
 
-  button = gtk_button_new_with_mnemonic (label);
-  gtk_button_set_image (GTK_BUTTON (button), image);
-  gtk_widget_show (button);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+  gtk_widget_set_halign (box, GTK_ALIGN_CENTER);
+  gtk_button_set_child (GTK_BUTTON (button), box);
+
+  widget = gtk_image_new_from_icon_name (icon_name);
+  gtk_box_append (GTK_BOX (box), widget);
+
+  widget = gtk_label_new_with_mnemonic (label);
+  gtk_box_append (GTK_BOX (box), widget);
 
   return button;
 }
