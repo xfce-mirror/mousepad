@@ -101,9 +101,6 @@ void
 mousepad_util_save_key_file (GKeyFile *keyfile,
                              const gchar *filename);
 
-gboolean
-mousepad_util_container_has_children (GtkContainer *container);
-
 void
 mousepad_util_container_clear (GtkContainer *container);
 
