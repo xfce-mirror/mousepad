@@ -168,7 +168,10 @@
       <object class="GtkBox" id="/prefs/view/content-area">
         <property name="visible">True</property>
         <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
-        <property name="border-width">6</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/view/display/frame">
             <property name="visible">True</property>
@@ -291,11 +294,11 @@
                     <property name="label" translatable="yes">Use system monospace font</property>
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.use-default-monospace-font</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">0</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkFontButton" id="/prefs/view/font/chooser-button">
@@ -304,11 +307,11 @@
                     <property name="sensitive" bind-source="/prefs/view/font/default-check"
                               bind-property="active"
                               bind-flags="G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN"/>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">1</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">1</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -375,7 +378,10 @@
       <object class="GtkBox" id="/prefs/editor/content-area">
         <property name="visible">True</property>
         <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
-        <property name="border-width">6</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/editor/indentation/frame">
@@ -395,22 +401,22 @@
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Tab width:</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">0</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Tab mode:</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">1</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkSpinButton" id="/prefs/editor/indentation/tab-width-spin">
@@ -422,11 +428,11 @@
                     <property name="primary-icon-sensitive">True</property>
                     <property name="secondary-icon-sensitive">True</property>
                     <property name="adjustment">/prefs/editor/indentation/tab-width-adjustment</property>
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">0</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkComboBox" id="/prefs/editor/indentation/tab-mode-combo">
@@ -439,23 +445,22 @@
                         <attribute name="text">0</attribute>
                       </attributes>
                     </child>
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">1</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Enable automatic indentation</property>
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.auto-indent</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">2</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">2</property>
-                    <property name="width">2</property>
-                  </packing>
                 </child>
               </object>
             </child>
@@ -540,7 +545,10 @@
       <object class="GtkBox" id="/prefs/window/content-area">
         <property name="visible">True</property>
         <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
-        <property name="border-width">6</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/window/general/frame">
@@ -619,12 +627,12 @@
                     <property name="label" translatable="yes">Show toolbar</property>
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.toolbar-visible</property>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">0</property>
+                      <!--TODO <property name="width">2</property>-->
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
-                    <property name="width">2</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel">
@@ -633,11 +641,11 @@
                     <property name="label" translatable="yes">Style:</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check"
                               bind-property="active" bind-flags="G_BINDING_SYNC_CREATE"/>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">1</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel">
@@ -646,11 +654,11 @@
                     <property name="label" translatable="yes">Icon Size:</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check"
                               bind-property="active" bind-flags="G_BINDING_SYNC_CREATE"/>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">2</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">2</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/style-combo">
@@ -665,11 +673,11 @@
                         <attribute name="text">1</attribute>
                       </attributes>
                     </child>
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">1</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">1</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/icon-size-combo">
@@ -684,11 +692,11 @@
                         <attribute name="text">1</attribute>
                       </attributes>
                     </child>
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">2</property>
+                    </layout>
                   </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">2</property>
-                  </packing>
                 </child>
               </object>
             </child>

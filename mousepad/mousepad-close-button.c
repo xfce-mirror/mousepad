@@ -66,7 +66,7 @@ mousepad_close_button_init (MousepadCloseButton *button)
   g_object_unref (css_provider);
 
   image = gtk_image_new_from_icon_name ("window-close", GTK_ICON_SIZE_MENU);
-  gtk_container_add (GTK_CONTAINER (button), image);
+  gtk_button_set_child (GTK_BUTTON (button), image);
   gtk_widget_show (image);
 
   g_object_set (button, "relief", GTK_RELIEF_NONE, "focus-on-click", FALSE, NULL);
