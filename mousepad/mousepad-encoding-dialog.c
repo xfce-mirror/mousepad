@@ -131,7 +131,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_widget_show (hbox);
 
   /* default encoding */
-  dialog->radio_default = gtk_radio_button_new_with_label (NULL, NULL);
+  dialog->radio_default = gtk_check_button_new_with_label (NULL);
   g_signal_connect (dialog->radio_default, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_append (GTK_BOX (hbox), dialog->radio_default);
@@ -139,8 +139,9 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   /* system charset: added only if different from default */
   if (mousepad_encoding_get_default () != mousepad_encoding_get_system ())
     {
-      dialog->radio_system = gtk_radio_button_new_with_label_from_widget (
-                               GTK_RADIO_BUTTON (dialog->radio_default), NULL);
+      dialog->radio_system = gtk_check_button_new_with_label (NULL);
+      gtk_check_button_set_group (GTK_CHECK_BUTTON (dialog->radio_system),
+                                  GTK_CHECK_BUTTON (dialog->radio_default));
       g_signal_connect (dialog->radio_system, "toggled",
                         G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
       gtk_box_append (GTK_BOX (hbox), dialog->radio_system);
@@ -149,15 +150,17 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
     dialog->radio_system = NULL;
 
   /* history charset: shown only if different from default and system */
-  dialog->radio_history = gtk_radio_button_new_with_label_from_widget (
-                            GTK_RADIO_BUTTON (dialog->radio_default), NULL);
+  dialog->radio_history = gtk_check_button_new_with_label (NULL);
+  gtk_check_button_set_group (GTK_CHECK_BUTTON (dialog->radio_history),
+                              GTK_CHECK_BUTTON (dialog->radio_default));
   g_signal_connect (dialog->radio_history, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_append (GTK_BOX (hbox), dialog->radio_history);
 
   /* valid conversions to UTF-8 if there are any, else partially valid conversions, else hidden */
-  dialog->radio_other = gtk_radio_button_new_with_label_from_widget (
-                          GTK_RADIO_BUTTON (dialog->radio_default), _("Other:"));
+  dialog->radio_other = gtk_check_button_new_with_label (_("Other:"));
+  gtk_check_button_set_group (GTK_CHECK_BUTTON (dialog->radio_other),
+                              GTK_CHECK_BUTTON (dialog->radio_default));
   g_signal_connect (dialog->radio_other, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_append (GTK_BOX (hbox), dialog->radio_other);
@@ -297,7 +300,7 @@ mousepad_encoding_dialog_set_radio (GtkWidget        *radio,
       label = g_strdup_printf ("%s (%s)", name, charset);
     }
 
-  gtk_button_set_label (GTK_BUTTON (radio), label);
+  gtk_check_button_set_label (GTK_CHECK_BUTTON (radio), label);
 
   /* cleanup */
   g_free (encoded);
@@ -347,7 +350,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
   else
     label = g_strdup_printf (_("%s (%s, partial)"), MOUSEPAD_ENCODING_LABEL_DEFAULT, charset);
 
-  gtk_button_set_label (GTK_BUTTON (dialog->radio_default), label);
+  gtk_check_button_set_label (GTK_CHECK_BUTTON (dialog->radio_default), label);
   mousepad_object_set_data (dialog->radio_default, "encoding", GINT_TO_POINTER (default_encoding));
   g_free (label);
 
@@ -418,7 +421,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
           result = 1 - (default_valid || system_valid || history_valid);
           gtk_combo_box_set_model (GTK_COMBO_BOX (dialog->combo),
                                    GTK_TREE_MODEL (dialog->fallback_store));
-          gtk_button_set_label (GTK_BUTTON (dialog->radio_other), _("Other (partial):"));
+          gtk_check_button_set_label (GTK_CHECK_BUTTON (dialog->radio_other), _("Other (partial):"));
         }
       else
         result = 2 * (1 - (default_valid || system_valid || history_valid));
@@ -455,13 +458,13 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
 
       /* activate history encoding if possible, or the first valid encoding */
       if (history_valid)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->radio_history), TRUE);
+        gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_history), TRUE);
       else if (default_valid)
-        gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (dialog->radio_default));
+        gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_default), TRUE);
       else if (system_valid)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->radio_system), TRUE);
+        gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_system), TRUE);
       else
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->radio_other), TRUE);
+        gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_other), TRUE);
     }
   else
     {
@@ -485,7 +488,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
         }
 
       /* activate the radio button (maybe hidden) */
-      gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (dialog->radio_default));
+      gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_default), TRUE);
     }
 
   return FALSE;
@@ -593,7 +596,7 @@ mousepad_encoding_dialog_button_toggled (GtkWidget              *button,
   MousepadEncoding encoding;
 
   /* ignore inactive buttons */
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
+  if (gtk_check_button_get_active (GTK_CHECK_BUTTON (button)))
     {
       if (button == dialog->radio_other)
         {
