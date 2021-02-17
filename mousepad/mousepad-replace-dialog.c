@@ -90,8 +90,16 @@ G_DEFINE_TYPE (MousepadReplaceDialog, mousepad_replace_dialog, GTK_TYPE_DIALOG)
 static void
 mousepad_replace_dialog_class_init (MousepadReplaceDialogClass *klass)
 {
-  GObjectClass   *gobject_class, *entry_class;
-  GtkBindingSet  *binding_set;
+  GObjectClass     *gobject_class;
+  GtkWidgetClass   *widget_class;
+  GtkApplication   *application;
+  GdkModifierType   accel_mods;
+  guint             n, accel_key;
+  gchar           **accels;
+  const gchar      *actions[] = { "win.edit.cut", "win.edit.copy", "win.edit.paste",
+                                  "win.edit.select-all" };
+  const gchar      *signals[] = { "cut-clipboard", "copy-clipboard", "paste-clipboard",
+                                  "select-all" };
 
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_replace_dialog_finalize;
@@ -106,29 +114,57 @@ mousepad_replace_dialog_class_init (MousepadReplaceDialogClass *klass)
                   MOUSEPAD_TYPE_SEARCH_FLAGS,
                   G_TYPE_STRING, G_TYPE_STRING);
 
-  /* add a reverse-activate signal to GtkEntry */
-  entry_class = g_type_class_ref (GTK_TYPE_ENTRY);
-  binding_set = gtk_binding_set_by_class (entry_class);
-  if (G_LIKELY (g_signal_lookup ("reverse-activate", GTK_TYPE_ENTRY) == 0))
+  /* add an activate-backwards signal to GtkEntry */
+  widget_class = g_type_class_ref (GTK_TYPE_ENTRY);
+  if (G_LIKELY (g_signal_lookup ("activate-backward", GTK_TYPE_ENTRY) == 0))
     {
-      g_signal_new ("reverse-activate", GTK_TYPE_ENTRY, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+      g_signal_new ("activate-backward", GTK_TYPE_ENTRY, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                     0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
-      gtk_binding_entry_add_signal (binding_set, GDK_KEY_Return,
-                                    GDK_SHIFT_MASK, "reverse-activate", 0);
-      gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Enter,
-                                    GDK_SHIFT_MASK, "reverse-activate", 0);
+      gtk_widget_class_add_binding_signal (widget_class, GDK_KEY_Return, GDK_SHIFT_MASK,
+                                           "activate-backward", NULL);
+      gtk_widget_class_add_binding_signal (widget_class, GDK_KEY_KP_Enter, GDK_SHIFT_MASK,
+                                           "activate-backward", NULL);
     }
 
-  /* add a select-all signal to GtkEntry */
-  if (G_LIKELY (g_signal_lookup ("select-all", GTK_TYPE_ENTRY) == 0))
+  g_type_class_unref (widget_class);
+
+  /* add a select-all signal to GtkText (GtkEntry child) */
+  widget_class = g_type_class_ref (GTK_TYPE_TEXT);
+  if (G_LIKELY (g_signal_lookup ("select-all", GTK_TYPE_TEXT) == 0))
     {
-      g_signal_new ("select-all", GTK_TYPE_ENTRY, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+      g_signal_new ("select-all", GTK_TYPE_TEXT, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                     0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
-      gtk_binding_entry_add_signal (binding_set, GDK_KEY_a, GDK_CONTROL_MASK, "select-all", 0);
+      gtk_widget_class_add_binding_signal (widget_class, GDK_KEY_a, GDK_CONTROL_MASK,
+                                           "select-all", NULL);
+    }
+
+  /* make search entry keybindings consistent with those of the text view */
+  application = GTK_APPLICATION (g_application_get_default ());
+  accels = gtk_application_get_accels_for_action (application, "win.edit.delete-selection");
+  if (accels[0] != NULL)
+    {
+      gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
+      gtk_widget_class_add_binding_signal (widget_class, accel_key, accel_mods,
+                                           "delete-from-cursor", "(ui)");
+    }
+
+  g_strfreev (accels);
+
+  for (n = 0; n < G_N_ELEMENTS (actions); n++)
+    {
+      accels = gtk_application_get_accels_for_action (application, actions[n]);
+      if (accels[0] != NULL)
+        {
+          gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
+          gtk_widget_class_add_binding_signal (widget_class, accel_key, accel_mods,
+                                               signals[n], NULL);
+        }
+
+      g_strfreev (accels);
     }
 
   /* cleanup */
-  g_type_class_unref (entry_class);
+  g_type_class_unref (widget_class);
 }
 
 
@@ -174,16 +210,7 @@ mousepad_replace_dialog_update_label (MousepadReplaceDialog *dialog,
 static void
 mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
 {
-  GtkApplication   *application;
-  GtkWindow        *window;
-  GtkBindingSet    *binding_set;
-  GdkModifierType   accel_mods;
-  guint             n, accel_key;
-  gchar           **accels;
-  const gchar      *actions[] = { "win.edit.cut", "win.edit.copy", "win.edit.paste",
-                                  "win.edit.select-all" };
-  const gchar      *signals[] = { "cut-clipboard", "copy-clipboard", "paste-clipboard",
-                                  "select-all" };
+  GtkWindow *window;
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (dialog, mousepad_replace_dialog_post_init, NULL);
@@ -191,41 +218,13 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
   /* setup CSD titlebar */
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
-  /* get the transient parent window and the application */
+  /* get the transient parent window */
   window = gtk_window_get_transient_for (GTK_WINDOW (dialog));
-  application = gtk_window_get_application (window);
 
   /* connect to the "search-completed" parent window signal */
   g_signal_connect_object (window, "search-completed",
                            G_CALLBACK (mousepad_replace_dialog_search_completed),
                            dialog, G_CONNECT_SWAPPED);
-
-  /* make text entries keybindings consistent with those of the text view */
-  binding_set = gtk_binding_set_by_class (g_type_class_peek (GTK_TYPE_ENTRY));
-
-  accels = gtk_application_get_accels_for_action (application, "win.edit.delete-selection");
-  if (accels[0] != NULL)
-    {
-      gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
-      gtk_binding_entry_remove (binding_set, accel_key, accel_mods);
-      gtk_binding_entry_add_signal (binding_set, accel_key, accel_mods, "delete-from-cursor",
-                                    2, GTK_TYPE_DELETE_TYPE, GTK_DELETE_CHARS, G_TYPE_INT, 1);
-    }
-
-  g_strfreev (accels);
-
-  for (n = 0; n < G_N_ELEMENTS (actions); n++)
-    {
-      accels = gtk_application_get_accels_for_action (application, actions[n]);
-      if (accels[0] != NULL)
-        {
-          gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
-          gtk_binding_entry_remove (binding_set, accel_key, accel_mods);
-          gtk_binding_entry_add_signal (binding_set, accel_key, accel_mods, signals[n], 0);
-        }
-
-      g_strfreev (accels);
-    }
 
   /* give the dialog its definite size by setting a fake occurrences label */
   gtk_entry_grab_focus_without_selecting (GTK_ENTRY (dialog->search_entry));
@@ -307,9 +306,9 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
                             G_CALLBACK (mousepad_replace_dialog_entry_changed), dialog);
   g_signal_connect_swapped (dialog->search_entry, "activate",
                             G_CALLBACK (mousepad_replace_dialog_entry_activate), dialog);
-  g_signal_connect_swapped (dialog->search_entry, "reverse-activate",
+  g_signal_connect_swapped (dialog->search_entry, "activate-backward",
                             G_CALLBACK (mousepad_replace_dialog_entry_reverse_activate), dialog);
-  g_signal_connect (dialog->search_entry, "select-all",
+  g_signal_connect (gtk_widget_get_first_child (dialog->search_entry), "select-all",
                     G_CALLBACK (mousepad_replace_dialog_entry_select_all), NULL);
 
   /* bind the sensitivity of the find and replace buttons to the search text length */
@@ -339,7 +338,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   dialog->replace_entry = gtk_bin_get_child (GTK_BIN (combo));
   gtk_widget_set_hexpand (dialog->replace_entry, TRUE);
   gtk_widget_set_vexpand (dialog->replace_entry, TRUE);
-  g_signal_connect (dialog->replace_entry, "select-all",
+  g_signal_connect (gtk_widget_get_first_child (dialog->replace_entry), "select-all",
                     G_CALLBACK (mousepad_replace_dialog_entry_select_all), NULL);
 
   /* search direction */
