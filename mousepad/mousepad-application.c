@@ -1100,7 +1100,7 @@ mousepad_application_open (GApplication  *gapplication,
 
   /* URIs may be invalid when entered by the user */
   for (n = 0; n < n_files; n++)
-    if (mousepad_util_get_path (files[n]) == NULL)
+    if (g_file_peek_path (files[n]) == NULL)
       {
         /* inform the user */
         uri = g_file_get_uri (files[n]);
