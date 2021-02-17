@@ -298,7 +298,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
 
   /* store as an entry widget */
-  dialog->search_entry = gtk_bin_get_child (GTK_BIN (combo));
+  dialog->search_entry = gtk_combo_box_get_child (GTK_COMBO_BOX (combo));
   gtk_widget_set_hexpand (dialog->search_entry, TRUE);
   gtk_widget_set_vexpand (dialog->search_entry, TRUE);
   g_signal_connect_swapped (dialog->search_entry, "changed",
@@ -334,7 +334,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
 
   /* store as an entry widget */
-  dialog->replace_entry = gtk_bin_get_child (GTK_BIN (combo));
+  dialog->replace_entry = gtk_combo_box_get_child (GTK_COMBO_BOX (combo));
   gtk_widget_set_hexpand (dialog->replace_entry, TRUE);
   gtk_widget_set_vexpand (dialog->replace_entry, TRUE);
   g_signal_connect (gtk_widget_get_first_child (dialog->replace_entry), "select-all",
