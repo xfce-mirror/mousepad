@@ -694,7 +694,7 @@ mousepad_encoding_dialog (GtkWindow        *parent,
     *encoding = mousepad_file_get_encoding (dialog->document->file);
 
   /* destroy the dialog */
-  gtk_widget_destroy (GTK_WIDGET (dialog));
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return response;
 }
