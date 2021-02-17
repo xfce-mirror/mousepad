@@ -42,7 +42,11 @@ gchar       *mousepad_util_key_name                         (const gchar        
 gchar       *mousepad_util_escape_underscores               (const gchar                *str);
 
 GtkWidget   *mousepad_util_image_button                     (const gchar                *icon_name,
-                                                             const gchar                *label);
+                                                             const gchar                *label,
+                                                             gint                        margin_start,
+                                                             gint                        margin_end,
+                                                             gint                        margin_top,
+                                                             gint                        margin_bottom);
 
 void         mousepad_util_entry_error                      (GtkWidget                  *widget,
                                                              gboolean                    error);
