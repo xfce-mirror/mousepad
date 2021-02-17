@@ -91,8 +91,6 @@ gchar       *mousepad_util_get_default_font                 (void);
  */
 gchar       *mousepad_util_pango_font_description_to_css    (const PangoFontDescription *font_desc);
 
-const gchar *mousepad_util_get_path                         (GFile                      *file);
-
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_UTIL_H__ */
