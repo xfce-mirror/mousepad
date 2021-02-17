@@ -192,12 +192,14 @@ static void
 mousepad_replace_dialog_update_label (MousepadReplaceDialog *dialog,
                                       GtkWidget             *check)
 {
+  GtkWidget *box, *label;
   gboolean active;
 
-  active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+  active = gtk_check_button_get_active (GTK_CHECK_BUTTON (check));
 
-  gtk_button_set_label (GTK_BUTTON (dialog->replace_button),
-                        active ? _("_Replace All") : _("_Replace"));
+  box = gtk_button_get_child (GTK_BUTTON (dialog->replace_button));
+  label = gtk_widget_get_last_child (box);
+  gtk_label_set_label (GTK_LABEL (label), active ? _("_Replace All") : _("_Replace"));
 }
 
 
@@ -255,16 +257,17 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
                     G_CALLBACK (mousepad_replace_dialog_response), NULL);
 
   /* dialog buttons */
-  dialog->find_button = mousepad_util_image_button ("edit-find", _("_Find"));
+  dialog->find_button = mousepad_util_image_button ("edit-find", _("_Find"), 0, 4, 2, 2);
   gtk_widget_set_can_default (dialog->find_button, TRUE);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
                                 dialog->find_button, MOUSEPAD_RESPONSE_FIND);
 
-  dialog->replace_button = mousepad_util_image_button ("edit-find-replace", _("_Replace"));
+  dialog->replace_button = mousepad_util_image_button ("edit-find-replace",
+                                                       _("_Replace"), 0, 4, 2, 2);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
                                 dialog->replace_button, MOUSEPAD_RESPONSE_REPLACE);
 
-  button = mousepad_util_image_button ("window-close", _("_Close"));
+  button = mousepad_util_image_button ("window-close", _("_Close"), 0, 4, 2, 2);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_CLOSE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_FIND);
 
