@@ -1205,7 +1205,7 @@ mousepad_window_init (MousepadWindow *window)
 
   /* create the main table */
   window->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-  gtk_container_add (GTK_CONTAINER (window), window->box);
+  gtk_window_set_child (GTK_WINDOW (window), window->box);
   gtk_widget_show (window->box);
 
   /* keep a place for the menubar and the toolbar created later */
