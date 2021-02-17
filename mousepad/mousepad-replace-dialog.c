@@ -471,7 +471,7 @@ mousepad_replace_dialog_response (GtkWidget *widget,
   /* close dialog */
   if (response_id == MOUSEPAD_RESPONSE_CLOSE || response_id < 0)
     {
-      gtk_widget_destroy (widget);
+      gtk_window_destroy (GTK_WINDOW (dialog));
       return;
     }
 
