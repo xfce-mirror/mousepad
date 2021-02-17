@@ -2437,7 +2437,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   if (gtk_notebook_get_n_pages (notebook) == 0)
     {
       mousepad_window_save_geometry (GTK_WINDOW (window));
-      gtk_widget_destroy (GTK_WIDGET (window));
+      gtk_window_destroy (GTK_WINDOW (window));
     }
   /* change the visibility of the tabs accordingly */
   else
@@ -4785,7 +4785,7 @@ mousepad_window_action_close_window (GSimpleAction *action,
    * dialog at startup */
   if ((npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook))) == 0)
     {
-      gtk_widget_destroy (GTK_WIDGET (window));
+      gtk_window_destroy (GTK_WINDOW (window));
 
       return;
     }
@@ -5389,8 +5389,9 @@ mousepad_window_replace_dialog_destroy (MousepadWindow *window)
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* disconnect tab switch signal */
-  mousepad_disconnect_by_func (window->notebook,
-                               mousepad_window_replace_dialog_switch_page, window);
+  if (! gtk_widget_in_destruction (GTK_WIDGET (window)))
+    mousepad_disconnect_by_func (window->notebook,
+                                 mousepad_window_replace_dialog_switch_page, window);
 
   /* reset the dialog variable */
   window->replace_dialog = NULL;
