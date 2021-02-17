@@ -238,7 +238,7 @@ mousepad_file_set_monitor (gpointer data)
        * https://gitlab.gnome.org/GNOME/glib/-/issues/2421 */
       if (g_file_query_file_type (file->location, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, NULL)
             == G_FILE_TYPE_SYMBOLIC_LINK
-          && (path = realpath (mousepad_util_get_path (file->location), NULL)) != NULL)
+          && (path = realpath (g_file_peek_path (file->location), NULL)) != NULL)
         {
           location = g_file_new_for_path (path);
           g_free (path);
@@ -349,7 +349,7 @@ mousepad_file_get_path (MousepadFile *file)
 {
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), NULL);
 
-  return mousepad_util_get_path (file->location);
+  return g_file_peek_path (file->location);
 }
 
 
