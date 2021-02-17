@@ -1048,15 +1048,15 @@ mousepad_window_create_root_warning (MousepadWindow *window)
   /* check if we need to add the root warning */
   if (G_UNLIKELY (geteuid () == 0))
     {
-      GtkWidget       *ebox, *label, *separator;
+      GtkWidget       *hbox, *label, *separator;
       GtkCssProvider  *provider;
       GtkStyleContext *context;
       const gchar     *css_string;
 
       /* add the box for the root warning */
-      ebox = gtk_event_box_new ();
-      gtk_box_pack_start (GTK_BOX (window->box), ebox, FALSE, TRUE, 0);
-      gtk_widget_show (ebox);
+      hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+      gtk_box_pack_start (GTK_BOX (window->box), hbox, FALSE, TRUE, 0);
+      gtk_widget_show (hbox);
 
       /* add the label with the root warning */
       label = gtk_label_new (_("Warning: you are using the root account. You may harm your system."));
@@ -1064,7 +1064,8 @@ mousepad_window_create_root_warning (MousepadWindow *window)
       gtk_widget_set_margin_end (label, 6);
       gtk_widget_set_margin_top (label, 3);
       gtk_widget_set_margin_bottom (label, 3);
-      gtk_container_add (GTK_CONTAINER (ebox), label);
+      gtk_widget_set_hexpand (label, TRUE);
+      gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
       gtk_widget_show (label);
 
       separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
@@ -1073,8 +1074,8 @@ mousepad_window_create_root_warning (MousepadWindow *window)
 
       /* apply a CSS style to capture the user's attention */
       provider = gtk_css_provider_new ();
-      css_string = "label { background-color: #b4254b; color: #fefefe; }";
-      context = gtk_widget_get_style_context (label);
+      css_string = "box { background-color: #b4254b; color: #fefefe; }";
+      context = gtk_widget_get_style_context (hbox);
       gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
       gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
                                       GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
