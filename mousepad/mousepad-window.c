@@ -434,6 +434,7 @@ struct _MousepadWindow
   /* main window widgets */
   GtkWidget           *box;
   GtkWidget           *menubar_box;
+  GtkWidget           *search_bar_box;
   GtkWidget           *toolbar_box;
   GtkWidget           *menubar;
   GtkWidget           *toolbar;
@@ -442,7 +443,7 @@ struct _MousepadWindow
   GtkWidget           *statusbar;
   GtkWidget           *replace_dialog;
 
-  /* contextual gtkmenus created from the application resources */
+  /* context menus */
   GtkWidget           *textview_menu;
   GtkWidget           *tab_menu;
   GtkWidget           *languages_menu;
@@ -713,23 +714,6 @@ mousepad_window_finalize (GObject *object)
 
 
 static void
-mousepad_window_update_toolbar_properties (MousepadWindow *window,
-                                           gchar          *key,
-                                           GSettings      *settings)
-{
-  GtkToolbarStyle style;
-  GtkIconSize     size;
-
-  style = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE);
-  size = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_ICON_SIZE);
-
-  gtk_toolbar_set_style (GTK_TOOLBAR (window->toolbar), style);
-  gtk_toolbar_set_icon_size (GTK_TOOLBAR (window->toolbar), size);
-}
-
-
-
-static void
 mousepad_window_restore_geometry (MousepadWindow *window)
 {
   /* first restore size */
@@ -758,6 +742,63 @@ mousepad_window_restore_geometry (MousepadWindow *window)
       if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
         g_action_group_activate_action (G_ACTION_GROUP (window), "view.fullscreen", NULL);
     }
+}
+
+
+
+static void
+mousepad_window_action_statusbar_overwrite (MousepadWindow *window,
+                                            gboolean        overwrite)
+{
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+  /* set the new overwrite mode */
+  mousepad_document_set_overwrite (window->active, overwrite);
+}
+
+
+
+static void
+mousepad_window_create_statusbar (MousepadWindow *window)
+{
+  /* setup a new statusbar */
+  window->statusbar = mousepad_statusbar_new ();
+
+  /* update the statusbar visibility and related actions state */
+  mousepad_window_update_bar_visibility (window, STATUSBAR);
+
+  /* pack the statusbar into the window UI */
+  gtk_box_append (GTK_BOX (window->box), window->statusbar);
+
+  /* overwrite toggle signal */
+  g_signal_connect_swapped (window->statusbar, "enable-overwrite",
+                            G_CALLBACK (mousepad_window_action_statusbar_overwrite), window);
+
+  /* connect to some signals to keep in sync */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE, mousepad_window_update_bar_visibility,
+                                   window, G_CONNECT_SWAPPED);
+
+  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE_FULLSCREEN,
+                                   mousepad_window_update_bar_visibility,
+                                   window, G_CONNECT_SWAPPED);
+}
+
+
+
+static void
+mousepad_window_update_toolbar_properties (MousepadWindow *window,
+                                           gchar          *key,
+                                           GSettings      *settings)
+{
+  GtkToolbarStyle style;
+  GtkIconSize     size;
+
+  style = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE);
+  size = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_ICON_SIZE);
+
+  gtk_toolbar_set_style (GTK_TOOLBAR (window->toolbar), style);
+  gtk_toolbar_set_icon_size (GTK_TOOLBAR (window->toolbar), size);
 }
 
 
@@ -973,7 +1014,7 @@ mousepad_window_post_init (MousepadWindow *window)
 
   /* insert the menubar in its previously reserved space */
   gtk_widget_set_hexpand (window->menubar, TRUE);
-  gtk_box_pack_start (GTK_BOX (window->menubar_box), window->menubar, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (window->menubar_box), window->menubar);
 
   /* set tooltips and connect handlers to the menubar items signals */
   mousepad_window_menu_set_tooltips (window, window->menubar, model, NULL);
@@ -995,7 +1036,7 @@ mousepad_window_post_init (MousepadWindow *window)
 
   /* insert the toolbar in its previously reserved space */
   gtk_widget_set_hexpand (window->toolbar, TRUE);
-  gtk_box_pack_start (GTK_BOX (window->toolbar_box), window->toolbar, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (window->toolbar_box), window->toolbar);
 
   /* update the toolbar visibility and related actions state */
   mousepad_window_update_bar_visibility (window, TOOLBAR);
@@ -1022,6 +1063,9 @@ mousepad_window_post_init (MousepadWindow *window)
   MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH, mousepad_window_menu_tab_sizes_update,
                                    window, G_CONNECT_SWAPPED);
 
+  /* create the statusbar */
+  mousepad_window_create_statusbar (window);
+
   /* restore window geometry settings */
   mousepad_window_restore_geometry (window);
 }
@@ -1041,7 +1085,7 @@ mousepad_window_create_root_warning (MousepadWindow *window)
 
       /* add the box for the root warning */
       hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-      gtk_box_pack_start (GTK_BOX (window->box), hbox, FALSE, TRUE, 0);
+      gtk_box_append (GTK_BOX (window->box), hbox);
       gtk_widget_show (hbox);
 
       /* add the label with the root warning */
@@ -1051,11 +1095,11 @@ mousepad_window_create_root_warning (MousepadWindow *window)
       gtk_widget_set_margin_top (label, 3);
       gtk_widget_set_margin_bottom (label, 3);
       gtk_widget_set_hexpand (label, TRUE);
-      gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+      gtk_box_append (GTK_BOX (hbox), label);
       gtk_widget_show (label);
 
       separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-      gtk_box_pack_start (GTK_BOX (window->box), separator, FALSE, TRUE, 0);
+      gtk_box_append (GTK_BOX (window->box), separator);
       gtk_widget_show (separator);
 
       /* apply a CSS style to capture the user's attention */
@@ -1108,48 +1152,8 @@ mousepad_window_create_notebook (MousepadWindow *window)
   gtk_widget_set_margin_top (window->notebook, PADDING);
   gtk_widget_set_margin_bottom (window->notebook, PADDING);
   gtk_widget_set_vexpand (window->notebook, TRUE);
-  gtk_box_pack_start (GTK_BOX (window->box), window->notebook, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (window->box), window->notebook);
   gtk_widget_show (window->notebook);
-}
-
-
-
-static void
-mousepad_window_action_statusbar_overwrite (MousepadWindow *window,
-                                            gboolean        overwrite)
-{
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
-
-  /* set the new overwrite mode */
-  mousepad_document_set_overwrite (window->active, overwrite);
-}
-
-
-
-static void
-mousepad_window_create_statusbar (MousepadWindow *window)
-{
-  /* setup a new statusbar */
-  window->statusbar = mousepad_statusbar_new ();
-
-  /* update the statusbar visibility and related actions state */
-  mousepad_window_update_bar_visibility (window, STATUSBAR);
-
-  /* pack the statusbar into the window UI */
-  gtk_box_pack_end (GTK_BOX (window->box), window->statusbar, FALSE, TRUE, 0);
-
-  /* overwrite toggle signal */
-  g_signal_connect_swapped (window->statusbar, "enable-overwrite",
-                            G_CALLBACK (mousepad_window_action_statusbar_overwrite), window);
-
-  /* connect to some signals to keep in sync */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE, mousepad_window_update_bar_visibility,
-                                   window, G_CONNECT_SWAPPED);
-
-  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE_FULLSCREEN,
-                                   mousepad_window_update_bar_visibility,
-                                   window, G_CONNECT_SWAPPED);
 }
 
 
@@ -1227,13 +1231,13 @@ mousepad_window_init (MousepadWindow *window)
   gtk_container_add (GTK_CONTAINER (window), window->box);
   gtk_widget_show (window->box);
 
-  /* keep a place for the menubar and the toolbar, created later from the application resources */
+  /* keep a place for the menubar and the toolbar created later */
   window->menubar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_box_pack_start (GTK_BOX (window->box), window->menubar_box, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (window->box), window->menubar_box);
   gtk_widget_show (window->menubar_box);
 
   window->toolbar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_box_pack_start (GTK_BOX (window->box), window->toolbar_box, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (window->box), window->toolbar_box);
   gtk_widget_show (window->toolbar_box);
 
   /* create the root-warning bar (if needed) */
@@ -1242,8 +1246,9 @@ mousepad_window_init (MousepadWindow *window)
   /* create the notebook */
   mousepad_window_create_notebook (window);
 
-  /* create the statusbar */
-  mousepad_window_create_statusbar (window);
+  /* keep a place for the search bar created later */
+  window->search_bar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_box_append (GTK_BOX (window->box), window->search_bar_box);
 
   /* defer actions that require the application to be set */
   g_signal_connect (window, "notify::application",
@@ -1614,7 +1619,7 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
       /* either a button or an icon, not both, with an end margin when needed */
       if (button != NULL)
         {
-          gtk_box_pack_start (GTK_BOX (box), button, FALSE, TRUE, 0);
+          gtk_box_append (GTK_BOX (box), button);
           if (! toggle)
             gtk_widget_set_margin_end (button, 6);
         }
@@ -1623,12 +1628,12 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
           icon = gtk_image_new_from_icon_name ("", GTK_ICON_SIZE_BUTTON);
           gtk_widget_set_margin_end (icon, 6);
           gtk_widget_show (icon);
-          gtk_box_pack_start (GTK_BOX (box), icon, FALSE, TRUE, 0);
+          gtk_box_append (GTK_BOX (box), icon);
         }
 
       /* put the packed label back in place */
       gtk_widget_set_hexpand (label, TRUE);
-      gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
+      gtk_box_append (GTK_BOX (box), label);
       g_object_unref (label);
     }
   else
@@ -1659,7 +1664,7 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
       /* hide icon if there is a button, no extra margin here */
       if (button != NULL)
         {
-          gtk_box_pack_start (GTK_BOX (box), button, FALSE, TRUE, 0);
+          gtk_box_append (GTK_BOX (box), button);
           gtk_widget_hide (icon);
           if (toggle)
             gtk_box_set_spacing (GTK_BOX (box), 0);
@@ -4074,14 +4079,14 @@ mousepad_window_paste_history_menu_item (const gchar *text,
   /* create the clipboard label */
   label = gtk_label_new (label_str);
   gtk_widget_set_hexpand (label, TRUE);
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_widget_show (label);
 
   /* create the mnemonic label */
   label = gtk_label_new_with_mnemonic (mnemonic);
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_label_set_xalign (GTK_LABEL (label), 1.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), item);
@@ -5375,7 +5380,7 @@ mousepad_window_action_find (GSimpleAction *action,
       window->search_bar = mousepad_search_bar_new ();
       gtk_widget_set_margin_top (window->search_bar, PADDING);
       gtk_widget_set_margin_bottom (window->search_bar, PADDING);
-      gtk_box_pack_start (GTK_BOX (window->box), window->search_bar, FALSE, TRUE, 0);
+      gtk_box_append (GTK_BOX (window->search_bar_box), window->search_bar);
 
       /* connect signals */
       g_signal_connect_swapped (window->search_bar, "hide-bar",
