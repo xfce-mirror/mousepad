@@ -239,7 +239,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   gtk_container_forall (GTK_CONTAINER (bar->box), mousepad_search_bar_hide_box_button, NULL);
   gtk_box_append (GTK_BOX (box), bar->box);
 
-  bar->entry = gtk_bin_get_child (GTK_BIN (bar->box));
+  bar->entry = gtk_combo_box_get_child (GTK_COMBO_BOX (bar->box));
   gtk_widget_set_hexpand (bar->entry, FALSE);
   g_signal_connect_swapped (bar->entry, "changed",
                             G_CALLBACK (mousepad_search_bar_entry_changed), bar);
