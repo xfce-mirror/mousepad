@@ -22,9 +22,7 @@
 #define ICON_NAME_MODIFIED "media-record-symbolic"
 #define ICON_NAME_UNMODIFIED "window-close"
 
-#define mousepad_close_button_set_icon_name(button, icon_name) \
-  gtk_image_set_from_icon_name (GTK_IMAGE (gtk_button_get_image (GTK_BUTTON (button))), \
-                                icon_name, GTK_ICON_SIZE_MENU);
+
 
 /* GObject virtual functions */
 static void     mousepad_close_button_finalize           (GObject          *object);
@@ -66,7 +64,7 @@ mousepad_close_button_motion_enter_event (GtkEventControllerMotion *controller,
                                           MousepadCloseButton      *button)
 {
   if (gtk_text_buffer_get_modified (button->buffer))
-    mousepad_close_button_set_icon_name (button, ICON_NAME_UNMODIFIED);
+    gtk_button_set_icon_name (GTK_BUTTON (button), ICON_NAME_UNMODIFIED);
 }
 
 
@@ -78,7 +76,7 @@ mousepad_close_button_motion_leave_event (GtkEventControllerMotion *controller,
                                           MousepadCloseButton      *button)
 {
   if (gtk_text_buffer_get_modified (button->buffer))
-    mousepad_close_button_set_icon_name (button, ICON_NAME_MODIFIED);
+    gtk_button_set_icon_name (GTK_BUTTON (button), ICON_NAME_MODIFIED);
 }
 
 
@@ -86,7 +84,6 @@ mousepad_close_button_motion_leave_event (GtkEventControllerMotion *controller,
 static void
 mousepad_close_button_init (MousepadCloseButton *button)
 {
-  GtkWidget          *image;
   GtkCssProvider     *css_provider;
   GtkStyleContext    *context;
   GtkEventController *controller;
@@ -113,10 +110,6 @@ mousepad_close_button_init (MousepadCloseButton *button)
                     G_CALLBACK (mousepad_close_button_motion_enter_event), button);
   g_signal_connect (controller, "leave",
                     G_CALLBACK (mousepad_close_button_motion_leave_event), button);
-
-  image = gtk_image_new_from_icon_name (NULL, GTK_ICON_SIZE_MENU);
-  g_object_set (button, "relief", GTK_RELIEF_NONE, "focus-on-click", FALSE,
-                "always-show-image", TRUE, "image", image, NULL);
 }
 
 
@@ -140,7 +133,7 @@ mousepad_close_button_modified_changed (GtkTextBuffer       *buffer,
   const gchar *icon_name;
 
   icon_name = gtk_text_buffer_get_modified (buffer) ? ICON_NAME_MODIFIED : ICON_NAME_UNMODIFIED;
-  mousepad_close_button_set_icon_name (button, icon_name);
+  gtk_button_set_icon_name (GTK_BUTTON (button), icon_name);
 }
 
 
@@ -150,7 +143,8 @@ mousepad_close_button_new (GtkTextBuffer *buffer)
 {
   MousepadCloseButton *button;
 
-  button = g_object_new (MOUSEPAD_TYPE_CLOSE_BUTTON, NULL);
+  button = g_object_new (MOUSEPAD_TYPE_CLOSE_BUTTON, "focus-on-click", FALSE,
+                         "has-frame", FALSE, NULL);
   button->buffer = g_object_ref (buffer);
   mousepad_close_button_modified_changed (buffer, button);
   g_signal_connect_object (buffer, "modified-changed",
