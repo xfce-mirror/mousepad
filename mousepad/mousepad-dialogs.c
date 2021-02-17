@@ -221,7 +221,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* add button */
-  button = mousepad_util_image_button ("go-jump", _("_Jump to"));
+  button = mousepad_util_image_button ("go-jump", _("_Jump to"), 4, 4, 0, 0);
   gtk_widget_set_can_default (button, TRUE);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_JUMP_TO);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_JUMP_TO);
@@ -339,7 +339,7 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
                           MOUSEPAD_RESPONSE_CANCEL, NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
-  button = mousepad_util_image_button ("edit-clear", _("Clea_r"));
+  button = mousepad_util_image_button ("edit-clear", _("Clea_r"), 4, 4, 0, 0);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_CLEAR);
 
   /* popup the dialog */
@@ -384,22 +384,21 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
 
   if (G_LIKELY (closing))
     {
-      gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
-                                    mousepad_util_image_button ("edit-delete", _("_Don't Save")),
-                                    MOUSEPAD_RESPONSE_DONT_SAVE);
+      button = mousepad_util_image_button ("edit-delete", _("_Don't Save"), 4, 4, 0, 0);
+      gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_DONT_SAVE);
 
       /* we show different text and save button depending on the file status */
       if (G_UNLIKELY (readonly))
         {
           text = _("If you don't save this read-only document as another file"
                    ", all the changes will be lost.");
-          button = mousepad_util_image_button ("document-save-as", MOUSEPAD_LABEL_SAVE_AS);
+          button = mousepad_util_image_button ("document-save-as", MOUSEPAD_LABEL_SAVE_AS, 0, 4, 0, 0);
           button_response = MOUSEPAD_RESPONSE_SAVE_AS;
         }
       else
         {
           text = _("If you don't save the document, all the changes will be lost.");
-          button = mousepad_util_image_button ("document-save", MOUSEPAD_LABEL_SAVE);
+          button = mousepad_util_image_button ("document-save", MOUSEPAD_LABEL_SAVE, 0, 4, 0, 0);
           button_response = MOUSEPAD_RESPONSE_SAVE;
         }
 
@@ -408,7 +407,7 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
     }
   else
     {
-      button = mousepad_util_image_button ("document-save-as", MOUSEPAD_LABEL_SAVE_AS);
+      button = mousepad_util_image_button ("document-save-as", MOUSEPAD_LABEL_SAVE_AS, 0, 4, 0, 0);
       button_response = MOUSEPAD_RESPONSE_SAVE_AS;
     }
 
@@ -482,12 +481,12 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
                           MOUSEPAD_RESPONSE_CANCEL, NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
-  button = mousepad_util_image_button (icon, label);
+  button = mousepad_util_image_button (icon, label, 4, 0, 0, 0);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, button_response);
 
   if (saving)
     {
-      button = mousepad_util_image_button ("document-save", MOUSEPAD_LABEL_SAVE);
+      button = mousepad_util_image_button ("document-save", MOUSEPAD_LABEL_SAVE, 4, 0, 0, 0);
       gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
     }
 
@@ -527,10 +526,10 @@ mousepad_dialogs_revert (GtkWindow *parent)
                           MOUSEPAD_RESPONSE_CANCEL, NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
-  button = mousepad_util_image_button ("document-save-as", MOUSEPAD_LABEL_SAVE_AS);
+  button = mousepad_util_image_button ("document-save-as", MOUSEPAD_LABEL_SAVE_AS, 4, 4, 0, 0);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
 
-  button = mousepad_util_image_button ("document-revert", MOUSEPAD_LABEL_REVERT);
+  button = mousepad_util_image_button ("document-revert", MOUSEPAD_LABEL_REVERT, 0, 0, 0, 0);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_RELOAD);
 
   /* run the dialog */
@@ -1140,7 +1139,7 @@ mousepad_dialogs_save_as (GtkWindow         *parent,
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* add button */
-  button = mousepad_util_image_button ("document-save", MOUSEPAD_LABEL_SAVE);
+  button = mousepad_util_image_button ("document-save", MOUSEPAD_LABEL_SAVE, 4, 0, 0, 0);
   gtk_widget_set_can_default (button, TRUE);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
 
@@ -1203,7 +1202,7 @@ mousepad_dialogs_open (GtkWindow         *parent,
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* add button */
-  button = mousepad_util_image_button ("document-open", _("_Open"));
+  button = mousepad_util_image_button ("document-open", _("_Open"), 4, 0, 0, 0);
   gtk_widget_set_can_default (button, TRUE);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
 
