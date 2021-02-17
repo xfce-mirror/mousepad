@@ -51,7 +51,6 @@ enum
 enum
 {
   NEW_WINDOW,
-  NEW_WINDOW_WITH_DOCUMENT,
   SEARCH_COMPLETED,
   LAST_SIGNAL
 };
@@ -138,8 +137,6 @@ static void              mousepad_window_notebook_removed             (GtkNotebo
                                                                        MousepadWindow           *window);
 static GtkNotebook      *mousepad_window_notebook_create_window       (GtkNotebook              *notebook,
                                                                        GtkWidget                *page,
-                                                                       gint                      x,
-                                                                       gint                      y,
                                                                        MousepadWindow           *window);
 static void              mousepad_window_notebook_button_pressed      (GtkGestureClick          *gesture_click,
                                                                        int                       n_press,
@@ -607,12 +604,7 @@ mousepad_window_class_init (MousepadWindowClass *klass)
 
   window_signals[NEW_WINDOW] =
     g_signal_new (I_("new-window"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
-
-  window_signals[NEW_WINDOW_WITH_DOCUMENT] =
-    g_signal_new (I_("new-window-with-document"), G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST, 0, NULL, NULL, _mousepad_marshal_VOID__OBJECT_INT_INT,
-                  G_TYPE_NONE, 3, G_TYPE_OBJECT, G_TYPE_INT, G_TYPE_INT);
+                  0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1, G_TYPE_OBJECT);
 
   window_signals[SEARCH_COMPLETED] =
     g_signal_new (I_("search-completed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
@@ -1973,10 +1965,9 @@ mousepad_window_add (MousepadWindow   *window,
   /* insert the page right of the active tab */
   page = gtk_notebook_insert_page (notebook, widget, label, prev_page + 1);
 
-  /* set tab child properties */
-  gtk_container_child_set (GTK_CONTAINER (notebook), widget, "tab-expand", TRUE, NULL);
-  gtk_notebook_set_tab_reorderable (notebook, widget, TRUE);
-  gtk_notebook_set_tab_detachable (notebook, widget, TRUE);
+  /* set notebook page properties */
+  g_object_set (gtk_notebook_get_page (notebook, widget),
+                "tab-expand", TRUE, "reorderable", TRUE, "detachable", TRUE, NULL);
 
   /* show the document */
   gtk_widget_show (widget);
@@ -2445,8 +2436,6 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
 static GtkNotebook *
 mousepad_window_notebook_create_window (GtkNotebook    *notebook,
                                         GtkWidget      *page,
-                                        gint            x,
-                                        gint            y,
                                         MousepadWindow *window)
 {
   MousepadDocument *document;
@@ -2467,7 +2456,7 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
       gtk_notebook_detach_tab (GTK_NOTEBOOK (window->notebook), page);
 
       /* emit the new window with document signal */
-      g_signal_emit (window, window_signals[NEW_WINDOW_WITH_DOCUMENT], 0, document, x, y);
+      g_signal_emit (window, window_signals[NEW_WINDOW], 0, document);
 
       /* release our reference */
       g_object_unref (document);
@@ -4033,7 +4022,7 @@ mousepad_window_action_new_window (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* emit the new window signal */
-  g_signal_emit (data, window_signals[NEW_WINDOW], 0);
+  g_signal_emit (data, window_signals[NEW_WINDOW], 0, NULL);
 }
 
 
@@ -4591,8 +4580,7 @@ mousepad_window_action_detach (GSimpleAction *action,
 
   /* invoke function without cooridinates */
   mousepad_window_notebook_create_window (GTK_NOTEBOOK (window->notebook),
-                                          GTK_WIDGET (window->active),
-                                          -1, -1, window);
+                                          GTK_WIDGET (window->active), window);
 }
 
 
