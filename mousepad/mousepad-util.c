@@ -1176,43 +1176,13 @@ mousepad_util_pango_font_description_to_css (const PangoFontDescription *font_de
 
 
 
-/* to be replaced by g_file_peek_path() when bumping GLib minimal version to 2.56 or higher */
-const gchar *
-mousepad_util_get_path (GFile *file)
-{
-#if ! GLIB_CHECK_VERSION (2, 56, 0)
-  gchar       *path;
-  const gchar *intern_path;
-#endif
-
-  g_return_val_if_fail (G_IS_FILE (file), NULL);
-
-#if GLIB_CHECK_VERSION (2, 56, 0)
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-
-  return g_file_peek_path (file);
-
-G_GNUC_END_IGNORE_DEPRECATIONS
-#else
-
-  path = g_file_get_path (file);
-  intern_path = g_intern_string (path);
-  g_free (path);
-
-  return intern_path;
-
-#endif
-}
-
-
-
 gboolean
 mousepad_util_query_exists (GFile    *file,
                             gboolean  follow_symlink)
 {
   const gchar *path;
 
-  if (follow_symlink && (path = mousepad_util_get_path (file)) != NULL)
+  if (follow_symlink && (path = g_file_peek_path (file)) != NULL)
     return g_file_test (path, G_FILE_TEST_EXISTS);
   else
     return g_file_query_exists (file, NULL);
