@@ -244,9 +244,10 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   /* the entry field */
   bar->box = gtk_combo_box_text_new_with_entry ();
   gtk_container_forall (GTK_CONTAINER (bar->box), mousepad_search_bar_hide_box_button, NULL);
-  gtk_box_pack_start (GTK_BOX (box), bar->box, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (box), bar->box);
 
   bar->entry = gtk_bin_get_child (GTK_BIN (bar->box));
+  gtk_widget_set_hexpand (bar->entry, FALSE);
   g_signal_connect_swapped (bar->entry, "changed",
                             G_CALLBACK (mousepad_search_bar_entry_changed), bar);
   g_signal_connect_swapped (bar->entry, "activate",
@@ -269,13 +270,13 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   widget = gtk_button_new_from_icon_name ("go-up-symbolic", GTK_ICON_SIZE_MENU);
   gtk_widget_set_can_focus (widget, FALSE);
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_previous), bar);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (box), widget);
 
   /* next button */
   widget = gtk_button_new_from_icon_name ("go-down-symbolic", GTK_ICON_SIZE_MENU);
   gtk_widget_set_can_focus (widget, FALSE);
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_next), bar);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (box), widget);
 
   /* check button for case sensitive, including the proxy menu item */
   widget = gtk_check_button_new_with_mnemonic (_("Match _case"));
@@ -345,11 +346,11 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   widget = gtk_label_new (NULL);
   gtk_style_context_add_class (gtk_widget_get_style_context (widget), GTK_STYLE_CLASS_DIM_LABEL);
   g_object_bind_property (bar->hits_label, "label", widget, "label", G_BINDING_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (box), widget);
 
   widget = gtk_spinner_new ();
   g_object_bind_property (bar->spinner, "active", widget, "active", G_BINDING_DEFAULT);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (box), widget);
 
   /* show all widgets but the search bar */
   gtk_widget_show_all (GTK_WIDGET (bar));
