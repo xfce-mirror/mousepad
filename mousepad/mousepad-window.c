@@ -51,7 +51,6 @@ enum
 enum
 {
   NEW_WINDOW,
-  NEW_WINDOW_WITH_DOCUMENT,
   SEARCH_COMPLETED,
   LAST_SIGNAL
 };
@@ -135,8 +134,6 @@ static void              mousepad_window_notebook_removed             (GtkNotebo
                                                                        MousepadWindow           *window);
 static GtkNotebook      *mousepad_window_notebook_create_window       (GtkNotebook              *notebook,
                                                                        GtkWidget                *page,
-                                                                       gint                      x,
-                                                                       gint                      y,
                                                                        MousepadWindow           *window);
 static void              mousepad_window_notebook_button_pressed      (GtkGestureClick          *gesture_click,
                                                                        int                       n_press,
@@ -616,12 +613,7 @@ mousepad_window_class_init (MousepadWindowClass *klass)
 
   window_signals[NEW_WINDOW] =
     g_signal_new (I_("new-window"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
-
-  window_signals[NEW_WINDOW_WITH_DOCUMENT] =
-    g_signal_new (I_("new-window-with-document"), G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST, 0, NULL, NULL, _mousepad_marshal_VOID__OBJECT_INT_INT,
-                  G_TYPE_NONE, 3, G_TYPE_OBJECT, G_TYPE_INT, G_TYPE_INT);
+                  0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1, G_TYPE_OBJECT);
 
   window_signals[SEARCH_COMPLETED] =
     g_signal_new (I_("search-completed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
@@ -2000,12 +1992,13 @@ mousepad_window_add (MousepadWindow   *window,
                      MousepadDocument *document)
 {
   MousepadDocument *prev_active = window->active;
+  GtkNotebook      *notebook = GTK_NOTEBOOK (window->notebook);
   GtkWidget        *label;
   gint              prev_page, page;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-  g_return_if_fail (GTK_IS_NOTEBOOK (window->notebook));
+  g_return_if_fail (GTK_IS_NOTEBOOK (notebook));
 
   /* receive the document occurrences count */
   g_signal_connect_swapped (document, "search-completed",
@@ -2015,17 +2008,14 @@ mousepad_window_add (MousepadWindow   *window,
   label = mousepad_document_get_tab_label (document);
 
   /* get active page */
-  prev_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (window->notebook));
+  prev_page = gtk_notebook_get_current_page (notebook);
 
   /* insert the page right of the active tab */
-  page = gtk_notebook_insert_page (GTK_NOTEBOOK (window->notebook),
-                                   GTK_WIDGET (document), label, prev_page + 1);
+  page = gtk_notebook_insert_page (notebook, GTK_WIDGET (document), label, prev_page + 1);
 
-  /* set tab child properties */
-  gtk_container_child_set (GTK_CONTAINER (window->notebook),
-                           GTK_WIDGET (document), "tab-expand", TRUE, NULL);
-  gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (window->notebook), GTK_WIDGET (document), TRUE);
-  gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (window->notebook), GTK_WIDGET (document), TRUE);
+  /* set notebook page properties */
+  g_object_set (gtk_notebook_get_page (notebook, GTK_WIDGET (document)),
+                "tab-expand", TRUE, "reorderable", TRUE, "detachable", TRUE, NULL);
 
   /* show the document */
   gtk_widget_show (GTK_WIDGET (document));
@@ -2034,13 +2024,13 @@ mousepad_window_add (MousepadWindow   *window,
   if (G_LIKELY (prev_active != NULL))
     {
       /* switch to the new tab */
-      gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), page);
+      gtk_notebook_set_current_page (notebook, page);
 
       /* remove the previous tab if it was not modified, untitled and the new tab is not untitled */
       if (! gtk_text_buffer_get_modified (prev_active->buffer)
           && ! mousepad_file_location_is_set (prev_active->file)
           && mousepad_file_location_is_set (document->file))
-        gtk_notebook_remove_page (GTK_NOTEBOOK (window->notebook), prev_page);
+        gtk_notebook_remove_page (notebook, prev_page);
     }
 
   /* make sure the textview is focused in the new document */
@@ -2469,8 +2459,6 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
 static GtkNotebook *
 mousepad_window_notebook_create_window (GtkNotebook    *notebook,
                                         GtkWidget      *page,
-                                        gint            x,
-                                        gint            y,
                                         MousepadWindow *window)
 {
   MousepadDocument *document;
@@ -2491,7 +2479,7 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
       gtk_notebook_detach_tab (GTK_NOTEBOOK (window->notebook), page);
 
       /* emit the new window with document signal */
-      g_signal_emit (window, window_signals[NEW_WINDOW_WITH_DOCUMENT], 0, document, x, y);
+      g_signal_emit (window, window_signals[NEW_WINDOW], 0, document);
 
       /* release our reference */
       g_object_unref (document);
@@ -4195,7 +4183,7 @@ mousepad_window_action_new_window (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* emit the new window signal */
-  g_signal_emit (data, window_signals[NEW_WINDOW], 0);
+  g_signal_emit (data, window_signals[NEW_WINDOW], 0, NULL);
 }
 
 
@@ -4757,8 +4745,7 @@ mousepad_window_action_detach (GSimpleAction *action,
 
   /* invoke function without cooridinates */
   mousepad_window_notebook_create_window (GTK_NOTEBOOK (window->notebook),
-                                          GTK_WIDGET (window->active),
-                                          -1, -1, window);
+                                          GTK_WIDGET (window->active), window);
 }
 
 
