@@ -519,7 +519,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
           widget = gtk_frame_new (NULL);
           gtk_frame_set_label_widget (GTK_FRAME (widget), child);
           gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
-          gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+          gtk_box_append (GTK_BOX (box), widget);
 
           grid = gtk_grid_new ();
           gtk_grid_set_column_spacing (GTK_GRID (grid), 6);
@@ -578,7 +578,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* add the Glade/GtkBuilder notebook into this dialog */
   box = gtk_dialog_get_content_area (GTK_DIALOG (self));
   widget = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (box), widget);
   gtk_widget_show (widget);
 
   /* add the close button */
