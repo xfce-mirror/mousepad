@@ -100,7 +100,7 @@ mousepad_dialogs_show_error (GtkWindow    *parent,
   gtk_dialog_run (GTK_DIALOG (dialog));
 
   /* cleanup */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 }
 
 
@@ -139,7 +139,7 @@ mousepad_dialogs_other_tab_size (GtkWindow *parent,
     active_size = gtk_range_get_value (GTK_RANGE (scale));
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return active_size;
 }
@@ -297,7 +297,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
     }
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return (response == MOUSEPAD_RESPONSE_JUMP_TO);
 }
@@ -369,7 +369,7 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
     succeed = TRUE;
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return succeed;
 }
@@ -455,7 +455,7 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   response = gtk_dialog_run (GTK_DIALOG (dialog));
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return response;
 }
@@ -526,7 +526,7 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
   response = gtk_dialog_run (GTK_DIALOG (dialog));
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return response;
 }
@@ -563,7 +563,7 @@ mousepad_dialogs_revert (GtkWindow *parent)
   response = gtk_dialog_run (GTK_DIALOG (dialog));
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return response;
 }
@@ -597,7 +597,7 @@ mousepad_dialogs_confirm_encoding (const gchar *charset,
   response = gtk_dialog_run (GTK_DIALOG (dialog));
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return response;
 }
@@ -972,7 +972,7 @@ mousepad_dialogs_save_as (GtkWindow         *parent,
     }
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return response;
 }
@@ -1027,7 +1027,7 @@ mousepad_dialogs_open (GtkWindow         *parent,
     }
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return response;
 }
@@ -1068,5 +1068,5 @@ mousepad_dialogs_select_font (GtkWindow *parent)
     }
 
   /* destroy the dialog */
-  gtk_widget_destroy (dialog);
+  gtk_window_destroy (GTK_WINDOW (dialog));
 }
