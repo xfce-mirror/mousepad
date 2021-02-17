@@ -137,7 +137,7 @@ mousepad_prefs_dialog_remove_setting_box (gpointer popover)
   GtkWidget *child;
 
   if ((child = gtk_popover_get_child (popover)) != NULL)
-    gtk_container_remove (popover, child);
+    gtk_popover_set_child (popover, NULL);
 }
 
 
@@ -158,7 +158,7 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
   if (box != NULL && ! visible)
     {
       popover = gtk_popover_new (button);
-      gtk_container_add (GTK_CONTAINER (popover), box);
+      gtk_popover_set_child (GTK_POPOVER (popover), box);
       g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_show), popover);
       g_signal_connect_swapped (button, "destroy",
                                 G_CALLBACK (mousepad_prefs_dialog_remove_setting_box),
@@ -239,7 +239,7 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
           gtk_widget_set_margin_end (grid, 6);
           gtk_widget_set_margin_top (grid, 6);
           gtk_widget_set_margin_bottom (grid, 6);
-          gtk_container_add (GTK_CONTAINER (widget), grid);
+          gtk_frame_set_child (GTK_FRAME (widget), grid);
 
           /* show all widgets in the frame */
           gtk_widget_show_all (widget);
@@ -261,7 +261,7 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
 
       gtk_accel_label_set_accel (GTK_ACCEL_LABEL (child), key, mods);
       g_strfreev (accels);
-      gtk_container_add (GTK_CONTAINER (widget), child);
+      gtk_widget_insert_after (child, widget, NULL);
 
       /* add a prefs button to the grid */
       child = gtk_button_new_from_icon_name ("preferences-system", GTK_ICON_SIZE_BUTTON);
