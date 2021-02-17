@@ -269,7 +269,7 @@ mousepad_file_set_monitor (gpointer data)
       if ((file->symlink = mousepad_util_is_symlink (file->location)))
         {
           /* try to get the final target */
-          path = realpath (mousepad_util_get_path (file->location), NULL);
+          path = realpath (g_file_peek_path (file->location), NULL);
 
           /* this is a broken link: we have to use readlink() to get the final target */
           if (path == NULL && g_file_error_from_errno (errno) == G_FILE_ERROR_NOENT)
@@ -427,7 +427,7 @@ mousepad_file_get_path (MousepadFile *file)
 {
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), NULL);
 
-  return mousepad_util_get_path (file->location);
+  return g_file_peek_path (file->location);
 }
 
 
