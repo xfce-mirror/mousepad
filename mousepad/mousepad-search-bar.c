@@ -178,10 +178,12 @@ static void
 mousepad_search_bar_hide_box_button (GtkWidget *widget,
                                      gpointer   data)
 {
-  if (GTK_IS_BOX (widget))
-    gtk_container_forall (GTK_CONTAINER (widget), mousepad_search_bar_hide_box_button, NULL);
-  else if (GTK_IS_BUTTON (widget))
+  if (GTK_IS_BUTTON (widget))
     gtk_widget_hide (widget);
+  else
+    for (GtkWidget *child = gtk_widget_get_first_child (widget); child != NULL;
+         child = gtk_widget_get_next_sibling (child))
+      mousepad_search_bar_hide_box_button (child, data);
 }
 
 
@@ -236,7 +238,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
 
   /* the entry field */
   bar->box = gtk_combo_box_text_new_with_entry ();
-  gtk_container_forall (GTK_CONTAINER (bar->box), mousepad_search_bar_hide_box_button, NULL);
+  mousepad_search_bar_hide_box_button (bar->box, NULL);
   gtk_box_append (GTK_BOX (box), bar->box);
 
   bar->entry = gtk_combo_box_get_child (GTK_COMBO_BOX (bar->box));
