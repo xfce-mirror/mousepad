@@ -501,7 +501,7 @@ mousepad_document_location_changed (MousepadDocument *document,
   g_return_if_fail (file != NULL);
 
   /* convert the title into a utf-8 valid version for display */
-  utf8_filename = g_filename_to_utf8 (mousepad_util_get_path (file), -1, NULL, NULL, NULL);
+  utf8_filename = g_filename_to_utf8 (g_file_peek_path (file), -1, NULL, NULL, NULL);
   if (G_LIKELY (utf8_filename))
     {
       /* create a shorter display filename: replace $HOME with a tilde if user is not root */
