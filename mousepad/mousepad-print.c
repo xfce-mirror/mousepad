@@ -625,7 +625,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_show (label);
 
   button = mousepad_util_image_button ("document-properties",
-                                       _("_Adjust page size and orientation"));
+                                       _("_Adjust page size and orientation"), 0, 0, 0, 0);
   g_signal_connect (button, "clicked", G_CALLBACK (mousepad_print_page_setup_dialog), operation);
   gtk_widget_set_halign (button, GTK_ALIGN_START);
   gtk_widget_set_margin_start (button, 12);
@@ -656,16 +656,15 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
 
   button = print->widget_page_headers =
     gtk_check_button_new_with_mnemonic (_("Print page _headers"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-                                gtk_source_print_compositor_get_print_header (print->compositor));
+  gtk_check_button_set_active (GTK_CHECK_BUTTON (button),
+                               gtk_source_print_compositor_get_print_header (print->compositor));
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_append (GTK_BOX (vbox2), button);
   gtk_widget_show (button);
 
   button = print->widget_line_numbers =
     gtk_check_button_new_with_mnemonic (_("Print _line numbers"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-                                print->print_line_numbers);
+  gtk_check_button_set_active (GTK_CHECK_BUTTON (button), print->print_line_numbers);
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_append (GTK_BOX (vbox2), button);
   gtk_widget_show (button);
@@ -701,17 +700,17 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
 
   button = print->widget_text_wrapping =
     gtk_check_button_new_with_mnemonic (_("Enable text _wrapping"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-                                gtk_source_print_compositor_get_wrap_mode (print->compositor)
-                                  == GTK_WRAP_NONE ? FALSE : TRUE);
+  gtk_check_button_set_active (GTK_CHECK_BUTTON (button),
+                               gtk_source_print_compositor_get_wrap_mode (print->compositor)
+                                 == GTK_WRAP_NONE ? FALSE : TRUE);
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_append (GTK_BOX (vbox2), button);
   gtk_widget_show (button);
 
   button = print->widget_syntax_highlighting =
     gtk_check_button_new_with_mnemonic (_("Enable _syntax highlighting"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-                                gtk_source_print_compositor_get_highlight_syntax (print->compositor));
+  gtk_check_button_set_active (GTK_CHECK_BUTTON (button),
+                               gtk_source_print_compositor_get_highlight_syntax (print->compositor));
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_append (GTK_BOX (vbox2), button);
   gtk_widget_show (button);
