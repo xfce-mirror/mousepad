@@ -1315,7 +1315,7 @@ mousepad_application_open (GApplication *gapplication,
         gtk_window_present (GTK_WINDOW (window));
       /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
       else if (G_LIKELY (mousepad_is_application_window (window)) && opened < 0)
-        gtk_widget_destroy (window);
+        gtk_window_destroy (GTK_WINDOW (window));
     }
   /* open the files in windows */
   else
@@ -1335,7 +1335,7 @@ mousepad_application_open (GApplication *gapplication,
             gtk_widget_show (window);
           /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
           else if (G_LIKELY (mousepad_is_application_window (window)))
-            gtk_widget_destroy (window);
+            gtk_window_destroy (GTK_WINDOW (window));
         }
     }
 }
@@ -1414,12 +1414,12 @@ mousepad_application_shutdown (GApplication *gapplication)
 
   /* destroy the preferences dialog */
   if (application->prefs_dialog != NULL)
-    gtk_widget_destroy (application->prefs_dialog);
+    gtk_window_destroy (GTK_WINDOW (application->prefs_dialog));
 
   /* destroy the windows if they are still opened */
   windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (application)));
   for (window = windows; window != NULL; window = window->next)
-    gtk_widget_destroy (window->data);
+    gtk_window_destroy (window->data);
 
   g_list_free (windows);
 
@@ -1792,7 +1792,7 @@ mousepad_application_prefs_dialog_response (MousepadApplication *application,
                                             gint response_id,
                                             MousepadPrefsDialog *dialog)
 {
-  gtk_widget_destroy (application->prefs_dialog);
+  gtk_window_destroy (GTK_WINDOW (application->prefs_dialog));
   application->prefs_dialog = NULL;
 
   /* decrease application use count, if needed */
