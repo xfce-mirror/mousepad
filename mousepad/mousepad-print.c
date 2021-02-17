@@ -581,7 +581,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_set_margin_end (vbox2, 6);
   gtk_widget_set_margin_top (vbox2, 6);
   gtk_widget_set_margin_bottom (vbox2, 6);
-  gtk_container_add (GTK_CONTAINER (frame), vbox2);
+  gtk_frame_set_child (GTK_FRAME (frame), vbox2);
   gtk_widget_show (vbox2);
 
   button = print->widget_page_headers =
@@ -663,7 +663,7 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_set_margin_end (grid, 6);
   gtk_widget_set_margin_top (grid, 6);
   gtk_widget_set_margin_bottom (grid, 6);
-  gtk_container_add (GTK_CONTAINER (frame), grid);
+  gtk_frame_set_child (GTK_FRAME (frame), grid);
   gtk_widget_show (grid);
 
   label = gtk_label_new (_("Header:"));
