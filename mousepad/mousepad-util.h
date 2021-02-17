@@ -27,7 +27,7 @@ G_BEGIN_DECLS
     == G_FILE_TYPE_SYMBOLIC_LINK)
 
 #define mousepad_util_validate_file(file) \
-  (mousepad_util_get_path (file) != NULL || ( \
+  (g_file_peek_path (file) != NULL || ( \
     g_file_has_uri_scheme (file, "trash") \
     && ! mousepad_util_is_symlink (file) \
   ))
@@ -100,8 +100,6 @@ GSList      *mousepad_util_get_sorted_languages_for_section (const gchar        
  * https://gitlab.gnome.org/GNOME/gedit/-/blob/21fac3f0c87db0db104d7af7eaeb6f63d8216a14/gedit/gedit-pango.h#L28
  */
 gchar       *mousepad_util_pango_font_description_to_css    (const PangoFontDescription *font_desc);
-
-const gchar *mousepad_util_get_path                         (GFile                      *file);
 
 gboolean     mousepad_util_query_exists                     (GFile                      *file,
                                                              gboolean                    follow_symlink);
