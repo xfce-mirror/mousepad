@@ -22,59 +22,59 @@
 
 G_BEGIN_DECLS
 
-gboolean     mousepad_util_iter_inside_word                 (const GtkTextIter          *iter);
+gboolean     mousepad_util_iter_inside_word                 (const GtkTextIter           *iter);
 
-gboolean     mousepad_util_iter_forward_word_end            (GtkTextIter                *iter);
+gboolean     mousepad_util_iter_forward_word_end            (GtkTextIter                 *iter);
 
-gboolean     mousepad_util_iter_backward_word_start         (GtkTextIter                *iter);
+gboolean     mousepad_util_iter_backward_word_start         (GtkTextIter                 *iter);
 
-gboolean     mousepad_util_iter_forward_text_start          (GtkTextIter                *iter);
+gboolean     mousepad_util_iter_forward_text_start          (GtkTextIter                 *iter);
 
-gboolean     mousepad_util_iter_backward_text_start         (GtkTextIter                *iter);
+gboolean     mousepad_util_iter_backward_text_start         (GtkTextIter                 *iter);
 
-gchar       *mousepad_util_config_name                      (const gchar                *name);
+gchar       *mousepad_util_config_name                      (const gchar                 *name);
 
-gchar       *mousepad_util_key_name                         (const gchar                *name);
+gchar       *mousepad_util_key_name                         (const gchar                 *name);
 
-gchar       *mousepad_util_escape_underscores               (const gchar                *str);
+gchar       *mousepad_util_escape_underscores               (const gchar                 *str);
 
-GtkWidget   *mousepad_util_image_button                     (const gchar                *icon_name,
-                                                             const gchar                *label,
-                                                             gint                        margin_start,
-                                                             gint                        margin_end,
-                                                             gint                        margin_top,
-                                                             gint                        margin_bottom);
+GtkWidget   *mousepad_util_image_button                     (const gchar                 *icon_name,
+                                                             const gchar                 *label,
+                                                             gint                         margin_start,
+                                                             gint                         margin_end,
+                                                             gint                         margin_top,
+                                                             gint                         margin_bottom);
 
-void         mousepad_util_entry_error                      (GtkWidget                  *widget,
-                                                             gboolean                    error);
+void         mousepad_util_entry_error                      (GtkWidget                   *widget,
+                                                             gboolean                     error);
 
-void         mousepad_util_dialog_create_header             (GtkDialog                  *dialog,
-                                                             const gchar                *title,
-                                                             const gchar                *subtitle,
-                                                             const gchar                *icon_name);
+void         mousepad_util_dialog_create_header             (GtkDialog                   *dialog,
+                                                             const gchar                 *title,
+                                                             const gchar                 *subtitle,
+                                                             const gchar                 *icon_name);
 
-void         mousepad_util_dialog_update_header             (GtkDialog                  *dialog,
-                                                             const gchar                *title,
-                                                             const gchar                *subtitle,
-                                                             const gchar                *icon_name);
+void         mousepad_util_dialog_update_header             (GtkDialog                   *dialog,
+                                                             const gchar                 *title,
+                                                             const gchar                 *subtitle,
+                                                             const gchar                 *icon_name);
 
-void         mousepad_util_set_titlebar                     (GtkWindow                  *window);
+void         mousepad_util_set_titlebar                     (GtkWindow                   *window);
 
-gint         mousepad_util_get_real_line_offset             (const GtkTextIter          *iter);
+gint         mousepad_util_get_real_line_offset             (const GtkTextIter           *iter);
 
-void         mousepad_util_set_real_line_offset             (GtkTextIter                *iter,
-                                                             gint                        column,
-                                                             gboolean                    from_end);
+void         mousepad_util_set_real_line_offset             (GtkTextIter                 *iter,
+                                                             gint                         column,
+                                                             gboolean                     from_end);
 
-void         mousepad_util_place_cursor                     (GtkTextBuffer              *buffer,
-                                                             gint                        line,
-                                                             gint                        column);
+void         mousepad_util_place_cursor                     (GtkTextBuffer               *buffer,
+                                                             gint                         line,
+                                                             gint                         column);
 
-gchar       *mousepad_util_get_save_location                (const gchar                *relpath,
-                                                             gboolean                    create_parents);
+gchar       *mousepad_util_get_save_location                (const gchar                 *relpath,
+                                                             gboolean                     create_parents);
 
-void         mousepad_util_save_key_file                    (GKeyFile                   *keyfile,
-                                                             const gchar                *filename);
+void         mousepad_util_save_key_file                    (GKeyFile                    *keyfile,
+                                                             const gchar                 *filename);
 
 void         mousepad_util_container_clear                  (GtkContainer               *container);
 
@@ -85,15 +85,18 @@ GSList      *mousepad_util_get_sorted_style_schemes         (void);
 
 GSList      *mousepad_util_get_sorted_language_sections     (void);
 
-GSList      *mousepad_util_get_sorted_languages_for_section (const gchar                *section);
+GSList      *mousepad_util_get_sorted_languages_for_section (const gchar                 *section);
 
 /*
  * Copied from Gedit 3.38.0 and slightly modified:
  * https://gitlab.gnome.org/GNOME/gedit/-/blob/21fac3f0c87db0db104d7af7eaeb6f63d8216a14/gedit/gedit-pango.h#L28
  */
-gchar       *mousepad_util_pango_font_description_to_css    (const PangoFontDescription *font_desc);
+gchar       *mousepad_util_pango_font_description_to_css    (const PangoFontDescription  *font_desc);
 
-gpointer     mousepad_util_source_autoremove                (gpointer                    object);
+gpointer     mousepad_util_source_autoremove                (gpointer                     object);
+
+void         mousepad_util_widget_destroyed                 (GtkWidget                   *widget,
+                                                             GtkWidget                  **widget_pointer);
 
 G_END_DECLS
 
