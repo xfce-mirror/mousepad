@@ -134,7 +134,7 @@ mousepad_prefs_dialog_remove_setting_box (gpointer popover)
 {
   GtkWidget *child;
 
-  if ((child = gtk_bin_get_child (popover)) != NULL)
+  if ((child = gtk_popover_get_child (popover)) != NULL)
     gtk_container_remove (popover, child);
 }
 
