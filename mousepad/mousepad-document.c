@@ -626,7 +626,7 @@ mousepad_document_get_tab_label (MousepadDocument *document)
   MOUSEPAD_SETTING_CONNECT_OBJECT (EXPAND_TABS, mousepad_document_expand_tabs_changed,
                                    document, G_CONNECT_SWAPPED);
   gtk_widget_set_tooltip_text (document->priv->label, document->priv->utf8_filename);
-  gtk_box_pack_start (GTK_BOX (hbox), document->priv->label, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), document->priv->label);
   gtk_widget_show (document->priv->label);
 
   /* set label color */
@@ -638,7 +638,7 @@ mousepad_document_get_tab_label (MousepadDocument *document)
 
   /* pack button, add signal and tooltip */
   gtk_widget_set_tooltip_text (button, _("Close this tab"));
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), button);
   g_signal_connect (button, "clicked",
                     G_CALLBACK (mousepad_document_tab_button_clicked), document);
 
