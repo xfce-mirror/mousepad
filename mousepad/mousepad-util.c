@@ -368,12 +368,12 @@ mousepad_util_dialog_create_header (GtkDialog *dialog,
   gtk_widget_set_margin_end (hbox, 6);
   gtk_widget_set_margin_top (hbox, 6);
   gtk_widget_set_margin_bottom (hbox, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (vbox), hbox);
   gtk_widget_show (hbox);
 
   /* title icon */
   icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_DIALOG);
-  gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), icon);
   gtk_widget_show (icon);
 
   /* create the title */
@@ -391,7 +391,7 @@ mousepad_util_dialog_create_header (GtkDialog *dialog,
   gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_widget_show (label);
 
   /* cleanup */
@@ -399,11 +399,11 @@ mousepad_util_dialog_create_header (GtkDialog *dialog,
 
   /* add the separator between header and content */
   line = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-  gtk_box_pack_start (GTK_BOX (vbox), line, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (vbox), line);
   gtk_widget_show (line);
 
   /* add the main dialog box to the new vbox */
-  gtk_box_pack_start (GTK_BOX (vbox), dialog_vbox, FALSE, TRUE, 0);
+  gtk_box_append (GTK_BOX (vbox), dialog_vbox);
   g_object_unref (dialog_vbox);
 }
 
