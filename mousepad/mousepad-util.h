@@ -98,8 +98,6 @@ GSList      *mousepad_util_get_sorted_languages_for_section (const gchar        
  */
 gchar       *mousepad_util_pango_font_description_to_css    (const PangoFontDescription *font_desc);
 
-const gchar *mousepad_util_get_path                         (GFile                      *file);
-
 gpointer     mousepad_util_source_autoremove                (gpointer                    object);
 
 G_END_DECLS
