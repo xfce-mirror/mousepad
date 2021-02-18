@@ -1607,7 +1607,7 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
         }
       else
         {
-          icon = gtk_image_new_from_icon_name ("", GTK_ICON_SIZE_BUTTON);
+          icon = gtk_image_new_from_icon_name ("");
           gtk_widget_set_margin_end (icon, 6);
           gtk_box_append (GTK_BOX (box), icon);
         }
