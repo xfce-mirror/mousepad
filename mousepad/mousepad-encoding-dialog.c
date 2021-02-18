@@ -210,7 +210,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_widget_hide (dialog->error_box);
 
   /* error icon */
-  icon = gtk_image_new_from_icon_name ("dialog-error", GTK_ICON_SIZE_BUTTON);
+  icon = gtk_image_new_from_icon_name ("dialog-error");
   gtk_box_append (GTK_BOX (dialog->error_box), icon);
 
   /* error label */
