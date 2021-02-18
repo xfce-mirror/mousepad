@@ -255,12 +255,6 @@
                                   bind-property="active" bind-flags="G_BINDING_SYNC_CREATE"/>
                         <child>
                           <object class="GtkSpinButton" id="/prefs/view/display/long-line-spin">
-                            <property name="invisible-char">•</property>
-                            <property name="invisible-char-set">True</property>
-                            <property name="primary-icon-activatable">False</property>
-                            <property name="secondary-icon-activatable">False</property>
-                            <property name="primary-icon-sensitive">True</property>
-                            <property name="secondary-icon-sensitive">True</property>
                             <property name="adjustment">/prefs/view/display/right-margin-adjustment</property>
                             <property name="numeric">True</property>
                           </object>
@@ -420,13 +414,8 @@
                 </child>
                 <child>
                   <object class="GtkSpinButton" id="/prefs/editor/indentation/tab-width-spin">
-                    <property name="invisible-char">•</property>
-                    <property name="invisible-char-set">True</property>
-                    <property name="primary-icon-activatable">False</property>
-                    <property name="secondary-icon-activatable">False</property>
-                    <property name="primary-icon-sensitive">True</property>
-                    <property name="secondary-icon-sensitive">True</property>
                     <property name="adjustment">/prefs/editor/indentation/tab-width-adjustment</property>
+                    <property name="numeric">True</property>
                     <layout>
                       <property name="column">1</property>
                       <property name="row">0</property>
@@ -865,12 +854,6 @@
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="/prefs/file/history/recent-spin">
-                        <property name="invisible-char">•</property>
-                        <property name="invisible-char-set">True</property>
-                        <property name="primary-icon-activatable">False</property>
-                        <property name="secondary-icon-activatable">False</property>
-                        <property name="primary-icon-sensitive">True</property>
-                        <property name="secondary-icon-sensitive">True</property>
                         <property name="adjustment">/prefs/file/history/recent-adjustment</property>
                         <property name="numeric">True</property>
                         <property name="tooltip-text" translatable="yes">'0' disables and wipes recent history</property>
