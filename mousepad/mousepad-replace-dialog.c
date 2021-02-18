@@ -223,8 +223,8 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
                            dialog, G_CONNECT_SWAPPED);
 
   /* give the dialog its definite size by setting a fake occurrences label */
-  gtk_entry_grab_focus_without_selecting (GTK_ENTRY (dialog->search_entry));
-  gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), "fake-text");
+  gtk_widget_grab_focus (dialog->search_entry);
+  gtk_editable_set_text (GTK_EDITABLE (dialog->search_entry), "fake-text");
   mousepad_replace_dialog_search_completed (dialog, 99999, "fake-text",
                                             MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
                                             | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
@@ -233,7 +233,7 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
   gtk_widget_show (GTK_WIDGET (dialog));
 
   /* reset search entry and occurrences label */
-  gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), "");
+  gtk_editable_set_text (GTK_EDITABLE (dialog->search_entry), "");
   gtk_label_set_text (GTK_LABEL (dialog->hits_label), NULL);
 }
 
@@ -308,10 +308,15 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   g_signal_connect (gtk_widget_get_first_child (dialog->search_entry), "select-all",
                     G_CALLBACK (mousepad_replace_dialog_entry_select_all), NULL);
 
-  /* bind the sensitivity of the find and replace buttons to the search text length */
-  g_object_bind_property (dialog->search_entry, "text-length",
+  /*
+   * Bind the sensitivity of the find and replace buttons to the search text length.
+   * It does not seem possible to connect to "notify::text-length" from GtkEntry as in GTK 3,
+   * see https://gitlab.gnome.org/GNOME/gtk/-/issues/3691.
+   * So let's connect to "notify::length" from GtkEntryBuffer instead.
+   */
+  g_object_bind_property (gtk_entry_get_buffer (GTK_ENTRY (dialog->search_entry)), "length",
                           dialog->find_button, "sensitive", G_BINDING_SYNC_CREATE);
-  g_object_bind_property (dialog->search_entry, "text-length",
+  g_object_bind_property (gtk_entry_get_buffer (GTK_ENTRY (dialog->search_entry)), "length",
                           dialog->replace_button, "sensitive", G_BINDING_SYNC_CREATE);
 
   /* horizontal box for replace string */
@@ -448,7 +453,7 @@ mousepad_replace_dialog_reset_display (MousepadReplaceDialog *dialog)
   gtk_label_set_text (GTK_LABEL (dialog->hits_label), NULL);
 
   /* start the spinner or reset entry color */
-  string = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
+  string = gtk_editable_get_text (GTK_EDITABLE (dialog->search_entry));
   if (string != NULL && *string != '\0')
     gtk_spinner_start (GTK_SPINNER (dialog->spinner));
   else
@@ -476,8 +481,8 @@ mousepad_replace_dialog_response (GtkWidget *widget,
     }
 
   /* get strings */
-  search_str = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
-  replace_str = gtk_entry_get_text (GTK_ENTRY (dialog->replace_entry));
+  search_str = gtk_editable_get_text (GTK_EDITABLE (dialog->search_entry));
+  replace_str = gtk_editable_get_text (GTK_EDITABLE (dialog->replace_entry));
 
   /* search direction */
   search_direction = MOUSEPAD_SETTING_GET_UINT (SEARCH_DIRECTION);
@@ -589,7 +594,7 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
   const gchar *string;
 
   /* get the entry string */
-  string = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
+  string = gtk_editable_get_text (GTK_EDITABLE (dialog->search_entry));
 
   /* leave the dialog unchanged if the search was launched from the search bar
    * for a different string... */
@@ -705,6 +710,6 @@ void
 mousepad_replace_dialog_set_text (MousepadReplaceDialog *dialog,
                                   const gchar           *text)
 {
-  gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), text);
+  gtk_editable_set_text (GTK_EDITABLE (dialog->search_entry), text);
   gtk_editable_select_region (GTK_EDITABLE (dialog->search_entry), 0, -1);
 }
