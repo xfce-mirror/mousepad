@@ -132,7 +132,6 @@ mousepad_dialogs_other_tab_size (GtkWindow *parent,
 
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_box_append (GTK_BOX (area), scale);
-  gtk_widget_show (scale);
 
   /* run the dialog */
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == MOUSEPAD_RESPONSE_OK)
@@ -223,14 +222,12 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_widget_set_margin_top (vbox, 6);
   gtk_widget_set_margin_bottom (vbox, 6);
   gtk_box_append (GTK_BOX (area), vbox);
-  gtk_widget_show (vbox);
 
   /* create size group */
   size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
   /* line number box */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-  gtk_widget_show (hbox);
   gtk_box_append (GTK_BOX (vbox), hbox);
 
   label = gtk_label_new_with_mnemonic (_("_Line number:"));
@@ -238,7 +235,6 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_size_group_add_widget (size_group, label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_widget_show (label);
 
   line_spin = gtk_spin_button_new_with_range (-lines, lines, 1);
   gtk_entry_set_activates_default (GTK_ENTRY (line_spin), TRUE);
@@ -246,11 +242,9 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), line_spin);
   gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (line_spin), TRUE);
   gtk_entry_set_width_chars (GTK_ENTRY (line_spin), 8);
-  gtk_widget_show (line_spin);
 
   /* column box */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-  gtk_widget_show (hbox);
   gtk_box_append (GTK_BOX (vbox), hbox);
 
   label = gtk_label_new_with_mnemonic (_("C_olumn number:"));
@@ -258,7 +252,6 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_size_group_add_widget (size_group, label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_widget_show (label);
 
   /* release size group */
   g_object_unref (size_group);
@@ -270,7 +263,6 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), col_spin);
   gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (col_spin), TRUE);
   gtk_entry_set_width_chars (GTK_ENTRY (col_spin), 8);
-  gtk_widget_show (col_spin);
 
   /* signal to monitor column number */
   g_signal_connect (line_spin, "value-changed",
@@ -328,7 +320,6 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
   /* the content area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
-  gtk_widget_show (hbox);
   gtk_widget_set_vexpand (hbox, TRUE);
   gtk_widget_set_margin_top (hbox, 6);
   gtk_widget_set_margin_bottom (hbox, 6);
@@ -336,13 +327,11 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
 
   /* the dialog icon */
   image = gtk_image_new_from_icon_name ("edit-clear", GTK_ICON_SIZE_DIALOG);
-  gtk_widget_show (image);
   gtk_widget_set_hexpand (image, TRUE);
   gtk_box_append (GTK_BOX (hbox), image);
 
   /* the dialog message */
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 8);
-  gtk_widget_show (vbox);
   gtk_widget_set_hexpand (vbox, TRUE);
   gtk_widget_set_margin_start (vbox, 6);
   gtk_widget_set_margin_end (vbox, 6);
@@ -353,7 +342,6 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
   gtk_widget_set_vexpand (label, TRUE);
   gtk_label_set_markup (GTK_LABEL (label),
                         _("<big><b>Remove all entries from the documents history?</b></big>"));
-  gtk_widget_show (label);
   gtk_box_append (GTK_BOX (vbox), label);
 
   /* secondary text */
@@ -361,7 +349,6 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
                            "remove all currently listed entries."));
   gtk_widget_set_vexpand (label, TRUE);
   gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-  gtk_widget_show (label);
   gtk_box_append (GTK_BOX (vbox), label);
 
   /* popup the dialog */
@@ -418,20 +405,17 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   /* the content area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
-  gtk_widget_show (hbox);
   gtk_widget_set_vexpand (hbox, TRUE);
   gtk_widget_set_margin_top (hbox, 6);
   gtk_widget_set_margin_bottom (hbox, 6);
   gtk_box_append (GTK_BOX (area), hbox);
 
   /* the dialog icon */
-  gtk_widget_show (image);
   gtk_widget_set_hexpand (image, TRUE);
   gtk_box_append (GTK_BOX (hbox), image);
 
   /* the dialog message */
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 8);
-  gtk_widget_show (vbox);
   gtk_widget_set_hexpand (vbox, TRUE);
   gtk_widget_set_margin_start (hbox, 6);
   gtk_widget_set_margin_end (hbox, 6);
@@ -442,12 +426,10 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   gtk_widget_set_vexpand (label, TRUE);
   gtk_label_set_markup (GTK_LABEL (label),
                         _("<big><b>Do you want to save the changes before closing?</b></big>"));
-  gtk_widget_show (label);
   gtk_box_append (GTK_BOX (vbox), label);
 
   /* secondary text */
   label = gtk_label_new (_("If you don't save the document, all the changes will be lost."));
-  gtk_widget_show (label);
   gtk_widget_set_vexpand (label, TRUE);
   gtk_box_append (GTK_BOX (vbox), label);
 
@@ -816,12 +798,10 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   /* packing */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), hbox);
-  gtk_widget_show (hbox);
 
   /* combo box label */
   widget = gtk_label_new_with_mnemonic (_("_Encoding:"));
   gtk_box_append (GTK_BOX (hbox), widget);
-  gtk_widget_show (widget);
 
   /* build the combo box model */
   list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
@@ -878,7 +858,6 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list));
   gtk_box_append (GTK_BOX (hbox), combo);
   gtk_label_set_mnemonic_widget (GTK_LABEL (widget), combo);
-  gtk_widget_show (combo);
 
   /* set combo box handlers */
   gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (combo),
