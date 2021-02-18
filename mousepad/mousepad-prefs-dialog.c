@@ -528,9 +528,6 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
           gtk_widget_set_margin_top (grid, 6);
           gtk_widget_set_margin_bottom (grid, 6);
           gtk_frame_set_child (GTK_FRAME (widget), grid);
-
-          /* show all widgets in the frame */
-          gtk_widget_show_all (widget);
         }
 
       /* add the provider checkbox to the grid and build its action name */
@@ -556,6 +553,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
       gtk_grid_attach (GTK_GRID (grid), child, 1, n, 1, 1);
 
       /* show the button if the plugin already has a setting box, or when it gets one */
+      gtk_widget_hide (child);
       mousepad_object_set_data (child, "provider", provider->data);
       mousepad_prefs_dialog_checkbox_toggled_idle (child);
       g_signal_connect (widget, "toggled",
@@ -564,21 +562,17 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
       /* make the provider checkbox actionable, triggering in particular the handler above */
       gtk_actionable_set_action_name (GTK_ACTIONABLE (widget), str);
       g_free (str);
-
-      /* show all widgets in the checkbox */
-      gtk_widget_show_all (widget);
     }
 
-  /* show the "Plugins" tab only if there is at least one plugin */
+  /* hide the "Plugins" tab if there is no plugin */
   widget = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
-  if (providers != NULL)
-    gtk_widget_show (widget);
+  if (providers == NULL)
+    gtk_widget_hide (widget);
 
   /* add the Glade/GtkBuilder notebook into this dialog */
   box = gtk_dialog_get_content_area (GTK_DIALOG (self));
   widget = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
   gtk_box_append (GTK_BOX (box), widget);
-  gtk_widget_show (widget);
 
   /* add the close button */
   widget = mousepad_util_image_button ("window-close", _("_Close"), 0, 0, 2, 0);
