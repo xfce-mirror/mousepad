@@ -161,12 +161,10 @@
 
 
   <object class="GtkNotebook" id="/prefs/main-notebook">
-    <property name="visible">True</property>
 
     <!-- "View" tab -->
     <child>
       <object class="GtkBox" id="/prefs/view/content-area">
-        <property name="visible">True</property>
         <property name="vexpand">True</property>
         <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <property name="margin-top">6</property>
@@ -175,10 +173,8 @@
         <property name="margin-end">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/view/display/frame">
-            <property name="visible">True</property>
             <child>
               <object class="GtkBox" id="/prefs/view/display/content-area">
-                <property name="visible">True</property>
                 <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
@@ -188,33 +184,28 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Show line numbers</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.show-line-numbers</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Display whitespace</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.show-whitespace</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Display line endings</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.show-line-endings</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkCheckButton" id="/prefs/view/display/long-line-check">
                         <property name="label" translatable="yes">Long line margin at column:</property>
-                        <property name="visible">True</property>
                         <property name="action-name">app.preferences.view.show-right-margin</property>
                       </object>
                     </child>
@@ -222,14 +213,12 @@
                       <!-- add an extra packing to ensure that the binding with the checkbox takes effect
                            at initialization: this workaround is only necessary for GtkSpinButtons -->
                       <object class="GtkBox">
-                        <property name="visible">True</property>
                         <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                         <property name="spacing">6</property>
                         <property name="sensitive" bind-source="/prefs/view/display/long-line-check"
                                   bind-property="active" bind-flags="G_BINDING_SYNC_CREATE"/>
                         <child>
                           <object class="GtkSpinButton" id="/prefs/view/display/long-line-spin">
-                            <property name="visible">True</property>
                             <property name="invisible-char">•</property>
                             <property name="invisible-char-set">True</property>
                             <property name="primary-icon-activatable">False</property>
@@ -247,21 +236,18 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Highlight current line</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.highlight-current-line</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Highlight matching brackets</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.match-braces</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Wrap long lines</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.word-wrap</property>
                   </object>
                 </child>
@@ -269,7 +255,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;Display&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
@@ -278,10 +263,8 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/view/font/frame">
-            <property name="visible">True</property>
             <child>
               <object class="GtkGrid" id="/prefs/view/font/content-area">
-                <property name="visible">True</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
                 <property name="margin-start">12</property>
@@ -291,7 +274,6 @@
                 <child>
                   <object class="GtkCheckButton" id="/prefs/view/font/default-check">
                     <property name="label" translatable="yes">Use system monospace font</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.use-default-monospace-font</property>
                     <layout>
                       <property name="column">0</property>
@@ -301,7 +283,6 @@
                 </child>
                 <child>
                   <object class="GtkFontButton" id="/prefs/view/font/chooser-button">
-                    <property name="visible">True</property>
                     <property name="receives-default">True</property>
                     <property name="sensitive" bind-source="/prefs/view/font/default-check"
                               bind-property="active"
@@ -316,7 +297,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;Font&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
@@ -325,10 +305,8 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/view/color-scheme/frame">
-            <property name="visible">True</property>
             <child>
               <object class="GtkBox" id="/prefs/view/color-scheme/content-area">
-                <property name="visible">True</property>
                 <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
@@ -337,7 +315,6 @@
                 <property name="spacing">2</property>
                 <child>
                   <object class="GtkComboBox" id="/prefs/view/color-scheme/combo">
-                    <property name="visible">True</property>
                     <property name="model">/prefs/view/color-scheme/model</property>
                     <property name="active">0</property>
                     <child>
@@ -352,7 +329,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;Color scheme&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
@@ -363,7 +339,6 @@
     </child>
     <child type="tab">
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="label" translatable="yes">View</property>
       </object>
       <packing>
@@ -374,7 +349,6 @@
     <!-- "Editor" tab -->
     <child>
       <object class="GtkBox" id="/prefs/editor/content-area">
-        <property name="visible">True</property>
         <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <property name="margin-top">6</property>
         <property name="margin-bottom">6</property>
@@ -383,10 +357,8 @@
         <property name="spacing">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/editor/indentation/frame">
-            <property name="visible">True</property>
             <child>
               <object class="GtkGrid" id="/prefs/editor/indentation/content-area">
-                <property name="visible">True</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
                 <property name="margin-start">12</property>
@@ -395,7 +367,6 @@
                 <property name="row-spacing">6</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Tab width:</property>
                     <layout>
@@ -406,7 +377,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Tab mode:</property>
                     <layout>
@@ -417,7 +387,6 @@
                 </child>
                 <child>
                   <object class="GtkSpinButton" id="/prefs/editor/indentation/tab-width-spin">
-                    <property name="visible">True</property>
                     <property name="invisible-char">•</property>
                     <property name="invisible-char-set">True</property>
                     <property name="primary-icon-activatable">False</property>
@@ -433,7 +402,6 @@
                 </child>
                 <child>
                   <object class="GtkComboBox" id="/prefs/editor/indentation/tab-mode-combo">
-                    <property name="visible">True</property>
                     <property name="model">/prefs/editor/indentation/tab-mode-store</property>
                     <property name="active">0</property>
                     <child>
@@ -451,7 +419,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Enable automatic indentation</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.auto-indent</property>
                     <layout>
                       <property name="column">0</property>
@@ -463,7 +430,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;Indentation&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
@@ -472,10 +438,8 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/editor/smart-keys/frame">
-            <property name="visible">True</property>
             <child>
               <object class="GtkBox" id="/prefs/editor/smart-keys/content-area">
-                <property name="visible">True</property>
                 <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
@@ -485,17 +449,14 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">(Shift-)Tab: (De-)Indent selected text</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.indent-on-tab</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.smart-backspace</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
                         <property name="label" translatable="yes">Backspace: Delete indent spaces as tabs</property>
                         <property name="wrap">True</property>
                         <property name="max-width-chars">40</property>
@@ -505,18 +466,15 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Home/End: Detect leading/trailing whitespace:</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                     <child>
                       <object class="GtkComboBox" id="/prefs/editor/smart-keys/smart-home-end-combo">
-                        <property name="visible">True</property>
                         <property name="model">/prefs/editor/smart-keys/smart-home-end-model</property>
                         <property name="active">0</property>
                         <property name="expand">False</property>
@@ -534,7 +492,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;Smart Keys&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
@@ -548,7 +505,6 @@
     </child>
     <child type="tab">
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="label" translatable="yes">Editor</property>
       </object>
       <packing>
@@ -560,7 +516,6 @@
     <!-- "Window" tab -->
     <child>
       <object class="GtkBox" id="/prefs/window/content-area">
-        <property name="visible">True</property>
         <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <property name="margin-top">6</property>
         <property name="margin-bottom">6</property>
@@ -569,10 +524,8 @@
         <property name="spacing">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/window/general/frame">
-            <property name="visible">True</property>
             <child>
               <object class="GtkBox" id="/prefs/window/general/content-area">
-                <property name="visible">True</property>
                 <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
@@ -582,35 +535,30 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Show status bar</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.statusbar-visible</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Show full filename in title bar</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.path-in-title</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Remember window size</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.remember-size</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Remember window position</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.remember-position</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Remember window state</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.remember-state</property>
                   </object>
                 </child>
@@ -618,7 +566,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;General&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
@@ -627,10 +574,8 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/window/toolbar/frame">
-            <property name="visible">True</property>
             <child>
               <object class="GtkGrid" id="/prefs/window/toolbar/content-area">
-                <property name="visible">True</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
                 <property name="margin-start">12</property>
@@ -640,7 +585,6 @@
                 <child>
                   <object class="GtkCheckButton" id="/prefs/window/toolbar/visible-check">
                     <property name="label" translatable="yes">Show toolbar</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.toolbar-visible</property>
                     <layout>
                       <property name="column">0</property>
@@ -651,7 +595,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Style:</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check"
@@ -664,7 +607,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Icon Size:</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check"
@@ -677,7 +619,6 @@
                 </child>
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/style-combo">
-                    <property name="visible">True</property>
                     <property name="model">/prefs/window/toolbar/style-model</property>
                     <property name="active">0</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check"
@@ -696,7 +637,6 @@
                 </child>
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/icon-size-combo">
-                    <property name="visible">True</property>
                     <property name="model">/prefs/window/toolbar/icon-size-model</property>
                     <property name="active">0</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check"
@@ -717,7 +657,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;Toolbar&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
@@ -726,10 +665,8 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/window/notebook/frame">
-            <property name="visible">True</property>
             <child>
               <object class="GtkBox" id="/prefs/window/notebook/content-area">
-                <property name="visible">True</property>
                 <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
@@ -739,20 +676,17 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Always show tabs even with one file</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.always-show-tabs</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Cycled notebook tab switching</property>
-                    <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.cycle-tabs</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                     <property name="margin-top">2</property>
                     <property name="margin-bottom">0</property>
@@ -761,14 +695,12 @@
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Open files in:</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkComboBox" id="/prefs/window/notebook/opening-mode-combo">
-                        <property name="visible">True</property>
                         <property name="model">/prefs/window/notebook/opening-mode-model</property>
                         <property name="active">0</property>
                         <child>
@@ -790,7 +722,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="label" translatable="yes">&lt;b&gt;Notebook tabs&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
@@ -804,7 +735,6 @@
     </child>
     <child type="tab">
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="label" translatable="yes">Window</property>
       </object>
       <packing>
@@ -818,7 +748,6 @@
       <object class="GtkScrolledWindow" id="/prefs/plugins/scrolled-window">
         <child>
           <object class="GtkBox" id="/prefs/plugins/content-area">
-            <property name="visible">True</property>
             <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
             <property name="border-width">6</property>
             <property name="spacing">6</property>
@@ -831,7 +760,6 @@
     </child>
     <child type="tab">
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="label" translatable="yes">Plugins</property>
       </object>
       <packing>
