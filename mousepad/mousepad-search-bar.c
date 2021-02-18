@@ -322,7 +322,7 @@ mousepad_search_bar_reset_display (MousepadSearchBar *bar)
   gtk_label_set_text (GTK_LABEL (bar->hits_label), NULL);
 
   /* start the spinner or reset entry color */
-  string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
+  string = gtk_editable_get_text (GTK_EDITABLE (bar->entry));
   if (string != NULL && *string != '\0')
     gtk_spinner_start (GTK_SPINNER (bar->spinner));
   else
@@ -345,7 +345,7 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
     flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
 
   /* get the entry string */
-  string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
+  string = gtk_editable_get_text (GTK_EDITABLE (bar->entry));
 
   /* reset display widgets */
   mousepad_search_bar_reset_display (bar);
@@ -369,7 +369,7 @@ mousepad_search_bar_search_completed (MousepadSearchBar   *bar,
   gtk_spinner_stop (GTK_SPINNER (bar->spinner));
 
   /* get the entry string */
-  string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
+  string = gtk_editable_get_text (GTK_EDITABLE (bar->entry));
 
   /* leave the search bar unchanged if the search was launched from the replace dialog
    * for a different string or irrelevant settings for the search bar*/
@@ -519,5 +519,5 @@ mousepad_search_bar_set_text (MousepadSearchBar *bar,
 {
   g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (bar));
 
-  gtk_entry_set_text (GTK_ENTRY (bar->entry), text);
+  gtk_editable_set_text (GTK_EDITABLE (bar->entry), text);
 }
