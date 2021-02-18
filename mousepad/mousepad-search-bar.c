@@ -196,7 +196,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   GtkToolItem *item;
 
   /* we will complete initialization when the bar is anchored */
-  g_signal_connect (bar, "hierarchy-changed", G_CALLBACK (mousepad_search_bar_post_init), NULL);
+  g_signal_connect (bar, "notify::root", G_CALLBACK (mousepad_search_bar_post_init), NULL);
 
   /* the close button */
   widget = gtk_button_new_from_icon_name ("window-close-symbolic");
