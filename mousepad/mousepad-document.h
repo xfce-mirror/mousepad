@@ -69,6 +69,7 @@ struct _MousepadDocument
 
   /* text view */
   MousepadView *textview;
+  GtkEventController *controller;
 };
 
 MousepadDocument *

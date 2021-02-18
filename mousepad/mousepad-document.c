@@ -281,6 +281,12 @@ mousepad_document_init (MousepadDocument *document)
   gtk_widget_set_hexpand (scrolled_window, TRUE);
   gtk_box_append (GTK_BOX (document), scrolled_window);
 
+  /* catch click events to popup the textview menu */
+  document->controller = GTK_EVENT_CONTROLLER (gtk_gesture_click_new ());
+  gtk_event_controller_set_propagation_phase (document->controller, GTK_PHASE_TARGET);
+  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (document->controller), 3);
+  gtk_widget_add_controller (GTK_WIDGET (document->textview), document->controller);
+
   /* also allow dropping of uris and tabs in the textview */
   target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (document->textview));
   gtk_target_list_add_table (target_list, drop_targets, G_N_ELEMENTS (drop_targets));
