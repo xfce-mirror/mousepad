@@ -366,7 +366,6 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
 
   /* create a new vbox for the main window */
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-  gtk_widget_show (vbox);
 
   /* create a hbox */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
@@ -375,12 +374,10 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
   gtk_widget_set_margin_top (hbox, 6);
   gtk_widget_set_margin_bottom (hbox, 6);
   gtk_box_append (GTK_BOX (vbox), hbox);
-  gtk_widget_show (hbox);
 
   /* title icon */
   icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_DIALOG);
   gtk_box_append (GTK_BOX (hbox), icon);
-  gtk_widget_show (icon);
 
   /* create the title */
   formated_title = g_strdup_printf ("<b><big>%s</big></b>", title);
@@ -398,15 +395,11 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_box_append (GTK_BOX (hbox), label);
-  gtk_widget_show (label);
-
-  /* cleanup */
   g_free (full_title);
 
   /* add the separator between header and content */
   line = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
   gtk_box_append (GTK_BOX (vbox), line);
-  gtk_widget_show (line);
 
   /* add the main dialog box to the new vbox and the latter to the main window */
   dialog_vbox = gtk_window_get_child (GTK_WINDOW (dialog));
