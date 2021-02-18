@@ -87,7 +87,7 @@ mousepad_close_button_init (MousepadCloseButton *button)
   static const gchar *button_style = "* { outline-width: 0; outline-offset: 0; padding: 0; }";
 
   css_provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_data (css_provider, button_style, -1, NULL);
+  gtk_css_provider_load_from_data (css_provider, button_style, -1);
 
   context = gtk_widget_get_style_context (GTK_WIDGET (button));
   gtk_style_context_add_provider (context,
