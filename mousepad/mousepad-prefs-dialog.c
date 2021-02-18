@@ -345,7 +345,7 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
       gtk_widget_set_tooltip_text (widget, mousepad_plugin_provider_get_tooltip (provider->data));
 
       /* add a prefs button to the grid */
-      child = gtk_button_new_from_icon_name ("preferences-system", GTK_ICON_SIZE_BUTTON);
+      child = gtk_button_new_from_icon_name ("preferences-system");
       gtk_grid_attach (GTK_GRID (grid), child, 1, n, 1, 1);
 
       /* show the button if the plugin already has a setting box, or when it gets one */
