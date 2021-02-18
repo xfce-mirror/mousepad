@@ -326,7 +326,8 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
   gtk_box_append (GTK_BOX (area), hbox);
 
   /* the dialog icon */
-  image = gtk_image_new_from_icon_name ("edit-clear", GTK_ICON_SIZE_DIALOG);
+  image = gtk_image_new_from_icon_name ("edit-clear");
+  gtk_image_set_icon_size (GTK_IMAGE (image), GTK_ICON_SIZE_LARGE);
   gtk_widget_set_hexpand (image, TRUE);
   gtk_box_append (GTK_BOX (hbox), image);
 
@@ -387,7 +388,7 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   /* we show the save as button instead of save for readonly document */
   if (G_UNLIKELY (readonly))
     {
-      image = gtk_image_new_from_icon_name ("document-save-as", GTK_ICON_SIZE_DIALOG);
+      image = gtk_image_new_from_icon_name ("document-save-as");
       button = mousepad_util_image_button ("document-save-as", _("_Save As"), 0, 4, 0, 0);
       gtk_widget_set_can_default (button, TRUE);
       gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
@@ -395,12 +396,14 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
     }
   else
     {
-      image = gtk_image_new_from_icon_name ("document-save", GTK_ICON_SIZE_DIALOG);
+      image = gtk_image_new_from_icon_name ("document-save");
       button = mousepad_util_image_button ("document-save", _("_Save"), 0, 4, 0, 0);
       gtk_widget_set_can_default (button, TRUE);
       gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
       gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_SAVE);
     }
+
+  gtk_image_set_icon_size (GTK_IMAGE (image), GTK_ICON_SIZE_LARGE);
 
   /* the content area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
