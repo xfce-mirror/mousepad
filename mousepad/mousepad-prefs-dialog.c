@@ -437,7 +437,6 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   notebook = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
   gtk_box_append (GTK_BOX (content_area), notebook);
-  gtk_widget_show (notebook);
 
   /* add the close button */
   button = mousepad_util_image_button ("window-close", _("_Close"), 0, 0, 2, 0);
