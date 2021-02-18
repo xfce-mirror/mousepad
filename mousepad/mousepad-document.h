@@ -77,6 +77,7 @@ struct _MousepadDocument
 
   /* text view */
   MousepadView            *textview;
+  GtkEventController      *controller;
 };
 
 GType             mousepad_document_get_type       (void) G_GNUC_CONST;
