@@ -187,25 +187,18 @@ mousepad_statusbar_language_clicked (GtkGestureClick *gesture,
                                      double y,
                                      MousepadStatusbar *statusbar)
 {
-  GtkWidget *window;
-  GtkMenu *menu = NULL;
-  GList *children;
-  guint n_children = 0;
+  GtkWidget *window, *menu;
 
   g_return_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar));
 
   /* get the languages menu from the window */
   window = gtk_widget_get_ancestor (GTK_WIDGET (statusbar), MOUSEPAD_TYPE_WINDOW);
-  menu = GTK_MENU (mousepad_window_get_languages_menu (MOUSEPAD_WINDOW (window)));
+  menu = mousepad_window_get_languages_menu (MOUSEPAD_WINDOW (window));
+  if (gtk_widget_get_parent (menu) == NULL)
+    gtk_widget_set_parent (menu, statusbar->language);
 
-  /* get the number of items in the menu */
-  children = gtk_container_get_children (GTK_CONTAINER (menu));
-  n_children = g_list_length (children);
-  g_list_free (children);
-
-  /* make sure there's at least one item in the menu to show it */
-  if (n_children > 0)
-    gtk_menu_popup_at_pointer (menu, event);
+  /* show the menu */
+  gtk_widget_show (menu);
 
   gtk_gesture_set_state (GTK_GESTURE (gesture), GTK_EVENT_SEQUENCE_CLAIMED);
 }
