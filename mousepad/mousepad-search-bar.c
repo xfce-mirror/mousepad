@@ -68,7 +68,6 @@ mousepad_search_bar_new (void)
 {
   return g_object_new (MOUSEPAD_TYPE_SEARCH_BAR,
                        "toolbar-style", GTK_TOOLBAR_BOTH_HORIZ,
-                       "icon-size", GTK_ICON_SIZE_MENU,
                        NULL);
 }
 
@@ -226,7 +225,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   g_signal_connect (bar, "hierarchy-changed", G_CALLBACK (mousepad_search_bar_post_init), NULL);
 
   /* the close button */
-  widget = gtk_button_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_MENU);
+  widget = gtk_button_new_from_icon_name ("window-close-symbolic");
   gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_hide_clicked), bar);
 
@@ -269,13 +268,13 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   g_object_unref (provider);
 
   /* previous button */
-  widget = gtk_button_new_from_icon_name ("go-up-symbolic", GTK_ICON_SIZE_MENU);
+  widget = gtk_button_new_from_icon_name ("go-up-symbolic");
   gtk_widget_set_can_focus (widget, FALSE);
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_previous), bar);
   gtk_box_append (GTK_BOX (box), widget);
 
   /* next button */
-  widget = gtk_button_new_from_icon_name ("go-down-symbolic", GTK_ICON_SIZE_MENU);
+  widget = gtk_button_new_from_icon_name ("go-down-symbolic");
   gtk_widget_set_can_focus (widget, FALSE);
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_find_next), bar);
   gtk_box_append (GTK_BOX (box), widget);
