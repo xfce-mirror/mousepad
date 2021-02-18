@@ -39,7 +39,10 @@
 #define WID_SMART_HOME_END_COMBO            "/prefs/editor/smart-keys/smart-home-end-combo"
 
 /* Window page */
+/* TODO Toolbar */
+#if 0
 #define WID_TOOLBAR_STYLE_COMBO             "/prefs/window/toolbar/style-combo"
+#endif
 #define WID_TOOLBAR_ICON_SIZE_COMBO         "/prefs/window/toolbar/icon-size-combo"
 #define WID_OPENING_MODE_COMBO              "/prefs/window/notebook/opening-mode-combo"
 
@@ -453,6 +456,8 @@ mousepad_prefs_dialog_home_end_setting_changed (MousepadPrefsDialog *self,
 
 
 
+/* TODO Toolbar */
+#if 0
 /* update toolbar style setting when combo changes */
 static void
 mousepad_prefs_dialog_toolbar_style_changed (MousepadPrefsDialog *self,
@@ -481,6 +486,7 @@ mousepad_prefs_dialog_toolbar_style_setting_changed (MousepadPrefsDialog *self,
 
   gtk_combo_box_set_active (combo, MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE));
 }
+#endif
 
 
 
@@ -710,8 +716,11 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (SMART_HOME_END));
 
   /* setup toolbar-related combo box */
+/* TODO Toolbar */
+#if 0
   widget = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_STYLE_COMBO);
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE));
+#endif
   mousepad_prefs_dialog_toolbar_icon_size_setting_changed (self, NULL, NULL);
 
   /* setup opening mode combo box */
@@ -756,6 +765,8 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                                    G_CALLBACK (mousepad_prefs_dialog_home_end_setting_changed),
                                    self, G_CONNECT_SWAPPED);
 
+/* TODO Toolbar */
+#if 0
   /* update toolbar style when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TOOLBAR_STYLE_COMBO),
                             "changed",
@@ -765,6 +776,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_STYLE,
                                    G_CALLBACK (mousepad_prefs_dialog_toolbar_style_setting_changed),
                                    self, G_CONNECT_SWAPPED);
+#endif
 
   /* update toolbar icon size when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TOOLBAR_ICON_SIZE_COMBO),
