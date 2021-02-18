@@ -39,8 +39,6 @@
 #define WID_SMART_HOME_END_COMBO "/prefs/editor/smart-keys/smart-home-end-combo"
 
 /* Window page */
-#define WID_TOOLBAR_STYLE_COMBO "/prefs/window/toolbar/style-combo"
-#define WID_TOOLBAR_ICON_SIZE_COMBO "/prefs/window/toolbar/icon-size-combo"
 #define WID_OPENING_MODE_COMBO "/prefs/window/notebook/opening-mode-combo"
 
 /* File page */
@@ -585,12 +583,6 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* bind simple combo boxes to the settings */
   MOUSEPAD_SETTING_BIND (SMART_HOME_END,
                          gtk_builder_get_object (self->builder, WID_SMART_HOME_END_COMBO),
-                         "active-id", G_SETTINGS_BIND_DEFAULT);
-  MOUSEPAD_SETTING_BIND (TOOLBAR_STYLE,
-                         gtk_builder_get_object (self->builder, WID_TOOLBAR_STYLE_COMBO),
-                         "active-id", G_SETTINGS_BIND_DEFAULT);
-  MOUSEPAD_SETTING_BIND (TOOLBAR_ICON_SIZE,
-                         gtk_builder_get_object (self->builder, WID_TOOLBAR_ICON_SIZE_COMBO),
                          "active-id", G_SETTINGS_BIND_DEFAULT);
   MOUSEPAD_SETTING_BIND (OPENING_MODE,
                          gtk_builder_get_object (self->builder, WID_OPENING_MODE_COMBO),
