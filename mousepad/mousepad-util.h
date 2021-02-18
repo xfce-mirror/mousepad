@@ -101,13 +101,6 @@ void
 mousepad_util_save_key_file (GKeyFile *keyfile,
                              const gchar *filename);
 
-void
-mousepad_util_container_clear (GtkContainer *container);
-
-void
-mousepad_util_container_move_children (GtkContainer *source,
-                                       GtkContainer *destination);
-
 GSList *
 mousepad_util_get_sorted_style_schemes (void);
 

@@ -74,9 +74,6 @@ struct _GspellPlugin
 
   /* gspell and mousepad menus, retrieved from the "populate-popup" menu */
   GtkWidget *gspell_menu, *mousepad_menu;
-
-  /* no extra padding in menus (not supposed to change at runtime) */
-  gboolean old_style_menu;
 };
 
 struct _GspellPluginView
@@ -133,7 +130,6 @@ gspell_plugin_init (GspellPlugin *plugin)
   plugin->views = NULL;
   plugin->gspell_menu = gtk_menu_new ();
   plugin->mousepad_menu = gtk_menu_new ();
-  plugin->old_style_menu = MOUSEPAD_SETTING_GET_BOOLEAN (OLD_STYLE_MENU);
 
   /* connect signal handlers and set spell checking on all views */
   gspell_plugin_enable (MOUSEPAD_PLUGIN (plugin));
@@ -504,15 +500,11 @@ gspell_plugin_view_menu_show (GspellPlugin *plugin,
   mousepad_util_container_clear (GTK_CONTAINER (plugin->gspell_menu));
 
   /* realign menu items */
-  if (plugin->old_style_menu)
-    {
-      children = gtk_container_get_children (GTK_CONTAINER (menu));
-      for (child = children, index = 0; child != NULL; child = child->next, index++)
-        mousepad_window_menu_item_realign (MOUSEPAD_WINDOW (window),
-                                           child->data, NULL, menu, index);
-
-      g_list_free (children);
-    }
+  children = gtk_container_get_children (GTK_CONTAINER (menu));
+  for (child = children, index = 0; child != NULL; child = child->next, index++)
+    mousepad_window_menu_item_realign (MOUSEPAD_WINDOW (window),
+                                       child->data, NULL, menu, index);
+  g_list_free (children);
 
   /* append the mousepad context menu to the context menu to be shown */
   item = gtk_separator_menu_item_new ();
