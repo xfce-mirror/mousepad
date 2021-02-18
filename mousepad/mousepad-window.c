@@ -74,6 +74,7 @@ static void              mousepad_window_get_property                 (GObject  
                                                                        guint                     prop_id,
                                                                        GValue                   *value,
                                                                        GParamSpec               *pspec);
+static void              mousepad_window_dispose                      (GObject                  *object);
 static void              mousepad_window_finalize                     (GObject                  *object);
 
 /* GtkWindow virtual functions or property change handlers */
@@ -92,10 +93,13 @@ static void              mousepad_window_menu_set_tooltips            (MousepadW
                                                                        GtkWidget                *menu,
                                                                        GMenuModel               *model,
                                                                        gint                     *offset);
+/* TODO Menubar */
+#if 0
 static void              mousepad_window_menu_item_selected           (GtkWidget                *menu_item,
                                                                        MousepadWindow           *window);
 static void              mousepad_window_menu_item_deselected         (GtkWidget                *menu_item,
                                                                        MousepadWindow           *window);
+#endif
 static void              mousepad_window_toolbar_item_enter           (GtkEventControllerMotion *controller,
                                                                        double                    x,
                                                                        double                    y,
@@ -151,6 +155,11 @@ static void              mousepad_window_notebook_button_released     (GtkGestur
                                                                        MousepadWindow           *window);
 
 /* document signals */
+static void              mousepad_window_textview_menu_popup          (GtkGestureClick          *gesture,
+                                                                       int                       n_press,
+                                                                       double                    x,
+                                                                       double                    y,
+                                                                       MousepadWindow           *window);
 static void              mousepad_window_externally_modified          (MousepadFile             *file,
                                                                        MousepadWindow           *window);
 static void              mousepad_window_location_changed             (MousepadFile             *file,
@@ -190,9 +199,6 @@ static void              mousepad_window_menu_templates               (GSimpleAc
                                                                        GVariant                 *state,
                                                                        gpointer                  data);
 static void              mousepad_window_menu_tab_sizes_update        (MousepadWindow           *window);
-static void              mousepad_window_menu_textview_popup          (GtkTextView              *textview,
-                                                                       GtkMenu                  *old_menu,
-                                                                       MousepadWindow           *window);
 static void              mousepad_window_update_menu_item             (MousepadWindow           *window,
                                                                        const gchar              *menu_id,
                                                                        gint                      index,
@@ -227,11 +233,14 @@ static void              mousepad_window_search_completed             (MousepadD
 
 /* history clipboard functions */
 static void              mousepad_window_paste_history_add            (MousepadWindow           *window);
+/* TODO Paste History */
+#if 0
 static void              mousepad_window_paste_history_activate       (GtkMenuItem              *item,
                                                                        MousepadWindow           *window);
 static GtkWidget        *mousepad_window_paste_history_menu_item      (const gchar              *text,
                                                                        const gchar              *mnemonic);
 static GtkWidget        *mousepad_window_paste_history_menu           (MousepadWindow           *window);
+#endif
 
 /* actions */
 static void              mousepad_window_action_new                   (GSimpleAction            *action,
@@ -599,6 +608,7 @@ mousepad_window_class_init (MousepadWindowClass *klass)
 
   gobject_class->set_property = mousepad_window_set_property;
   gobject_class->get_property = mousepad_window_get_property;
+  gobject_class->dispose = mousepad_window_dispose;
   gobject_class->finalize = mousepad_window_finalize;
 
   gtkwindow_class->close_request = mousepad_window_close_request;
@@ -658,6 +668,20 @@ mousepad_window_get_property (GObject    *object,
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
         break;
     }
+}
+
+
+
+static void
+mousepad_window_dispose (GObject *object)
+{
+  MousepadWindow *window = MOUSEPAD_WINDOW (object);
+
+  gtk_widget_unparent (window->textview_menu);
+  gtk_widget_unparent (window->tab_menu);
+  gtk_widget_unparent (window->languages_menu);
+
+  G_OBJECT_CLASS (mousepad_window_parent_class)->dispose (object);
 }
 
 
@@ -951,23 +975,19 @@ mousepad_window_post_init (MousepadWindow *window)
   /* create text view menu and set tooltips (must be done before setting the menubar visibility) */
   application = gtk_window_get_application (GTK_WINDOW (window));
   model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "textview-menu"));
-  window->textview_menu = gtk_menu_new_from_model (model);
-  gtk_menu_attach_to_widget (GTK_MENU (window->textview_menu),
-                             GTK_WIDGET (window), NULL);
+  window->textview_menu = gtk_popover_menu_new_from_model_full (model, GTK_POPOVER_MENU_NESTED);
+  gtk_widget_set_parent (window->textview_menu, GTK_WIDGET (window));
   mousepad_window_menu_set_tooltips (window, window->textview_menu, model, NULL);
 
   /* create tab menu and set tooltips */
   model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "tab-menu"));
-  window->tab_menu = gtk_menu_new_from_model (model);
-  gtk_menu_attach_to_widget (GTK_MENU (window->tab_menu),
-                             GTK_WIDGET (window), NULL);
+  window->tab_menu = gtk_popover_menu_new_from_model_full (model, GTK_POPOVER_MENU_NESTED);
+  gtk_widget_set_parent (window->tab_menu, window->notebook);
   mousepad_window_menu_set_tooltips (window, window->tab_menu, model, NULL);
 
   /* create languages menu and set tooltips */
   model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "document.filetype"));
-  window->languages_menu = gtk_menu_new_from_model (model);
-  gtk_menu_attach_to_widget (GTK_MENU (window->languages_menu),
-                             GTK_WIDGET (window), NULL);
+  window->languages_menu = gtk_popover_menu_new_from_model_full (model, GTK_POPOVER_MENU_NESTED);
   mousepad_window_menu_set_tooltips (window, window->languages_menu, model, NULL);
 
   /* hide the default menubar */
@@ -977,11 +997,9 @@ mousepad_window_post_init (MousepadWindow *window)
    * Outsource the creation of the menubar from
    * gtk/gtk/gtkapplicationwindow.c:gtk_application_window_update_menubar(), to make the menubar
    * a window attribute, and be able to access its items to show their tooltips in the statusbar.
-   * With GTK+ 3, this leads to use gtk_menu_bar_new_from_model()
-   * With GTK+ 4, this will lead to use gtk_popover_menu_bar_new_from_model()
    */
   model = gtk_application_get_menubar (application);
-  window->menubar = gtk_menu_bar_new_from_model (model);
+  window->menubar = gtk_popover_menu_bar_new_from_model (model);
 
   /* insert the menubar in its previously reserved space */
   gtk_widget_set_hexpand (window->menubar, TRUE);
@@ -1336,6 +1354,8 @@ mousepad_window_scroll (GtkEventControllerScroll *scroll,
 /**
  * Statusbar Tooltip Functions
  **/
+/* TODO Menubar */
+#if 0
 static void
 mousepad_window_menu_item_selected (GtkWidget      *menu_item,
                                     MousepadWindow *window)
@@ -1355,6 +1375,7 @@ mousepad_window_menu_item_deselected (GtkWidget      *menu_item,
 {
   mousepad_statusbar_pop_tooltip (MOUSEPAD_STATUSBAR (window->statusbar));
 }
+#endif
 
 
 
@@ -1388,6 +1409,8 @@ mousepad_window_menu_update_tooltips (GMenuModel     *model,
                                       gint            added,
                                       MousepadWindow *window)
 {
+/* TODO Menubar */
+#if 0
   GtkWidget *menu;
   gint       offset;
 
@@ -1398,10 +1421,13 @@ mousepad_window_menu_update_tooltips (GMenuModel     *model,
   menu = mousepad_object_get_data (model, window->gtkmenu_key);
   offset = GPOINTER_TO_INT (mousepad_object_get_data (model, window->offset_key));
   mousepad_window_menu_set_tooltips (window, menu, model, &offset);
+#endif
 }
 
 
 
+/* TODO Menubar */
+#if 0
 static void
 mousepad_window_menu_item_activate (GtkMenuItem *new_item,
                                     gpointer     item)
@@ -1582,6 +1608,7 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
 
   return new_item;
 }
+#endif
 
 
 
@@ -1591,6 +1618,8 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
                                    GMenuModel     *model,
                                    gint           *offset)
 {
+/* TODO Menubar */
+#if 0
   GMenuModel   *section, *submodel;
   GtkWidget    *submenu;
   GVariant     *hidden_when, *action, *tooltip;
@@ -1736,6 +1765,7 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
 
   /* cleanup */
   g_list_free (children);
+#endif
 }
 
 
@@ -2400,8 +2430,8 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_location_changed), window);
   g_signal_connect (document->file, "readonly-changed",
                     G_CALLBACK (mousepad_window_readonly_changed), window);
-  g_signal_connect (document->textview, "populate-popup",
-                    G_CALLBACK (mousepad_window_menu_textview_popup), window);
+  g_signal_connect (document->controller, "pressed",
+                    G_CALLBACK (mousepad_window_textview_menu_popup), window);
   g_signal_connect (document->textview, "notify::has-focus",
                     G_CALLBACK (mousepad_window_enable_edit_actions), window);
 
@@ -2438,7 +2468,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->file, mousepad_window_externally_modified, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_location_changed, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
-  mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
+  mousepad_disconnect_by_func (document->controller, mousepad_window_textview_menu_popup, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_enable_edit_actions, window);
 
   /* reset the reference to NULL to avoid illegal memory access */
@@ -2502,6 +2532,7 @@ mousepad_window_notebook_button_pressed (GtkGestureClick *gesture_click,
   GtkNotebook  *notebook = GTK_NOTEBOOK (window->notebook);
   GtkGesture   *gesture = GTK_GESTURE (gesture_click);
   GtkWidget    *page, *label, *view = GTK_WIDGET (window->active->textview);
+  GdkRectangle  rect = { x, y, 0, 0 };
   gdouble       tx, ty;
   guint         page_num = 0, button = 0;
 
@@ -2523,7 +2554,10 @@ mousepad_window_notebook_button_pressed (GtkGestureClick *gesture_click,
 
               /* show the menu */
               if (button == 3)
-                gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), event);
+                {
+                  gtk_popover_set_pointing_to (GTK_POPOVER (window->tab_menu), &rect);
+                  gtk_widget_show (window->tab_menu);
+                }
               /* close the document */
               else if (button == 2)
                 g_action_group_activate_action (G_ACTION_GROUP (window), "file.close-tab", NULL);
@@ -2578,6 +2612,30 @@ mousepad_window_notebook_button_released (GtkGestureClick *gesture_click,
 /**
  * Document Signals Functions
  **/
+static void
+mousepad_window_textview_menu_popup (GtkGestureClick *gesture,
+                                     int              n_press,
+                                     double           x,
+                                     double           y,
+                                     MousepadWindow  *window)
+{
+  GdkRectangle rect = { 0, 0, 0, 0 };
+  gdouble      tx, ty;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  gtk_widget_translate_coordinates (GTK_WIDGET (window->active->textview),
+                                    GTK_WIDGET (window), x, y, &tx, &ty);
+  rect.x = tx;
+  rect.y = ty;
+  gtk_popover_set_pointing_to (GTK_POPOVER (window->textview_menu), &rect);
+  gtk_widget_show (window->textview_menu);
+
+  gtk_gesture_set_state (GTK_GESTURE (gesture), GTK_EVENT_SEQUENCE_CLAIMED);
+}
+
+
+
 static gboolean
 mousepad_window_pending_widget_idle (gpointer data)
 {
@@ -2751,7 +2809,6 @@ mousepad_window_enable_edit_actions (GObject        *object,
                                      MousepadWindow *window)
 {
   MousepadDocument *document = window->active;
-  GList            *items;
   GAction          *action;
   guint             n;
   gboolean          enabled;
@@ -2762,9 +2819,8 @@ mousepad_window_enable_edit_actions (GObject        *object,
     {
       /* actions enabled only in a focused text view or in the text view menu,
        * to prevent conflicts with GtkEntry keybindings */
-      items = gtk_container_get_children (GTK_CONTAINER (window->textview_menu));
-      enabled = gtk_widget_has_focus (GTK_WIDGET (document->textview)) || items == NULL;
-      g_list_free (items);
+      enabled = gtk_widget_has_focus (GTK_WIDGET (document->textview))
+                || gtk_widget_get_visible (window->textview_menu);
       for (n = 0; n < G_N_ELEMENTS (focus_actions); n++)
         {
           action = g_action_map_lookup_action (G_ACTION_MAP (window), focus_actions[n]);
@@ -2954,7 +3010,7 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
           g_free (label);
 
           /* set submenu icon */
-          /* TODO: is there a way to apply an icon to a submenu?
+          /* TODO (GTK 3 legacy): is there a way to apply an icon to a submenu?
            * (the documentation says yes, the "folder" icon name is valid, but…) */
           g_menu_item_set_attribute_value (item, "icon", g_variant_new_string ("folder"));
 
@@ -3149,64 +3205,6 @@ mousepad_window_menu_tab_sizes_update (MousepadWindow *window)
 
   /* allow menu actions again */
   lock_menu_updates--;
-}
-
-
-
-static void
-mousepad_window_menu_textview_shown (GtkWidget      *menu,
-                                     MousepadWindow *window)
-{
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  /* disconnect this handler */
-  mousepad_disconnect_by_func (menu, mousepad_window_menu_textview_shown, window);
-
-  /* empty the original menu */
-  mousepad_util_container_clear (GTK_CONTAINER (menu));
-
-  /* realign menu items */
-  if (window->old_style_menu)
-    gtk_menu_set_reserve_toggle_size (GTK_MENU (menu), FALSE);
-
-  /* move the textview menu children into the other menu */
-  mousepad_util_container_move_children (GTK_CONTAINER (window->textview_menu),
-                                         GTK_CONTAINER (menu));
-}
-
-
-
-static void
-mousepad_window_menu_textview_deactivate (GtkMenuShell   *menu,
-                                          MousepadWindow *window)
-{
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  /* disconnect this handler */
-  mousepad_disconnect_by_func (menu, mousepad_window_menu_textview_deactivate, window);
-
-  /* copy the menu children back into the textview menu */
-  mousepad_util_container_move_children (GTK_CONTAINER (menu),
-                                         GTK_CONTAINER (window->textview_menu));
-}
-
-
-
-static void
-mousepad_window_menu_textview_popup (GtkTextView    *textview,
-                                     GtkMenu        *menu,
-                                     MousepadWindow *window)
-{
-  g_return_if_fail (GTK_IS_TEXT_VIEW (textview));
-  g_return_if_fail (GTK_IS_MENU (menu));
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
-
-  /* connect signal */
-  g_signal_connect (menu, "show",
-                    G_CALLBACK (mousepad_window_menu_textview_shown), window);
-  g_signal_connect (menu, "deactivate",
-                    G_CALLBACK (mousepad_window_menu_textview_deactivate), window);
 }
 
 
@@ -3841,6 +3839,8 @@ mousepad_window_paste_history_add (MousepadWindow *window)
 
 
 
+/* TODO Paste History */
+#if 0
 static void
 mousepad_window_paste_history_activate (GtkMenuItem    *item,
                                         MousepadWindow *window)
@@ -4005,6 +4005,7 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
 
   return menu;
 }
+#endif
 
 
 
@@ -4784,6 +4785,8 @@ mousepad_window_action_paste_history (GSimpleAction *action,
                                       GVariant      *value,
                                       gpointer       data)
 {
+/* TODO Paste History */
+#if 0
   MousepadWindow *window = data;
   GtkWidget      *menu;
   GdkRectangle    location;
@@ -4808,6 +4811,7 @@ mousepad_window_action_paste_history (GSimpleAction *action,
   gtk_menu_popup_at_rect (GTK_MENU (menu),
                           gtk_widget_get_parent_window (GTK_WIDGET (window->active->textview)),
                           &location, GDK_GRAVITY_SOUTH_WEST, GDK_GRAVITY_NORTH_WEST, NULL);
+#endif
 }
 
 
@@ -5589,7 +5593,7 @@ mousepad_window_menubar_key (GtkEventControllerKey *controller,
                                     G_CALLBACK (mousepad_window_hide_menubar), window);
           g_signal_connect_swapped (window->controller_scroll, "scroll",
                                     G_CALLBACK (mousepad_window_hide_menubar), window);
-/* TODO */
+/* TODO Menubar */
 #if 0
           g_signal_connect_swapped (window->menubar, "deactivate",
                                     G_CALLBACK (mousepad_window_hide_menubar), window);
@@ -5618,11 +5622,14 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
 {
   MousepadWindow *window = data;
   GtkApplication *application;
-  GtkWidget      *label;
   GAction        *textview_action;
   GMenuModel     *model;
+/* TODO Menubar */
+#if 0
+  GtkWidget      *label;
   GList          *children, *child;
   gpointer        mnemonic;
+#endif
   gboolean        visible;
   gint            offset;
 
@@ -5650,6 +5657,8 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
       offset = GPOINTER_TO_INT (mousepad_object_get_data (model, window->offset_key));
       mousepad_window_menu_set_tooltips (window, window->textview_menu, model, &offset);
 
+/* TODO Menubar */
+#if 0
       /* get the main menubar mnemonic keys */
       children = gtk_container_get_children (GTK_CONTAINER (window->menubar));
       for (child = children; child != NULL; child = child->next)
@@ -5659,6 +5668,7 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
           mnemonics = g_list_prepend (mnemonics, mnemonic);
         }
       g_list_free (children);
+#endif
 
       /* handle events to show the menubar temporarily when hidden */
       if (window->controller_click == NULL)
