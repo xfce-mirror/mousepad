@@ -1081,7 +1081,7 @@ mousepad_window_create_root_warning (MousepadWindow *window)
       provider = gtk_css_provider_new ();
       css_string = "box { background-color: #b4254b; color: #fefefe; }";
       context = gtk_widget_get_style_context (hbox);
-      gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+      gtk_css_provider_load_from_data (provider, css_string, -1);
       gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
                                       GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
       g_object_unref (provider);
@@ -1533,7 +1533,7 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
               provider = gtk_css_provider_new ();
               gtk_css_provider_load_from_data (provider,
                                                "menuitem { min-width: 0px; min-height: 0px; }",
-                                               -1, NULL);
+                                               -1);
               gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
                                               GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
               g_object_unref (provider);
@@ -5497,11 +5497,12 @@ static void
 mousepad_window_change_font_size (MousepadWindow *window,
                                   gint            change)
 {
-  PangoFontDescription *font_desc;
-  GtkStyleContext      *context;
-  GValue                font = G_VALUE_INIT;
+  PangoContext         *context;
+  PangoFontDescription *font_desc, *font_desc_pt;
   gchar                *font_string;
-  gint                  font_size;
+  gint                  font_size, font_size_pt;
+
+  static gdouble scale_factor = 1.0;
 
   /* reset case */
   if (change == 0)
@@ -5513,23 +5514,35 @@ mousepad_window_change_font_size (MousepadWindow *window,
     }
   else
     {
-      /* retrieve current font size and add it the change */
-      context = gtk_widget_get_style_context (GTK_WIDGET (window->active->textview));
-      gtk_style_context_get_property (context, "font", gtk_style_context_get_state (context), &font);
-      font_desc = g_value_get_boxed (&font);
-      font_size = pango_font_description_get_size (font_desc) / PANGO_SCALE + change;
+      /* retrieve the current font size */
+      context = gtk_widget_get_pango_context (GTK_WIDGET (window->active->textview));
+      font_desc = pango_context_get_font_description (context);
+      font_size = pango_font_description_get_size (font_desc);
+
+      /* compute scale factor for conversion from px to pt if needed */
+      if (scale_factor == 1.0 && pango_font_description_get_size_is_absolute (font_desc))
+        {
+          font_string = MOUSEPAD_SETTING_GET_STRING (FONT);
+          font_desc_pt = pango_font_description_from_string (font_string);
+          font_size_pt = pango_font_description_get_size (font_desc_pt);
+          scale_factor = (gdouble) font_size / (gdouble) font_size_pt;
+
+          g_free (font_string);
+          pango_font_description_free (font_desc_pt);
+        }
+
+      /* the font size we're going to set, converted to pt without pango scaling */
+      font_size = round (font_size / (scale_factor * PANGO_SCALE)) + change;
 
       /* exit silently if the new font size is outside [MIN_FONT_SIZE, MAX_FONT_SIZE] */
       if (font_size < MIN_FONT_SIZE || font_size > MAX_FONT_SIZE)
-        {
-          g_value_unset (&font);
-          return;
-        }
+        return;
 
       /* generate new font string */
-      pango_font_description_set_size (font_desc, font_size * PANGO_SCALE);
-      font_string = pango_font_description_to_string (font_desc);
-      g_value_unset (&font);
+      font_desc_pt = pango_font_description_copy (font_desc);
+      pango_font_description_set_size (font_desc_pt, font_size * PANGO_SCALE);
+      font_string = pango_font_description_to_string (font_desc_pt);
+      pango_font_description_free (font_desc_pt);
     }
 
   /* change font size */
