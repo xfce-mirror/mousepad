@@ -540,7 +540,6 @@ mousepad_document_get_tab_label (MousepadDocument *document)
 
   /* create the box */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_widget_show (hbox);
 
   /* create the label */
   document->priv->label = gtk_label_new (mousepad_document_get_basename (document));
@@ -549,14 +548,12 @@ mousepad_document_get_tab_label (MousepadDocument *document)
                                    document, G_CONNECT_SWAPPED);
   gtk_widget_set_tooltip_text (document->priv->label, document->priv->utf8_filename);
   gtk_box_append (GTK_BOX (hbox), document->priv->label);
-  gtk_widget_show (document->priv->label);
 
   /* set label style */
   mousepad_document_style_label (document);
 
   /* create the button */
   button = mousepad_close_button_new (document->buffer);
-  gtk_widget_show (button);
 
   /* pack button, add signal and tooltip */
   gtk_widget_set_tooltip_text (button, _("Close this tab"));
