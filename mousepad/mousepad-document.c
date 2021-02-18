@@ -553,15 +553,15 @@ mousepad_document_label_color (MousepadDocument *document)
       /* grey out the label text */
       if (mousepad_file_get_read_only (document->file)
           || ! gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview)))
-        gtk_style_context_add_class (context, GTK_STYLE_CLASS_DIM_LABEL);
+        gtk_style_context_add_class (context, "dim-label");
       else
-        gtk_style_context_remove_class (context, GTK_STYLE_CLASS_DIM_LABEL);
+        gtk_style_context_remove_class (context, "dim-label");
 
       /* change the label text color */
       if (gtk_text_buffer_get_modified (document->buffer))
         {
           gtk_css_provider_load_from_data (document->priv->css_provider,
-                                           "label { color: red; }", -1, NULL);
+                                           "label { color: red; }", -1);
           gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (document->priv->css_provider),
                                           GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
         }
