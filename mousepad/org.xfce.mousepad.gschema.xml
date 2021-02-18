@@ -312,21 +312,6 @@
 
   <!-- window preferences -->
   <schema id="org.xfce.mousepad.preferences.window" path="/org/xfce/mousepad/preferences/window/">
-    <key name="toolbar-style" enum="org.xfce.mousepad.ToolbarStyle">
-      <default>'icons'</default>
-      <summary>Toolbar style</summary>
-      <description>
-        Controls how the toolbar items will be drawn with respect to text
-        labels and icons (if visible).
-      </description>
-    </key>
-    <key name="toolbar-icon-size" enum="org.xfce.mousepad.IconSize">
-      <default>'normal'</default>
-      <summary>Toolbar icon size</summary>
-      <description>
-        Controls the size of the toolbar icons (if visible).
-      </description>
-    </key>
     <key name="always-show-tabs" type="b">
       <default>false</default>
       <summary>Always show tabs</summary>
