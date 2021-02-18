@@ -237,7 +237,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
 
   /* box for the search entry and its buttons */
   box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_style_context_add_class (gtk_widget_get_style_context (box), GTK_STYLE_CLASS_LINKED);
+  gtk_widget_add_css_class (box, "linked");
   gtk_widget_set_margin_end (box, 6);
 
   item = gtk_tool_item_new ();
@@ -263,7 +263,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   /* recover entry shape after hiding the combo box button */
   provider = gtk_css_provider_new ();
   css_string = "entry { border-top-right-radius: 0; border-bottom-right-radius: 0; }";
-  gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+  gtk_css_provider_load_from_data (provider, css_string, -1);
   gtk_style_context_add_provider (gtk_widget_get_style_context (bar->entry),
                                   GTK_STYLE_PROVIDER (provider),
                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -325,8 +325,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
 
   /* the occurrences label */
   bar->hits_label = gtk_label_new (NULL);
-  gtk_style_context_add_class (gtk_widget_get_style_context (bar->hits_label),
-                               GTK_STYLE_CLASS_DIM_LABEL);
+  gtk_widget_add_css_class (bar->hits_label, "dim-label");
 
   item = gtk_tool_item_new ();
   gtk_widget_set_margin_start (GTK_WIDGET (item), 6);
@@ -347,7 +346,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   gtk_container_add (GTK_CONTAINER (menu_item), box);
 
   widget = gtk_label_new (NULL);
-  gtk_style_context_add_class (gtk_widget_get_style_context (widget), GTK_STYLE_CLASS_DIM_LABEL);
+  gtk_widget_add_css_class (widget, "dim-label");
   g_object_bind_property (bar->hits_label, "label", widget, "label", G_BINDING_DEFAULT);
   gtk_box_append (GTK_BOX (box), widget);
 
