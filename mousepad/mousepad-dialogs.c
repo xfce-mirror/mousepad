@@ -191,11 +191,7 @@ gboolean
 mousepad_dialogs_go_to (GtkWindow     *parent,
                         GtkTextBuffer *buffer)
 {
-  GtkWidget    *dialog;
-  GtkWidget    *area, *vbox, *hbox;
-  GtkWidget    *button;
-  GtkWidget    *label;
-  GtkWidget    *line_spin, *col_spin;
+  GtkWidget    *dialog, *area, *vbox, *hbox, *button, *label, *line_spin, *col_spin;
   GtkSizeGroup *size_group;
   GtkTextIter   iter;
   gint          line, column, lines;
@@ -246,11 +242,11 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
 
   line_spin = gtk_spin_button_new_with_range (-lines, lines, 1);
-  gtk_entry_set_activates_default (GTK_ENTRY (line_spin), TRUE);
+  gtk_widget_activate_default (line_spin);
   gtk_box_append (GTK_BOX (hbox), line_spin);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), line_spin);
   gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (line_spin), TRUE);
-  gtk_entry_set_width_chars (GTK_ENTRY (line_spin), 8);
+  gtk_editable_set_width_chars (GTK_EDITABLE (line_spin), 8);
 
   /* column box */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
@@ -266,12 +262,12 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   g_object_unref (size_group);
 
   col_spin = gtk_spin_button_new_with_range (0, 0, 1);
-  gtk_entry_set_activates_default (GTK_ENTRY (col_spin), TRUE);
+  gtk_widget_activate_default (col_spin);
   mousepad_object_set_data (col_spin, "buffer", buffer);
   gtk_box_append (GTK_BOX (hbox), col_spin);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), col_spin);
   gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (col_spin), TRUE);
-  gtk_entry_set_width_chars (GTK_ENTRY (col_spin), 8);
+  gtk_editable_set_width_chars (GTK_EDITABLE (col_spin), 8);
 
   /* signal to monitor column number */
   g_signal_connect (line_spin, "value-changed",
