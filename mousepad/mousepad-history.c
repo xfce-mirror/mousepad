@@ -1343,7 +1343,6 @@ mousepad_history_paste_get_menu (GCallback callback,
       mousepad_object_set_data (item, "history-pointer", li->data);
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (item, "activate", callback, data);
-      gtk_widget_show (item);
     }
 
   /* create an item to inform the user if history is empty */
@@ -1352,7 +1351,6 @@ mousepad_history_paste_get_menu (GCallback callback,
       item = gtk_menu_item_new_with_label (_("No clipboard data"));
       gtk_widget_set_sensitive (item, FALSE);
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      gtk_widget_show (item);
     }
 
   return menu;
