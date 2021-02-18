@@ -24,12 +24,9 @@
   </enum>
 
   <enum id="org.xfce.mousepad.IconSize">
-    <value nick="menu" value="1"/>
-    <value nick="small-toolbar" value="2"/>
-    <value nick="large-toolbar" value="3"/>
-    <value nick="button" value="4"/>
-    <value nick="dnd" value="5"/>
-    <value nick="dialog" value="6"/>
+    <value nick="inherit" value="1"/>
+    <value nick="normal" value="2"/>
+    <value nick="large" value="3"/>
   </enum>
 
   <enum id="org.xfce.mousepad.OpeningMode">
@@ -324,7 +321,7 @@
       </description>
     </key>
     <key name="toolbar-icon-size" enum="org.xfce.mousepad.IconSize">
-      <default>'small-toolbar'</default>
+      <default>'normal'</default>
       <summary>Toolbar icon size</summary>
       <description>
         Controls the size of the toolbar icons (if visible).
