@@ -45,7 +45,7 @@ mousepad_close_button_class_init (MousepadCloseButtonClass *klass)
 static void
 mousepad_close_button_init (MousepadCloseButton *button)
 {
-  GtkWidget *image;
+  GtkWidget       *image;
   GtkCssProvider  *css_provider;
   GtkStyleContext *context;
 
@@ -57,7 +57,7 @@ mousepad_close_button_init (MousepadCloseButton *button)
     "}\n";
 
   css_provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_data (css_provider, button_style, -1, NULL);
+  gtk_css_provider_load_from_data (css_provider, button_style, -1);
 
   context = gtk_widget_get_style_context (GTK_WIDGET (button));
   gtk_style_context_add_provider (context,
