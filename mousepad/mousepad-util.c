@@ -335,11 +335,10 @@ mousepad_util_entry_error (GtkWidget *widget,
   if (GPOINTER_TO_INT (pointer) != error)
     {
       /* set the widget style */
-      /* see http://gtk.10911.n7.nabble.com/set-custom-entry-background-td88472.html#a88489 */
       if (error)
-        gtk_style_context_add_class (gtk_widget_get_style_context (widget), GTK_STYLE_CLASS_ERROR);
+        gtk_widget_add_css_class (widget, "error");
       else
-        gtk_style_context_remove_class (gtk_widget_get_style_context (widget), GTK_STYLE_CLASS_ERROR);
+        gtk_widget_remove_css_class (widget, "error");
 
       /* set the new state */
       mousepad_object_set_data (widget, "error-state", GINT_TO_POINTER (error));
@@ -536,7 +535,7 @@ mousepad_util_set_titlebar (GtkWindow *window)
   /* make the header bar slim */
   context = gtk_widget_get_style_context (bar);
   provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_data (provider, "headerbar { min-height: 0px; }", -1, NULL);
+  gtk_css_provider_load_from_data (provider, "headerbar { min-height: 0px; }", -1);
   gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   g_object_unref (provider);
