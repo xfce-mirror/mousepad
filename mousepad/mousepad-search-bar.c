@@ -358,8 +358,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   g_object_bind_property (bar->spinner, "active", widget, "active", G_BINDING_DEFAULT);
   gtk_box_append (GTK_BOX (box), widget);
 
-  /* show all widgets but the search bar */
-  gtk_widget_show_all (GTK_WIDGET (bar));
+  /* don't show the search bar yet */
   gtk_widget_hide (GTK_WIDGET (bar));
 
   /* reset search box history on show/hide */
