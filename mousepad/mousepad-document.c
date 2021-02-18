@@ -498,9 +498,9 @@ mousepad_document_style_label (MousepadDocument *document)
       /* grey out the label text */
       if (mousepad_file_get_read_only (document->file)
           || !gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview)))
-        gtk_style_context_add_class (context, GTK_STYLE_CLASS_DIM_LABEL);
+        gtk_style_context_add_class (context, "dim-label");
       else
-        gtk_style_context_remove_class (context, GTK_STYLE_CLASS_DIM_LABEL);
+        gtk_style_context_remove_class (context, "dim-label");
     }
 }
 
