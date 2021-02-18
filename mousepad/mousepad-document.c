@@ -90,6 +90,7 @@ struct _MousepadDocumentPrivate
   /* search related */
   GtkSourceSearchContext *search_context, *selection_context;
   GtkSourceBuffer        *selection_buffer;
+  GtkWidget              *prev_window;
   gint                    prev_search_state;
   guint                   search_id;
 };
@@ -151,15 +152,10 @@ mousepad_document_class_init (MousepadDocumentClass *klass)
 
 
 static void
-mousepad_document_hierarchy_changed (MousepadDocument *document,
-                                     GtkWidget        *prev_window)
+mousepad_document_root_changed (MousepadDocument *document)
 {
   GtkWidget *window;
   gboolean   visible;
-
-  /* disconnect from previous window signals in case of a drag and drop */
-  if (prev_window != NULL)
-    mousepad_disconnect_by_func (prev_window, mousepad_document_search_widget_visible, document);
 
   /* get the ancestor MousepadWindow */
   window = gtk_widget_get_ancestor (GTK_WIDGET (document), MOUSEPAD_TYPE_WINDOW);
@@ -168,11 +164,21 @@ mousepad_document_hierarchy_changed (MousepadDocument *document,
    * drag and drop), there might also not be a MousepadWindow ancestor, e.g. when the
    * document is packed in a MousepadEncodingDialog */
   if (window == NULL)
-    return;
+    {
+      /* disconnect from previous window signals in case of a drag and drop */
+      if (document->priv->prev_window != NULL)
+        mousepad_disconnect_by_func (document->priv->prev_window,
+                                     mousepad_document_search_widget_visible, document);
+
+      return;
+    }
 
   /* initialize autosave only for documents in a MousepadWindow, and only once */
-  if (prev_window == NULL)
+  if (document->priv->prev_window == NULL)
     mousepad_file_autosave_init (document->file);
+
+  /* update previous parent window */
+  document->priv->prev_window = window;
 
   /* bind some search properties to the "search-widget-visible" window property */
   g_signal_connect_object (window, "notify::search-widget-visible",
@@ -207,8 +213,7 @@ mousepad_document_init (MousepadDocument *document)
   GtkWidget               *scrolled_window;
 
   /* we will complete initialization when the document is anchored */
-  g_signal_connect (document, "hierarchy-changed",
-                    G_CALLBACK (mousepad_document_hierarchy_changed), NULL);
+  g_signal_connect (document, "notify::root", G_CALLBACK (mousepad_document_root_changed), NULL);
 
   /* private structure */
   document->priv = mousepad_document_get_instance_private (document);
@@ -219,6 +224,7 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->label = NULL;
   document->priv->selection_context = NULL;
   document->priv->selection_buffer = NULL;
+  document->priv->prev_window = NULL;
   document->priv->prev_search_state = INIT;
 
   /* create a textbuffer and associated search context */
