@@ -111,7 +111,6 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
   gtk_box_append (box, separator);
-  gtk_widget_show (separator);
 
   /* language/filetype */
   label = statusbar->language = gtk_label_new (_("Filetype: None"));
@@ -125,27 +124,22 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
   gtk_box_append (box, separator);
-  gtk_widget_show (separator);
 
   /* encoding */
   statusbar->encoding = gtk_label_new (NULL);
   gtk_box_append (box, statusbar->encoding);
-  gtk_widget_show (statusbar->encoding);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
   gtk_box_append (box, separator);
-  gtk_widget_show (separator);
 
   /* line and column numbers */
   statusbar->position = gtk_label_new (NULL);
   gtk_box_append (box, statusbar->position);
-  gtk_widget_show (statusbar->position);
 
   /* separator */
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
   gtk_box_append (box, separator);
-  gtk_widget_show (separator);
 
   /* overwrite label */
   label = statusbar->overwrite = gtk_label_new (_("OVR"));
