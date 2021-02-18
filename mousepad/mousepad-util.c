@@ -756,45 +756,6 @@ mousepad_util_save_key_file (GKeyFile    *keyfile,
 
 
 
-void
-mousepad_util_container_clear (GtkContainer *container)
-{
-  GList *list, *iter;
-
-  g_return_if_fail (GTK_IS_CONTAINER (container));
-
-  list = gtk_container_get_children (container);
-
-  for (iter = list; iter != NULL; iter = g_list_next (iter))
-    gtk_container_remove (container, iter->data);
-
-  g_list_free (list);
-}
-
-
-
-void
-mousepad_util_container_move_children (GtkContainer *source,
-                                       GtkContainer *destination)
-{
-  GList *list, *iter;
-
-  list = gtk_container_get_children (source);
-
-  for (iter = list; iter != NULL; iter = g_list_next (iter))
-    {
-      GtkWidget *tmp = g_object_ref (iter->data);
-
-      gtk_container_remove (source, tmp);
-      gtk_container_add (destination, tmp);
-      g_object_unref (tmp);
-    }
-
-  g_list_free (list);
-}
-
-
-
 static gint
 mousepad_util_style_schemes_name_compare (gconstpointer a,
                                           gconstpointer b)
