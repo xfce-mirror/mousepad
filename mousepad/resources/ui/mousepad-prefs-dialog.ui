@@ -109,28 +109,16 @@
     </columns>
     <data>
       <row>
-        <col id="0">menu</col>
-        <col id="1" translatable="yes">Menu</col>
+        <col id="0">inherit</col>
+        <col id="1" translatable="yes">Inherit</col>
       </row>
       <row>
-        <col id="0">small-toolbar</col>
-        <col id="1" translatable="yes">Small Toolbar</col>
+        <col id="0">normal</col>
+        <col id="1" translatable="yes">Normal</col>
       </row>
       <row>
-        <col id="0">large-toolbar</col>
-        <col id="1" translatable="yes">Large Toolbar</col>
-      </row>
-      <row>
-        <col id="0">button</col>
-        <col id="1" translatable="yes">Button</col>
-      </row>
-      <row>
-        <col id="0">dnd</col>
-        <col id="1" translatable="yes">Drag &amp; Drop</col>
-      </row>
-      <row>
-        <col id="0">dialog</col>
-        <col id="1" translatable="yes">Dialog</col>
+        <col id="0">large</col>
+        <col id="1" translatable="yes">Large</col>
       </row>
     </data>
   </object>
