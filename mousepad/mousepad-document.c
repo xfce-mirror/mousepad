@@ -200,7 +200,7 @@ mousepad_document_init (MousepadDocument *document)
   GtkWidget               *scrolled_window;
 
   /* we will complete initialization when the document is anchored */
-  g_signal_connect (document, "hierarchy-changed", G_CALLBACK (mousepad_document_post_init), NULL);
+  g_signal_connect (document, "notify::root", G_CALLBACK (mousepad_document_post_init), NULL);
 
   /* private structure */
   document->priv = mousepad_document_get_instance_private (document);
