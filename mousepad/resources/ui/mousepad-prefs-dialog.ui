@@ -216,13 +216,11 @@
 
 
   <object class="GtkNotebook" id="/prefs/main-notebook">
-    <property name="visible">True</property>
 
     <!-- "View" tab -->
     <property name="can-focus">False</property>
     <child>
       <object class="GtkBox" id="/prefs/view/content-area">
-        <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="vexpand">True</property>
         <property name="margin-top">6</property>
@@ -232,12 +230,10 @@
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkFrame" id="/prefs/view/display/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <object class="GtkBox" id="/prefs/view/display/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -248,7 +244,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Show line numbers</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.view.show-line-numbers</property>
@@ -263,7 +258,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Display whitespace</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.view.show-whitespace</property>
@@ -278,7 +272,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Display line endings</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.view.show-line-endings</property>
@@ -292,13 +285,11 @@
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkCheckButton" id="/prefs/view/display/long-line-check">
                         <property name="label" translatable="yes">Long line margin at column:</property>
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="receives-default">False</property>
                         <property name="action-name">app.preferences.view.show-right-margin</property>
@@ -314,13 +305,11 @@
                       <!-- add an extra packing to ensure that the binding with the checkbox takes effect
                            at initialization: this workaround is only necessary for GtkSpinButtons -->
                       <object class="GtkBox">
-                        <property name="visible">True</property>
                         <property name="sensitive" bind-source="/prefs/view/display/long-line-check" bind-property="active" bind-flags="sync-create">False</property>
                         <property name="can-focus">False</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkSpinButton" id="/prefs/view/display/long-line-spin">
-                            <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="invisible-char">•</property>
                             <property name="primary-icon-activatable">False</property>
@@ -351,7 +340,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Highlight current line</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.view.highlight-current-line</property>
@@ -366,7 +354,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Highlight matching brackets</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.view.match-braces</property>
@@ -381,7 +368,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Wrap long lines</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.view.word-wrap</property>
@@ -397,7 +383,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;Display&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -412,13 +397,11 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/view/font/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="/prefs/view/font/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -429,7 +412,6 @@
                 <child>
                   <object class="GtkCheckButton" id="/prefs/view/font/default-check">
                     <property name="label" translatable="yes">Use system monospace font</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.view.use-default-monospace-font</property>
@@ -442,7 +424,6 @@
                 </child>
                 <child>
                   <object class="GtkFontButton" id="/prefs/view/font/chooser-button">
-                    <property name="visible">True</property>
                     <property name="sensitive" bind-source="/prefs/view/font/default-check" bind-property="active" bind-flags="sync-create|invert-boolean">False</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">True</property>
@@ -457,7 +438,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;Font&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -472,12 +452,10 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/view/color-scheme/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <object class="GtkBox" id="/prefs/view/color-scheme/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -486,7 +464,6 @@
                 <property name="spacing">2</property>
                 <child>
                   <object class="GtkComboBox" id="/prefs/view/color-scheme/combo">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="model">/prefs/view/color-scheme/model</property>
                     <property name="active">0</property>
@@ -507,7 +484,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;Color Scheme&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -524,7 +500,6 @@
     </child>
     <child type="tab">
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="label" translatable="yes">View</property>
       </object>
@@ -536,7 +511,6 @@
     <!-- "Editor" tab -->
     <child>
       <object class="GtkBox" id="/prefs/editor/content-area">
-        <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="margin-top">6</property>
         <property name="margin-bottom">6</property>
@@ -546,13 +520,11 @@
         <property name="spacing">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/editor/indentation/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="/prefs/editor/indentation/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -562,7 +534,6 @@
                 <property name="column-spacing">6</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="label" translatable="yes">Tab width:</property>
                     <property name="xalign">0</property>
@@ -574,7 +545,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="label" translatable="yes">Tab mode:</property>
                     <property name="xalign">0</property>
@@ -586,7 +556,6 @@
                 </child>
                 <child>
                   <object class="GtkSpinButton" id="/prefs/editor/indentation/tab-width-spin">
-                    <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="invisible-char">•</property>
                     <property name="primary-icon-activatable">False</property>
@@ -601,7 +570,6 @@
                 </child>
                 <child>
                   <object class="GtkComboBox" id="/prefs/editor/indentation/tab-mode-combo">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="model">/prefs/editor/indentation/tab-mode-store</property>
                     <property name="active">0</property>
@@ -620,7 +588,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Enable automatic indentation</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.view.auto-indent</property>
@@ -635,7 +602,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;Indentation&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -650,12 +616,10 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/editor/smart-keys/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <object class="GtkBox" id="/prefs/editor/smart-keys/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -666,7 +630,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Tab: Indent selection (Shift+Tab: Unindent)</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="tooltip-text" translatable="yes">Indent/unindent the currently selected text or the current line</property>
@@ -681,14 +644,12 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.view.smart-backspace</property>
                     <property name="draw-indicator">True</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Backspace: Delete indent spaces as tabs</property>
                         <property name="wrap">True</property>
@@ -704,7 +665,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="label" translatable="yes">Home/End: Detect leading/trailing whitespace:</property>
                     <property name="xalign">0</property>
@@ -717,11 +677,9 @@
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
                       <object class="GtkComboBox" id="/prefs/editor/smart-keys/smart-home-end-combo">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="model">/prefs/editor/smart-keys/smart-home-end-model</property>
                         <property name="id-column">0</property>
@@ -749,7 +707,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;Smart Keys&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -769,7 +726,6 @@
     </child>
     <child type="tab">
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="label" translatable="yes">Editor</property>
       </object>
@@ -782,7 +738,6 @@
     <!-- "Window" tab -->
     <child>
       <object class="GtkBox" id="/prefs/window/content-area">
-        <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="margin-top">6</property>
         <property name="margin-bottom">6</property>
@@ -792,12 +747,10 @@
         <property name="spacing">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/window/general/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <object class="GtkBox" id="/prefs/window/general/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -808,7 +761,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Client-side decorations (restart required)</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.client-side-decorations</property>
@@ -823,7 +775,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Show full filename in title bar</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.path-in-title</property>
@@ -838,7 +789,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Remember window size</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.remember-size</property>
@@ -854,7 +804,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Remember window position</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.remember-position</property>
@@ -870,7 +819,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Remember window state</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.remember-state</property>
@@ -886,7 +834,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;General&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -901,13 +848,11 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/window/toolbar/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="/prefs/window/toolbar/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -918,7 +863,6 @@
                 <child>
                   <object class="GtkCheckButton" id="/prefs/window/toolbar/visible-check">
                     <property name="label" translatable="yes">Show toolbar</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.toolbar-visible</property>
@@ -932,7 +876,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
                     <property name="can-focus">False</property>
                     <property name="label" translatable="yes">Style:</property>
@@ -945,7 +888,6 @@
                 </child>
                 <child>
                   <object class="GtkLabel">
-                    <property name="visible">True</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
                     <property name="can-focus">False</property>
                     <property name="label" translatable="yes">Icon Size:</property>
@@ -958,7 +900,6 @@
                 </child>
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/style-combo">
-                    <property name="visible">True</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
                     <property name="can-focus">False</property>
                     <property name="model">/prefs/window/toolbar/style-model</property>
@@ -977,7 +918,6 @@
                 </child>
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/icon-size-combo">
-                    <property name="visible">True</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
                     <property name="can-focus">False</property>
                     <property name="model">/prefs/window/toolbar/icon-size-model</property>
@@ -998,7 +938,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;Toolbar&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -1013,12 +952,10 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/window/notebook/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <object class="GtkBox" id="/prefs/window/notebook/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -1029,7 +966,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Always show tabs even with one file</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.always-show-tabs</property>
@@ -1044,7 +980,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Expand tabs to fill available space</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.expand-tabs</property>
@@ -1059,7 +994,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Cycled notebook tab switching</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.cycle-tabs</property>
@@ -1073,13 +1007,11 @@
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="margin-top">2</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Open files in:</property>
                         <property name="xalign">0</property>
@@ -1092,7 +1024,6 @@
                     </child>
                     <child>
                       <object class="GtkComboBox" id="/prefs/window/notebook/opening-mode-combo">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="model">/prefs/window/notebook/opening-mode-model</property>
                         <property name="id-column">0</property>
@@ -1125,7 +1056,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;Notebook Tabs&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -1145,7 +1075,6 @@
     </child>
     <child type="tab">
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="label" translatable="yes">Window</property>
       </object>
@@ -1158,7 +1087,6 @@
     <!-- "File" tab -->
     <child>
       <object class="GtkBox" id="/prefs/file/content-area">
-        <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="margin-top">6</property>
         <property name="margin-bottom">6</property>
@@ -1168,12 +1096,10 @@
         <property name="spacing">6</property>
         <child>
           <object class="GtkFrame" id="/prefs/file/file-saving/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <object class="GtkBox" id="/prefs/file/file-saving/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -1184,7 +1110,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Ensure new line at file end</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.file.add-last-end-of-line</property>
@@ -1199,7 +1124,6 @@
                 <child>
                   <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Make a copy with '~' suffix</property>
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.file.make-backup</property>
@@ -1215,7 +1139,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;File Saving&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -1230,12 +1153,10 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/file/history/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <object class="GtkBox" id="/prefs/file/history/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -1245,13 +1166,11 @@
                 <property name="spacing">2</property>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="margin-top">2</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Session restore:</property>
                         <property name="xalign">0</property>
@@ -1264,7 +1183,6 @@
                     </child>
                     <child>
                       <object class="GtkComboBox" id="/prefs/file/history/session-combo">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="tooltip-text" translatable="yes">When "unsaved documents" or "always" is selected, Mousepad won't ask for saving modified documents when quitting</property>
                         <property name="model">/prefs/file/history/session-model</property>
@@ -1292,14 +1210,12 @@
                 <child>
                   <!-- n-columns=3 n-rows=3 -->
                   <object class="GtkGrid">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="margin-top">2</property>
                     <property name="row-spacing">4</property>
                     <property name="column-spacing">6</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Recent file menu length:</property>
                         <property name="xalign">0</property>
@@ -1311,7 +1227,6 @@
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="/prefs/file/history/recent-spin">
-                        <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">'0' disables and wipes recent history</property>
                         <property name="invisible-char">•</property>
@@ -1327,7 +1242,6 @@
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Search history size:</property>
                         <property name="xalign">0</property>
@@ -1339,7 +1253,6 @@
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="/prefs/file/history/search-spin">
-                        <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="invisible-char">•</property>
                         <property name="primary-icon-activatable">False</property>
@@ -1363,7 +1276,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;History&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -1378,12 +1290,10 @@
         </child>
         <child>
           <object class="GtkFrame" id="/prefs/file/miscellaneous/frame">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
             <child>
               <object class="GtkBox" id="/prefs/file/miscellaneous/content-area">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
@@ -1394,13 +1304,11 @@
                 <child>
                   <!-- n-columns=3 n-rows=3 -->
                   <object class="GtkGrid">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="row-spacing">4</property>
                     <property name="column-spacing">4</property>
                     <child>
                       <object class="GtkCheckButton" id="/prefs/file/miscellaneous/monitor-changes">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="receives-default">False</property>
                         <property name="action-name">app.preferences.file.monitor-changes</property>
@@ -1413,7 +1321,6 @@
                     </child>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">File monitoring</property>
                         <property name="xalign">0</property>
@@ -1426,7 +1333,6 @@
                     <child>
                       <object class="GtkCheckButton">
                         <property name="label" translatable="yes">Automatic reloading</property>
-                        <property name="visible">True</property>
                         <property name="sensitive" bind-source="/prefs/file/miscellaneous/monitor-changes" bind-property="active" bind-flags="sync-create">False</property>
                         <property name="can-focus">False</property>
                         <property name="receives-default">False</property>
@@ -1447,13 +1353,11 @@
                 </child>
                 <child>
                   <object class="GtkBox">
-                    <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="margin-top">2</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Default encoding:</property>
                         <property name="xalign">0</property>
@@ -1466,7 +1370,6 @@
                     </child>
                     <child>
                       <object class="GtkComboBox" id="/prefs/file/history/encoding-combo">
-                        <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="model">/prefs/file/history/encoding-model</property>
                         <property name="active">0</property>
@@ -1494,7 +1397,6 @@
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">&lt;b&gt;Miscellaneous&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
@@ -1514,7 +1416,6 @@
     </child>
     <child type="tab">
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="label" translatable="yes">File</property>
       </object>
@@ -1529,7 +1430,6 @@
       <object class="GtkScrolledWindow" id="/prefs/plugins/scrolled-window">
         <child>
           <object class="GtkBox" id="/prefs/plugins/content-area">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="margin-top">6</property>
             <property name="margin-bottom">6</property>
@@ -1547,7 +1447,6 @@
     </child>
     <child type="tab">
       <object class="GtkLabel">
-        <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="label" translatable="yes">Plugins</property>
       </object>
