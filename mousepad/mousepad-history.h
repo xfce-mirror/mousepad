@@ -96,9 +96,8 @@ mousepad_history_paste_add (GObject *object,
                             GAsyncResult *result,
                             gpointer data);
 
-GtkWidget *
-mousepad_history_paste_get_menu (GCallback callback,
-                                 gpointer data);
+GMenuModel *
+mousepad_history_paste_get_menu (void);
 
 G_END_DECLS
 
