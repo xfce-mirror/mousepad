@@ -235,8 +235,8 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
                                             MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
                                               | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
 
-  /* show all widgets */
-  gtk_widget_show_all (GTK_WIDGET (dialog));
+  /* show the dialog */
+  gtk_widget_show (GTK_WIDGET (dialog));
 
   /* reset search entry and occurrences label */
   gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), "");
