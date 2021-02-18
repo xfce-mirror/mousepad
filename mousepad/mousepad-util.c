@@ -353,7 +353,8 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
   gtk_box_append (GTK_BOX (vbox), hbox);
 
   /* title icon */
-  icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_DIALOG);
+  icon = gtk_image_new_from_icon_name (icon_name);
+  gtk_image_set_icon_size (GTK_IMAGE (icon), GTK_ICON_SIZE_LARGE);
   gtk_box_append (GTK_BOX (hbox), icon);
 
   /* create the title */
@@ -403,7 +404,8 @@ mousepad_util_dialog_update_header (GtkDialog   *dialog,
 
   /* title icon */
   icon = gtk_widget_get_first_child (hbox);
-  gtk_image_set_from_icon_name (GTK_IMAGE (icon), icon_name, GTK_ICON_SIZE_DIALOG);
+  gtk_image_set_from_icon_name (GTK_IMAGE (icon), icon_name);
+  gtk_image_set_icon_size (GTK_IMAGE (icon), GTK_ICON_SIZE_LARGE);
 
   /* title label */
   formated_title = g_strdup_printf ("<b><big>%s</big></b>", title);
