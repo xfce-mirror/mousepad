@@ -73,12 +73,13 @@
     </data>
   </object>
 
+<!-- TODO Toolbar
   <object class="GtkListStore" id="/prefs/window/toolbar/style-model">
-    <columns>
+    <columns> -->
       <!-- column-name style -->
-      <column type="gchararray"/>
+      <!-- <column type="gchararray"/> -->
       <!-- column-name name -->
-      <column type="gchararray"/>
+      <!-- <column type="gchararray"/>
     </columns>
     <data>
       <row>
@@ -99,6 +100,7 @@
       </row>
     </data>
   </object>
+ -->
 
   <object class="GtkListStore" id="/prefs/window/toolbar/icon-size-model">
     <columns>
@@ -633,6 +635,7 @@
                     </layout>
                   </object>
                 </child>
+<!-- TODO
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/style-combo">
                     <property name="model">/prefs/window/toolbar/style-model</property>
@@ -651,6 +654,7 @@
                     </layout>
                   </object>
                 </child>
+-->
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/icon-size-combo">
                     <property name="model">/prefs/window/toolbar/icon-size-model</property>
