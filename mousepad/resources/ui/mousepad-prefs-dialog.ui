@@ -151,56 +151,6 @@
     </data>
   </object>
 
-  <object class="GtkListStore" id="/prefs/window/toolbar/icon-size-model">
-    <columns>
-      <!-- column-name size -->
-      <column type="gchararray"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">inherit</col>
-        <col id="1" translatable="yes">Inherit</col>
-      </row>
-      <row>
-        <col id="0">normal</col>
-        <col id="1" translatable="yes">Normal</col>
-      </row>
-      <row>
-        <col id="0">large</col>
-        <col id="1" translatable="yes">Large</col>
-      </row>
-    </data>
-  </object>
-
-  <object class="GtkListStore" id="/prefs/window/toolbar/style-model">
-    <columns>
-      <!-- column-name style -->
-      <column type="gchararray"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">icons</col>
-        <col id="1" translatable="yes">Icons Only</col>
-      </row>
-      <row>
-        <col id="0">text</col>
-        <col id="1" translatable="yes">Text Only</col>
-      </row>
-      <row>
-        <col id="0">both</col>
-        <col id="1" translatable="yes">Text Below Icons</col>
-      </row>
-      <row>
-        <col id="0">both-horiz</col>
-        <col id="1" translatable="yes">Text Beside Icons</col>
-      </row>
-    </data>
-  </object>
-
 
 
   <object class="GtkNotebook" id="/prefs/main-notebook">
@@ -778,91 +728,45 @@
           </packing>
         </child>
         <child>
-          <object class="GtkFrame" id="/prefs/window/toolbar/frame">
+          <object class="GtkFrame" id="/prefs/window/toolbars/frame">
             <property name="label-xalign">0</property>
             <child>
-              <!-- n-columns=3 n-rows=3 -->
-              <object class="GtkGrid" id="/prefs/window/toolbar/content-area">
+              <object class="GtkBox" id="/prefs/window/toolbars/content-area">
                 <property name="margin-start">12</property>
                 <property name="margin-end">6</property>
                 <property name="margin-top">6</property>
                 <property name="margin-bottom">6</property>
-                <property name="row-spacing">6</property>
-                <property name="column-spacing">6</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">2</property>
                 <child>
-                  <object class="GtkCheckButton" id="/prefs/window/toolbar/visible-check">
+                  <object class="GtkCheckButton">
+                    <property name="label" translatable="yes">Show menubar</property>
+                    <property name="receives-default">False</property>
+                    <property name="action-name">app.preferences.window.menubar-visible</property>
+                    <property name="draw-indicator">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Show toolbar</property>
                     <property name="receives-default">False</property>
                     <property name="action-name">app.preferences.window.toolbar-visible</property>
                     <property name="draw-indicator">True</property>
-                    <layout>
-                      <property name="column">0</property>
-                      <property name="row">0</property>
-                      <!--TODO <property name="width">2</property>-->
-                    </layout>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
-                    <property name="label" translatable="yes">Style:</property>
-                    <property name="xalign">0</property>
-                    <layout>
-                      <property name="column">0</property>
-                      <property name="row">1</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
-                    <property name="label" translatable="yes">Icon Size:</property>
-                    <property name="xalign">0</property>
-                    <layout>
-                      <property name="column">0</property>
-                      <property name="row">2</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkComboBox" id="/prefs/window/toolbar/style-combo">
-                    <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
-                    <property name="model">/prefs/window/toolbar/style-model</property>
-                    <property name="id-column">0</property>
-                    <child>
-                      <object class="GtkCellRendererText"/>
-                      <attributes>
-                        <attribute name="text">1</attribute>
-                      </attributes>
-                    </child>
-                    <layout>
-                      <property name="column">1</property>
-                      <property name="row">1</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkComboBox" id="/prefs/window/toolbar/icon-size-combo">
-                    <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
-                    <property name="model">/prefs/window/toolbar/icon-size-model</property>
-                    <property name="id-column">0</property>
-                    <child>
-                      <object class="GtkCellRendererText"/>
-                      <attributes>
-                        <attribute name="text">1</attribute>
-                      </attributes>
-                    </child>
-                    <layout>
-                      <property name="column">1</property>
-                      <property name="row">2</property>
-                    </layout>
+                  <object class="GtkCheckButton">
+                    <property name="label" translatable="yes">Show status bar</property>
+                    <property name="receives-default">False</property>
+                    <property name="action-name">app.preferences.window.statusbar-visible</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                 </child>
               </object>
             </child>
             <child type="label">
               <object class="GtkLabel">
-                <property name="label" translatable="yes">&lt;b&gt;Toolbar&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Toolbars&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
             </child>
