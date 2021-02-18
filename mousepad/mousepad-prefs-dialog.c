@@ -238,9 +238,6 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
           gtk_widget_set_margin_top (grid, 6);
           gtk_widget_set_margin_bottom (grid, 6);
           gtk_frame_set_child (GTK_FRAME (widget), grid);
-
-          /* show all widgets in the frame */
-          gtk_widget_show_all (widget);
         }
 
       /* add the provider checkbox to the grid and build its action name */
@@ -266,6 +263,7 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
       gtk_grid_attach (GTK_GRID (grid), child, 1, n, 1, 1);
 
       /* show the button if the plugin already has a setting box, or when it gets one */
+      gtk_widget_hide (child);
       mousepad_object_set_data (child, "provider", provider->data);
       mousepad_prefs_dialog_checkbox_toggled_idle (child);
       g_signal_connect (widget, "toggled",
@@ -274,9 +272,6 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
       /* make the provider checkbox actionable, triggering in particular the handler above */
       gtk_actionable_set_action_name (GTK_ACTIONABLE (widget), str);
       g_free (str);
-
-      /* show all widgets in the checkbox */
-      gtk_widget_show_all (widget);
     }
 }
 
@@ -546,7 +541,6 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   widget = gtk_dialog_get_content_area (GTK_DIALOG (self));
   child = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
   gtk_box_append (GTK_BOX (widget), child);
-  gtk_widget_show (child);
 
   /* setup the window properties */
   gtk_window_set_title (GTK_WINDOW (self), _("Mousepad Preferences"));
@@ -601,16 +595,15 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                          gtk_builder_get_object (self->builder, WID_SESSION_COMBO),
                          "active-id", G_SETTINGS_BIND_DEFAULT);
 
-  /* show the "Plugins" tab only if there is at least one plugin and fill it on demand,
-   * to not slow down the dialog opening */
+  /* hide the "Plugins" tab if there is no plugin and fill it on demand, to not
+   * slow down the dialog opening */
+  widget = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
+  child = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
   if (mousepad_application_get_providers (application) != NULL)
-    {
-      widget = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
-      child = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
-      g_signal_connect (widget, "switch-page",
-                        G_CALLBACK (mousepad_prefs_dialog_plugins_tab), child);
-      gtk_widget_show (child);
-    }
+    g_signal_connect (widget, "switch-page",
+                      G_CALLBACK (mousepad_prefs_dialog_plugins_tab), child);
+  else
+    gtk_widget_hide (child);
 }
 
 

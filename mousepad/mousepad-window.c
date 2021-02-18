@@ -920,9 +920,6 @@ mousepad_window_toolbar_new_from_model (MousepadWindow *window,
       gtk_tool_item_set_expand (item, TRUE);
     }
 
-  /* show all widgets */
-  gtk_widget_show_all (toolbar);
-
   return toolbar;
 }
 
@@ -1060,7 +1057,6 @@ mousepad_window_create_root_warning (MousepadWindow *window)
       /* add the box for the root warning */
       hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
       gtk_box_append (GTK_BOX (window->box), hbox);
-      gtk_widget_show (hbox);
 
       /* add the label with the root warning */
       label = gtk_label_new (_("Warning: you are using the root account. You may harm your system."));
@@ -1070,11 +1066,9 @@ mousepad_window_create_root_warning (MousepadWindow *window)
       gtk_widget_set_margin_bottom (label, 3);
       gtk_widget_set_hexpand (label, TRUE);
       gtk_box_append (GTK_BOX (hbox), label);
-      gtk_widget_show (label);
 
       separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
       gtk_box_append (GTK_BOX (window->box), separator);
-      gtk_widget_show (separator);
 
       /* apply a CSS style to capture the user's attention */
       provider = gtk_css_provider_new ();
@@ -1124,7 +1118,6 @@ mousepad_window_create_notebook (MousepadWindow *window)
   gtk_widget_set_margin_bottom (window->notebook, PADDING);
   gtk_widget_set_vexpand (window->notebook, TRUE);
   gtk_box_append (GTK_BOX (window->box), window->notebook);
-  gtk_widget_show (window->notebook);
 }
 
 
@@ -1169,16 +1162,13 @@ mousepad_window_init (MousepadWindow *window)
   /* create the main table */
   window->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_window_set_child (GTK_WINDOW (window), window->box);
-  gtk_widget_show (window->box);
 
   /* keep a place for the menubar and the toolbar created later */
   window->menubar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_box_append (GTK_BOX (window->box), window->menubar_box);
-  gtk_widget_show (window->menubar_box);
 
   window->toolbar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_box_append (GTK_BOX (window->box), window->toolbar_box);
-  gtk_widget_show (window->toolbar_box);
 
   /* create the root-warning bar (if needed) */
   mousepad_window_create_root_warning (window);
@@ -1495,8 +1485,6 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
               g_object_unref (provider);
             }
 
-          gtk_widget_show (button);
-
           /* bind the "active" property of the hidden and visible checkboxes/radios */
           g_object_bind_property (item, "active", button, "active", G_BINDING_SYNC_CREATE);
         }
@@ -1515,7 +1503,6 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
 
       box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
       g_object_ref (box);
-      gtk_widget_show (box);
 
       /* either a button or an icon, not both, with an end margin when needed */
       if (button != NULL)
@@ -1528,7 +1515,6 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
         {
           icon = gtk_image_new_from_icon_name ("", GTK_ICON_SIZE_BUTTON);
           gtk_widget_set_margin_end (icon, 6);
-          gtk_widget_show (icon);
           gtk_box_append (GTK_BOX (box), icon);
         }
 
@@ -1571,7 +1557,6 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
     {
       /* create a new non-check menu item and add it to the menu */
       new_item = gtk_menu_item_new ();
-      gtk_widget_show (new_item);
       gtk_container_add (GTK_CONTAINER (new_item), box);
       gtk_menu_shell_insert (GTK_MENU_SHELL (menu), new_item, index);
 
@@ -1998,9 +1983,6 @@ mousepad_window_add (MousepadWindow   *window,
   /* set notebook page properties */
   g_object_set (gtk_notebook_get_page (notebook, widget),
                 "reorderable", TRUE, "detachable", TRUE, NULL);
-
-  /* show the document */
-  gtk_widget_show (widget);
 
   /* don't bother about this when there was no previous active page (startup) */
   if (G_LIKELY (prev_active != NULL))
@@ -3945,7 +3927,6 @@ mousepad_window_paste_history_menu_item (const gchar *text,
   /* create a hbox */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 14);
   gtk_container_add (GTK_CONTAINER (item), hbox);
-  gtk_widget_show (hbox);
 
   /* create the clipboard label */
   label = gtk_label_new (label_str);
@@ -3953,7 +3934,6 @@ mousepad_window_paste_history_menu_item (const gchar *text,
   gtk_box_append (GTK_BOX (hbox), label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_widget_show (label);
 
   /* create the mnemonic label */
   label = gtk_label_new_with_mnemonic (mnemonic);
@@ -3961,7 +3941,6 @@ mousepad_window_paste_history_menu_item (const gchar *text,
   gtk_label_set_xalign (GTK_LABEL (label), 1.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), item);
-  gtk_widget_show (label);
 
   /* cleanup */
   g_free (label_str);
@@ -4020,7 +3999,6 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
           mousepad_object_set_data (item, "history-pointer", li->data);
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
           g_signal_connect (item, "activate", G_CALLBACK (mousepad_window_paste_history_activate), window);
-          gtk_widget_show (item);
         }
     }
 
@@ -4031,7 +4009,6 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
         {
           item = gtk_separator_menu_item_new ();
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-          gtk_widget_show (item);
         }
 
       /* create menu item for current clipboard text */
@@ -4040,7 +4017,6 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (item, "activate",
                         G_CALLBACK (mousepad_window_paste_history_activate), window);
-      gtk_widget_show (item);
     }
   else if (! mousepad_util_container_has_children (GTK_CONTAINER (menu)))
     {
@@ -4048,7 +4024,6 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
       item = gtk_menu_item_new_with_label (_("No clipboard data"));
       gtk_widget_set_sensitive (item, FALSE);
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      gtk_widget_show (item);
     }
 
   return menu;
