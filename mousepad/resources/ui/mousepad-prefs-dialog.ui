@@ -174,12 +174,13 @@
     </data>
   </object>
 
+<!-- TODO Toolbar
   <object class="GtkListStore" id="/prefs/window/toolbar/style-model">
-    <columns>
+    <columns> -->
       <!-- column-name style -->
-      <column type="gchararray"/>
+      <!-- <column type="gchararray"/> -->
       <!-- column-name name -->
-      <column type="gchararray"/>
+      <!-- <column type="gchararray"/>
     </columns>
     <data>
       <row>
@@ -199,7 +200,7 @@
         <col id="1" translatable="yes">Text Beside Icons</col>
       </row>
     </data>
-  </object>
+  </object> -->
 
 
 
@@ -878,6 +879,7 @@
                     </layout>
                   </object>
                 </child>
+<!-- TODO Toolbar
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/style-combo">
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
@@ -896,6 +898,7 @@
                     </layout>
                   </object>
                 </child>
+-->
                 <child>
                   <object class="GtkComboBox" id="/prefs/window/toolbar/icon-size-combo">
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check" bind-property="active" bind-flags="sync-create">False</property>
