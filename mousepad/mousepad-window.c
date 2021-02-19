@@ -4200,7 +4200,9 @@ mousepad_window_action_open (GSimpleAction *action,
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadEncoding  encoding;
-  GSList           *files, *file;
+  GListModel       *files;
+  GFile            *file;
+  guint             n = 0;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -4215,11 +4217,14 @@ mousepad_window_action_open (GSimpleAction *action,
       lock_menu_updates++;
 
       /* open all the selected locations in new tabs */
-      for (file = files; file != NULL; file = file->next)
-        mousepad_window_open_file (window, file->data, encoding, TRUE);
+      while ((file = g_list_model_get_item (files, n++)) != NULL)
+        {
+          mousepad_window_open_file (window, file, encoding, TRUE);
+          g_object_unref (file);
+        }
 
       /* cleanup */
-      g_slist_free_full (files, g_object_unref);
+      g_object_unref (files);
 
       /* allow menu updates again */
       lock_menu_updates--;
