@@ -208,7 +208,6 @@ mousepad_document_root_changed (MousepadDocument *document)
 static void
 mousepad_document_init (MousepadDocument *document)
 {
-  GtkTargetList           *target_list;
   GtkSourceSearchSettings *search_settings;
   GtkWidget               *scrolled_window;
 
@@ -266,10 +265,6 @@ mousepad_document_init (MousepadDocument *document)
   gtk_event_controller_set_propagation_phase (document->controller, GTK_PHASE_TARGET);
   gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (document->controller), 3);
   gtk_widget_add_controller (GTK_WIDGET (document->textview), document->controller);
-
-  /* also allow dropping of uris and tabs in the textview */
-  target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (document->textview));
-  gtk_target_list_add_table (target_list, drop_targets, G_N_ELEMENTS (drop_targets));
 
   /* connect handlers to the document attribute signals */
   g_signal_connect_swapped (document->file, "readonly-changed",
