@@ -681,26 +681,28 @@ mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
   MousepadEncoding encoding = MOUSEPAD_ENCODING_NONE;
   GtkTreeModel *model;
   GtkTreeIter iter;
-  GSList *files;
+  GListModel *files;
+  GFile *file;
   gchar *label = NULL;
   gint row_type, row = 1;
   gboolean replace = FALSE;
 
   /* do nothing if no file or several files are selected */
   files = gtk_file_chooser_get_files (chooser);
-  if (files == NULL || g_slist_length (files) > 1)
+  file = g_list_model_get_item (files, 0);
+  g_object_unref (files);
+  if (file == NULL || g_list_model_get_n_items (files) > 1)
     {
-      g_slist_free_full (files, g_object_unref);
+      if (file != NULL)
+        g_object_unref (file);
       return;
     }
 
   /* get encoding from history, exit on failure */
-  mousepad_history_recent_get_encoding (files->data, &encoding);
+  mousepad_history_recent_get_encoding (file, &encoding);
+  g_object_unref (file);
   if (encoding == MOUSEPAD_ENCODING_NONE)
-    {
-      g_slist_free_full (files, g_object_unref);
-      return;
-    }
+    return;
 
   /* get second row type */
   model = gtk_combo_box_get_model (combo);
@@ -755,8 +757,6 @@ mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
   /* full list */
   else
     mousepad_dialogs_combo_set_active (combo, encoding);
-
-  g_slist_free_full (files, g_object_unref);
 }
 
 
@@ -795,7 +795,7 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
   GtkTreeModel *model;
   GtkListStore *list;
   GtkTreeIter iter;
-  GSList *files;
+  GListModel *files;
   GFile *g_file;
   GFileIOStream *iostream = NULL;
   GError *error = NULL;
@@ -819,6 +819,9 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
       /* fallback to default encoding as a last resort */
       mousepad_dialogs_combo_set_active (combo, mousepad_encoding_get_default ());
 
+      /* ensure the combo box is closed before to open a dialog */
+      gtk_combo_box_popdown (combo);
+
       /* "Open" dialog */
       if (gtk_file_chooser_get_action (GTK_FILE_CHOOSER (dialog))
           == GTK_FILE_CHOOSER_ACTION_OPEN)
@@ -829,16 +832,19 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
           gtk_tree_model_get (model, &iter, 1, &encoding, -1);
 
           /* get a list of selected locations, must be non empty */
-          if ((files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog))) != NULL)
+          files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
+          if ((g_file = g_list_model_get_item (files, 0)) != NULL)
             {
               file = mousepad_file_new (GTK_TEXT_BUFFER (gtk_source_buffer_new (NULL)));
-              mousepad_file_set_location (file, files->data, MOUSEPAD_LOCATION_REAL);
+              mousepad_file_set_location (file, g_file, MOUSEPAD_LOCATION_REAL);
               mousepad_file_set_encoding (file, encoding);
-              g_slist_free_full (files, g_object_unref);
+              g_object_unref (g_file);
             }
           /* ask the user to select a file */
           else
             mousepad_dialogs_show_error (GTK_WINDOW (dialog), NULL, _("Please select a file"));
+
+          g_object_unref (files);
         }
       /* "Save As" dialog */
       else
@@ -992,6 +998,28 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
 
 
 
+static GtkWidget *
+mousepad_dialogs_find_choice_box (GtkWidget *widget)
+{
+  GtkWidget *child, *candidate;
+
+  if (GTK_IS_BOX (widget) && GTK_IS_CHECK_BUTTON (gtk_widget_get_first_child (widget)))
+    return widget;
+
+  /* go in reverse order to not search into upper widgets uselessly: just a little optimization */
+  for (child = gtk_widget_get_last_child (widget); child != NULL;
+       child = gtk_widget_get_prev_sibling (child))
+    {
+      candidate = mousepad_dialogs_find_choice_box (child);
+      if (GTK_IS_BOX (candidate) && GTK_IS_CHECK_BUTTON (gtk_widget_get_first_child (candidate)))
+        return candidate;
+    }
+
+  return NULL;
+}
+
+
+
 static GtkComboBox *
 mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
 {
@@ -1004,9 +1032,19 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   guint n_rows = 0, n;
   MousepadEncoding encodings[] = { MOUSEPAD_ENCODING_UTF_8, MOUSEPAD_ENCODING_ISO_8859_15 };
 
-  /* packing */
+  /* make the choice widget appear */
+  gtk_file_chooser_add_choice (GTK_FILE_CHOOSER (dialog), "", "", NULL, NULL);
+
+  /* retrieve the choice widget box and pack encoding widgets in it */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-  gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), hbox);
+  if ((widget = mousepad_dialogs_find_choice_box (dialog)) != NULL)
+    {
+      /* hide choice widget instead of removing it: usually preferable */
+      gtk_widget_hide (gtk_widget_get_first_child (widget));
+      gtk_box_append (GTK_BOX (widget), hbox);
+    }
+  else
+    g_warn_if_reached ();
 
   /* combo box label */
   widget = gtk_label_new_with_mnemonic (_("_Encoding:"));
@@ -1136,8 +1174,6 @@ mousepad_dialogs_save_as (GtkWindow *parent,
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
 
   /* set properties */
-  gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
-  gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
   /* add file filter */
@@ -1152,8 +1188,8 @@ mousepad_dialogs_save_as (GtkWindow *parent,
     gtk_file_chooser_set_file (GTK_FILE_CHOOSER (dialog),
                                mousepad_file_get_location (current_file), NULL);
   else if (last_save_location != NULL)
-    gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (dialog),
-                                              last_save_location, NULL);
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),
+                                         last_save_location, NULL);
 
   /* run the dialog */
   if ((response = gtk_dialog_run (GTK_DIALOG (dialog))) == GTK_RESPONSE_ACCEPT)
@@ -1177,7 +1213,7 @@ mousepad_dialogs_save_as (GtkWindow *parent,
 gint
 mousepad_dialogs_open (GtkWindow *parent,
                        GFile *file,
-                       GSList **files,
+                       GListModel **files,
                        MousepadEncoding *encoding)
 {
   GtkWidget *dialog, *button;
@@ -1200,7 +1236,6 @@ mousepad_dialogs_open (GtkWindow *parent,
 
   /* set properties */
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), TRUE);
   gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
 
   /* add file filter */
@@ -1209,9 +1244,12 @@ mousepad_dialogs_open (GtkWindow *parent,
   /* encoding selector */
   combo = mousepad_dialogs_add_encoding_combo (dialog);
 
+/* TODO GtkFileChooser: signal removed in 2746a2d929615231af10f221fc2ab416537285f3 */
+#if 0
   /* update encoding selector from history when selection changes */
   g_signal_connect (dialog, "selection-changed",
                     G_CALLBACK (mousepad_dialogs_open_selection_changed), combo);
+#endif
 
   /* select the active document in the file chooser */
   if (file != NULL && mousepad_util_query_exists (file, FALSE))
@@ -1220,7 +1258,9 @@ mousepad_dialogs_open (GtkWindow *parent,
   /* run the dialog */
   if ((response = gtk_dialog_run (GTK_DIALOG (dialog))) == GTK_RESPONSE_ACCEPT)
     {
+      GFile *gfile;
       gpointer user_set_encoding;
+      guint n = 0;
 
       /* get a list of selected locations */
       *files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
@@ -1229,8 +1269,11 @@ mousepad_dialogs_open (GtkWindow *parent,
       gtk_combo_box_get_active_iter (combo, &iter);
       gtk_tree_model_get (gtk_combo_box_get_model (combo), &iter, 1, encoding, -1);
       user_set_encoding = mousepad_object_get_data (combo, "user-set-encoding");
-      for (GSList *lp = *files; lp != NULL; lp = lp->next)
-        mousepad_object_set_data (lp->data, "user-set-encoding", user_set_encoding);
+      while ((gfile = g_list_model_get_item (*files, n++)) != NULL)
+        {
+          mousepad_object_set_data (gfile, "user-set-encoding", user_set_encoding);
+          g_object_unref (gfile);
+        }
     }
 
   /* destroy the dialog */
