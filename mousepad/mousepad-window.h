@@ -29,17 +29,6 @@ G_DECLARE_FINAL_TYPE (MousepadWindow, mousepad_window, MOUSEPAD, WINDOW, GtkAppl
 #define mousepad_is_application_window(window) \
   (g_list_find (gtk_application_get_windows (GTK_APPLICATION (g_application_get_default ())), window) != NULL)
 
-enum
-{
-  TARGET_TEXT_URI_LIST,
-  TARGET_GTK_NOTEBOOK_TAB
-};
-
-static const GtkTargetEntry drop_targets[] = {
-  { "text/uri-list", 0, TARGET_TEXT_URI_LIST },
-  { "GTK_NOTEBOOK_TAB", GTK_TARGET_SAME_APP, TARGET_GTK_NOTEBOOK_TAB }
-};
-
 GtkWidget *
 mousepad_window_new (MousepadApplication *application);
 
