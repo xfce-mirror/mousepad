@@ -34,13 +34,6 @@ static void      mousepad_view_set_property                  (GObject           
                                                               const GValue       *value,
                                                               GParamSpec         *pspec);
 
-/* GtkWidget virtual functions */
-static gboolean  mousepad_view_drag_motion                   (GtkWidget          *widget,
-                                                              GdkDragContext     *context,
-                                                              gint                x,
-                                                              gint                y,
-                                                              guint               timestamp);
-
 /* GtkTextView virtual functions */
 static void      mousepad_view_cut_clipboard                 (GtkTextView        *text_view);
 static void      mousepad_view_delete_from_cursor            (GtkTextView        *text_view,
@@ -122,14 +115,11 @@ static void
 mousepad_view_class_init (MousepadViewClass *klass)
 {
   GObjectClass       *gobject_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass     *widget_class = GTK_WIDGET_CLASS (klass);
   GtkTextViewClass   *textview_class = GTK_TEXT_VIEW_CLASS (klass);
   GtkSourceViewClass *sourceview_class = GTK_SOURCE_VIEW_CLASS (klass);
 
   gobject_class->finalize = mousepad_view_finalize;
   gobject_class->set_property = mousepad_view_set_property;
-
-  widget_class->drag_motion = mousepad_view_drag_motion;
 
   textview_class->cut_clipboard = mousepad_view_cut_clipboard;
   textview_class->delete_from_cursor = mousepad_view_delete_from_cursor;
@@ -339,35 +329,6 @@ mousepad_view_set_property (GObject      *object,
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
     }
-}
-
-
-
-static gboolean
-mousepad_view_drag_motion (GtkWidget      *widget,
-                           GdkDragContext *context,
-                           gint            x,
-                           gint            y,
-                           guint           timestamp)
-{
-  GtkTargetList *target_list;
-  gboolean       drop_zone;
-
-  /* chain up to parent */
-  drop_zone = GTK_WIDGET_CLASS (mousepad_view_parent_class)->drag_motion (widget, context,
-                                                                          x, y, timestamp);
-
-  /* enforce acceptance of our targets, especially when hovering over selections */
-  target_list = gtk_target_list_new (drop_targets, G_N_ELEMENTS (drop_targets));
-  if (gtk_drag_dest_find_target (widget, context, target_list) != GDK_NONE)
-  {
-    gdk_drag_status (context, gdk_drag_context_get_suggested_action (context), timestamp);
-    drop_zone = TRUE;
-  }
-
-  gtk_target_list_unref (target_list);
-
-  return drop_zone;
 }
 
 
