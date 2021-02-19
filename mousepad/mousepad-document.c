@@ -36,14 +36,6 @@ static void      mousepad_document_notify_language         (GtkSourceBuffer     
 static void      mousepad_document_notify_overwrite        (GtkTextView            *textview,
                                                             GParamSpec             *pspec,
                                                             MousepadDocument       *document);
-static void      mousepad_document_drag_data_received      (GtkWidget              *widget,
-                                                            GdkDragContext         *context,
-                                                            gint                    x,
-                                                            gint                    y,
-                                                            GtkSelectionData       *selection_data,
-                                                            guint                   info,
-                                                            guint                   drag_time,
-                                                            MousepadDocument       *document);
 static void      mousepad_document_location_changed        (MousepadDocument       *document,
                                                             GFile                  *file);
 static void      mousepad_document_label_color             (MousepadDocument       *document);
@@ -212,7 +204,6 @@ mousepad_document_root_changed (MousepadDocument *document)
 static void
 mousepad_document_init (MousepadDocument *document)
 {
-  GtkTargetList           *target_list;
   GtkSourceSearchSettings *search_settings;
   GtkWidget               *scrolled_window;
 
@@ -271,10 +262,6 @@ mousepad_document_init (MousepadDocument *document)
   gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (document->controller), 3);
   gtk_widget_add_controller (GTK_WIDGET (document->textview), document->controller);
 
-  /* also allow dropping of uris and tabs in the textview */
-  target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (document->textview));
-  gtk_target_list_add_table (target_list, drop_targets, G_N_ELEMENTS (drop_targets));
-
   /* connect handlers to the document attribute signals */
   g_signal_connect_swapped (document->buffer, "modified-changed",
                             G_CALLBACK (mousepad_document_label_color), document);
@@ -282,8 +269,6 @@ mousepad_document_init (MousepadDocument *document)
                             G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->textview, "notify::editable",
                             G_CALLBACK (mousepad_document_label_color), document);
-  g_signal_connect (document->textview, "drag-data-received",
-                    G_CALLBACK (mousepad_document_drag_data_received), document);
 
   /* forward some document attribute signals more or less directly */
   g_signal_connect_swapped (document->buffer, "notify::cursor-position",
@@ -472,26 +457,6 @@ mousepad_document_send_signals (MousepadDocument *document)
 
   /* re-send the overwrite signal */
   mousepad_document_notify_overwrite (GTK_TEXT_VIEW (document->textview), NULL, document);
-}
-
-
-
-static void
-mousepad_document_drag_data_received (GtkWidget        *widget,
-                                      GdkDragContext   *context,
-                                      gint              x,
-                                      gint              y,
-                                      GtkSelectionData *selection_data,
-                                      guint             info,
-                                      guint             drag_time,
-                                      MousepadDocument *document)
-{
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-
-  /* emit the drag-data-received signal from the document when a tab or uri has been dropped */
-  if (info == TARGET_TEXT_URI_LIST || info == TARGET_GTK_NOTEBOOK_TAB)
-    g_signal_emit_by_name (document, "drag-data-received", context,
-                           x, y, selection_data, info, drag_time);
 }
 
 
