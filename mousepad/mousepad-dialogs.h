@@ -110,7 +110,7 @@ mousepad_dialogs_save_as (GtkWindow *parent,
 gint
 mousepad_dialogs_open (GtkWindow *parent,
                        GFile *file,
-                       GSList **files,
+                       GListModel **files,
                        MousepadEncoding *encoding);
 
 void
