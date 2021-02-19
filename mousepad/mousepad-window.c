@@ -211,13 +211,10 @@ static void              mousepad_window_recent_menu                  (GSimpleAc
                                                                        gpointer                  data);
 
 /* dnd */
-static void              mousepad_window_drag_data_received           (GtkWidget                *widget,
-                                                                       GdkDragContext           *context,
-                                                                       gint                      x,
-                                                                       gint                      y,
-                                                                       GtkSelectionData         *selection_data,
-                                                                       guint                     info,
-                                                                       guint                     drag_time,
+static gboolean          mousepad_window_drag_data_received           (GtkDropTarget            *target,
+                                                                       GValue                   *value,
+                                                                       double                    x,
+                                                                       double                    y,
                                                                        MousepadWindow           *window);
 
 /* find and replace */
@@ -1173,7 +1170,8 @@ mousepad_window_key_press_event (GtkEventControllerKey *controller,
 static void
 mousepad_window_init (MousepadWindow *window)
 {
-  GAction *action;
+  GtkDropTarget *drop_target;
+  GAction       *action;
 
   /* initialize stuff */
   window->active = NULL;
@@ -1267,12 +1265,13 @@ mousepad_window_init (MousepadWindow *window)
                           G_CALLBACK (mousepad_window_key_press_event), window);
 
   /* allow drops in the window */
-  gtk_drag_dest_set (GTK_WIDGET (window),
-                     GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
-                     drop_targets,
-                     G_N_ELEMENTS (drop_targets), GDK_ACTION_COPY | GDK_ACTION_MOVE);
-  g_signal_connect (window, "drag-data-received",
+  drop_target = gtk_drop_target_new (G_TYPE_INVALID,
+                                     GDK_ACTION_COPY | GDK_ACTION_MOVE);
+  gtk_drop_target_set_gtypes (drop_target,
+                              (GType [2]) { G_TYPE_FILE, GTK_TYPE_NOTEBOOK_PAGE }, 2);
+  g_signal_connect (drop_target, "drop",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
+  gtk_widget_add_controller (GTK_WIDGET (window), GTK_EVENT_CONTROLLER (drop_target));
 
   /* update the window title when 'path-in-title' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE, mousepad_window_set_title,
@@ -2501,8 +2500,6 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_location_changed), window);
   g_signal_connect (document->file, "readonly-changed",
                     G_CALLBACK (mousepad_window_readonly_changed), window);
-  g_signal_connect (document->textview, "drag-data-received",
-                    G_CALLBACK (mousepad_window_drag_data_received), window);
   g_signal_connect (document->textview, "notify::has-focus",
                     G_CALLBACK (mousepad_window_enable_edit_actions), window);
   g_signal_connect (document->controller, "pressed",
@@ -2540,7 +2537,6 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->file, mousepad_window_externally_modified, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_location_changed, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
-  mousepad_disconnect_by_func (document->textview, mousepad_window_drag_data_received, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_enable_edit_actions, window);
   mousepad_disconnect_by_func (document->controller, mousepad_window_textview_menu_popup, window);
 
@@ -2581,7 +2577,7 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
       g_object_ref (document);
 
       /* remove the document from the active window */
-      gtk_notebook_detach_tab (GTK_NOTEBOOK (window->notebook), page);
+      gtk_notebook_detach_tab (notebook, page);
 
       /* emit the new window with document signal */
       g_signal_emit (window, window_signals[NEW_WINDOW], 0, document);
@@ -3629,68 +3625,42 @@ mousepad_window_recent_menu (GSimpleAction *action,
 /**
  * Drag and drop functions
  **/
-static void
-mousepad_window_drag_data_received (GtkWidget        *widget,
-                                    GdkDragContext   *context,
-                                    gint              x,
-                                    gint              y,
-                                    GtkSelectionData *selection_data,
-                                    guint             info,
-                                    guint             drag_time,
-                                    MousepadWindow   *window)
+static gboolean
+mousepad_window_drag_data_received (GtkDropTarget  *target,
+                                    GValue         *value,
+                                    double          x,
+                                    double          y,
+                                    MousepadWindow *window)
 {
-  GtkWidget  *notebook, **document;
-  GtkWidget  *child, *label;
-  GFile     **files;
-  gchar     **uris;
-  gint        i, n_pages;
+  GtkWidget     *notebook, *document, *page, *label;
+  GtkAllocation  alloc;
+  GFile         *file;
+  gint           i, n_pages;
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
 
-  /* we only accept text/uri-list drops with format 8 and atleast one byte of data */
-  if (info == TARGET_TEXT_URI_LIST
-      && gtk_selection_data_get_format (selection_data) == 8
-      && gtk_selection_data_get_length (selection_data) > 0
-      && (uris = gtk_selection_data_get_uris (selection_data)) != NULL)
+  /* TODO: How to handle multiple files? + Gdk-CRITICAL on second drop */
+  if (G_VALUE_HOLDS (value, G_TYPE_FILE) && (file = g_value_get_object (value)) != NULL)
     {
-      /* prepare the GFile array */
-      n_pages = g_strv_length (uris);
-      files = g_new (GFile *, n_pages);
-      for (i = 0; i < n_pages; i++)
-        files[i] = g_file_new_for_uri (uris[i]);
-
       /* open the files */
-      mousepad_window_open_files (window, files, n_pages,
-                                  mousepad_encoding_get_default (),
-                                  0, 0, FALSE);
-
-      /* cleanup */
-      g_strfreev (uris);
-      for (i = 0; i < n_pages; i++)
-        g_object_unref (files[i]);
-
-      g_free (files);
+      mousepad_window_open_files (window, &file, 1, mousepad_encoding_get_default (), 0, 0, FALSE);
 
       /* finish the drag (copy) */
-      gtk_drag_finish (context, TRUE, FALSE, drag_time);
+      return TRUE;
     }
-  else if (info == TARGET_GTK_NOTEBOOK_TAB)
+  else if (G_VALUE_HOLDS (value, GTK_TYPE_NOTEBOOK_PAGE))
     {
-      /* get the source notebook */
-      notebook = gtk_drag_get_source_widget (context);
-
       /* get the document that has been dragged */
-      document = (GtkWidget **) (gconstpointer) gtk_selection_data_get_data (selection_data);
+      document = gtk_notebook_page_get_child (g_value_get_object (value));
 
-      /* check */
-      g_return_if_fail (MOUSEPAD_IS_DOCUMENT (*document));
+      /* get the source notebook */
+      notebook = gtk_widget_get_ancestor (document, GTK_TYPE_NOTEBOOK);
 
       /* take a reference on the document before we remove it */
-      g_object_ref (*document);
+      g_object_ref (document);
 
       /* remove the document from the source window */
-      gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), *document);
+      gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), document);
 
       /* get the number of pages in the notebook */
       n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
@@ -3698,12 +3668,9 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
       /* figure out where to insert the tab in the notebook */
       for (i = 0; i < n_pages; i++)
         {
-          GtkAllocation alloc = { 0, 0, 0, 0 };
-
-          /* get the child label */
-          child = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i);
-          label = gtk_notebook_get_tab_label (GTK_NOTEBOOK (window->notebook), child);
-
+          /* get the child label allocation */
+          page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i);
+          label = gtk_notebook_get_tab_label (GTK_NOTEBOOK (window->notebook), page);
           gtk_widget_get_allocation (label, &alloc);
 
           /* break if we have a matching drop position */
@@ -3712,17 +3679,19 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
         }
 
       /* add the document to the new window */
-      mousepad_window_add (window, MOUSEPAD_DOCUMENT (*document));
+      mousepad_window_add (window, MOUSEPAD_DOCUMENT (document));
 
       /* move the tab to the correct position */
-      gtk_notebook_reorder_child (GTK_NOTEBOOK (window->notebook), *document, i);
+      gtk_notebook_reorder_child (GTK_NOTEBOOK (window->notebook), document, i);
 
       /* release our reference on the document */
-      g_object_unref (*document);
+      g_object_unref (document);
 
       /* finish the drag (move) */
-      gtk_drag_finish (context, TRUE, TRUE, drag_time);
+      return TRUE;
     }
+
+  return FALSE;
 }
 
 
@@ -4685,7 +4654,7 @@ mousepad_window_action_detach (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* invoke function without cooridinates */
+  /* invoke function without coordinates */
   mousepad_window_notebook_create_window (GTK_NOTEBOOK (window->notebook),
                                           GTK_WIDGET (window->active), window);
 }
