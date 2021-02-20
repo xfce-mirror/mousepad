@@ -269,10 +269,10 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   button = mousepad_util_image_button ("window-close", _("_Close"), 0, 4, 2, 2);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_CLOSE);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_FIND);
 
   /* set content area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (area), GTK_ORIENTATION_VERTICAL);
   gtk_box_set_spacing (GTK_BOX (area), 4);
   gtk_widget_set_margin_top (area, 6);
 
