@@ -23,7 +23,6 @@ mousepad/mousepad-view.c
 mousepad/mousepad-window.c
 
 mousepad/resources/gtk/menus.ui
-mousepad/resources/gtk/menus-common.ui
 mousepad/resources/ui/mousepad-prefs-dialog.ui
 
 plugins/gspell-plugin/mousepad-plugin-gspell.c
