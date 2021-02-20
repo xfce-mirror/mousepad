@@ -235,7 +235,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/view/display/content-area">
                 <property name="visible">True</property>
@@ -416,7 +415,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="/prefs/view/font/content-area">
@@ -477,7 +475,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/view/color-scheme/content-area">
                 <property name="visible">True</property>
@@ -552,7 +549,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="/prefs/editor/indentation/content-area">
@@ -657,7 +653,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/editor/smart-keys/content-area">
                 <property name="visible">True</property>
@@ -800,7 +795,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/window/general/content-area">
                 <property name="visible">True</property>
@@ -910,7 +904,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid" id="/prefs/window/toolbar/content-area">
@@ -1023,7 +1016,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/window/notebook/content-area">
                 <property name="visible">True</property>
@@ -1179,7 +1171,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/file/file-saving/content-area">
                 <property name="visible">True</property>
@@ -1242,7 +1233,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/file/history/content-area">
                 <property name="visible">True</property>
@@ -1391,7 +1381,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/file/miscellaneous/content-area">
                 <property name="visible">True</property>
