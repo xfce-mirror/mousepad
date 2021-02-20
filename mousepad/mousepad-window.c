@@ -3413,17 +3413,8 @@ static gint
 mousepad_window_recent_sort (gconstpointer ga,
                              gconstpointer gb)
 {
-  time_t ta, tb;
-
-  ta = gtk_recent_info_get_modified ((GtkRecentInfo *) ga);
-  tb = gtk_recent_info_get_modified ((GtkRecentInfo *) gb);
-
-  if (ta < tb)
-    return 1;
-  else if (ta > tb)
-    return -1;
-  else
-    return 0;
+  return g_date_time_compare (gtk_recent_info_get_modified ((GtkRecentInfo *) ga),
+                              gtk_recent_info_get_modified ((GtkRecentInfo *) gb));
 }
 
 
