@@ -451,7 +451,8 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
    * it with its popover */
   if (box != NULL && ! visible)
     {
-      popover = gtk_popover_new (button);
+      popover = gtk_popover_new ();
+      gtk_widget_set_parent (popover, button);
       gtk_popover_set_child (GTK_POPOVER (popover), box);
       g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_show), popover);
       g_signal_connect_swapped (button, "destroy",
@@ -483,14 +484,12 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 {
   MousepadApplication  *application;
   GtkWidget            *box, *widget, *child, *grid = NULL;
-  GdkModifierType       mods;
   GTypeModule          *module;
   GError               *error = NULL;
   GList                *providers, *provider;
-  gchar               **accels;
   const gchar          *category = NULL;
   gchar                *str;
-  guint                 n, key;
+  guint                 n;
 
   self->builder = gtk_builder_new ();
 
@@ -539,26 +538,19 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
         }
 
       /* add the provider checkbox to the grid and build its action name */
-      widget = gtk_check_button_new ();
+      widget = gtk_check_button_new_with_label (mousepad_plugin_provider_get_label (provider->data));
+      gtk_widget_set_hexpand (widget, TRUE);
       gtk_grid_attach (GTK_GRID (grid), widget, 0, n, 1, 1);
       module = provider->data;
       str = g_strconcat ("app.", module->name, NULL);
 
-      /* add an accel label to the provider checkbox */
-      child = gtk_accel_label_new (mousepad_plugin_provider_get_label (provider->data));
-      gtk_widget_set_hexpand (child, TRUE);
-      accels = gtk_application_get_accels_for_action (GTK_APPLICATION (application), str);
-      key = mods = 0;
-      if (accels[0] != NULL)
-        gtk_accelerator_parse (accels[0], &key, &mods);
-
-      gtk_accel_label_set_accel (GTK_ACCEL_LABEL (child), key, mods);
-      g_strfreev (accels);
-      gtk_widget_insert_after (child, widget, NULL);
+      /* add a shortcut label to the grid */
+      child = gtk_shortcut_label_new (mousepad_plugin_provider_get_accel (provider->data));
+      gtk_grid_attach (GTK_GRID (grid), child, 1, n, 1, 1);
 
       /* add a prefs button to the grid */
       child = gtk_button_new_from_icon_name ("preferences-system");
-      gtk_grid_attach (GTK_GRID (grid), child, 1, n, 1, 1);
+      gtk_grid_attach (GTK_GRID (grid), child, 2, n, 1, 1);
 
       /* show the button if the plugin already has a setting box, or when it gets one */
       gtk_widget_hide (child);
