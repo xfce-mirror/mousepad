@@ -263,7 +263,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* dialog buttons */
   dialog->find_button = mousepad_util_image_button ("edit-find", _("_Find"), 0, 4, 2, 2);
-  gtk_widget_set_can_default (dialog->find_button, TRUE);
+  gtk_window_set_default_widget (GTK_WINDOW (dialog), dialog->find_button);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
                                 dialog->find_button, MOUSEPAD_RESPONSE_FIND);
 
