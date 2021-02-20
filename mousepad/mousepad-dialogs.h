@@ -57,9 +57,9 @@ enum
 };
 
 
-void
-mousepad_dialogs_destroy_with_parent (GtkWidget *dialog,
-                                      GtkWindow *parent);
+gint
+mousepad_dialogs_run (GtkWidget *dialog,
+                      GtkWindow *parent);
 
 void
 mousepad_dialogs_show_about (GtkWindow *parent);
