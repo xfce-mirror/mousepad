@@ -576,7 +576,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 
   /* add the close button */
   widget = mousepad_util_image_button ("window-close", _("_Close"), 0, 0, 2, 0);
-  gtk_widget_set_can_default (widget, TRUE);
+  gtk_window_set_default_widget (GTK_WINDOW (self), widget);
   gtk_dialog_add_action_widget (GTK_DIALOG (self), widget, GTK_RESPONSE_CLOSE);
   gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_CLOSE);
 
