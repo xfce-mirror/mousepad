@@ -613,7 +613,6 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_set_margin_bottom (vbox, 8);
 
   frame = gtk_frame_new (NULL);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
   gtk_box_append (GTK_BOX (vbox), frame);
   gtk_widget_show (frame);
 
@@ -634,7 +633,6 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_show (button);
 
   frame = gtk_frame_new (NULL);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
   gtk_box_append (GTK_BOX (vbox), frame);
   gtk_widget_show (frame);
 
@@ -714,7 +712,6 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_show (button);
 
   frame = gtk_frame_new (NULL);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
   gtk_box_append (GTK_BOX (vbox), frame);
   gtk_widget_show (frame);
 
