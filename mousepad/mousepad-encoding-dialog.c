@@ -128,6 +128,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 
   /* dialog area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (area), GTK_ORIENTATION_VERTICAL);
   gtk_box_set_spacing (GTK_BOX (area), 6);
 
   /* encoding radio buttons */
@@ -656,7 +657,6 @@ mousepad_encoding_dialog (GtkWindow *parent,
   /* create the dialog */
   dialog = g_object_new (MOUSEPAD_TYPE_ENCODING_DIALOG, "transient-for", parent,
                          "modal", TRUE, NULL);
-  mousepad_dialogs_destroy_with_parent (GTK_WIDGET (dialog), parent);
 
   /* try first to read the file with the history or the default encoding if needed */
   if (mousepad_file_get_encoding (file) == MOUSEPAD_ENCODING_NONE)
@@ -697,7 +697,7 @@ mousepad_encoding_dialog (GtkWindow *parent,
   mousepad_encoding_dialog_test_encodings (dialog);
 
   /* run the dialog, get the new encoding */
-  if ((response = gtk_dialog_run (GTK_DIALOG (dialog))) == MOUSEPAD_RESPONSE_OK)
+  if ((response = mousepad_dialogs_run (GTK_WIDGET (dialog), parent)) == MOUSEPAD_RESPONSE_OK)
     *encoding = mousepad_file_get_encoding (dialog->document->file);
 
   /* destroy the dialog */
