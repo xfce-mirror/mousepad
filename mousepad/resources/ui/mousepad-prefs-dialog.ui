@@ -176,7 +176,6 @@
           <object class="GtkFrame" id="/prefs/view/display/frame">
             <property name="visible">True</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/view/display/content-area">
                 <property name="visible">True</property>
@@ -288,7 +287,6 @@
           <object class="GtkFrame" id="/prefs/view/font/frame">
             <property name="visible">True</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkGrid" id="/prefs/view/font/content-area">
                 <property name="visible">True</property>
@@ -338,7 +336,6 @@
           <object class="GtkFrame" id="/prefs/view/color-scheme/frame">
             <property name="visible">True</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/view/color-scheme/content-area">
                 <property name="visible">True</property>
@@ -398,7 +395,6 @@
           <object class="GtkFrame" id="/prefs/editor/indentation/frame">
             <property name="visible">True</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkGrid" id="/prefs/editor/indentation/content-area">
                 <property name="visible">True</property>
@@ -490,7 +486,6 @@
           <object class="GtkFrame" id="/prefs/editor/home-end/frame">
             <property name="visible">True</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/editor/home-end/content-area">
                 <property name="visible">True</property>
@@ -568,7 +563,6 @@
           <object class="GtkFrame" id="/prefs/window/general/frame">
             <property name="visible">True</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/window/general/content-area">
                 <property name="visible">True</property>
@@ -633,7 +627,6 @@
           <object class="GtkFrame" id="/prefs/window/toolbar/frame">
             <property name="visible">True</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkGrid" id="/prefs/window/toolbar/content-area">
                 <property name="visible">True</property>
@@ -735,7 +728,6 @@
           <object class="GtkFrame" id="/prefs/window/notebook/frame">
             <property name="visible">True</property>
             <property name="label-xalign">0</property>
-            <property name="shadow-type">none</property>
             <child>
               <object class="GtkBox" id="/prefs/window/notebook/content-area">
                 <property name="visible">True</property>
