@@ -453,8 +453,11 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
       /* select the first item in the combo box*/
       gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->combo), 0);
 
+/* TODO ComboBox */
+#if 0
       /* spread the encoding list over several columns */
       gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (dialog->combo), n / 10 + (n % 10 != 0));
+#endif
 
       /* activate history encoding if possible, or the first valid encoding */
       if (history_valid)
