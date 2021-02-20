@@ -997,14 +997,20 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
           /* set full list, spreading it over several columns */
           gtk_combo_box_set_model (combo, GTK_TREE_MODEL (list));
           n_rows = MOUSEPAD_N_ENCODINGS + 1;
+/* TODO ComboBox */
+#if 0
           gtk_combo_box_set_wrap_width (combo, n_rows / 10 + (n_rows % 10 != 0));
+#endif
         }
       /* go back to shorten list */
       else
         {
           /* set shorten list */
           gtk_combo_box_set_model (combo, short_model);
+/* TODO ComboBox */
+#if 0
           gtk_combo_box_set_wrap_width (combo, 1);
+#endif
 
           /* cleanup */
           g_object_unref (model);
