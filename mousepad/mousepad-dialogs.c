@@ -207,7 +207,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
 
   /* add button */
   button = mousepad_util_image_button ("go-jump", _("_Jump to"), 4, 4, 0, 0);
-  gtk_widget_set_can_default (button, TRUE);
+  gtk_window_set_default_widget (GTK_WINDOW (dialog), button);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_JUMP_TO);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_JUMP_TO);
 
@@ -386,7 +386,6 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
     {
       image = gtk_image_new_from_icon_name ("document-save-as");
       button = mousepad_util_image_button ("document-save-as", _("_Save As"), 0, 4, 0, 0);
-      gtk_widget_set_can_default (button, TRUE);
       gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
       gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_SAVE_AS);
     }
@@ -394,12 +393,12 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
     {
       image = gtk_image_new_from_icon_name ("document-save");
       button = mousepad_util_image_button ("document-save", _("_Save"), 0, 4, 0, 0);
-      gtk_widget_set_can_default (button, TRUE);
       gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
       gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_SAVE);
     }
 
   gtk_image_set_icon_size (GTK_IMAGE (image), GTK_ICON_SIZE_LARGE);
+  gtk_window_set_default_widget (GTK_WINDOW (dialog), button);
 
   /* the content area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -916,7 +915,7 @@ mousepad_dialogs_save_as (GtkWindow         *parent,
 
   /* add button */
   button = mousepad_util_image_button ("document-save", _("_Save"), 4, 0, 0, 0);
-  gtk_widget_set_can_default (button, TRUE);
+  gtk_window_set_default_widget (GTK_WINDOW (dialog), button);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
 
   /* set properties */
@@ -976,7 +975,7 @@ mousepad_dialogs_open (GtkWindow         *parent,
 
   /* add button */
   button = mousepad_util_image_button ("document-open", _("_Open"), 4, 0, 0, 0);
-  gtk_widget_set_can_default (button, TRUE);
+  gtk_window_set_default_widget (GTK_WINDOW (dialog), button);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
 
   /* set properties */
