@@ -313,7 +313,6 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
 
           widget = gtk_frame_new (NULL);
           gtk_frame_set_label_widget (GTK_FRAME (widget), child);
-          gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
           gtk_box_append (GTK_BOX (box), widget);
 
           grid = gtk_grid_new ();
