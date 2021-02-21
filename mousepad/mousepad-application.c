@@ -1638,6 +1638,9 @@ mousepad_application_set_shared_menu_parts (MousepadApplication *application,
 static void
 mousepad_application_create_languages_menu (MousepadApplication *application)
 {
+/* TODO: prevents the loading of the menubar (neverending) and also affects that of
+ * the status bar languages menu -> GTK bug https://gitlab.gnome.org/GNOME/gtk/-/issues/3718 */
+#if 0
   GMenu       *menu, *submenu;
   GMenuItem   *item;
   GSList      *sections, *languages, *iter_sect, *iter_lang;
@@ -1689,6 +1692,7 @@ mousepad_application_create_languages_menu (MousepadApplication *application)
     }
 
   g_slist_free (sections);
+#endif
 }
 
 
