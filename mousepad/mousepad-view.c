@@ -238,7 +238,10 @@ mousepad_view_init (MousepadView *view)
   BIND_ (INSERT_SPACES,          "insert-spaces-instead-of-tabs");
   BIND_ (RIGHT_MARGIN_POSITION,  "right-margin-position");
   BIND_ (SHOW_LINE_MARKS,        "show-line-marks");
+/* TODO: GLib-GObject-WARNING/CRITICAL -> GSV bug? */
+#if 0
   BIND_ (SHOW_LINE_NUMBERS,      "show-line-numbers");
+#endif
   BIND_ (SHOW_RIGHT_MARGIN,      "show-right-margin");
   BIND_ (SMART_HOME_END,         "smart-home-end");
   BIND_ (TAB_WIDTH,              "tab-width");
