@@ -3419,6 +3419,8 @@ mousepad_window_recent_add (MousepadWindow *window,
 
 
 
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
 /* sort list in descending order */
 static gint
 mousepad_window_recent_sort (gconstpointer ga,
@@ -3427,7 +3429,7 @@ mousepad_window_recent_sort (gconstpointer ga,
   return g_date_time_compare (gtk_recent_info_get_modified ((GtkRecentInfo *) ga),
                               gtk_recent_info_get_modified ((GtkRecentInfo *) gb));
 }
-
+#endif
 
 
 static void
@@ -3445,6 +3447,8 @@ mousepad_window_recent_menu (GSimpleAction *action,
                              GVariant      *value,
                              gpointer       data)
 {
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
   GtkApplication *application;
   GtkRecentInfo  *info;
@@ -3576,6 +3580,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
       mousepad_window_menu_update_tooltips (G_MENU_MODEL (menu), 0, 0, 0, window);
       lock_menu_updates--;
     }
+#endif
 }
 
 
