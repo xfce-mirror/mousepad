@@ -2955,6 +2955,8 @@ mousepad_window_can_redo (GtkTextBuffer  *buffer,
 /**
  * Menu Functions
  **/
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
 static void
 mousepad_window_menu_templates_fill (MousepadWindow *window,
                                      GMenu          *menu,
@@ -3087,7 +3089,7 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
       g_object_unref (item);
     }
 }
-
+#endif
 
 
 static void
@@ -3095,6 +3097,8 @@ mousepad_window_menu_templates (GSimpleAction *action,
                                 GVariant      *state,
                                 gpointer       data)
 {
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
   GtkApplication *application;
   GMenu          *menu;
   GMenuItem      *item;
@@ -3158,6 +3162,7 @@ mousepad_window_menu_templates (GSimpleAction *action,
       /* unlock */
       lock_menu_updates--;
     }
+#endif
 }
 
 
@@ -3400,6 +3405,8 @@ mousepad_window_update_gomenu (GSimpleAction *action,
 
 
 
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
 /* sort list in descending order */
 static gint
 mousepad_window_recent_sort (gconstpointer ga,
@@ -3408,7 +3415,7 @@ mousepad_window_recent_sort (gconstpointer ga,
   return g_date_time_compare (gtk_recent_info_get_modified ((GtkRecentInfo *) ga),
                               gtk_recent_info_get_modified ((GtkRecentInfo *) gb));
 }
-
+#endif
 
 
 static void
@@ -3416,6 +3423,8 @@ mousepad_window_recent_menu (GSimpleAction *action,
                              GVariant      *state,
                              gpointer       data)
 {
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
   GtkApplication   *application;
   GtkRecentManager *manager;
   GtkRecentInfo    *info;
@@ -3547,6 +3556,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
       mousepad_window_menu_update_tooltips (G_MENU_MODEL (menu), 0, 0, 0, data);
       lock_menu_updates--;
     }
+#endif
 }
 
 
