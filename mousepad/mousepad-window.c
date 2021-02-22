@@ -1428,15 +1428,15 @@ mousepad_window_scroll_event (GtkWidget      *widget,
   if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_UP)
     {
       g_action_group_activate_action (G_ACTION_GROUP (window), "increase-font-size", NULL);
-      return FALSE;
+      return TRUE;
     }
   else if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_DOWN)
     {
       g_action_group_activate_action (G_ACTION_GROUP (window), "decrease-font-size", NULL);
-      return FALSE;
+      return TRUE;
     }
 
-  return TRUE;
+  return FALSE;
 }
 
 
