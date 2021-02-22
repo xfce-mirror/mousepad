@@ -448,8 +448,9 @@ mousepad_application_update_accels (GtkApplication  *application,
   const gchar *accels[] = { NULL, NULL };
 
   /* make sure to not crash because of corrupted data */
-  if (g_str_has_prefix (accel_path, "<Actions>/") && g_strcmp0 (accel_path, "<Actions>/") != 0
-      && g_action_parse_detailed_name (accel_path + 10, &action, &target, NULL))
+  if (g_str_has_prefix (accel_path, "<Actions>/")
+      && g_action_parse_detailed_name (accel_path + 10, &action, &target, NULL)
+      && g_action_name_is_valid (accel_path + 10))
     {
       accel = gtk_accelerator_name (accel_key, accel_mods);
       if (*accel != '\0')
@@ -474,7 +475,8 @@ mousepad_application_complete_accel_map (GtkApplication *application)
   gchar        *accel_path, *filename;
   guint         n;
   gchar       **action_names;
-  const gchar  *excluded_actions[] = { "win.insensitive" };
+  const gchar  *excluded_actions[] = { "win.insensitive", "win.file.new-from-template",
+                                       "win.file.open-recent", "win.document" };
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (application, mousepad_application_complete_accel_map, NULL);

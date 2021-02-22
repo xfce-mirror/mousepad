@@ -211,8 +211,9 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
       gtk_binding_entry_remove (binding_set, accel_key, accel_mods);
       gtk_binding_entry_add_signal (binding_set, accel_key, accel_mods, "delete-from-cursor",
                                     2, GTK_TYPE_DELETE_TYPE, GTK_DELETE_CHARS, G_TYPE_INT, 1);
-      g_strfreev (accels);
     }
+
+  g_strfreev (accels);
 
   for (n = 0; n < G_N_ELEMENTS (actions); n++)
     {
@@ -222,8 +223,9 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
           gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
           gtk_binding_entry_remove (binding_set, accel_key, accel_mods);
           gtk_binding_entry_add_signal (binding_set, accel_key, accel_mods, signals[n], 0);
-          g_strfreev (accels);
         }
+
+      g_strfreev (accels);
     }
 
   /* give the dialog its definite size by setting a fake occurrences label */
