@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aljoša Žagar <anthon.manix@gmail.com>, 2017
-# Arnold Marko <arnold.marko@gmail.com>, 2019-2020
+# 8b03701f910565d01acaec9ce3f558ab_e9f0fee <b5b06e8f85fb8288fe43ad0bc2422d94_32848>, 2017
+# Arnold Marko <arnold.marko@gmail.com>, 2019-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 12:48+0100\n"
-"PO-Revision-Date: 2021-01-15 11:48+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2021-02-22 11:25+0000\n"
+"Last-Translator: Arnold Marko <arnold.marko@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +23,15 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "Uporaba kodiranja za odpiranje datotek (pustite prazno za odpiranje datotek v kodirnem dialogu)"
 
 #: ../mousepad/mousepad-application.c:123
 msgid "ENCODING"
-msgstr ""
+msgstr "KODIRANJE"
 
 #: ../mousepad/mousepad-application.c:128
 msgid "Display a list of possible encodings to open files"
-msgstr ""
+msgstr "Prikaz seznama možnih kodiranj za odpiranje datotek"
 
 #: ../mousepad/mousepad-application.c:133
 msgid "Do not register with the D-BUS session message bus"
@@ -57,7 +57,7 @@ msgstr "Mousepad"
 #: ../mousepad/mousepad-application.c:333
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "Način odpiranja datotek: \"%s\",  \"%s\" ali \"%s\" (zavihke odpre v novem oknu)"
 
 #: ../mousepad/mousepad-application.c:336
 msgid "MODE"
@@ -65,7 +65,7 @@ msgstr "NAČIN"
 
 #: ../mousepad/mousepad-application.c:388
 msgid "The Mousepad developers. All rights reserved."
-msgstr ""
+msgstr "Razvijalci Mousepad. Vse pravice pridržane."
 
 #: ../mousepad/mousepad-application.c:389
 #, c-format
@@ -196,11 +196,11 @@ msgstr "Shr_ani kot"
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "Dokument je bil spremenjen drugje. Ga želite ponovno naložiti z diska?"
 
 #: ../mousepad/mousepad-dialogs.c:475
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr ""
+msgstr "Spremembe niso shranjene. Če boste datoteko ponovno naložili, bodo spremembe izgubljene."
 
 #: ../mousepad/mousepad-dialogs.c:477 ../mousepad/mousepad-dialogs.c:544
 msgid "_Revert"
@@ -229,27 +229,27 @@ msgstr "Če povrnete datoteko, bodo vse spremembe, ki niso shranjene, izgubljene
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "Kodiranje je videti kot %s, vnedar ste izbrali %s. Potrjujete ta izbor?"
 
 #: ../mousepad/mousepad-dialogs.c:579
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "Če ne, bo uporabljeno zaznano kodiranje."
 
 #: ../mousepad/mousepad-dialogs.c:662
 msgid "Please select a file"
-msgstr ""
+msgstr "Izberite datoteko"
 
 #: ../mousepad/mousepad-dialogs.c:689
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "Začasnih datotek za preizkus kodiranja ni bilo mogoče ustvariti"
 
 #: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Odpri kodirni dialog"
 
 #: ../mousepad/mousepad-dialogs.c:754
 msgid "Go back to shorten list"
-msgstr ""
+msgstr "Vrni se na skrajšan seznam"
 
 #. combo box label
 #: ../mousepad/mousepad-dialogs.c:808
@@ -271,15 +271,15 @@ msgstr "Sistem"
 
 #: ../mousepad/mousepad-dialogs.c:843
 msgid "Current"
-msgstr ""
+msgstr "Tenutno"
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Show all encodings"
-msgstr ""
+msgstr "Prikaži vsa kodiranja"
 
 #: ../mousepad/mousepad-dialogs.c:895
 msgid "Text Files"
-msgstr ""
+msgstr "Datoteka z besedillom"
 
 #: ../mousepad/mousepad-dialogs.c:901
 msgid "All Files"
@@ -327,12 +327,12 @@ msgstr "Preverjanje kodiranja..."
 #: ../mousepad/mousepad-encoding-dialog.c:307
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s (%s, delno)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:305
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s (%s, neuspelo)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:371
 msgid "Other (partial):"
@@ -354,12 +354,12 @@ msgstr "Noben drug ustrezen kodni zapis ni bil najden."
 #: ../mousepad/mousepad-encoding-dialog.c:620
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "Dokument  ustreza%s."
 
 #: ../mousepad/mousepad-encoding-dialog.c:621
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "Dokument ne ustreza %s."
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
@@ -691,7 +691,7 @@ msgstr "Samo za branje"
 
 #: ../mousepad/mousepad-window.c:2022
 msgid "Viewer Mode"
-msgstr ""
+msgstr "Način prikazovalnika"
 
 #: ../mousepad/mousepad-window.c:3021
 #, c-format
@@ -772,7 +772,7 @@ msgstr "Na odložišču ni podatkov"
 #: ../mousepad/mousepad-window.c:4253
 #, c-format
 msgid "Templates should be %s valid"
-msgstr ""
+msgstr "Predloge naj ustrezajo %s"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:4259
@@ -869,7 +869,7 @@ msgstr "_Končaj"
 
 #: ../mousepad/resources/gtk/menus.ui.h:18
 msgid "Quit Mousepad"
-msgstr ""
+msgstr "Zapri Mousepad"
 
 #: ../mousepad/resources/gtk/menus.ui.h:19
 msgid "_Edit"
@@ -913,7 +913,7 @@ msgstr "Označi _vse:"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Highlight the search occurrences"
-msgstr ""
+msgstr "Poudari pojavitve iskanja"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "_View"
@@ -1091,11 +1091,11 @@ msgstr "Shrani znak zaporedja bajtov v datoteki"
 
 #: ../mousepad/resources/gtk/menus.ui.h:74
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "Način prikazo_valnika"
 
 #: ../mousepad/resources/gtk/menus.ui.h:75
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Ne dovoli spreminjanja preko tipkovnice/ miške"
 
 #: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Previous Tab"
@@ -1279,7 +1279,7 @@ msgstr "Prilepi besedilo odložišča v stolpec"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
 msgid "_Delete Selection"
-msgstr ""
+msgstr "O_dstrani izbor"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:42
 msgid "Delete the current selection"
@@ -1287,11 +1287,11 @@ msgstr "Izbriši trenutno izbiro"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:43
 msgid "Delete _Line"
-msgstr ""
+msgstr "Odstrani vrstico"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:44
 msgid "Delete the current line"
-msgstr ""
+msgstr "Odstrani trenutno vrstico"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
@@ -1416,7 +1416,7 @@ msgstr "Zmanjšaj zamik trenutnega izbora ali vrstice"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:75
 msgid "label-to-be-filled-in"
-msgstr ""
+msgstr "oznaka-za-izpolnjevanje"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
 msgid "none"
@@ -1436,11 +1436,11 @@ msgstr "Nikoli"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "First key press"
-msgstr ""
+msgstr "Prva prtiisnjena tipka"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "Second key press"
-msgstr ""
+msgstr "Druga pritisnjena tipka"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
 msgid "Always"
@@ -1563,7 +1563,7 @@ msgstr "<b>Zamikanje</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Zaznavanje vodilnega/sledečega presledka:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "<b>Home/End Keys</b>"
