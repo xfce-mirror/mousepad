@@ -375,6 +375,9 @@ static void              mousepad_window_action_increase_font_size    (GSimpleAc
 static void              mousepad_window_action_decrease_font_size    (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
+static void              mousepad_window_action_reset_font_size       (GSimpleAction          *action,
+                                                                       GVariant               *value,
+                                                                       gpointer                data);
 static void              mousepad_window_action_bar_activate          (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
@@ -472,6 +475,7 @@ static const GActionEntry action_entries[] =
   /* increase/decrease font size from keyboard/mouse */
   { "increase-font-size", mousepad_window_action_increase_font_size, NULL, NULL, NULL },
   { "decrease-font-size", mousepad_window_action_decrease_font_size, NULL, NULL, NULL },
+  { "reset-font-size", mousepad_window_action_reset_font_size, NULL, NULL, NULL },
 
   /* "File" menu */
   { "file.new", mousepad_window_action_new, NULL, NULL, NULL },
@@ -5733,24 +5737,35 @@ mousepad_window_change_font_size (MousepadWindow *window,
   gchar                *font_string;
   gint                  font_size;
 
-  /* retrieve the current font size */
-  context = gtk_widget_get_style_context (GTK_WIDGET (window->active->textview));
-  gtk_style_context_get_property (context, "font", gtk_style_context_get_state (context), &font);
-  font_desc = g_value_get_boxed (&font);
-  font_size = pango_font_description_get_size (font_desc) / PANGO_SCALE;
+  /* reset case */
+  if (change == 0)
+    font_string = MOUSEPAD_SETTING_GET_STRING (FONT);
+  else
+    {
+      /* retrieve current font size and add it the change */
+      context = gtk_widget_get_style_context (GTK_WIDGET (window->active->textview));
+      gtk_style_context_get_property (context, "font", gtk_style_context_get_state (context), &font);
+      font_desc = g_value_get_boxed (&font);
+      font_size = pango_font_description_get_size (font_desc) / PANGO_SCALE + change;
 
-  /* exit silently if font size is outside ]MIN_FONT_SIZE, MAX_FONT_SIZE[ */
-  if (font_size <= MIN_FONT_SIZE || font_size >= MAX_FONT_SIZE)
-    return;
+      /* exit silently if the new font size is outside [MIN_FONT_SIZE, MAX_FONT_SIZE] */
+      if (font_size < MIN_FONT_SIZE || font_size > MAX_FONT_SIZE)
+        {
+          g_value_unset (&font);
+          return;
+        }
+
+      /* generate new font string */
+      pango_font_description_set_size (font_desc, font_size * PANGO_SCALE);
+      font_string = pango_font_description_to_string (font_desc);
+      g_value_unset (&font);
+    }
 
   /* change font size */
-  pango_font_description_set_size (font_desc, (font_size + change) * PANGO_SCALE);
-  font_string = pango_font_description_to_string (font_desc);
   g_object_set (window->active->textview, "font", font_string, NULL);
 
   /* cleanup */
   g_free (font_string);
-  g_value_unset (&font);
 }
 
 
@@ -5771,6 +5786,16 @@ mousepad_window_action_decrease_font_size (GSimpleAction *action,
                                            gpointer       data)
 {
   mousepad_window_change_font_size (MOUSEPAD_WINDOW (data), -1);
+}
+
+
+
+static void
+mousepad_window_action_reset_font_size (GSimpleAction *action,
+                                        GVariant      *value,
+                                        gpointer       data)
+{
+  mousepad_window_change_font_size (MOUSEPAD_WINDOW (data), 0);
 }
 
 

@@ -534,6 +534,7 @@ mousepad_application_set_accels (MousepadApplication *application)
   {
     /* increase/decrease font size from keyboard/mouse */
     { "win.increase-font-size", "<Control>plus" }, { "win.decrease-font-size", "<Control>minus" },
+    { "win.reset-font-size", "<Control>0" },
 
     /* "File" menu */
     { "win.file.new", "<Control>N" }, { "win.file.new-window", "<Control><Shift>N" },
