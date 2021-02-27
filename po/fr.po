@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 12:48+0100\n"
-"PO-Revision-Date: 2021-02-24 22:53+0000\n"
-"Last-Translator: jc1 <jc1.quebecos@gmail.com>\n"
+"PO-Revision-Date: 2021-02-27 16:47+0000\n"
+"Last-Translator: Yannick Le Guen <leguen.yannick@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr "Encodage à utiliser pour ouvrir les fichiers (laissez vide pour ouvrir 
 
 #: ../mousepad/mousepad-application.c:123
 msgid "ENCODING"
-msgstr "CODAGE"
+msgstr "ENCODAGE"
 
 #: ../mousepad/mousepad-application.c:128
 msgid "Display a list of possible encodings to open files"
@@ -239,11 +239,11 @@ msgstr "Si vous rétablissez le fichier, toutes les modifications non enregistr�
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr "Le fichier semble être encodé en %s, mais vous avez choisi l'encodage %s. Confirmez-vous ce choix?"
+msgstr "Le fichier semble être encodé en %s, mais vous avez choisi l’encodage %s. Confirmez-vous ce choix ?"
 
 #: ../mousepad/mousepad-dialogs.c:579
 msgid "If not, the guessed encoding will be used."
-msgstr "Sinon, l'encodage deviné sera utilisé."
+msgstr "Sinon, l’encodage deviné sera utilisé."
 
 #: ../mousepad/mousepad-dialogs.c:662
 msgid "Please select a file"
@@ -251,11 +251,11 @@ msgstr "Veuillez sélectionner un fichier"
 
 #: ../mousepad/mousepad-dialogs.c:689
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr "Échec de la préparation du fichier temporaire pour les tests d'encodage"
+msgstr "Échec de la préparation du fichier temporaire pour les tests d’encodage"
 
 #: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
 msgid "Open encoding dialog"
-msgstr "Ouvrir la fenêtre de codage"
+msgstr "Ouvrir la fenêtre d’encodage"
 
 #: ../mousepad/mousepad-dialogs.c:754
 msgid "Go back to shorten list"
@@ -264,7 +264,7 @@ msgstr "Revenir à la liste raccourcie"
 #. combo box label
 #: ../mousepad/mousepad-dialogs.c:808
 msgid "_Encoding:"
-msgstr "_Codage :"
+msgstr "_Encodage :"
 
 #: ../mousepad/mousepad-dialogs.c:820
 #: ../mousepad/mousepad-encoding-dialog.c:289
@@ -281,11 +281,11 @@ msgstr "Système"
 
 #: ../mousepad/mousepad-dialogs.c:843
 msgid "Current"
-msgstr "Courant"
+msgstr "Actuel"
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Show all encodings"
-msgstr "Afficher tous les codages"
+msgstr "Afficher tous les encodages"
 
 #: ../mousepad/mousepad-dialogs.c:895
 msgid "Text Files"
@@ -331,7 +331,7 @@ msgstr "Autre :"
 
 #: ../mousepad/mousepad-encoding-dialog.c:186
 msgid "Checking encodings..."
-msgstr "Vérification des codages…"
+msgstr "Vérification des encodages…"
 
 #: ../mousepad/mousepad-encoding-dialog.c:290
 #: ../mousepad/mousepad-encoding-dialog.c:307
@@ -350,15 +350,15 @@ msgstr "Autre (partiel) :"
 
 #: ../mousepad/mousepad-encoding-dialog.c:382
 msgid "Other valid encodings were found, please choose below."
-msgstr "D’autres codages valides ont été trouvés, veuillez choisir ci-dessous."
+msgstr "D’autres encodages valides ont été trouvés, veuillez choisir ci-dessous."
 
 #: ../mousepad/mousepad-encoding-dialog.c:384
 msgid "Other partially valid encodings were found, please choose below."
-msgstr "D’autres codages partiellement valides ont été trouvés, veuillez choisir ci-dessous."
+msgstr "D’autres encodages partiellement valides ont été trouvés, veuillez choisir ci-dessous."
 
 #: ../mousepad/mousepad-encoding-dialog.c:416
 msgid "No other valid encoding was found."
-msgstr "Aucun autre codage valide n’a été trouvé."
+msgstr "Aucun autre encodage valide n’a été trouvé."
 
 #. dialog title
 #: ../mousepad/mousepad-encoding-dialog.c:620
@@ -369,7 +369,7 @@ msgstr "Le document est valide %s."
 #: ../mousepad/mousepad-encoding-dialog.c:621
 #, c-format
 msgid "The document is not %s valid."
-msgstr "Le document n'est pas valide %s."
+msgstr "Le document n’est pas valide %s."
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
@@ -780,7 +780,7 @@ msgstr "Le presse-papiers est vide"
 #: ../mousepad/mousepad-window.c:4253
 #, c-format
 msgid "Templates should be %s valid"
-msgstr "Les modèles doivent être valides%s"
+msgstr "Les modèles doivent être valides %s"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:4259
