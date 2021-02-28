@@ -1,3 +1,19 @@
+0.5.3
+======
+- Appearance Changes:
+  - Use old style menu alignment (#97, !77)
+
+- Bug Fixes:
+  - Add a keybinding to reset font size
+  - Fix inverted return value of scroll event handler
+  - Various small improvements regarding accels
+  - Block the right signal handler for tooltip updates
+  - A clarification about action groups
+
+- Translation Updates:
+  Basque, French, Galician, Portuguese (Brazil), Russian, Slovenian,
+  Swedish
+
 0.5.2
 ======
 - New Features:
