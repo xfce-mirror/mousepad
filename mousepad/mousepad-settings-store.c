@@ -181,7 +181,7 @@ mousepad_settings_store_add_settings (MousepadSettingsStore *self,
   const gchar      *prefix;
 
   /* loop through keys in schema and store mapping of their setting name to GSettings */
-  schema = g_settings_schema_source_lookup (source, schema_id, FALSE);
+  schema = g_settings_schema_source_lookup (source, schema_id, TRUE);
   keys = g_settings_schema_list_keys (schema);
   prefix = schema_id + MOUSEPAD_ID_LEN + 1;
   for (key = keys; key && *key; key++)
