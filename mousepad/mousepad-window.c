@@ -5223,7 +5223,7 @@ mousepad_window_action_select_all (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* select everything in the document */
-  g_signal_emit_by_name (window->active->textview, "select-all");
+  g_signal_emit_by_name (window->active->textview, "select-all", TRUE);
 }
 
 
