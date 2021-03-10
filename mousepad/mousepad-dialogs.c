@@ -629,7 +629,7 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
   GFile               *g_file;
   GFileIOStream       *iostream = NULL;
   GError              *error = NULL;
-  gint                 row_type, n_rows = 2;
+  gint                 row_type = 0, n_rows = 2;
   gboolean             found = FALSE;
   static GtkTreeModel *short_model = NULL;
 

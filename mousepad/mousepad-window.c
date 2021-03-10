@@ -3951,7 +3951,7 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
       notebook = gtk_drag_get_source_widget (context);
 
       /* get the document that has been dragged */
-      document = (GtkWidget **) gtk_selection_data_get_data (selection_data);
+      document = (GtkWidget **) (gconstpointer) gtk_selection_data_get_data (selection_data);
 
       /* check */
       g_return_if_fail (MOUSEPAD_IS_DOCUMENT (*document));
