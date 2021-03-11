@@ -458,6 +458,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (SMART_HOME_END));
 
   /* setup toolbar-related combo box */
+  widget = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_STYLE_COMBO);
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE));
   mousepad_prefs_dialog_toolbar_icon_size_setting_changed (self, NULL, NULL);
 
