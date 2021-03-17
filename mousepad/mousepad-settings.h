@@ -27,6 +27,9 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_MAKE_BACKUP                  "preferences.file.make-backup"
 #define MOUSEPAD_SETTING_MONITOR_CHANGES              "preferences.file.monitor-changes"
 #define MOUSEPAD_SETTING_MONITOR_DISABLING_TIMER      "preferences.file.monitor-disabling-timer"
+#ifdef HAVE_GSPELL
+#define MOUSEPAD_SETTING_SPELL_CHECK                  "preferences.view.spell-check"
+#endif
 #define MOUSEPAD_SETTING_AUTO_INDENT                  "preferences.view.auto-indent"
 #define MOUSEPAD_SETTING_FONT                         "preferences.view.font-name"
 #define MOUSEPAD_SETTING_USE_DEFAULT_FONT             "preferences.view.use-default-monospace-font"
