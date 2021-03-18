@@ -288,16 +288,14 @@ mousepad_encoding_write_bom (MousepadEncoding  *encoding,
       case MOUSEPAD_ENCODING_UTF_16LE:
         bom[0] = 0xff;
         bom[1] = 0xfe;
-        bom[2] = 0x00;
-        bom[2] = 0x00;
-        bytes = 4;
+        bytes = 2;
         break;
 
       case MOUSEPAD_ENCODING_UTF_32BE:
         bom[0] = 0x00;
         bom[1] = 0x00;
         bom[2] = 0xfe;
-        bom[2] = 0xff;
+        bom[3] = 0xff;
         bytes = 4;
         break;
 
@@ -305,7 +303,7 @@ mousepad_encoding_write_bom (MousepadEncoding  *encoding,
         bom[0] = 0xff;
         bom[1] = 0xfe;
         bom[2] = 0x00;
-        bom[2] = 0x00;
+        bom[3] = 0x00;
         bytes = 4;
         break;
 
