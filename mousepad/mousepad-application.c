@@ -840,9 +840,10 @@ mousepad_application_open (GApplication  *gapplication,
           opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid,
                                                application->encoding, FALSE);
 
-          /* if at least one file was finally opened, show the window */
+          /* if at least one file was finally opened, present the window, so that it requires
+           * attention if already open */
           if (opened > 0)
-            gtk_widget_show (window);
+            gtk_window_present (GTK_WINDOW (window));
           else if (GTK_IS_WIDGET (window))
             gtk_widget_destroy (window);
         }
