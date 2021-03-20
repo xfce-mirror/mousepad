@@ -25,13 +25,21 @@
 
 
 
-static void      mousepad_view_finalize                      (GObject            *object);
-static void      mousepad_view_set_property                  (GObject            *object,
-                                                              guint               prop_id,
-                                                              const GValue       *value,
-                                                              GParamSpec         *pspec);
-static gboolean  mousepad_view_key_press_event               (GtkWidget          *widget,
-                                                              GdkEventKey        *event);
+/* GObject virtual functions */
+static void mousepad_view_finalize     (GObject      *object);
+static void mousepad_view_set_property (GObject      *object,
+                                        guint         prop_id,
+                                        const GValue *value,
+                                        GParamSpec   *pspec);
+
+/* event handlers */
+static gboolean mousepad_view_key_pressed (GtkEventControllerKey *controller,
+                                           guint                  keyval,
+                                           guint                  keycode,
+                                           GdkModifierType        state,
+                                           MousepadView          *view);
+
+/* MousepadView own functions */
 static void      mousepad_view_indent_increase               (MousepadView       *view,
                                                               GtkTextIter        *iter);
 static void      mousepad_view_indent_decrease               (MousepadView       *view,
@@ -71,7 +79,7 @@ struct _MousepadViewClass
 
 struct _MousepadView
 {
-  GtkSourceView         __parent__;
+  GtkSourceView      __parent__;
 
   /* property related */
   gboolean                     show_whitespace;
@@ -105,15 +113,10 @@ G_DEFINE_TYPE (MousepadView, mousepad_view, GTK_SOURCE_TYPE_VIEW)
 static void
 mousepad_view_class_init (MousepadViewClass *klass)
 {
-  GObjectClass   *gobject_class;
-  GtkWidgetClass *widget_class;
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
-  gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_view_finalize;
   gobject_class->set_property = mousepad_view_set_property;
-
-  widget_class = GTK_WIDGET_CLASS (klass);
-  widget_class->key_press_event = mousepad_view_key_press_event;
 
   g_object_class_install_property (gobject_class, PROP_FONT,
     g_param_spec_string ("font", "Font", "The font to use in the view",
@@ -159,8 +162,8 @@ mousepad_view_buffer_changed (MousepadView *view,
                               gpointer      user_data)
 {
   GtkSourceBuffer *buffer;
-  buffer = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
 
+  buffer = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
   if (GTK_SOURCE_IS_BUFFER (buffer))
     {
       GtkSourceStyleSchemeManager *manager;
@@ -208,7 +211,8 @@ mousepad_view_use_default_font (MousepadView *view)
 static void
 mousepad_view_init (MousepadView *view)
 {
-  GApplication *application;
+  GtkEventController *controller;
+  GApplication       *application;
 
   /* initialize properties variables */
   view->show_whitespace = FALSE;
@@ -253,6 +257,12 @@ mousepad_view_init (MousepadView *view)
   /* bind the whitespace display property to that of the application */
   application = g_application_get_default ();
   g_object_bind_property (application, "space-location", view, "space-location", G_BINDING_SYNC_CREATE);
+
+  /* event handling */
+  controller = gtk_event_controller_key_new ();
+  g_signal_connect (controller, "key-pressed",
+                    G_CALLBACK (mousepad_view_key_pressed), view);
+  gtk_widget_add_controller (GTK_WIDGET (view), controller);
 }
 
 
@@ -310,23 +320,25 @@ mousepad_view_set_property (GObject      *object,
 
 
 static gboolean
-mousepad_view_key_press_event (GtkWidget   *widget,
-                               GdkEventKey *event)
+mousepad_view_key_pressed (GtkEventControllerKey *controller,
+                           guint                  keyval,
+                           guint                  keycode,
+                           GdkModifierType        state,
+                           MousepadView          *view)
 {
-  MousepadView  *view = MOUSEPAD_VIEW (widget);
   GtkTextBuffer *buffer;
   GtkTextIter    iter;
   GtkTextMark   *cursor;
   guint          modifiers;
 
   /* get the modifiers state */
-  modifiers = event->state & gtk_accelerator_get_default_mod_mask ();
+  modifiers = state & gtk_accelerator_get_default_mod_mask ();
 
   /* get the textview buffer */
   buffer = mousepad_view_get_buffer (view);
 
   /* handle the key event */
-  switch (event->keyval)
+  switch (keyval)
     {
       case GDK_KEY_End:
       case GDK_KEY_KP_End:
@@ -363,19 +375,19 @@ mousepad_view_key_press_event (GtkWidget   *widget,
         if (gtk_text_iter_starts_line (&iter)
             && mousepad_util_forward_iter_to_text (&iter, NULL))
           {
-             /* label for the ctrl home/end events */
-             move_cursor:
+            /* label for the ctrl home/end events */
+            move_cursor:
 
-             /* move (select) or set (jump) cursor */
-             if (modifiers & GDK_SHIFT_MASK)
-               gtk_text_buffer_move_mark (buffer, cursor, &iter);
-             else
-               gtk_text_buffer_place_cursor (buffer, &iter);
+            /* move (select) or set (jump) cursor */
+            if (modifiers & GDK_SHIFT_MASK)
+              gtk_text_buffer_move_mark (buffer, cursor, &iter);
+            else
+              gtk_text_buffer_place_cursor (buffer, &iter);
 
-             /* make sure the cursor is visible for the user */
-             mousepad_view_scroll_to_cursor (view);
+            /* make sure the cursor is visible for the user */
+            mousepad_view_scroll_to_cursor (view);
 
-             return TRUE;
+            return TRUE;
           }
         break;
 
@@ -383,7 +395,7 @@ mousepad_view_key_press_event (GtkWidget   *widget,
         break;
     }
 
-  return (*GTK_WIDGET_CLASS (mousepad_view_parent_class)->key_press_event) (widget, event);
+  return FALSE;
 }
 
 
@@ -800,20 +812,21 @@ mousepad_view_transpose (MousepadView *view)
 void
 mousepad_view_clipboard_cut (MousepadView *view)
 {
-  GtkClipboard  *clipboard;
   GtkTextBuffer *buffer;
+  GdkClipboard  *clipboard;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
   g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
 
   /* get the clipboard */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
+  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view));
 
   /* get the buffer */
   buffer = mousepad_view_get_buffer (view);
 
   /* cut from buffer */
-  gtk_text_buffer_cut_clipboard (buffer, clipboard, gtk_text_view_get_editable (GTK_TEXT_VIEW (view)));
+  gtk_text_buffer_cut_clipboard (buffer, clipboard,
+                                 gtk_text_view_get_editable (GTK_TEXT_VIEW (view)));
 
   /* put cursor on screen */
   mousepad_view_scroll_to_cursor (view);
@@ -824,14 +837,14 @@ mousepad_view_clipboard_cut (MousepadView *view)
 void
 mousepad_view_clipboard_copy (MousepadView *view)
 {
-  GtkClipboard  *clipboard;
   GtkTextBuffer *buffer;
+  GdkClipboard  *clipboard;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
   g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
 
   /* get the clipboard */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
+  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view));
 
   /* get the buffer */
   buffer = mousepad_view_get_buffer (view);
@@ -845,40 +858,62 @@ mousepad_view_clipboard_copy (MousepadView *view)
 
 
 
+static void
+mousepad_view_clipboard_read_text (GObject      *object,
+                                   GAsyncResult *result,
+                                   gpointer      data)
+{
+  MousepadView *view = data;
+  GdkClipboard *clipboard = GDK_CLIPBOARD (object);
+  gchar        *string;
+  gboolean      paste_as_column;
+
+  string = gdk_clipboard_read_text_finish (clipboard, result, NULL);
+  paste_as_column = GPOINTER_TO_INT (mousepad_object_get_data (view, "paste-as-column"));
+
+  mousepad_object_set_data (view, "text-read", GINT_TO_POINTER (TRUE));
+  mousepad_view_clipboard_paste (view, string, paste_as_column);
+  mousepad_object_set_data (view, "text-read", GINT_TO_POINTER (FALSE));
+
+  g_free (string);
+}
+
+
+
 void
 mousepad_view_clipboard_paste (MousepadView *view,
                                const gchar  *string,
                                gboolean      paste_as_column)
 {
-  GtkClipboard   *clipboard;
-  GtkTextBuffer  *buffer;
   GtkTextView    *textview = GTK_TEXT_VIEW (view);
-  gchar          *text = NULL;
+  GtkTextBuffer  *buffer;
   GtkTextMark    *mark;
-  GtkTextIter     iter;
-  GtkTextIter     start_iter, end_iter;
-  GdkRectangle    rect;
-  gchar         **pieces;
-  gint            i, y;
+  GtkTextIter    iter, start_iter, end_iter;
+  GdkRectangle   rect;
+  GdkClipboard  *clipboard;
+  gchar        **pieces;
+  gint           i, y;
 
   /* leave when the view is not editable */
-  if (! gtk_text_view_get_editable (GTK_TEXT_VIEW (view)))
+  if (! gtk_text_view_get_editable (textview))
     return;
 
   if (string == NULL)
     {
-      /* get the clipboard */
-      clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
-
-      /* get the clipboard text */
-      text = gtk_clipboard_wait_for_text (clipboard);
-
-      /* leave when the text is null */
-      if (G_UNLIKELY (text == NULL))
+      /* leave if we have already tried to read the text */
+      if (mousepad_object_get_data (view, "text-read"))
         return;
 
-      /* set the string */
-      string = text;
+      /* get the clipboard */
+      clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view));
+
+      /* get the clipboard text: we can't always get it from the content provider which
+       * may be NULL (gdk_clipboard_is_local() == FALSE), so let's get it asynchronously */
+      mousepad_object_set_data (view, "paste-as-column", GINT_TO_POINTER (paste_as_column));
+      gdk_clipboard_read_text_async (clipboard, NULL, mousepad_view_clipboard_read_text, view);
+
+      /* we'll be back */
+      return;
     }
 
   /* get the buffer */
@@ -943,9 +978,6 @@ mousepad_view_clipboard_paste (MousepadView *view,
       /* insert string */
       gtk_text_buffer_insert (buffer, &start_iter, string, -1);
     }
-
-  /* cleanup */
-  g_free (text);
 
   /* end user action */
   gtk_text_buffer_end_user_action (buffer);
@@ -1496,7 +1528,7 @@ mousepad_view_set_font (MousepadView *view,
 
   /* set font */
   provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+  gtk_css_provider_load_from_data (provider, css_string, -1);
   gtk_style_context_add_provider (gtk_widget_get_style_context (GTK_WIDGET (view)),
                                   GTK_STYLE_PROVIDER (provider),
                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);

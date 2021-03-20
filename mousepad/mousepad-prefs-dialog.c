@@ -281,6 +281,8 @@ mousepad_prefs_dialog_home_end_setting_changed (MousepadPrefsDialog *self,
 
 
 
+/* TODO Toolbar */
+#if 0
 /* update toolbar style setting when combo changes */
 static void
 mousepad_prefs_dialog_toolbar_style_changed (MousepadPrefsDialog *self,
@@ -290,6 +292,7 @@ mousepad_prefs_dialog_toolbar_style_changed (MousepadPrefsDialog *self,
   MOUSEPAD_SETTING_SET_ENUM (TOOLBAR_STYLE, gtk_combo_box_get_active (combo));
   self->blocked = FALSE;
 }
+#endif
 
 
 
@@ -412,10 +415,7 @@ static void
 mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 {
   GError    *error = NULL;
-  GtkWidget *notebook;
-  GtkWidget *content_area;
-  GtkWidget *button;
-  GtkWidget *widget;
+  GtkWidget *notebook, *content_area, *widget;
 
   self->builder = gtk_builder_new ();
 
@@ -436,14 +436,12 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* add the Glade/GtkBuilder notebook into this dialog */
   notebook = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
-  gtk_container_add (GTK_CONTAINER (content_area), notebook);
-  gtk_widget_show (notebook);
+  gtk_box_append (GTK_BOX (content_area), notebook);
 
   /* add the close button */
-  button = mousepad_util_image_button ("window-close", _("_Close"));
-  gtk_widget_set_can_default (button, TRUE);
-  gtk_dialog_add_action_widget (GTK_DIALOG (self), button, GTK_RESPONSE_CLOSE);
-  gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_CLOSE);
+  widget = mousepad_util_image_button ("window-close", _("_Close"), 0, 0, 2, 0);
+  gtk_window_set_default_widget (GTK_WINDOW (self), widget);
+  gtk_dialog_add_action_widget (GTK_DIALOG (self), widget, GTK_RESPONSE_CLOSE);
 
   /* setup the window properties */
   gtk_window_set_title (GTK_WINDOW (self), _("Preferences"));
@@ -469,53 +467,44 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* bind the right-margin-position setting to the spin button */
   MOUSEPAD_SETTING_BIND (RIGHT_MARGIN_POSITION,
                          gtk_builder_get_object (self->builder, WID_RIGHT_MARGIN_SPIN),
-                         "value",
-                         G_SETTINGS_BIND_DEFAULT);
+                         "value", G_SETTINGS_BIND_DEFAULT);
 
   /* bind the font button "font" property to the "font" setting */
-  MOUSEPAD_SETTING_BIND (FONT,
-                         gtk_builder_get_object (self->builder, WID_FONT_BUTTON),
-                         "font",
-                         G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+  MOUSEPAD_SETTING_BIND (FONT, gtk_builder_get_object (self->builder, WID_FONT_BUTTON),
+                         "font", G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
 
   mousepad_prefs_dialog_setup_color_schemes_combo (self);
 
-
   /* bind the tab-width spin button to the setting */
-  MOUSEPAD_SETTING_BIND (TAB_WIDTH,
-                         gtk_builder_get_object (self->builder, WID_TAB_WIDTH_SPIN),
-                         "value",
-                         G_SETTINGS_BIND_DEFAULT);
+  MOUSEPAD_SETTING_BIND (TAB_WIDTH, gtk_builder_get_object (self->builder, WID_TAB_WIDTH_SPIN),
+                         "value", G_SETTINGS_BIND_DEFAULT);
 
   /* update tab-mode when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TAB_MODE_COMBO),
-                            "changed",
-                            G_CALLBACK (mousepad_prefs_dialog_tab_mode_changed),
-                            self);
+                            "changed", G_CALLBACK (mousepad_prefs_dialog_tab_mode_changed), self);
 
   /* update tab mode combo when setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (INSERT_SPACES,
                                    G_CALLBACK (mousepad_prefs_dialog_tab_mode_setting_changed),
-                                   self,
-                                   G_CONNECT_SWAPPED);
+                                   self, G_CONNECT_SWAPPED);
 
   /* update home/end when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_SMART_HOME_END_COMBO),
-                            "changed",
-                            G_CALLBACK (mousepad_prefs_dialog_home_end_changed),
-                            self);
+                            "changed", G_CALLBACK (mousepad_prefs_dialog_home_end_changed), self);
 
   /* update home/end combo when setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (SMART_HOME_END,
                                    G_CALLBACK (mousepad_prefs_dialog_home_end_setting_changed),
-                                   self,
-                                   G_CONNECT_SWAPPED);
+                                   self, G_CONNECT_SWAPPED);
 
+/* TODO Toolbar */
+#if 0
   /* update toolbar style when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TOOLBAR_STYLE_COMBO),
                             "changed",
                             G_CALLBACK (mousepad_prefs_dialog_toolbar_style_changed),
                             self);
+#endif
 
   /* update toolbar style combo when the setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_STYLE,
