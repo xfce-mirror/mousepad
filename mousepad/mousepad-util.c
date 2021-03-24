@@ -792,6 +792,9 @@ mousepad_util_get_sorted_language_sections (void)
   manager = gtk_source_language_manager_get_default ();
   languages = gtk_source_language_manager_get_language_ids (manager);
 
+  if (G_UNLIKELY (languages == NULL))
+    return NULL;
+
   while (*languages)
     {
       language = gtk_source_language_manager_get_language (manager, *languages);
