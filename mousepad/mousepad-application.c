@@ -377,9 +377,10 @@ static gint
 mousepad_application_handle_local_options (GApplication *gapplication,
                                            GVariantDict *options)
 {
-  MousepadEncoding   encoding;
-  GApplicationFlags  flags;
-  GError            *error = NULL;
+  MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  MousepadEncoding     encoding;
+  GApplicationFlags    flags;
+  GError              *error = NULL;
 
   if (g_variant_dict_contains (options, "version"))
     {
@@ -429,6 +430,9 @@ mousepad_application_handle_local_options (GApplication *gapplication,
       flags = g_application_get_flags (gapplication);
       g_application_set_flags (gapplication, flags | G_APPLICATION_NON_UNIQUE);
     }
+
+  /* transfer encoding from remote to primary instance via the options dictionary */
+  g_variant_dict_insert (options, "encoding", "u", application->encoding);
 
   /* chain up to startup (primary instance) or command_line (remote instance) */
   return -1;
@@ -731,6 +735,9 @@ mousepad_application_command_line (GApplication            *gapplication,
   /* use the opening mode stored in the settings */
   else
     application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
+
+  /* retrieve encoding from the remote instance */
+  g_variant_dict_lookup (options, "encoding", "u", &(application->encoding));
 
   /* extract filenames */
   g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);
