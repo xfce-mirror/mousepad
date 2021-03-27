@@ -226,8 +226,10 @@ mousepad_file_set_monitor (gpointer data)
       if (MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
         {
           file->monitor = g_file_monitor_file (file->location,
-                                               G_FILE_MONITOR_WATCH_MOVES
-                                               | G_FILE_MONITOR_WATCH_HARD_LINKS,
+#if GLIB_CHECK_VERSION (2, 58, 0)
+                                               G_FILE_MONITOR_WATCH_HARD_LINKS |
+#endif
+                                               G_FILE_MONITOR_WATCH_MOVES,
                                                NULL, &error);
 
           /* inform the user */
