@@ -507,10 +507,12 @@ mousepad_file_open (MousepadFile  *file,
                     gboolean       must_exist,
                     gboolean       ignore_bom,
                     gboolean       make_valid,
+                    gint           line,
+                    gint           column,
                     GError       **error)
 {
   MousepadEncoding  bom_encoding;
-  GtkTextIter       start, end;
+  GtkTextIter       start, end, pos;
   GFileInfo        *fileinfo;
   const gchar      *charset, *bom_charset, *endc, *n, *m;
   gchar            *contents = NULL, *etag, *temp;
@@ -666,10 +668,10 @@ mousepad_file_open (MousepadFile  *file,
             gtk_text_buffer_insert (file->buffer, &start, m, n - m);
 
           /* get the start iter */
-          gtk_text_buffer_get_start_iter (file->buffer, &start);
+          gtk_text_buffer_get_iter_at_line_offset (file->buffer, &pos, line-1, column);
 
           /* set the cursor to the beginning of the document */
-          gtk_text_buffer_place_cursor (file->buffer, &start);
+          gtk_text_buffer_place_cursor (file->buffer, &pos);
         }
 
       /* assume everything when file */

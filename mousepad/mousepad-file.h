@@ -96,6 +96,8 @@ gint                mousepad_file_open                     (MousepadFile        
                                                             gboolean             must_exist,
                                                             gboolean             ignore_bom,
                                                             gboolean             make_valid,
+                                                            gint                 line,
+                                                            gint                 column,
                                                             GError             **error);
 
 gboolean            mousepad_file_save                     (MousepadFile        *file,
