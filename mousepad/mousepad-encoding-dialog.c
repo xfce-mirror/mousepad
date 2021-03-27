@@ -486,7 +486,7 @@ mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
       mousepad_file_set_encoding (dialog->document->file, encoding);
 
       /* try to open the file */
-      result = mousepad_file_open (dialog->document->file, TRUE, TRUE, TRUE, &error);
+      result = mousepad_file_open (dialog->document->file, TRUE, TRUE, TRUE, 1, 0, &error);
     }
   /* unsupported system charset */
   else
@@ -602,7 +602,7 @@ mousepad_encoding_dialog (GtkWindow        *parent,
   if (mousepad_file_get_encoding (file) == MOUSEPAD_ENCODING_NONE)
     {
       mousepad_file_set_encoding (file, mousepad_encoding_get_default ());
-      result = mousepad_file_open (file, TRUE, TRUE, FALSE, &error);
+      result = mousepad_file_open (file, TRUE, TRUE, FALSE, 1, 0, &error);
 
       /* handle error */
       if (result == ERROR_READING_FAILED || result == ERROR_FILE_STATUS_FAILED)

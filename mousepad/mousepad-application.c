@@ -102,6 +102,8 @@ struct _MousepadApplication
   /* command line options */
   gint             opening_mode;
   MousepadEncoding encoding;
+  gint             line;
+  gint             column;
 };
 
 /* MousepadApplication properties */
@@ -131,6 +133,18 @@ static const GOptionEntry option_entries[] =
     "disable-server", '\0', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
     N_("Do not register with the D-BUS session message bus"), NULL
+  },
+  {
+    "line", 'l', G_OPTION_FLAG_NONE,
+	G_OPTION_ARG_INT, NULL,
+    N_("Line number the cursor to position to"),
+    N_("LINE")
+  },
+  {
+    "column", 'c', G_OPTION_FLAG_NONE,
+	G_OPTION_ARG_INT, NULL,
+    N_("Column number the cursor to position to"),
+    N_("COLUMN")
   },
   {
     "quit", 'q', G_OPTION_FLAG_NONE,
@@ -319,6 +333,8 @@ mousepad_application_init (MousepadApplication *application)
   application->space_location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
   application->opening_mode = TAB;
   application->encoding = mousepad_encoding_get_default ();
+  application->line = 1;
+  application->column = 0;
 
   /* default application name */
   g_set_application_name (_("Mousepad"));
@@ -739,6 +755,10 @@ mousepad_application_command_line (GApplication            *gapplication,
   /* retrieve encoding from the remote instance */
   g_variant_dict_lookup (options, "encoding", "u", &(application->encoding));
 
+  /* get line and column number from command line */
+  g_variant_dict_lookup (options, "line", "i", &(application->line));
+  g_variant_dict_lookup (options, "column", "i", &(application->column));
+
   /* extract filenames */
   g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);
 
@@ -845,7 +865,8 @@ mousepad_application_open (GApplication  *gapplication,
 
           /* open the files */
           opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid,
-                                               application->encoding, FALSE);
+                                               application->encoding, application->line,
+                                               application->column, FALSE);
 
           /* if at least one file was finally opened, present the window, so that it requires
            * attention if already open */
@@ -864,7 +885,8 @@ mousepad_application_open (GApplication  *gapplication,
 
               /* open the file */
               opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files + n, 1,
-                                                   application->encoding, FALSE);
+                                                   application->encoding, application->line,
+                                                   application->column, FALSE);
 
               /* if the file was finally opened, show the window */
               if (opened > 0)
