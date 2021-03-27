@@ -57,6 +57,10 @@ G_BEGIN_DECLS
 #define MOUSEPAD_RC_RELPATH     ("Mousepad" G_DIR_SEPARATOR_S "mousepadrc")
 #define MOUSEPAD_ACCELS_RELPATH ("Mousepad" G_DIR_SEPARATOR_S "accels.scm")
 
+/* default line and column position for cursor */
+#define DEFAULT_LINE    1
+#define DEFAULT_COLUMN  0
+
 /* handling flags */
 #define MOUSEPAD_SET_FLAG(flags, flag)   G_STMT_START{ ((flags) |= (flag)); }G_STMT_END
 #define MOUSEPAD_UNSET_FLAG(flags, flag) G_STMT_START{ ((flags) &= ~(flag)); }G_STMT_END
