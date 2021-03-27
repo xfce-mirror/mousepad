@@ -105,6 +105,8 @@ static gboolean          mousepad_window_tool_item_leave_event        (GtkWidget
 static gboolean          mousepad_window_open_file                    (MousepadWindow         *window,
                                                                        GFile                  *file,
                                                                        MousepadEncoding        encoding,
+                                                                       gint                    line,
+                                                                       gint                    column,
                                                                        gboolean                must_exist);
 static gboolean          mousepad_window_close_document               (MousepadWindow         *window,
                                                                        MousepadDocument       *document);
@@ -1890,6 +1892,8 @@ static gboolean
 mousepad_window_open_file (MousepadWindow   *window,
                            GFile            *file,
                            MousepadEncoding  encoding,
+                           gint              line,
+                           gint              column,
                            gboolean          must_exist)
 {
   MousepadDocument *document;
@@ -2054,6 +2058,8 @@ mousepad_window_open_files (MousepadWindow    *window,
                             GFile            **files,
                             gint               n_files,
                             MousepadEncoding   encoding,
+                            gint               line,
+                            gint               column,
                             gboolean           must_exist)
 {
   gint n;
@@ -2067,7 +2073,7 @@ mousepad_window_open_files (MousepadWindow    *window,
 
   /* open new tabs with the files */
   for (n = 0; n < n_files; n++)
-    mousepad_window_open_file (window, files[n], encoding, must_exist);
+    mousepad_window_open_file (window, files[n], encoding, line, column, must_exist);
 
   /* allow menu updates again */
   lock_menu_updates--;
@@ -3936,7 +3942,7 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
       /* open the files */
       data = g_ptr_array_free (files, FALSE);
       mousepad_window_open_files (window, (GFile **) data, n_pages,
-                                  mousepad_encoding_get_default (), TRUE);
+                                  mousepad_encoding_get_default (), 1, 0, TRUE);
 
       /* cleanup */
       g_strfreev (uris);
@@ -4527,7 +4533,7 @@ mousepad_window_action_open (GSimpleAction *action,
 
       /* open all the selected locations in new tabs */
       for (file = files; file != NULL; file = file->next)
-        mousepad_window_open_file (window, file->data, encoding, TRUE);
+        mousepad_window_open_file (window, file->data, encoding, 1, 0, TRUE);
 
       /* cleanup */
       g_slist_free_full (files, g_object_unref);
@@ -4571,7 +4577,7 @@ mousepad_window_action_open_recent (GSimpleAction *action,
 
           /* try to open the file */
           file = g_file_new_for_uri (uri);
-          succeed = mousepad_window_open_file (window, file, encoding, TRUE);
+          succeed = mousepad_window_open_file (window, file, encoding, 1, 0, TRUE);
           g_object_unref (file);
 
           /* update the document history, don't both the user if this fails */
