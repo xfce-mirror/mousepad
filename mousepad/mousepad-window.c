@@ -1889,6 +1889,26 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
  * Mousepad Window Functions
  **/
 static gboolean
+mousepad_window_scroll_to_cursor (gpointer data)
+{
+  MousepadWindow *window;
+
+  /* if there is a request to scroll to cursor just before closing the window or a tab,
+   * tests below could fail */
+  if (MOUSEPAD_IS_WINDOW (data))
+    {
+      window = MOUSEPAD_WINDOW (data);
+      if (MOUSEPAD_IS_DOCUMENT (window->active)
+          && MOUSEPAD_IS_VIEW (window->active->textview))
+        mousepad_view_scroll_to_cursor (window->active->textview);
+    }
+
+  return FALSE;
+}
+
+
+
+static gboolean
 mousepad_window_open_file (MousepadWindow   *window,
                            GFile            *file,
                            MousepadEncoding  encoding,
@@ -1979,6 +1999,8 @@ mousepad_window_open_file (MousepadWindow   *window,
           {
             /* add the document to the window */
             mousepad_window_add (window, document);
+
+            g_idle_add (mousepad_window_scroll_to_cursor, window);
 
             /* insert in the recent history */
             mousepad_window_recent_add (window, document->file);
@@ -4029,26 +4051,6 @@ mousepad_window_search (MousepadWindow      *window,
   /* search in the active document */
   else
     mousepad_document_search (window->active, string, replacement, flags);
-}
-
-
-
-static gboolean
-mousepad_window_scroll_to_cursor (gpointer data)
-{
-  MousepadWindow *window;
-
-  /* if there is a request to scroll to cursor just before closing the window or a tab,
-   * tests below could fail */
-  if (MOUSEPAD_IS_WINDOW (data))
-    {
-      window = MOUSEPAD_WINDOW (data);
-      if (MOUSEPAD_IS_DOCUMENT (window->active)
-          && MOUSEPAD_IS_VIEW (window->active->textview))
-        mousepad_view_scroll_to_cursor (window->active->textview);
-    }
-
-  return FALSE;
 }
 
 
