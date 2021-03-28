@@ -667,6 +667,16 @@ mousepad_file_open (MousepadFile  *file,
           if (G_LIKELY (n - m > 0))
             gtk_text_buffer_insert (file->buffer, &start, m, n - m);
 
+          /* For negative line number count from bottom */
+          if (line < 0)
+            line = MAX (gtk_text_buffer_get_line_count (file->buffer) + line, 0);
+
+          gtk_text_buffer_get_iter_at_line (file->buffer, &pos, line);
+          gtk_text_iter_forward_to_line_end (&pos);
+
+          if (column < 0)
+            column = MAX (gtk_text_iter_get_line_offset (&pos) + column + 1, 0);
+
           /* get the position iter */
           gtk_text_buffer_get_iter_at_line_offset (file->buffer, &pos, line, column);
 
