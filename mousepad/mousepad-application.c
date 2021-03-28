@@ -130,7 +130,8 @@ static const GOptionEntry option_entries[] =
   {
     "line", 'l', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_INT, NULL,
-    N_("Line number the cursor to position to"),
+    N_("Line number the cursor to position to (default is 1)\n\t\t\t\
+      For LINE >=1 starts from top and for LINE < 1 starts from bottom"),
     N_("LINE")
   },
   {
