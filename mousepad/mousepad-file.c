@@ -663,12 +663,31 @@ mousepad_file_open (MousepadFile  *file,
                 }
             }
 
+          gint tab_width = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
+          gboolean from_end = FALSE;
+
           /* insert the remaining part, or everything for lf line ending */
           if (G_LIKELY (n - m > 0))
             gtk_text_buffer_insert (file->buffer, &start, m, n - m);
 
-          /* get the position iter */
-          gtk_text_buffer_get_iter_at_line_offset (file->buffer, &pos, line, column);
+          /* For negative line number count from bottom */
+          if (line < 0)
+            line = MAX (gtk_text_buffer_get_line_count (file->buffer) + line, 0);
+
+          /* set the position iter line */
+          gtk_text_buffer_get_iter_at_line (file->buffer, &pos, line);
+
+          gtk_text_iter_forward_to_line_end (&pos);
+
+          /* For negative column number count from end of the line */
+          if (column < 0)
+            {
+              column = MAX (mousepad_util_get_real_line_offset (&pos, tab_width) + column + 1, 0);
+              from_end = TRUE;
+            }
+
+          /* set the position iter offset */
+          mousepad_util_set_real_line_offset (&pos, tab_width, column, from_end);
 
           /* set the cursor at the position iter */
           gtk_text_buffer_place_cursor (file->buffer, &pos);
