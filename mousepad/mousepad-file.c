@@ -517,7 +517,7 @@ mousepad_file_open (MousepadFile  *file,
   const gchar      *charset, *bom_charset, *endc, *n, *m;
   gchar            *contents = NULL, *etag, *temp;
   gsize             file_size, written, bom_length;
-  gint              retval = ERROR_READING_FAILED;
+  gint              total_lines, retval = ERROR_READING_FAILED;
 
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
   g_return_val_if_fail (GTK_IS_TEXT_BUFFER (file->buffer), FALSE);
@@ -666,6 +666,15 @@ mousepad_file_open (MousepadFile  *file,
           /* insert the remaining part, or everything for lf line ending */
           if (G_LIKELY (n - m > 0))
             gtk_text_buffer_insert (file->buffer, &start, m, n - m);
+
+          total_lines = gtk_text_buffer_get_line_count (file->buffer);
+          if (line < 0)
+            {
+              if (total_lines <= -line)
+                line = 0;
+              else
+                line =  total_lines + line;
+            }
 
           /* get the position iter */
           gtk_text_buffer_get_iter_at_line_offset (file->buffer, &pos, line, column);
