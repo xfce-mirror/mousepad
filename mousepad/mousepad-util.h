@@ -61,6 +61,11 @@ void         mousepad_util_dialog_update_header             (GtkDialog          
 gint         mousepad_util_get_real_line_offset             (const GtkTextIter          *iter,
                                                              gint                        tab_size);
 
+void         mousepad_util_set_real_line_offset             (GtkTextIter                *iter,
+                                                             const gint                  tab_size,
+                                                             const gint                  column,
+                                                             const gboolean              from_end);
+
 gboolean     mousepad_util_forward_iter_to_text             (GtkTextIter                *iter,
                                                              const GtkTextIter          *limit);
 
