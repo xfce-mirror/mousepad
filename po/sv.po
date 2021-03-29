@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 12:48+0100\n"
-"PO-Revision-Date: 2021-01-31 17:11+0000\n"
+"PO-Revision-Date: 2021-03-29 08:45+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/xfce/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "Teckenkodning som ska användas för att öppna filer (lämna tom för att öppna filer i teckenkodningsdialogen)"
 
 #: ../mousepad/mousepad-application.c:123
 msgid "ENCODING"
@@ -248,7 +248,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Öppna dialogrutan för teckenkodning"
 
 #: ../mousepad/mousepad-dialogs.c:754
 msgid "Go back to shorten list"
