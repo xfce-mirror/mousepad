@@ -677,8 +677,10 @@ mousepad_file_open (MousepadFile  *file,
           if (column < 0)
             column = MAX (gtk_text_iter_get_line_offset (&pos) + column + 1, 0);
 
-          /* get the position iter */
-          gtk_text_buffer_get_iter_at_line_offset (file->buffer, &pos, line, column);
+          /* set the position iter */
+          gtk_text_iter_set_line_offset (&pos, mousepad_util_get_max_possible_offset(&pos,
+                                                                                      MOUSEPAD_SETTING_GET_INT (TAB_WIDTH),
+																					  column));
 
           /* set the cursor at the position iter */
           gtk_text_buffer_place_cursor (file->buffer, &pos);
