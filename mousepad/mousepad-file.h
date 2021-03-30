@@ -93,6 +93,8 @@ void                mousepad_file_set_user_set_language    (MousepadFile        
                                                             gboolean             set_by_user);
 
 gint                mousepad_file_open                     (MousepadFile        *file,
+                                                            gint                 line,
+                                                            gint                 column,
                                                             gboolean             must_exist,
                                                             gboolean             ignore_bom,
                                                             gboolean             make_valid,
