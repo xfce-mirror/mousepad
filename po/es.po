@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 12:48+0100\n"
-"PO-Revision-Date: 2021-03-29 15:57+0000\n"
+"PO-Revision-Date: 2021-03-30 11:27+0000\n"
 "Last-Translator: Toni Estévez <toni.estevez@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -1132,7 +1132,7 @@ msgstr "Menú Ayuda"
 
 #: ../mousepad/resources/gtk/menus.ui.h:82
 msgid "_Contents"
-msgstr "_Contenido"
+msgstr "Índ_ice"
 
 #: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Display the Mousepad user manual"
