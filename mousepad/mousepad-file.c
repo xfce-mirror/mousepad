@@ -668,7 +668,7 @@ mousepad_file_open (MousepadFile  *file,
           if (G_LIKELY (n - m > 0))
             gtk_text_buffer_insert (file->buffer, &start, m, n - m);
 
-          /* For negative line number count from bottom */
+          /* for negative line number count from bottom */
           if (line < 0)
             line = MAX (gtk_text_buffer_get_line_count (file->buffer) + line, 0);
 
@@ -678,7 +678,7 @@ mousepad_file_open (MousepadFile  *file,
           /* get the tab width */
           tab_width = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
 
-          /* For negative column number count from end of the line */
+          /* for negative column number count from end of the line */
           if (column < 0)
             {
               if (!gtk_text_iter_ends_line (&pos))

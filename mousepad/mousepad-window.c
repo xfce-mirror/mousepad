@@ -2000,6 +2000,7 @@ mousepad_window_open_file (MousepadWindow   *window,
             /* add the document to the window */
             mousepad_window_add (window, document);
 
+            /* make sure to fully scroll to cursor after the document is loaded */
             g_idle_add (mousepad_window_scroll_to_cursor, window);
 
             /* insert in the recent history */
@@ -4874,8 +4875,9 @@ mousepad_window_action_reload (GSimpleAction *action,
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document = window->active;
+  GtkTextIter       cursor;
   GError           *error = NULL;
-  gint              retval;
+  gint              retval, line, column, tab_width;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
@@ -4905,11 +4907,19 @@ mousepad_window_action_reload (GSimpleAction *action,
         }
     }
 
+  /* get iter at cursor position */
+  gtk_text_buffer_get_iter_at_mark (document->buffer, &cursor,
+                                    gtk_text_buffer_get_insert (document->buffer));
+
+  line = gtk_text_iter_get_line (&cursor);
+  tab_width = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
+  column = mousepad_util_get_real_line_offset (&cursor, tab_width);
+
   /* lock the undo manager */
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
   /* reload the file */
-  retval = mousepad_file_open (document->file, 0, 0, TRUE, FALSE, FALSE, &error);
+  retval = mousepad_file_open (document->file, line, column, TRUE, FALSE, FALSE, &error);
 
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
@@ -4920,6 +4930,8 @@ mousepad_window_action_reload (GSimpleAction *action,
       mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to reload the document"));
       g_error_free (error);
     }
+  else
+    g_idle_add (mousepad_window_scroll_to_cursor, window);
 }
 
 
