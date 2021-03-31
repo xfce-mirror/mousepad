@@ -504,13 +504,15 @@ mousepad_file_set_user_set_language (MousepadFile *file,
 
 gint
 mousepad_file_open (MousepadFile  *file,
+                    gint           line,
+                    gint           column,
                     gboolean       must_exist,
                     gboolean       ignore_bom,
                     gboolean       make_valid,
                     GError       **error)
 {
   MousepadEncoding  bom_encoding;
-  GtkTextIter       start, end;
+  GtkTextIter       start, end, pos;
   GFileInfo        *fileinfo;
   const gchar      *charset, *bom_charset, *endc, *n, *m;
   gchar            *contents = NULL, *etag, *temp;
@@ -661,15 +663,35 @@ mousepad_file_open (MousepadFile  *file,
                 }
             }
 
+          gint tab_width = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
+          gboolean from_end = FALSE;
+
           /* insert the remaining part, or everything for lf line ending */
           if (G_LIKELY (n - m > 0))
             gtk_text_buffer_insert (file->buffer, &start, m, n - m);
 
-          /* get the start iter */
-          gtk_text_buffer_get_start_iter (file->buffer, &start);
+          /* For negative line number count from bottom */
+          if (line < 0)
+            line = MAX (gtk_text_buffer_get_line_count (file->buffer) + line, 0);
 
-          /* set the cursor to the beginning of the document */
-          gtk_text_buffer_place_cursor (file->buffer, &start);
+          /* set the position iter line */
+          gtk_text_buffer_get_iter_at_line (file->buffer, &pos, line);
+
+          /* For negative column number count from end of the line */
+          if (column < 0)
+            {
+              if (!gtk_text_iter_ends_line (&pos))
+                gtk_text_iter_forward_to_line_end (&pos);
+
+              column = MAX (mousepad_util_get_real_line_offset (&pos, tab_width) + column + 1, 0);
+              from_end = TRUE;
+            }
+
+          /* set the position iter offset */
+          mousepad_util_set_real_line_offset (&pos, tab_width, column, from_end);
+
+          /* set the cursor at the position iter */
+          gtk_text_buffer_place_cursor (file->buffer, &pos);
         }
 
       /* assume everything when file */
