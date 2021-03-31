@@ -564,8 +564,8 @@ mousepad_util_set_real_line_offset (GtkTextIter *iter,
                                     gint         column,
                                     gboolean     from_end)
 {
-  gint         char_offset = 0, column_offset = 0;
-  GtkTextIter  needle = *iter;
+  gint        char_offset = 0, column_offset = 0;
+  GtkTextIter needle = *iter;
 
   /* move the needle to the start of the line */
   gtk_text_iter_set_line_offset (&needle, 0);

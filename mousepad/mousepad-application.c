@@ -757,7 +757,7 @@ mousepad_application_command_line (GApplication            *gapplication,
   g_variant_dict_lookup (options, "line", "i", &(application->line));
   g_variant_dict_lookup (options, "column", "i", &(application->column));
 
-  /* For user line starts from 1 but for gtk line starts from 0 */
+  /* for user line starts from 1 but for gtk line starts from 0 */
   if (application->line > 0)
     --application->line;
 

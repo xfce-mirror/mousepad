@@ -2000,6 +2000,7 @@ mousepad_window_open_file (MousepadWindow   *window,
             /* add the document to the window */
             mousepad_window_add (window, document);
 
+            /* make sure to fully scroll to cursor after the document is loaded */
             g_idle_add (mousepad_window_scroll_to_cursor, window);
 
             /* insert in the recent history */
@@ -4908,7 +4909,7 @@ mousepad_window_action_reload (GSimpleAction *action,
 
   /* get iter at cursor position */
   gtk_text_buffer_get_iter_at_mark (document->buffer, &cursor,
-                                    gtk_text_buffer_get_insert(document->buffer));
+                                    gtk_text_buffer_get_insert (document->buffer));
 
   line = gtk_text_iter_get_line (&cursor);
   tab_width = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
