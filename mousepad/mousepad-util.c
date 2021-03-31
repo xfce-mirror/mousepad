@@ -558,6 +558,52 @@ mousepad_util_get_real_line_offset (const GtkTextIter *iter,
 
 
 
+void
+mousepad_util_set_real_line_offset (GtkTextIter *iter,
+                                    gint         tab_size,
+                                    gint         column,
+                                    gboolean     from_end)
+{
+  gint         char_offset = 0, column_offset = 0;
+  gunichar     needle_char;
+  GtkTextIter  needle = *iter;
+
+  /* move the needle to the start of the line */
+  gtk_text_iter_set_line_offset (&needle, 0);
+
+  /* forward the needle until we hit the end of line */
+  while ((needle_char = gtk_text_iter_get_char (&needle)) && column_offset < column)
+    {
+      /* append the tab columns or 1 */
+      if (needle_char == '\t')
+        {
+          column_offset += (tab_size - (column_offset % tab_size));
+
+          if (column_offset <= column)
+            char_offset++;
+          else
+            {
+              if (from_end)
+                char_offset++;
+              break;
+            }
+        }
+      else
+        {
+          char_offset++;
+          column_offset++;
+        }
+
+      /* next char */
+      gtk_text_iter_forward_char (&needle);
+    }
+
+  /* set iter at char_offset */
+  gtk_text_iter_set_line_offset (iter, char_offset);
+}
+
+
+
 gboolean
 mousepad_util_forward_iter_to_text (GtkTextIter       *iter,
                                     const GtkTextIter *limit)
