@@ -57,7 +57,7 @@ enum
 
 GType           mousepad_view_get_type                  (void) G_GNUC_CONST;
 
-void            mousepad_view_scroll_to_cursor          (MousepadView      *view);
+gboolean        mousepad_view_scroll_to_cursor          (gpointer           data);
 
 void            mousepad_view_transpose                 (MousepadView      *view);
 

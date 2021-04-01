@@ -4026,26 +4026,6 @@ mousepad_window_search (MousepadWindow      *window,
 
 
 
-static gboolean
-mousepad_window_scroll_to_cursor (gpointer data)
-{
-  MousepadWindow *window;
-
-  /* if there is a request to scroll to cursor just before closing the window or a tab,
-   * tests below could fail */
-  if (MOUSEPAD_IS_WINDOW (data))
-    {
-      window = MOUSEPAD_WINDOW (data);
-      if (MOUSEPAD_IS_DOCUMENT (window->active)
-          && MOUSEPAD_IS_VIEW (window->active->textview))
-        mousepad_view_scroll_to_cursor (window->active->textview);
-    }
-
-  return FALSE;
-}
-
-
-
 static void
 mousepad_window_search_completed (MousepadWindow      *window,
                                   gint                 n_matches_doc,
@@ -4150,7 +4130,7 @@ mousepad_window_search_completed (MousepadWindow      *window,
 
   /* make sure the selection is visible whenever idle */
   if (n_matches_doc > 0)
-    g_idle_add (mousepad_window_scroll_to_cursor, window);
+    g_idle_add (mousepad_view_scroll_to_cursor, window->active->textview);
 }
 
 

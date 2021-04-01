@@ -532,20 +532,26 @@ mousepad_view_indent_selection (MousepadView *view,
 }
 
 
-void
-mousepad_view_scroll_to_cursor (MousepadView *view)
+gboolean
+mousepad_view_scroll_to_cursor (gpointer data)
 {
+  MousepadView  *view = data;
   GtkTextBuffer *buffer;
 
-  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
+  /* if there is a delayed request to scroll to cursor just before closing the window
+   * or a tab, this test could fail */
+  if (MOUSEPAD_IS_VIEW (view))
+    {
+      /* get the buffer */
+      buffer = mousepad_view_get_buffer (view);
 
-  /* get the buffer */
-  buffer = mousepad_view_get_buffer (view);
+      /* scroll to visible area */
+      gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (view),
+                                    gtk_text_buffer_get_insert (buffer),
+                                    0.02, FALSE, 0.0, 0.0);
+    }
 
-  /* scroll to visible area */
-  gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (view),
-                                gtk_text_buffer_get_insert (buffer),
-                                0.02, FALSE, 0.0, 0.0);
+  return FALSE;
 }
 
 
