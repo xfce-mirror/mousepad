@@ -55,6 +55,8 @@ gint            mousepad_window_open_files                 (MousepadWindow      
                                                             GFile               **files,
                                                             gint                  n_files,
                                                             MousepadEncoding      encoding,
+                                                            gint                  line,
+                                                            gint                  column,
                                                             gboolean              must_exist);
 
 void            mousepad_window_show_preferences           (MousepadWindow       *window);
