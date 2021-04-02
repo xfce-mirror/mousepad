@@ -1,3 +1,23 @@
+0.5.4
+======
+- New Features:
+  - Add --line/-l and --column/-c number (#107, !83)
+  - Port to GtkSourceView 4 (#55, #80, !10)
+
+- Bug Fixes:
+  - Delay request to scroll to cursor for the correct active view
+  - Monitor hardlinks with glib 2.56.2 (#110, !82)
+  - Transfer encoding from remote to primary instance (#109)
+  - Prevent a crash when no language is found
+  - Make window require attention when opening new tabs (#106, #93, !81)
+  - Fix BOM array (!80)
+  - Correctly initialize toolbar style combo box (#103)
+  - Allow checking parent sources when looking up schema (#101)
+  - Fix missing parameter to "select-all" signal (!79)
+
+- Translation Updates:
+  Hebrew, Indonesian, Spanish, Swedish
+
 0.5.3
 ======
 - Appearance Changes:
