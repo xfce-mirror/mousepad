@@ -235,6 +235,12 @@
       <attribute name="submenu-action">win.document</attribute>
       <section>
         <item>
+          <attribute name="label" translatable="yes">Spell _Check</attribute>
+          <attribute name="tooltip" translatable="yes">Toggle spell checking</attribute>
+          <attribute name="action">app.preferences.view.spell-check</attribute>
+          <attribute name="icon">tools-check-spelling</attribute>
+        </item>
+        <item>
           <attribute name="label" translatable="yes">_Word Wrap</attribute>
           <attribute name="tooltip" translatable="yes">Toggle breaking lines in between words</attribute>
           <attribute name="action">app.preferences.view.word-wrap</attribute>
