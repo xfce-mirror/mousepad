@@ -92,6 +92,10 @@ MousepadLineEnding  mousepad_file_get_line_ending          (MousepadFile        
 void                mousepad_file_set_user_set_language    (MousepadFile        *file,
                                                             gboolean             set_by_user);
 
+void                mousepad_file_place_cursor             (GtkTextBuffer       *buffer,
+                                                            gint                 line,
+                                                            gint                 column);
+
 gint                mousepad_file_open                     (MousepadFile        *file,
                                                             gint                 line,
                                                             gint                 column,

@@ -4858,7 +4858,7 @@ mousepad_window_action_reload (GSimpleAction *action,
   MousepadDocument *document = window->active;
   GtkTextIter       cursor;
   GError           *error = NULL;
-  gint              retval, line, column, tab_width;
+  gint              retval, line, column;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
@@ -4893,9 +4893,7 @@ mousepad_window_action_reload (GSimpleAction *action,
                                     gtk_text_buffer_get_insert (document->buffer));
 
   line = gtk_text_iter_get_line (&cursor);
-
-  tab_width = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
-  column = mousepad_util_get_real_line_offset (&cursor, tab_width);
+  column = mousepad_util_get_real_line_offset (&cursor);
 
   /* lock the undo manager */
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
