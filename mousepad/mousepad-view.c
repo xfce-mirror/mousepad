@@ -406,7 +406,7 @@ mousepad_view_indent_increase (MousepadView *view,
   if (gtk_source_view_get_insert_spaces_instead_of_tabs (GTK_SOURCE_VIEW (view)))
     {
       /* get the offset */
-      offset = mousepad_util_get_real_line_offset (iter, tab_size);
+      offset = mousepad_util_get_real_line_offset (iter);
 
       /* calculate the length to inline with a tab */
       inline_len = offset % tab_size;
@@ -1111,7 +1111,7 @@ mousepad_view_convert_spaces_and_tabs (MousepadView *view,
                   iter = start_iter;
 
                   /* get the real offset of the start iter */
-                  offset = mousepad_util_get_real_line_offset (&iter, tab_size);
+                  offset = mousepad_util_get_real_line_offset (&iter);
 
                   /* the number of spaces to inline with the tabs */
                   n_spaces = tab_size - offset % tab_size;
@@ -1159,7 +1159,7 @@ mousepad_view_convert_spaces_and_tabs (MousepadView *view,
       else if (type == TABS_TO_SPACES && c == '\t')
         {
           /* get the real offset of the iter */
-          offset = mousepad_util_get_real_line_offset (&start_iter, tab_size);
+          offset = mousepad_util_get_real_line_offset (&start_iter);
 
           /* the number of spaces to inline with the tabs */
           n_spaces = tab_size - offset % tab_size;
