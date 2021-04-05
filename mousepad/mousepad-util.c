@@ -16,6 +16,7 @@
 
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-settings.h>
 
 #include <xfconf/xfconf.h>
 
@@ -531,10 +532,9 @@ mousepad_util_dialog_update_header (GtkDialog   *dialog,
 
 
 gint
-mousepad_util_get_real_line_offset (const GtkTextIter *iter,
-                                    gint               tab_size)
+mousepad_util_get_real_line_offset (const GtkTextIter *iter)
 {
-  gint        offset = 0;
+  gint        offset = 0, tab_size = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
   GtkTextIter needle = *iter;
 
   /* move the needle to the start of the line */
@@ -560,11 +560,11 @@ mousepad_util_get_real_line_offset (const GtkTextIter *iter,
 
 void
 mousepad_util_set_real_line_offset (GtkTextIter *iter,
-                                    gint         tab_size,
                                     gint         column,
                                     gboolean     from_end)
 {
   gint        char_offset = 0, column_offset = 0;
+  gint        tab_size = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
   GtkTextIter needle = *iter;
 
   /* move the needle to the start of the line */
