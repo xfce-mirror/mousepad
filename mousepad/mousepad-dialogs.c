@@ -169,6 +169,7 @@ mousepad_dialogs_go_to_line_changed (GtkSpinButton *line_spin,
 {
   GtkTextBuffer *buffer;
   GtkTextIter    iter;
+  gint           line, total_columns;
 
   g_return_if_fail (GTK_IS_SPIN_BUTTON (line_spin));
   g_return_if_fail (GTK_IS_SPIN_BUTTON (col_spin));
@@ -176,15 +177,24 @@ mousepad_dialogs_go_to_line_changed (GtkSpinButton *line_spin,
   /* get the text buffer */
   buffer = mousepad_object_get_data (col_spin, "buffer");
 
+  line = gtk_spin_button_get_value_as_int (line_spin);
+
+  if (line > 0)
+    line--;
+  else if (line < 0)
+    line = gtk_text_buffer_get_line_count (buffer) + line;
+
   /* get iter at line */
-  gtk_text_buffer_get_iter_at_line (buffer, &iter, gtk_spin_button_get_value_as_int (line_spin) - 1);
+  gtk_text_buffer_get_iter_at_line (buffer, &iter, line);
 
   /* move the iter to the end of the line if needed */
   if (!gtk_text_iter_ends_line (&iter))
     gtk_text_iter_forward_to_line_end (&iter);
 
+  total_columns = mousepad_util_get_real_line_offset (&iter);
+
   /* update column spin button range */
-  gtk_spin_button_set_range (col_spin, 0, gtk_text_iter_get_line_offset (&iter));
+  gtk_spin_button_set_range (col_spin, -(total_columns + 1), total_columns);
 }
 
 
@@ -243,7 +253,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_widget_show (label);
 
-  line_spin = gtk_spin_button_new_with_range (1, lines, 1);
+  line_spin = gtk_spin_button_new_with_range (-lines, lines, 1);
   gtk_entry_set_activates_default (GTK_ENTRY (line_spin), TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), line_spin, FALSE, FALSE, 0);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), line_spin);
@@ -288,14 +298,13 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
       gtk_widget_hide (dialog);
 
       /* get new position */
-      line = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (line_spin)) - 1;
+      line = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (line_spin));
+      if (line > 0)
+        line--;
       column = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (col_spin));
 
-      /* get iter */
-      gtk_text_buffer_get_iter_at_line_offset (buffer, &iter, line, column);
-
-      /* get cursor position */
-      gtk_text_buffer_place_cursor (buffer, &iter);
+      /* place cursor at (line, column) */
+      mousepad_file_place_cursor (buffer, line, column);
     }
 
   /* destroy the dialog */
