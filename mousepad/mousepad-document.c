@@ -349,7 +349,7 @@ static void
 mousepad_document_notify_cursor_position (MousepadDocument *document)
 {
   GtkTextIter iter;
-  gint        line, column, selection, tab_size;
+  gint        line, column, selection;
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
@@ -360,11 +360,8 @@ mousepad_document_notify_cursor_position (MousepadDocument *document)
   /* get the current line number */
   line = gtk_text_iter_get_line (&iter) + 1;
 
-  /* get the tab size */
-  tab_size = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
-
   /* get the column */
-  column = mousepad_util_get_real_line_offset (&iter, tab_size);
+  column = mousepad_util_get_real_line_offset (&iter);
 
   /* get length of the selection */
   selection = mousepad_view_get_selection_length (document->textview);
