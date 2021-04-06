@@ -290,7 +290,7 @@
             <attribute name="action">win.edit.convert.tabs-to-spaces</attribute>
           </item>
           <item>
-            <attribute name="label" translatable="yes">_Spaces to Tabs</attribute>
+            <attribute name="label" translatable="yes">_Leading Spaces to Tabs</attribute>
             <attribute name="tooltip" translatable="yes">Convert all the leading spaces to tabs in the selected line(s) or document</attribute>
             <attribute name="action">win.edit.convert.spaces-to-tabs</attribute>
           </item>
