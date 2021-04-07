@@ -827,8 +827,8 @@ mousepad_application_activate (GApplication *gapplication)
   /* create a new document and add it to the window */
   g_action_group_activate_action (G_ACTION_GROUP (window), "file.new", NULL);
 
-  /* show the window */
-  gtk_widget_show (window);
+  /* present the window, so that it requires attention if already open */
+  gtk_window_present (GTK_WINDOW (window));
 }
 
 
