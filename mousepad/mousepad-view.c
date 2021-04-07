@@ -25,13 +25,23 @@
 
 
 
+/* GObject virtual functions */
 static void      mousepad_view_finalize                      (GObject            *object);
 static void      mousepad_view_set_property                  (GObject            *object,
                                                               guint               prop_id,
                                                               const GValue       *value,
                                                               GParamSpec         *pspec);
+
+/* GtkWidget virtual functions */
 static gboolean  mousepad_view_key_press_event               (GtkWidget          *widget,
                                                               GdkEventKey        *event);
+
+/* GtkTextView virtual functions */
+static void      mousepad_view_delete_from_cursor            (GtkTextView        *text_view,
+                                                              GtkDeleteType       type,
+                                                              int                 count);
+
+/* MousepadView own functions */
 static void      mousepad_view_indent_increase               (MousepadView       *view,
                                                               GtkTextIter        *iter);
 static void      mousepad_view_indent_decrease               (MousepadView       *view,
@@ -105,15 +115,16 @@ G_DEFINE_TYPE (MousepadView, mousepad_view, GTK_SOURCE_TYPE_VIEW)
 static void
 mousepad_view_class_init (MousepadViewClass *klass)
 {
-  GObjectClass   *gobject_class;
-  GtkWidgetClass *widget_class;
+  GObjectClass     *gobject_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass   *widget_class = GTK_WIDGET_CLASS (klass);
+  GtkTextViewClass *textview_class = GTK_TEXT_VIEW_CLASS (klass);
 
-  gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_view_finalize;
   gobject_class->set_property = mousepad_view_set_property;
 
-  widget_class = GTK_WIDGET_CLASS (klass);
   widget_class->key_press_event = mousepad_view_key_press_event;
+
+  textview_class->delete_from_cursor = mousepad_view_delete_from_cursor;
 
   g_object_class_install_property (gobject_class, PROP_FONT,
     g_param_spec_string ("font", "Font", "The font to use in the view",
@@ -388,6 +399,63 @@ mousepad_view_key_press_event (GtkWidget   *widget,
 
 
 
+static void
+mousepad_view_delete_from_cursor (GtkTextView   *text_view,
+                                  GtkDeleteType  type,
+                                  int            count)
+{
+  GtkTextBuffer *buffer;
+  GtkTextIter    start, end;
+  gint           line, column;
+
+  /* override only GTK_DELETE_PARAGRAPHS to make "win.edit.delete-line" work as expected */
+  if (type == GTK_DELETE_PARAGRAPHS)
+    {
+      /* get iter at cursor */
+      buffer = mousepad_view_get_buffer (MOUSEPAD_VIEW (text_view));
+      gtk_text_buffer_get_iter_at_mark (buffer, &start, gtk_text_buffer_get_insert (buffer));
+
+      /* store current line and column numbers */
+      line = gtk_text_iter_get_line (&start);
+      column = mousepad_util_get_real_line_offset (&start);
+
+      /* begin a user action, deleting line in two steps from current cursor position,
+       * so that this position is restored when undoing the action */
+      gtk_text_buffer_begin_user_action (buffer);
+
+      /* part of the line to the right of the cursor */
+      end = start;
+      if (! gtk_text_iter_ends_line (&end))
+        gtk_text_iter_forward_to_line_end (&end);
+
+      gtk_text_buffer_delete (buffer, &start, &end);
+
+      /* part of the line to the left of the cursor, plus the previous paragraph delimiter
+       * (unless we are on the first line) */
+      end = start;
+      gtk_text_iter_set_line_offset (&start, 0);
+      if (gtk_text_iter_is_start (&start))
+        gtk_text_iter_forward_char (&end);
+      else
+        gtk_text_iter_backward_char (&start);
+
+      gtk_text_buffer_delete (buffer, &start, &end);
+
+      /* preserve cursor position, as far as possible */
+      mousepad_util_place_cursor (buffer, line, column);
+
+      /* end user action */
+      gtk_text_buffer_end_user_action (buffer);
+
+      return;
+    }
+
+  /* let GTK handle other cases */
+  GTK_TEXT_VIEW_CLASS (mousepad_view_parent_class)->delete_from_cursor (text_view, type, count);
+}
+
+
+
 /**
  * Indentation Functions
  **/
@@ -406,7 +474,7 @@ mousepad_view_indent_increase (MousepadView *view,
   if (gtk_source_view_get_insert_spaces_instead_of_tabs (GTK_SOURCE_VIEW (view)))
     {
       /* get the offset */
-      offset = mousepad_util_get_real_line_offset (iter, tab_size);
+      offset = mousepad_util_get_real_line_offset (iter);
 
       /* calculate the length to inline with a tab */
       inline_len = offset % tab_size;
@@ -1111,7 +1179,7 @@ mousepad_view_convert_spaces_and_tabs (MousepadView *view,
                   iter = start_iter;
 
                   /* get the real offset of the start iter */
-                  offset = mousepad_util_get_real_line_offset (&iter, tab_size);
+                  offset = mousepad_util_get_real_line_offset (&iter);
 
                   /* the number of spaces to inline with the tabs */
                   n_spaces = tab_size - offset % tab_size;
@@ -1159,7 +1227,7 @@ mousepad_view_convert_spaces_and_tabs (MousepadView *view,
       else if (type == TABS_TO_SPACES && c == '\t')
         {
           /* get the real offset of the iter */
-          offset = mousepad_util_get_real_line_offset (&start_iter, tab_size);
+          offset = mousepad_util_get_real_line_offset (&start_iter);
 
           /* the number of spaces to inline with the tabs */
           n_spaces = tab_size - offset % tab_size;
