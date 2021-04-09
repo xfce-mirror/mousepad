@@ -729,6 +729,9 @@ mousepad_application_command_line (GApplication            *gapplication,
   /* get the option dictionary */
   options = g_application_command_line_get_options_dict (command_line);
 
+  /* retrieve encoding from the remote instance */
+  g_variant_dict_lookup (options, "encoding", "u", &(application->encoding));
+
   /* see if an opening mode was provided on the command line */
   if (g_variant_dict_lookup (options, "opening-mode", "&s", &opening_mode))
     {
@@ -750,16 +753,16 @@ mousepad_application_command_line (GApplication            *gapplication,
   else
     application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
 
-  /* retrieve encoding from the remote instance */
-  g_variant_dict_lookup (options, "encoding", "u", &(application->encoding));
-
-  /* get line and column number from command line */
-  g_variant_dict_lookup (options, "line", "i", &(application->line));
-  g_variant_dict_lookup (options, "column", "i", &(application->column));
-
+  /* see if line number was not provided on the command line */
+  if (! g_variant_dict_lookup (options, "line", "i", &(application->line)))
+    application->line = 0;
   /* for user line starts from 1 but for gtk line starts from 0 */
-  if (application->line > 0)
+  else if (application->line > 0)
     --application->line;
+
+  /* see if column number was not provided on the command line */
+  if (! g_variant_dict_lookup (options, "column", "i", &(application->column)))
+    application->column = 0;
 
   /* extract filenames */
   g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);
