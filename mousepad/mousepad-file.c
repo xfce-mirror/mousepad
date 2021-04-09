@@ -512,13 +512,12 @@ mousepad_file_open (MousepadFile  *file,
                     GError       **error)
 {
   MousepadEncoding  bom_encoding;
-  GtkTextIter       start, end, pos;
+  GtkTextIter       start, end;
   GFileInfo        *fileinfo;
   const gchar      *charset, *bom_charset, *endc, *n, *m;
   gchar            *contents = NULL, *etag, *temp;
   gsize             file_size, written, bom_length;
-  gint              tab_width, retval = ERROR_READING_FAILED;
-  gboolean          from_end = FALSE;
+  gint              retval = ERROR_READING_FAILED;
 
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
   g_return_val_if_fail (GTK_IS_TEXT_BUFFER (file->buffer), FALSE);
@@ -668,31 +667,8 @@ mousepad_file_open (MousepadFile  *file,
           if (G_LIKELY (n - m > 0))
             gtk_text_buffer_insert (file->buffer, &start, m, n - m);
 
-          /* for negative line number count from bottom */
-          if (line < 0)
-            line = MAX (gtk_text_buffer_get_line_count (file->buffer) + line, 0);
-
-          /* set the position iter line */
-          gtk_text_buffer_get_iter_at_line (file->buffer, &pos, line);
-
-          /* get the tab width */
-          tab_width = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
-
-          /* for negative column number count from end of the line */
-          if (column < 0)
-            {
-              if (!gtk_text_iter_ends_line (&pos))
-                gtk_text_iter_forward_to_line_end (&pos);
-
-              column = MAX (mousepad_util_get_real_line_offset (&pos, tab_width) + column + 1, 0);
-              from_end = TRUE;
-            }
-
-          /* set the position iter offset */
-          mousepad_util_set_real_line_offset (&pos, tab_width, column, from_end);
-
-          /* set the cursor at the position iter */
-          gtk_text_buffer_place_cursor (file->buffer, &pos);
+          /* place cursor at (line, column) */
+          mousepad_util_place_cursor (file->buffer, line, column);
         }
 
       /* assume everything when file */
