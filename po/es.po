@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-03 00:46+0200\n"
-"PO-Revision-Date: 2021-04-08 19:44+0000\n"
+"POT-Creation-Date: 2021-04-11 00:46+0200\n"
+"PO-Revision-Date: 2021-04-11 16:00+0000\n"
 "Last-Translator: Toni Estévez <toni.estevez@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -103,7 +103,7 @@ msgstr "Los desarrolladores de Mousepad. Todos los derechos reservados."
 msgid "Please report bugs to <%s>."
 msgstr "Informe de errores a <%s>."
 
-#: ../mousepad/mousepad-application.c:1318
+#: ../mousepad/mousepad-application.c:1321
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autores: %s | Nombre del archivo: %s"
@@ -128,10 +128,10 @@ msgstr "Seleccione el tamaño del tabulador"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:215
-#: ../mousepad/mousepad-dialogs.c:321 ../mousepad/mousepad-dialogs.c:385
-#: ../mousepad/mousepad-dialogs.c:498 ../mousepad/mousepad-dialogs.c:539
-#: ../mousepad/mousepad-dialogs.c:921 ../mousepad/mousepad-dialogs.c:981
+#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:226
+#: ../mousepad/mousepad-dialogs.c:333 ../mousepad/mousepad-dialogs.c:397
+#: ../mousepad/mousepad-dialogs.c:510 ../mousepad/mousepad-dialogs.c:551
+#: ../mousepad/mousepad-dialogs.c:933 ../mousepad/mousepad-dialogs.c:993
 #: ../mousepad/mousepad-encoding-dialog.c:120
 #: ../mousepad/mousepad-encoding-dialog.c:191
 msgid "_Cancel"
@@ -143,206 +143,206 @@ msgid "_OK"
 msgstr "_Aceptar"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:214
+#: ../mousepad/mousepad-dialogs.c:225
 msgid "Go To"
 msgstr "Ir a"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:219
+#: ../mousepad/mousepad-dialogs.c:230
 msgid "_Jump to"
 msgstr "_Saltar a"
 
-#: ../mousepad/mousepad-dialogs.c:239
+#: ../mousepad/mousepad-dialogs.c:250
 msgid "_Line number:"
 msgstr "Número de _línea:"
 
-#: ../mousepad/mousepad-dialogs.c:259
+#: ../mousepad/mousepad-dialogs.c:270
 msgid "C_olumn number:"
 msgstr "Número de c_olumna:"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:320
+#: ../mousepad/mousepad-dialogs.c:332
 msgid "Clear Documents History"
 msgstr "Borrar el historial de documentos"
 
 #. set button
-#: ../mousepad/mousepad-dialogs.c:325
+#: ../mousepad/mousepad-dialogs.c:337
 msgid "Clea_r"
 msgstr "_Borrar"
 
-#: ../mousepad/mousepad-dialogs.c:349
+#: ../mousepad/mousepad-dialogs.c:361
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr "<big><b>Borrar todas las entradas del historial de documentos?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:354
+#: ../mousepad/mousepad-dialogs.c:366
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "Al borrar el historial de documentos se eliminarán permanentemente todas las entradas que figuran actualmente."
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:384
+#: ../mousepad/mousepad-dialogs.c:396
 msgid "Save Changes"
 msgstr "Guardar los cambios"
 
-#: ../mousepad/mousepad-dialogs.c:391
+#: ../mousepad/mousepad-dialogs.c:403
 msgid "_Don't Save"
 msgstr "_No guardar"
 
-#: ../mousepad/mousepad-dialogs.c:398 ../mousepad/mousepad-dialogs.c:541
+#: ../mousepad/mousepad-dialogs.c:410 ../mousepad/mousepad-dialogs.c:553
 msgid "_Save As"
 msgstr "_Guardar como"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:406 ../mousepad/mousepad-dialogs.c:506
-#: ../mousepad/mousepad-dialogs.c:925
+#: ../mousepad/mousepad-dialogs.c:418 ../mousepad/mousepad-dialogs.c:518
+#: ../mousepad/mousepad-dialogs.c:937
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "_Guardar"
 
-#: ../mousepad/mousepad-dialogs.c:430
+#: ../mousepad/mousepad-dialogs.c:442
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr "<big><b>Quiere guardar los cambios antes de cerrar?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:435
+#: ../mousepad/mousepad-dialogs.c:447
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "Si no guarda el documento, se perderán todos los cambios."
 
-#: ../mousepad/mousepad-dialogs.c:462
+#: ../mousepad/mousepad-dialogs.c:474
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "El documento ha sido modificado externamente ¿Quiere guardarlo igualmente?"
 
-#: ../mousepad/mousepad-dialogs.c:463
+#: ../mousepad/mousepad-dialogs.c:475
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "Si guarda el documento, se perderán todos los cambios externos."
 
-#: ../mousepad/mousepad-dialogs.c:465
+#: ../mousepad/mousepad-dialogs.c:477
 msgid "Save _As"
 msgstr "G_uardar como"
 
-#: ../mousepad/mousepad-dialogs.c:470
+#: ../mousepad/mousepad-dialogs.c:482
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
 msgstr "El documento ha sido modificado externamente. ¿Quiere recargarlo desde el disco?"
 
-#: ../mousepad/mousepad-dialogs.c:475
+#: ../mousepad/mousepad-dialogs.c:487
 msgid "You have unsaved changes. If you revert the file, they will be lost."
 msgstr "Hay cambios sin guardar. Si restaura el archivo, se perderán."
 
-#: ../mousepad/mousepad-dialogs.c:477 ../mousepad/mousepad-dialogs.c:544
+#: ../mousepad/mousepad-dialogs.c:489 ../mousepad/mousepad-dialogs.c:556
 msgid "_Revert"
 msgstr "_Restaurar"
 
-#: ../mousepad/mousepad-dialogs.c:483 ../mousepad/mousepad-window.c:3497
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3497
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "Re_cargar"
 
 #. add title
-#: ../mousepad/mousepad-dialogs.c:493
+#: ../mousepad/mousepad-dialogs.c:505
 msgid "Externally Modified"
 msgstr "Modificado externamente"
 
-#: ../mousepad/mousepad-dialogs.c:531
+#: ../mousepad/mousepad-dialogs.c:543
 msgid "Do you want to save your changes before reloading?"
 msgstr "¿Quiere guardar los cambios antes de recargar?"
 
-#: ../mousepad/mousepad-dialogs.c:536
+#: ../mousepad/mousepad-dialogs.c:548
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Si restaura el archivo, se perderán todos los cambios sin guardar."
 
-#: ../mousepad/mousepad-dialogs.c:572
+#: ../mousepad/mousepad-dialogs.c:584
 #, c-format
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
 msgstr "Parece que el archivo está codificado en %s, pero ha elegido la codificación %s. ¿Confirma esta elección?"
 
-#: ../mousepad/mousepad-dialogs.c:579
+#: ../mousepad/mousepad-dialogs.c:591
 msgid "If not, the guessed encoding will be used."
 msgstr "De lo contrario, se usará la codificación supuesta."
 
-#: ../mousepad/mousepad-dialogs.c:662
+#: ../mousepad/mousepad-dialogs.c:674
 msgid "Please select a file"
 msgstr "Seleccione un archivo"
 
-#: ../mousepad/mousepad-dialogs.c:689
+#: ../mousepad/mousepad-dialogs.c:701
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "No se ha podido preparar el archivo temporal para las pruebas de codificación"
 
-#: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
+#: ../mousepad/mousepad-dialogs.c:764 ../mousepad/mousepad-dialogs.c:827
 msgid "Open encoding dialog"
 msgstr "Abrir el diálogo de codificación"
 
-#: ../mousepad/mousepad-dialogs.c:754
+#: ../mousepad/mousepad-dialogs.c:766
 msgid "Go back to shorten list"
 msgstr "Volver atrás para acortar la lista"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:808
+#: ../mousepad/mousepad-dialogs.c:820
 msgid "_Encoding:"
 msgstr "_Codificación:"
 
-#: ../mousepad/mousepad-dialogs.c:820
+#: ../mousepad/mousepad-dialogs.c:832
 #: ../mousepad/mousepad-encoding-dialog.c:289
 #: ../mousepad/mousepad-encoding-dialog.c:290
 msgid "Default"
 msgstr "Por defecto"
 
-#: ../mousepad/mousepad-dialogs.c:830
+#: ../mousepad/mousepad-dialogs.c:842
 #: ../mousepad/mousepad-encoding-dialog.c:305
 #: ../mousepad/mousepad-encoding-dialog.c:307
 #: ../mousepad/mousepad-encoding-dialog.c:311
 msgid "System"
 msgstr "Sistema"
 
-#: ../mousepad/mousepad-dialogs.c:843
+#: ../mousepad/mousepad-dialogs.c:855
 msgid "Current"
 msgstr "Actual"
 
-#: ../mousepad/mousepad-dialogs.c:861
+#: ../mousepad/mousepad-dialogs.c:873
 msgid "Show all encodings"
 msgstr "Mostrar todas las codificaciones"
 
-#: ../mousepad/mousepad-dialogs.c:895
+#: ../mousepad/mousepad-dialogs.c:907
 msgid "Text Files"
 msgstr "Archivos de texto"
 
-#: ../mousepad/mousepad-dialogs.c:901
+#: ../mousepad/mousepad-dialogs.c:913
 msgid "All Files"
 msgstr "Todos los archivos"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:920
+#: ../mousepad/mousepad-dialogs.c:932
 msgid "Save As"
 msgstr "Guardar como"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:980
+#: ../mousepad/mousepad-dialogs.c:992
 msgid "Open File"
 msgstr "Abrir un archivo"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:985
+#: ../mousepad/mousepad-dialogs.c:997
 msgid "_Open"
 msgstr "_Abrir"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1030
+#: ../mousepad/mousepad-dialogs.c:1042
 msgid "Choose Mousepad Font"
 msgstr "Seleccionar la tipografía de Mousepad"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:609
+#: ../mousepad/mousepad-document.c:606
 msgid "Close this tab"
 msgstr "Cerrar esta pestaña"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:639
+#: ../mousepad/mousepad-document.c:636
 msgid "Untitled"
 msgstr "Sin título"
 
@@ -510,7 +510,7 @@ msgstr "Japonés"
 msgid "Korean"
 msgstr "Coreano"
 
-#: ../mousepad/mousepad-file.c:610
+#: ../mousepad/mousepad-file.c:609
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Secuencia de bytes no válida en la entrada de la conversión"
@@ -819,12 +819,12 @@ msgid "Failed to save the document"
 msgstr "No se ha podido guardar el documento"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4912
+#: ../mousepad/mousepad-window.c:4910
 msgid "Failed to reload the document"
 msgstr "No se podido recargar el documento"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4943
+#: ../mousepad/mousepad-window.c:4941
 msgid "Failed to print the document"
 msgstr "No se ha podido imprimir el documento"
 
@@ -1371,8 +1371,8 @@ msgid "Convert all tabs to spaces in the selection or document"
 msgstr "Convertir a espacios todos los tabuladores de la selección o del documento"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
-msgid "_Spaces to Tabs"
-msgstr "_Espacios a tabuladores"
+msgid "_Leading Spaces to Tabs"
+msgstr "_Espacios iniciales a tabuladores"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
@@ -1592,7 +1592,7 @@ msgstr "<b>Sangría</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Detect leading/trailing whitespace:"
-msgstr "Detectar los espacios en blanco iniciales y finales:"
+msgstr "Detectar espacios en blanco iniciales y finales:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "<b>Home/End Keys</b>"
