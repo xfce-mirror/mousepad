@@ -208,6 +208,7 @@ static void              mousepad_window_recent_menu                  (GSimpleAc
                                                                        gpointer                data);
 static const gchar      *mousepad_window_recent_get_charset           (GtkRecentInfo          *info);
 static void              mousepad_window_recent_clear                 (MousepadWindow         *window);
+static void              mousepad_window_recent_items_changed         (MousepadWindow         *window);
 
 /* dnd */
 static void              mousepad_window_drag_data_received           (GtkWidget              *widget,
@@ -1282,6 +1283,13 @@ mousepad_window_init (MousepadWindow *window)
                      G_N_ELEMENTS (drop_targets), GDK_ACTION_COPY | GDK_ACTION_MOVE);
   g_signal_connect (window, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
+
+  /* clear recent history when 'recent-menu-items' is set to 0 */
+  mousepad_window_recent_items_changed (window);
+
+  MOUSEPAD_SETTING_CONNECT_OBJECT (RECENT_MENU_ITEMS,
+                                   G_CALLBACK (mousepad_window_recent_items_changed),
+                                   window, G_CONNECT_SWAPPED);
 
   /* update the window title when 'path-in-title' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE,
@@ -3647,6 +3655,10 @@ mousepad_window_recent_add (MousepadWindow *window,
   const gchar   *charset;
   static gchar  *groups[] = { PACKAGE_NAME, NULL };
 
+  /* insert in the recent history if history enabled */
+  if (MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS) == 0)
+    return;
+
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
@@ -3904,6 +3916,17 @@ mousepad_window_recent_clear (MousepadWindow *window)
       mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to clear the recent history"));
       g_error_free (error);
     }
+}
+
+
+
+static void
+mousepad_window_recent_items_changed (MousepadWindow *window)
+{
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  if (MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS) == 0)
+    mousepad_window_recent_clear (window);
 }
 
 
