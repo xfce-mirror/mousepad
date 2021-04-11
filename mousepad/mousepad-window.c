@@ -3647,6 +3647,10 @@ mousepad_window_recent_add (MousepadWindow *window,
   const gchar   *charset;
   static gchar  *groups[] = { PACKAGE_NAME, NULL };
 
+  /* insert in the recent history if history enabled */
+  if (MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS) == 0)
+    return ;
+
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
