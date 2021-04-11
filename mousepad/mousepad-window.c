@@ -208,6 +208,7 @@ static void              mousepad_window_recent_menu                  (GSimpleAc
                                                                        gpointer                data);
 static const gchar      *mousepad_window_recent_get_charset           (GtkRecentInfo          *info);
 static void              mousepad_window_recent_clear                 (MousepadWindow         *window);
+static void              mousepad_window_recent_items_changed         (MousepadWindow         *window);
 
 /* dnd */
 static void              mousepad_window_drag_data_received           (GtkWidget              *widget,
@@ -1282,6 +1283,13 @@ mousepad_window_init (MousepadWindow *window)
                      G_N_ELEMENTS (drop_targets), GDK_ACTION_COPY | GDK_ACTION_MOVE);
   g_signal_connect (window, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
+
+  /* clear recent history when 'recent-menu-items' is set to 0 */
+  mousepad_window_recent_items_changed (window);
+
+  MOUSEPAD_SETTING_CONNECT_OBJECT (RECENT_MENU_ITEMS,
+                                   G_CALLBACK (mousepad_window_recent_items_changed),
+                                   window, G_CONNECT_SWAPPED);
 
   /* update the window title when 'path-in-title' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE,
@@ -3650,6 +3658,10 @@ mousepad_window_recent_add (MousepadWindow *window,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
+  /* don't insert in the recent history if history disabled */
+  if (MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS) == 0)
+    return;
+
   /* get the charset */
   charset = mousepad_encoding_get_charset (mousepad_file_get_encoding (file));
 
@@ -3731,7 +3743,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
   GList          *items, *li, *filtered = NULL;
   const gchar    *uri, *display_name;
   gchar          *label, *filename, *filename_utf8, *tooltip;
-  gint            n;
+  guint           n;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -3823,10 +3835,12 @@ mousepad_window_recent_menu (GSimpleAction *action,
           g_free (filename);
         }
 
-      /* add the "No items found" insensitive menu item */
+      /* add the "No items found"/"History disabled" insensitive menu item */
       if (! filtered)
         {
-          menu_item = g_menu_item_new (_("No items found"), "win.insensitive");
+          label = n > 0 ? _("No items found") : _("History disabled");
+          menu_item = g_menu_item_new (label, "win.insensitive");
+
           g_menu_append_item (menu, menu_item);
           g_object_unref (menu_item);
         }
@@ -3913,6 +3927,17 @@ mousepad_window_recent_clear (MousepadWindow *window)
       mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to clear the recent history"));
       g_error_free (error);
     }
+}
+
+
+
+static void
+mousepad_window_recent_items_changed (MousepadWindow *window)
+{
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  if (MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS) == 0)
+    mousepad_window_recent_clear (window);
 }
 
 
