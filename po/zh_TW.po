@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-03 00:46+0200\n"
-"PO-Revision-Date: 2021-04-06 02:16+0000\n"
+"POT-Creation-Date: 2021-04-11 00:46+0200\n"
+"PO-Revision-Date: 2021-04-12 08:47+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/xfce/xfce-apps/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Mousepad 開發者。保留所有權利。"
 msgid "Please report bugs to <%s>."
 msgstr "請將臭蟲回報至 <%s>。"
 
-#: ../mousepad/mousepad-application.c:1318
+#: ../mousepad/mousepad-application.c:1321
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | 作者：%s | 檔案名稱：%s"
@@ -120,10 +120,10 @@ msgstr "選取定位點大小"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:215
-#: ../mousepad/mousepad-dialogs.c:321 ../mousepad/mousepad-dialogs.c:385
-#: ../mousepad/mousepad-dialogs.c:498 ../mousepad/mousepad-dialogs.c:539
-#: ../mousepad/mousepad-dialogs.c:921 ../mousepad/mousepad-dialogs.c:981
+#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:226
+#: ../mousepad/mousepad-dialogs.c:333 ../mousepad/mousepad-dialogs.c:397
+#: ../mousepad/mousepad-dialogs.c:510 ../mousepad/mousepad-dialogs.c:551
+#: ../mousepad/mousepad-dialogs.c:933 ../mousepad/mousepad-dialogs.c:993
 #: ../mousepad/mousepad-encoding-dialog.c:120
 #: ../mousepad/mousepad-encoding-dialog.c:191
 msgid "_Cancel"
@@ -135,206 +135,206 @@ msgid "_OK"
 msgstr "確定(_O)"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:214
+#: ../mousepad/mousepad-dialogs.c:225
 msgid "Go To"
 msgstr "前往"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:219
+#: ../mousepad/mousepad-dialogs.c:230
 msgid "_Jump to"
 msgstr "跳至(_J)"
 
-#: ../mousepad/mousepad-dialogs.c:239
+#: ../mousepad/mousepad-dialogs.c:250
 msgid "_Line number:"
 msgstr "列號(_L)："
 
-#: ../mousepad/mousepad-dialogs.c:259
+#: ../mousepad/mousepad-dialogs.c:270
 msgid "C_olumn number:"
 msgstr "欄號(_O)："
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:320
+#: ../mousepad/mousepad-dialogs.c:332
 msgid "Clear Documents History"
 msgstr "清除文件歷史"
 
 #. set button
-#: ../mousepad/mousepad-dialogs.c:325
+#: ../mousepad/mousepad-dialogs.c:337
 msgid "Clea_r"
 msgstr "清除(_R)"
 
-#: ../mousepad/mousepad-dialogs.c:349
+#: ../mousepad/mousepad-dialogs.c:361
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr "<big><b>是否移除文件歷史所有項目？</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:354
+#: ../mousepad/mousepad-dialogs.c:366
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "清除文件歷史會永久移除目前所有列出的項目。"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:384
+#: ../mousepad/mousepad-dialogs.c:396
 msgid "Save Changes"
 msgstr "儲存變更"
 
-#: ../mousepad/mousepad-dialogs.c:391
+#: ../mousepad/mousepad-dialogs.c:403
 msgid "_Don't Save"
 msgstr "不儲存(_D)"
 
-#: ../mousepad/mousepad-dialogs.c:398 ../mousepad/mousepad-dialogs.c:541
+#: ../mousepad/mousepad-dialogs.c:410 ../mousepad/mousepad-dialogs.c:553
 msgid "_Save As"
 msgstr "另存為(_S)"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:406 ../mousepad/mousepad-dialogs.c:506
-#: ../mousepad/mousepad-dialogs.c:925
+#: ../mousepad/mousepad-dialogs.c:418 ../mousepad/mousepad-dialogs.c:518
+#: ../mousepad/mousepad-dialogs.c:937
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "儲存(_S)"
 
-#: ../mousepad/mousepad-dialogs.c:430
+#: ../mousepad/mousepad-dialogs.c:442
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr "<big><b>關閉前要否儲存變更？</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:435
+#: ../mousepad/mousepad-dialogs.c:447
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "若不儲存文件，所有變更都會丟失。"
 
-#: ../mousepad/mousepad-dialogs.c:462
+#: ../mousepad/mousepad-dialogs.c:474
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "文件已被外部修改。是否繼續儲存？"
 
-#: ../mousepad/mousepad-dialogs.c:463
+#: ../mousepad/mousepad-dialogs.c:475
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "如儲存文件，所有外部變更都會丟失。"
 
-#: ../mousepad/mousepad-dialogs.c:465
+#: ../mousepad/mousepad-dialogs.c:477
 msgid "Save _As"
 msgstr "另存為(_A)"
 
-#: ../mousepad/mousepad-dialogs.c:470
+#: ../mousepad/mousepad-dialogs.c:482
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
 msgstr "文件已被外部修改。您想要從磁碟中重新載入嗎？"
 
-#: ../mousepad/mousepad-dialogs.c:475
+#: ../mousepad/mousepad-dialogs.c:487
 msgid "You have unsaved changes. If you revert the file, they will be lost."
 msgstr "您有未儲存的變更。如果您還原檔案，它們將會遺失。"
 
-#: ../mousepad/mousepad-dialogs.c:477 ../mousepad/mousepad-dialogs.c:544
+#: ../mousepad/mousepad-dialogs.c:489 ../mousepad/mousepad-dialogs.c:556
 msgid "_Revert"
 msgstr "還原(_R)"
 
-#: ../mousepad/mousepad-dialogs.c:483 ../mousepad/mousepad-window.c:3497
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3497
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "重新載入(_L)"
 
 #. add title
-#: ../mousepad/mousepad-dialogs.c:493
+#: ../mousepad/mousepad-dialogs.c:505
 msgid "Externally Modified"
 msgstr "已有外部修改"
 
-#: ../mousepad/mousepad-dialogs.c:531
+#: ../mousepad/mousepad-dialogs.c:543
 msgid "Do you want to save your changes before reloading?"
 msgstr "重新載入前要否儲存變更？"
 
-#: ../mousepad/mousepad-dialogs.c:536
+#: ../mousepad/mousepad-dialogs.c:548
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "若還原檔案，所有變更都會丟失。"
 
-#: ../mousepad/mousepad-dialogs.c:572
+#: ../mousepad/mousepad-dialogs.c:584
 #, c-format
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
 msgstr "檔案似乎使用 %s 編碼，但您選擇了 %s 編碼。您確認此選擇嗎？"
 
-#: ../mousepad/mousepad-dialogs.c:579
+#: ../mousepad/mousepad-dialogs.c:591
 msgid "If not, the guessed encoding will be used."
 msgstr "如果否，將會使用猜測的編碼。"
 
-#: ../mousepad/mousepad-dialogs.c:662
+#: ../mousepad/mousepad-dialogs.c:674
 msgid "Please select a file"
 msgstr "請選取檔案"
 
-#: ../mousepad/mousepad-dialogs.c:689
+#: ../mousepad/mousepad-dialogs.c:701
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "無法準備用於測試編碼的臨時檔案"
 
-#: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
+#: ../mousepad/mousepad-dialogs.c:764 ../mousepad/mousepad-dialogs.c:827
 msgid "Open encoding dialog"
 msgstr "開啟編碼對話框"
 
-#: ../mousepad/mousepad-dialogs.c:754
+#: ../mousepad/mousepad-dialogs.c:766
 msgid "Go back to shorten list"
 msgstr "回到較短列表"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:808
+#: ../mousepad/mousepad-dialogs.c:820
 msgid "_Encoding:"
 msgstr "編碼：(_E)"
 
-#: ../mousepad/mousepad-dialogs.c:820
+#: ../mousepad/mousepad-dialogs.c:832
 #: ../mousepad/mousepad-encoding-dialog.c:289
 #: ../mousepad/mousepad-encoding-dialog.c:290
 msgid "Default"
 msgstr "預設"
 
-#: ../mousepad/mousepad-dialogs.c:830
+#: ../mousepad/mousepad-dialogs.c:842
 #: ../mousepad/mousepad-encoding-dialog.c:305
 #: ../mousepad/mousepad-encoding-dialog.c:307
 #: ../mousepad/mousepad-encoding-dialog.c:311
 msgid "System"
 msgstr "系統"
 
-#: ../mousepad/mousepad-dialogs.c:843
+#: ../mousepad/mousepad-dialogs.c:855
 msgid "Current"
 msgstr "目前"
 
-#: ../mousepad/mousepad-dialogs.c:861
+#: ../mousepad/mousepad-dialogs.c:873
 msgid "Show all encodings"
 msgstr "顯示所有編碼"
 
-#: ../mousepad/mousepad-dialogs.c:895
+#: ../mousepad/mousepad-dialogs.c:907
 msgid "Text Files"
 msgstr "文字檔案"
 
-#: ../mousepad/mousepad-dialogs.c:901
+#: ../mousepad/mousepad-dialogs.c:913
 msgid "All Files"
 msgstr "所有檔案"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:920
+#: ../mousepad/mousepad-dialogs.c:932
 msgid "Save As"
 msgstr "另存為"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:980
+#: ../mousepad/mousepad-dialogs.c:992
 msgid "Open File"
 msgstr "開啟檔案"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:985
+#: ../mousepad/mousepad-dialogs.c:997
 msgid "_Open"
 msgstr "開啟(_O)"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1030
+#: ../mousepad/mousepad-dialogs.c:1042
 msgid "Choose Mousepad Font"
 msgstr "選擇 Mousepad 字型"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:609
+#: ../mousepad/mousepad-document.c:606
 msgid "Close this tab"
 msgstr "關閉此分頁"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:639
+#: ../mousepad/mousepad-document.c:636
 msgid "Untitled"
 msgstr "未命名"
 
@@ -502,7 +502,7 @@ msgstr "日文"
 msgid "Korean"
 msgstr "韓文"
 
-#: ../mousepad/mousepad-file.c:610
+#: ../mousepad/mousepad-file.c:609
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "在轉換輸入有無效的位元組序列"
@@ -810,12 +810,12 @@ msgid "Failed to save the document"
 msgstr "未能儲存文件"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4912
+#: ../mousepad/mousepad-window.c:4910
 msgid "Failed to reload the document"
 msgstr "未能重新載入文件"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4943
+#: ../mousepad/mousepad-window.c:4941
 msgid "Failed to print the document"
 msgstr "未能列印文件"
 
@@ -1362,8 +1362,8 @@ msgid "Convert all tabs to spaces in the selection or document"
 msgstr "將所選範圍或文件所有定位點轉換為空格"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
-msgid "_Spaces to Tabs"
-msgstr "空格轉為定位點(_S)"
+msgid "_Leading Spaces to Tabs"
+msgstr "開頭空格轉為定位點(_L)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
