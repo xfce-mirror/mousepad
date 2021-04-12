@@ -102,6 +102,9 @@ struct _MousepadApplication
   /* command line options */
   gint             opening_mode, line, column;
   MousepadEncoding encoding;
+
+  /* allow xfconf initialization to fail */
+  gboolean xfconf_initialized;
 };
 
 /* MousepadApplication properties */
@@ -333,6 +336,7 @@ mousepad_application_init (MousepadApplication *application)
   application->encoding = mousepad_encoding_get_default ();
   application->line = 0;
   application->column = 0;
+  application->xfconf_initialized = FALSE;
 
   /* default application name */
   g_set_application_name (_("Mousepad"));
@@ -636,6 +640,7 @@ static void
 mousepad_application_startup (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  GError              *error = NULL;
   GVariant            *state;
   GAction             *action;
   GMenu               *menu;
@@ -643,6 +648,13 @@ mousepad_application_startup (GApplication *gapplication)
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
+
+  /* initialize xfconf */
+  if (G_UNLIKELY (! (application->xfconf_initialized = xfconf_init (&error))))
+    {
+      g_warning ("Failed to initialize xfconf: %s", error->message);
+      g_error_free (error);
+    }
 
   /* add application actions */
   g_action_map_add_action_entries (G_ACTION_MAP (application), stateless_actions,
@@ -709,22 +721,12 @@ mousepad_application_command_line (GApplication            *gapplication,
 {
   MousepadApplication  *application = MOUSEPAD_APPLICATION (gapplication);
   GVariantDict         *options;
-  GError               *error = NULL;
   GPtrArray            *files;
   GFile                *file;
   gpointer             *data;
   const gchar          *opening_mode, *working_directory;
   gchar               **filenames = NULL;
   gint                  n, n_files;
-
-  /* initialize xfconf */
-  if (G_UNLIKELY (! xfconf_init (&error)))
-    {
-      g_critical ("Failed to initialize xfconf: %s", error->message);
-      g_error_free (error);
-
-      return EXIT_FAILURE;
-    }
 
   /* get the option dictionary */
   options = g_application_command_line_get_options_dict (command_line);
@@ -940,7 +942,8 @@ mousepad_application_shutdown (GApplication *gapplication)
   mousepad_settings_finalize ();
 
   /* shutdown xfconf */
-  xfconf_shutdown ();
+  if (G_LIKELY (application->xfconf_initialized))
+    xfconf_shutdown ();
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->shutdown (gapplication);
@@ -1437,4 +1440,24 @@ mousepad_application_action_whitespace (GSimpleAction *action,
 
   /* set the application property */
   g_object_set (data, "space-location", flags, NULL);
+}
+
+
+
+gchar *
+mousepad_application_get_default_font (void)
+{
+  MousepadApplication *application;
+  gchar               *font = NULL;
+
+  /* get the default font from xfconf */
+  application = MOUSEPAD_APPLICATION (g_application_get_default ());
+  if (G_LIKELY (application->xfconf_initialized))
+    font = xfconf_channel_get_string (xfconf_channel_get ("xsettings"),
+                                      "/Gtk/MonospaceFontName", NULL);
+
+  if (G_UNLIKELY (font == NULL))
+    font = g_strdup ("Monospace 10");
+
+  return font;
 }

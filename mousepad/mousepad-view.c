@@ -17,6 +17,7 @@
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-application.h>
 #include <mousepad/mousepad-view.h>
 
 
@@ -194,7 +195,7 @@ mousepad_view_use_default_font (MousepadView *view)
   if (MOUSEPAD_SETTING_GET_BOOLEAN (USE_DEFAULT_FONT))
     {
       g_settings_unbind (view, "font");
-      font = mousepad_util_get_default_font ();
+      font = mousepad_application_get_default_font ();
       mousepad_view_set_font (view, font);
       g_free (font);
     }

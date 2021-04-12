@@ -86,8 +86,6 @@ GSList      *mousepad_util_get_sorted_language_sections     (void);
 
 GSList      *mousepad_util_get_sorted_languages_for_section (const gchar                *section);
 
-gchar       *mousepad_util_get_default_font                 (void);
-
 /*
  * Copied from Gedit 3.38.0 and slightly modified:
  * https://gitlab.gnome.org/GNOME/gedit/-/blob/21fac3f0c87db0db104d7af7eaeb6f63d8216a14/gedit/gedit-pango.h#L28
