@@ -1995,7 +1995,7 @@ mousepad_window_open_file (MousepadWindow   *window,
         g_clear_error (&error);
 
         /* try to lookup the encoding from the recent history only if the default was used */
-        if (encoding_from_recent == FALSE && encoding == mousepad_encoding_get_default ())
+        if (! encoding_from_recent && encoding == mousepad_encoding_get_default ())
           {
             /* we only try this once */
             encoding_from_recent = TRUE;
@@ -2133,7 +2133,7 @@ mousepad_window_add (MousepadWindow   *window,
       gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), page);
 
       /* destroy the previous tab if it was not modified, untitled and the new tab is not untitled */
-      if (gtk_text_buffer_get_modified (prev_active->buffer) == FALSE
+      if (! gtk_text_buffer_get_modified (prev_active->buffer)
           && ! mousepad_file_location_is_set (prev_active->file)
           && mousepad_file_location_is_set (document->file))
         gtk_widget_destroy (GTK_WIDGET (prev_active));
@@ -3891,7 +3891,7 @@ mousepad_window_recent_clear (MousepadWindow *window)
       uri = gtk_recent_info_get_uri (info);
 
       /* try to remove it, if it fails, break the loop to avoid multiple errors */
-      if (G_UNLIKELY (gtk_recent_manager_remove_item (window->recent_manager, uri, &error) == FALSE))
+      if (G_UNLIKELY (! gtk_recent_manager_remove_item (window->recent_manager, uri, &error)))
         break;
      }
 
@@ -4935,7 +4935,7 @@ mousepad_window_action_print (GSimpleAction *action,
   /* print the current document */
   succeed = mousepad_print_document_interactive (print, window->active, GTK_WINDOW (window), &error);
 
-  if (G_UNLIKELY (succeed == FALSE))
+  if (G_UNLIKELY (! succeed))
     {
       /* show the error */
       mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to print the document"));
@@ -5527,7 +5527,7 @@ mousepad_window_action_find (GSimpleAction *action,
     }
 
   /* set the search entry text */
-  if (gtk_text_buffer_get_has_selection (window->active->buffer) == TRUE)
+  if (gtk_text_buffer_get_has_selection (window->active->buffer))
     {
       gtk_text_buffer_get_selection_bounds (window->active->buffer,
                                             &selection_start, &selection_end);
@@ -5676,7 +5676,7 @@ mousepad_window_action_replace (GSimpleAction *action,
     }
 
   /* set the search entry text */
-  if (gtk_text_buffer_get_has_selection (window->active->buffer) == TRUE)
+  if (gtk_text_buffer_get_has_selection (window->active->buffer))
     {
       gtk_text_buffer_get_selection_bounds (window->active->buffer,
                                             &selection_start, &selection_end);

@@ -678,7 +678,7 @@ mousepad_util_get_save_location (const gchar *relpath,
   filename = g_build_filename (g_get_user_config_dir (), relpath, NULL);
 
   /* test if the file exists */
-  if (G_UNLIKELY (g_file_test (filename, G_FILE_TEST_EXISTS) == FALSE))
+  if (G_UNLIKELY (! g_file_test (filename, G_FILE_TEST_EXISTS)))
     {
       if (create_parents)
         {
@@ -727,7 +727,7 @@ mousepad_util_save_key_file (GKeyFile    *keyfile,
   if (G_LIKELY (error == NULL))
     {
       /* write the contents to the file */
-      if (G_UNLIKELY (g_file_set_contents (filename, contents, length, &error) == FALSE))
+      if (G_UNLIKELY (! g_file_set_contents (filename, contents, length, &error)))
         goto print_error;
     }
   else

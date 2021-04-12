@@ -718,7 +718,7 @@ mousepad_application_command_line (GApplication            *gapplication,
   gint                  n, n_files;
 
   /* initialize xfconf */
-  if (G_UNLIKELY (xfconf_init (&error) == FALSE))
+  if (G_UNLIKELY (! xfconf_init (&error)))
     {
       g_critical ("Failed to initialize xfconf: %s", error->message);
       g_error_free (error);

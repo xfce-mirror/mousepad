@@ -1105,7 +1105,7 @@ mousepad_view_convert_spaces_and_tabs (MousepadView *view,
         {
           if (c == ' ' || in_range)
             {
-              if (in_range == FALSE)
+              if (! in_range)
                 {
                   /* set the start iter */
                   iter = start_iter;
@@ -1192,7 +1192,7 @@ mousepad_view_convert_spaces_and_tabs (MousepadView *view,
         break;
 
       /* forward the iter */
-      if (G_LIKELY (no_forward == FALSE))
+      if (G_LIKELY (! no_forward))
         gtk_text_iter_forward_char (&start_iter);
     }
 
@@ -1429,7 +1429,7 @@ mousepad_view_duplicate (MousepadView *view)
   has_selection = gtk_text_buffer_get_selection_bounds (buffer, &start_iter, &end_iter);
 
   /* select entire line */
-  if (has_selection == FALSE)
+  if (! has_selection)
     {
       /* set to the start of the line */
       if (!gtk_text_iter_starts_line (&start_iter))

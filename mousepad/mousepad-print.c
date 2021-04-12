@@ -211,7 +211,7 @@ mousepad_print_settings_load (GtkPrintOperation *operation)
       /* apply the settings */
       gtk_print_operation_set_print_settings (operation, settings);
 
-      if (gtk_print_settings_get_bool (settings, "page-setup-saved") == TRUE)
+      if (gtk_print_settings_get_bool (settings, "page-setup-saved"))
         {
           /* create new page setup */
           page_setup = gtk_page_setup_new ();
