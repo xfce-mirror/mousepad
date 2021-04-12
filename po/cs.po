@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-11 00:46+0200\n"
-"PO-Revision-Date: 2021-04-11 16:59+0000\n"
+"PO-Revision-Date: 2021-04-12 17:25+0000\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/xfce/xfce-apps/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -1446,7 +1446,7 @@ msgstr "žádný"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
 msgid "Insert Tabs"
-msgstr "Vložit karty"
+msgstr "Vložit tabulátory"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
 msgid "Insert Spaces"
