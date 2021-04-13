@@ -326,11 +326,13 @@
       </description>
     </key>
     <key name="recent-menu-items" type="i">
-      <range min="1" max="100"/>
+      <range min="0" max="100"/>
       <default>10</default>
       <summary>Number of recent documents</summary>
       <description>
         The number of recent documents to track and show in the user interace.
+        If set to 0 then Mousepad clears the recent documents history and
+        doesn't add any new documents to the history.
       </description>
     </key>
     <key name="remember-size" type="b">
