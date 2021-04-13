@@ -3686,13 +3686,22 @@ mousepad_window_recent_add (MousepadWindow *window,
 
 
 
+/* sort list in descending order */
 static gint
 mousepad_window_recent_sort (gconstpointer ga,
                              gconstpointer gb)
 {
-  GtkRecentInfo *a = (GtkRecentInfo *) ga, *b = (GtkRecentInfo *) gb;
+  time_t ta, tb;
 
-  return (gtk_recent_info_get_modified (a) < gtk_recent_info_get_modified (b));
+  ta = gtk_recent_info_get_modified ((GtkRecentInfo *) ga);
+  tb = gtk_recent_info_get_modified ((GtkRecentInfo *) gb);
+
+  if (ta < tb)
+    return 1;
+  else if (ta > tb)
+    return -1;
+  else
+    return 0;
 }
 
 
