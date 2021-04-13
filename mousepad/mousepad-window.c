@@ -1984,8 +1984,9 @@ mousepad_window_open_file (MousepadWindow   *window,
             if (line != 0 || column != 0)
               g_idle_add (mousepad_view_scroll_to_cursor, window->active->textview);
 
-            /* insert in the recent history */
-            mousepad_window_recent_add (window, document->file);
+            /* insert in the recent history if history enabled */
+            if (MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS) > 0)
+              mousepad_window_recent_add (window, document->file);
           }
         break;
 
@@ -4716,8 +4717,9 @@ mousepad_window_action_save_as (GSimpleAction *action,
           /* validate file location change */
           mousepad_file_set_location (document->file, file, TRUE);
 
-          /* add to the recent history */
-          mousepad_window_recent_add (window, document->file);
+          /* add to the recent history if history enabled */
+          if (MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS) > 0)
+            mousepad_window_recent_add (window, document->file);
 
           /* update last save location */
           if (last_save_location != NULL)
