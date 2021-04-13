@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-03 00:46+0200\n"
-"PO-Revision-Date: 2021-04-05 16:17+0000\n"
+"POT-Creation-Date: 2021-04-11 00:46+0200\n"
+"PO-Revision-Date: 2021-04-13 13:34+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "The Mousepad developers. All rights reserved."
 msgid "Please report bugs to <%s>."
 msgstr "バグの報告は <%s> までお願いします。"
 
-#: ../mousepad/mousepad-application.c:1318
+#: ../mousepad/mousepad-application.c:1321
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | 作者: %s | ファイル名: %s"
@@ -120,10 +120,10 @@ msgstr "タブサイズの選択"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:215
-#: ../mousepad/mousepad-dialogs.c:321 ../mousepad/mousepad-dialogs.c:385
-#: ../mousepad/mousepad-dialogs.c:498 ../mousepad/mousepad-dialogs.c:539
-#: ../mousepad/mousepad-dialogs.c:921 ../mousepad/mousepad-dialogs.c:981
+#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:226
+#: ../mousepad/mousepad-dialogs.c:333 ../mousepad/mousepad-dialogs.c:397
+#: ../mousepad/mousepad-dialogs.c:510 ../mousepad/mousepad-dialogs.c:551
+#: ../mousepad/mousepad-dialogs.c:933 ../mousepad/mousepad-dialogs.c:993
 #: ../mousepad/mousepad-encoding-dialog.c:120
 #: ../mousepad/mousepad-encoding-dialog.c:191
 msgid "_Cancel"
@@ -135,206 +135,206 @@ msgid "_OK"
 msgstr "OK(_O)"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:214
+#: ../mousepad/mousepad-dialogs.c:225
 msgid "Go To"
 msgstr "移動"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:219
+#: ../mousepad/mousepad-dialogs.c:230
 msgid "_Jump to"
 msgstr "次へ移動(_J)"
 
-#: ../mousepad/mousepad-dialogs.c:239
+#: ../mousepad/mousepad-dialogs.c:250
 msgid "_Line number:"
 msgstr "行番号(_L):"
 
-#: ../mousepad/mousepad-dialogs.c:259
+#: ../mousepad/mousepad-dialogs.c:270
 msgid "C_olumn number:"
 msgstr "列番号(_O):"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:320
+#: ../mousepad/mousepad-dialogs.c:332
 msgid "Clear Documents History"
 msgstr "ドキュメント履歴のクリア"
 
 #. set button
-#: ../mousepad/mousepad-dialogs.c:325
+#: ../mousepad/mousepad-dialogs.c:337
 msgid "Clea_r"
 msgstr "クリア(_R)"
 
-#: ../mousepad/mousepad-dialogs.c:349
+#: ../mousepad/mousepad-dialogs.c:361
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr "<big><b>ドキュメント履歴からすべてのアイテムを削除しますか?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:354
+#: ../mousepad/mousepad-dialogs.c:366
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "ドキュメント履歴をクリアすると、現在表示されているすべてのアイテムを完全に削除します。"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:384
+#: ../mousepad/mousepad-dialogs.c:396
 msgid "Save Changes"
 msgstr "変更の保存"
 
-#: ../mousepad/mousepad-dialogs.c:391
+#: ../mousepad/mousepad-dialogs.c:403
 msgid "_Don't Save"
 msgstr "保存しない(_D)"
 
-#: ../mousepad/mousepad-dialogs.c:398 ../mousepad/mousepad-dialogs.c:541
+#: ../mousepad/mousepad-dialogs.c:410 ../mousepad/mousepad-dialogs.c:553
 msgid "_Save As"
 msgstr "名前を付けて保存(_S)"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:406 ../mousepad/mousepad-dialogs.c:506
-#: ../mousepad/mousepad-dialogs.c:925
+#: ../mousepad/mousepad-dialogs.c:418 ../mousepad/mousepad-dialogs.c:518
+#: ../mousepad/mousepad-dialogs.c:937
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: ../mousepad/mousepad-dialogs.c:430
+#: ../mousepad/mousepad-dialogs.c:442
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr "<big><b>閉じる前に変更を保存しますか?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:435
+#: ../mousepad/mousepad-dialogs.c:447
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "保存しない場合、すべての変更箇所は失われます。"
 
-#: ../mousepad/mousepad-dialogs.c:462
+#: ../mousepad/mousepad-dialogs.c:474
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "この文書は外部から変更されています。このまま保存しますか?"
 
-#: ../mousepad/mousepad-dialogs.c:463
+#: ../mousepad/mousepad-dialogs.c:475
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "保存すると、すべての外部からの変更箇所は失われます。"
 
-#: ../mousepad/mousepad-dialogs.c:465
+#: ../mousepad/mousepad-dialogs.c:477
 msgid "Save _As"
 msgstr "名前を付けて保存(_A)"
 
-#: ../mousepad/mousepad-dialogs.c:470
+#: ../mousepad/mousepad-dialogs.c:482
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
 msgstr "この文書は外部から変更されています。ディスクから再読込しますか?"
 
-#: ../mousepad/mousepad-dialogs.c:475
+#: ../mousepad/mousepad-dialogs.c:487
 msgid "You have unsaved changes. If you revert the file, they will be lost."
 msgstr "保存されていない変更があります。ファイルを元に戻すと、保存されていない変更は失われます。"
 
-#: ../mousepad/mousepad-dialogs.c:477 ../mousepad/mousepad-dialogs.c:544
+#: ../mousepad/mousepad-dialogs.c:489 ../mousepad/mousepad-dialogs.c:556
 msgid "_Revert"
 msgstr "元に戻す(_R)"
 
-#: ../mousepad/mousepad-dialogs.c:483 ../mousepad/mousepad-window.c:3497
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3497
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "リロード(_L)"
 
 #. add title
-#: ../mousepad/mousepad-dialogs.c:493
+#: ../mousepad/mousepad-dialogs.c:505
 msgid "Externally Modified"
 msgstr "外部からの変更"
 
-#: ../mousepad/mousepad-dialogs.c:531
+#: ../mousepad/mousepad-dialogs.c:543
 msgid "Do you want to save your changes before reloading?"
 msgstr "再読み込み前に変更を保存しますか?"
 
-#: ../mousepad/mousepad-dialogs.c:536
+#: ../mousepad/mousepad-dialogs.c:548
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "ファイルを復帰すると、保存されていないすべての変更箇所は失われます。"
 
-#: ../mousepad/mousepad-dialogs.c:572
+#: ../mousepad/mousepad-dialogs.c:584
 #, c-format
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
 msgstr "ファイルは %s でエンコードされているようですが、%s エンコーディングを選択しました。この選択でよろしいですか？"
 
-#: ../mousepad/mousepad-dialogs.c:579
+#: ../mousepad/mousepad-dialogs.c:591
 msgid "If not, the guessed encoding will be used."
 msgstr "そうでない場合は、推測されたエンコーディングを使用します。"
 
-#: ../mousepad/mousepad-dialogs.c:662
+#: ../mousepad/mousepad-dialogs.c:674
 msgid "Please select a file"
 msgstr "ファイルを選択してください"
 
-#: ../mousepad/mousepad-dialogs.c:689
+#: ../mousepad/mousepad-dialogs.c:701
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "エンコーディングテスト用の一時ファイルの準備に失敗しました"
 
-#: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
+#: ../mousepad/mousepad-dialogs.c:764 ../mousepad/mousepad-dialogs.c:827
 msgid "Open encoding dialog"
 msgstr "エンコーディングダイアログを開く"
 
-#: ../mousepad/mousepad-dialogs.c:754
+#: ../mousepad/mousepad-dialogs.c:766
 msgid "Go back to shorten list"
 msgstr "短縮リストに戻る"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:808
+#: ../mousepad/mousepad-dialogs.c:820
 msgid "_Encoding:"
 msgstr "エンコーディング(_E)"
 
-#: ../mousepad/mousepad-dialogs.c:820
+#: ../mousepad/mousepad-dialogs.c:832
 #: ../mousepad/mousepad-encoding-dialog.c:289
 #: ../mousepad/mousepad-encoding-dialog.c:290
 msgid "Default"
 msgstr "デフォルト"
 
-#: ../mousepad/mousepad-dialogs.c:830
+#: ../mousepad/mousepad-dialogs.c:842
 #: ../mousepad/mousepad-encoding-dialog.c:305
 #: ../mousepad/mousepad-encoding-dialog.c:307
 #: ../mousepad/mousepad-encoding-dialog.c:311
 msgid "System"
 msgstr "システム"
 
-#: ../mousepad/mousepad-dialogs.c:843
+#: ../mousepad/mousepad-dialogs.c:855
 msgid "Current"
 msgstr "現在"
 
-#: ../mousepad/mousepad-dialogs.c:861
+#: ../mousepad/mousepad-dialogs.c:873
 msgid "Show all encodings"
 msgstr "すべてのエンコーディングを表示"
 
-#: ../mousepad/mousepad-dialogs.c:895
+#: ../mousepad/mousepad-dialogs.c:907
 msgid "Text Files"
 msgstr "テキストファイル"
 
-#: ../mousepad/mousepad-dialogs.c:901
+#: ../mousepad/mousepad-dialogs.c:913
 msgid "All Files"
 msgstr "すべてのファイル"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:920
+#: ../mousepad/mousepad-dialogs.c:932
 msgid "Save As"
 msgstr "名前を付けて保存"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:980
+#: ../mousepad/mousepad-dialogs.c:992
 msgid "Open File"
 msgstr "ファイルを開く"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:985
+#: ../mousepad/mousepad-dialogs.c:997
 msgid "_Open"
 msgstr "開く(_O)"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1030
+#: ../mousepad/mousepad-dialogs.c:1042
 msgid "Choose Mousepad Font"
 msgstr "Mousepad のフォントを選択する"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:609
+#: ../mousepad/mousepad-document.c:606
 msgid "Close this tab"
 msgstr "このタブを閉じます"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:639
+#: ../mousepad/mousepad-document.c:636
 msgid "Untitled"
 msgstr "無題"
 
@@ -502,7 +502,7 @@ msgstr "日本語"
 msgid "Korean"
 msgstr "韓国語"
 
-#: ../mousepad/mousepad-file.c:610
+#: ../mousepad/mousepad-file.c:609
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "変換入力内に不正なバイト列があります"
@@ -810,12 +810,12 @@ msgid "Failed to save the document"
 msgstr "文書の保存に失敗しました"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4912
+#: ../mousepad/mousepad-window.c:4910
 msgid "Failed to reload the document"
 msgstr "文書の再読み込みに失敗しました"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4943
+#: ../mousepad/mousepad-window.c:4941
 msgid "Failed to print the document"
 msgstr "文書の印刷に失敗しました"
 
@@ -1362,8 +1362,8 @@ msgid "Convert all tabs to spaces in the selection or document"
 msgstr "選択範囲または文書内のすべてのタブをスペースに変換します"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
-msgid "_Spaces to Tabs"
-msgstr "スペースをタブに(_S)"
+msgid "_Leading Spaces to Tabs"
+msgstr "行頭のタブをスペースに(_L)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
