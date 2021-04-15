@@ -43,7 +43,11 @@ gchar       *mousepad_util_utf8_stropposite                 (const gchar        
 gchar       *mousepad_util_escape_underscores               (const gchar                *str);
 
 GtkWidget   *mousepad_util_image_button                     (const gchar                *icon_name,
-                                                             const gchar                *label);
+                                                             const gchar                *label,
+                                                             gint                        margin_start,
+                                                             gint                        margin_end,
+                                                             gint                        margin_top,
+                                                             gint                        margin_bottom);
 
 void         mousepad_util_entry_error                      (GtkWidget                  *widget,
                                                              gboolean                    error);
@@ -73,13 +77,6 @@ gchar       *mousepad_util_get_save_location                (const gchar        
 void         mousepad_util_save_key_file                    (GKeyFile                   *keyfile,
                                                              const gchar                *filename);
 
-gboolean     mousepad_util_container_has_children           (GtkContainer               *container);
-
-void         mousepad_util_container_clear                  (GtkContainer               *container);
-
-void         mousepad_util_container_move_children          (GtkContainer               *source,
-                                                             GtkContainer               *destination);
-
 GSList      *mousepad_util_get_sorted_style_schemes         (void);
 
 GSList      *mousepad_util_get_sorted_language_sections     (void);
@@ -91,8 +88,6 @@ GSList      *mousepad_util_get_sorted_languages_for_section (const gchar        
  * https://gitlab.gnome.org/GNOME/gedit/-/blob/21fac3f0c87db0db104d7af7eaeb6f63d8216a14/gedit/gedit-pango.h#L28
  */
 gchar       *mousepad_util_pango_font_description_to_css    (const PangoFontDescription *font_desc);
-
-const gchar *mousepad_util_get_path                         (GFile                      *file);
 
 G_END_DECLS
 
