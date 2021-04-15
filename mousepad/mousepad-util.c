@@ -559,7 +559,7 @@ mousepad_util_get_real_line_offset (const GtkTextIter *iter)
 
 
 
-static void
+void
 mousepad_util_set_real_line_offset (GtkTextIter *iter,
                                     gint         column,
                                     gboolean     from_end)
