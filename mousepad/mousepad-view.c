@@ -984,14 +984,12 @@ mousepad_view_clipboard_paste (MousepadView *view,
 {
   GtkClipboard   *clipboard;
   GtkTextBuffer  *buffer;
-  GtkTextView    *textview = GTK_TEXT_VIEW (view);
   gchar          *text = NULL;
   GtkTextMark    *mark;
   GtkTextIter     iter;
   GtkTextIter     start_iter, end_iter;
-  GdkRectangle    rect;
   gchar         **pieces;
-  gint            i, y;
+  gint            i, column;
 
   /* leave when the view is not editable */
   if (! gtk_text_view_get_editable (GTK_TEXT_VIEW (view)))
@@ -1028,8 +1026,8 @@ mousepad_view_clipboard_paste (MousepadView *view,
       mark = gtk_text_buffer_get_insert (buffer);
       gtk_text_buffer_get_iter_at_mark (buffer, &iter, mark);
 
-      /* get the iter location */
-      gtk_text_view_get_iter_location (textview, &iter, &rect);
+      /* get the iter column */
+      column = mousepad_util_get_real_line_offset (&iter);
 
       /* insert the pieces in the buffer */
       for (i = 0; pieces[i] != NULL; i++)
@@ -1049,11 +1047,8 @@ mousepad_view_clipboard_paste (MousepadView *view,
             }
           else
             {
-              /* get the y coordinate for this line */
-              gtk_text_view_get_line_yrange (textview, &iter, &y, NULL);
-
-              /* get the iter at the correct coordinate */
-              gtk_text_view_get_iter_at_location (textview, &iter, rect.x, y);
+              /* set the iter at the column offset */
+              mousepad_util_set_real_line_offset (&iter, column, FALSE);
             }
         }
 
