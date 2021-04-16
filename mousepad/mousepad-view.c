@@ -902,19 +902,42 @@ mousepad_view_transpose (MousepadView *view)
         {
           /* swap this line with the line above */
           if (gtk_text_iter_backward_line (&sel_end))
-            mousepad_view_transpose_lines (buffer, &sel_start, &sel_end);
+            {
+              mousepad_view_transpose_lines (buffer, &sel_start, &sel_end);
+
+              /* place cursor in its original position */
+              gtk_text_iter_set_line_offset (&sel_end, 0);
+              gtk_text_buffer_place_cursor (buffer, &sel_end);
+            }
         }
       else if (gtk_text_iter_ends_line (&sel_start))
         {
           /* swap this line with the line below */
-          if (gtk_text_iter_forward_line (&sel_end))
-            mousepad_view_transpose_lines (buffer, &sel_start, &sel_end);
+          if (gtk_text_iter_forward_line (&sel_end) || gtk_text_iter_starts_line (&sel_end))
+            {
+              mousepad_view_transpose_lines (buffer, &sel_start, &sel_end);
+
+              /* for empty line place cursor at the start of just swapped line */
+              if (gtk_text_iter_ends_line (&sel_start))
+                gtk_text_iter_forward_line (&sel_start);
+              /* for non-empty line place cursor in its original position */
+              else
+                gtk_text_iter_forward_to_line_end (&sel_start);
+
+              gtk_text_buffer_place_cursor (buffer, &sel_start);
+            }
         }
       else if (mousepad_util_iter_inside_word (&sel_start))
         {
           /* reverse the characters before and after the cursor */
           if (gtk_text_iter_backward_char (&sel_start) && gtk_text_iter_forward_char (&sel_end))
-            mousepad_view_transpose_range (buffer, &sel_start, &sel_end);
+            {
+              mousepad_view_transpose_range (buffer, &sel_start, &sel_end);
+
+              /* place cursor in its original position */
+              gtk_text_iter_backward_char (&sel_end);
+              gtk_text_buffer_place_cursor (buffer, &sel_end);
+            }
         }
       else
         {
