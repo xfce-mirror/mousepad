@@ -49,6 +49,7 @@ struct _MousepadPluginProvider
 
   /* plugin data */
   MousepadPluginData *plugin_data;
+  GtkWidget          *setting_box;
 
   /* minimal set of pre-instantiation functions that each plugin must implement */
   void                 (*initialize)      (MousepadPluginProvider *provider);
@@ -84,6 +85,7 @@ mousepad_plugin_provider_init (MousepadPluginProvider *provider)
   provider->first_instantiation = TRUE;
 
   provider->plugin_data = NULL;
+  provider->setting_box = NULL;
 
   provider->initialize = NULL;
   provider->get_plugin_data = NULL;
@@ -154,6 +156,8 @@ mousepad_plugin_provider_unload (GTypeModule *type_module)
   /* destroy the plugin */
   g_list_free_full (provider->instances, g_object_unref);
   provider->instances = NULL;
+  if (provider->setting_box != NULL)
+    gtk_widget_destroy (provider->setting_box);
 
   /* reset provider state, except module if ever we go to finalize() */
   provider->initialize = NULL;
@@ -211,6 +215,37 @@ const gchar *
 mousepad_plugin_provider_get_accel (MousepadPluginProvider *provider)
 {
   return provider->plugin_data->accel != NULL ? provider->plugin_data->accel : "";
+}
+
+
+
+GtkWidget *
+mousepad_plugin_provider_create_setting_box (MousepadPluginProvider *provider)
+{
+  /* this should happen only once */
+  if (provider->setting_box == NULL)
+    {
+      provider->setting_box = g_object_ref (gtk_box_new (GTK_ORIENTATION_VERTICAL, 6));
+      gtk_widget_set_margin_start (provider->setting_box, 6);
+      gtk_widget_set_margin_end (provider->setting_box, 6);
+      gtk_widget_set_margin_top (provider->setting_box, 6);
+      gtk_widget_set_margin_bottom (provider->setting_box, 6);
+
+      /* if ever the setting box is destroyed from the outside (which should not happen)
+       * the pointer will still be reset, and the tests based on it will work correctly */
+      g_signal_connect (provider->setting_box, "destroy", G_CALLBACK (gtk_widget_destroyed),
+                        &(provider->setting_box));
+    }
+
+  return provider->setting_box;
+}
+
+
+
+GtkWidget *
+mousepad_plugin_provider_get_setting_box (MousepadPluginProvider *provider)
+{
+  return provider->setting_box;
 }
 
 
