@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-11 00:46+0200\n"
-"PO-Revision-Date: 2021-04-12 17:25+0000\n"
+"POT-Creation-Date: 2021-04-17 00:47+0200\n"
+"PO-Revision-Date: 2021-04-17 22:33+0000\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/xfce/xfce-apps/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -21,80 +21,80 @@ msgstr ""
 "Language: cs\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: ../mousepad/mousepad-application.c:122
+#: ../mousepad/mousepad-application.c:125
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
 msgstr "Kódování použité při otevírání souborů (pro otevření souborů v dialogovém okně kódování ponechte prázdné)"
 
-#: ../mousepad/mousepad-application.c:123
+#: ../mousepad/mousepad-application.c:126
 msgid "ENCODING"
 msgstr "KÓDOVÁNÍ"
 
-#: ../mousepad/mousepad-application.c:128
+#: ../mousepad/mousepad-application.c:131
 msgid "Display a list of possible encodings to open files"
 msgstr "Zobrazí seznam možných kódování pro otevírání souborů"
 
-#: ../mousepad/mousepad-application.c:133
+#: ../mousepad/mousepad-application.c:136
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
 msgstr "Číslo řádku na nějž se přemístí kurzor (ŘÁDEK > 0 shora, ŘÁDEK < 0 zdola)"
 
-#: ../mousepad/mousepad-application.c:134
+#: ../mousepad/mousepad-application.c:137
 msgid "LINE"
 msgstr "ŘÁDEK"
 
-#: ../mousepad/mousepad-application.c:139
+#: ../mousepad/mousepad-application.c:142
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
 msgstr "Číslo sloupce na nějž se přemístí kurzor (SLOUPEC > 0 od začátku, SLOUPEC < 0 od konce)"
 
-#: ../mousepad/mousepad-application.c:140
+#: ../mousepad/mousepad-application.c:143
 msgid "COLUMN"
 msgstr "SLOUPEC"
 
-#: ../mousepad/mousepad-application.c:145
+#: ../mousepad/mousepad-application.c:148
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Neregistrovat se sběrnicí zpráv relace D-BUS"
 
-#: ../mousepad/mousepad-application.c:150
+#: ../mousepad/mousepad-application.c:153
 msgid "Quit a running Mousepad primary instance"
 msgstr "Ukončí primární instanci aplikace Mousepad"
 
-#: ../mousepad/mousepad-application.c:155
+#: ../mousepad/mousepad-application.c:158
 msgid "Print version information and exit"
 msgstr "Vytiskne informace o verzi a ukončí se"
 
-#: ../mousepad/mousepad-application.c:160
+#: ../mousepad/mousepad-application.c:163
 msgid "[FILES...]"
 msgstr "[SOUBORY...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:338 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:342 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:347
+#: ../mousepad/mousepad-application.c:351
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Režim otevírání souboru: \"%s\", \"%s\" nebo \"%s\" (otevře karty v novém okně)"
 
-#: ../mousepad/mousepad-application.c:350
+#: ../mousepad/mousepad-application.c:354
 msgid "MODE"
 msgstr "REŹIM"
 
-#: ../mousepad/mousepad-application.c:403
+#: ../mousepad/mousepad-application.c:407
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Vývojáři aplikace Mousepad. Všechna práva vyhrazena."
 
-#: ../mousepad/mousepad-application.c:404
+#: ../mousepad/mousepad-application.c:408
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Prosíme, abyste chyby hlásili na emailovou adresu <%s>."
 
-#: ../mousepad/mousepad-application.c:1321
+#: ../mousepad/mousepad-application.c:1324
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autoři: %s | Název souboru: %s"
@@ -228,7 +228,7 @@ msgstr "V dokumentu jsou neuložené změny. Vrátíte-li soubor do původního 
 msgid "_Revert"
 msgstr "_Obnovit původní"
 
-#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3497
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3505
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "_Znovu načíst"
@@ -703,31 +703,31 @@ msgid "Filetype: %s"
 msgstr "Typ souboru: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1100
+#: ../mousepad/mousepad-window.c:1101
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Varování: používáte účet správce systému root. Můžete poškodit systém."
 
-#: ../mousepad/mousepad-window.c:2245
+#: ../mousepad/mousepad-window.c:2253
 msgid "Read Only"
 msgstr "Pouze pro čtení"
 
-#: ../mousepad/mousepad-window.c:2249
+#: ../mousepad/mousepad-window.c:2257
 msgid "Viewer Mode"
 msgstr "Režim prohlížeče"
 
-#: ../mousepad/mousepad-window.c:3248
+#: ../mousepad/mousepad-window.c:3256
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Použít %s jako šablonu"
 
-#: ../mousepad/mousepad-window.c:3274
+#: ../mousepad/mousepad-window.c:3282
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Nenalezena šablona souboru v\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3332
+#: ../mousepad/mousepad-window.c:3340
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -735,89 +735,93 @@ msgid ""
 msgstr "Adresář šablon chybí \n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3384
+#: ../mousepad/mousepad-window.c:3392
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_Jiné (%d)..."
 
-#: ../mousepad/mousepad-window.c:3394
+#: ../mousepad/mousepad-window.c:3402
 msgid "Ot_her..."
 msgstr "_Jiné..."
 
-#: ../mousepad/mousepad-window.c:3491
+#: ../mousepad/mousepad-window.c:3499
 msgid "Re_vert"
 msgstr "_Vrátit změny"
 
-#: ../mousepad/mousepad-window.c:3493
+#: ../mousepad/mousepad-window.c:3501
 msgid "Revert to the saved version of the file"
 msgstr "Zruší všechny změny dokumentu od posledního uložení"
 
-#: ../mousepad/mousepad-window.c:3499
+#: ../mousepad/mousepad-window.c:3507
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Znovu načte dokument z disku"
 
-#: ../mousepad/mousepad-window.c:3505
+#: ../mousepad/mousepad-window.c:3513
 msgid "Leave fullscreen mode"
 msgstr "Opustit režim celé obrazovky"
 
-#: ../mousepad/mousepad-window.c:3510
+#: ../mousepad/mousepad-window.c:3518
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Přepnout do režimu celé obrazovky"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3657 ../mousepad/mousepad-window.c:3855
+#: ../mousepad/mousepad-window.c:3669 ../mousepad/mousepad-window.c:3878
 msgid "Charset"
 msgstr "Znaková sada"
 
-#: ../mousepad/mousepad-window.c:3792
+#: ../mousepad/mousepad-window.c:3813
 #, c-format
 msgid "Open '%s'"
 msgstr "Otevřít %s"
 
-#: ../mousepad/mousepad-window.c:3820
+#: ../mousepad/mousepad-window.c:3841
 msgid "No items found"
 msgstr "Nenalezeny žádné položky"
 
-#: ../mousepad/mousepad-window.c:3904
+#: ../mousepad/mousepad-window.c:3841
+msgid "History disabled"
+msgstr "Historie zakázána"
+
+#: ../mousepad/mousepad-window.c:3927
 msgid "Failed to clear the recent history"
 msgstr "Vymazání nedávné historie se nezdařilo"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4357
+#: ../mousepad/mousepad-window.c:4391
 msgid "No clipboard data"
 msgstr "Schránka neobsahuje data"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4468
+#: ../mousepad/mousepad-window.c:4502
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Šablony by měly být %s validní"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4474
+#: ../mousepad/mousepad-window.c:4508
 msgid "Reading the template failed"
 msgstr "Načtení šablony se nezdařilo"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4479
+#: ../mousepad/mousepad-window.c:4513
 msgid "Loading the template failed"
 msgstr "Načtění šablony se nezdařilo"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4663 ../mousepad/mousepad-window.c:4804
+#: ../mousepad/mousepad-window.c:4697 ../mousepad/mousepad-window.c:4838
 msgid "Failed to save the document"
 msgstr "Uložení dokumentu se nezdařilo"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4910
+#: ../mousepad/mousepad-window.c:4944
 msgid "Failed to reload the document"
 msgstr "Opětovné načtení dokumentu se nezdařilo"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4941
+#: ../mousepad/mousepad-window.c:4975
 msgid "Failed to print the document"
 msgstr "Tisk dokumentu se nezdařil"
 
