@@ -17,6 +17,8 @@
 #ifndef __MOUSEPAD_PLUGIN_PROVIDER_H__
 #define __MOUSEPAD_PLUGIN_PROVIDER_H__
 
+#include <gtk/gtk.h>
+
 G_BEGIN_DECLS
 
 typedef struct _MousepadPluginProviderClass   MousepadPluginProviderClass;
@@ -46,6 +48,11 @@ const gchar            *mousepad_plugin_provider_get_label       (MousepadPlugin
 const gchar            *mousepad_plugin_provider_get_category    (MousepadPluginProvider  *provider);
 
 const gchar            *mousepad_plugin_provider_get_accel       (MousepadPluginProvider  *provider);
+
+void                    mousepad_plugin_provider_set_setting_box (MousepadPluginProvider  *provider,
+                                                                  GtkWidget               *box);
+
+GtkWidget              *mousepad_plugin_provider_get_setting_box (MousepadPluginProvider  *provider);
 
 void                    mousepad_plugin_provider_new_plugin      (MousepadPluginProvider  *provider);
 
