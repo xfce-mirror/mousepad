@@ -38,6 +38,8 @@ void                 mousepad_application_show_preferences           (MousepadAp
 
 gchar               *mousepad_application_get_default_font           (void);
 
+GList               *mousepad_application_get_providers              (MousepadApplication  *application);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_APPLICATION_H__ */
