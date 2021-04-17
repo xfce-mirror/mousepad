@@ -68,6 +68,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_OLD_STYLE_MENU               "preferences.window.old-style-menu"
 
 /* State setting names */
+#define MOUSEPAD_SETTING_ENABLED_PLUGINS              "state.application.enabled-plugins"
 #define MOUSEPAD_SETTING_SEARCH_DIRECTION             "state.search.direction"
 #define MOUSEPAD_SETTING_SEARCH_WRAP_AROUND           "state.search.wrap-around"
 #define MOUSEPAD_SETTING_SEARCH_MATCH_CASE            "state.search.match-case"
@@ -83,64 +84,69 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_WINDOW_MAXIMIZED             "state.window.maximized"
 #define MOUSEPAD_SETTING_WINDOW_FULLSCREEN            "state.window.fullscreen"
 
-void      mousepad_settings_init          (void);
-void      mousepad_settings_finalize      (void);
+void       mousepad_settings_init          (void);
+void       mousepad_settings_finalize      (void);
 
-gboolean  mousepad_setting_bind           (const gchar        *setting,
-                                           gpointer            object,
-                                           const gchar        *prop,
-                                           GSettingsBindFlags  flags);
+gboolean   mousepad_setting_bind           (const gchar        *setting,
+                                            gpointer            object,
+                                            const gchar        *prop,
+                                            GSettingsBindFlags  flags);
 
-gulong    mousepad_setting_connect        (const gchar        *setting,
-                                           GCallback           callback,
-                                           gpointer            user_data,
-                                           GConnectFlags       connect_flags);
+gulong     mousepad_setting_connect        (const gchar        *setting,
+                                            GCallback           callback,
+                                            gpointer            user_data,
+                                            GConnectFlags       connect_flags);
 
-gulong    mousepad_setting_connect_object (const gchar        *setting,
-                                           GCallback           callback,
-                                           gpointer            gobject,
-                                           GConnectFlags       connect_flags);
+gulong     mousepad_setting_connect_object (const gchar        *setting,
+                                            GCallback           callback,
+                                            gpointer            gobject,
+                                            GConnectFlags       connect_flags);
 
-void      mousepad_setting_disconnect     (const gchar        *setting,
-                                           GCallback           callback,
-                                           gpointer            user_data);
+void       mousepad_setting_disconnect     (const gchar        *setting,
+                                            GCallback           callback,
+                                            gpointer            user_data);
 
 /* functions for reading and writing settings */
 
-gboolean  mousepad_setting_get            (const gchar        *setting,
-                                           const gchar        *format_string,
-                                           ...);
+gboolean   mousepad_setting_get            (const gchar        *setting,
+                                            const gchar        *format_string,
+                                            ...);
 
-gboolean  mousepad_setting_set            (const gchar        *setting,
-                                           const gchar        *format_string,
-                                           ...);
+gboolean   mousepad_setting_set            (const gchar        *setting,
+                                            const gchar        *format_string,
+                                            ...);
 
 /* convenience functions for reading/writing common types */
 
-gboolean  mousepad_setting_get_boolean    (const gchar        *setting);
+gboolean   mousepad_setting_get_boolean    (const gchar        *setting);
 
-void      mousepad_setting_set_boolean    (const gchar        *setting,
-                                           gboolean            value);
+void       mousepad_setting_set_boolean    (const gchar        *setting,
+                                            gboolean            value);
 
-gint      mousepad_setting_get_int        (const gchar        *setting);
+gint       mousepad_setting_get_int        (const gchar        *setting);
 
-void      mousepad_setting_set_int        (const gchar        *setting,
-                                           gint                value);
+void       mousepad_setting_set_int        (const gchar        *setting,
+                                            gint                value);
 
-gchar    *mousepad_setting_get_string     (const gchar        *setting);
+gchar     *mousepad_setting_get_string     (const gchar        *setting);
 
-void      mousepad_setting_set_string     (const gchar        *setting,
-                                           const gchar        *value);
+void       mousepad_setting_set_string     (const gchar        *setting,
+                                            const gchar        *value);
 
-gint      mousepad_setting_get_enum       (const gchar        *setting);
+gchar    **mousepad_setting_get_strv       (const gchar        *setting);
 
-void      mousepad_setting_set_enum       (const gchar        *setting,
-                                           gint                value);
+void       mousepad_setting_set_strv       (const gchar        *setting,
+                                            const gchar *const *value);
 
-GVariant *mousepad_setting_get_variant    (const gchar        *setting);
+gint       mousepad_setting_get_enum       (const gchar        *setting);
 
-void      mousepad_setting_set_variant    (const gchar        *setting,
-                                           GVariant           *variant);
+void       mousepad_setting_set_enum       (const gchar        *setting,
+                                            gint                value);
+
+GVariant  *mousepad_setting_get_variant    (const gchar        *setting);
+
+void       mousepad_setting_set_variant    (const gchar        *setting,
+                                            GVariant           *variant);
 
 /* wrappers for above read/write functions with shorter arguments */
 
@@ -160,12 +166,14 @@ void      mousepad_setting_set_variant    (const gchar        *setting,
 #define MOUSEPAD_SETTING_GET_BOOLEAN(setting)        mousepad_setting_get_boolean (MOUSEPAD_SETTING_##setting)
 #define MOUSEPAD_SETTING_GET_INT(setting)            mousepad_setting_get_int (MOUSEPAD_SETTING_##setting)
 #define MOUSEPAD_SETTING_GET_STRING(setting)         mousepad_setting_get_string (MOUSEPAD_SETTING_##setting)
+#define MOUSEPAD_SETTING_GET_STRV(setting)           mousepad_setting_get_strv (MOUSEPAD_SETTING_##setting)
 #define MOUSEPAD_SETTING_GET_ENUM(setting)           mousepad_setting_get_enum (MOUSEPAD_SETTING_##setting)
 
 #define MOUSEPAD_SETTING_SET(setting, ...)           mousepad_setting_set (MOUSEPAD_SETTING_##setting, __VA_ARGS__)
 #define MOUSEPAD_SETTING_SET_BOOLEAN(setting, value) mousepad_setting_set_boolean (MOUSEPAD_SETTING_##setting, value)
 #define MOUSEPAD_SETTING_SET_INT(setting, value)     mousepad_setting_set_int (MOUSEPAD_SETTING_##setting, value)
 #define MOUSEPAD_SETTING_SET_STRING(setting, value)  mousepad_setting_set_string (MOUSEPAD_SETTING_##setting, value)
+#define MOUSEPAD_SETTING_SET_STRV(setting, value)    mousepad_setting_set_strv (MOUSEPAD_SETTING_##setting, value)
 #define MOUSEPAD_SETTING_SET_ENUM(setting, value)    mousepad_setting_set_enum (MOUSEPAD_SETTING_##setting, value)
 
 G_END_DECLS
