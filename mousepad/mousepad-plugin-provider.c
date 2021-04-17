@@ -47,6 +47,7 @@ struct _MousepadPluginProvider
   gboolean  first_instantiation;
 
   /* plugin data */
+  GtkWidget   *setting_box;
   gboolean     destroyable;
   const gchar *label, *category, *accel;
 
@@ -88,6 +89,7 @@ mousepad_plugin_provider_init (MousepadPluginProvider *provider)
   provider->instances = NULL;
   provider->first_instantiation = TRUE;
 
+  provider->setting_box = NULL;
   provider->destroyable = FALSE;
   provider->label = NULL;
   provider->category = NULL;
@@ -176,6 +178,8 @@ mousepad_plugin_provider_unload (GTypeModule *type_module)
   /* destroy the plugin */
   g_list_free_full (provider->instances, g_object_unref);
   provider->instances = NULL;
+  if (provider->setting_box != NULL)
+    gtk_widget_destroy (provider->setting_box);
 
   /* reset provider state, except module if ever we go to finalize() */
   provider->initialize = NULL;
@@ -237,6 +241,27 @@ const gchar *
 mousepad_plugin_provider_get_accel (MousepadPluginProvider *provider)
 {
   return provider->accel != NULL ? provider->accel : "";
+}
+
+
+
+void
+mousepad_plugin_provider_set_setting_box (MousepadPluginProvider *provider,
+                                          GtkWidget              *box)
+{
+  provider->setting_box = g_object_ref (box);
+
+  /* if ever the setting box is destroyed from the outside (which should not happen)
+   * the pointer will still be reset, and the tests based on it will work correctly */
+  g_signal_connect (box, "destroy", G_CALLBACK (gtk_widget_destroyed), &(provider->setting_box));
+}
+
+
+
+GtkWidget *
+mousepad_plugin_provider_get_setting_box (MousepadPluginProvider *provider)
+{
+  return provider->setting_box;
 }
 
 

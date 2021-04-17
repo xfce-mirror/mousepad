@@ -1706,3 +1706,47 @@ mousepad_application_get_default_font (void)
 
   return font;
 }
+
+
+
+GList *
+mousepad_application_get_providers (MousepadApplication *application)
+{
+  return application->providers;
+}
+
+
+
+static gint
+mousepad_application_compare_plugin (gconstpointer item_data,
+                                     gconstpointer user_data)
+{
+  GTypeModule *module = G_TYPE_MODULE (item_data);
+
+  return g_strcmp0 (module->name, user_data);
+}
+
+
+
+GtkWidget *
+mousepad_application_get_plugin_setting_box (MousepadApplication *application,
+                                             const gchar         *plugin_name)
+{
+  GtkWidget *box;
+  GList     *item;
+
+  /* retrieve the plugin provider */
+  item = g_list_find_custom (application->providers, plugin_name,
+                             mousepad_application_compare_plugin);
+
+  /* set the provider setting box */
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+  gtk_widget_set_margin_start (box, 6);
+  gtk_widget_set_margin_end (box, 6);
+  gtk_widget_set_margin_top (box, 6);
+  gtk_widget_set_margin_bottom (box, 6);
+
+  mousepad_plugin_provider_set_setting_box (item->data, box);
+
+  return box;
+}

@@ -37,7 +37,9 @@
     <value nick="yes" value="2"/>
   </enum>
 
+  <!-- generic schemas -->
   <schema id="org.xfce.mousepad" path="/org/xfce/mousepad/" gettext-domain="mousepad">
+    <child name="plugins" schema="org.xfce.mousepad.plugins"/>
     <child name="preferences" schema="org.xfce.mousepad.preferences"/>
     <child name="state" schema="org.xfce.mousepad.state"/>
   </schema>
