@@ -18,6 +18,8 @@
 #include <mousepad/mousepad-prefs-dialog.h>
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-application.h>
+#include <mousepad/mousepad-plugin-provider.h>
 
 
 
@@ -38,6 +40,9 @@
 #define WID_TOOLBAR_STYLE_COMBO             "/prefs/window/toolbar/style-combo"
 #define WID_TOOLBAR_ICON_SIZE_COMBO         "/prefs/window/toolbar/icon-size-combo"
 #define WID_OPENING_MODE_COMBO              "/prefs/window/notebook/opening-mode-combo"
+
+/* Plugins page */
+#define WID_PLUGINS_TAB                     "/prefs/plugins/content-area"
 
 
 
@@ -411,11 +416,13 @@ mousepad_prefs_dialog_opening_mode_setting_changed (MousepadPrefsDialog *self,
 static void
 mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 {
-  GError    *error = NULL;
-  GtkWidget *notebook;
-  GtkWidget *content_area;
-  GtkWidget *button;
-  GtkWidget *widget;
+  MousepadApplication *application;
+  GtkWidget           *box = NULL, *widget, *frame;
+  GTypeModule         *module;
+  GError              *error = NULL;
+  GList               *providers, *provider;
+  const gchar         *category = NULL;
+  gchar               *str;
 
   self->builder = gtk_builder_new ();
 
@@ -430,19 +437,61 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
     }
 
   /* make the application actions usable in the prefs dialog */
-  gtk_widget_insert_action_group (GTK_WIDGET (self), "app",
-                                  G_ACTION_GROUP (g_application_get_default ()));
+  application = MOUSEPAD_APPLICATION (g_application_get_default ());
+  gtk_widget_insert_action_group (GTK_WIDGET (self), "app", G_ACTION_GROUP (application));
+
+  /* setup the "Plugins" tab */
+  providers = mousepad_application_get_providers (application);
+  for (provider = providers; provider != NULL; provider = provider->next)
+    {
+      /* update current category: new frame, new box */
+      str = (gchar *) mousepad_plugin_provider_get_category (provider->data);
+      if (g_strcmp0 (category, str) != 0)
+        {
+          category = str;
+
+          str = g_strdup_printf ("<b>%s</b>", category);
+          widget = gtk_label_new (str);
+          gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+          g_free (str);
+
+          box = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
+          frame = gtk_frame_new (NULL);
+          gtk_frame_set_label_widget (GTK_FRAME (frame), widget);
+          gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
+          gtk_box_pack_start (GTK_BOX (box), frame, FALSE, TRUE, 0);
+
+          box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
+          gtk_widget_set_margin_start (box, 12);
+          gtk_widget_set_margin_end (box, 6);
+          gtk_widget_set_margin_top (box, 6);
+          gtk_widget_set_margin_bottom (box, 6);
+          gtk_container_add (GTK_CONTAINER (frame), box);
+        }
+
+      /* add provider checkbox to the frame box */
+      widget = gtk_check_button_new_with_label (mousepad_plugin_provider_get_label (provider->data));
+      module = provider->data;
+      str = g_strconcat ("app.", module->name, NULL);
+      gtk_actionable_set_action_name (GTK_ACTIONABLE (widget), str);
+      g_free (str);
+      gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+    }
+
+  box = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
+  if (providers != NULL)
+    gtk_widget_show_all (box);
 
   /* add the Glade/GtkBuilder notebook into this dialog */
-  notebook = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
-  content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
-  gtk_container_add (GTK_CONTAINER (content_area), notebook);
-  gtk_widget_show (notebook);
+  widget = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
+  box = gtk_dialog_get_content_area (GTK_DIALOG (self));
+  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+  gtk_widget_show (widget);
 
   /* add the close button */
-  button = mousepad_util_image_button ("window-close", _("_Close"));
-  gtk_widget_set_can_default (button, TRUE);
-  gtk_dialog_add_action_widget (GTK_DIALOG (self), button, GTK_RESPONSE_CLOSE);
+  widget = mousepad_util_image_button ("window-close", _("_Close"));
+  gtk_widget_set_can_default (widget, TRUE);
+  gtk_dialog_add_action_widget (GTK_DIALOG (self), widget, GTK_RESPONSE_CLOSE);
   gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_CLOSE);
 
   /* setup the window properties */
