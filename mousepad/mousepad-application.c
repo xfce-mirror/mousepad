@@ -1700,3 +1700,11 @@ mousepad_application_get_default_font (void)
 
   return font;
 }
+
+
+
+GList *
+mousepad_application_get_providers (MousepadApplication *application)
+{
+  return application->providers;
+}
