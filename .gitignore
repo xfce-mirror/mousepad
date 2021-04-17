@@ -1,4 +1,5 @@
 *~
+*.gschema.valid
 *.la
 *.lo
 *.o
@@ -38,8 +39,6 @@ mousepad/mousepad
 mousepad/mousepad-marshal.c
 mousepad/mousepad-marshal.h
 mousepad/mousepad-resources.c
-/mousepad/mousepad-settings.gschema.valid
-/mousepad/org.xfce.mousepad.gschema.valid
 po/.intltool-merge-cache*
 po/POTFILES
 po/stamp-it
