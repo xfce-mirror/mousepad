@@ -1560,7 +1560,7 @@ mousepad_window_menu_item_activate (GtkMenuItem *new_item,
 
 
 
-static GtkWidget *
+GtkWidget *
 mousepad_window_menu_item_realign (MousepadWindow *window,
                                    GtkWidget      *item,
                                    const gchar    *action_name,
@@ -2441,6 +2441,16 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
 /**
  * Notebook Signal Functions
  **/
+GtkWidget *
+mousepad_window_get_notebook (MousepadWindow *window)
+{
+  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), NULL);
+
+  return window->notebook;
+}
+
+
+
 static void
 mousepad_window_update_actions (MousepadWindow *window)
 {

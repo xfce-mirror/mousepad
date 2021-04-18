@@ -13,13 +13,15 @@ AM_CPPFLAGS = \
 bin_PROGRAMS = \
 	mousepad
 
+lib_LTLIBRARIES = \
+	libmousepad.la
+
 mousepad_built_sources = \
 	mousepad-marshal.c \
 	mousepad-marshal.h
 
-mousepad_SOURCES = \
+libmousepad_la_SOURCES = \
 	$(mousepad_built_sources) \
-	main.c \
 	mousepad-application.c \
 	mousepad-application.h \
 	mousepad-close-button.c \
@@ -34,6 +36,8 @@ mousepad_SOURCES = \
 	mousepad-encoding-dialog.h \
 	mousepad-file.c \
 	mousepad-file.h \
+	mousepad-plugin-provider.c \
+	mousepad-plugin-provider.h \
 	mousepad-prefs-dialog.c \
 	mousepad-prefs-dialog.h \
 	mousepad-print.c \
@@ -57,32 +61,44 @@ mousepad_SOURCES = \
 	mousepad-window.c \
 	mousepad-window.h
 
-mousepad_CFLAGS = \
+libmousepad_la_CFLAGS = \
 	$(GLIB_CFLAGS) \
+	$(GMODULE_CFLAGS) \
 	$(GTK_CFLAGS) \
-	$(GTHREAD_CFLAGS) \
 	$(GTKSOURCEVIEW_CFLAGS) \
 	$(PLATFORM_CFLAGS) \
 	$(XFCONF_CFLAGS) \
 	-DMOUSEPAD_GSETTINGS_SCHEMA_DIR=\""$(datadir)/glib-2.0/schemas"\" \
-	-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_52 \
-	-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_52
+	-DMOUSEPAD_PLUGIN_DIRECTORY=\"$(libdir)/mousepad/plugins\"
 
-mousepad_LDFLAGS = \
+libmousepad_la_LDFLAGS = \
 	-no-undefined \
 	$(PLATFORM_LDFLAGS)
 
-mousepad_LDADD = \
+libmousepad_la_LIBADD = \
 	$(GLIB_LIBS) \
-	$(GTK_LIBS)	\
-	$(GTHREAD_LIBS) \
+	$(GMODULE_LIBS) \
+	$(GTK_LIBS) \
 	$(GTKSOURCEVIEW_LIBS) \
 	$(XFCONF_LIBS)
 
 if WITH_KEYFILE_SETTINGS
-mousepad_CFLAGS += \
+libmousepad_la_CFLAGS += \
 	-DMOUSEPAD_SETTINGS_KEYFILE_BACKEND=1
 endif
+
+mousepad_SOURCES = \
+	main.c
+mousepad_CFLAGS = \
+	$(AM_CPPFLAGS) \
+	$(libmousepad_la_CFLAGS)
+mousepad_LDFLAGS = \
+	$(libmousepad_la_LDFLAGS) \
+	$(libmousepad_la_LIBADD)
+mousepad_LDADD = \
+	libmousepad.la
+mousepad_DEPENDENCIES = \
+	libmousepad.la
 
 if MAINTAINER_MODE
 DISTCLEANFILES = \
