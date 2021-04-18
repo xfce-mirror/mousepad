@@ -493,7 +493,7 @@ mousepad_replace_dialog_response (GtkWidget *widget,
     }
 
   /* search direction */
-  search_direction = MOUSEPAD_SETTING_GET_INT (SEARCH_DIRECTION);
+  search_direction = MOUSEPAD_SETTING_GET_UINT (SEARCH_DIRECTION);
   if ((search_direction == DIRECTION_UP && response_id != MOUSEPAD_RESPONSE_REVERSE_FIND)
       || (search_direction != DIRECTION_UP && response_id == MOUSEPAD_RESPONSE_REVERSE_FIND))
     flags = MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD;
@@ -503,7 +503,7 @@ mousepad_replace_dialog_response (GtkWidget *widget,
   /* search area */
   if (MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL))
     {
-      replace_all_location = MOUSEPAD_SETTING_GET_INT (SEARCH_REPLACE_ALL_LOCATION);
+      replace_all_location = MOUSEPAD_SETTING_GET_UINT (SEARCH_REPLACE_ALL_LOCATION);
       flags |= MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA;
       if (replace_all_location == IN_ALL_DOCUMENTS)
         flags |= MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS;
@@ -582,7 +582,7 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
   /* ... or if irrelevant settings for it are in use here, without stopping the spinner
    * in this case (we are in multi-document mode and this is a partial result) */
   else if (MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL)
-           && MOUSEPAD_SETTING_GET_INT (SEARCH_REPLACE_ALL_LOCATION) != IN_DOCUMENT
+           && MOUSEPAD_SETTING_GET_UINT (SEARCH_REPLACE_ALL_LOCATION) != IN_DOCUMENT
            && ! (flags & (MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
                           | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)))
     return;

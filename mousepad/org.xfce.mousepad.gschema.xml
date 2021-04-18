@@ -87,7 +87,7 @@
         the user in case of external modification of contents or status.
       </description>
     </key>
-    <key name="monitor-disabling-timer" type="i">
+    <key name="monitor-disabling-timer" type="u">
       <range min="0" max="10000"/>
       <default>500</default>
       <summary>Millisecond timer to ignore own changes when saving</summary>
@@ -165,6 +165,7 @@
       <summary>Indentation width</summary>
       <description>
         Width of an indentation step expressed in number of spaces.
+        If width is -1, the value of the "tab-width" key will be used.
       </description>
     </key>
     <key name="insert-spaces" type="b">
@@ -175,7 +176,7 @@
         of tab characters, when false tab characters will be inserted.
       </description>
     </key>
-    <key name="right-margin-position" type="i">
+    <key name="right-margin-position" type="u">
       <range min="1" max="1000"/>
       <default>80</default>
       <summary>Right margin position</summary>
@@ -210,7 +211,7 @@
       <summary>Smart home end type</summary>
       <description>Sets the behaviour of the HOME and END keys.</description>
     </key>
-    <key name="tab-width" type="i">
+    <key name="tab-width" type="u">
       <range min="1" max="32"/>
       <default>8</default>
       <summary>Tab width</summary>
@@ -325,7 +326,7 @@
         titlebar, when false only the basename will be shown.
       </description>
     </key>
-    <key name="recent-menu-items" type="i">
+    <key name="recent-menu-items" type="u">
       <range min="0" max="100"/>
       <default>10</default>
       <summary>Number of recent documents</summary>
@@ -423,13 +424,13 @@
 
   <!-- search state -->
   <schema id="org.xfce.mousepad.state.search" path="/org/xfce/mousepad/state/search/" gettext-domain="mousepad">
-    <key name="direction" type="i">
+    <key name="direction" type="u">
       <range min="0" max="1"/>
       <default>1</default>
       <summary>search direction</summary>
       <description>
         When 0 the search direction is backwards/upwards, when 1 the search
-        direction is forwards/downwards, when 2 the search will wrap around.
+        direction is forwards/downwards.
       </description>
     </key>
     <key name="wrap-around" type="b">
@@ -472,14 +473,14 @@
         false the dialog is in "replace-one-at-a-time" mode.
       </description>
     </key>
-    <key name="replace-all-location" type="i">
+    <key name="replace-all-location" type="u">
       <range min="0" max="2"/>
       <default>1</default>
       <summary>Replace-all location</summary>
       <description>
         When 0 the replace-all is performed within the current selection, when
         1 the replace-all is performed in the current document, and when 2
-        the replace-all is performed in all currently open documents.
+        the replace-all is performed in all currently open documents in the active window.
       </description>
     </key>
     <key name="highlight-all" type="b">
@@ -493,34 +494,34 @@
 
   <!-- window state -->
   <schema id="org.xfce.mousepad.state.window" path="/org/xfce/mousepad/state/window/" gettext-domain="mousepad">
-    <key name="height" type="i">
+    <key name="height" type="u">
       <default>480</default>
-      <summary>window height</summary>
+      <summary>Window height</summary>
       <description>The height of window in pixels.</description>
     </key>
-    <key name="width" type="i">
+    <key name="width" type="u">
       <default>640</default>
-      <summary>window width</summary>
+      <summary>Window width</summary>
       <description>The width of windows in pixels.</description>
     </key>
-    <key name="top" type="i">
-      <default>-1</default>
-      <summary>window top</summary>
-      <description>The Y coordinate of the window's position</description>
+    <key name="top" type="u">
+      <default>0</default>
+      <summary>Window top</summary>
+      <description>The Y coordinate of the window's position.</description>
     </key>
-    <key name="left" type="i">
-      <default>-1</default>
-      <summary>window left</summary>
-      <description>The X coordinate of the window's position</description>
+    <key name="left" type="u">
+      <default>0</default>
+      <summary>Window left</summary>
+      <description>The X coordinate of the window's position.</description>
     </key>
     <key name="maximized" type="b">
       <default>false</default>
-      <summary>window maximized</summary>
+      <summary>Window maximized</summary>
       <description>Whether the window is maximized or not.</description>
     </key>
     <key name="fullscreen" type="b">
       <default>false</default>
-      <summary>window fullscreen</summary>
+      <summary>Window fullscreen</summary>
       <description>
         When true the window will be fullscreen, when false it won't be.
       </description>

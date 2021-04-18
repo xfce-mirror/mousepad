@@ -47,27 +47,23 @@ mousepad_settings_init (void)
 
 
 
-gboolean
+void
 mousepad_setting_bind (const gchar        *setting,
                        gpointer            object,
                        const gchar        *prop,
                        GSettingsBindFlags  flags)
 {
-  gboolean     result = FALSE;
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_val_if_fail (setting != NULL, FALSE);
-  g_return_val_if_fail (G_IS_OBJECT (object), FALSE);
-  g_return_val_if_fail (prop != NULL, FALSE);
+  g_return_if_fail (setting != NULL);
+  g_return_if_fail (G_IS_OBJECT (object));
+  g_return_if_fail (prop != NULL);
 
   if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
-    {
-      g_settings_bind (settings, key_name, object, prop, flags);
-      return TRUE;
-    }
-
-  return result;
+    g_settings_bind (settings, key_name, object, prop, flags);
+  else
+    g_warn_if_reached ();
 }
 
 
@@ -100,6 +96,8 @@ mousepad_setting_connect (const gchar   *setting,
 
       g_free (signal_name);
     }
+  else
+    g_warn_if_reached ();
 
   return signal_id;
 }
@@ -134,6 +132,8 @@ mousepad_setting_connect_object (const gchar   *setting,
 
       g_free (signal_name);
     }
+  else
+    g_warn_if_reached ();
 
   return signal_id;
 }
@@ -160,17 +160,16 @@ mousepad_setting_disconnect (const gchar *setting,
 
 
 
-gboolean
+void
 mousepad_setting_get (const gchar *setting,
                       const gchar *format_string,
                       ...)
 {
-  gboolean     result = FALSE;
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_val_if_fail (setting != NULL, FALSE);
-  g_return_val_if_fail (format_string != NULL, FALSE);
+  g_return_if_fail (setting != NULL);
+  g_return_if_fail (format_string != NULL);
 
   if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     {
@@ -184,26 +183,23 @@ mousepad_setting_get (const gchar *setting,
       va_end (ap);
 
       g_variant_unref (variant);
-
-      result = TRUE;
     }
-
-  return result;
+  else
+    g_warn_if_reached ();
 }
 
 
 
-gboolean
+void
 mousepad_setting_set (const gchar *setting,
                       const gchar *format_string,
                       ...)
 {
-  gboolean     result = FALSE;
   const gchar *key_name = NULL;
   GSettings   *settings = NULL;
 
-  g_return_val_if_fail (setting != NULL, FALSE);
-  g_return_val_if_fail (format_string != NULL, FALSE);
+  g_return_if_fail (setting != NULL);
+  g_return_if_fail (format_string != NULL);
 
   if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     {
@@ -219,12 +215,9 @@ mousepad_setting_set (const gchar *setting,
       g_settings_set_value (settings, key_name, variant);
 
       g_variant_unref (variant);
-
-      result = TRUE;
     }
-
-
-  return result;
+  else
+    g_warn_if_reached ();
 }
 
 
@@ -233,8 +226,9 @@ gboolean
 mousepad_setting_get_boolean (const gchar *setting)
 {
   gboolean value = FALSE;
-  gboolean result = mousepad_setting_get (setting, "b", &value);
-  g_warn_if_fail (result);
+
+  mousepad_setting_get (setting, "b", &value);
+
   return value;
 }
 
@@ -252,9 +246,10 @@ mousepad_setting_set_boolean (const gchar *setting,
 gint
 mousepad_setting_get_int (const gchar *setting)
 {
-  gint     value = 0;
-  gboolean result = mousepad_setting_get (setting, "i", &value);
-  g_warn_if_fail (result);
+  gint value = 0;
+
+  mousepad_setting_get (setting, "i", &value);
+
   return value;
 }
 
@@ -269,12 +264,34 @@ mousepad_setting_set_int (const gchar *setting,
 
 
 
+guint
+mousepad_setting_get_uint (const gchar *setting)
+{
+  guint value = 0;
+
+  mousepad_setting_get (setting, "u", &value);
+
+  return value;
+}
+
+
+
+void
+mousepad_setting_set_uint (const gchar *setting,
+                           guint        value)
+{
+  mousepad_setting_set (setting, "u", value);
+}
+
+
+
 gchar *
 mousepad_setting_get_string (const gchar *setting)
 {
-  gchar    *value = NULL;
-  gboolean  result = mousepad_setting_get (setting, "s", &value);
-  g_warn_if_fail (result);
+  gchar *value = NULL;
+
+  mousepad_setting_get (setting, "s", &value);
+
   return value;
 }
 

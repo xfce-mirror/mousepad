@@ -86,7 +86,7 @@ G_BEGIN_DECLS
 void      mousepad_settings_init          (void);
 void      mousepad_settings_finalize      (void);
 
-gboolean  mousepad_setting_bind           (const gchar        *setting,
+void      mousepad_setting_bind           (const gchar        *setting,
                                            gpointer            object,
                                            const gchar        *prop,
                                            GSettingsBindFlags  flags);
@@ -107,11 +107,11 @@ void      mousepad_setting_disconnect     (const gchar        *setting,
 
 /* functions for reading and writing settings */
 
-gboolean  mousepad_setting_get            (const gchar        *setting,
+void      mousepad_setting_get            (const gchar        *setting,
                                            const gchar        *format_string,
                                            ...);
 
-gboolean  mousepad_setting_set            (const gchar        *setting,
+void      mousepad_setting_set            (const gchar        *setting,
                                            const gchar        *format_string,
                                            ...);
 
@@ -126,6 +126,11 @@ gint      mousepad_setting_get_int        (const gchar        *setting);
 
 void      mousepad_setting_set_int        (const gchar        *setting,
                                            gint                value);
+
+guint     mousepad_setting_get_uint       (const gchar        *setting);
+
+void      mousepad_setting_set_uint       (const gchar        *setting,
+                                           guint               value);
 
 gchar    *mousepad_setting_get_string     (const gchar        *setting);
 
@@ -159,12 +164,14 @@ void      mousepad_setting_set_variant    (const gchar        *setting,
 #define MOUSEPAD_SETTING_GET(setting, ...)           mousepad_setting_get (MOUSEPAD_SETTING_##setting, __VA_ARGS__)
 #define MOUSEPAD_SETTING_GET_BOOLEAN(setting)        mousepad_setting_get_boolean (MOUSEPAD_SETTING_##setting)
 #define MOUSEPAD_SETTING_GET_INT(setting)            mousepad_setting_get_int (MOUSEPAD_SETTING_##setting)
+#define MOUSEPAD_SETTING_GET_UINT(setting)           mousepad_setting_get_uint (MOUSEPAD_SETTING_##setting)
 #define MOUSEPAD_SETTING_GET_STRING(setting)         mousepad_setting_get_string (MOUSEPAD_SETTING_##setting)
 #define MOUSEPAD_SETTING_GET_ENUM(setting)           mousepad_setting_get_enum (MOUSEPAD_SETTING_##setting)
 
 #define MOUSEPAD_SETTING_SET(setting, ...)           mousepad_setting_set (MOUSEPAD_SETTING_##setting, __VA_ARGS__)
 #define MOUSEPAD_SETTING_SET_BOOLEAN(setting, value) mousepad_setting_set_boolean (MOUSEPAD_SETTING_##setting, value)
 #define MOUSEPAD_SETTING_SET_INT(setting, value)     mousepad_setting_set_int (MOUSEPAD_SETTING_##setting, value)
+#define MOUSEPAD_SETTING_SET_UINT(setting, value)    mousepad_setting_set_uint (MOUSEPAD_SETTING_##setting, value)
 #define MOUSEPAD_SETTING_SET_STRING(setting, value)  mousepad_setting_set_string (MOUSEPAD_SETTING_##setting, value)
 #define MOUSEPAD_SETTING_SET_ENUM(setting, value)    mousepad_setting_set_enum (MOUSEPAD_SETTING_##setting, value)
 

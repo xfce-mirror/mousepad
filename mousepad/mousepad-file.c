@@ -283,7 +283,7 @@ mousepad_file_set_location (MousepadFile *file,
 
       /* activate file monitoring with a delay, to not consider our own saving as
        * external modification after a save as */
-      g_timeout_add (MOUSEPAD_SETTING_GET_INT (MONITOR_DISABLING_TIMER),
+      g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
                      mousepad_file_set_monitor, file);
 
       /* send a signal that the name has been changed */
@@ -760,7 +760,7 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
   /* reactivate file monitoring with a delay, to not consider our own saving as
    * external modification */
   if (G_IS_FILE_MONITOR (m_file->monitor))
-    g_timeout_add (MOUSEPAD_SETTING_GET_INT (MONITOR_DISABLING_TIMER),
+    g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
                    mousepad_file_monitor_unblock, m_file);
 
   return succeed;

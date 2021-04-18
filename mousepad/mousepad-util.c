@@ -539,7 +539,7 @@ mousepad_util_get_real_line_offset (const GtkTextIter *iter)
   /* move the needle to the start of the line */
   gtk_text_iter_set_line_offset (&needle, 0);
 
-  tab_size = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
+  tab_size = MOUSEPAD_SETTING_GET_UINT (TAB_WIDTH);
 
   /* forward the needle until we hit the iter */
   while (!gtk_text_iter_equal (&needle, iter))
@@ -570,7 +570,7 @@ mousepad_util_set_real_line_offset (GtkTextIter *iter,
   /* move the needle to the start of the line */
   gtk_text_iter_set_line_offset (&needle, 0);
 
-  tab_size = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
+  tab_size = MOUSEPAD_SETTING_GET_UINT (TAB_WIDTH);
 
   /* forward the needle until we reach column or the end of the line */
   while (!gtk_text_iter_ends_line (&needle) && column_offset < column)

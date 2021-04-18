@@ -771,8 +771,8 @@ mousepad_window_restore_geometry (MousepadWindow *window)
     {
       gint width, height;
 
-      width = MOUSEPAD_SETTING_GET_INT (WINDOW_WIDTH);
-      height = MOUSEPAD_SETTING_GET_INT (WINDOW_HEIGHT);
+      width = MOUSEPAD_SETTING_GET_UINT (WINDOW_WIDTH);
+      height = MOUSEPAD_SETTING_GET_UINT (WINDOW_HEIGHT);
 
       gtk_window_set_default_size (GTK_WINDOW (window), width, height);
     }
@@ -782,8 +782,8 @@ mousepad_window_restore_geometry (MousepadWindow *window)
     {
       gint left, top;
 
-      left = MOUSEPAD_SETTING_GET_INT (WINDOW_LEFT);
-      top = MOUSEPAD_SETTING_GET_INT (WINDOW_TOP);
+      left = MOUSEPAD_SETTING_GET_UINT (WINDOW_LEFT);
+      top = MOUSEPAD_SETTING_GET_UINT (WINDOW_TOP);
 
       gtk_window_move (GTK_WINDOW (window), left, top);
     }
@@ -1335,8 +1335,8 @@ mousepad_window_save_geometry (gpointer data)
                   gtk_window_get_size (GTK_WINDOW (window), &width, &height);
 
                   /* ...and remember them as default for new windows */
-                  MOUSEPAD_SETTING_SET_INT (WINDOW_WIDTH, width);
-                  MOUSEPAD_SETTING_SET_INT (WINDOW_HEIGHT, height);
+                  MOUSEPAD_SETTING_SET_UINT (WINDOW_WIDTH, width);
+                  MOUSEPAD_SETTING_SET_UINT (WINDOW_HEIGHT, height);
                 }
 
               if (remember_position)
@@ -1347,8 +1347,8 @@ mousepad_window_save_geometry (gpointer data)
                   gtk_window_get_position (GTK_WINDOW (window), &left, &top);
 
                   /* and then remember it for next startup */
-                  MOUSEPAD_SETTING_SET_INT (WINDOW_LEFT, left);
-                  MOUSEPAD_SETTING_SET_INT (WINDOW_TOP, top);
+                  MOUSEPAD_SETTING_SET_UINT (WINDOW_LEFT, left);
+                  MOUSEPAD_SETTING_SET_UINT (WINDOW_TOP, top);
                 }
             }
 
@@ -3370,7 +3370,7 @@ mousepad_window_menu_tab_sizes_update (MousepadWindow *window)
   lock_menu_updates++;
 
   /* get tab size of active document */
-  tab_size = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
+  tab_size = MOUSEPAD_SETTING_GET_UINT (TAB_WIDTH);
 
   /* get the number of items in the tab-size submenu */
   application = gtk_window_get_application (GTK_WINDOW (window));
@@ -3659,7 +3659,7 @@ mousepad_window_recent_add (MousepadWindow *window,
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
   /* don't insert in the recent history if history disabled */
-  if (MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS) == 0)
+  if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
     return;
 
   /* get the charset */
@@ -3783,7 +3783,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
         }
 
       /* get the recent menu limit number */
-      n = MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS);
+      n = MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS);
 
       /* append the items to the menu */
       for (li = filtered; n > 0 && li != NULL; li = li->next)
@@ -3936,7 +3936,7 @@ mousepad_window_recent_items_changed (MousepadWindow *window)
 {
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
-  if (MOUSEPAD_SETTING_GET_INT (RECENT_MENU_ITEMS) == 0)
+  if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
     mousepad_window_recent_clear (window);
 }
 
@@ -4094,7 +4094,7 @@ mousepad_window_search_completed (MousepadWindow      *window,
    * replace dialog, search bar or buffer change */
   if (MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog)
       && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL)
-      && MOUSEPAD_SETTING_GET_INT (SEARCH_REPLACE_ALL_LOCATION) == 2)
+      && MOUSEPAD_SETTING_GET_UINT (SEARCH_REPLACE_ALL_LOCATION) == 2)
     {
       /* update the current search string and reset other static variables, or exit if
        * the search is irrelevant */
@@ -6006,14 +6006,14 @@ mousepad_window_action_tab_size (GSimpleAction *action,
       if (tab_size == 0)
         {
           /* get tab size from document */
-          tab_size = MOUSEPAD_SETTING_GET_INT (TAB_WIDTH);
+          tab_size = MOUSEPAD_SETTING_GET_UINT (TAB_WIDTH);
 
           /* select other size in dialog */
           tab_size = mousepad_dialogs_other_tab_size (GTK_WINDOW (window), tab_size);
         }
 
       /* store as last used value */
-      MOUSEPAD_SETTING_SET_INT (TAB_WIDTH, tab_size);
+      MOUSEPAD_SETTING_SET_UINT (TAB_WIDTH, tab_size);
     }
 }
 
