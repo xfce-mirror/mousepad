@@ -1,0 +1,2 @@
+SUBDIRS = \
+	gspell-plugin
