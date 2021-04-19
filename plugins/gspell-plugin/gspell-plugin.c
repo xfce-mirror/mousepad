@@ -28,9 +28,15 @@
 
 
 
+/* for GSettings */
+#define DEFAULT_LANGUAGE "plugins.gspell.preferences.default-language"
+
+
+
 typedef struct _GspellPluginView GspellPluginView;
 
 /* GObject virtual functions */
+static void gspell_plugin_constructed          (GObject          *object);
 static void gspell_plugin_finalize             (GObject          *object);
 
 /* MousepadPlugin virtual functions */
@@ -102,6 +108,7 @@ gspell_plugin_class_init (GspellPluginClass *klass)
   GObjectClass        *gobject_class = G_OBJECT_CLASS (klass);
   MousepadPluginClass *mplugin_class = MOUSEPAD_PLUGIN_CLASS (klass);
 
+  gobject_class->constructed = gspell_plugin_constructed;
   gobject_class->finalize = gspell_plugin_finalize;
 
   mplugin_class->enable = gspell_plugin_enable;
@@ -128,6 +135,64 @@ gspell_plugin_init (GspellPlugin *plugin)
 
   /* connect signal handlers and set spell checking on all views */
   gspell_plugin_enable (MOUSEPAD_PLUGIN (plugin));
+}
+
+
+
+static void
+gspell_plugin_constructed (GObject *object)
+{
+  const GspellLanguage   *language;
+  MousepadPluginProvider *provider;
+  GtkWidget              *vbox, *hbox, *widget;
+  GtkListStore           *list;
+  GtkCellRenderer        *cell;
+  const GList            *item;
+  gint                    n;
+
+  /* request the creation of the plugin setting box */
+  g_object_get (object, "provider", &provider, NULL);
+  vbox = mousepad_plugin_provider_create_setting_box (provider);
+
+  /* default language box */
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
+
+  /* combo box label */
+  widget = gtk_label_new (_("Default language:"));
+  gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, TRUE, 0);
+
+  /* combo box model */
+  list = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+  for (item = gspell_language_get_available (), n = 0; item != NULL; item = item->next, n++)
+    {
+      language = item->data;
+      gtk_list_store_insert_with_values (list, NULL, n,
+                                         0, gspell_language_get_name (language),
+                                         1, gspell_language_get_code (language), -1);
+    }
+
+  /* create combo box */
+  widget = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list));
+  gtk_combo_box_set_id_column (GTK_COMBO_BOX (widget), 1);
+  gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, TRUE, 0);
+
+  /* set combo box cell renderer */
+  cell = gtk_cell_renderer_text_new ();
+  gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (widget), cell, TRUE);
+  gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (widget), cell, "text", 0, NULL);
+
+  /* initialize language and keep in sync with the settings */
+  language = gspell_language_get_default ();
+  gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget),
+                               gspell_language_get_code (language));
+  mousepad_setting_bind (DEFAULT_LANGUAGE, widget, "active-id", G_SETTINGS_BIND_DEFAULT);
+
+  /* show all widgets in the setting box */
+  gtk_widget_show_all (vbox);
+
+  /* chain-up to MousepadPlugin */
+  G_OBJECT_CLASS (gspell_plugin_parent_class)->constructed (object);
 }
 
 
@@ -189,11 +254,13 @@ static void
 gspell_plugin_document_added (GspellPlugin *plugin,
                               GtkWidget    *widget)
 {
-  GspellPluginView *view;
-  MousepadDocument *document = MOUSEPAD_DOCUMENT (widget);
-  GtkTextView      *text_view;
-  GtkTextBuffer    *buffer;
-  GList            *item = NULL;
+  GspellPluginView     *view;
+  const GspellLanguage *language;
+  MousepadDocument     *document = MOUSEPAD_DOCUMENT (widget);
+  GtkTextView          *text_view;
+  GtkTextBuffer        *buffer;
+  GList                *item = NULL;
+  gchar                *language_code;
 
   /* (re)connect to the mousepad view "populate-popup" signal to rearrange the context menu */
   g_signal_connect_object (document->textview, "populate-popup",
@@ -220,6 +287,13 @@ gspell_plugin_document_added (GspellPlugin *plugin,
       g_signal_connect_object (document->textview, "destroy",
                                G_CALLBACK (gspell_plugin_view_destroy),
                                plugin, G_CONNECT_SWAPPED);
+
+      /* initialize language from the settings */
+      language_code = mousepad_setting_get_string (DEFAULT_LANGUAGE);
+      if ((language = gspell_language_lookup (language_code)) != NULL)
+        gspell_checker_set_language (view->gspell_checker, language);
+
+      g_free (language_code);
     }
   else
     view = item->data;
