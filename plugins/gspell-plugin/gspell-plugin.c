@@ -27,6 +27,11 @@
 
 
 
+/* for GSettings */
+#define DEFAULT_LANGUAGE "plugins.gspell.preferences.default-language"
+
+
+
 typedef struct _GspellPluginView GspellPluginView;
 
 /* GObject virtual functions */
@@ -153,11 +158,13 @@ static void
 gspell_plugin_document_added (GspellPlugin *plugin,
                               GtkWidget    *widget)
 {
-  GspellPluginView *view;
-  MousepadDocument *document = MOUSEPAD_DOCUMENT (widget);
-  GtkTextView      *text_view;
-  GtkTextBuffer    *buffer;
-  GList            *item = NULL;
+  GspellPluginView     *view;
+  const GspellLanguage *language;
+  MousepadDocument     *document = MOUSEPAD_DOCUMENT (widget);
+  GtkTextView          *text_view;
+  GtkTextBuffer        *buffer;
+  GList                *item = NULL;
+  gchar                *language_code;
 
   /* (re)connect to the mousepad view "populate-popup" signal to rearrange the context menu */
   g_signal_connect_object (document->textview, "populate-popup",
@@ -184,6 +191,13 @@ gspell_plugin_document_added (GspellPlugin *plugin,
       g_signal_connect_object (document->textview, "destroy",
                                G_CALLBACK (gspell_plugin_view_destroy),
                                plugin, G_CONNECT_SWAPPED);
+
+      /* initialize language from the settings */
+      language_code = mousepad_setting_get_string (DEFAULT_LANGUAGE);
+      if ((language = gspell_language_lookup (language_code)) != NULL)
+        gspell_checker_set_language (view->gspell_checker, language);
+
+      g_free (language_code);
     }
   else
     view = item->data;
