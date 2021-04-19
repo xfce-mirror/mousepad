@@ -38,4 +38,11 @@ libmousepad_plugin_gspell_la_LIBADD = \
 libmousepad_plugin_gspell_la_DEPENDENCIES = \
 	$(top_builddir)/mousepad/libmousepad.la
 
+gsettings_SCHEMAS = org.xfce.mousepad.plugins.gspell.gschema.xml
+
+EXTRA_DIST = \
+	$(gsettings_SCHEMAS)
+
+@GSETTINGS_RULES@
+
 endif
