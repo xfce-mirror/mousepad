@@ -38,6 +38,12 @@ void                 mousepad_application_show_preferences           (MousepadAp
 
 gchar               *mousepad_application_get_default_font           (void);
 
+GList               *mousepad_application_get_providers              (MousepadApplication  *application);
+
+/* for plugins */
+GtkWidget           *mousepad_application_get_plugin_setting_box     (MousepadApplication  *application,
+                                                                      const gchar          *plugin_name);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_APPLICATION_H__ */
