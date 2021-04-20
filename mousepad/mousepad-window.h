@@ -67,6 +67,15 @@ void            mousepad_window_update_document_menu_items (MousepadWindow      
 
 void            mousepad_window_update_window_menu_items   (MousepadWindow       *window);
 
+/* for plugins */
+GtkWidget      *mousepad_window_get_notebook               (MousepadWindow       *window);
+
+GtkWidget      *mousepad_window_menu_item_realign          (MousepadWindow       *window,
+                                                            GtkWidget            *item,
+                                                            const gchar          *action_name,
+                                                            GtkWidget            *menu,
+                                                            gint                  index);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_WINDOW_H__ */
