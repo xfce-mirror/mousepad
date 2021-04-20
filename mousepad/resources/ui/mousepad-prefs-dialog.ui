@@ -950,6 +950,28 @@
         <property name="tab-fill">False</property>
       </packing>
     </child>
+
+    <!-- "Plugins" tab -->
+    <child>
+      <object class="GtkBox" id="/prefs/plugins/content-area">
+        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+        <property name="border-width">6</property>
+        <property name="spacing">6</property>
+      </object>
+      <packing>
+        <property name="position">3</property>
+      </packing>
+    </child>
+    <child type="tab">
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Plugins</property>
+      </object>
+      <packing>
+        <property name="position">3</property>
+        <property name="tab-fill">False</property>
+      </packing>
+    </child>
   </object>
 
 </interface>

@@ -306,6 +306,38 @@ mousepad_setting_set_string (const gchar *setting,
 
 
 
+gchar **
+mousepad_setting_get_strv (const gchar *setting)
+{
+  const gchar  *key_name = NULL;
+  GSettings    *settings = NULL;
+  gchar       **value = NULL;
+
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
+    value = g_settings_get_strv (settings, key_name);
+  else
+    g_warn_if_reached ();
+
+  return value;
+}
+
+
+
+void
+mousepad_setting_set_strv (const gchar        *setting,
+                           const gchar *const *value)
+{
+  const gchar *key_name = NULL;
+  GSettings   *settings = NULL;
+
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
+    g_settings_set_strv (settings, key_name, value);
+  else
+    g_warn_if_reached ();
+}
+
+
+
 gint
 mousepad_setting_get_enum (const gchar *setting)
 {
