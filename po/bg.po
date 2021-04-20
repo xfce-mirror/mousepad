@@ -7,13 +7,14 @@
 # Kiril Kirilov <cybercop_montana@abv.bg>, 2012
 # Kiril Kirilov <cybercop_montana@abv.bg>, 2014,2018-2021
 # Любомир Василев, 2014-2015
+# Красимир Беров, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-17 00:47+0200\n"
-"PO-Revision-Date: 2021-04-17 14:30+0000\n"
-"Last-Translator: Kiril Kirilov <cybercop_montana@abv.bg>\n"
+"PO-Revision-Date: 2021-04-20 20:54+0000\n"
+"Last-Translator: Красимир Беров\n"
 "Language-Team: Bulgarian (http://www.transifex.com/xfce/xfce-apps/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +66,7 @@ msgstr "Излизане от стартиранoто главно копие н
 
 #: ../mousepad/mousepad-application.c:158
 msgid "Print version information and exit"
-msgstr "Показване на информация за версията и изход"
+msgstr "Показване на сведения за изданието и изход"
 
 #: ../mousepad/mousepad-application.c:163
 msgid "[FILES...]"
@@ -105,7 +106,7 @@ msgstr "Mousepad е бърз текстов редактор за графичн
 
 #: ../mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
-msgstr "информация за преводачите"
+msgstr "за преводачите"
 
 #. display an error message to the user
 #: ../mousepad/mousepad-dialogs.c:120
@@ -218,7 +219,7 @@ msgstr "Запазване като"
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr "Документът е външно модифициран. Искате ли да го презаредите от диска?"
+msgstr "Документът е променен отвън. Искате ли да го презаредите от диска?"
 
 #: ../mousepad/mousepad-dialogs.c:487
 msgid "You have unsaved changes. If you revert the file, they will be lost."
@@ -362,7 +363,7 @@ msgstr "Други (частични):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:382
 msgid "Other valid encodings were found, please choose below."
-msgstr "Намерена е друга валидна кодировка, моля, изберете по долу."
+msgstr "Намерена е друга валидна кодировка, моля, изберете по-долу."
 
 #: ../mousepad/mousepad-encoding-dialog.c:384
 msgid "Other partially valid encodings were found, please choose below."
@@ -516,7 +517,7 @@ msgstr "_Затваряне"
 #: ../mousepad/mousepad-prefs-dialog.c:449
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences"
-msgstr "Свойства"
+msgstr "Предпочитания"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:121
@@ -1555,7 +1556,7 @@ msgstr "<b>Покажи</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
 msgid "Use system monospace font"
-msgstr "Използвай системният равноширок шрифт"
+msgstr "Използвай системния равноширок шрифт"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
 msgid "<b>Font</b>"
