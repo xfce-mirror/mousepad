@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-15 12:48+0100\n"
-"PO-Revision-Date: 2021-01-15 14:54+0000\n"
+"POT-Creation-Date: 2021-04-17 00:47+0200\n"
+"PO-Revision-Date: 2021-04-17 07:46+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian (http://www.transifex.com/xfce/xfce-apps/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -19,60 +19,80 @@ msgstr ""
 "Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../mousepad/mousepad-application.c:122
+#: ../mousepad/mousepad-application.c:125
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
 msgstr "Kodim për t'u përdorur për të hapur kartela (që hapjen e kartelave ta kontrolloni te dialogu i kodimit, lëreni të zbrazët)"
 
-#: ../mousepad/mousepad-application.c:123
+#: ../mousepad/mousepad-application.c:126
 msgid "ENCODING"
 msgstr "KODIM"
 
-#: ../mousepad/mousepad-application.c:128
+#: ../mousepad/mousepad-application.c:131
 msgid "Display a list of possible encodings to open files"
 msgstr "Shfaqni një listë kodimesh të mundshëm për hapje kartelash"
 
-#: ../mousepad/mousepad-application.c:133
+#: ../mousepad/mousepad-application.c:136
+msgid ""
+"Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
+"bottom)"
+msgstr "Numër rreshti ku të vendoset kursori (RRESHT > 0 nga kryet, RRESHT < 0 nga fundi)"
+
+#: ../mousepad/mousepad-application.c:137
+msgid "LINE"
+msgstr "RRESHT"
+
+#: ../mousepad/mousepad-application.c:142
+msgid ""
+"Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
+"from end)"
+msgstr "Numër shtylle ku të vendoset kursori (SHTYLLË > 0 nga kryet, SHTYLLË < 0 nga fundi)"
+
+#: ../mousepad/mousepad-application.c:143
+msgid "COLUMN"
+msgstr "SHTYLLË"
+
+#: ../mousepad/mousepad-application.c:148
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Mos e regjistro me bus D-BUS mesazhesh sistemi"
 
-#: ../mousepad/mousepad-application.c:138
+#: ../mousepad/mousepad-application.c:153
 msgid "Quit a running Mousepad primary instance"
 msgstr "Mbyllni një instancë parësore Mousepad që po xhiron"
 
-#: ../mousepad/mousepad-application.c:143
+#: ../mousepad/mousepad-application.c:158
 msgid "Print version information and exit"
 msgstr "Shtyp të dhëna versioni dhe dil"
 
-#: ../mousepad/mousepad-application.c:148
+#: ../mousepad/mousepad-application.c:163
 msgid "[FILES...]"
 msgstr "[KARTELA…]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:324 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:342 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:333
+#: ../mousepad/mousepad-application.c:351
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Mënyrë hapjeje kartele: \"%s\", \"%s\" ose \"%s\" (hapi skedat në një dritare të re)"
 
-#: ../mousepad/mousepad-application.c:336
+#: ../mousepad/mousepad-application.c:354
 msgid "MODE"
 msgstr "MËNYRË"
 
-#: ../mousepad/mousepad-application.c:388
+#: ../mousepad/mousepad-application.c:407
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Zhvilluesit e Mousepad-it. Tërë të drejtat të ruajtura."
 
-#: ../mousepad/mousepad-application.c:389
+#: ../mousepad/mousepad-application.c:408
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Ju lutemi, njoftoni të meta te <%s>."
 
-#: ../mousepad/mousepad-application.c:1283
+#: ../mousepad/mousepad-application.c:1324
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autorë: %s | Emër kartele: %s"
@@ -97,10 +117,10 @@ msgstr "Përzgjidhni Madhësi Tabulacionesh"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:215
-#: ../mousepad/mousepad-dialogs.c:321 ../mousepad/mousepad-dialogs.c:385
-#: ../mousepad/mousepad-dialogs.c:498 ../mousepad/mousepad-dialogs.c:539
-#: ../mousepad/mousepad-dialogs.c:921 ../mousepad/mousepad-dialogs.c:981
+#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:226
+#: ../mousepad/mousepad-dialogs.c:333 ../mousepad/mousepad-dialogs.c:397
+#: ../mousepad/mousepad-dialogs.c:510 ../mousepad/mousepad-dialogs.c:551
+#: ../mousepad/mousepad-dialogs.c:933 ../mousepad/mousepad-dialogs.c:993
 #: ../mousepad/mousepad-encoding-dialog.c:120
 #: ../mousepad/mousepad-encoding-dialog.c:191
 msgid "_Cancel"
@@ -112,206 +132,206 @@ msgid "_OK"
 msgstr "_OK"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:214
+#: ../mousepad/mousepad-dialogs.c:225
 msgid "Go To"
 msgstr "Shko Te"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:219
+#: ../mousepad/mousepad-dialogs.c:230
 msgid "_Jump to"
 msgstr "_Hidhu te"
 
-#: ../mousepad/mousepad-dialogs.c:239
+#: ../mousepad/mousepad-dialogs.c:250
 msgid "_Line number:"
 msgstr "Numër _rreshti:"
 
-#: ../mousepad/mousepad-dialogs.c:259
+#: ../mousepad/mousepad-dialogs.c:270
 msgid "C_olumn number:"
 msgstr "Numër _shtylle:"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:320
+#: ../mousepad/mousepad-dialogs.c:332
 msgid "Clear Documents History"
 msgstr "Pastro Historik Dokumentesh"
 
 #. set button
-#: ../mousepad/mousepad-dialogs.c:325
+#: ../mousepad/mousepad-dialogs.c:337
 msgid "Clea_r"
 msgstr "_Spastroje"
 
-#: ../mousepad/mousepad-dialogs.c:349
+#: ../mousepad/mousepad-dialogs.c:361
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr "<big><b>Të hiqen krejt zërat prej historikut të dokumenteve?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:354
+#: ../mousepad/mousepad-dialogs.c:366
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "Pastrimi i historikut të dokumenteve do të heqë përgjithmonë krejt zërat e tanishëm të listë."
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:384
+#: ../mousepad/mousepad-dialogs.c:396
 msgid "Save Changes"
 msgstr "Ruaji Ndryshimet"
 
-#: ../mousepad/mousepad-dialogs.c:391
+#: ../mousepad/mousepad-dialogs.c:403
 msgid "_Don't Save"
 msgstr "_Mos i Ruaj"
 
-#: ../mousepad/mousepad-dialogs.c:398 ../mousepad/mousepad-dialogs.c:541
+#: ../mousepad/mousepad-dialogs.c:410 ../mousepad/mousepad-dialogs.c:553
 msgid "_Save As"
 msgstr "_Ruaje Si"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:406 ../mousepad/mousepad-dialogs.c:506
-#: ../mousepad/mousepad-dialogs.c:925
+#: ../mousepad/mousepad-dialogs.c:418 ../mousepad/mousepad-dialogs.c:518
+#: ../mousepad/mousepad-dialogs.c:937
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "_Ruaje"
 
-#: ../mousepad/mousepad-dialogs.c:430
+#: ../mousepad/mousepad-dialogs.c:442
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr "<big><b>Doni të ruhen ndryshimet, përpara mbylljes?</b></big>"
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:435
+#: ../mousepad/mousepad-dialogs.c:447
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "Nëse s’e ruani dokumentin, do të humbin krejt ndryshimet."
 
-#: ../mousepad/mousepad-dialogs.c:462
+#: ../mousepad/mousepad-dialogs.c:474
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "Dokumenti është përpunuar nga jashtë. Doni të vazhdohet ruajtja?"
 
-#: ../mousepad/mousepad-dialogs.c:463
+#: ../mousepad/mousepad-dialogs.c:475
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "Nëse e ruani dokumentin, do të humbin krejt ndryshimet e jashtme."
 
-#: ../mousepad/mousepad-dialogs.c:465
+#: ../mousepad/mousepad-dialogs.c:477
 msgid "Save _As"
 msgstr "Ruaje _Si"
 
-#: ../mousepad/mousepad-dialogs.c:470
+#: ../mousepad/mousepad-dialogs.c:482
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
 msgstr "Dokumenti është ndryshuar nga jashtë. Doni të ringarkohet prej diskut?"
 
-#: ../mousepad/mousepad-dialogs.c:475
+#: ../mousepad/mousepad-dialogs.c:487
 msgid "You have unsaved changes. If you revert the file, they will be lost."
 msgstr "Keni ndryshime të paruajtura. Nëse riktheni kartelën, ato do të humbin."
 
-#: ../mousepad/mousepad-dialogs.c:477 ../mousepad/mousepad-dialogs.c:544
+#: ../mousepad/mousepad-dialogs.c:489 ../mousepad/mousepad-dialogs.c:556
 msgid "_Revert"
 msgstr "_Prapaktheje"
 
-#: ../mousepad/mousepad-dialogs.c:483 ../mousepad/mousepad-window.c:3265
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3505
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "_Ringarkoje"
 
 #. add title
-#: ../mousepad/mousepad-dialogs.c:493
+#: ../mousepad/mousepad-dialogs.c:505
 msgid "Externally Modified"
 msgstr "I Ndryshuar Nga Jashtë"
 
-#: ../mousepad/mousepad-dialogs.c:531
+#: ../mousepad/mousepad-dialogs.c:543
 msgid "Do you want to save your changes before reloading?"
 msgstr "Doni të ruhen ndryshimet tuaja përpara se të ringarkohet?"
 
-#: ../mousepad/mousepad-dialogs.c:536
+#: ../mousepad/mousepad-dialogs.c:548
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Nëse e riktheni këtë kartelë, do të humbin krejt ndryshimet e paruajtura."
 
-#: ../mousepad/mousepad-dialogs.c:572
+#: ../mousepad/mousepad-dialogs.c:584
 #, c-format
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
 msgstr "Kartela duket të jetë e koduar si %s, por ju keni zgjedhur kodimin %s. E ripohoni këtë zgjedhje?"
 
-#: ../mousepad/mousepad-dialogs.c:579
+#: ../mousepad/mousepad-dialogs.c:591
 msgid "If not, the guessed encoding will be used."
 msgstr "Nëse jo, do të përdoret kodimi i hamendësuar."
 
-#: ../mousepad/mousepad-dialogs.c:662
+#: ../mousepad/mousepad-dialogs.c:674
 msgid "Please select a file"
 msgstr "Ju lutemi, përzgjidhni një kartelë"
 
-#: ../mousepad/mousepad-dialogs.c:689
+#: ../mousepad/mousepad-dialogs.c:701
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "S’u arrit të përgatitej kartelë e përkohshme për testime kodimi"
 
-#: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
+#: ../mousepad/mousepad-dialogs.c:764 ../mousepad/mousepad-dialogs.c:827
 msgid "Open encoding dialog"
 msgstr "Hapni dialogun e kodimit"
 
-#: ../mousepad/mousepad-dialogs.c:754
+#: ../mousepad/mousepad-dialogs.c:766
 msgid "Go back to shorten list"
 msgstr "Kthehu te lista e shkurtuar"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:808
+#: ../mousepad/mousepad-dialogs.c:820
 msgid "_Encoding:"
 msgstr "_Kodim:"
 
-#: ../mousepad/mousepad-dialogs.c:820
+#: ../mousepad/mousepad-dialogs.c:832
 #: ../mousepad/mousepad-encoding-dialog.c:289
 #: ../mousepad/mousepad-encoding-dialog.c:290
 msgid "Default"
 msgstr "Parazgjedhje"
 
-#: ../mousepad/mousepad-dialogs.c:830
+#: ../mousepad/mousepad-dialogs.c:842
 #: ../mousepad/mousepad-encoding-dialog.c:305
 #: ../mousepad/mousepad-encoding-dialog.c:307
 #: ../mousepad/mousepad-encoding-dialog.c:311
 msgid "System"
 msgstr "Sistem"
 
-#: ../mousepad/mousepad-dialogs.c:843
+#: ../mousepad/mousepad-dialogs.c:855
 msgid "Current"
 msgstr "I tanishmi"
 
-#: ../mousepad/mousepad-dialogs.c:861
+#: ../mousepad/mousepad-dialogs.c:873
 msgid "Show all encodings"
 msgstr "Shfaq krejt kodimet"
 
-#: ../mousepad/mousepad-dialogs.c:895
+#: ../mousepad/mousepad-dialogs.c:907
 msgid "Text Files"
 msgstr "Kartela Tekst"
 
-#: ../mousepad/mousepad-dialogs.c:901
+#: ../mousepad/mousepad-dialogs.c:913
 msgid "All Files"
 msgstr "Tërë Kartelat"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:920
+#: ../mousepad/mousepad-dialogs.c:932
 msgid "Save As"
 msgstr "Ruaje Si"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:980
+#: ../mousepad/mousepad-dialogs.c:992
 msgid "Open File"
 msgstr "Hapni Kartelë"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:985
+#: ../mousepad/mousepad-dialogs.c:997
 msgid "_Open"
 msgstr "_Hape"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1030
+#: ../mousepad/mousepad-dialogs.c:1042
 msgid "Choose Mousepad Font"
 msgstr "Zgjidhni Shkronja MousePad-i"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:609
+#: ../mousepad/mousepad-document.c:606
 msgid "Close this tab"
 msgstr "Mbylle këtë skedë"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:639
+#: ../mousepad/mousepad-document.c:636
 msgid "Untitled"
 msgstr "Pa titull"
 
@@ -479,14 +499,14 @@ msgstr "Japoneze"
 msgid "Korean"
 msgstr "Koreane"
 
-#: ../mousepad/mousepad-file.c:605
+#: ../mousepad/mousepad-file.c:609
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Sekuencë e pavlefshme bajtesh në input shndërrimi"
 
 #. add the close button
 #: ../mousepad/mousepad-prefs-dialog.c:443
-#: ../mousepad/mousepad-replace-dialog.c:272
+#: ../mousepad/mousepad-replace-dialog.c:274
 msgid "_Close"
 msgstr "_Mbylle"
 
@@ -497,62 +517,62 @@ msgid "Preferences"
 msgstr "Parapëlqime"
 
 #. set a custom tab label
-#: ../mousepad/mousepad-print.c:119
+#: ../mousepad/mousepad-print.c:121
 msgid "Document Settings"
 msgstr "Rregullime Dokumenti"
 
-#: ../mousepad/mousepad-print.c:593
+#: ../mousepad/mousepad-print.c:608
 msgid "Page Setup"
 msgstr "Rregullim Faqeje"
 
-#: ../mousepad/mousepad-print.c:598
+#: ../mousepad/mousepad-print.c:613
 msgid "_Adjust page size and orientation"
 msgstr "_Rregulloni madhësi dhe orientim faqeje"
 
-#: ../mousepad/mousepad-print.c:613
+#: ../mousepad/mousepad-print.c:628
 msgid "Appearance"
 msgstr "Dukje"
 
-#: ../mousepad/mousepad-print.c:627
+#: ../mousepad/mousepad-print.c:642
 msgid "Print page _headers"
 msgstr "Shtyp _krye faqesh"
 
-#: ../mousepad/mousepad-print.c:634
+#: ../mousepad/mousepad-print.c:649
 msgid "Print _line numbers"
 msgstr "Shtyp numra _rreshtash"
 
-#: ../mousepad/mousepad-print.c:651
+#: ../mousepad/mousepad-print.c:666
 msgid "Numbering interval:"
 msgstr "Interval numërtimi:"
 
-#: ../mousepad/mousepad-print.c:660
+#: ../mousepad/mousepad-print.c:675
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
 msgstr "Intervali sipas të cilit të shtypen numra rreshtash. Për shembull, një vlerë 1 do të shtypë një numër rreshtash në çdo rresht, një vlerë 2 do të shtypë një numër rreshtash në çdo dy rreshta, e kështu me radhë."
 
-#: ../mousepad/mousepad-print.c:671
+#: ../mousepad/mousepad-print.c:686
 msgid "Enable text _wrapping"
 msgstr "Aktivizo _mbështjellje teksti"
 
-#: ../mousepad/mousepad-print.c:679
+#: ../mousepad/mousepad-print.c:694
 msgid "Enable _syntax highlighting"
 msgstr "Aktivizo theksim _sintakse"
 
-#: ../mousepad/mousepad-print.c:691
+#: ../mousepad/mousepad-print.c:706
 msgid "Fonts"
 msgstr "Shkronja"
 
-#: ../mousepad/mousepad-print.c:707
+#: ../mousepad/mousepad-print.c:722
 msgid "Header:"
 msgstr "Krye:"
 
-#: ../mousepad/mousepad-print.c:720
+#: ../mousepad/mousepad-print.c:735
 msgid "Body:"
 msgstr "Lëndë:"
 
-#: ../mousepad/mousepad-print.c:733
+#: ../mousepad/mousepad-print.c:748
 msgid "Line numbers:"
 msgstr "Numra rreshtash:"
 
@@ -561,84 +581,84 @@ msgid "_Replace All"
 msgstr "Zëvendësoji _Krejt"
 
 #: ../mousepad/mousepad-replace-dialog.c:173
-#: ../mousepad/mousepad-replace-dialog.c:268
+#: ../mousepad/mousepad-replace-dialog.c:270
 msgid "_Replace"
 msgstr "_Zëvendësoje"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:257
+#: ../mousepad/mousepad-replace-dialog.c:259
 msgid "Find and Replace"
 msgstr "Gjeni dhe Zëvendësoni"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:263
+#: ../mousepad/mousepad-replace-dialog.c:265
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "_Gjej"
 
-#: ../mousepad/mousepad-replace-dialog.c:290
+#: ../mousepad/mousepad-replace-dialog.c:292
 msgid "_Search for:"
 msgstr "_Kërko për:"
 
-#: ../mousepad/mousepad-replace-dialog.c:324
+#: ../mousepad/mousepad-replace-dialog.c:326
 msgid "Replace _with:"
 msgstr "Zëvendësoje _me:"
 
-#: ../mousepad/mousepad-replace-dialog.c:346
+#: ../mousepad/mousepad-replace-dialog.c:348
 msgid "Search _direction:"
 msgstr "_Kah kërkimi:"
 
-#: ../mousepad/mousepad-replace-dialog.c:355
+#: ../mousepad/mousepad-replace-dialog.c:357
 msgid "Up"
 msgstr "Sipër"
 
-#: ../mousepad/mousepad-replace-dialog.c:356
+#: ../mousepad/mousepad-replace-dialog.c:358
 msgid "Down"
 msgstr "Poshtë"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:365
+#: ../mousepad/mousepad-replace-dialog.c:367
 msgid "_Wrap around"
 msgstr "_Mbështille"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:372
-#: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:265
+#: ../mousepad/mousepad-replace-dialog.c:374
+#: ../mousepad/mousepad-search-bar.c:259 ../mousepad/mousepad-search-bar.c:267
 msgid "Match _case"
 msgstr "_Siç është shkruar"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:381
+#: ../mousepad/mousepad-replace-dialog.c:383
 msgid "_Match whole word"
 msgstr "_Përputhje me krejt fjalën"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:390
-#: ../mousepad/mousepad-search-bar.c:271 ../mousepad/mousepad-search-bar.c:279
+#: ../mousepad/mousepad-replace-dialog.c:392
+#: ../mousepad/mousepad-search-bar.c:273 ../mousepad/mousepad-search-bar.c:281
 msgid "Regular e_xpression"
 msgstr "Shpr_ehje e rregullt"
 
-#: ../mousepad/mousepad-replace-dialog.c:404
+#: ../mousepad/mousepad-replace-dialog.c:406
 msgid "Replace _all in:"
 msgstr "Zëvendësoji _krejt në:"
 
-#: ../mousepad/mousepad-replace-dialog.c:409
+#: ../mousepad/mousepad-replace-dialog.c:411
 msgid "Selection"
 msgstr "Përzgjedhje"
 
-#: ../mousepad/mousepad-replace-dialog.c:410
+#: ../mousepad/mousepad-replace-dialog.c:412
 msgid "Document"
 msgstr "Dokument"
 
-#: ../mousepad/mousepad-replace-dialog.c:411
+#: ../mousepad/mousepad-replace-dialog.c:413
 msgid "All Documents"
 msgstr "Krejt Dokumentet"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:597
-#: ../mousepad/mousepad-search-bar.c:398
+#: ../mousepad/mousepad-replace-dialog.c:599
+#: ../mousepad/mousepad-search-bar.c:400
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -679,31 +699,31 @@ msgid "Filetype: %s"
 msgstr "Lloj kartele: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1093
+#: ../mousepad/mousepad-window.c:1101
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Kujdes, po përdorni llogarinë rrënjë, mund të dëmtoni sistemin tuaj."
 
-#: ../mousepad/mousepad-window.c:2018
+#: ../mousepad/mousepad-window.c:2253
 msgid "Read Only"
 msgstr "Vetëm i Lexueshëm"
 
-#: ../mousepad/mousepad-window.c:2022
+#: ../mousepad/mousepad-window.c:2257
 msgid "Viewer Mode"
 msgstr "Mënyra Parës"
 
-#: ../mousepad/mousepad-window.c:3021
+#: ../mousepad/mousepad-window.c:3256
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Përdor '%s' si gjedhe"
 
-#: ../mousepad/mousepad-window.c:3047
+#: ../mousepad/mousepad-window.c:3282
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "S’u gjetën kartela gjedhe te\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3104
+#: ../mousepad/mousepad-window.c:3340
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -711,89 +731,93 @@ msgid ""
 msgstr "Mungon Drejtori Gjedhesh\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3156
+#: ../mousepad/mousepad-window.c:3392
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_Tjetër (%d)…"
 
-#: ../mousepad/mousepad-window.c:3166
+#: ../mousepad/mousepad-window.c:3402
 msgid "Ot_her..."
 msgstr "_Tjetër…"
 
-#: ../mousepad/mousepad-window.c:3259
+#: ../mousepad/mousepad-window.c:3499
 msgid "Re_vert"
 msgstr "R_iktheje"
 
-#: ../mousepad/mousepad-window.c:3261
+#: ../mousepad/mousepad-window.c:3501
 msgid "Revert to the saved version of the file"
 msgstr "Rikthe versionin e ruajtur të kartelës"
 
-#: ../mousepad/mousepad-window.c:3267
+#: ../mousepad/mousepad-window.c:3507
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Ringarko kartelë prej disku"
 
-#: ../mousepad/mousepad-window.c:3273
+#: ../mousepad/mousepad-window.c:3513
 msgid "Leave fullscreen mode"
 msgstr "Dil nga Sa tërë ekrani"
 
-#: ../mousepad/mousepad-window.c:3278
+#: ../mousepad/mousepad-window.c:3518
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Hape dritaren sa krejt ekrani"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3621
+#: ../mousepad/mousepad-window.c:3669 ../mousepad/mousepad-window.c:3878
 msgid "Charset"
 msgstr "Shkronja"
 
-#: ../mousepad/mousepad-window.c:3559
+#: ../mousepad/mousepad-window.c:3813
 #, c-format
 msgid "Open '%s'"
 msgstr "Hap '%s'"
 
-#: ../mousepad/mousepad-window.c:3587
+#: ../mousepad/mousepad-window.c:3841
 msgid "No items found"
 msgstr "S’u gjetën elemente"
 
-#: ../mousepad/mousepad-window.c:3670
+#: ../mousepad/mousepad-window.c:3841
+msgid "History disabled"
+msgstr "Historiku u çaktivizua"
+
+#: ../mousepad/mousepad-window.c:3927
 msgid "Failed to clear the recent history"
 msgstr "S’u arrit të spastrohej historiku së fundi"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4142
+#: ../mousepad/mousepad-window.c:4391
 msgid "No clipboard data"
 msgstr "S’ka të dhëna në të papastër"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4253
+#: ../mousepad/mousepad-window.c:4502
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Gjedhet duhet të jenë të vlefshme si %s"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4259
+#: ../mousepad/mousepad-window.c:4508
 msgid "Reading the template failed"
 msgstr "Leximi i gjedhes dështoi"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4264
+#: ../mousepad/mousepad-window.c:4513
 msgid "Loading the template failed"
 msgstr "Ngarkimi i gjedhes dështoi"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4448 ../mousepad/mousepad-window.c:4589
+#: ../mousepad/mousepad-window.c:4697 ../mousepad/mousepad-window.c:4838
 msgid "Failed to save the document"
 msgstr "Dështoi ruajtja e dokumentit"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4687
+#: ../mousepad/mousepad-window.c:4944
 msgid "Failed to reload the document"
 msgstr "Dështoi ringarkimi i dokumentit"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4716
+#: ../mousepad/mousepad-window.c:4975
 msgid "Failed to print the document"
 msgstr "Dështoi shtypja e dokumentit"
 
@@ -1340,8 +1364,8 @@ msgid "Convert all tabs to spaces in the selection or document"
 msgstr "Te përzgjedhja ose dokumenti shndërroji krejt tabulacionet në hapësira"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
-msgid "_Spaces to Tabs"
-msgstr "_Hapësirat në Tabulacione"
+msgid "_Leading Spaces to Tabs"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
