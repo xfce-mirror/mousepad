@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-17 00:47+0200\n"
-"PO-Revision-Date: 2021-04-16 22:47+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2021-04-22 10:42+0000\n"
+"Last-Translator: jc1 <jc1.quebecos@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,21 +47,21 @@ msgstr "Afficher une liste des encodages possibles pour ouvrir les fichiers"
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr ""
+msgstr "Numéro de ligne le curseur de la position de (LIGNE > 0 depuis  le haut, LIGNE < 0 du bas)"
 
 #: ../mousepad/mousepad-application.c:137
 msgid "LINE"
-msgstr ""
+msgstr "LIGNE"
 
 #: ../mousepad/mousepad-application.c:142
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr ""
+msgstr "Numéro de colonne le curseur à la position de (COLONNE >= 0 depuis le début, COLONNE < 0 de la fin)"
 
 #: ../mousepad/mousepad-application.c:143
 msgid "COLUMN"
-msgstr ""
+msgstr "COLONNE"
 
 #: ../mousepad/mousepad-application.c:148
 msgid "Do not register with the D-BUS session message bus"
@@ -789,7 +789,7 @@ msgstr "Aucun élément trouvé"
 
 #: ../mousepad/mousepad-window.c:3841
 msgid "History disabled"
-msgstr ""
+msgstr "Historique désactivée"
 
 #: ../mousepad/mousepad-window.c:3927
 msgid "Failed to clear the recent history"
@@ -1375,7 +1375,7 @@ msgstr "Convertir les tabulations en espaces dans la sélection ou le document"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "_Espaces au début en tabulations"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
