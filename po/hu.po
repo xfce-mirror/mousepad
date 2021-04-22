@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-15 12:48+0100\n"
-"PO-Revision-Date: 2021-01-15 11:48+0000\n"
+"POT-Creation-Date: 2021-04-17 00:47+0200\n"
+"PO-Revision-Date: 2021-04-16 22:47+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Hungarian (http://www.transifex.com/xfce/xfce-apps/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -24,60 +24,80 @@ msgstr ""
 "Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../mousepad/mousepad-application.c:122
+#: ../mousepad/mousepad-application.c:125
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
 msgstr ""
 
-#: ../mousepad/mousepad-application.c:123
+#: ../mousepad/mousepad-application.c:126
 msgid "ENCODING"
 msgstr ""
 
-#: ../mousepad/mousepad-application.c:128
+#: ../mousepad/mousepad-application.c:131
 msgid "Display a list of possible encodings to open files"
 msgstr ""
 
-#: ../mousepad/mousepad-application.c:133
-msgid "Do not register with the D-BUS session message bus"
-msgstr "Ne regisztráljon a D-BUS munkamenet üzenetbuszra"
+#: ../mousepad/mousepad-application.c:136
+msgid ""
+"Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
+"bottom)"
+msgstr ""
 
-#: ../mousepad/mousepad-application.c:138
-msgid "Quit a running Mousepad primary instance"
+#: ../mousepad/mousepad-application.c:137
+msgid "LINE"
+msgstr ""
+
+#: ../mousepad/mousepad-application.c:142
+msgid ""
+"Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
+"from end)"
 msgstr ""
 
 #: ../mousepad/mousepad-application.c:143
+msgid "COLUMN"
+msgstr ""
+
+#: ../mousepad/mousepad-application.c:148
+msgid "Do not register with the D-BUS session message bus"
+msgstr "Ne regisztráljon a D-BUS munkamenet üzenetbuszra"
+
+#: ../mousepad/mousepad-application.c:153
+msgid "Quit a running Mousepad primary instance"
+msgstr ""
+
+#: ../mousepad/mousepad-application.c:158
 msgid "Print version information and exit"
 msgstr "Verzióinformációk kiírása és kilépés"
 
-#: ../mousepad/mousepad-application.c:148
+#: ../mousepad/mousepad-application.c:163
 msgid "[FILES...]"
 msgstr "[FÁJLOK...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:324 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:342 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:333
+#: ../mousepad/mousepad-application.c:351
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr ""
 
-#: ../mousepad/mousepad-application.c:336
+#: ../mousepad/mousepad-application.c:354
 msgid "MODE"
 msgstr ""
 
-#: ../mousepad/mousepad-application.c:388
+#: ../mousepad/mousepad-application.c:407
 msgid "The Mousepad developers. All rights reserved."
 msgstr ""
 
-#: ../mousepad/mousepad-application.c:389
+#: ../mousepad/mousepad-application.c:408
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "A hibákat itt jelentse: <%s>."
 
-#: ../mousepad/mousepad-application.c:1283
+#: ../mousepad/mousepad-application.c:1324
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Szerzők: %s | Fájlnév: %s"
@@ -102,10 +122,10 @@ msgstr "Tabulátorméret kiválasztása"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:215
-#: ../mousepad/mousepad-dialogs.c:321 ../mousepad/mousepad-dialogs.c:385
-#: ../mousepad/mousepad-dialogs.c:498 ../mousepad/mousepad-dialogs.c:539
-#: ../mousepad/mousepad-dialogs.c:921 ../mousepad/mousepad-dialogs.c:981
+#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:226
+#: ../mousepad/mousepad-dialogs.c:333 ../mousepad/mousepad-dialogs.c:397
+#: ../mousepad/mousepad-dialogs.c:510 ../mousepad/mousepad-dialogs.c:551
+#: ../mousepad/mousepad-dialogs.c:933 ../mousepad/mousepad-dialogs.c:993
 #: ../mousepad/mousepad-encoding-dialog.c:120
 #: ../mousepad/mousepad-encoding-dialog.c:191
 msgid "_Cancel"
@@ -117,206 +137,206 @@ msgid "_OK"
 msgstr "_OK"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:214
+#: ../mousepad/mousepad-dialogs.c:225
 msgid "Go To"
 msgstr "Ugrás"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:219
+#: ../mousepad/mousepad-dialogs.c:230
 msgid "_Jump to"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:239
+#: ../mousepad/mousepad-dialogs.c:250
 msgid "_Line number:"
 msgstr "_Sor száma:"
 
-#: ../mousepad/mousepad-dialogs.c:259
+#: ../mousepad/mousepad-dialogs.c:270
 msgid "C_olumn number:"
 msgstr "_Oszlop száma:"
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:320
+#: ../mousepad/mousepad-dialogs.c:332
 msgid "Clear Documents History"
 msgstr "Dokumentumok listájának törlése"
 
 #. set button
-#: ../mousepad/mousepad-dialogs.c:325
+#: ../mousepad/mousepad-dialogs.c:337
 msgid "Clea_r"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:349
+#: ../mousepad/mousepad-dialogs.c:361
 msgid "<big><b>Remove all entries from the documents history?</b></big>"
 msgstr ""
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:354
+#: ../mousepad/mousepad-dialogs.c:366
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "A dokumentumok listájának törlése véglegesen eltávolítja az összes jelenleg listázott bejegyzést."
 
 #. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:384
+#: ../mousepad/mousepad-dialogs.c:396
 msgid "Save Changes"
 msgstr "Módosítások mentése"
 
-#: ../mousepad/mousepad-dialogs.c:391
+#: ../mousepad/mousepad-dialogs.c:403
 msgid "_Don't Save"
 msgstr "_Ne legyen mentve"
 
-#: ../mousepad/mousepad-dialogs.c:398 ../mousepad/mousepad-dialogs.c:541
+#: ../mousepad/mousepad-dialogs.c:410 ../mousepad/mousepad-dialogs.c:553
 msgid "_Save As"
 msgstr ""
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:406 ../mousepad/mousepad-dialogs.c:506
-#: ../mousepad/mousepad-dialogs.c:925
+#: ../mousepad/mousepad-dialogs.c:418 ../mousepad/mousepad-dialogs.c:518
+#: ../mousepad/mousepad-dialogs.c:937
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "M_entés"
 
-#: ../mousepad/mousepad-dialogs.c:430
+#: ../mousepad/mousepad-dialogs.c:442
 msgid "<big><b>Do you want to save the changes before closing?</b></big>"
 msgstr ""
 
 #. secondary text
-#: ../mousepad/mousepad-dialogs.c:435
+#: ../mousepad/mousepad-dialogs.c:447
 msgid "If you don't save the document, all the changes will be lost."
 msgstr "Ha nem ment, az összes változtatás elvész."
 
-#: ../mousepad/mousepad-dialogs.c:462
+#: ../mousepad/mousepad-dialogs.c:474
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "A dokumentumot külső program módosította. Folytatja a mentést?"
 
-#: ../mousepad/mousepad-dialogs.c:463
+#: ../mousepad/mousepad-dialogs.c:475
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "Ha menti a dokumentumot, minden külső változtatás elvész."
 
-#: ../mousepad/mousepad-dialogs.c:465
+#: ../mousepad/mousepad-dialogs.c:477
 msgid "Save _As"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:470
+#: ../mousepad/mousepad-dialogs.c:482
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:475
+#: ../mousepad/mousepad-dialogs.c:487
 msgid "You have unsaved changes. If you revert the file, they will be lost."
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:477 ../mousepad/mousepad-dialogs.c:544
+#: ../mousepad/mousepad-dialogs.c:489 ../mousepad/mousepad-dialogs.c:556
 msgid "_Revert"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:483 ../mousepad/mousepad-window.c:3265
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3505
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr ""
 
 #. add title
-#: ../mousepad/mousepad-dialogs.c:493
+#: ../mousepad/mousepad-dialogs.c:505
 msgid "Externally Modified"
 msgstr "Külső program által módosítva"
 
-#: ../mousepad/mousepad-dialogs.c:531
+#: ../mousepad/mousepad-dialogs.c:543
 msgid "Do you want to save your changes before reloading?"
 msgstr "Menti a változtatásokat újratöltés előtt?"
 
-#: ../mousepad/mousepad-dialogs.c:536
+#: ../mousepad/mousepad-dialogs.c:548
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Ha visszaállítja a fájlt, az összes nem mentett változtatás elvész."
 
-#: ../mousepad/mousepad-dialogs.c:572
+#: ../mousepad/mousepad-dialogs.c:584
 #, c-format
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:579
+#: ../mousepad/mousepad-dialogs.c:591
 msgid "If not, the guessed encoding will be used."
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:662
+#: ../mousepad/mousepad-dialogs.c:674
 msgid "Please select a file"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:689
+#: ../mousepad/mousepad-dialogs.c:701
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:752 ../mousepad/mousepad-dialogs.c:815
+#: ../mousepad/mousepad-dialogs.c:764 ../mousepad/mousepad-dialogs.c:827
 msgid "Open encoding dialog"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:754
+#: ../mousepad/mousepad-dialogs.c:766
 msgid "Go back to shorten list"
 msgstr ""
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:808
+#: ../mousepad/mousepad-dialogs.c:820
 msgid "_Encoding:"
 msgstr "_Kódolás:"
 
-#: ../mousepad/mousepad-dialogs.c:820
+#: ../mousepad/mousepad-dialogs.c:832
 #: ../mousepad/mousepad-encoding-dialog.c:289
 #: ../mousepad/mousepad-encoding-dialog.c:290
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: ../mousepad/mousepad-dialogs.c:830
+#: ../mousepad/mousepad-dialogs.c:842
 #: ../mousepad/mousepad-encoding-dialog.c:305
 #: ../mousepad/mousepad-encoding-dialog.c:307
 #: ../mousepad/mousepad-encoding-dialog.c:311
 msgid "System"
 msgstr "Rendszer"
 
-#: ../mousepad/mousepad-dialogs.c:843
+#: ../mousepad/mousepad-dialogs.c:855
 msgid "Current"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:861
+#: ../mousepad/mousepad-dialogs.c:873
 msgid "Show all encodings"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:895
+#: ../mousepad/mousepad-dialogs.c:907
 msgid "Text Files"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:901
+#: ../mousepad/mousepad-dialogs.c:913
 msgid "All Files"
 msgstr "Minden fájl"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:920
+#: ../mousepad/mousepad-dialogs.c:932
 msgid "Save As"
 msgstr "Mentés másként"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:980
+#: ../mousepad/mousepad-dialogs.c:992
 msgid "Open File"
 msgstr "Fájl megnyitása"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:985
+#: ../mousepad/mousepad-dialogs.c:997
 msgid "_Open"
 msgstr "_Megnyitás"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1030
+#: ../mousepad/mousepad-dialogs.c:1042
 msgid "Choose Mousepad Font"
 msgstr "A Mousepad betűkészletének kiválasztása"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:609
+#: ../mousepad/mousepad-document.c:606
 msgid "Close this tab"
 msgstr "Lap bezárása"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:639
+#: ../mousepad/mousepad-document.c:636
 msgid "Untitled"
 msgstr "Névtelen"
 
@@ -484,14 +504,14 @@ msgstr "Japán"
 msgid "Korean"
 msgstr "Koreai"
 
-#: ../mousepad/mousepad-file.c:605
+#: ../mousepad/mousepad-file.c:609
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Érvénytelen bájtsorozat az átalakítási bemenetben"
 
 #. add the close button
 #: ../mousepad/mousepad-prefs-dialog.c:443
-#: ../mousepad/mousepad-replace-dialog.c:272
+#: ../mousepad/mousepad-replace-dialog.c:274
 msgid "_Close"
 msgstr "_Bezárás"
 
@@ -502,62 +522,62 @@ msgid "Preferences"
 msgstr "Beállítások"
 
 #. set a custom tab label
-#: ../mousepad/mousepad-print.c:119
+#: ../mousepad/mousepad-print.c:121
 msgid "Document Settings"
 msgstr "Dokumentumbeállítások"
 
-#: ../mousepad/mousepad-print.c:593
+#: ../mousepad/mousepad-print.c:608
 msgid "Page Setup"
 msgstr "Oldalbeállítás"
 
-#: ../mousepad/mousepad-print.c:598
+#: ../mousepad/mousepad-print.c:613
 msgid "_Adjust page size and orientation"
 msgstr "Old_alméret és tájolás beállítása"
 
-#: ../mousepad/mousepad-print.c:613
+#: ../mousepad/mousepad-print.c:628
 msgid "Appearance"
 msgstr "Megjelenés"
 
-#: ../mousepad/mousepad-print.c:627
+#: ../mousepad/mousepad-print.c:642
 msgid "Print page _headers"
 msgstr "Oldal_fejlécek nyomtatása"
 
-#: ../mousepad/mousepad-print.c:634
+#: ../mousepad/mousepad-print.c:649
 msgid "Print _line numbers"
 msgstr "_Sorok számának nyomtatása"
 
-#: ../mousepad/mousepad-print.c:651
+#: ../mousepad/mousepad-print.c:666
 msgid "Numbering interval:"
 msgstr "Számozási intervallum:"
 
-#: ../mousepad/mousepad-print.c:660
+#: ../mousepad/mousepad-print.c:675
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
 msgstr "A sorszámok kiírási intervalluma. Például az 1 érték esetén minden sorban ki lesz írva a sor száma, 2 esetén viszont csak minden másodikban, és így tovább."
 
-#: ../mousepad/mousepad-print.c:671
+#: ../mousepad/mousepad-print.c:686
 msgid "Enable text _wrapping"
 msgstr "Sor_törés engedélyezése"
 
-#: ../mousepad/mousepad-print.c:679
+#: ../mousepad/mousepad-print.c:694
 msgid "Enable _syntax highlighting"
 msgstr "_Szintaxiskiemelés engedélyezése"
 
-#: ../mousepad/mousepad-print.c:691
+#: ../mousepad/mousepad-print.c:706
 msgid "Fonts"
 msgstr "Betűkészletek"
 
-#: ../mousepad/mousepad-print.c:707
+#: ../mousepad/mousepad-print.c:722
 msgid "Header:"
 msgstr "Fejléc:"
 
-#: ../mousepad/mousepad-print.c:720
+#: ../mousepad/mousepad-print.c:735
 msgid "Body:"
 msgstr "Szövegtörzs:"
 
-#: ../mousepad/mousepad-print.c:733
+#: ../mousepad/mousepad-print.c:748
 msgid "Line numbers:"
 msgstr "Sorok száma:"
 
@@ -566,84 +586,84 @@ msgid "_Replace All"
 msgstr "Ö_sszes cseréje"
 
 #: ../mousepad/mousepad-replace-dialog.c:173
-#: ../mousepad/mousepad-replace-dialog.c:268
+#: ../mousepad/mousepad-replace-dialog.c:270
 msgid "_Replace"
 msgstr "_Csere"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:257
+#: ../mousepad/mousepad-replace-dialog.c:259
 msgid "Find and Replace"
 msgstr ""
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:263
+#: ../mousepad/mousepad-replace-dialog.c:265
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr ""
 
-#: ../mousepad/mousepad-replace-dialog.c:290
+#: ../mousepad/mousepad-replace-dialog.c:292
 msgid "_Search for:"
 msgstr "Keresés _erre:"
 
-#: ../mousepad/mousepad-replace-dialog.c:324
+#: ../mousepad/mousepad-replace-dialog.c:326
 msgid "Replace _with:"
 msgstr "C_sere ezzel:"
 
-#: ../mousepad/mousepad-replace-dialog.c:346
+#: ../mousepad/mousepad-replace-dialog.c:348
 msgid "Search _direction:"
 msgstr "Keresési _irány:"
 
-#: ../mousepad/mousepad-replace-dialog.c:355
+#: ../mousepad/mousepad-replace-dialog.c:357
 msgid "Up"
 msgstr "Fel"
 
-#: ../mousepad/mousepad-replace-dialog.c:356
+#: ../mousepad/mousepad-replace-dialog.c:358
 msgid "Down"
 msgstr "Le"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:365
+#: ../mousepad/mousepad-replace-dialog.c:367
 msgid "_Wrap around"
 msgstr "_Körbe"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:372
-#: ../mousepad/mousepad-search-bar.c:257 ../mousepad/mousepad-search-bar.c:265
+#: ../mousepad/mousepad-replace-dialog.c:374
+#: ../mousepad/mousepad-search-bar.c:259 ../mousepad/mousepad-search-bar.c:267
 msgid "Match _case"
 msgstr ""
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:381
+#: ../mousepad/mousepad-replace-dialog.c:383
 msgid "_Match whole word"
 msgstr "Teljes szó_egyezés"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:390
-#: ../mousepad/mousepad-search-bar.c:271 ../mousepad/mousepad-search-bar.c:279
+#: ../mousepad/mousepad-replace-dialog.c:392
+#: ../mousepad/mousepad-search-bar.c:273 ../mousepad/mousepad-search-bar.c:281
 msgid "Regular e_xpression"
 msgstr ""
 
-#: ../mousepad/mousepad-replace-dialog.c:404
+#: ../mousepad/mousepad-replace-dialog.c:406
 msgid "Replace _all in:"
 msgstr "Összes _cseréje ebben:"
 
-#: ../mousepad/mousepad-replace-dialog.c:409
+#: ../mousepad/mousepad-replace-dialog.c:411
 msgid "Selection"
 msgstr "Kijelölés"
 
-#: ../mousepad/mousepad-replace-dialog.c:410
+#: ../mousepad/mousepad-replace-dialog.c:412
 msgid "Document"
 msgstr "Dokumentum"
 
-#: ../mousepad/mousepad-replace-dialog.c:411
+#: ../mousepad/mousepad-replace-dialog.c:413
 msgid "All Documents"
 msgstr "Minden dokumentum"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:597
-#: ../mousepad/mousepad-search-bar.c:398
+#: ../mousepad/mousepad-replace-dialog.c:599
+#: ../mousepad/mousepad-search-bar.c:400
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -684,31 +704,31 @@ msgid "Filetype: %s"
 msgstr "Fájltípus: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1093
+#: ../mousepad/mousepad-window.c:1101
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:2018
+#: ../mousepad/mousepad-window.c:2253
 msgid "Read Only"
 msgstr "Csak olvasható"
 
-#: ../mousepad/mousepad-window.c:2022
+#: ../mousepad/mousepad-window.c:2257
 msgid "Viewer Mode"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3021
+#: ../mousepad/mousepad-window.c:3256
 #, c-format
 msgid "Use '%s' as template"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3047
+#: ../mousepad/mousepad-window.c:3282
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Nem találhatóak sablonfájlok itt:\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3104
+#: ../mousepad/mousepad-window.c:3340
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -716,89 +736,93 @@ msgid ""
 msgstr "Hiányzik a sablonok könyvtára\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3156
+#: ../mousepad/mousepad-window.c:3392
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_Egyéb (%d)"
 
-#: ../mousepad/mousepad-window.c:3166
+#: ../mousepad/mousepad-window.c:3402
 msgid "Ot_her..."
 msgstr "_Egyéb"
 
-#: ../mousepad/mousepad-window.c:3259
+#: ../mousepad/mousepad-window.c:3499
 msgid "Re_vert"
 msgstr "Vissz_aállítás"
 
-#: ../mousepad/mousepad-window.c:3261
+#: ../mousepad/mousepad-window.c:3501
 msgid "Revert to the saved version of the file"
 msgstr "A fájl mentett állapotának visszaállítása"
 
-#: ../mousepad/mousepad-window.c:3267
+#: ../mousepad/mousepad-window.c:3507
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3273
+#: ../mousepad/mousepad-window.c:3513
 msgid "Leave fullscreen mode"
 msgstr "Teljes képernyős mód elhagyása"
 
-#: ../mousepad/mousepad-window.c:3278
+#: ../mousepad/mousepad-window.c:3518
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Legyen teljes képernyős az ablak"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3424 ../mousepad/mousepad-window.c:3621
+#: ../mousepad/mousepad-window.c:3669 ../mousepad/mousepad-window.c:3878
 msgid "Charset"
 msgstr "Karakterkészlet"
 
-#: ../mousepad/mousepad-window.c:3559
+#: ../mousepad/mousepad-window.c:3813
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s' megnyitása"
 
-#: ../mousepad/mousepad-window.c:3587
+#: ../mousepad/mousepad-window.c:3841
 msgid "No items found"
 msgstr "Nem találhatók elemek"
 
-#: ../mousepad/mousepad-window.c:3670
+#: ../mousepad/mousepad-window.c:3841
+msgid "History disabled"
+msgstr ""
+
+#: ../mousepad/mousepad-window.c:3927
 msgid "Failed to clear the recent history"
 msgstr "Az előzmények törlése sikertelen"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4142
+#: ../mousepad/mousepad-window.c:4391
 msgid "No clipboard data"
 msgstr "Nincs vágólap adat"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4253
+#: ../mousepad/mousepad-window.c:4502
 #, c-format
 msgid "Templates should be %s valid"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4259
+#: ../mousepad/mousepad-window.c:4508
 msgid "Reading the template failed"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4264
+#: ../mousepad/mousepad-window.c:4513
 msgid "Loading the template failed"
 msgstr "A sablon betöltése sikertelen"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4448 ../mousepad/mousepad-window.c:4589
+#: ../mousepad/mousepad-window.c:4697 ../mousepad/mousepad-window.c:4838
 msgid "Failed to save the document"
 msgstr "A dokumentum mentése sikertelen"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4687
+#: ../mousepad/mousepad-window.c:4944
 msgid "Failed to reload the document"
 msgstr "A dokumentum újratöltése sikertelen"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4716
+#: ../mousepad/mousepad-window.c:4975
 msgid "Failed to print the document"
 msgstr "A dokumentum nyomtatása sikertelen"
 
@@ -1345,8 +1369,8 @@ msgid "Convert all tabs to spaces in the selection or document"
 msgstr "Az összes tabulátor szóközökké konvertálása a kiválasztott szövegrészben vagy a dokumentumban"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
-msgid "_Spaces to Tabs"
-msgstr "Szó_közökből tabulátorokká"
+msgid "_Leading Spaces to Tabs"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
