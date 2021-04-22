@@ -22,6 +22,7 @@
 #include <mousepad/mousepad-replace-dialog.h>
 #include <mousepad/mousepad-window.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-plugin-provider.h>
 
 #include <xfconf/xfconf.h>
 
@@ -77,9 +78,13 @@ static void        mousepad_application_toggle_activate           (GSimpleAction
 static void        mousepad_application_radio_activate            (GSimpleAction            *action,
                                                                    GVariant                 *parameter,
                                                                    gpointer                  data);
+static void        mousepad_application_plugin_activate           (GSimpleAction            *action,
+                                                                   GVariant                 *parameter,
+                                                                   gpointer                  data);
 static void        mousepad_application_action_update             (MousepadApplication      *application,
                                                                    gchar                    *key,
                                                                    GSettings                *settings);
+static void        mousepad_application_plugin_update             (MousepadApplication      *application);
 static void        mousepad_application_action_whitespace         (GSimpleAction            *action,
                                                                    GVariant                 *state,
                                                                    gpointer                  data);
@@ -105,6 +110,9 @@ struct _MousepadApplication
 
   /* allow xfconf initialization to fail */
   gboolean xfconf_initialized;
+
+  /* plugins */
+  GList *providers;
 };
 
 /* MousepadApplication properties */
@@ -337,6 +345,7 @@ mousepad_application_init (MousepadApplication *application)
   application->line = 0;
   application->column = 0;
   application->xfconf_initialized = FALSE;
+  application->providers = NULL;
 
   /* default application name */
   g_set_application_name (_("Mousepad"));
@@ -548,9 +557,12 @@ static void
 mousepad_application_set_accels (MousepadApplication *application)
 {
   GdkModifierType   accel_mods;
+  GTypeModule      *provider;
+  GList            *item;
   guint             n, accel_key;
   gchar            *accel_path;
   gchar           **action_names;
+  const gchar      *accel;
   const gchar      *accels[] = { NULL, NULL };
   const gchar      *accel_maps[][2] =
   {
@@ -613,6 +625,24 @@ mousepad_application_set_accels (MousepadApplication *application)
                                              accel_maps[n][0], accels);
     }
 
+  /* plugin enabling actions */
+  for (item = application->providers; item != NULL; item = item->next)
+    {
+      provider = item->data;
+
+      /* add accel map entry to fill the accels file at shutdown */
+      accel_path = g_strconcat ("<Actions>/app.", provider->name, NULL);
+      accel = mousepad_plugin_provider_get_accel (item->data);
+      gtk_accelerator_parse (accel, &accel_key, &accel_mods);
+      gtk_accel_map_add_entry (accel_path, accel_key, accel_mods);
+
+      /* add accel to the application */
+      accels[0] = accel;
+      gtk_application_set_accels_for_action (GTK_APPLICATION (application),
+                                             accel_path + 10, accels);
+      g_free (accel_path);
+    }
+
   /* actions that do not have a default accel */
   action_names = g_action_group_list_actions (G_ACTION_GROUP (application));
   n = 0;
@@ -636,6 +666,116 @@ mousepad_application_set_accels (MousepadApplication *application)
 
 
 
+static gint
+mousepad_application_sort_plugins (gconstpointer a,
+                                   gconstpointer b)
+{
+  MousepadPluginProvider *p = MOUSEPAD_PLUGIN_PROVIDER (a),
+                         *q = MOUSEPAD_PLUGIN_PROVIDER (b);
+  gint comp_cat;
+
+  comp_cat = g_utf8_collate (mousepad_plugin_provider_get_category (p),
+                             mousepad_plugin_provider_get_category (q));
+
+  /* alphabetical sorting of categories, and within categories of labels */
+  if (comp_cat == 0)
+    return g_utf8_collate (mousepad_plugin_provider_get_label (p),
+                           mousepad_plugin_provider_get_label (q));
+  else
+    return comp_cat;
+}
+
+
+
+static void
+mousepad_application_load_plugins (MousepadApplication *application)
+{
+  MousepadPluginProvider  *provider;
+  GSimpleAction           *action;
+  GError                  *error = NULL;
+  GDir                    *dir;
+  const gchar             *basename;
+  gchar                   *provider_name;
+  gchar                  **strs;
+  gsize                    n_strs;
+
+  if (! g_module_supported ())
+    {
+      g_warning ("Dynamic type loading is not supported on this system");
+      return;
+    }
+  else if ((dir = g_dir_open (MOUSEPAD_PLUGIN_DIRECTORY, 0, &error)) == NULL)
+    {
+      g_warning ("Failed to open plugin directory '%s': %s",
+                 MOUSEPAD_PLUGIN_DIRECTORY, error->message);
+      return;
+    }
+
+  /* scan plugin directory */
+  for (basename = g_dir_read_name (dir); basename != NULL; basename = g_dir_read_name (dir))
+    {
+      if (! g_str_has_prefix (basename, "lib")
+          || ! g_str_has_suffix (basename, "." G_MODULE_SUFFIX))
+        continue;
+
+      /* remove prefix */
+      provider_name = (gchar *) (basename + 3);
+
+      /* remove suffix */
+      strs = g_strsplit (provider_name, ".", -1);
+      n_strs = g_strv_length (strs);
+      g_free (strs[n_strs - 1]);
+      strs[n_strs - 1] = NULL;
+      provider_name = g_strjoinv (".", strs);
+      g_strfreev (strs);
+
+      /* get the list of enabled plugins */
+      strs = MOUSEPAD_SETTING_GET_STRV (ENABLED_PLUGINS);
+
+      /* try to load this module */
+      provider = mousepad_plugin_provider_new (provider_name);
+      if (g_type_module_use (G_TYPE_MODULE (provider)))
+        {
+          /* add this provider to the list */
+          application->providers = g_list_prepend (application->providers, provider);
+
+          /* create its action and add it to the application */
+          action = g_simple_action_new_stateful (provider_name, NULL,
+                                                 g_variant_new_boolean (FALSE));
+          g_signal_connect (action, "activate",
+                            G_CALLBACK (mousepad_application_plugin_activate), application);
+          MOUSEPAD_SETTING_CONNECT_OBJECT (ENABLED_PLUGINS,
+                                           G_CALLBACK (mousepad_application_plugin_update),
+                                           application, G_CONNECT_SWAPPED);
+          g_action_map_add_action (G_ACTION_MAP (application), G_ACTION (action));
+
+          /* instantiate this provider types and initialize its action state */
+          if (g_strv_contains ((const gchar *const *) strs, provider_name))
+            {
+              mousepad_plugin_provider_new_plugin (provider);
+              g_simple_action_set_state (action, g_variant_new_boolean (TRUE));
+            }
+          else
+            g_type_module_unuse (G_TYPE_MODULE (provider));
+        }
+      else
+        g_object_unref (provider);
+
+      /* cleanup */
+      g_strfreev (strs);
+      g_free (provider_name);
+    }
+
+  /* ends scan */
+  g_dir_close (dir);
+
+  /* sort the list */
+  application->providers = g_list_sort (application->providers,
+                                        mousepad_application_sort_plugins);
+}
+
+
+
 static void
 mousepad_application_startup (GApplication *gapplication)
 {
@@ -648,6 +788,9 @@ mousepad_application_startup (GApplication *gapplication)
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
+
+  /* load plugins */
+  mousepad_application_load_plugins (application);
 
   /* initialize xfconf */
   if (G_UNLIKELY (! (application->xfconf_initialized = xfconf_init (&error))))
@@ -944,6 +1087,9 @@ mousepad_application_shutdown (GApplication *gapplication)
   /* shutdown xfconf */
   if (G_LIKELY (application->xfconf_initialized))
     xfconf_shutdown ();
+
+  /* unload plugins */
+  g_list_free_full (application->providers, mousepad_plugin_provider_unuse);
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->shutdown (gapplication);
@@ -1396,6 +1542,56 @@ mousepad_application_radio_activate (GSimpleAction *action,
 
 
 static void
+mousepad_application_plugin_activate (GSimpleAction *action,
+                                      GVariant      *parameter,
+                                      gpointer       data)
+{
+  gchar       **plugins;
+  const gchar  *action_name;
+  gboolean      enabled, contained, need_update = FALSE;
+  guint         length = 0;
+
+  /* get the new action state */
+  enabled = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+
+  /* get the list of enabled plugins */
+  plugins = MOUSEPAD_SETTING_GET_STRV (ENABLED_PLUGINS);
+
+  /* check if this plugin is in the list */
+  action_name = g_action_get_name (G_ACTION (action));
+  contained = g_strv_contains ((const gchar *const *) plugins, action_name);
+
+  /* update the list if needed */
+  if (enabled && ! contained)
+    {
+      need_update = TRUE;
+      length = g_strv_length (plugins);
+      plugins = g_realloc (plugins, (length + 2) * sizeof (gchar *));
+      plugins[length] = g_strdup (action_name);
+      plugins[length + 1] = NULL;
+    }
+  else if (! enabled && contained)
+    {
+      need_update = TRUE;
+      while (g_strcmp0 (plugins[length++], action_name) != 0);
+      g_free (plugins[--length]);
+      while (plugins[++length] != NULL)
+        plugins[length - 1] = plugins[length];
+
+      plugins[length - 1] = NULL;
+    }
+
+  /* save the setting */
+  if (need_update)
+    MOUSEPAD_SETTING_SET_STRV (ENABLED_PLUGINS, (const gchar *const *) plugins);
+
+  /* cleanup */
+  g_strfreev (plugins);
+}
+
+
+
+static void
 mousepad_application_action_update (MousepadApplication *application,
                                     gchar               *key,
                                     GSettings           *settings)
@@ -1415,6 +1611,50 @@ mousepad_application_action_update (MousepadApplication *application,
   g_free (schema_id);
   g_free (action_name);
   g_variant_unref (state);
+}
+
+
+
+static void
+mousepad_application_plugin_update (MousepadApplication *application)
+{
+  MousepadPluginProvider  *mprovider;
+  GTypeModule             *provider;
+  GActionGroup            *group = G_ACTION_GROUP (application);
+  GList                   *item;
+  gchar                  **plugins;
+  gboolean                 enabled, contained, destroyable;
+
+  /* get the list of enabled plugins */
+  plugins = MOUSEPAD_SETTING_GET_STRV (ENABLED_PLUGINS);
+
+  /* check for each plugin if its action state should be changed, and if so,
+   * if we should do something on the plugin itself from here */
+  for (item = application->providers; item != NULL; item = item->next)
+    {
+      provider = item->data;
+      contained = g_strv_contains ((const gchar *const *) plugins, provider->name);
+      enabled = g_variant_get_boolean (g_action_group_get_action_state (group, provider->name));
+      if ((enabled && ! contained) || (! enabled && contained))
+        {
+          g_action_group_change_action_state (group, provider->name,
+                                              g_variant_new_boolean (! enabled));
+
+          mprovider = item->data;
+          destroyable = mousepad_plugin_provider_is_destroyable (mprovider);
+
+          /* plugin should be loaded from here */
+          if (! enabled && (! mousepad_plugin_provider_is_instantiated (mprovider) || destroyable)
+              && g_type_module_use (provider))
+            mousepad_plugin_provider_new_plugin (mprovider);
+          /* plugin should be unloaded from here */
+          else if (enabled && destroyable)
+            g_type_module_unuse (provider);
+        }
+    }
+
+  /* cleanup */
+  g_strfreev (plugins);
 }
 
 
@@ -1460,4 +1700,48 @@ mousepad_application_get_default_font (void)
     font = g_strdup ("Monospace 10");
 
   return font;
+}
+
+
+
+GList *
+mousepad_application_get_providers (MousepadApplication *application)
+{
+  return application->providers;
+}
+
+
+
+static gint
+mousepad_application_compare_plugin (gconstpointer item_data,
+                                     gconstpointer user_data)
+{
+  GTypeModule *module = G_TYPE_MODULE (item_data);
+
+  return g_strcmp0 (module->name, user_data);
+}
+
+
+
+GtkWidget *
+mousepad_application_get_plugin_setting_box (MousepadApplication *application,
+                                             const gchar         *plugin_name)
+{
+  GtkWidget *box;
+  GList     *item;
+
+  /* retrieve the plugin provider */
+  item = g_list_find_custom (application->providers, plugin_name,
+                             mousepad_application_compare_plugin);
+
+  /* set the provider setting box */
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+  gtk_widget_set_margin_start (box, 6);
+  gtk_widget_set_margin_end (box, 6);
+  gtk_widget_set_margin_top (box, 6);
+  gtk_widget_set_margin_bottom (box, 6);
+
+  mousepad_plugin_provider_set_setting_box (item->data, box);
+
+  return box;
 }
