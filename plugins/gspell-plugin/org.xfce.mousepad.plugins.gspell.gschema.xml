@@ -1,0 +1,20 @@
+<schemalist>
+
+  <schema id="org.xfce.mousepad.plugins" path="/org/xfce/mousepad/plugins/" gettext-domain="mousepad">
+    <child name="gspell" schema="org.xfce.mousepad.plugins.gspell"/>
+  </schema>
+
+  <schema id="org.xfce.mousepad.plugins.gspell" path="/org/xfce/mousepad/plugins/gspell/" gettext-domain="mousepad">
+    <child name="preferences" schema="org.xfce.mousepad.plugins.gspell.preferences"/>
+  </schema>
+
+  <schema id="org.xfce.mousepad.plugins.gspell.preferences" path="/org/xfce/mousepad/plugins/gspell/preferences/" gettext-domain="mousepad">
+    <key name="default-language" type="s">
+      <default>'en_US'</default>
+      <summary>The default language used when opening a new document</summary>
+      <description>
+      </description>
+    </key>
+  </schema>
+
+</schemalist>
