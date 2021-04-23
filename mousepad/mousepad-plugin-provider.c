@@ -16,6 +16,7 @@
 
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-plugin-provider.h>
+#include <mousepad/mousepad-plugin.h>
 
 #include <gmodule.h>
 
@@ -231,7 +232,9 @@ mousepad_plugin_provider_new_plugin (MousepadPluginProvider *provider)
   /* instanciate all types */
   while ((type = *(provider->plugin_data->types++)) != G_TYPE_INVALID)
     {
-      if (g_type_is_a (type, G_TYPE_OBJECT))
+      if (g_type_is_a (type, MOUSEPAD_TYPE_PLUGIN))
+        instance = g_object_new (type, "provider", provider, NULL);
+      else if (g_type_is_a (type, G_TYPE_OBJECT))
         instance = g_object_new (type, NULL);
       else
         {
