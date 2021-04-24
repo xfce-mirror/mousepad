@@ -20,6 +20,10 @@
 #include <mousepad/mousepad-application.h>
 #include <mousepad/mousepad-view.h>
 
+#ifdef HAVE_GSPELL
+#include <gspell/gspell.h>
+#endif
+
 
 
 #define mousepad_view_get_buffer(view) (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)))
@@ -90,6 +94,11 @@ struct _MousepadView
   gboolean                     show_line_endings;
   gchar                       *color_scheme;
   gboolean                     match_braces;
+#ifdef HAVE_GSPELL
+  GspellTextView              *gspell_view;
+  GspellChecker               *gspell_checker;
+  GspellTextBuffer            *gspell_buffer;
+#endif
 };
 
 
@@ -104,6 +113,9 @@ enum
   PROP_COLOR_SCHEME,
   PROP_WORD_WRAP,
   PROP_MATCH_BRACES,
+#ifdef HAVE_GSPELL
+  PROP_SPELL_CHECK,
+#endif
   NUM_PROPERTIES
 };
 
@@ -161,6 +173,12 @@ mousepad_view_class_init (MousepadViewClass *klass)
     g_param_spec_boolean ("match-braces", "MatchBraces",
                           "Whether to highlight matching braces, parens, brackets, etc.",
                           FALSE, G_PARAM_WRITABLE));
+
+#ifdef HAVE_GSPELL
+  g_object_class_install_property (gobject_class, PROP_SPELL_CHECK,
+    g_param_spec_boolean ("spell-check", "SpellCheck", "Whether to enable spell checking",
+                          FALSE, G_PARAM_WRITABLE));
+#endif
 }
 
 
@@ -217,6 +235,24 @@ mousepad_view_use_default_font (MousepadView *view)
 
 
 
+#ifdef HAVE_GSPELL
+static void
+mousepad_view_set_gspell_buffer (MousepadView *view)
+{
+  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
+
+  /* disconnect this signal */
+  mousepad_disconnect_by_func (view, mousepad_view_set_gspell_buffer, NULL);
+
+  /* set the gspell buffer and its spell checker */
+  view->gspell_buffer = gspell_text_buffer_get_from_gtk_text_buffer (
+                          gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
+  gspell_text_buffer_set_spell_checker (view->gspell_buffer, view->gspell_checker);
+}
+#endif
+
+
+
 static void
 mousepad_view_init (MousepadView *view)
 {
@@ -228,6 +264,15 @@ mousepad_view_init (MousepadView *view)
   view->show_line_endings = FALSE;
   view->color_scheme = g_strdup ("none");
   view->match_braces = FALSE;
+#ifdef HAVE_GSPELL
+  view->gspell_view = NULL;
+  view->gspell_checker = NULL;
+  view->gspell_buffer = NULL;
+
+  /* set the real gspell buffer when the real text view buffer is set */
+  g_signal_connect (G_OBJECT (view), "notify::buffer",
+                    G_CALLBACK (mousepad_view_set_gspell_buffer), NULL);
+#endif
 
   /* make sure any buffers set on the view get the color scheme applied to them */
   g_signal_connect (view, "notify::buffer",
@@ -253,6 +298,9 @@ mousepad_view_init (MousepadView *view)
   BIND_ (COLOR_SCHEME,           "color-scheme");
   BIND_ (WORD_WRAP,              "word-wrap");
   BIND_ (MATCH_BRACES,           "match-braces");
+#ifdef HAVE_GSPELL
+  BIND_ (SPELL_CHECK,            "spell-check");
+#endif
 
 #undef BIND_
 
@@ -276,6 +324,12 @@ mousepad_view_finalize (GObject *object)
 
   /* cleanup color scheme name */
   g_free (view->color_scheme);
+
+#ifdef HAVE_GSPELL
+  /* cleanup spell checker */
+  if (G_LIKELY (view->gspell_checker != NULL))
+    g_object_unref (view->gspell_checker);
+#endif
 
   (*G_OBJECT_CLASS (mousepad_view_parent_class)->finalize) (object);
 }
@@ -313,6 +367,11 @@ mousepad_view_set_property (GObject      *object,
     case PROP_MATCH_BRACES:
       mousepad_view_set_match_braces (view, g_value_get_boolean (value));
       break;
+#ifdef HAVE_GSPELL
+    case PROP_SPELL_CHECK:
+      mousepad_view_set_spell_check (view, g_value_get_boolean (value), TRUE);
+      break;
+#endif
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -1779,3 +1838,36 @@ mousepad_view_set_match_braces (MousepadView *view,
 
   mousepad_view_buffer_changed (view, NULL, NULL);
 }
+
+
+
+#ifdef HAVE_GSPELL
+void
+mousepad_view_set_spell_check (MousepadView *view,
+                               gboolean      enabled,
+                               gboolean      external)
+{
+  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
+
+  /* Don't slow Mousepad when spell checking is disabled at startup */
+  if (view->gspell_view == NULL && ! enabled)
+    return;
+
+  /* The function call comes from the property binding (normal call), not from
+   * mousepad_window_menu_textview_shown to retrieve the gspell menu */
+  if (external)
+    {
+      if (view->gspell_view == NULL)
+        {
+          view->gspell_view = gspell_text_view_get_from_gtk_text_view (GTK_TEXT_VIEW (view));
+          view->gspell_buffer = gspell_text_buffer_get_from_gtk_text_buffer (
+                                  gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
+          view->gspell_checker = gspell_checker_new (NULL);
+        }
+      gspell_text_view_set_inline_spell_checking (view->gspell_view, enabled);
+    }
+
+  gspell_text_buffer_set_spell_checker (view->gspell_buffer, enabled ? view->gspell_checker : NULL);
+  gspell_text_view_set_enable_language_menu (view->gspell_view, enabled);
+}
+#endif
