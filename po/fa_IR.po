@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-17 00:47+0200\n"
-"PO-Revision-Date: 2021-04-24 17:29+0000\n"
+"PO-Revision-Date: 2021-04-25 10:03+0000\n"
 "Last-Translator: Mos B <mos.b_as@yahoo.com>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/xfce/xfce-apps/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
@@ -514,7 +514,7 @@ msgstr "بستن"
 #: ../mousepad/mousepad-prefs-dialog.c:449
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences"
-msgstr ""
+msgstr "تنظیمات"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:121
