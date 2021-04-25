@@ -85,6 +85,7 @@ struct _MousepadView
   GtkSourceView         __parent__;
 
   /* property related */
+  GBinding                    *font_binding;
   gboolean                     show_whitespace;
   GtkSourceSpaceLocationFlags  space_location_flags;
   gboolean                     show_line_endings;
@@ -200,19 +201,24 @@ mousepad_view_buffer_changed (MousepadView *view,
 static void
 mousepad_view_use_default_font (MousepadView *view)
 {
-  gchar *font;
-
-  /* default font is used, unbind from GSettings */
+  /* default font is used: unbind from GSettings, bind to application property */
   if (MOUSEPAD_SETTING_GET_BOOLEAN (USE_DEFAULT_FONT))
     {
       g_settings_unbind (view, "font");
-      font = mousepad_application_get_default_font ();
-      mousepad_view_set_font (view, font);
-      g_free (font);
+      view->font_binding = g_object_bind_property (g_application_get_default (), "default-font",
+                                                   view, "font", G_BINDING_SYNC_CREATE);
     }
-  /* default font is not used, bind to GSettings */
+  /* default font is not used: unbind from application property, bind to GSettings */
   else
-    MOUSEPAD_SETTING_BIND (FONT, view, "font", G_SETTINGS_BIND_GET);
+    {
+      if (view->font_binding != NULL)
+        {
+          g_binding_unbind (view->font_binding);
+          view->font_binding = NULL;
+        }
+
+      MOUSEPAD_SETTING_BIND (FONT, view, "font", G_SETTINGS_BIND_GET);
+    }
 }
 
 
@@ -223,6 +229,7 @@ mousepad_view_init (MousepadView *view)
   GApplication *application;
 
   /* initialize properties variables */
+  view->font_binding = NULL;
   view->show_whitespace = FALSE;
   view->space_location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
   view->show_line_endings = FALSE;

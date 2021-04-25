@@ -28,6 +28,10 @@
 
 
 
+#define DEFAULT_FONT "Monospace 10"
+
+
+
 /* GObject virtual functions */
 static void        mousepad_application_set_property              (GObject                  *object,
                                                                    guint                     prop_id,
@@ -100,13 +104,16 @@ struct _MousepadApplication
 {
   GtkApplication      __parent__;
 
-  /* preferences dialog related */
-  GtkWidget                   *prefs_dialog;
-  GtkSourceSpaceLocationFlags  space_location_flags;
+  /* preferences dialog */
+  GtkWidget *prefs_dialog;
 
   /* command line options */
   gint             opening_mode, line, column;
   MousepadEncoding encoding;
+
+  /* properties */
+  gchar                       *default_font;
+  GtkSourceSpaceLocationFlags  space_location_flags;
 
   /* allow xfconf initialization to fail */
   gboolean xfconf_initialized;
@@ -118,7 +125,8 @@ struct _MousepadApplication
 /* MousepadApplication properties */
 enum
 {
-  PROP_SPACE_LOCATION=1,
+  PROP_DEFAULT_FONT = 1,
+  PROP_SPACE_LOCATION,
   N_PROPERTIES
 };
 
@@ -279,6 +287,10 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
   application_class->open = mousepad_application_open;
   application_class->shutdown = mousepad_application_shutdown;
 
+  g_object_class_install_property (gobject_class, PROP_DEFAULT_FONT,
+    g_param_spec_string ("default-font", "DefaultFont", "The default font to use in text views",
+                         DEFAULT_FONT, G_PARAM_READWRITE));
+
   g_object_class_install_property (gobject_class, PROP_SPACE_LOCATION,
     g_param_spec_flags ("space-location", "SpaceLocation", "The space location setting",
                         GTK_SOURCE_TYPE_SPACE_LOCATION_FLAGS, GTK_SOURCE_SPACE_LOCATION_ALL,
@@ -297,6 +309,10 @@ mousepad_application_set_property (GObject      *object,
 
   switch (prop_id)
     {
+    case PROP_DEFAULT_FONT:
+      g_free (application->default_font);
+      application->default_font = g_value_dup_string (value);
+      break;
     case PROP_SPACE_LOCATION:
       application->space_location_flags = g_value_get_flags (value);
       break;
@@ -318,6 +334,9 @@ mousepad_application_get_property (GObject    *object,
 
   switch (prop_id)
     {
+    case PROP_DEFAULT_FONT:
+      g_value_set_string (value, application->default_font);
+      break;
     case PROP_SPACE_LOCATION:
       g_value_set_flags (value, application->space_location_flags);
       break;
@@ -339,6 +358,7 @@ mousepad_application_init (MousepadApplication *application)
 
   /* initialize application attributes */
   application->prefs_dialog = NULL;
+  application->default_font = g_strdup (DEFAULT_FONT);
   application->space_location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
   application->opening_mode = TAB;
   application->encoding = mousepad_encoding_get_default ();
@@ -799,6 +819,10 @@ mousepad_application_startup (GApplication *gapplication)
       g_warning ("Failed to initialize xfconf: %s", error->message);
       g_error_free (error);
     }
+  /* bind default font to xfconf */
+  else
+    xfconf_g_property_bind (xfconf_channel_get ("xsettings"), "/Gtk/MonospaceFontName",
+                            G_TYPE_STRING, application, "default-font");
 
   /* add application actions */
   g_action_map_add_action_entries (G_ACTION_MAP (application), stateless_actions,
@@ -1080,6 +1104,9 @@ mousepad_application_shutdown (GApplication *gapplication)
 
   /* unload plugins */
   g_list_free_full (application->providers, mousepad_plugin_provider_unuse);
+
+  /* release property related variables */
+  g_free (application->default_font);
 
   /* save the current accel map */
   filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, TRUE);
@@ -1681,26 +1708,6 @@ mousepad_application_action_whitespace (GSimpleAction *action,
 
   /* set the application property */
   g_object_set (data, "space-location", flags, NULL);
-}
-
-
-
-gchar *
-mousepad_application_get_default_font (void)
-{
-  MousepadApplication *application;
-  gchar               *font = NULL;
-
-  /* get the default font from xfconf */
-  application = MOUSEPAD_APPLICATION (g_application_get_default ());
-  if (G_LIKELY (application->xfconf_initialized))
-    font = xfconf_channel_get_string (xfconf_channel_get ("xsettings"),
-                                      "/Gtk/MonospaceFontName", NULL);
-
-  if (G_UNLIKELY (font == NULL))
-    font = g_strdup ("Monospace 10");
-
-  return font;
 }
 
 

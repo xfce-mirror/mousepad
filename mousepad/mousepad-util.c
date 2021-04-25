@@ -18,8 +18,6 @@
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-settings.h>
 
-#include <xfconf/xfconf.h>
-
 #ifdef HAVE_MATH_H
 #include <math.h>
 #endif

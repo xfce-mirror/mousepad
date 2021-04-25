@@ -36,8 +36,6 @@ GType                mousepad_application_get_type                   (void) G_GN
 void                 mousepad_application_show_preferences           (MousepadApplication  *application,
                                                                       GtkWindow            *transient_for);
 
-gchar               *mousepad_application_get_default_font           (void);
-
 GList               *mousepad_application_get_providers              (MousepadApplication  *application);
 
 G_END_DECLS
