@@ -37,7 +37,9 @@
     <value nick="yes" value="2"/>
   </enum>
 
+  <!-- generic schemas -->
   <schema id="org.xfce.mousepad" path="/org/xfce/mousepad/" gettext-domain="mousepad">
+    <child name="plugins" schema="org.xfce.mousepad.plugins"/>
     <child name="preferences" schema="org.xfce.mousepad.preferences"/>
     <child name="state" schema="org.xfce.mousepad.state"/>
   </schema>
@@ -49,6 +51,7 @@
   </schema>
 
   <schema id="org.xfce.mousepad.state" path="/org/xfce/mousepad/state/" gettext-domain="mousepad">
+    <child name="application" schema="org.xfce.mousepad.state.application"/>
     <child name="search" schema="org.xfce.mousepad.state.search"/>
     <child name="window" schema="org.xfce.mousepad.state.window"/>
   </schema>
@@ -418,6 +421,17 @@
       <description>
         When true, icons are aligned with the checkmarks for radio and check menuitems,
         instead of being aligned with the labels. Restart Mousepad for this to take effect.
+      </description>
+    </key>
+  </schema>
+
+  <!-- application state -->
+  <schema id="org.xfce.mousepad.state.application" path="/org/xfce/mousepad/state/application/" gettext-domain="mousepad">
+    <key name="enabled-plugins" type="as">
+      <default>[]</default>
+      <summary>Enabled plugins</summary>
+      <description>
+        List of enabled plugins, among those found in the plugin directory.
       </description>
     </key>
   </schema>
