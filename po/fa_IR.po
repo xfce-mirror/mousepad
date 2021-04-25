@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-17 00:47+0200\n"
-"PO-Revision-Date: 2021-04-25 10:03+0000\n"
+"PO-Revision-Date: 2021-04-25 12:47+0000\n"
 "Last-Translator: Mos B <mos.b_as@yahoo.com>\n"
 "Language-Team: Persian (Iran) (http://www.transifex.com/xfce/xfce-apps/language/fa_IR/)\n"
 "MIME-Version: 1.0\n"
@@ -129,7 +129,7 @@ msgstr "ـلغو"
 #: ../mousepad/mousepad-dialogs.c:138
 #: ../mousepad/mousepad-encoding-dialog.c:121
 msgid "_OK"
-msgstr ""
+msgstr "قبول"
 
 #. build the dialog
 #: ../mousepad/mousepad-dialogs.c:225
