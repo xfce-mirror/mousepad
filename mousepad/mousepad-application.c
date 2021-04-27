@@ -162,6 +162,11 @@ static const GOptionEntry option_entries[] =
     N_("COLUMN")
   },
   {
+    "preferences", '\0', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_NONE, NULL,
+    N_("Open the preferences dialog"), NULL
+  },
+  {
     "disable-server", '\0', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
     N_("Do not register with the D-BUS session message bus"), NULL
@@ -902,6 +907,23 @@ mousepad_application_command_line (GApplication            *gapplication,
 
   /* get the option dictionary */
   options = g_application_command_line_get_options_dict (command_line);
+
+  /* see if the prefs dialog is to be opened */
+  if (g_variant_dict_contains (options, "preferences"))
+    {
+      /* create and show the prefs dialog */
+      g_action_group_activate_action (G_ACTION_GROUP (gapplication), "preferences", NULL);
+
+      /* disconnect all handlers from "notify::active-window" triggered below */
+      mousepad_disconnect_by_func (application, mousepad_application_active_window_changed, NULL);
+      mousepad_disconnect_by_func (application, mousepad_application_complete_accel_map, NULL);
+
+      /* add the prefs dialog to the application windows list to keep it alive */
+      gtk_window_set_application (GTK_WINDOW (application->prefs_dialog),
+                                  GTK_APPLICATION (application));
+
+      return EXIT_SUCCESS;
+    }
 
   /* retrieve encoding from the remote instance */
   g_variant_dict_lookup (options, "encoding", "u", &(application->encoding));
