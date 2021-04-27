@@ -301,3 +301,11 @@ mousepad_settings_store_lookup (MousepadSettingsStore *self,
 
   return TRUE;
 }
+
+
+
+GSettings *
+mousepad_settings_store_get_root (MousepadSettingsStore *self)
+{
+  return self->root;
+}

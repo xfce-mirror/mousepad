@@ -49,6 +49,8 @@ gboolean               mousepad_settings_store_lookup          (MousepadSettings
                                                                 const gchar           **key_name,
                                                                 GSettings             **settings);
 
+GSettings             *mousepad_settings_store_get_root        (MousepadSettingsStore  *store);
+
 G_END_DECLS
 
 #endif /* __MOUSEPAD_SETTINGS_STORE_H__ */
