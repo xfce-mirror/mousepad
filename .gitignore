@@ -10,7 +10,7 @@
 Makefile
 Makefile.in
 Makefile.in.in
-mousepad.desktop
+mousepad*.desktop
 mousepad.appdata.xml
 aclocal.m4
 autom4te.cache/
