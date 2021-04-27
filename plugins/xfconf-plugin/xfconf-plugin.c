@@ -16,6 +16,7 @@
 
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-plugin.h>
+#include <mousepad/mousepad-settings.h>
 
 #include <xfconf-plugin/xfconf-plugin.h>
 
@@ -133,12 +134,89 @@ xfconf_plugin_request_deactivation (gpointer data)
 
 
 static void
+xfconf_plugin_set_property (XfconfChannel *channel,
+                            const gchar   *property,
+                            const gchar   *setting)
+{
+  GVariant            *variant;
+  const GVariantType  *type;
+  const gchar        **strv;
+
+  variant = mousepad_setting_get_variant (setting);
+  type = g_variant_get_type (variant);
+
+  if (g_variant_type_equal (type, G_VARIANT_TYPE_BOOLEAN))
+    xfconf_channel_set_bool (channel, property, g_variant_get_boolean (variant));
+  else if (g_variant_type_equal (type, G_VARIANT_TYPE_INT32))
+    xfconf_channel_set_int (channel, property, g_variant_get_int32 (variant));
+  else if (g_variant_type_equal (type, G_VARIANT_TYPE_UINT32))
+    xfconf_channel_set_uint (channel, property, g_variant_get_uint32 (variant));
+  else if (g_variant_type_equal (type, G_VARIANT_TYPE_STRING))
+    xfconf_channel_set_string (channel, property, g_variant_get_string (variant, NULL));
+  else if (g_variant_type_equal (type, G_VARIANT_TYPE_STRING_ARRAY))
+    {
+      strv = g_variant_get_strv (variant, NULL);
+      xfconf_channel_set_string_list (channel, property, strv);
+      g_free (strv);
+    }
+
+  g_variant_unref (variant);
+}
+
+
+
+static void
+xfconf_plugin_set_schema (XfconfChannel         *channel,
+                          const gchar           *schema_id,
+                          GSettingsSchemaSource *source,
+                          GSettings             *settings)
+{
+  GSettingsSchema  *schema;
+  GSettings        *child_settings;
+  gchar           **keys, **key, **children, **child;
+  gchar            *property, *setting, *child_schema_id;
+  const gchar      *path, *short_id;
+
+  /* bind each key in schema with an xfconf property */
+  schema = g_settings_schema_source_lookup (source, schema_id, TRUE);
+  path = g_settings_schema_get_path (schema) + MOUSEPAD_ID_LEN + 1;
+  short_id = schema_id + MOUSEPAD_ID_LEN + 1;
+  keys = g_settings_schema_list_keys (schema);
+  for (key = keys; *key != NULL; key++)
+    {
+      property = g_strconcat (path, *key, NULL);
+      setting = g_strdup_printf ("%s.%s", short_id, *key);
+      xfconf_plugin_set_property (channel, property, setting);
+      g_free (property);
+      g_free (setting);
+    }
+
+  /* go ahead recursively */
+  children = g_settings_schema_list_children (schema);
+  for (child = children; *child != NULL; child++)
+    {
+      child_settings = g_settings_get_child (settings, *child);
+      child_schema_id = g_strdup_printf ("%s.%s", schema_id, *child);
+      xfconf_plugin_set_schema (channel, child_schema_id, source, child_settings);
+      g_object_unref (child_settings);
+      g_free (child_schema_id);
+    }
+
+  /* cleanup */
+  g_settings_schema_unref (schema);
+  g_strfreev (keys);
+  g_strfreev (children);
+}
+
+
+
+static void
 xfconf_plugin_enable (MousepadPlugin *mplugin)
 {
-  XfconfPlugin *plugin = XFCONF_PLUGIN (mplugin);
-  GApplication *application;
-  GSettings    *settings;
-  GError       *error = NULL;
+  XfconfPlugin    *plugin = XFCONF_PLUGIN (mplugin);
+  GApplication    *application;
+  GSettings       *settings;
+  GError          *error = NULL;
 
   /* initialize xfconf */
   if (G_UNLIKELY (! (plugin->initialized = xfconf_init (&error))))
@@ -162,6 +240,11 @@ xfconf_plugin_enable (MousepadPlugin *mplugin)
   /* bind it to xfconf instead */
   xfconf_g_property_bind (xfconf_channel_get ("xsettings"), "/Gtk/MonospaceFontName",
                           G_TYPE_STRING, application, "default-font");
+
+  /* bind mousepad settings with xfconf */
+  xfconf_plugin_set_schema (xfconf_channel_get ("mousepad"), MOUSEPAD_ID,
+                            g_settings_schema_source_get_default (),
+                            mousepad_settings_get_root ());
 }
 
 
