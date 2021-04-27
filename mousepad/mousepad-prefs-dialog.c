@@ -588,7 +588,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_CLOSE);
 
   /* setup the window properties */
-  gtk_window_set_title (GTK_WINDOW (self), _("Preferences"));
+  gtk_window_set_title (GTK_WINDOW (self), _("Mousepad Preferences"));
   gtk_window_set_icon_name (GTK_WINDOW (self), "preferences-desktop");
 
   /* setup tab mode combo box */
