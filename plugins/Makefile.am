@@ -1,2 +1,3 @@
 SUBDIRS = \
-	gspell-plugin
+	gspell-plugin \
+	xfconf-plugin
