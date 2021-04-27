@@ -129,7 +129,7 @@
         <item>
           <attribute name="label" translatable="yes">Preferences</attribute>
           <attribute name="tooltip" translatable="yes">Show the preferences dialog</attribute>
-          <attribute name="action">win.edit.preferences</attribute>
+          <attribute name="action">app.preferences</attribute>
           <attribute name="icon">preferences-system</attribute>
         </item>
       </section>
