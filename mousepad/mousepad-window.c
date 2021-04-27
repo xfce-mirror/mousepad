@@ -312,9 +312,6 @@ static void              mousepad_window_action_delete_line           (GSimpleAc
 static void              mousepad_window_action_select_all            (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
-static void              mousepad_window_action_preferences           (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
 static void              mousepad_window_action_lowercase             (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
@@ -536,8 +533,6 @@ static const GActionEntry action_entries[] =
   { "edit.duplicate-line-selection", mousepad_window_action_duplicate, NULL, NULL, NULL },
   { "edit.increase-indent", mousepad_window_action_increase_indent, NULL, NULL, NULL },
   { "edit.decrease-indent", mousepad_window_action_decrease_indent, NULL, NULL, NULL },
-
-  { "edit.preferences", mousepad_window_action_preferences, NULL, NULL, NULL },
 
   /* "Search" menu */
   { "search.find", mousepad_window_action_find, NULL, NULL, NULL },
@@ -5269,22 +5264,6 @@ mousepad_window_action_select_all (GSimpleAction *action,
 
   /* select everything in the document */
   g_signal_emit_by_name (window->active->textview, "select-all", TRUE);
-}
-
-
-
-static void
-mousepad_window_action_preferences (GSimpleAction *action,
-                                    GVariant      *value,
-                                    gpointer       data)
-{
-  GtkWindow      *window = GTK_WINDOW (data);
-  GtkApplication *application;
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  application = gtk_window_get_application (window);
-  mousepad_application_show_preferences (MOUSEPAD_APPLICATION (application), window);
 }
 
 

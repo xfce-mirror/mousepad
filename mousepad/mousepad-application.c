@@ -73,6 +73,9 @@ static void        mousepad_application_set_shared_menu_parts     (MousepadAppli
                                                                    GMenuModel               *model);
 static void        mousepad_application_create_languages_menu     (MousepadApplication      *application);
 static void        mousepad_application_create_style_schemes_menu (MousepadApplication      *application);
+static void        mousepad_application_action_preferences        (GSimpleAction            *action,
+                                                                   GVariant                 *value,
+                                                                   gpointer                  data);
 static void        mousepad_application_action_quit               (GSimpleAction            *action,
                                                                    GVariant                 *value,
                                                                    gpointer                  data);
@@ -197,6 +200,7 @@ enum
 static const GActionEntry stateless_actions[] =
 {
   /* command line options */
+  { "preferences", mousepad_application_action_preferences, NULL, NULL, NULL },
   { "quit", mousepad_application_action_quit, NULL, NULL, NULL }
 };
 #define N_STATELESS G_N_ELEMENTS (stateless_actions)
@@ -1230,54 +1234,6 @@ mousepad_application_active_window_changed (MousepadApplication *application)
 
 
 static void
-mousepad_application_prefs_dialog_response (MousepadApplication *application,
-                                            gint                 response_id,
-                                            MousepadPrefsDialog *dialog)
-{
-  gtk_widget_destroy (application->prefs_dialog);
-  application->prefs_dialog = NULL;
-}
-
-
-
-void
-mousepad_application_show_preferences (MousepadApplication *application,
-                                       GtkWindow           *transient_for)
-{
-  GList *windows;
-
-  /* if the dialog isn't already shown, create one */
-  if (! GTK_IS_WIDGET (application->prefs_dialog))
-    {
-      application->prefs_dialog = mousepad_prefs_dialog_new ();
-
-      /* destroy the dialog when it's close button is pressed */
-      g_signal_connect_swapped (application->prefs_dialog, "response",
-                                G_CALLBACK (mousepad_application_prefs_dialog_response),
-                                application);
-    }
-
-  /* if no transient window was specified, used the first application window
-   * or NULL if no windows exists (shouldn't happen) */
-  if (! GTK_IS_WINDOW (transient_for))
-    {
-      windows = gtk_application_get_windows (GTK_APPLICATION (application));
-      if (windows && GTK_IS_WINDOW (windows->data))
-        transient_for = GTK_WINDOW (windows->data);
-      else
-        transient_for = NULL;
-    }
-
-  /* associate it with one of the windows */
-  gtk_window_set_transient_for (GTK_WINDOW (application->prefs_dialog), transient_for);
-
-  /* show it to the user */
-  gtk_window_present (GTK_WINDOW (application->prefs_dialog));
-}
-
-
-
-static void
 mousepad_application_update_menu (GMenuModel *shared_menu,
                                   gint        position,
                                   gint        removed,
@@ -1512,6 +1468,45 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
     }
 
   g_slist_free (schemes);
+}
+
+
+
+static void
+mousepad_application_prefs_dialog_response (MousepadApplication *application,
+                                            gint                 response_id,
+                                            MousepadPrefsDialog *dialog)
+{
+  gtk_widget_destroy (application->prefs_dialog);
+  application->prefs_dialog = NULL;
+}
+
+
+
+static void
+mousepad_application_action_preferences (GSimpleAction *action,
+                                         GVariant      *value,
+                                         gpointer       data)
+{
+  MousepadApplication *application = data;
+
+  /* if the dialog isn't already shown, create one */
+  if (! GTK_IS_WIDGET (application->prefs_dialog))
+    {
+      application->prefs_dialog = mousepad_prefs_dialog_new ();
+
+      /* destroy the dialog when it's close button is pressed */
+      g_signal_connect_swapped (application->prefs_dialog, "response",
+                                G_CALLBACK (mousepad_application_prefs_dialog_response),
+                                application);
+    }
+
+  /* associate it with the active window, if any */
+  gtk_window_set_transient_for (GTK_WINDOW (application->prefs_dialog),
+                                gtk_application_get_active_window (data));
+
+  /* show it to the user */
+  gtk_window_present (GTK_WINDOW (application->prefs_dialog));
 }
 
 
