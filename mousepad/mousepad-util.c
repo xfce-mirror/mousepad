@@ -375,16 +375,29 @@ mousepad_util_escape_underscores (const gchar *str)
 
 GtkWidget *
 mousepad_util_image_button (const gchar *icon_name,
-                            const gchar *label)
+                            const gchar *label,
+                            gint         margin_start,
+                            gint         margin_end,
+                            gint         margin_top,
+                            gint         margin_bottom)
 {
-  GtkWidget *button, *image;
+  GtkWidget *button, *box, *widget;
 
-  image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image);
+  button = gtk_button_new ();
+  gtk_widget_set_margin_start (button, margin_start);
+  gtk_widget_set_margin_end (button, margin_end);
+  gtk_widget_set_margin_top (button, margin_top);
+  gtk_widget_set_margin_bottom (button, margin_bottom);
 
-  button = gtk_button_new_with_mnemonic (label);
-  gtk_button_set_image (GTK_BUTTON (button), image);
-  gtk_widget_show (button);
+  box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+  gtk_widget_set_halign (box, GTK_ALIGN_CENTER);
+  gtk_button_set_child (GTK_BUTTON (button), box);
+
+  widget = gtk_image_new_from_icon_name (icon_name);
+  gtk_box_append (GTK_BOX (box), widget);
+
+  widget = gtk_label_new_with_mnemonic (label);
+  gtk_box_append (GTK_BOX (box), widget);
 
   return button;
 }
@@ -406,11 +419,10 @@ mousepad_util_entry_error (GtkWidget *widget,
   if (GPOINTER_TO_INT (pointer) != error)
     {
       /* set the widget style */
-      /* see http://gtk.10911.n7.nabble.com/set-custom-entry-background-td88472.html#a88489 */
       if (error)
-        gtk_style_context_add_class (gtk_widget_get_style_context (widget), GTK_STYLE_CLASS_ERROR);
+        gtk_widget_add_css_class (widget, "error");
       else
-        gtk_style_context_remove_class (gtk_widget_get_style_context (widget), GTK_STYLE_CLASS_ERROR);
+        gtk_widget_remove_css_class (widget, "error");
 
       /* set the new state */
       mousepad_object_set_data (widget, "error-state", GINT_TO_POINTER (error));
@@ -430,26 +442,21 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
   GtkWidget *icon, *label, *line;
   GtkWidget *dialog_vbox;
 
-  /* remove the main vbox */
-  dialog_vbox = gtk_bin_get_child (GTK_BIN (dialog));
-  g_object_ref (dialog_vbox);
-  gtk_container_remove (GTK_CONTAINER (dialog), dialog_vbox);
-
-  /* add a new vbox to the main window */
+  /* create a new vbox for the main window */
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-  gtk_container_add (GTK_CONTAINER (dialog), vbox);
-  gtk_widget_show (vbox);
 
   /* create a hbox */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-  gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
-  gtk_container_add (GTK_CONTAINER (vbox), hbox);
-  gtk_widget_show (hbox);
+  gtk_widget_set_margin_start (hbox, 6);
+  gtk_widget_set_margin_end (hbox, 6);
+  gtk_widget_set_margin_top (hbox, 6);
+  gtk_widget_set_margin_bottom (hbox, 6);
+  gtk_box_append (GTK_BOX (vbox), hbox);
 
   /* title icon */
-  icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_DIALOG);
-  gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
-  gtk_widget_show (icon);
+  icon = gtk_image_new_from_icon_name (icon_name);
+  gtk_image_set_icon_size (GTK_IMAGE (icon), GTK_ICON_SIZE_LARGE);
+  gtk_box_append (GTK_BOX (hbox), icon);
 
   /* create the title */
   formated_title = g_strdup_printf ("<b><big>%s</big></b>", title);
@@ -466,19 +473,18 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
   gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
-
-  /* cleanup */
+  gtk_box_append (GTK_BOX (hbox), label);
   g_free (full_title);
 
   /* add the separator between header and content */
   line = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-  gtk_box_pack_start (GTK_BOX (vbox), line, FALSE, FALSE, 0);
-  gtk_widget_show (line);
+  gtk_box_append (GTK_BOX (vbox), line);
 
-  /* add the main dialog box to the new vbox */
-  gtk_box_pack_start (GTK_BOX (vbox), dialog_vbox, TRUE, TRUE, 0);
+  /* add the main dialog box to the new vbox and the latter to the main window */
+  dialog_vbox = gtk_window_get_child (GTK_WINDOW (dialog));
+  g_object_ref (dialog_vbox);
+  gtk_window_set_child (GTK_WINDOW (dialog), vbox);
+  gtk_box_append (GTK_BOX (vbox), dialog_vbox);
   g_object_unref (dialog_vbox);
 }
 
@@ -491,21 +497,16 @@ mousepad_util_dialog_update_header (GtkDialog   *dialog,
                                     const gchar *icon_name)
 {
   gchar     *formated_title, *full_title;
-  GtkWidget *vbox, *hbox;
-  GtkWidget *icon, *label;
-  GList     *children, *child;
+  GtkWidget *vbox, *hbox, *icon, *label;
 
   /* retrieve the hbox */
-  vbox = gtk_bin_get_child (GTK_BIN (dialog));
-  children = gtk_container_get_children (GTK_CONTAINER (vbox));
-  hbox = children->data;
-  g_list_free (children);
+  vbox = gtk_window_get_child (GTK_WINDOW (dialog));
+  hbox = gtk_widget_get_first_child (vbox);
 
   /* title icon */
-  children = gtk_container_get_children (GTK_CONTAINER (hbox));
-  child = children;
-  icon = child->data;
-  gtk_image_set_from_icon_name (GTK_IMAGE (icon), icon_name, GTK_ICON_SIZE_DIALOG);
+  icon = gtk_widget_get_first_child (hbox);
+  gtk_image_set_from_icon_name (GTK_IMAGE (icon), icon_name);
+  gtk_image_set_icon_size (GTK_IMAGE (icon), GTK_ICON_SIZE_LARGE);
 
   /* title label */
   formated_title = g_strdup_printf ("<b><big>%s</big></b>", title);
@@ -517,13 +518,11 @@ mousepad_util_dialog_update_header (GtkDialog   *dialog,
   else
     full_title = formated_title;
 
-  child = child->next;
-  label = child->data;
+  label = gtk_widget_get_last_child (hbox);
   gtk_label_set_markup (GTK_LABEL (label), full_title);
 
   /* cleanup */
   g_free (full_title);
-  g_list_free (children);
 }
 
 
@@ -744,84 +743,19 @@ mousepad_util_save_key_file (GKeyFile    *keyfile,
 
 
 
-static void
-mousepad_util_container_foreach_counter (GtkWidget *widget,
-                                         gpointer   data)
-{
-  guint *n_children = (guint *) data;
-
-  *n_children = *n_children + 1;
-}
-
-
-
-gboolean
-mousepad_util_container_has_children (GtkContainer *container)
-{
-  guint n_children = 0;
-
-  g_return_val_if_fail (GTK_IS_CONTAINER (container), FALSE);
-
-  gtk_container_foreach (container,
-                         mousepad_util_container_foreach_counter,
-                         &n_children);
-
-  return (n_children > 0);
-}
-
-
-void
-mousepad_util_container_clear (GtkContainer *container)
-{
-  GList *list, *iter;
-
-  g_return_if_fail (GTK_IS_CONTAINER (container));
-
-  list = gtk_container_get_children (container);
-
-  for (iter = list; iter != NULL; iter = g_list_next (iter))
-    gtk_container_remove (container, iter->data);
-
-  g_list_free (list);
-}
-
-
-
-void
-mousepad_util_container_move_children (GtkContainer *source,
-                                       GtkContainer *destination)
-{
-  GList *list, *iter;
-
-  list = gtk_container_get_children (source);
-
-  for (iter = list; iter != NULL; iter = g_list_next (iter))
-    {
-      GtkWidget *tmp = g_object_ref (iter->data);
-
-      gtk_container_remove (source, tmp);
-      gtk_container_add (destination, tmp);
-      g_object_unref (tmp);
-    }
-
-  g_list_free (list);
-}
-
-
-
 static gint
 mousepad_util_style_schemes_name_compare (gconstpointer a,
                                           gconstpointer b)
 {
   const gchar *name_a, *name_b;
 
-  if (G_UNLIKELY (!GTK_SOURCE_IS_STYLE_SCHEME (a)))
+  if (G_UNLIKELY (a == NULL))
     return - (a != b);
-  if (G_UNLIKELY (!GTK_SOURCE_IS_STYLE_SCHEME (b)))
+  if (G_UNLIKELY (b == NULL))
     return a != b;
 
-  name_a = gtk_source_style_scheme_get_name (GTK_SOURCE_STYLE_SCHEME (a));
-  name_b = gtk_source_style_scheme_get_name (GTK_SOURCE_STYLE_SCHEME (b));
+  name_a = gtk_source_style_scheme_get_name ((GtkSourceStyleScheme *) a);
+  name_b = gtk_source_style_scheme_get_name ((GtkSourceStyleScheme *) b);
 
   return g_utf8_collate (name_a, name_b);
 }
@@ -908,13 +842,13 @@ mousepad_util_languages_name_compare (gconstpointer a,
 {
   const gchar *name_a, *name_b;
 
-  if (G_UNLIKELY (!GTK_SOURCE_IS_LANGUAGE (a)))
+  if (G_UNLIKELY (a == NULL))
     return - (a != b);
-  if (G_UNLIKELY (!GTK_SOURCE_IS_LANGUAGE (b)))
+  if (G_UNLIKELY (b == NULL))
     return a != b;
 
-  name_a = gtk_source_language_get_name (GTK_SOURCE_LANGUAGE (a));
-  name_b = gtk_source_language_get_name (GTK_SOURCE_LANGUAGE (b));
+  name_a = gtk_source_language_get_name ((GtkSourceLanguage *) a);
+  name_b = gtk_source_language_get_name ((GtkSourceLanguage *) b);
 
   return g_utf8_collate (name_a, name_b);
 }
@@ -1154,34 +1088,4 @@ mousepad_util_pango_font_description_to_css (const PangoFontDescription *font_de
 
 #undef ADD_KEYVAL
 #undef ADD_KEYVAL_PRINTF
-}
-
-
-
-/* to be replaced by g_file_peek_path() when bumping GLib minimal version to 2.56 or higher */
-const gchar *
-mousepad_util_get_path (GFile *file)
-{
-#if ! GLIB_CHECK_VERSION (2, 56, 0)
-  gchar       *path;
-  const gchar *intern_path;
-#endif
-
-  g_return_val_if_fail (G_IS_FILE (file), NULL);
-
-#if GLIB_CHECK_VERSION (2, 56, 0)
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-
-  return g_file_peek_path (file);
-
-G_GNUC_END_IGNORE_DEPRECATIONS
-#else
-
-  path = g_file_get_path (file);
-  intern_path = g_intern_string (path);
-  g_free (path);
-
-  return intern_path;
-
-#endif
 }
