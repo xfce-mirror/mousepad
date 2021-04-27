@@ -90,7 +90,6 @@ AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, GLIB_VERSION_2_52, Warn when using post 2_52
 AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, GLIB_VERSION_2_52, Don't warn about post 2_52 deprecations)
 XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.52.0])
 XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [2.52.0])
-XDT_CHECK_PACKAGE([XFCONF], [libxfconf-0], [4.12.0])
 XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.22.0])
 
 dnl *******************************
@@ -127,6 +126,7 @@ dnl *************************
 dnl *** Check for plugins ***
 dnl *************************
 MOUSEPAD_PLUGIN_GSPELL()
+MOUSEPAD_PLUGIN_XFCONF()
 
 dnl ***********************************
 dnl *** Check for debugging support ***
@@ -156,6 +156,7 @@ Makefile
 mousepad/Makefile
 plugins/Makefile
 plugins/gspell-plugin/Makefile
+plugins/xfconf-plugin/Makefile
 po/Makefile.in
 icons/Makefile
 icons/16x16/Makefile
@@ -178,4 +179,5 @@ echo
 echo "Plugins:"
 echo
 echo "* gspell:                     $ac_mousepad_plugin_gspell"
+echo "* xfconf:                     $ac_mousepad_plugin_xfconf"
 echo

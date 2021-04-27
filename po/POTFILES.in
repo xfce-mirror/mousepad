@@ -23,8 +23,9 @@ mousepad/mousepad-window.c
 [type: gettext/glade]mousepad/resources/gtk/menus-common.ui
 [type: gettext/glade]mousepad/resources/ui/mousepad-prefs-dialog.ui
 
-plugins/gspell-plugin/mousepad-plugin-gspell.c
 plugins/gspell-plugin/gspell-plugin.c
+plugins/gspell-plugin/mousepad-plugin-gspell.c
+plugins/xfconf-plugin/mousepad-plugin-xfconf.c
 
 
 
