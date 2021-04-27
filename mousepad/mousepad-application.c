@@ -109,6 +109,7 @@ struct _MousepadApplication
 
   /* preferences dialog */
   GtkWidget *prefs_dialog;
+  gboolean   prefs_dialog_standalone;
 
   /* command line options */
   gint             opening_mode, line, column;
@@ -160,6 +161,11 @@ static const GOptionEntry option_entries[] =
     G_OPTION_ARG_INT, NULL,
     N_("Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 from end)"),
     N_("COLUMN")
+  },
+  {
+    "preferences", '\0', G_OPTION_FLAG_NONE,
+    G_OPTION_ARG_NONE, NULL,
+    N_("Open the preferences dialog"), NULL
   },
   {
     "disable-server", '\0', G_OPTION_FLAG_NONE,
@@ -362,6 +368,7 @@ mousepad_application_init (MousepadApplication *application)
 
   /* initialize application attributes */
   application->prefs_dialog = NULL;
+  application->prefs_dialog_standalone = FALSE;
   application->default_font = g_strdup (DEFAULT_FONT);
   application->space_location_flags = GTK_SOURCE_SPACE_LOCATION_ALL;
   application->opening_mode = TAB;
@@ -902,6 +909,22 @@ mousepad_application_command_line (GApplication            *gapplication,
 
   /* get the option dictionary */
   options = g_application_command_line_get_options_dict (command_line);
+
+  /* see if the prefs dialog is to be opened */
+  if (g_variant_dict_contains (options, "preferences"))
+    {
+      /* create and show the prefs dialog */
+      g_action_group_activate_action (G_ACTION_GROUP (gapplication), "preferences", NULL);
+
+      /* increase application use count to keep the prefs dialog alive */
+      if (! application->prefs_dialog_standalone)
+        {
+          g_application_hold (gapplication);
+          application->prefs_dialog_standalone = TRUE;
+        }
+
+      return EXIT_SUCCESS;
+    }
 
   /* retrieve encoding from the remote instance */
   g_variant_dict_lookup (options, "encoding", "u", &(application->encoding));
@@ -1473,12 +1496,27 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
 
 
 static void
+mousepad_application_prefs_dialog_standalone (MousepadApplication *application)
+{
+  if (application->prefs_dialog_standalone)
+    {
+      g_application_release (G_APPLICATION (application));
+      application->prefs_dialog_standalone = FALSE;
+    }
+}
+
+
+
+static void
 mousepad_application_prefs_dialog_response (MousepadApplication *application,
                                             gint                 response_id,
                                             MousepadPrefsDialog *dialog)
 {
   gtk_widget_destroy (application->prefs_dialog);
   application->prefs_dialog = NULL;
+
+  /* decrease application use count, if needed */
+  mousepad_application_prefs_dialog_standalone (application);
 }
 
 
@@ -1522,7 +1560,7 @@ mousepad_application_action_quit (GSimpleAction *action,
   gboolean  succeed;
 
   /* try to close all windows, abort at the first failure */
-  windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (data)));
+  windows = g_list_copy (gtk_application_get_windows (data));
   for (window = windows; window != NULL; window = window->next)
     {
       close_action = g_action_map_lookup_action (G_ACTION_MAP (window->data), "file.close-window");
@@ -1535,6 +1573,9 @@ mousepad_application_action_quit (GSimpleAction *action,
     }
 
   g_list_free (windows);
+
+  /* decrease application use count, if needed */
+  mousepad_application_prefs_dialog_standalone (data);
 }
 
 
