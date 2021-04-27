@@ -47,6 +47,14 @@ mousepad_settings_init (void)
 
 
 
+GSettings *
+mousepad_settings_get_root (void)
+{
+  return mousepad_settings_store_get_root (settings_store);
+}
+
+
+
 void
 mousepad_setting_bind (const gchar        *setting,
                        gpointer            object,
