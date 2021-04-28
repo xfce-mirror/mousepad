@@ -32,6 +32,7 @@ plugins/gspell-plugin/gspell-plugin.c
 # Desktop Files
 #
 mousepad.desktop.in.in
+mousepad-settings.desktop.in.in
 
 #
 # Appdata Files
