@@ -1990,7 +1990,8 @@ mousepad_window_open_file (MousepadWindow   *window,
 
             /* scroll to cursor if -l or -c is used */
             if (line != 0 || column != 0)
-              g_idle_add (mousepad_view_scroll_to_cursor, window->active->textview);
+              g_idle_add (mousepad_view_scroll_to_cursor,
+                          mousepad_util_source_autoremove (window->active->textview));
 
             /* insert in the recent history */
             mousepad_window_recent_add (window, document->file);
@@ -2857,17 +2858,11 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
 static gboolean
 mousepad_window_pending_widget_idle (gpointer data)
 {
-  MousepadDocument *document;
+  MousepadDocument *document = data;
   MousepadWindow   *window;
 
-  /* the window or its attributes may no longer exist when we get here */
-  if (MOUSEPAD_IS_DOCUMENT (data))
-    {
-      document = MOUSEPAD_DOCUMENT (data);
-      window = MOUSEPAD_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (data), MOUSEPAD_TYPE_WINDOW));
-      if (MOUSEPAD_IS_WINDOW (window) && MOUSEPAD_IS_FILE (document->file))
-        mousepad_window_externally_modified (document->file, window);
-    }
+  window = MOUSEPAD_WINDOW (gtk_widget_get_ancestor (data, MOUSEPAD_TYPE_WINDOW));
+  mousepad_window_externally_modified (document->file, window);
 
   return FALSE;
 }
@@ -2882,7 +2877,8 @@ mousepad_window_pending_window (MousepadWindow *window)
 
   /* try again to inform the user about this file whenever idle, to allow for a possible
    * closing process to take place before */
-  g_idle_add (mousepad_window_pending_widget_idle, window->active);
+  g_idle_add (mousepad_window_pending_widget_idle,
+              mousepad_util_source_autoremove (window->active));
 }
 
 
@@ -2900,7 +2896,7 @@ mousepad_window_pending_tab (GtkNotebook  *notebook,
 
       /* try again to inform the user about this file whenever idle, to allow for a possible
        * closing process to take place before */
-      g_idle_add (mousepad_window_pending_widget_idle, page);
+      g_idle_add (mousepad_window_pending_widget_idle, mousepad_util_source_autoremove (page));
     }
 }
 
@@ -4185,7 +4181,8 @@ mousepad_window_search_completed (MousepadWindow      *window,
 
   /* make sure the selection is visible whenever idle */
   if (n_matches_doc > 0)
-    g_idle_add (mousepad_view_scroll_to_cursor, window->active->textview);
+    g_idle_add (mousepad_view_scroll_to_cursor,
+                mousepad_util_source_autoremove (window->active->textview));
 }
 
 
@@ -4955,7 +4952,8 @@ mousepad_window_action_reload (GSimpleAction *action,
       g_error_free (error);
     }
   else
-    g_idle_add (mousepad_view_scroll_to_cursor, window->active->textview);
+    g_idle_add (mousepad_view_scroll_to_cursor,
+                mousepad_util_source_autoremove (window->active->textview));
 }
 
 

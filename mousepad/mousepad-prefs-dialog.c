@@ -433,10 +433,6 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
   GtkWidget              *button = data, *box, *popover;
   gboolean                visible;
 
-  /* the button could have been destroyed when we get here */
-  if (! GTK_IS_BUTTON (button))
-    return FALSE;
-
   provider = mousepad_object_get_data (button, "provider");
   box = mousepad_plugin_provider_get_setting_box (provider);
   visible = gtk_widget_get_visible (button);
@@ -467,7 +463,8 @@ mousepad_prefs_dialog_checkbox_toggled (GtkToggleButton *checkbox,
                                         GtkWidget       *button)
 {
   /* wait for the plugin to get its setting box, or for this box to be destroyed */
-  g_idle_add (mousepad_prefs_dialog_checkbox_toggled_idle, button);
+  g_idle_add (mousepad_prefs_dialog_checkbox_toggled_idle,
+              mousepad_util_source_autoremove (button));
 }
 
 

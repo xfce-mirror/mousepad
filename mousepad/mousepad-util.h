@@ -98,6 +98,8 @@ gchar       *mousepad_util_pango_font_description_to_css    (const PangoFontDesc
 
 const gchar *mousepad_util_get_path                         (GFile                      *file);
 
+gpointer     mousepad_util_source_autoremove                (gpointer                    object);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_UTIL_H__ */

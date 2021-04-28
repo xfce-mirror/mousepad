@@ -213,37 +213,32 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
 static gboolean
 mousepad_file_set_monitor (gpointer data)
 {
-  MousepadFile *file;
+  MousepadFile *file = data;
   GError       *error = NULL;
 
-  /* the file may have been released during the delay */
-  if (MOUSEPAD_IS_FILE (data))
+  if (G_IS_FILE_MONITOR (file->monitor))
+    g_object_unref (file->monitor);
+
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
     {
-      file = MOUSEPAD_FILE (data);
-      if (G_IS_FILE_MONITOR (file->monitor))
-        g_object_unref (file->monitor);
-
-      if (MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
-        {
-          file->monitor = g_file_monitor_file (file->location,
+      file->monitor = g_file_monitor_file (file->location,
 #if GLIB_CHECK_VERSION (2, 56, 2)
-                                               G_FILE_MONITOR_WATCH_HARD_LINKS |
+                                           G_FILE_MONITOR_WATCH_HARD_LINKS |
 #endif
-                                               G_FILE_MONITOR_WATCH_MOVES,
-                                               NULL, &error);
+                                           G_FILE_MONITOR_WATCH_MOVES,
+                                           NULL, &error);
 
-          /* inform the user */
-          if (error != NULL)
-            {
-              g_message ("File monitoring is disabled for file '%s': %s",
-                         mousepad_file_get_path (file), error->message);
-              g_error_free (error);
-            }
-          /* watch file for changes */
-          else
-            g_signal_connect (file->monitor, "changed",
-                              G_CALLBACK (mousepad_file_monitor_changed), file);
+      /* inform the user */
+      if (error != NULL)
+        {
+          g_message ("File monitoring is disabled for file '%s': %s",
+                     mousepad_file_get_path (file), error->message);
+          g_error_free (error);
         }
+      /* watch file for changes */
+      else
+        g_signal_connect (file->monitor, "changed",
+                          G_CALLBACK (mousepad_file_monitor_changed), file);
     }
 
   return FALSE;
@@ -284,7 +279,7 @@ mousepad_file_set_location (MousepadFile *file,
       /* activate file monitoring with a delay, to not consider our own saving as
        * external modification after a save as */
       g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
-                     mousepad_file_set_monitor, file);
+                     mousepad_file_set_monitor, mousepad_util_source_autoremove (file));
 
       /* send a signal that the name has been changed */
       g_signal_emit (file, file_signals[LOCATION_CHANGED], 0, file->location);
@@ -720,15 +715,9 @@ mousepad_file_open (MousepadFile  *file,
 static gboolean
 mousepad_file_monitor_unblock (gpointer data)
 {
-  MousepadFile *file;
+  MousepadFile *file = data;
 
-  /* the file or its monitor may have been released during the delay */
-  if (MOUSEPAD_IS_FILE (data))
-    {
-      file = MOUSEPAD_FILE (data);
-      if (G_IS_FILE_MONITOR (file->monitor))
-        g_signal_handlers_unblock_by_func (file->monitor, mousepad_file_monitor_changed, data);
-    }
+  g_signal_handlers_unblock_by_func (file->monitor, mousepad_file_monitor_changed, data);
 
   return FALSE;
 }
@@ -761,7 +750,7 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
    * external modification */
   if (G_IS_FILE_MONITOR (m_file->monitor))
     g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
-                   mousepad_file_monitor_unblock, m_file);
+                   mousepad_file_monitor_unblock, mousepad_util_source_autoremove (m_file));
 
   return succeed;
 }

@@ -619,9 +619,7 @@ mousepad_dialogs_combo_insert_separator (GtkTreeModel *model,
 static gboolean
 mousepad_dialogs_combo_popup (gpointer data)
 {
-  /* the combo box may no longer exist when we get here */
-  if (GTK_IS_COMBO_BOX (data))
-    gtk_combo_box_popup (GTK_COMBO_BOX (data));
+  gtk_combo_box_popup (data);
 
   return FALSE;
 }
@@ -792,7 +790,8 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
         }
 
       /* reopen combo box */
-      g_idle_add_full (G_PRIORITY_LOW, mousepad_dialogs_combo_popup, combo, NULL);
+      g_idle_add_full (G_PRIORITY_LOW, mousepad_dialogs_combo_popup,
+                       mousepad_util_source_autoremove (combo), NULL);
     }
 }
 
