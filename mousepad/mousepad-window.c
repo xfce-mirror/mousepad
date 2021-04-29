@@ -492,8 +492,9 @@ static const GActionEntry action_entries[] =
     { "file.open-recent.clear-history", mousepad_window_action_clear_recent, NULL, NULL, NULL },
 
   { "file.save", mousepad_window_action_save, NULL, "0", NULL },
+    { "file.save.readonly", mousepad_window_action_save_as, NULL, "0", NULL },
+
   { "file.save-as", mousepad_window_action_save_as, NULL, "0", NULL },
-  { "file.readonly-save", mousepad_window_action_save_as, NULL, "0", NULL },
   { "file.save-all", mousepad_window_action_save_all, NULL, NULL, NULL },
   { "file.reload", mousepad_window_action_reload, NULL, NULL, NULL },
 
@@ -2982,13 +2983,12 @@ mousepad_window_readonly_changed (MousepadFile   *file,
       /* update window title */
       mousepad_window_set_title (window);
 
-      /* set the save action sensitivity */
+      /* set the enabled save action type */
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), mousepad_file_is_savable (file));
-      
-      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.readonly-save");
+
+      action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save.readonly");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), !mousepad_file_is_savable (file));
-      
     }
 }
 

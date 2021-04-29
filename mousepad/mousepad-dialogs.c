@@ -397,7 +397,7 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   dialog = gtk_dialog_new_with_buttons (_("Save Changes"), parent, GTK_DIALOG_MODAL,
                                         _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
-  
+
   /* setup secondary label */
   secondary_label = gtk_label_new(NULL);
 
@@ -415,6 +415,8 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
       gtk_widget_set_can_default (button, TRUE);
       gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
       gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_SAVE_AS);
+
+      /* we also show a different message */
       gtk_label_set_text(GTK_LABEL(secondary_label), _("The document is read-only. If you don't save the document as another file, all the changes will be lost."));
     }
   else

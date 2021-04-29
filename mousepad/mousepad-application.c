@@ -630,7 +630,7 @@ mousepad_application_set_accels (MousepadApplication *application)
     { "win.help.contents", "F1" },
 
     /* Miscellaneous */
-    { "win.file.readonly-save", "<Control>S" }
+    { "win.file.save.readonly", "<Control>S" }
   };
 
   /* actions that have a default accel */
