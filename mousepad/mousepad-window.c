@@ -4180,7 +4180,7 @@ mousepad_window_search_completed (MousepadWindow      *window,
     }
 
   /* make sure the selection is visible whenever idle */
-  if (n_matches_doc > 0)
+  if (! (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE) && n_matches_doc > 0)
     g_idle_add (mousepad_view_scroll_to_cursor,
                 mousepad_util_source_autoremove (window->active->textview));
 }

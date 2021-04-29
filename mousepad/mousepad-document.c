@@ -750,7 +750,9 @@ mousepad_document_search_completed (GObject      *object,
             }
         }
     }
-  else if (! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
+  /* deselect previous result when the new search fails or the search field is reset */
+  else if (! (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE)
+           && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
     gtk_text_buffer_place_cursor (document->buffer, &iter);
 }
 

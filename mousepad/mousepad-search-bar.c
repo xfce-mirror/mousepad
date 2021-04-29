@@ -354,8 +354,11 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
   const gchar *string;
 
   /* always true when using the search bar */
-  flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT
-           | MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND;
+  flags |= MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND;
+
+  /* always select unless it is a silent search */
+  if (! (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE))
+    flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
 
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
@@ -516,9 +519,9 @@ mousepad_search_bar_page_switched (MousepadSearchBar *bar,
                            G_CALLBACK (mousepad_search_bar_reset_display),
                            bar, G_CONNECT_SWAPPED);
 
-  /* run a search */
+  /* run a silent search */
   if (search)
-    mousepad_search_bar_entry_changed (bar);
+    mousepad_search_bar_find_string (bar, MOUSEPAD_SEARCH_FLAGS_ACTION_NONE);
 }
 
 

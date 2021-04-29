@@ -54,8 +54,9 @@ typedef enum
   MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND        = 1 << 7,  /* used only by the search bar */
 
   /* actions */
-  MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT      = 1 << 8, /* select the match */
-  MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE     = 1 << 9, /* replace the match */
+  MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT      = 1 << 8,  /* select the match */
+  MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE     = 1 << 9,  /* replace the match */
+  MOUSEPAD_SEARCH_FLAGS_ACTION_NONE        = 1 << 10, /* silent search */
 }
 MousepadSearchFlags;
 
