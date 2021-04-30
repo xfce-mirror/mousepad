@@ -389,13 +389,17 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   GtkWidget *area, *hbox, *vbox;
   GtkWidget *button;
   GtkWidget *image;
-  GtkWidget *label;
+  GtkWidget *primary_label;
+  GtkWidget *secondary_label;
   gint       response;
 
   /* create the question dialog */
   dialog = gtk_dialog_new_with_buttons (_("Save Changes"), parent, GTK_DIALOG_MODAL,
                                         _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
+
+  /* setup secondary label */
+  secondary_label = gtk_label_new(NULL);
 
   /* set properties */
   gtk_window_set_default_size (GTK_WINDOW (dialog), 400, -1);
@@ -411,6 +415,9 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
       gtk_widget_set_can_default (button, TRUE);
       gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
       gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_SAVE_AS);
+
+      /* we also show a different message */
+      gtk_label_set_text(GTK_LABEL(secondary_label), _("The document is read-only. If you don't save the document as another file, all the changes will be lost."));
     }
   else
     {
@@ -419,6 +426,7 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
       gtk_widget_set_can_default (button, TRUE);
       gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
       gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_SAVE);
+      gtk_label_set_text(GTK_LABEL(secondary_label), _("If you don't save the document, all the changes will be lost."));
     }
 
   /* the content area */
@@ -437,16 +445,15 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   gtk_widget_show (vbox);
 
   /* primary text */
-  label = gtk_label_new (NULL);
-  gtk_label_set_markup (GTK_LABEL (label),
+  primary_label = gtk_label_new (NULL);
+  gtk_label_set_markup (GTK_LABEL (primary_label),
                         _("<big><b>Do you want to save the changes before closing?</b></big>"));
-  gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
+  gtk_box_pack_start (GTK_BOX (vbox), primary_label, TRUE, TRUE, 0);
+  gtk_widget_show (primary_label);
 
   /* secondary text */
-  label = gtk_label_new (_("If you don't save the document, all the changes will be lost."));
-  gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
+  gtk_box_pack_start (GTK_BOX (vbox), secondary_label, TRUE, TRUE, 0);
+  gtk_widget_show (secondary_label);
 
   /* run the dialog and wait for a response */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
