@@ -953,10 +953,10 @@
 
     <!-- "Plugins" tab -->
     <child>
-      <object class="GtkScrolledWindow">
-        <property name="visible">True</property>
+      <object class="GtkScrolledWindow" id="/prefs/plugins/scrolled-window">
         <child>
           <object class="GtkBox" id="/prefs/plugins/content-area">
+            <property name="visible">True</property>
             <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
             <property name="border-width">6</property>
             <property name="spacing">6</property>

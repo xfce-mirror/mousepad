@@ -42,7 +42,8 @@
 #define WID_OPENING_MODE_COMBO              "/prefs/window/notebook/opening-mode-combo"
 
 /* Plugins page */
-#define WID_PLUGINS_TAB                     "/prefs/plugins/content-area"
+#define WID_PLUGINS_TAB                     "/prefs/plugins/scrolled-window"
+#define WID_PLUGINS_BOX                     "/prefs/plugins/content-area"
 
 
 
@@ -500,7 +501,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   gtk_widget_insert_action_group (GTK_WIDGET (self), "app", G_ACTION_GROUP (application));
 
   /* setup the "Plugins" tab */
-  box = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
+  box = mousepad_builder_get_widget (self->builder, WID_PLUGINS_BOX);
   providers = mousepad_application_get_providers (application);
   for (provider = providers, n = 0; provider != NULL; provider = provider->next, n++)
     {
@@ -570,8 +571,9 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
     }
 
   /* show the "Plugins" tab only if there is at least one plugin */
+  widget = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
   if (providers != NULL)
-    gtk_widget_show (box);
+    gtk_widget_show (widget);
 
   /* add the Glade/GtkBuilder notebook into this dialog */
   box = gtk_dialog_get_content_area (GTK_DIALOG (self));
