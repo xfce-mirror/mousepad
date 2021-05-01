@@ -45,7 +45,6 @@ mousepad_close_button_class_init (MousepadCloseButtonClass *klass)
 static void
 mousepad_close_button_init (MousepadCloseButton *button)
 {
-  GtkWidget *image;
   GtkCssProvider  *css_provider;
   GtkStyleContext *context;
 
@@ -57,19 +56,13 @@ mousepad_close_button_init (MousepadCloseButton *button)
     "}\n";
 
   css_provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_data (css_provider, button_style, -1, NULL);
+  gtk_css_provider_load_from_data (css_provider, button_style, -1);
 
   context = gtk_widget_get_style_context (GTK_WIDGET (button));
   gtk_style_context_add_provider (context,
                                   GTK_STYLE_PROVIDER (css_provider),
                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   g_object_unref (css_provider);
-
-  image = gtk_image_new_from_icon_name ("window-close", GTK_ICON_SIZE_MENU);
-  gtk_container_add (GTK_CONTAINER (button), image);
-  gtk_widget_show (image);
-
-  g_object_set (button, "relief", GTK_RELIEF_NONE, "focus-on-click", FALSE, NULL);
 }
 
 
@@ -77,5 +70,6 @@ mousepad_close_button_init (MousepadCloseButton *button)
 GtkWidget *
 mousepad_close_button_new (void)
 {
-  return g_object_new (MOUSEPAD_TYPE_CLOSE_BUTTON, NULL);
+  return g_object_new (MOUSEPAD_TYPE_CLOSE_BUTTON, "icon-name", "window-close",
+                       "has-frame", FALSE, NULL);
 }
