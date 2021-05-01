@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-17 00:47+0200\n"
-"PO-Revision-Date: 2021-04-22 16:03+0000\n"
+"POT-Creation-Date: 2021-04-26 01:02+0200\n"
+"PO-Revision-Date: 2021-05-01 05:45+0000\n"
 "Last-Translator: heskjestad <cato@heskjestad.xyz>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/xfce/xfce-apps/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -24,80 +24,80 @@ msgstr ""
 "Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../mousepad/mousepad-application.c:125
+#: ../mousepad/mousepad-application.c:141
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
 msgstr "Åpne filer med denne tegnkodingen (la være tom for å åpne filer med dialogvindu for tegnkoding)"
 
-#: ../mousepad/mousepad-application.c:126
+#: ../mousepad/mousepad-application.c:142
 msgid "ENCODING"
 msgstr "TEGNKODING"
 
-#: ../mousepad/mousepad-application.c:131
+#: ../mousepad/mousepad-application.c:147
 msgid "Display a list of possible encodings to open files"
 msgstr "Vis en liste med mulige tegnkodinger som filer kan åpnes med"
 
-#: ../mousepad/mousepad-application.c:136
+#: ../mousepad/mousepad-application.c:152
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
 msgstr "Linjenummer til markørposisjonen (LINJE > 0 fra toppen, LINJE < 0 fra bunnen)"
 
-#: ../mousepad/mousepad-application.c:137
+#: ../mousepad/mousepad-application.c:153
 msgid "LINE"
 msgstr "LINJE"
 
-#: ../mousepad/mousepad-application.c:142
+#: ../mousepad/mousepad-application.c:158
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
 msgstr "Kolonnenummer til markørposisjonen (KOLONNE >= 0 fra start, KOLONNE < 0 fra slutt)"
 
-#: ../mousepad/mousepad-application.c:143
+#: ../mousepad/mousepad-application.c:159
 msgid "COLUMN"
 msgstr "KOLONNE"
 
-#: ../mousepad/mousepad-application.c:148
+#: ../mousepad/mousepad-application.c:164
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Ikke registrer på D-BUS øktas meldingsbuss"
 
-#: ../mousepad/mousepad-application.c:153
+#: ../mousepad/mousepad-application.c:169
 msgid "Quit a running Mousepad primary instance"
 msgstr "Avslutt en kjørende Mousepad-primærinstans"
 
-#: ../mousepad/mousepad-application.c:158
+#: ../mousepad/mousepad-application.c:174
 msgid "Print version information and exit"
 msgstr "Skriv ut versjonsinformasjon og avslutt"
 
-#: ../mousepad/mousepad-application.c:163
+#: ../mousepad/mousepad-application.c:179
 msgid "[FILES...]"
 msgstr "[FILER…]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:342 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:371 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:351
+#: ../mousepad/mousepad-application.c:380
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Modus for åpning av fil: «%s», «%s» eller «%s» (åpner faner i et nytt vindu)"
 
-#: ../mousepad/mousepad-application.c:354
+#: ../mousepad/mousepad-application.c:383
 msgid "MODE"
 msgstr "MODUS"
 
-#: ../mousepad/mousepad-application.c:407
+#: ../mousepad/mousepad-application.c:436
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Mousepad-utviklerne. Alle rettigheter reservert."
 
-#: ../mousepad/mousepad-application.c:408
+#: ../mousepad/mousepad-application.c:437
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Meld inn feil til <%s>."
 
-#: ../mousepad/mousepad-application.c:1324
+#: ../mousepad/mousepad-application.c:1498
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Forfattere: %s | Filnavn: %s"
@@ -231,7 +231,7 @@ msgstr "Endringer er ikke lagret. De vil gå tapt hvis du tilbakestiller fila."
 msgid "_Revert"
 msgstr "_Tilbakestill"
 
-#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3505
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3515
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "Last på n&ytt"
@@ -510,13 +510,13 @@ msgid "Invalid byte sequence in conversion input"
 msgstr "Ugyldig byte-sekvens i konverterings-inndata"
 
 #. add the close button
-#: ../mousepad/mousepad-prefs-dialog.c:443
+#: ../mousepad/mousepad-prefs-dialog.c:586
 #: ../mousepad/mousepad-replace-dialog.c:274
 msgid "_Close"
 msgstr "_Lukk"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:449
+#: ../mousepad/mousepad-prefs-dialog.c:592
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences"
 msgstr "Innstillinger"
@@ -716,19 +716,19 @@ msgstr "Kun lesing"
 msgid "Viewer Mode"
 msgstr "Visningsmodus"
 
-#: ../mousepad/mousepad-window.c:3256
+#: ../mousepad/mousepad-window.c:3266
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Bruk «%s» som mal"
 
-#: ../mousepad/mousepad-window.c:3282
+#: ../mousepad/mousepad-window.c:3292
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Fant ingen maler i\n«%s»"
 
-#: ../mousepad/mousepad-window.c:3340
+#: ../mousepad/mousepad-window.c:3350
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -736,93 +736,93 @@ msgid ""
 msgstr "Mangler mappe med maler\n«%s»"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3392
+#: ../mousepad/mousepad-window.c:3402
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "An_nen (%d) …"
 
-#: ../mousepad/mousepad-window.c:3402
+#: ../mousepad/mousepad-window.c:3412
 msgid "Ot_her..."
 msgstr "An_nen …"
 
-#: ../mousepad/mousepad-window.c:3499
+#: ../mousepad/mousepad-window.c:3509
 msgid "Re_vert"
 msgstr "Til_bakestill"
 
-#: ../mousepad/mousepad-window.c:3501
+#: ../mousepad/mousepad-window.c:3511
 msgid "Revert to the saved version of the file"
 msgstr "Tilbakestill til lagret versjon av fila"
 
-#: ../mousepad/mousepad-window.c:3507
+#: ../mousepad/mousepad-window.c:3517
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Last fila fra disk"
 
-#: ../mousepad/mousepad-window.c:3513
+#: ../mousepad/mousepad-window.c:3523
 msgid "Leave fullscreen mode"
 msgstr "Forlat fullskjermsmodus"
 
-#: ../mousepad/mousepad-window.c:3518
+#: ../mousepad/mousepad-window.c:3528
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Bytt til fullskjermsvisning av vindu"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3669 ../mousepad/mousepad-window.c:3878
+#: ../mousepad/mousepad-window.c:3679 ../mousepad/mousepad-window.c:3888
 msgid "Charset"
 msgstr "Tegnsett"
 
-#: ../mousepad/mousepad-window.c:3813
+#: ../mousepad/mousepad-window.c:3823
 #, c-format
 msgid "Open '%s'"
 msgstr "Åpne «%s»"
 
-#: ../mousepad/mousepad-window.c:3841
+#: ../mousepad/mousepad-window.c:3851
 msgid "No items found"
 msgstr "Fant ingen elementer"
 
-#: ../mousepad/mousepad-window.c:3841
+#: ../mousepad/mousepad-window.c:3851
 msgid "History disabled"
 msgstr "Historikk slått av"
 
-#: ../mousepad/mousepad-window.c:3927
+#: ../mousepad/mousepad-window.c:3937
 msgid "Failed to clear the recent history"
 msgstr "Feil under tømming av nylig historikk"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4391
+#: ../mousepad/mousepad-window.c:4401
 msgid "No clipboard data"
 msgstr "Ingen data i utklippstavle"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4502
+#: ../mousepad/mousepad-window.c:4512
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Mal må være i gyldig %s"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4508
+#: ../mousepad/mousepad-window.c:4518
 msgid "Reading the template failed"
 msgstr "Klarte ikke lese inn mal"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4513
+#: ../mousepad/mousepad-window.c:4523
 msgid "Loading the template failed"
 msgstr "Klarte ikke laste inn mal"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4697 ../mousepad/mousepad-window.c:4838
+#: ../mousepad/mousepad-window.c:4707 ../mousepad/mousepad-window.c:4848
 msgid "Failed to save the document"
 msgstr "Klarte ikke å lagre dokumentet"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4944
+#: ../mousepad/mousepad-window.c:4954
 msgid "Failed to reload the document"
 msgstr "Klarte ikke laste inn dokumentet på nytt"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4975
+#: ../mousepad/mousepad-window.c:4985
 msgid "Failed to print the document"
 msgstr "Feil under utskrift av dokument"
 
@@ -1597,6 +1597,7 @@ msgid "<b>Home/End Keys</b>"
 msgstr "<b>Home/End-knapper</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Editor"
 msgstr "Tekstbehandler"
 
@@ -1659,6 +1660,19 @@ msgstr "<b>Notatblokkfaner</b>"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
 msgid "Window"
 msgstr "Vindu"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
+msgid "Plugins"
+msgstr "Programtillegg"
+
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:45
+msgid "Spell Checking"
+msgstr "Stavekontroll"
+
+#. combo box label
+#: ../plugins/gspell-plugin/gspell-plugin.c:162
+msgid "Default language:"
+msgstr "Forvalgt språk:"
 
 #: ../mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
