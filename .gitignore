@@ -26,6 +26,7 @@ configure
 configure.ac
 depcomp
 INSTALL
+README
 install-sh
 intltool-extract.in
 intltool-merge.in
