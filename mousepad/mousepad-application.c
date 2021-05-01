@@ -627,7 +627,10 @@ mousepad_application_set_accels (MousepadApplication *application)
     { "win.document.go-to-tab(8)", "<Alt>9" },
 
     /* "Help" menu */
-    { "win.help.contents", "F1" }
+    { "win.help.contents", "F1" },
+
+    /* Miscellaneous */
+    { "win.file.save.readonly", "<Control>S" }
   };
 
   /* actions that have a default accel */
