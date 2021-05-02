@@ -1974,7 +1974,7 @@ mousepad_window_open_file (MousepadWindow   *window,
       case 0:
         /* make sure the window wasn't destroyed during the file opening process
          * (e.g. by triggering "app.quit" when the dialog to confirm encoding is open) */
-        if (G_LIKELY (MOUSEPAD_IS_WINDOW (window)))
+        if (G_LIKELY (mousepad_is_application_window (window)))
           {
             /* add the document to the window */
             mousepad_window_add (window, document);
@@ -2082,8 +2082,8 @@ mousepad_window_open_files (MousepadWindow    *window,
   /* allow menu updates again */
   lock_menu_updates--;
 
-  /* return the number of opened documents */
-  if (GTK_IS_WIDGET (window->notebook))
+  /* return the number of open documents, unless the window was destroyd, e.g. by "app.quit" */
+  if (G_LIKELY (mousepad_is_application_window (window)))
     return gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
   else
     return -1;
@@ -2272,7 +2272,7 @@ mousepad_window_get_languages_menu (MousepadWindow *window)
 static gboolean
 mousepad_window_get_in_fullscreen (MousepadWindow *window)
 {
-  if (GTK_IS_WIDGET (window) && gtk_widget_get_visible (GTK_WIDGET (window)))
+  if (gtk_widget_get_visible (GTK_WIDGET (window)))
     {
       GdkWindow     *win = gtk_widget_get_window (GTK_WIDGET (window));
       GdkWindowState state = gdk_window_get_state (win);

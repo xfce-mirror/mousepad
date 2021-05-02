@@ -29,6 +29,11 @@ G_BEGIN_DECLS
 #define MOUSEPAD_IS_WINDOW_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_WINDOW))
 #define MOUSEPAD_WINDOW_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_WINDOW, MousepadWindowClass))
 
+/* sanity checks */
+#define mousepad_is_application_window(window) \
+  (g_list_find (gtk_application_get_windows (GTK_APPLICATION (g_application_get_default ())), \
+                window) != NULL)
+
 enum
 {
   TARGET_TEXT_URI_LIST,

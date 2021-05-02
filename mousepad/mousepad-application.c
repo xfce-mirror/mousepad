@@ -1074,7 +1074,8 @@ mousepad_application_open (GApplication  *gapplication,
            * attention if already open */
           if (opened > 0)
             gtk_window_present (GTK_WINDOW (window));
-          else if (GTK_IS_WIDGET (window))
+          /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
+          else if (G_LIKELY (mousepad_is_application_window (window)))
             gtk_widget_destroy (window);
         }
       /* open the files in windows */
@@ -1093,7 +1094,8 @@ mousepad_application_open (GApplication  *gapplication,
               /* if the file was finally opened, show the window */
               if (opened > 0)
                 gtk_widget_show (window);
-              else if (GTK_IS_WIDGET (window))
+              /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
+              else if (G_LIKELY (mousepad_is_application_window (window)))
                 gtk_widget_destroy (window);
             }
         }
