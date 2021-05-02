@@ -508,7 +508,7 @@ mousepad_search_bar_page_switched (MousepadSearchBar *bar,
   g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (bar));
 
   /* disconnect from old buffer signals */
-  if (GTK_IS_TEXT_BUFFER (old_buffer))
+  if (old_buffer != NULL)
     mousepad_disconnect_by_func (old_buffer, mousepad_search_bar_reset_display, bar);
 
   /* connect to new buffer signals to update display widgets on change */

@@ -705,7 +705,7 @@ mousepad_replace_dialog_page_switched (MousepadReplaceDialog *dialog,
                                        GtkTextBuffer         *new_buffer)
 {
   /* disconnect from old buffer signals */
-  if (GTK_IS_TEXT_BUFFER (old_buffer))
+  if (old_buffer != NULL)
     mousepad_disconnect_by_func (old_buffer, mousepad_replace_dialog_reset_display, dialog);
 
   /* connect to new buffer signals to update display widgets on change */

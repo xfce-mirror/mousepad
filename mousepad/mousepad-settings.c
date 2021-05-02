@@ -29,7 +29,7 @@ mousepad_settings_finalize (void)
 {
   g_settings_sync ();
 
-  if (MOUSEPAD_IS_SETTINGS_STORE (settings_store))
+  if (settings_store != NULL)
     {
       g_object_unref (settings_store);
       settings_store = NULL;
@@ -41,7 +41,7 @@ mousepad_settings_finalize (void)
 void
 mousepad_settings_init (void)
 {
-  if (! MOUSEPAD_IS_SETTINGS_STORE (settings_store))
+  if (settings_store == NULL)
     settings_store = mousepad_settings_store_new ();
 }
 
@@ -152,7 +152,7 @@ mousepad_setting_disconnect (const gchar *setting,
 
   settings = mousepad_settings_store_lookup_settings (settings_store, setting);
 
-  if (G_IS_SETTINGS (settings))
+  if (settings != NULL)
     mousepad_disconnect_by_func (settings, callback, user_data);
   else
     g_warn_if_reached ();

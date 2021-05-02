@@ -361,7 +361,7 @@ mousepad_document_finalize (GObject *object)
    * including buffers scanning, to prevent too late accesses to the buffers.
    */
   mousepad_document_finalize_search (document, document->buffer, document->priv->search_context);
-  if (GTK_SOURCE_IS_BUFFER (document->priv->selection_buffer))
+  if (document->priv->selection_buffer != NULL)
     mousepad_document_finalize_search (document, document->priv->selection_buffer,
                                        document->priv->selection_context);
 
@@ -818,7 +818,7 @@ mousepad_document_search (MousepadDocument    *document,
   if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION)
     {
       /* initialize selection buffer and search context if needed */
-      if (! GTK_SOURCE_IS_BUFFER (document->priv->selection_buffer))
+      if (document->priv->selection_buffer == NULL)
         {
           document->priv->selection_buffer = gtk_source_buffer_new (NULL);
           document->priv->selection_context =

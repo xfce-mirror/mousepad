@@ -153,14 +153,13 @@ mousepad_file_finalize (GObject *object)
   /* cleanup */
   g_free (file->etag);
 
-  if (G_IS_FILE (file->location))
+  if (file->location != NULL)
     g_object_unref (file->location);
 
-  if (G_IS_FILE_MONITOR (file->monitor))
+  if (file->monitor != NULL)
     g_object_unref (file->monitor);
 
-  if (GTK_IS_TEXT_BUFFER (file->buffer))
-    g_object_unref (file->buffer);
+  g_object_unref (file->buffer);
 
   (*G_OBJECT_CLASS (mousepad_file_parent_class)->finalize) (object);
 }
@@ -216,8 +215,11 @@ mousepad_file_set_monitor (gpointer data)
   MousepadFile *file = data;
   GError       *error = NULL;
 
-  if (G_IS_FILE_MONITOR (file->monitor))
-    g_object_unref (file->monitor);
+  if (file->monitor != NULL)
+    {
+      g_object_unref (file->monitor);
+      file->monitor = NULL;
+    }
 
   if (MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
     {
@@ -306,7 +308,7 @@ mousepad_file_location_is_set (MousepadFile *file)
 {
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
 
-  return G_IS_FILE (file->location);
+  return file->location != NULL;
 }
 
 
@@ -739,7 +741,7 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
   gboolean succeed;
 
   /* suspend file monitoring */
-  if (G_IS_FILE_MONITOR (m_file->monitor))
+  if (m_file->monitor != NULL)
     g_signal_handlers_block_by_func (m_file->monitor, mousepad_file_monitor_changed, m_file);
 
   /* replace contents */
@@ -748,7 +750,7 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
 
   /* reactivate file monitoring with a delay, to not consider our own saving as
    * external modification */
-  if (G_IS_FILE_MONITOR (m_file->monitor))
+  if (m_file->monitor != NULL)
     g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
                    mousepad_file_monitor_unblock, mousepad_util_source_autoremove (m_file));
 

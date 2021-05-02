@@ -99,7 +99,7 @@ mousepad_prefs_dialog_finalize (GObject *object)
   self = MOUSEPAD_PREFS_DIALOG (object);
 
   /* destroy the GtkBuilder instance */
-  if (G_IS_OBJECT (self->builder))
+  if (self->builder != NULL)
     g_object_unref (self->builder);
 
   G_OBJECT_CLASS (mousepad_prefs_dialog_parent_class)->finalize (object);

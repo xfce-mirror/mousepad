@@ -1117,7 +1117,7 @@ mousepad_application_shutdown (GApplication *gapplication)
   mousepad_replace_dialog_history_clean ();
 
   /* destroy the preferences dialog */
-  if (GTK_IS_WIDGET (application->prefs_dialog))
+  if (application->prefs_dialog != NULL)
     gtk_widget_destroy (application->prefs_dialog);
 
   /* destroy the windows if they are still opened */
@@ -1531,7 +1531,7 @@ mousepad_application_action_preferences (GSimpleAction *action,
   MousepadApplication *application = data;
 
   /* if the dialog isn't already shown, create one */
-  if (! GTK_IS_WIDGET (application->prefs_dialog))
+  if (application->prefs_dialog == NULL)
     {
       application->prefs_dialog = mousepad_prefs_dialog_new ();
 

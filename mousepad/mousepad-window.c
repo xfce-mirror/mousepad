@@ -4099,7 +4099,7 @@ mousepad_window_search_completed (MousepadDocument    *document,
 
   /* multi-document mode is active: collect the search results regardless of their origin:
    * replace dialog, search bar or buffer change */
-  if (MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog)
+  if (window->replace_dialog != NULL
       && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL)
       && MOUSEPAD_SETTING_GET_UINT (SEARCH_REPLACE_ALL_LOCATION) == 2)
     {
@@ -4775,7 +4775,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
 
       /* cleanup */
       g_object_unref (file);
-      if (G_IS_FILE (current_file))
+      if (current_file != NULL)
         g_object_unref (current_file);
     }
 
@@ -5490,13 +5490,11 @@ mousepad_window_search_bar_switch_page (MousepadWindow *window)
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (window->search_bar));
 
-  old_buffer = MOUSEPAD_IS_DOCUMENT (window->previous) ? window->previous->buffer : NULL;
+  old_buffer = window->previous != NULL ? window->previous->buffer : NULL;
   new_buffer = window->active->buffer;
 
   /* run a search only if the replace dialog is not shown */
-  search = ! MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog)
-             || ! gtk_widget_get_visible (window->replace_dialog);
-
+  search = window->replace_dialog == NULL || ! gtk_widget_get_visible (window->replace_dialog);
   mousepad_search_bar_page_switched (MOUSEPAD_SEARCH_BAR (window->search_bar),
                                      old_buffer, new_buffer, search);
 }
@@ -5518,8 +5516,7 @@ mousepad_window_hide_search_bar (MousepadWindow *window)
   gtk_widget_hide (window->search_bar);
 
   /* set the window property if no search widget is visible */
-  if (! MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog)
-      || ! gtk_widget_get_visible (window->replace_dialog))
+  if (window->replace_dialog == NULL || ! gtk_widget_get_visible (window->replace_dialog))
     g_object_set (window, "search-widget-visible", FALSE, NULL);
 
   /* focus the active document's text view */
@@ -5582,8 +5579,7 @@ mousepad_window_action_find (GSimpleAction *action,
       gtk_widget_show (window->search_bar);
 
       /* set the window property if no search widget was visible */
-      if (! MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog)
-          || ! gtk_widget_get_visible (window->replace_dialog))
+      if (window->replace_dialog == NULL || ! gtk_widget_get_visible (window->replace_dialog))
         g_object_set (window, "search-widget-visible", TRUE, NULL);
     }
 
@@ -5635,7 +5631,7 @@ mousepad_window_replace_dialog_switch_page (MousepadWindow *window)
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_REPLACE_DIALOG (window->replace_dialog));
 
-  old_buffer = MOUSEPAD_IS_DOCUMENT (window->previous) ? window->previous->buffer : NULL;
+  old_buffer = window->previous != NULL ? window->previous->buffer : NULL;
   new_buffer = window->active->buffer;
 
   mousepad_replace_dialog_page_switched (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog),
@@ -5657,8 +5653,7 @@ mousepad_window_replace_dialog_destroy (MousepadWindow *window)
   window->replace_dialog = NULL;
 
   /* set the window property if no search widget is visible */
-  if (! MOUSEPAD_IS_SEARCH_BAR (window->search_bar)
-      || ! gtk_widget_get_visible (window->search_bar))
+  if (window->search_bar == NULL || ! gtk_widget_get_visible (window->search_bar))
     g_object_set (window, "search-widget-visible", FALSE, NULL);
 }
 
@@ -5693,8 +5688,7 @@ mousepad_window_action_replace (GSimpleAction *action,
       mousepad_window_replace_dialog_switch_page (window);
 
       /* set the window property if no search widget was visible */
-      if (! MOUSEPAD_IS_SEARCH_BAR (window->search_bar)
-          || ! gtk_widget_get_visible (window->search_bar))
+      if (window->search_bar == NULL || ! gtk_widget_get_visible (window->search_bar))
         g_object_set (window, "search-widget-visible", TRUE, NULL);
     }
   else

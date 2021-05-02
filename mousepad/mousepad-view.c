@@ -174,7 +174,7 @@ mousepad_view_buffer_changed (MousepadView *view,
   GtkSourceBuffer *buffer;
   buffer = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
 
-  if (GTK_SOURCE_IS_BUFFER (buffer))
+  if (buffer != NULL)
     {
       GtkSourceStyleSchemeManager *manager;
       GtkSourceStyleScheme        *scheme;
@@ -184,7 +184,7 @@ mousepad_view_buffer_changed (MousepadView *view,
       scheme = gtk_source_style_scheme_manager_get_scheme (manager,
                  view->color_scheme ? view->color_scheme : "");
 
-      if (! GTK_SOURCE_IS_STYLE_SCHEME (scheme))
+      if (scheme == NULL)
         {
           scheme = gtk_source_style_scheme_manager_get_scheme (manager, "classic");
           enable_highlight = FALSE;

@@ -129,7 +129,7 @@ mousepad_print_finalize (GObject *object)
   MousepadPrint *print = MOUSEPAD_PRINT (object);
 
   /* cleanup */
-  if (GTK_IS_PAGE_SETUP (print->page_setup))
+  if (print->page_setup != NULL)
     g_object_unref (print->page_setup);
 
   g_object_unref (print->compositor);
@@ -426,7 +426,7 @@ mousepad_print_begin_print (GtkPrintOperation *operation,
   const gchar      *file_name;
 
   /* apply the saved page setup, if any */
-  if (GTK_IS_PAGE_SETUP (print->page_setup))
+  if (print->page_setup != NULL)
     gtk_print_operation_set_default_page_setup (operation, print->page_setup);
 
   /* print header */
@@ -496,7 +496,7 @@ mousepad_print_page_setup_dialog (GtkWidget         *button,
    * this dialog and begin_print(). So let's save it here as a MousepadPrint attribute
    * and apply it later in begin_print().
    */
-  if (GTK_IS_PAGE_SETUP (print->page_setup))
+  if (print->page_setup != NULL)
     g_object_unref (print->page_setup);
 
   print->page_setup = gtk_print_run_page_setup_dialog (GTK_WINDOW (toplevel), page_setup, settings);

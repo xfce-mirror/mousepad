@@ -815,9 +815,9 @@ mousepad_util_style_schemes_name_compare (gconstpointer a,
 {
   const gchar *name_a, *name_b;
 
-  if (G_UNLIKELY (!GTK_SOURCE_IS_STYLE_SCHEME (a)))
+  if (G_UNLIKELY (a == NULL))
     return - (a != b);
-  if (G_UNLIKELY (!GTK_SOURCE_IS_STYLE_SCHEME (b)))
+  if (G_UNLIKELY (b == NULL))
     return a != b;
 
   name_a = gtk_source_style_scheme_get_name (GTK_SOURCE_STYLE_SCHEME (a));
@@ -837,6 +837,9 @@ mousepad_util_get_style_schemes (void)
 
   schemes = gtk_source_style_scheme_manager_get_scheme_ids (
               gtk_source_style_scheme_manager_get_default ());
+
+  if (G_UNLIKELY (schemes == NULL))
+    return NULL;
 
   while (*schemes)
     {
@@ -877,7 +880,7 @@ mousepad_util_get_sorted_language_sections (void)
   while (*languages)
     {
       language = gtk_source_language_manager_get_language (manager, *languages);
-      if (G_LIKELY (GTK_SOURCE_IS_LANGUAGE (language)))
+      if (G_LIKELY (language != NULL))
         {
           /* ignore hidden languages */
           if (gtk_source_language_get_hidden (language))
@@ -908,9 +911,9 @@ mousepad_util_languages_name_compare (gconstpointer a,
 {
   const gchar *name_a, *name_b;
 
-  if (G_UNLIKELY (!GTK_SOURCE_IS_LANGUAGE (a)))
+  if (G_UNLIKELY (a == NULL))
     return - (a != b);
-  if (G_UNLIKELY (!GTK_SOURCE_IS_LANGUAGE (b)))
+  if (G_UNLIKELY (b == NULL))
     return a != b;
 
   name_a = gtk_source_language_get_name (GTK_SOURCE_LANGUAGE (a));
@@ -934,10 +937,13 @@ mousepad_util_get_sorted_languages_for_section (const gchar *section)
   manager = gtk_source_language_manager_get_default ();
   languages = gtk_source_language_manager_get_language_ids (manager);
 
+  if (G_UNLIKELY (languages == NULL))
+    return NULL;
+
   while (*languages)
     {
       language = gtk_source_language_manager_get_language (manager, *languages);
-      if (G_LIKELY (GTK_SOURCE_IS_LANGUAGE (language)))
+      if (G_LIKELY (language != NULL))
         {
           /* ignore hidden languages */
           if (gtk_source_language_get_hidden (language))
