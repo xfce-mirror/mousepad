@@ -107,6 +107,161 @@ mousepad_prefs_dialog_finalize (GObject *object)
 
 
 
+/* this is necessary to preserve the setting box, which is apparently not only removed
+ * from the popover when it is detroyed */
+static void
+mousepad_prefs_dialog_remove_setting_box (gpointer popover)
+{
+  GtkWidget *child;
+
+  if ((child = gtk_bin_get_child (popover)) != NULL)
+    gtk_container_remove (popover, child);
+}
+
+
+
+static gboolean
+mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
+{
+  MousepadPluginProvider *provider;
+  GtkWidget              *button = data, *box, *popover;
+  gboolean                visible;
+
+  provider = mousepad_object_get_data (button, "provider");
+  box = mousepad_plugin_provider_get_setting_box (provider);
+  visible = gtk_widget_get_visible (button);
+
+  /* the plugin has a setting box and the prefs button is hidden: it is time to show
+   * it with its popover */
+  if (box != NULL && ! visible)
+    {
+      popover = gtk_popover_new (button);
+      gtk_container_add (GTK_CONTAINER (popover), box);
+      g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_show), popover);
+      g_signal_connect_swapped (button, "destroy",
+                                G_CALLBACK (mousepad_prefs_dialog_remove_setting_box),
+                                popover);
+      gtk_widget_show (button);
+    }
+  /* the setting box was destroyed (normally with its plugin): hide the prefs button */
+  else if (box == NULL && visible)
+    gtk_widget_hide (button);
+
+  return FALSE;
+}
+
+
+
+static void
+mousepad_prefs_dialog_checkbox_toggled (GtkToggleButton *checkbox,
+                                        GtkWidget       *button)
+{
+  /* wait for the plugin to get its setting box, or for this box to be destroyed */
+  g_idle_add (mousepad_prefs_dialog_checkbox_toggled_idle,
+              mousepad_util_source_autoremove (button));
+}
+
+
+
+static void
+mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
+                                   GtkWidget   *page,
+                                   guint        page_num,
+                                   GtkWidget   *plugins_tab)
+{
+  MousepadPrefsDialog  *self;
+  MousepadApplication  *application;
+  GtkWidget            *box, *widget, *child, *grid = NULL;
+  GdkModifierType       mods;
+  GTypeModule          *module;
+  GList                *providers, *provider;
+  gchar               **accels;
+  const gchar          *category = NULL;
+  gchar                *str;
+  guint                 n, key;
+
+  /* filter other tabs */
+  if (page != plugins_tab)
+    return;
+
+  /* disconnect this handler */
+  mousepad_disconnect_by_func (notebook, mousepad_prefs_dialog_plugins_tab, plugins_tab);
+
+  /* setup the "Plugins" tab */
+  self = MOUSEPAD_PREFS_DIALOG (gtk_widget_get_ancestor (page, MOUSEPAD_TYPE_PREFS_DIALOG));
+  box = GTK_WIDGET (gtk_builder_get_object (self->builder, WID_PLUGINS_BOX));
+  application = MOUSEPAD_APPLICATION (g_application_get_default ());
+  providers = mousepad_application_get_providers (application);
+  for (provider = providers, n = 0; provider != NULL; provider = provider->next, n++)
+    {
+      /* update current category: new frame, new grid */
+      str = (gchar *) mousepad_plugin_provider_get_category (provider->data);
+      if (g_strcmp0 (category, str) != 0)
+        {
+          category = str;
+
+          str = g_strdup_printf ("<b>%s</b>", category);
+          child = gtk_label_new (str);
+          gtk_label_set_use_markup (GTK_LABEL (child), TRUE);
+          g_free (str);
+
+          widget = gtk_frame_new (NULL);
+          gtk_frame_set_label_widget (GTK_FRAME (widget), child);
+          gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
+          gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+
+          grid = gtk_grid_new ();
+          gtk_grid_set_column_spacing (GTK_GRID (grid), 6);
+          gtk_grid_set_row_spacing (GTK_GRID (grid), 6);
+          gtk_widget_set_margin_start (grid, 12);
+          gtk_widget_set_margin_end (grid, 6);
+          gtk_widget_set_margin_top (grid, 6);
+          gtk_widget_set_margin_bottom (grid, 6);
+          gtk_container_add (GTK_CONTAINER (widget), grid);
+
+          /* show all widgets in the frame */
+          gtk_widget_show_all (widget);
+        }
+
+      /* add the provider checkbox to the grid and build its action name */
+      widget = gtk_check_button_new ();
+      gtk_grid_attach (GTK_GRID (grid), widget, 0, n, 1, 1);
+      module = provider->data;
+      str = g_strconcat ("app.", module->name, NULL);
+
+      /* add an accel label to the provider checkbox */
+      child = gtk_accel_label_new (mousepad_plugin_provider_get_label (provider->data));
+      gtk_widget_set_hexpand (child, TRUE);
+      accels = gtk_application_get_accels_for_action (GTK_APPLICATION (application), str);
+      key = mods = 0;
+      if (accels[0] != NULL)
+        gtk_accelerator_parse (accels[0], &key, &mods);
+
+      gtk_accel_label_set_accel (GTK_ACCEL_LABEL (child), key, mods);
+      g_strfreev (accels);
+      gtk_container_add (GTK_CONTAINER (widget), child);
+
+      /* add a prefs button to the grid */
+      child = gtk_button_new_from_icon_name ("preferences-system", GTK_ICON_SIZE_BUTTON);
+      gtk_grid_attach (GTK_GRID (grid), child, 1, n, 1, 1);
+
+      /* show the button if the plugin already has a setting box, or when it gets one */
+      mousepad_object_set_data (child, "provider", provider->data);
+      mousepad_prefs_dialog_checkbox_toggled_idle (child);
+      g_signal_connect (widget, "toggled",
+                        G_CALLBACK (mousepad_prefs_dialog_checkbox_toggled), child);
+
+      /* make the provider checkbox actionable, triggering in particular the handler above */
+      gtk_actionable_set_action_name (GTK_ACTIONABLE (widget), str);
+      g_free (str);
+
+      /* show all widgets in the checkbox */
+      gtk_widget_show_all (widget);
+    }
+}
+
+
+
 /* update the color scheme when the prefs dialog widget changes */
 static void
 mousepad_prefs_dialog_color_scheme_changed (MousepadPrefsDialog *self,
@@ -414,75 +569,12 @@ mousepad_prefs_dialog_opening_mode_setting_changed (MousepadPrefsDialog *self,
 
 
 
-/* this is necessary to preserve the setting box, which is apparently not only removed
- * from the popover when it is detroyed */
-static void
-mousepad_prefs_dialog_remove_setting_box (gpointer popover)
-{
-  GtkWidget *child;
-
-  if ((child = gtk_bin_get_child (popover)) != NULL)
-    gtk_container_remove (popover, child);
-}
-
-
-
-static gboolean
-mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
-{
-  MousepadPluginProvider *provider;
-  GtkWidget              *button = data, *box, *popover;
-  gboolean                visible;
-
-  provider = mousepad_object_get_data (button, "provider");
-  box = mousepad_plugin_provider_get_setting_box (provider);
-  visible = gtk_widget_get_visible (button);
-
-  /* the plugin has a setting box and the prefs button is hidden: it is time to show
-   * it with its popover */
-  if (box != NULL && ! visible)
-    {
-      popover = gtk_popover_new (button);
-      gtk_container_add (GTK_CONTAINER (popover), box);
-      g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_show), popover);
-      g_signal_connect_swapped (button, "destroy",
-                                G_CALLBACK (mousepad_prefs_dialog_remove_setting_box),
-                                popover);
-      gtk_widget_show (button);
-    }
-  /* the setting box was destroyed (normally with its plugin): hide the prefs button */
-  else if (box == NULL && visible)
-    gtk_widget_hide (button);
-
-  return FALSE;
-}
-
-
-
-static void
-mousepad_prefs_dialog_checkbox_toggled (GtkToggleButton *checkbox,
-                                        GtkWidget       *button)
-{
-  /* wait for the plugin to get its setting box, or for this box to be destroyed */
-  g_idle_add (mousepad_prefs_dialog_checkbox_toggled_idle,
-              mousepad_util_source_autoremove (button));
-}
-
-
-
 static void
 mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 {
-  MousepadApplication  *application;
-  GtkWidget            *box, *widget, *child, *grid = NULL;
-  GdkModifierType       mods;
-  GTypeModule          *module;
-  GError               *error = NULL;
-  GList                *providers, *provider;
-  gchar               **accels;
-  const gchar          *category = NULL;
-  gchar                *str;
-  guint                 n, key;
+  MousepadApplication *application;
+  GtkWidget           *widget, *child;
+  GError              *error = NULL;
 
   self->builder = gtk_builder_new ();
 
@@ -500,86 +592,11 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   application = MOUSEPAD_APPLICATION (g_application_get_default ());
   gtk_widget_insert_action_group (GTK_WIDGET (self), "app", G_ACTION_GROUP (application));
 
-  /* setup the "Plugins" tab */
-  box = mousepad_builder_get_widget (self->builder, WID_PLUGINS_BOX);
-  providers = mousepad_application_get_providers (application);
-  for (provider = providers, n = 0; provider != NULL; provider = provider->next, n++)
-    {
-      /* update current category: new frame, new grid */
-      str = (gchar *) mousepad_plugin_provider_get_category (provider->data);
-      if (g_strcmp0 (category, str) != 0)
-        {
-          category = str;
-
-          str = g_strdup_printf ("<b>%s</b>", category);
-          child = gtk_label_new (str);
-          gtk_label_set_use_markup (GTK_LABEL (child), TRUE);
-          g_free (str);
-
-          widget = gtk_frame_new (NULL);
-          gtk_frame_set_label_widget (GTK_FRAME (widget), child);
-          gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
-          gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
-
-          grid = gtk_grid_new ();
-          gtk_grid_set_column_spacing (GTK_GRID (grid), 6);
-          gtk_grid_set_row_spacing (GTK_GRID (grid), 6);
-          gtk_widget_set_margin_start (grid, 12);
-          gtk_widget_set_margin_end (grid, 6);
-          gtk_widget_set_margin_top (grid, 6);
-          gtk_widget_set_margin_bottom (grid, 6);
-          gtk_container_add (GTK_CONTAINER (widget), grid);
-
-          /* show all widgets in the frame */
-          gtk_widget_show_all (widget);
-        }
-
-      /* add the provider checkbox to the grid and build its action name */
-      widget = gtk_check_button_new ();
-      gtk_grid_attach (GTK_GRID (grid), widget, 0, n, 1, 1);
-      module = provider->data;
-      str = g_strconcat ("app.", module->name, NULL);
-
-      /* add an accel label to the provider checkbox */
-      child = gtk_accel_label_new (mousepad_plugin_provider_get_label (provider->data));
-      gtk_widget_set_hexpand (child, TRUE);
-      accels = gtk_application_get_accels_for_action (GTK_APPLICATION (application), str);
-      key = mods = 0;
-      if (accels[0] != NULL)
-        gtk_accelerator_parse (accels[0], &key, &mods);
-
-      gtk_accel_label_set_accel (GTK_ACCEL_LABEL (child), key, mods);
-      g_strfreev (accels);
-      gtk_container_add (GTK_CONTAINER (widget), child);
-
-      /* add a prefs button to the grid */
-      child = gtk_button_new_from_icon_name ("preferences-system", GTK_ICON_SIZE_BUTTON);
-      gtk_grid_attach (GTK_GRID (grid), child, 1, n, 1, 1);
-
-      /* show the button if the plugin already has a setting box, or when it gets one */
-      mousepad_object_set_data (child, "provider", provider->data);
-      mousepad_prefs_dialog_checkbox_toggled_idle (child);
-      g_signal_connect (widget, "toggled",
-                        G_CALLBACK (mousepad_prefs_dialog_checkbox_toggled), child);
-
-      /* make the provider checkbox actionable, triggering in particular the handler above */
-      gtk_actionable_set_action_name (GTK_ACTIONABLE (widget), str);
-      g_free (str);
-
-      /* show all widgets in the checkbox */
-      gtk_widget_show_all (widget);
-    }
-
-  /* show the "Plugins" tab only if there is at least one plugin */
-  widget = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
-  if (providers != NULL)
-    gtk_widget_show (widget);
-
   /* add the Glade/GtkBuilder notebook into this dialog */
-  box = gtk_dialog_get_content_area (GTK_DIALOG (self));
-  widget = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
-  gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
-  gtk_widget_show (widget);
+  widget = gtk_dialog_get_content_area (GTK_DIALOG (self));
+  child = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
+  gtk_box_pack_start (GTK_BOX (widget), child, FALSE, TRUE, 0);
+  gtk_widget_show (child);
 
   /* add the close button */
   widget = mousepad_util_image_button ("window-close", _("_Close"));
@@ -688,6 +705,17 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                                    G_CALLBACK (mousepad_prefs_dialog_opening_mode_setting_changed),
                                    self,
                                    G_CONNECT_SWAPPED);
+
+  /* show the "Plugins" tab only if there is at least one plugin and fill it on demand,
+   * to not slow down the dialog opening */
+  if (mousepad_application_get_providers (application) != NULL)
+    {
+      widget = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
+      child = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
+      g_signal_connect (widget, "switch-page",
+                        G_CALLBACK (mousepad_prefs_dialog_plugins_tab), child);
+      gtk_widget_show (child);
+    }
 }
 
 
