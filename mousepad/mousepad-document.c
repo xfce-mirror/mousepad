@@ -293,13 +293,25 @@ mousepad_document_init (MousepadDocument *document)
 
 
 
+static gboolean
+mousepad_document_unref (gpointer data)
+{
+  g_object_unref (data);
+
+  return FALSE;
+}
+
+
+
 static void
 mousepad_document_post_finalize (GtkSourceSearchContext *search_context,
                                  GParamSpec             *pspec,
                                  gpointer                buffer)
 {
-  g_object_unref (search_context);
-  g_object_unref (buffer);
+  /* let the search context finish its work completely (no warning without that,
+   * but Valgrind sees invalid reads) */
+  g_idle_add (mousepad_document_unref, search_context);
+  g_idle_add (mousepad_document_unref, buffer);
 }
 
 
@@ -669,22 +681,28 @@ mousepad_document_search_completed (GObject      *object,
                                     GAsyncResult *result,
                                     gpointer      data)
 {
-  MousepadDocument        *document;
+  MousepadDocument        *document = data;
+  MousepadSearchFlags      flags;
   GtkSourceSearchContext  *search_context = GTK_SOURCE_SEARCH_CONTEXT (object);
   GtkSourceSearchSettings *search_settings;
   GtkTextBuffer           *selection_buffer;
-  MousepadSearchFlags      flags;
   GtkTextIter              iter, start, end;
+  GError                  *error = NULL;
   gchar                   *selected_text;
   const gchar             *string, *replace;
   gboolean                 found;
 
-  /* exit if the document or the view were destroyed during the search process */
-  if (! MOUSEPAD_IS_DOCUMENT (data)
-      || ! MOUSEPAD_IS_VIEW (MOUSEPAD_DOCUMENT (data)->textview))
-    return;
-  else
-    document = MOUSEPAD_DOCUMENT (data);
+  /* exit if the document was removed during the search process */
+  if (gtk_widget_get_parent (GTK_WIDGET (document)) == NULL)
+    {
+      /* let the cancellable operation reach its end before removing the last reference */
+      g_idle_add (mousepad_document_unref, document);
+
+      return;
+    }
+
+  /* remove extra reference kept at first stage */
+  g_object_unref (document);
 
   /* retrieve the first stage data */
   flags = GPOINTER_TO_INT (mousepad_object_get_data (search_context, "flags"));
@@ -701,18 +719,22 @@ mousepad_document_search_completed (GObject      *object,
 #if GTK_SOURCE_MAJOR_VERSION >= 4
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
     found = gtk_source_search_context_backward_finish (search_context, result,
-                                                       &start, &end, NULL, NULL);
+                                                       &start, &end, NULL, &error);
   else
     found = gtk_source_search_context_forward_finish (search_context, result,
-                                                      &start, &end, NULL, NULL);
+                                                      &start, &end, NULL, &error);
 #else
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
     found = gtk_source_search_context_backward_finish2 (search_context, result,
-                                                        &start, &end, NULL, NULL);
+                                                        &start, &end, NULL, &error);
   else
     found = gtk_source_search_context_forward_finish2 (search_context, result,
-                                                       &start, &end, NULL, NULL);
+                                                       &start, &end, NULL, &error);
 #endif
+
+  /* exit if the operation was cancelled */
+  if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+    return;
 
   /* force the signal emission, to cover cases where Mousepad search settings change without
    * changing GtkSourceView settings (e.g. when switching between single-document mode and
@@ -780,6 +802,7 @@ mousepad_document_search (MousepadDocument    *document,
   GtkSourceSearchContext  *search_context;
   GtkSourceSearchSettings *search_settings, *search_settings_doc;
   GtkTextIter              iter, start, end;
+  GCancellable            *cancellable;
   gchar                   *selected_text;
   const gchar             *reference = "";
   gboolean                 has_references;
@@ -866,13 +889,18 @@ mousepad_document_search (MousepadDocument    *document,
   mousepad_object_set_data_full (search_context, "replace",
                                  g_strconcat (reference, replace, NULL), g_free);
 
+  /* keep the document alive during the search process */
+  g_object_ref (document);
+
   /* search the string */
+  cancellable = g_cancellable_new ();
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
-    gtk_source_search_context_backward_async (search_context, &iter, NULL,
+    gtk_source_search_context_backward_async (search_context, &iter, cancellable,
                                               mousepad_document_search_completed, document);
   else
-    gtk_source_search_context_forward_async (search_context, &iter, NULL,
+    gtk_source_search_context_forward_async (search_context, &iter, cancellable,
                                              mousepad_document_search_completed, document);
+  g_object_unref (cancellable);
 }
 
 
