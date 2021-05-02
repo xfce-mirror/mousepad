@@ -72,6 +72,13 @@ enum
   LAST_SIGNAL
 };
 
+enum
+{
+  INIT,
+  VISIBLE,
+  HIDDEN,
+};
+
 struct _MousepadDocumentClass
 {
   GtkScrolledWindowClass __parent__;
@@ -90,9 +97,10 @@ struct _MousepadDocumentPrivate
   gchar                  *utf8_filename;
   gchar                  *utf8_basename;
 
-  /* search contexts */
+  /* search related */
   GtkSourceSearchContext *search_context, *selection_context;
   GtkSourceBuffer        *selection_buffer;
+  gint                    prev_search_state;
 };
 
 
@@ -152,43 +160,46 @@ mousepad_document_class_init (MousepadDocumentClass *klass)
 
 
 static void
-mousepad_document_post_init (MousepadDocument *document)
+mousepad_document_hierarchy_changed (MousepadDocument *document,
+                                     GtkWidget        *prev_window)
 {
   GtkWidget *window;
   gboolean   visible;
 
-  /* disconnect this handler */
-  mousepad_disconnect_by_func (document, mousepad_document_post_init, NULL);
+  /* disconnect from previous window signals in case of a drag and drop */
+  if (prev_window != NULL)
+    mousepad_disconnect_by_func (prev_window, mousepad_document_search_widget_visible, document);
 
   /* get the ancestor MousepadWindow */
   window = gtk_widget_get_ancestor (GTK_WIDGET (document), MOUSEPAD_TYPE_WINDOW);
 
-  /* there might not be a MousepadWindow ancestor, e.g. when the document is packed
-   * in a MousepadEncodingDialog */
-  if (window != NULL)
+  /* apart from the cases where the document is removed (perhaps temporarily during a
+   * drag and drop), there might also not be a MousepadWindow ancestor, e.g. when the
+   * document is packed in a MousepadEncodingDialog */
+  if (window == NULL)
+    return;
+
+  /* bind some search properties to the "search-widget-visible" window property */
+  g_signal_connect_object (window, "notify::search-widget-visible",
+                           G_CALLBACK (mousepad_document_search_widget_visible),
+                           document, G_CONNECT_SWAPPED);
+
+  /* get the window property */
+  g_object_get (window, "search-widget-visible", &visible, NULL);
+
+  /* block search context handlers, so that they are unblocked below without warnings */
+  if (visible && document->priv->prev_search_state != VISIBLE)
     {
-      /* bind some search properties to the "search-widget-visible" window property */
-      g_signal_connect_object (window, "notify::search-widget-visible",
-                               G_CALLBACK (mousepad_document_search_widget_visible),
-                               document, G_CONNECT_SWAPPED);
-
-      /* get the window property */
-      g_object_get (window, "search-widget-visible", &visible, NULL);
-
-      /* block search context handlers, so that they are unblocked below without warnings */
-      if (visible)
-        {
-          g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
-                                           g_signal_lookup ("insert-text", GTK_TYPE_TEXT_BUFFER),
-                                           0, NULL, NULL, document->priv->search_context);
-          g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
-                                           g_signal_lookup ("delete-range", GTK_TYPE_TEXT_BUFFER),
-                                           0, NULL, NULL, document->priv->search_context);
-        }
-
-      /* initialize binding */
-      mousepad_document_search_widget_visible (document, NULL, MOUSEPAD_WINDOW (window));
+      g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
+                                       g_signal_lookup ("insert-text", GTK_TYPE_TEXT_BUFFER),
+                                       0, NULL, NULL, document->priv->search_context);
+      g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
+                                       g_signal_lookup ("delete-range", GTK_TYPE_TEXT_BUFFER),
+                                       0, NULL, NULL, document->priv->search_context);
     }
+
+  /* initialize binding */
+  mousepad_document_search_widget_visible (document, NULL, MOUSEPAD_WINDOW (window));
 }
 
 
@@ -200,7 +211,8 @@ mousepad_document_init (MousepadDocument *document)
   GtkSourceSearchSettings *search_settings;
 
   /* we will complete initialization when the document is anchored */
-  g_signal_connect (document, "hierarchy-changed", G_CALLBACK (mousepad_document_post_init), NULL);
+  g_signal_connect (document, "hierarchy-changed",
+                    G_CALLBACK (mousepad_document_hierarchy_changed), NULL);
 
   /* private structure */
   document->priv = mousepad_document_get_instance_private (document);
@@ -212,6 +224,7 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->css_provider = gtk_css_provider_new ();
   document->priv->selection_context = NULL;
   document->priv->selection_buffer = NULL;
+  document->priv->prev_search_state = INIT;
 
   /* setup the scrolled window */
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (document),
@@ -946,8 +959,11 @@ mousepad_document_search_widget_visible (MousepadDocument *document,
   /* get the search settings */
   search_settings = gtk_source_search_context_get_settings (document->priv->search_context);
 
-  if (visible)
+  if (visible && document->priv->prev_search_state != VISIBLE)
     {
+      /* update previous search state */
+      document->priv->prev_search_state = VISIBLE;
+
       /* unblock search context handlers */
       g_signal_handlers_unblock_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
                                          g_signal_lookup ("insert-text", GTK_TYPE_TEXT_BUFFER),
@@ -971,8 +987,11 @@ mousepad_document_search_widget_visible (MousepadDocument *document,
       MOUSEPAD_SETTING_BIND (SEARCH_ENABLE_REGEX, search_settings,
                              "regex-enabled", G_SETTINGS_BIND_GET);
     }
-  else
+  else if (! visible && document->priv->prev_search_state != HIDDEN)
     {
+      /* update previous search state */
+      document->priv->prev_search_state = HIDDEN;
+
       /* block search context handlers */
       g_signal_handlers_block_matched (document->buffer, G_SIGNAL_MATCH_DATA | G_SIGNAL_MATCH_ID,
                                        g_signal_lookup ("insert-text", GTK_TYPE_TEXT_BUFFER),

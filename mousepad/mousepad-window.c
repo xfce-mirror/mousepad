@@ -225,11 +225,11 @@ static void              mousepad_window_search                       (MousepadW
                                                                        MousepadSearchFlags     flags,
                                                                        const gchar            *string,
                                                                        const gchar            *replacement);
-static void              mousepad_window_search_completed             (MousepadWindow         *window,
+static void              mousepad_window_search_completed             (MousepadDocument       *document,
                                                                        gint                    n_matches_doc,
                                                                        const gchar            *string,
                                                                        MousepadSearchFlags     flags,
-                                                                       MousepadDocument       *document);
+                                                                       MousepadWindow         *window);
 
 /* history clipboard functions */
 static void              mousepad_window_paste_history_add            (MousepadWindow         *window);
@@ -2107,10 +2107,6 @@ mousepad_window_add (MousepadWindow   *window,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
   g_return_if_fail (GTK_IS_NOTEBOOK (window->notebook));
 
-  /* receive the document occurrences count */
-  g_signal_connect_swapped (document, "search-completed",
-                            G_CALLBACK (mousepad_window_search_completed), window);
-
   /* create the tab label */
   label = mousepad_document_get_tab_label (document);
 
@@ -2591,6 +2587,8 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_overwrite_changed), window);
   g_signal_connect (page, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
+  g_signal_connect (page, "search-completed",
+                    G_CALLBACK (mousepad_window_search_completed), window);
   g_signal_connect (document->buffer, "notify::has-selection",
                     G_CALLBACK (mousepad_window_enable_edit_actions), window);
   g_signal_connect (document->buffer, "notify::can-undo",
@@ -2635,6 +2633,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (page, mousepad_window_language_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_overwrite_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_drag_data_received, window);
+  mousepad_disconnect_by_func (page, mousepad_window_search_completed, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_enable_edit_actions, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_undo, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_redo, window);
@@ -4073,11 +4072,11 @@ mousepad_window_search (MousepadWindow      *window,
 
 
 static void
-mousepad_window_search_completed (MousepadWindow      *window,
+mousepad_window_search_completed (MousepadDocument    *document,
                                   gint                 n_matches_doc,
                                   const gchar         *string,
                                   MousepadSearchFlags  flags,
-                                  MousepadDocument    *document)
+                                  MousepadWindow      *window)
 {
   static GList *documents = NULL, *n_matches_docs = NULL;
   static gchar *multi_string = NULL;
