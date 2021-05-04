@@ -42,6 +42,16 @@ static void      mousepad_view_delete_from_cursor            (GtkTextView       
                                                               GtkDeleteType       type,
                                                               int                 count);
 
+/* GtkSourceView virtual functions */
+#if GTK_SOURCE_MAJOR_VERSION >= 4
+static void      mousepad_view_move_lines                    (GtkSourceView      *source_view,
+                                                              gboolean            down);
+#else
+static void      mousepad_view_move_lines                    (GtkSourceView      *source_view,
+                                                              gboolean            copy,
+                                                              gint                count);
+#endif
+
 /* MousepadView own functions */
 static void      mousepad_view_indent_increase               (MousepadView       *view,
                                                               GtkTextIter        *iter);
@@ -117,9 +127,10 @@ G_DEFINE_TYPE (MousepadView, mousepad_view, GTK_SOURCE_TYPE_VIEW)
 static void
 mousepad_view_class_init (MousepadViewClass *klass)
 {
-  GObjectClass     *gobject_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass   *widget_class = GTK_WIDGET_CLASS (klass);
-  GtkTextViewClass *textview_class = GTK_TEXT_VIEW_CLASS (klass);
+  GObjectClass       *gobject_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass     *widget_class = GTK_WIDGET_CLASS (klass);
+  GtkTextViewClass   *textview_class = GTK_TEXT_VIEW_CLASS (klass);
+  GtkSourceViewClass *sourceview_class = GTK_SOURCE_VIEW_CLASS (klass);
 
   gobject_class->finalize = mousepad_view_finalize;
   gobject_class->set_property = mousepad_view_set_property;
@@ -127,6 +138,8 @@ mousepad_view_class_init (MousepadViewClass *klass)
   widget_class->key_press_event = mousepad_view_key_press_event;
 
   textview_class->delete_from_cursor = mousepad_view_delete_from_cursor;
+
+  sourceview_class->move_lines = mousepad_view_move_lines;
 
   g_object_class_install_property (gobject_class, PROP_FONT,
     g_param_spec_string ("font", "Font", "The font to use in the view",
@@ -518,6 +531,111 @@ mousepad_view_delete_from_cursor (GtkTextView   *text_view,
   /* let GTK handle other cases */
   GTK_TEXT_VIEW_CLASS (mousepad_view_parent_class)->delete_from_cursor (text_view, type, count);
 }
+
+
+
+static void
+_mousepad_view_move_lines (GtkSourceView *source_view,
+                           gboolean       down)
+{
+  GtkTextBuffer *buffer;
+  GtkTextIter    start, end, iter;
+  gint           n_lines, start_line, end_line, start_char, end_char;
+  gboolean       cursor_start = FALSE, inserted = FALSE;
+
+  /* get selection lines and character offsets */
+  buffer = mousepad_view_get_buffer (MOUSEPAD_VIEW (source_view));
+  n_lines = gtk_text_buffer_get_line_count (buffer);
+  gtk_text_buffer_get_selection_bounds (buffer, &start, &end);
+  start_line = gtk_text_iter_get_line (&start);
+  end_line = gtk_text_iter_get_line (&end);
+  start_char = gtk_text_iter_get_line_offset (&start);
+  end_char = gtk_text_iter_get_line_offset (&end);
+
+  /* determine cursor position */
+  gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+  if (gtk_text_iter_equal (&iter, &start))
+    cursor_start = TRUE;
+
+  /* begin a user action */
+  g_object_freeze_notify (G_OBJECT (buffer));
+  gtk_text_buffer_begin_user_action (buffer);
+
+  /* insert fake text on last line if needed, to not make the last empty line a special case */
+  if ((down && end_line == n_lines - 2 && (end_char != 0 || start_line == end_line))
+      || (! down && start_line == n_lines - 1))
+    {
+      gtk_text_buffer_get_end_iter (buffer, &end);
+      if (gtk_text_iter_get_chars_in_line (&end) == 0)
+        {
+          gtk_text_buffer_insert (buffer, &end, "c", 1);
+          inserted = TRUE;
+        }
+    }
+
+  /* compute new start/end lines */
+  if (! down && start_line != 0)
+    {
+      start_line--;
+      end_line--;
+    }
+  else if (down && end_line != n_lines - 1)
+    {
+      start_line++;
+      end_line++;
+    }
+
+  /* let GSV move lines */
+#if GTK_SOURCE_MAJOR_VERSION >= 4
+  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_lines (source_view, down);
+#else
+  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_lines (source_view, FALSE, down ? 1 : -1);
+#endif
+
+  /* delete fake text */
+  if (inserted)
+    {
+      down = !! down;
+      gtk_text_buffer_get_iter_at_line_offset (buffer, &start, start_line - down, 0);
+      gtk_text_buffer_get_iter_at_line_offset (buffer, &end, start_line - down, 1);
+      gtk_text_buffer_delete (buffer, &start, &end);
+    }
+
+  /* restore selection */
+  gtk_text_buffer_get_iter_at_line_offset (buffer, &start, start_line, start_char);
+  gtk_text_buffer_get_iter_at_line_offset (buffer, &end, end_line, end_char);
+  if (cursor_start)
+    gtk_text_buffer_select_range (buffer, &start, &end);
+  else
+    gtk_text_buffer_select_range (buffer, &end, &start);
+
+  /* end user action */
+  gtk_text_buffer_end_user_action (buffer);
+  g_object_thaw_notify (G_OBJECT (buffer));
+}
+
+
+
+#if GTK_SOURCE_MAJOR_VERSION >= 4
+
+static void
+mousepad_view_move_lines (GtkSourceView *source_view,
+                          gboolean       down)
+{
+  _mousepad_view_move_lines (source_view, down);
+}
+
+#else
+
+static void
+mousepad_view_move_lines (GtkSourceView *source_view,
+                          gboolean       copy,
+                          gint           count)
+{
+  _mousepad_view_move_lines (source_view, copy);
+}
+
+#endif
 
 
 
@@ -1426,131 +1544,6 @@ mousepad_view_strip_trailing_spaces (MousepadView *view)
   /* end the user action */
   gtk_text_buffer_end_user_action (buffer);
   g_object_thaw_notify (G_OBJECT (buffer));
-}
-
-
-
-void
-mousepad_view_move_selection (MousepadView *view,
-                              gint          type)
-{
-  GtkTextBuffer *buffer;
-  GtkTextIter    start_iter, end_iter, iter;
-  GtkTextMark   *mark;
-  gchar         *text;
-  gboolean       insert_eol;
-
-  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-
-  /* get the buffer */
-  buffer = mousepad_view_get_buffer (view);
-
-  /* begin a user action */
-  gtk_text_buffer_begin_user_action (buffer);
-
-  if (gtk_text_buffer_get_selection_bounds (buffer, &start_iter, &end_iter))
-    {
-      if (type == MOVE_LINE_UP)
-        {
-          /* useless action if we're already at the start of the buffer */
-          if (gtk_text_iter_get_line (&start_iter) == 0)
-            goto leave;
-
-          /* set insert point to end of selected line */
-          iter = end_iter;
-          if (!gtk_text_iter_ends_line (&iter))
-            gtk_text_iter_forward_to_line_end (&iter);
-
-          /* make start iter to previous line (can not fail) */
-          gtk_text_iter_backward_line (&start_iter);
-
-          /* move end iter to end of line */
-          end_iter = start_iter;
-          if (!gtk_text_iter_ends_line (&end_iter))
-            gtk_text_iter_forward_to_line_end (&end_iter);
-
-          /* move start iter one line back */
-          insert_eol = !gtk_text_iter_backward_char (&start_iter);
-        }
-      else /* MOVE_LINE_DOWN */
-        {
-          /* useless action if we're already at the end of the buffer */
-          if (gtk_text_iter_get_line (&end_iter) == gtk_text_buffer_get_line_count (buffer) - 1)
-            goto leave;
-
-          /* move insert iter to start of the line */
-          iter = start_iter;
-          if (!gtk_text_iter_starts_line (&iter))
-            gtk_text_iter_set_line_offset (&iter, 0);
-
-          /* move start iter to the start of the line below the selection */
-          start_iter = end_iter;
-          gtk_text_iter_forward_line (&start_iter);
-
-          /* set the end iter */
-          end_iter = start_iter;
-          insert_eol = !gtk_text_iter_forward_line (&end_iter);
-        }
-
-      /* create mark at insert point */
-      mark = gtk_text_buffer_create_mark (buffer, NULL, &iter, TRUE);
-
-      /* copy the line above the selection  */
-      text = gtk_text_buffer_get_slice (buffer, &start_iter, &end_iter, FALSE);
-
-      /* delete the new line that we're going to insert later on */
-      if (insert_eol && type == MOVE_LINE_UP)
-        gtk_text_iter_forward_char (&end_iter);
-      else if (insert_eol && type == MOVE_LINE_DOWN)
-        gtk_text_iter_backward_char (&start_iter);
-
-      /* delete */
-      gtk_text_buffer_delete (buffer, &start_iter, &end_iter);
-
-      /* restore mark */
-      gtk_text_buffer_get_iter_at_mark (buffer, &iter, mark);
-
-      /* insert new line if needed */
-      if (insert_eol && type == MOVE_LINE_UP)
-        gtk_text_buffer_insert (buffer, &iter, "\n", 1);
-
-      /* insert text */
-      gtk_text_buffer_insert (buffer, &iter, text, -1);
-
-      /* insert new line if needed */
-      if (insert_eol && type == MOVE_LINE_DOWN)
-        gtk_text_buffer_insert (buffer, &iter, "\n", 1);
-
-      /* cleanup */
-      g_free (text);
-
-      /* sometimes we need to restore the selection (left gravity of the selection marks) */
-      if (type == MOVE_LINE_UP)
-        {
-          /* get selection bounds */
-          gtk_text_buffer_get_selection_bounds (buffer, &start_iter, &end_iter);
-
-          /* check if we need to restore the selected range */
-          if (gtk_text_iter_equal (&iter, &end_iter))
-            {
-              /* restore end iter from mark and select the range again */
-              gtk_text_buffer_get_iter_at_mark (buffer, &end_iter, mark);
-              gtk_text_buffer_select_range (buffer, &start_iter, &end_iter);
-            }
-        }
-
-      /* delete mark */
-      gtk_text_buffer_delete_mark (buffer, mark);
-    }
-
-  /* labeltje */
-  leave:
-
-  /* end the action */
-  gtk_text_buffer_end_user_action (buffer);
-
-  /* show */
-  mousepad_view_scroll_to_cursor (view);
 }
 
 
