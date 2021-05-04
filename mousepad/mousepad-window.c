@@ -3025,8 +3025,7 @@ mousepad_window_enable_edit_actions (GObject        *object,
   {
     "edit.cut", "edit.copy",
     "edit.convert.to-lowercase", "edit.convert.to-uppercase",
-    "edit.convert.to-title-case", "edit.convert.to-opposite-case",
-    "edit.move-selection.line-up", "edit.move-selection.line-down"
+    "edit.convert.to-title-case", "edit.convert.to-opposite-case"
   };
 
   if (GTK_IS_TEXT_VIEW (object) || document->buffer == GTK_TEXT_BUFFER (object))
@@ -5412,7 +5411,7 @@ mousepad_window_action_move_line_up (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* move the selection on line up */
-  mousepad_view_move_selection (window->active->textview, MOVE_LINE_UP);
+  g_signal_emit_by_name (window->active->textview, "move-lines", FALSE);
 }
 
 
@@ -5428,7 +5427,7 @@ mousepad_window_action_move_line_down (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* move the selection on line down */
-  mousepad_view_move_selection (window->active->textview, MOVE_LINE_DOWN);
+  g_signal_emit_by_name (window->active->textview, "move-lines", TRUE);
 }
 
 
