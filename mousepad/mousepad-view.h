@@ -45,12 +45,6 @@ enum
 
 enum
 {
-  MOVE_LINE_UP,
-  MOVE_LINE_DOWN
-};
-
-enum
-{
   INCREASE_INDENT,
   DECREASE_INDENT
 };
@@ -76,9 +70,6 @@ void            mousepad_view_convert_spaces_and_tabs   (MousepadView      *view
                                                          gint               type);
 
 void            mousepad_view_strip_trailing_spaces     (MousepadView      *view);
-
-void            mousepad_view_move_selection            (MousepadView      *view,
-                                                         gint               type);
 
 void            mousepad_view_duplicate                 (MousepadView      *view);
 
