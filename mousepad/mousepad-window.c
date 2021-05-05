@@ -972,6 +972,9 @@ mousepad_window_post_init (MousepadWindow *window)
   /* disconnect this handler */
   mousepad_disconnect_by_func (window, mousepad_window_post_init, NULL);
 
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (window));
+
   /* set the unique menu and offset keys for this window */
   window_id = gtk_application_window_get_id (GTK_APPLICATION_WINDOW (window));
   gtkmenu_key = g_strdup_printf ("gtkmenu-%d", window_id);
