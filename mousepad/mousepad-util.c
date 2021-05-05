@@ -528,6 +528,92 @@ mousepad_util_dialog_update_header (GtkDialog   *dialog,
 
 
 
+static void
+mousepad_util_decoration_layout_changed (GObject    *settings,
+                                         GParamSpec *pspec,
+                                         gpointer    bar)
+{
+  gchar *layout, *str;
+
+  g_object_get (settings, "gtk-decoration-layout", &layout, NULL);
+
+  /* add the icon on the far left of the header bar if not already present */
+  if (g_strstr_len (layout, -1, "icon") == NULL)
+    {
+      str = g_strstr_len (layout, -1, ":") == NULL ? ":" : ",";
+      str = g_strconcat ("icon", str, layout, NULL);
+      g_free (layout);
+      layout = str;
+    }
+
+  gtk_header_bar_set_decoration_layout (bar, layout);
+
+  g_free (layout);
+}
+
+
+
+void
+mousepad_util_set_titlebar (GtkWindow *window)
+{
+  static GtkSettings *settings = NULL;
+
+  GtkWidget       *bar;
+  GtkStyleContext *context;
+  GtkCssProvider  *provider;
+  const gchar     *title;
+  gboolean         show_close = TRUE;
+
+  /* set a default window title if needed */
+  title = gtk_window_get_title (window);
+  if (title == NULL || *title == '\0')
+    gtk_window_set_title (window, g_get_application_name ());
+
+  /* use existing header bar or create a new one (including when the title bar widget
+   * is not a GtkHeaderBar) */
+  bar = gtk_window_get_titlebar (window);
+  if (! GTK_IS_HEADER_BAR (bar))
+    {
+      bar = gtk_header_bar_new ();
+      gtk_widget_show (bar);
+    }
+  /* do not change "show-close-button" if there is already a header bar, this should be
+   * handled internally by one means or another */
+  else
+    show_close = gtk_header_bar_get_show_close_button (GTK_HEADER_BAR (bar));
+
+  /* set properties */
+  gtk_header_bar_set_title (GTK_HEADER_BAR (bar), gtk_window_get_title (window));
+  gtk_header_bar_set_has_subtitle (GTK_HEADER_BAR (bar), FALSE);
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (bar), show_close);
+
+  /* stay in sync with the window manager for the decoration layout */
+  if (settings == NULL)
+    {
+      settings = gtk_settings_get_default ();
+      if (settings != NULL)
+        {
+          mousepad_util_decoration_layout_changed (G_OBJECT (settings), NULL, bar);
+          g_signal_connect (settings, "notify::gtk-decoration-layout",
+                            G_CALLBACK (mousepad_util_decoration_layout_changed), bar);
+        }
+      else
+        gtk_header_bar_set_decoration_layout (GTK_HEADER_BAR (bar), "icon:minimize,maximize,close");
+    }
+
+  /* make the header bar slim */
+  context = gtk_widget_get_style_context (bar);
+  provider = gtk_css_provider_new ();
+  gtk_css_provider_load_from_data (provider, "headerbar { min-height: 0px; }", -1, NULL);
+  gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
+                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  g_object_unref (provider);
+
+  gtk_window_set_titlebar (window, bar);
+}
+
+
+
 gint
 mousepad_util_get_real_line_offset (const GtkTextIter *iter)
 {
