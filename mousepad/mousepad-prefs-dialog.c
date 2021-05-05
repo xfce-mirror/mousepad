@@ -69,7 +69,8 @@ struct MousepadPrefsDialogClass_
 
 
 
-static void mousepad_prefs_dialog_finalize (GObject *object);
+static void mousepad_prefs_dialog_constructed (GObject *object);
+static void mousepad_prefs_dialog_finalize    (GObject *object);
 
 
 
@@ -80,11 +81,23 @@ G_DEFINE_TYPE (MousepadPrefsDialog, mousepad_prefs_dialog, GTK_TYPE_DIALOG)
 static void
 mousepad_prefs_dialog_class_init (MousepadPrefsDialogClass *klass)
 {
-  GObjectClass *g_object_class;
+  GObjectClass *g_object_class = G_OBJECT_CLASS (klass);
 
-  g_object_class = G_OBJECT_CLASS (klass);
-
+  g_object_class->constructed = mousepad_prefs_dialog_constructed;
   g_object_class->finalize = mousepad_prefs_dialog_finalize;
+}
+
+
+
+static void
+mousepad_prefs_dialog_constructed (GObject *object)
+{
+  GtkWindow *dialog = GTK_WINDOW (object);
+
+  G_OBJECT_CLASS (mousepad_prefs_dialog_parent_class)->constructed (object);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (dialog);
 }
 
 
@@ -597,12 +610,6 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   child = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
   gtk_box_pack_start (GTK_BOX (widget), child, FALSE, TRUE, 0);
   gtk_widget_show (child);
-
-  /* add the close button */
-  widget = mousepad_util_image_button ("window-close", _("_Close"));
-  gtk_widget_set_can_default (widget, TRUE);
-  gtk_dialog_add_action_widget (GTK_DIALOG (self), widget, GTK_RESPONSE_CLOSE);
-  gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_CLOSE);
 
   /* setup the window properties */
   gtk_window_set_title (GTK_WINDOW (self), _("Mousepad Preferences"));
