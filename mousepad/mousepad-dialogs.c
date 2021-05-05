@@ -89,8 +89,11 @@ mousepad_dialogs_show_error (GtkWindow    *parent,
 
   /* create the warning dialog */
   dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR,
-                                   GTK_BUTTONS_CLOSE, "%s.", message);
+                                   GTK_BUTTONS_NONE, "%s.", message);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* set secondary text if an error is provided */
   if (G_LIKELY (error != NULL))
@@ -137,6 +140,9 @@ mousepad_dialogs_other_tab_size (GtkWindow *parent,
                                         _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL,
                                         _("_OK"), MOUSEPAD_RESPONSE_OK, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* set properties */
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_OK);
@@ -225,6 +231,9 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
   dialog = gtk_dialog_new_with_buttons (_("Go To"), parent, GTK_DIALOG_MODAL,
                                         _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* add button */
   button = mousepad_util_image_button ("go-jump", _("_Jump to"));
@@ -333,6 +342,9 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
                                         _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
+
   /* set button */
   button = mousepad_util_image_button ("edit-clear", _("Clea_r"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_CLEAR);
@@ -396,6 +408,9 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   dialog = gtk_dialog_new_with_buttons (_("Save Changes"), parent, GTK_DIALOG_MODAL,
                                         _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* set properties */
   gtk_window_set_default_size (GTK_WINDOW (dialog), 400, -1);
@@ -501,6 +516,9 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
                                                GTK_BUTTONS_NONE, "<b><big>%s</big></b>", text_1);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
+
   /* add title */
   gtk_window_set_title (GTK_WINDOW (dialog), _("Externally Modified"));
   if (text_2 != NULL)
@@ -542,6 +560,9 @@ mousepad_dialogs_revert (GtkWindow *parent)
                                    GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
                                    _("Do you want to save your changes before reloading?"));
   mousepad_dialogs_destroy_with_parent (dialog, parent);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* set subtitle */
   gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
@@ -585,6 +606,9 @@ mousepad_dialogs_confirm_encoding (const gchar *charset,
                                      " encoding. Do you confirm this choice?"),
                                    charset, user_charset);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* set subtitle */
   gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
@@ -932,6 +956,9 @@ mousepad_dialogs_save_as (GtkWindow         *parent,
                                         _("_Cancel"), GTK_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
+
   /* add button */
   button = mousepad_util_image_button ("document-save", _("_Save"));
   gtk_widget_set_can_default (button, TRUE);
@@ -992,6 +1019,9 @@ mousepad_dialogs_open (GtkWindow         *parent,
                                         _("_Cancel"), GTK_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
+
   /* add button */
   button = mousepad_util_image_button ("document-open", _("_Open"));
   gtk_widget_set_can_default (button, TRUE);
@@ -1040,6 +1070,9 @@ mousepad_dialogs_select_font (GtkWindow *parent)
   /* create new font chooser dialog */
   dialog = gtk_font_chooser_dialog_new (_("Choose Mousepad Font"), parent);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* set the current font */
   if ((font = MOUSEPAD_SETTING_GET_STRING (FONT)) != NULL)

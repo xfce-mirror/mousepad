@@ -58,6 +58,8 @@ void         mousepad_util_dialog_update_header             (GtkDialog          
                                                              const gchar                *subtitle,
                                                              const gchar                *icon_name);
 
+void         mousepad_util_set_titlebar                     (GtkWindow                  *window);
+
 gint         mousepad_util_get_real_line_offset             (const GtkTextIter          *iter);
 
 void         mousepad_util_set_real_line_offset             (GtkTextIter                *iter,
