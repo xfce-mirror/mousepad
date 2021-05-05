@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-17 00:47+0200\n"
-"PO-Revision-Date: 2021-04-17 08:19+0000\n"
+"POT-Creation-Date: 2021-05-02 12:47+0200\n"
+"PO-Revision-Date: 2021-05-05 20:42+0000\n"
 "Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -18,80 +18,84 @@ msgstr ""
 "Language: et\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../mousepad/mousepad-application.c:125
+#: ../mousepad/mousepad-application.c:145
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
 msgstr "Failide avamisel kasutatav märgistik (kui jätad seadistamata, siis avatakse iga faili puhul märgistiku valimise dialoog)"
 
-#: ../mousepad/mousepad-application.c:126
+#: ../mousepad/mousepad-application.c:146
 msgid "ENCODING"
 msgstr "MÄRGISTIK"
 
-#: ../mousepad/mousepad-application.c:131
+#: ../mousepad/mousepad-application.c:151
 msgid "Display a list of possible encodings to open files"
 msgstr "Kuva failide avamiseks sobilik märgistike loend"
 
-#: ../mousepad/mousepad-application.c:136
+#: ../mousepad/mousepad-application.c:156
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
 msgstr "Rea number, kuhu asetame kursori (RIDA >= 0 algusest, RIDA < 0 lõpust)"
 
-#: ../mousepad/mousepad-application.c:137
+#: ../mousepad/mousepad-application.c:157
 msgid "LINE"
 msgstr "RIDA"
 
-#: ../mousepad/mousepad-application.c:142
+#: ../mousepad/mousepad-application.c:162
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
 msgstr "Veeru number, kuhu asetame kursori (VEERG >= 0 algusest, VEERG < 0 lõpust)"
 
-#: ../mousepad/mousepad-application.c:143
+#: ../mousepad/mousepad-application.c:163
 msgid "COLUMN"
 msgstr "VEERG"
 
-#: ../mousepad/mousepad-application.c:148
+#: ../mousepad/mousepad-application.c:168
+msgid "Open the preferences dialog"
+msgstr "Ava eelistuste dialoog"
+
+#: ../mousepad/mousepad-application.c:173
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Ära registreeri rakendust sessiooni D-BUS sõnumisiinil"
 
-#: ../mousepad/mousepad-application.c:153
+#: ../mousepad/mousepad-application.c:178
 msgid "Quit a running Mousepad primary instance"
 msgstr "Lõpeta Mousepadi esmase koopia töö"
 
-#: ../mousepad/mousepad-application.c:158
+#: ../mousepad/mousepad-application.c:183
 msgid "Print version information and exit"
 msgstr "Kuva versiooniteavet ja lõpeta töö"
 
-#: ../mousepad/mousepad-application.c:163
+#: ../mousepad/mousepad-application.c:188
 msgid "[FILES...]"
 msgstr "[FAILID...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:342 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:382 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:351
+#: ../mousepad/mousepad-application.c:391
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Failide avamise moodus: „%s“, „%s“ või „%s“ (ava kaardid uues aknas)"
 
-#: ../mousepad/mousepad-application.c:354
+#: ../mousepad/mousepad-application.c:394
 msgid "MODE"
 msgstr "MOODUS"
 
-#: ../mousepad/mousepad-application.c:407
+#: ../mousepad/mousepad-application.c:447
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Mousepad'i arendusmeeskond. Kõik õigused kaitstud."
 
-#: ../mousepad/mousepad-application.c:408
+#: ../mousepad/mousepad-application.c:448
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Palun teata vigadest <%s>."
 
-#: ../mousepad/mousepad-application.c:1324
+#: ../mousepad/mousepad-application.c:1477
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autorid: %s | Faili nimi: %s"
@@ -119,7 +123,7 @@ msgstr "Vali tabulaatori samm"
 #: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:226
 #: ../mousepad/mousepad-dialogs.c:333 ../mousepad/mousepad-dialogs.c:397
 #: ../mousepad/mousepad-dialogs.c:510 ../mousepad/mousepad-dialogs.c:551
-#: ../mousepad/mousepad-dialogs.c:933 ../mousepad/mousepad-dialogs.c:993
+#: ../mousepad/mousepad-dialogs.c:932 ../mousepad/mousepad-dialogs.c:992
 #: ../mousepad/mousepad-encoding-dialog.c:120
 #: ../mousepad/mousepad-encoding-dialog.c:191
 msgid "_Cancel"
@@ -184,7 +188,7 @@ msgstr "_Salvesta kui"
 
 #. add button
 #: ../mousepad/mousepad-dialogs.c:418 ../mousepad/mousepad-dialogs.c:518
-#: ../mousepad/mousepad-dialogs.c:937
+#: ../mousepad/mousepad-dialogs.c:936
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "_Salvesta"
@@ -225,7 +229,7 @@ msgstr "Sul on salvestamata muudatusi. Kui sa ennistad algse faili, siis kõik s
 msgid "_Revert"
 msgstr "Pöö_ra tagasi"
 
-#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3505
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3506
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "_Lae uuesti"
@@ -254,73 +258,73 @@ msgstr "See fail tundub kasutama %s märgistikku, kuid sa oled avamiseks valinud
 msgid "If not, the guessed encoding will be used."
 msgstr "Vastasel korral üritame märgistikku ära arvata."
 
-#: ../mousepad/mousepad-dialogs.c:674
+#: ../mousepad/mousepad-dialogs.c:672
 msgid "Please select a file"
 msgstr "Palun vali fail"
 
-#: ../mousepad/mousepad-dialogs.c:701
+#: ../mousepad/mousepad-dialogs.c:699
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "Ajutise faili ettevalmistamine märgistiku muutmise katseks ei õnnestunud"
 
-#: ../mousepad/mousepad-dialogs.c:764 ../mousepad/mousepad-dialogs.c:827
+#: ../mousepad/mousepad-dialogs.c:762 ../mousepad/mousepad-dialogs.c:826
 msgid "Open encoding dialog"
 msgstr "Ava märgistiku muutmise dialoog"
 
-#: ../mousepad/mousepad-dialogs.c:766
+#: ../mousepad/mousepad-dialogs.c:764
 msgid "Go back to shorten list"
 msgstr "Tagasi lühiloendi juurde"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:820
+#: ../mousepad/mousepad-dialogs.c:819
 msgid "_Encoding:"
 msgstr "Märg_istik:"
 
-#: ../mousepad/mousepad-dialogs.c:832
+#: ../mousepad/mousepad-dialogs.c:831
 #: ../mousepad/mousepad-encoding-dialog.c:289
 #: ../mousepad/mousepad-encoding-dialog.c:290
 msgid "Default"
 msgstr "Vaikimisi"
 
-#: ../mousepad/mousepad-dialogs.c:842
+#: ../mousepad/mousepad-dialogs.c:841
 #: ../mousepad/mousepad-encoding-dialog.c:305
 #: ../mousepad/mousepad-encoding-dialog.c:307
 #: ../mousepad/mousepad-encoding-dialog.c:311
 msgid "System"
 msgstr "Süsteem"
 
-#: ../mousepad/mousepad-dialogs.c:855
+#: ../mousepad/mousepad-dialogs.c:854
 msgid "Current"
 msgstr "Praegune"
 
-#: ../mousepad/mousepad-dialogs.c:873
+#: ../mousepad/mousepad-dialogs.c:872
 msgid "Show all encodings"
 msgstr "Näita kõiki märgistikke"
 
-#: ../mousepad/mousepad-dialogs.c:907
+#: ../mousepad/mousepad-dialogs.c:906
 msgid "Text Files"
 msgstr "Tekstifailid"
 
-#: ../mousepad/mousepad-dialogs.c:913
+#: ../mousepad/mousepad-dialogs.c:912
 msgid "All Files"
 msgstr "Kõik failid"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:932
+#: ../mousepad/mousepad-dialogs.c:931
 msgid "Save As"
 msgstr "Salvesta kui"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:992
+#: ../mousepad/mousepad-dialogs.c:991
 msgid "Open File"
 msgstr "Ava fail"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:997
+#: ../mousepad/mousepad-dialogs.c:996
 msgid "_Open"
 msgstr "_Ava"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1042
+#: ../mousepad/mousepad-dialogs.c:1041
 msgid "Choose Mousepad Font"
 msgstr "Vali Mousepad'i font"
 
@@ -498,22 +502,21 @@ msgstr "Jaapani"
 msgid "Korean"
 msgstr "Korea"
 
-#: ../mousepad/mousepad-file.c:609
+#: ../mousepad/mousepad-file.c:604
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Teisenduse sisendi vigane baidijärjestus"
 
 #. add the close button
-#: ../mousepad/mousepad-prefs-dialog.c:443
+#: ../mousepad/mousepad-prefs-dialog.c:585
 #: ../mousepad/mousepad-replace-dialog.c:274
 msgid "_Close"
 msgstr "_Sulge"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:449
-#: ../mousepad/resources/gtk/menus.ui.h:21
-msgid "Preferences"
-msgstr "Eelistused"
+#: ../mousepad/mousepad-prefs-dialog.c:591 ../mousepad.desktop.in.in.h:4
+msgid "Mousepad Preferences"
+msgstr "Mousepad'i eelistused"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:121
@@ -657,7 +660,7 @@ msgstr "Kõik dokumendid"
 
 #. update counter
 #: ../mousepad/mousepad-replace-dialog.c:599
-#: ../mousepad/mousepad-search-bar.c:400
+#: ../mousepad/mousepad-search-bar.c:403
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -698,31 +701,31 @@ msgid "Filetype: %s"
 msgstr "Faili tüüp: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1101
+#: ../mousepad/mousepad-window.c:1096
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Ettevaatust, sa töötad juurkasutaja õigustes ja võid vigu tehes kahjustada seda arvutisüsteemi."
 
-#: ../mousepad/mousepad-window.c:2253
+#: ../mousepad/mousepad-window.c:2249
 msgid "Read Only"
 msgstr "Kirjutuskaitstud"
 
-#: ../mousepad/mousepad-window.c:2257
+#: ../mousepad/mousepad-window.c:2253
 msgid "Viewer Mode"
 msgstr "Vaid lugemisrežiim"
 
-#: ../mousepad/mousepad-window.c:3256
+#: ../mousepad/mousepad-window.c:3257
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Kasuta %s mallina"
 
-#: ../mousepad/mousepad-window.c:3282
+#: ../mousepad/mousepad-window.c:3283
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Ei leidnud malli asukohast\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3340
+#: ../mousepad/mousepad-window.c:3341
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -730,93 +733,93 @@ msgid ""
 msgstr "Puudub mallide kaust\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3392
+#: ../mousepad/mousepad-window.c:3393
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "M_uu (%d)..."
 
-#: ../mousepad/mousepad-window.c:3402
+#: ../mousepad/mousepad-window.c:3403
 msgid "Ot_her..."
 msgstr "M_uu..."
 
-#: ../mousepad/mousepad-window.c:3499
+#: ../mousepad/mousepad-window.c:3500
 msgid "Re_vert"
 msgstr "E_nnista"
 
-#: ../mousepad/mousepad-window.c:3501
+#: ../mousepad/mousepad-window.c:3502
 msgid "Revert to the saved version of the file"
 msgstr "Ennista fail viimati salvestatud olekusse"
 
-#: ../mousepad/mousepad-window.c:3507
+#: ../mousepad/mousepad-window.c:3508
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Lae fail andmekandjalt uuesti"
 
-#: ../mousepad/mousepad-window.c:3513
+#: ../mousepad/mousepad-window.c:3514
 msgid "Leave fullscreen mode"
 msgstr "Lülita täisekraanirežiim välja"
 
-#: ../mousepad/mousepad-window.c:3518
+#: ../mousepad/mousepad-window.c:3519
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Määra see aken täisekraanirežiimi"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3669 ../mousepad/mousepad-window.c:3878
+#: ../mousepad/mousepad-window.c:3670 ../mousepad/mousepad-window.c:3879
 msgid "Charset"
 msgstr "Märgistik"
 
-#: ../mousepad/mousepad-window.c:3813
+#: ../mousepad/mousepad-window.c:3814
 #, c-format
 msgid "Open '%s'"
 msgstr "Ava '%s'"
 
-#: ../mousepad/mousepad-window.c:3841
+#: ../mousepad/mousepad-window.c:3842
 msgid "No items found"
 msgstr "Ühtegi kirjet ei leitud"
 
-#: ../mousepad/mousepad-window.c:3841
+#: ../mousepad/mousepad-window.c:3842
 msgid "History disabled"
 msgstr "Ajaloo salvestamine ei ole kasutusel"
 
-#: ../mousepad/mousepad-window.c:3927
+#: ../mousepad/mousepad-window.c:3928
 msgid "Failed to clear the recent history"
 msgstr "Viimati avatud failide ajaloo kustutamine ei õnnestunud"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4391
+#: ../mousepad/mousepad-window.c:4393
 msgid "No clipboard data"
 msgstr "Lõikepuhver on tühi"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4502
+#: ../mousepad/mousepad-window.c:4504
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Mallid peavad olema koostatud korrektses %s märgistikus"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4508
+#: ../mousepad/mousepad-window.c:4510
 msgid "Reading the template failed"
 msgstr "Malli lugemine ebaõnnestus"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4513
+#: ../mousepad/mousepad-window.c:4515
 msgid "Loading the template failed"
 msgstr "Malli laadimine ebaõnnestus"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4697 ../mousepad/mousepad-window.c:4838
+#: ../mousepad/mousepad-window.c:4699 ../mousepad/mousepad-window.c:4840
 msgid "Failed to save the document"
 msgstr "Dokumendi salvestamine ebaõnnestus"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4944
+#: ../mousepad/mousepad-window.c:4946
 msgid "Failed to reload the document"
 msgstr "Dokumendi uuesti laadimine ebaõnnestus"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4975
+#: ../mousepad/mousepad-window.c:4978
 msgid "Failed to print the document"
 msgstr "Dokumendi trükkimine ebaõnnestus"
 
@@ -899,6 +902,10 @@ msgstr "Muu_da"
 #: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Edit menu"
 msgstr "Toimetamisega seotud menüü"
+
+#: ../mousepad/resources/gtk/menus.ui.h:21
+msgid "Preferences"
+msgstr "Eelistused"
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -1591,6 +1598,7 @@ msgid "<b>Home/End Keys</b>"
 msgstr "<b>Home/End klahvid</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Editor"
 msgstr "Kirjutamine"
 
@@ -1654,6 +1662,19 @@ msgstr "<b>Märkmiku-stiilis kaardid</b>"
 msgid "Window"
 msgstr "Aken"
 
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
+msgid "Plugins"
+msgstr "Pistikprogrammid"
+
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:45
+msgid "Spell Checking"
+msgstr "Õigekirjakontroll"
+
+#. combo box label
+#: ../plugins/gspell-plugin/gspell-plugin.c:162
+msgid "Default language:"
+msgstr "Vaikimisi keel:"
+
 #: ../mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
 msgstr "Lihtne tekstiredaktor"
@@ -1661,6 +1682,14 @@ msgstr "Lihtne tekstiredaktor"
 #: ../mousepad.desktop.in.in.h:3
 msgid "Text Editor"
 msgstr "Tekstiredaktor"
+
+#: ../mousepad-settings.desktop.in.in.h:1
+msgid "Text Editor Settings"
+msgstr "Tekstiredaktori seadistused"
+
+#: ../mousepad-settings.desktop.in.in.h:2
+msgid "Configure the Mousepad text editor"
+msgstr "Seadista tekstiredaktorit Mousepad"
 
 #: ../mousepad.appdata.xml.in.h:1
 msgid ""
