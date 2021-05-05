@@ -1441,7 +1441,8 @@ mousepad_window_scroll_event (GtkWidget      *widget,
       return TRUE;
     }
 
-  return FALSE;
+  /* let gtk+ handle the scroll event */
+  return GTK_WIDGET_CLASS (mousepad_window_parent_class)->scroll_event (widget, event);
 }
 
 
