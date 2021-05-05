@@ -192,6 +192,9 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
   /* disconnect this handler */
   mousepad_disconnect_by_func (dialog, mousepad_replace_dialog_post_init, NULL);
 
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
+
   /* get the transient parent window and the application */
   window = gtk_window_get_transient_for (GTK_WINDOW (dialog));
   application = gtk_window_get_application (window);

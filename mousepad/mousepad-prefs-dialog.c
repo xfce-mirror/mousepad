@@ -69,7 +69,8 @@ struct MousepadPrefsDialogClass_
 
 
 
-static void mousepad_prefs_dialog_finalize (GObject *object);
+static void mousepad_prefs_dialog_constructed (GObject *object);
+static void mousepad_prefs_dialog_finalize    (GObject *object);
 
 
 
@@ -80,11 +81,23 @@ G_DEFINE_TYPE (MousepadPrefsDialog, mousepad_prefs_dialog, GTK_TYPE_DIALOG)
 static void
 mousepad_prefs_dialog_class_init (MousepadPrefsDialogClass *klass)
 {
-  GObjectClass *g_object_class;
+  GObjectClass *g_object_class = G_OBJECT_CLASS (klass);
 
-  g_object_class = G_OBJECT_CLASS (klass);
-
+  g_object_class->constructed = mousepad_prefs_dialog_constructed;
   g_object_class->finalize = mousepad_prefs_dialog_finalize;
+}
+
+
+
+static void
+mousepad_prefs_dialog_constructed (GObject *object)
+{
+  GtkWindow *dialog = GTK_WINDOW (object);
+
+  G_OBJECT_CLASS (mousepad_prefs_dialog_parent_class)->constructed (object);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (dialog);
 }
 
 
