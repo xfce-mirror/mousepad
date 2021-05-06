@@ -23,6 +23,7 @@
 
 
 
+static void     mousepad_encoding_dialog_constructed            (GObject                     *object);
 static void     mousepad_encoding_dialog_finalize               (GObject                     *object);
 static void     mousepad_encoding_dialog_response               (GtkDialog                   *dialog,
                                                                  gint                         response_id);
@@ -98,6 +99,7 @@ mousepad_encoding_dialog_class_init (MousepadEncodingDialogClass *klass)
   GtkDialogClass *gtkdialog_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
+  gobject_class->constructed = mousepad_encoding_dialog_constructed;
   gobject_class->finalize = mousepad_encoding_dialog_finalize;
 
   gtkdialog_class = GTK_DIALOG_CLASS (klass);
@@ -218,6 +220,19 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (dialog->document->textview), FALSE);
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (dialog->document->textview), GTK_WRAP_NONE);
   gtk_widget_show (GTK_WIDGET (dialog->document));
+}
+
+
+
+static void
+mousepad_encoding_dialog_constructed (GObject *object)
+{
+  GtkWindow *dialog = GTK_WINDOW (object);
+
+  G_OBJECT_CLASS (mousepad_encoding_dialog_parent_class)->constructed (object);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (dialog);
 }
 
 
