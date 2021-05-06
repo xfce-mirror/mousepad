@@ -167,6 +167,7 @@
     <child>
       <object class="GtkBox" id="/prefs/view/content-area">
         <property name="visible">True</property>
+        <property name="vexpand">True</property>
         <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <property name="border-width">6</property>
         <child>
