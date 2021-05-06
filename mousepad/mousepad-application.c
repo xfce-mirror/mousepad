@@ -24,8 +24,6 @@
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-plugin-provider.h>
 
-#include <xfconf/xfconf.h>
-
 
 
 #define DEFAULT_FONT "Monospace 10"
@@ -118,9 +116,6 @@ struct _MousepadApplication
   /* properties */
   gchar                       *default_font;
   GtkSourceSpaceLocationFlags  space_location_flags;
-
-  /* allow xfconf initialization to fail */
-  gboolean xfconf_initialized;
 
   /* plugins */
   GList *providers;
@@ -375,7 +370,6 @@ mousepad_application_init (MousepadApplication *application)
   application->encoding = mousepad_encoding_get_default ();
   application->line = 0;
   application->column = 0;
-  application->xfconf_initialized = FALSE;
   application->providers = NULL;
 
   /* default application name */
@@ -812,7 +806,8 @@ static void
 mousepad_application_startup (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
-  GError              *error = NULL;
+  GSettingsSchema     *schema;
+  static GSettings    *settings;
   GVariant            *state;
   GAction             *action;
   GMenu               *menu;
@@ -824,16 +819,20 @@ mousepad_application_startup (GApplication *gapplication)
   /* load plugins */
   mousepad_application_load_plugins (application);
 
-  /* initialize xfconf */
-  if (G_UNLIKELY (! (application->xfconf_initialized = xfconf_init (&error))))
+  /* bind the default font to GNOME settings if possible */
+  schema = g_settings_schema_source_lookup (g_settings_schema_source_get_default (),
+                                            "org.gnome.desktop.interface", TRUE);
+  if (schema != NULL)
     {
-      g_warning ("Failed to initialize xfconf: %s", error->message);
-      g_error_free (error);
+      if (g_settings_schema_has_key (schema, "monospace-font-name"))
+        {
+          settings = g_settings_new ("org.gnome.desktop.interface");
+          g_settings_bind (settings, "monospace-font-name",
+                           application, "default-font", G_SETTINGS_BIND_GET);
+        }
+
+      g_settings_schema_unref (schema);
     }
-  /* bind default font to xfconf */
-  else
-    xfconf_g_property_bind (xfconf_channel_get ("xsettings"), "/Gtk/MonospaceFontName",
-                            G_TYPE_STRING, application, "default-font");
 
   /* add application actions */
   g_action_map_add_action_entries (G_ACTION_MAP (application), stateless_actions,
@@ -1126,10 +1125,6 @@ mousepad_application_shutdown (GApplication *gapplication)
     gtk_widget_destroy (window->data);
 
   g_list_free (windows);
-
-  /* shutdown xfconf */
-  if (G_LIKELY (application->xfconf_initialized))
-    xfconf_shutdown ();
 
   /* unload plugins */
   g_list_free_full (application->providers, mousepad_plugin_provider_unuse);
