@@ -66,6 +66,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_TOOLBAR_VISIBLE_FULLSCREEN   "preferences.window.toolbar-visible-in-fullscreen"
 #define MOUSEPAD_SETTING_STATUSBAR_VISIBLE_FULLSCREEN "preferences.window.statusbar-visible-in-fullscreen"
 #define MOUSEPAD_SETTING_OLD_STYLE_MENU               "preferences.window.old-style-menu"
+#define MOUSEPAD_SETTING_CLIENT_SIDE_DECORATIONS      "preferences.window.client-side-decorations"
 
 /* State setting names */
 #define MOUSEPAD_SETTING_ENABLED_PLUGINS              "state.application.enabled-plugins"
