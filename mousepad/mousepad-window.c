@@ -4920,7 +4920,7 @@ mousepad_window_action_reload (GSimpleAction *action,
             return;
             break;
 
-          case MOUSEPAD_RESPONSE_OK:
+          case MOUSEPAD_RESPONSE_RELOAD:
             /* reload below */
             break;
 
