@@ -89,7 +89,7 @@ mousepad_dialogs_show_error (GtkWindow    *parent,
 
   /* create the warning dialog */
   dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR,
-                                   GTK_BUTTONS_CLOSE, "%s.", message);
+                                   GTK_BUTTONS_NONE, "%s.", message);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
@@ -330,56 +330,29 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
 gboolean
 mousepad_dialogs_clear_recent (GtkWindow *parent)
 {
-  GtkWidget *dialog;
-  GtkWidget *area, *hbox, *vbox;
-  GtkWidget *button;
-  GtkWidget *image;
-  GtkWidget *label;
+  GtkWidget *dialog, *button;
   gboolean   succeed = FALSE;
 
-  /* create the question dialog */
-  dialog = gtk_dialog_new_with_buttons (_("Clear Documents History"), parent, GTK_DIALOG_MODAL,
-                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+  /* setup the question dialog */
+  dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
+                                   GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+                                   _("Remove all entries from the documents history?"));
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
+  gtk_window_set_title (GTK_WINDOW (dialog), _("Clear Documents History"));
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
-  /* set button */
+  /* set secondary text */
+  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+    _("Clearing the documents history will permanently remove all currently listed entries."));
+
+  /* add buttons */
+  gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
+
   button = mousepad_util_image_button ("edit-clear", _("Clea_r"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_CLEAR);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
-  gtk_window_set_default_size (GTK_WINDOW (dialog), 400, -1);
-
-  /* the content area */
-  area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
-  gtk_box_pack_start (GTK_BOX (area), hbox, TRUE, TRUE, 6);
-  gtk_widget_show (hbox);
-
-  /* the dialog icon */
-  image = gtk_image_new_from_icon_name ("edit-clear", GTK_ICON_SIZE_DIALOG);
-  gtk_box_pack_start (GTK_BOX (hbox), image, TRUE, TRUE, 0);
-  gtk_widget_show (image);
-
-  /* the dialog message */
-  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 8);
-  gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 6);
-  gtk_widget_show (vbox);
-
-  /* primary text */
-  label = gtk_label_new (NULL);
-  gtk_label_set_markup (GTK_LABEL (label),
-                        _("<big><b>Remove all entries from the documents history?</b></big>"));
-  gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
-
-  /* secondary text */
-  label = gtk_label_new (_("Clearing the documents history will permanently "
-                           "remove all currently listed entries."));
-  gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-  gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
 
   /* popup the dialog */
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == MOUSEPAD_RESPONSE_CLEAR)
@@ -397,23 +370,25 @@ gint
 mousepad_dialogs_save_changes (GtkWindow *parent,
                                gboolean   readonly)
 {
-  GtkWidget *dialog;
-  GtkWidget *area, *hbox, *vbox;
-  GtkWidget *button;
-  GtkWidget *image;
-  GtkWidget *label;
-  gint       response;
+  GtkWidget *dialog, *button;
+  gint       response, button_response;
 
   /* create the question dialog */
-  dialog = gtk_dialog_new_with_buttons (_("Save Changes"), parent, GTK_DIALOG_MODAL,
-                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+  dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
+                                   GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+                                   _("Do you want to save the changes before closing?"));
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
+  gtk_window_set_title (GTK_WINDOW (dialog), _("Save Changes"));
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
-  /* set properties */
-  gtk_window_set_default_size (GTK_WINDOW (dialog), 400, -1);
+  /* set secondary text */
+  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+    _("If you don't save the document, all the changes will be lost."));
+
+  /* add buttons */
+  gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
                                 mousepad_util_image_button ("edit-delete", _("_Don't Save")),
                                 MOUSEPAD_RESPONSE_DONT_SAVE);
@@ -421,47 +396,18 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   /* we show the save as button instead of save for readonly document */
   if (G_UNLIKELY (readonly))
     {
-      image = gtk_image_new_from_icon_name ("document-save-as", GTK_ICON_SIZE_DIALOG);
       button = mousepad_util_image_button ("document-save-as", _("_Save As"));
-      gtk_widget_set_can_default (button, TRUE);
-      gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
-      gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_SAVE_AS);
+      button_response = MOUSEPAD_RESPONSE_SAVE_AS;
     }
   else
     {
-      image = gtk_image_new_from_icon_name ("document-save", GTK_ICON_SIZE_DIALOG);
       button = mousepad_util_image_button ("document-save", _("_Save"));
-      gtk_widget_set_can_default (button, TRUE);
-      gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
-      gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_SAVE);
+      button_response = MOUSEPAD_RESPONSE_SAVE;
     }
 
-  /* the content area */
-  area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
-  gtk_box_pack_start (GTK_BOX (area), hbox, TRUE, TRUE, 6);
-  gtk_widget_show (hbox);
-
-  /* the dialog icon */
-  gtk_box_pack_start (GTK_BOX (hbox), image, TRUE, TRUE, 0);
-  gtk_widget_show (image);
-
-  /* the dialog message */
-  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 8);
-  gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 6);
-  gtk_widget_show (vbox);
-
-  /* primary text */
-  label = gtk_label_new (NULL);
-  gtk_label_set_markup (GTK_LABEL (label),
-                        _("<big><b>Do you want to save the changes before closing?</b></big>"));
-  gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
-
-  /* secondary text */
-  label = gtk_label_new (_("If you don't save the document, all the changes will be lost."));
-  gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
-  gtk_widget_show (label);
+  gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, button_response);
+  gtk_widget_set_can_default (button, TRUE);
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), button_response);
 
   /* run the dialog and wait for a response */
   response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -517,10 +463,10 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
+  gtk_window_set_title (GTK_WINDOW (dialog), _("Externally Modified"));
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
-  /* add title */
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Externally Modified"));
+  /* set secondary text */
   if (text_2 != NULL)
     gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text_2);
 
@@ -551,8 +497,7 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
 gint
 mousepad_dialogs_revert (GtkWindow *parent)
 {
-  GtkWidget *dialog;
-  GtkWidget *button;
+  GtkWidget *dialog, *button;
   gint       response;
 
   /* setup the question dialog */
@@ -562,14 +507,16 @@ mousepad_dialogs_revert (GtkWindow *parent)
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
+  gtk_window_set_title (GTK_WINDOW (dialog), _("Save Changes"));
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* set subtitle */
   gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
-                                   _("If you revert the file, all unsaved changes will be lost."));
+    _("If you revert the file, all unsaved changes will be lost."));
 
   /* add buttons */
   gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
   button = mousepad_util_image_button ("document-save-as", _("_Save As"));
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
@@ -610,7 +557,7 @@ mousepad_dialogs_confirm_encoding (const gchar *charset,
   /* setup CSD titlebar */
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
-  /* set subtitle */
+  /* set secondary text */
   gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
                                             _("If not, the guessed encoding will be used."));
 
