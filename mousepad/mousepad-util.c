@@ -569,6 +569,16 @@ mousepad_util_set_titlebar (GtkWindow *window)
   if (title == NULL || *title == '\0')
     gtk_window_set_title (window, g_get_application_name ());
 
+  /* exit if the user doesn't want client-side decorations, ensuring we have at least
+   * one close button or similar in the title bar for all dialogs */
+  if (! MOUSEPAD_SETTING_GET_BOOLEAN (CLIENT_SIDE_DECORATIONS))
+    {
+      if (! GTK_IS_HEADER_BAR (gtk_window_get_titlebar (window)))
+        gtk_window_set_titlebar (window, NULL);
+
+      return;
+    }
+
   /* use existing header bar or create a new one (including when the title bar widget
    * is not a GtkHeaderBar) */
   bar = gtk_window_get_titlebar (window);
