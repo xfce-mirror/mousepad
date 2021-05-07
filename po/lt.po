@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-26 01:02+0200\n"
-"PO-Revision-Date: 2021-04-26 19:27+0000\n"
+"POT-Creation-Date: 2021-05-06 00:47+0200\n"
+"PO-Revision-Date: 2021-05-07 21:09+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -19,80 +19,84 @@ msgstr ""
 "Language: lt\n"
 "Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
 
-#: ../mousepad/mousepad-application.c:141
+#: ../mousepad/mousepad-application.c:145
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
 msgstr "Koduotė, kuri bus naudojama failų atvėrimui (palikite tuščią norėdami atverti failus koduotės dialoge)"
 
-#: ../mousepad/mousepad-application.c:142
+#: ../mousepad/mousepad-application.c:146
 msgid "ENCODING"
 msgstr "KODUOTĖ"
 
-#: ../mousepad/mousepad-application.c:147
+#: ../mousepad/mousepad-application.c:151
 msgid "Display a list of possible encodings to open files"
 msgstr "Rodyti galimų koduočių, skirtų atverti failus, sąrašą"
 
-#: ../mousepad/mousepad-application.c:152
+#: ../mousepad/mousepad-application.c:156
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
 msgstr "Eilutės, į kurią padėti žymeklį, numeris (EILUTĖ > 0 nuo viršaus, EILUTĖ < 0 nuo apačios)"
 
-#: ../mousepad/mousepad-application.c:153
+#: ../mousepad/mousepad-application.c:157
 msgid "LINE"
 msgstr "EILUTĖ"
 
-#: ../mousepad/mousepad-application.c:158
+#: ../mousepad/mousepad-application.c:162
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
 msgstr "Stulpelio, į kurį padėti žymeklį, numeris (STULPELIS >= 0 nuo pradžios, STULPELIS < 0 nuo pabaigos)"
 
-#: ../mousepad/mousepad-application.c:159
+#: ../mousepad/mousepad-application.c:163
 msgid "COLUMN"
 msgstr "STULPELIS"
 
-#: ../mousepad/mousepad-application.c:164
+#: ../mousepad/mousepad-application.c:168
+msgid "Open the preferences dialog"
+msgstr "Atverti nuostatų dialogą"
+
+#: ../mousepad/mousepad-application.c:173
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Neregistruoti su D-BUS seanso pranešimų magistrale"
 
-#: ../mousepad/mousepad-application.c:169
+#: ../mousepad/mousepad-application.c:178
 msgid "Quit a running Mousepad primary instance"
 msgstr "Užverti aktyvų Mousepad pirminį egzempliorių"
 
-#: ../mousepad/mousepad-application.c:174
+#: ../mousepad/mousepad-application.c:183
 msgid "Print version information and exit"
 msgstr "Parodyti versijos informaciją ir išeiti"
 
-#: ../mousepad/mousepad-application.c:179
+#: ../mousepad/mousepad-application.c:188
 msgid "[FILES...]"
 msgstr "[FAILAI...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:371 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:382 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:380
+#: ../mousepad/mousepad-application.c:391
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Failų atvėrimo veiksena: \"%s\", \"%s\" arba \"%s\" (atverti korteles naujame lange)"
 
-#: ../mousepad/mousepad-application.c:383
+#: ../mousepad/mousepad-application.c:394
 msgid "MODE"
 msgstr "VEIKSENA"
 
-#: ../mousepad/mousepad-application.c:436
+#: ../mousepad/mousepad-application.c:447
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Mousepad kūrėjai. Visos teisės saugomos."
 
-#: ../mousepad/mousepad-application.c:437
+#: ../mousepad/mousepad-application.c:448
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Apie klaidas praneškite <%s>."
 
-#: ../mousepad/mousepad-application.c:1498
+#: ../mousepad/mousepad-application.c:1479
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autoriai: %s | Failo pavadinimas: %s"
@@ -120,7 +124,7 @@ msgstr "Pasirinkite kortelės dydį"
 #: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:226
 #: ../mousepad/mousepad-dialogs.c:333 ../mousepad/mousepad-dialogs.c:397
 #: ../mousepad/mousepad-dialogs.c:510 ../mousepad/mousepad-dialogs.c:551
-#: ../mousepad/mousepad-dialogs.c:933 ../mousepad/mousepad-dialogs.c:993
+#: ../mousepad/mousepad-dialogs.c:932 ../mousepad/mousepad-dialogs.c:992
 #: ../mousepad/mousepad-encoding-dialog.c:120
 #: ../mousepad/mousepad-encoding-dialog.c:191
 msgid "_Cancel"
@@ -185,7 +189,7 @@ msgstr "Į_rašyti kaip"
 
 #. add button
 #: ../mousepad/mousepad-dialogs.c:418 ../mousepad/mousepad-dialogs.c:518
-#: ../mousepad/mousepad-dialogs.c:937
+#: ../mousepad/mousepad-dialogs.c:936
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "Į_rašyti"
@@ -226,7 +230,7 @@ msgstr "Turite neįrašytų pakeitimų. Jei sugrąžinsite failą, pakeitimai bu
 msgid "_Revert"
 msgstr "_Sugrąžinti"
 
-#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3515
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3509
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "Įke_lti iš naujo"
@@ -255,83 +259,83 @@ msgstr "Atrodo, kad šis failas yra koduotas %s koduote, bet jūs pasirinkote %s
 msgid "If not, the guessed encoding will be used."
 msgstr "Jei ne, bus naudojama numanoma koduotė."
 
-#: ../mousepad/mousepad-dialogs.c:674
+#: ../mousepad/mousepad-dialogs.c:672
 msgid "Please select a file"
 msgstr "Pasirinkite failą"
 
-#: ../mousepad/mousepad-dialogs.c:701
+#: ../mousepad/mousepad-dialogs.c:699
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "Nepavyko paruošti laikinojo failo koduočių išbandymui"
 
-#: ../mousepad/mousepad-dialogs.c:764 ../mousepad/mousepad-dialogs.c:827
+#: ../mousepad/mousepad-dialogs.c:762 ../mousepad/mousepad-dialogs.c:826
 msgid "Open encoding dialog"
 msgstr "Atverti koduotės dialogą"
 
-#: ../mousepad/mousepad-dialogs.c:766
+#: ../mousepad/mousepad-dialogs.c:764
 msgid "Go back to shorten list"
 msgstr "Grįžti į sutrumpintą sąrašą"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:820
+#: ../mousepad/mousepad-dialogs.c:819
 msgid "_Encoding:"
 msgstr "K_oduotė:"
 
-#: ../mousepad/mousepad-dialogs.c:832
+#: ../mousepad/mousepad-dialogs.c:831
 #: ../mousepad/mousepad-encoding-dialog.c:289
 #: ../mousepad/mousepad-encoding-dialog.c:290
 msgid "Default"
 msgstr "Numatyta"
 
-#: ../mousepad/mousepad-dialogs.c:842
+#: ../mousepad/mousepad-dialogs.c:841
 #: ../mousepad/mousepad-encoding-dialog.c:305
 #: ../mousepad/mousepad-encoding-dialog.c:307
 #: ../mousepad/mousepad-encoding-dialog.c:311
 msgid "System"
 msgstr "Sistema"
 
-#: ../mousepad/mousepad-dialogs.c:855
+#: ../mousepad/mousepad-dialogs.c:854
 msgid "Current"
 msgstr "Dabartinė"
 
-#: ../mousepad/mousepad-dialogs.c:873
+#: ../mousepad/mousepad-dialogs.c:872
 msgid "Show all encodings"
 msgstr "Rodyti visas koduotes"
 
-#: ../mousepad/mousepad-dialogs.c:907
+#: ../mousepad/mousepad-dialogs.c:906
 msgid "Text Files"
 msgstr "Tekstiniai failai"
 
-#: ../mousepad/mousepad-dialogs.c:913
+#: ../mousepad/mousepad-dialogs.c:912
 msgid "All Files"
 msgstr "Visi failai"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:932
+#: ../mousepad/mousepad-dialogs.c:931
 msgid "Save As"
 msgstr "Įrašyti kaip"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:992
+#: ../mousepad/mousepad-dialogs.c:991
 msgid "Open File"
 msgstr "Atverti failą"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:997
+#: ../mousepad/mousepad-dialogs.c:996
 msgid "_Open"
 msgstr "_Atverti"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1042
+#: ../mousepad/mousepad-dialogs.c:1041
 msgid "Choose Mousepad Font"
 msgstr "Pasirinkite Mousepad šriftą"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:606
+#: ../mousepad/mousepad-document.c:631
 msgid "Close this tab"
 msgstr "Užverti šią kortelę"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:636
+#: ../mousepad/mousepad-document.c:661
 msgid "Untitled"
 msgstr "Be pavadinimo"
 
@@ -499,22 +503,21 @@ msgstr "Japonų"
 msgid "Korean"
 msgstr "Korėjiečių"
 
-#: ../mousepad/mousepad-file.c:609
+#: ../mousepad/mousepad-file.c:606
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Įvestyje klaidinga baitų keitimo seka"
 
 #. add the close button
-#: ../mousepad/mousepad-prefs-dialog.c:586
+#: ../mousepad/mousepad-prefs-dialog.c:602
 #: ../mousepad/mousepad-replace-dialog.c:274
 msgid "_Close"
 msgstr "_Užverti"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:592
-#: ../mousepad/resources/gtk/menus.ui.h:21
-msgid "Preferences"
-msgstr "Nuostatos"
+#: ../mousepad/mousepad-prefs-dialog.c:608 ../mousepad.desktop.in.in.h:4
+msgid "Mousepad Preferences"
+msgstr "Mousepad nuostatos"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:121
@@ -658,7 +661,7 @@ msgstr "Visi dokumentai"
 
 #. update counter
 #: ../mousepad/mousepad-replace-dialog.c:599
-#: ../mousepad/mousepad-search-bar.c:400
+#: ../mousepad/mousepad-search-bar.c:403
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -701,31 +704,31 @@ msgid "Filetype: %s"
 msgstr "Failo tipas: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1101
+#: ../mousepad/mousepad-window.c:1096
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Įspėjimas: jūs naudojatės administratoriaus paskyra, dėl to galite pakenkti savo sistemai."
 
-#: ../mousepad/mousepad-window.c:2253
+#: ../mousepad/mousepad-window.c:2243
 msgid "Read Only"
 msgstr "Tik skaityti"
 
-#: ../mousepad/mousepad-window.c:2257
+#: ../mousepad/mousepad-window.c:2247
 msgid "Viewer Mode"
 msgstr "Žiūryklės veiksena"
 
-#: ../mousepad/mousepad-window.c:3266
+#: ../mousepad/mousepad-window.c:3260
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Naudoti \"%s\" kaip šabloną"
 
-#: ../mousepad/mousepad-window.c:3292
+#: ../mousepad/mousepad-window.c:3286
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Nerasta jokių šablono failų kataloge\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3350
+#: ../mousepad/mousepad-window.c:3344
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -733,88 +736,88 @@ msgid ""
 msgstr "Trūksta šablonų katalogo\n\"%s\""
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3402
+#: ../mousepad/mousepad-window.c:3396
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "K_ita (%d)..."
 
-#: ../mousepad/mousepad-window.c:3412
+#: ../mousepad/mousepad-window.c:3406
 msgid "Ot_her..."
 msgstr "_Kita..."
 
-#: ../mousepad/mousepad-window.c:3509
+#: ../mousepad/mousepad-window.c:3503
 msgid "Re_vert"
 msgstr "Sugrąž_inti"
 
-#: ../mousepad/mousepad-window.c:3511
+#: ../mousepad/mousepad-window.c:3505
 msgid "Revert to the saved version of the file"
 msgstr "Sugrąžinti iki įrašytos failo versijos"
 
-#: ../mousepad/mousepad-window.c:3517
+#: ../mousepad/mousepad-window.c:3511
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Įkelti failą iš disko"
 
-#: ../mousepad/mousepad-window.c:3523
+#: ../mousepad/mousepad-window.c:3517
 msgid "Leave fullscreen mode"
 msgstr "Išjungti viso ekrano veikseną"
 
-#: ../mousepad/mousepad-window.c:3528
+#: ../mousepad/mousepad-window.c:3522
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Rodyti langą visame ekrane"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3679 ../mousepad/mousepad-window.c:3888
+#: ../mousepad/mousepad-window.c:3673 ../mousepad/mousepad-window.c:3882
 msgid "Charset"
 msgstr "Koduotė"
 
-#: ../mousepad/mousepad-window.c:3823
+#: ../mousepad/mousepad-window.c:3817
 #, c-format
 msgid "Open '%s'"
 msgstr "Atverti „%s“"
 
-#: ../mousepad/mousepad-window.c:3851
+#: ../mousepad/mousepad-window.c:3845
 msgid "No items found"
 msgstr "Elementų nerasta"
 
-#: ../mousepad/mousepad-window.c:3851
+#: ../mousepad/mousepad-window.c:3845
 msgid "History disabled"
 msgstr "Istorija išjungta"
 
-#: ../mousepad/mousepad-window.c:3937
+#: ../mousepad/mousepad-window.c:3931
 msgid "Failed to clear the recent history"
 msgstr "Nepavyko išvalyti paskiausiai naudotų dokumentų istorijos"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4401
+#: ../mousepad/mousepad-window.c:4399
 msgid "No clipboard data"
 msgstr "Iškarpinėj nėra duomenų"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4512
+#: ../mousepad/mousepad-window.c:4510
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Šablonai turėtų būti tinkamos %s koduotės"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4518
+#: ../mousepad/mousepad-window.c:4516
 msgid "Reading the template failed"
 msgstr "Nepavyko perskaityti šablono"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4523
+#: ../mousepad/mousepad-window.c:4521
 msgid "Loading the template failed"
 msgstr "Įkelti šablono nepavyko"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4707 ../mousepad/mousepad-window.c:4848
+#: ../mousepad/mousepad-window.c:4705 ../mousepad/mousepad-window.c:4847
 msgid "Failed to save the document"
 msgstr "Dokumento įrašyti nepavyko"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4954
+#: ../mousepad/mousepad-window.c:4953
 msgid "Failed to reload the document"
 msgstr "dokumento įkelti iš naujo nepavyko"
 
@@ -902,6 +905,10 @@ msgstr "_Taisa"
 #: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Edit menu"
 msgstr "Taisymo meniu"
+
+#: ../mousepad/resources/gtk/menus.ui.h:21
+msgid "Preferences"
+msgstr "Nuostatos"
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -1391,28 +1398,28 @@ msgid "Reverse the order of something"
 msgstr "Pakeisti ko nors tvarką"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
-msgid "_Move Selection"
-msgstr "_Perkelti žymėjimą"
+msgid "_Move Lines"
+msgstr "_Perkelti eilutes"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
-msgid "Move the selection in different ways"
-msgstr "Perkelti žymėjimą įvairiais būdais"
+msgid "Move selected lines or current line in different ways"
+msgstr "Perkelti pažymėtas eilutes ar esamą eilutę įvairiais būdais"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
 msgstr "Eilute aukštyn"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
-msgid "Move the selection one line up"
-msgstr "Perkelti pasirinkimą eilute aukščiau"
+msgid "Move lines one line up"
+msgstr "Perkelti eilutes viena eilute aukščiau"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
 msgstr "Eilute _žemyn"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
-msgid "Move the selection one line down"
-msgstr "Perkelia pasirinkimą eilute žemiau"
+msgid "Move lines one line down"
+msgstr "Perkelti eilutes viena eilute žemyn"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Dup_licate Line / Selection"
@@ -1678,6 +1685,14 @@ msgstr "Paprastas teksto redaktorius"
 #: ../mousepad.desktop.in.in.h:3
 msgid "Text Editor"
 msgstr "Teksto redaktorius"
+
+#: ../mousepad-settings.desktop.in.in.h:1
+msgid "Text Editor Settings"
+msgstr "Tekstų redaktoriaus nustatymai"
+
+#: ../mousepad-settings.desktop.in.in.h:2
+msgid "Configure the Mousepad text editor"
+msgstr "Konfigūruoti Mousepad tekstų redaktorių"
 
 #: ../mousepad.appdata.xml.in.h:1
 msgid ""
