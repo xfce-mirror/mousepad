@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-02 12:47+0200\n"
-"PO-Revision-Date: 2021-05-03 08:53+0000\n"
+"POT-Creation-Date: 2021-05-06 00:47+0200\n"
+"PO-Revision-Date: 2021-05-07 09:09+0000\n"
 "Last-Translator: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr "The Mousepad developers. All rights reserved."
 msgid "Please report bugs to <%s>."
 msgstr "バグの報告は <%s> までお願いします。"
 
-#: ../mousepad/mousepad-application.c:1477
+#: ../mousepad/mousepad-application.c:1479
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | 作者: %s | ファイル名: %s"
@@ -233,7 +233,7 @@ msgstr "保存されていない変更があります。ファイルを元に戻
 msgid "_Revert"
 msgstr "元に戻す(_R)"
 
-#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3506
+#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3509
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "リロード(_L)"
@@ -333,12 +333,12 @@ msgid "Choose Mousepad Font"
 msgstr "Mousepad のフォントを選択する"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:606
+#: ../mousepad/mousepad-document.c:631
 msgid "Close this tab"
 msgstr "このタブを閉じます"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:636
+#: ../mousepad/mousepad-document.c:661
 msgid "Untitled"
 msgstr "無題"
 
@@ -506,19 +506,19 @@ msgstr "日本語"
 msgid "Korean"
 msgstr "韓国語"
 
-#: ../mousepad/mousepad-file.c:604
+#: ../mousepad/mousepad-file.c:606
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "変換入力内に不正なバイト列があります"
 
 #. add the close button
-#: ../mousepad/mousepad-prefs-dialog.c:585
+#: ../mousepad/mousepad-prefs-dialog.c:602
 #: ../mousepad/mousepad-replace-dialog.c:274
 msgid "_Close"
 msgstr "閉じる(_C)"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:591 ../mousepad.desktop.in.in.h:4
+#: ../mousepad/mousepad-prefs-dialog.c:608 ../mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Mousepad 設定"
 
@@ -708,27 +708,27 @@ msgstr "ファイルタイプ: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "警告: あなたは root アカウントを使用しています。システムに悪影響を与えるかもしれません。"
 
-#: ../mousepad/mousepad-window.c:2249
+#: ../mousepad/mousepad-window.c:2243
 msgid "Read Only"
 msgstr "読込専用"
 
-#: ../mousepad/mousepad-window.c:2253
+#: ../mousepad/mousepad-window.c:2247
 msgid "Viewer Mode"
 msgstr "ビュアーモード"
 
-#: ../mousepad/mousepad-window.c:3257
+#: ../mousepad/mousepad-window.c:3260
 #, c-format
 msgid "Use '%s' as template"
 msgstr "'%s' をテンプレートとして使用する"
 
-#: ../mousepad/mousepad-window.c:3283
+#: ../mousepad/mousepad-window.c:3286
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "テンプレートファイルが '%s' 内に\nありません"
 
-#: ../mousepad/mousepad-window.c:3341
+#: ../mousepad/mousepad-window.c:3344
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -736,93 +736,93 @@ msgid ""
 msgstr "テンプレートディレクトリがありません\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3393
+#: ../mousepad/mousepad-window.c:3396
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "その他 (%d)(_H)..."
 
-#: ../mousepad/mousepad-window.c:3403
+#: ../mousepad/mousepad-window.c:3406
 msgid "Ot_her..."
 msgstr "その他(_H)..."
 
-#: ../mousepad/mousepad-window.c:3500
+#: ../mousepad/mousepad-window.c:3503
 msgid "Re_vert"
 msgstr "復帰(_V)"
 
-#: ../mousepad/mousepad-window.c:3502
+#: ../mousepad/mousepad-window.c:3505
 msgid "Revert to the saved version of the file"
 msgstr "保存されているファイルに戻します"
 
-#: ../mousepad/mousepad-window.c:3508
+#: ../mousepad/mousepad-window.c:3511
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "ディスクからファイルをリロードする"
 
-#: ../mousepad/mousepad-window.c:3514
+#: ../mousepad/mousepad-window.c:3517
 msgid "Leave fullscreen mode"
 msgstr "全画面モードから復帰します"
 
-#: ../mousepad/mousepad-window.c:3519
+#: ../mousepad/mousepad-window.c:3522
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "ウィンドウを全画面化します"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3670 ../mousepad/mousepad-window.c:3879
+#: ../mousepad/mousepad-window.c:3673 ../mousepad/mousepad-window.c:3882
 msgid "Charset"
 msgstr "文字セット"
 
-#: ../mousepad/mousepad-window.c:3814
+#: ../mousepad/mousepad-window.c:3817
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s' を開きます"
 
-#: ../mousepad/mousepad-window.c:3842
+#: ../mousepad/mousepad-window.c:3845
 msgid "No items found"
 msgstr "アイテムが見つかりません"
 
-#: ../mousepad/mousepad-window.c:3842
+#: ../mousepad/mousepad-window.c:3845
 msgid "History disabled"
 msgstr "履歴が無効になっています"
 
-#: ../mousepad/mousepad-window.c:3928
+#: ../mousepad/mousepad-window.c:3931
 msgid "Failed to clear the recent history"
 msgstr "ドキュメント履歴のクリアに失敗しました"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4393
+#: ../mousepad/mousepad-window.c:4399
 msgid "No clipboard data"
 msgstr "クリップボードにデータがありません"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4504
+#: ../mousepad/mousepad-window.c:4510
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "テンプレートは %s が有効である必要があります"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4510
+#: ../mousepad/mousepad-window.c:4516
 msgid "Reading the template failed"
 msgstr "テンプレートの読み込みに失敗しました"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4515
+#: ../mousepad/mousepad-window.c:4521
 msgid "Loading the template failed"
 msgstr "テンプレートの読み込みに失敗しました"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4699 ../mousepad/mousepad-window.c:4840
+#: ../mousepad/mousepad-window.c:4705 ../mousepad/mousepad-window.c:4847
 msgid "Failed to save the document"
 msgstr "文書の保存に失敗しました"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4946
+#: ../mousepad/mousepad-window.c:4953
 msgid "Failed to reload the document"
 msgstr "文書の再読み込みに失敗しました"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4978
+#: ../mousepad/mousepad-window.c:4985
 msgid "Failed to print the document"
 msgstr "文書の印刷に失敗しました"
 
@@ -1202,7 +1202,7 @@ msgstr "タブを切り離す(_D)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:12
 msgid "Move the current document to a new window"
-msgstr "現在の文書を新しいウィンドウに移動します"
+msgstr "現在の文書を新しいウィンドウに移動する"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:13
 msgid "Close _Tab"
@@ -1387,7 +1387,7 @@ msgstr "行末のスペースを除去(_R)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:60
 msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr "選択範囲または文書内の行末のスペースを除去します"
+msgstr "選択範囲または文書内の行末のスペースを除去する"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:61
 msgid "_Transpose"
@@ -1398,28 +1398,28 @@ msgid "Reverse the order of something"
 msgstr "何らかの順序を反転します"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
-msgid "_Move Selection"
-msgstr "選択範囲の移動(_M)"
+msgid "_Move Lines"
+msgstr "行の移動(_M)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
-msgid "Move the selection in different ways"
-msgstr "選択範囲をさまざまな方法で移動する"
+msgid "Move selected lines or current line in different ways"
+msgstr "選択した行か現在の行をさまざまな方法で移動する"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
 msgstr "1 行上へ(_U)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
-msgid "Move the selection one line up"
-msgstr "選択範囲を 1 行上に移動します"
+msgid "Move lines one line up"
+msgstr "1行上に移動する"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
 msgstr "1 行下へ(_D)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
-msgid "Move the selection one line down"
-msgstr "選択範囲を 1 行下に移動します"
+msgid "Move lines one line down"
+msgstr "1行下に移動する"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Dup_licate Line / Selection"
