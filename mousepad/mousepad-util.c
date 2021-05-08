@@ -505,7 +505,7 @@ mousepad_util_set_titlebar (GtkWindow *window)
   GtkStyleContext *context;
   GtkCssProvider *provider;
   const gchar *title;
-  gboolean show_close = TRUE;
+  gboolean show_buttons = TRUE;
 
   /* set a default window title if needed */
   title = gtk_window_get_title (window);
@@ -531,15 +531,13 @@ mousepad_util_set_titlebar (GtkWindow *window)
       bar = gtk_header_bar_new ();
       gtk_widget_show (bar);
     }
-  /* do not change "show-close-button" if there is already a header bar, this should be
+  /* do not change "show-title-buttons" if there is already a header bar, this should be
    * handled internally by one means or another */
   else
-    show_close = gtk_header_bar_get_show_close_button (GTK_HEADER_BAR (bar));
+    show_buttons = gtk_header_bar_get_show_title_buttons (GTK_HEADER_BAR (bar));
 
   /* set properties */
-  gtk_header_bar_set_title (GTK_HEADER_BAR (bar), gtk_window_get_title (window));
-  gtk_header_bar_set_has_subtitle (GTK_HEADER_BAR (bar), FALSE);
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (bar), show_close);
+  gtk_header_bar_set_show_title_buttons (GTK_HEADER_BAR (bar), show_buttons);
 
   /* stay in sync with the window manager for the decoration layout */
   if (settings == NULL)
@@ -557,6 +555,7 @@ mousepad_util_set_titlebar (GtkWindow *window)
   else
     mousepad_util_decoration_layout_changed (G_OBJECT (settings), NULL, bar);
 
+  /* TODO Header bar: works roughly with GTK 3 (not for "Open", "Save As", …), but not with GTK 4 */
   /* make the header bar slim */
   context = gtk_widget_get_style_context (bar);
   provider = gtk_css_provider_new ();
