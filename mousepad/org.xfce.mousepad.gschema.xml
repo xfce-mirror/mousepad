@@ -423,6 +423,14 @@
         instead of being aligned with the labels. Restart Mousepad for this to take effect.
       </description>
     </key>
+    <key name="client-side-decorations" type="b">
+      <default>true</default>
+      <summary>Client-side decorations</summary>
+      <description>
+        When true, Mousepad draws its own window decorations, instead of the window manager.
+        Restart Mousepad for this to take effect.
+      </description>
+    </key>
   </schema>
 
   <!-- application state -->
