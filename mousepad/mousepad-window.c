@@ -5831,10 +5831,9 @@ mousepad_window_action_bar_activate (GSimpleAction *action,
                                      GVariant      *value,
                                      gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  gboolean        state;
+  gboolean state;
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   state = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
   mousepad_setting_set_boolean (g_action_get_name (G_ACTION (action)), state);
