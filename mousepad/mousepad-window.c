@@ -5832,21 +5832,12 @@ mousepad_window_action_bar_activate (GSimpleAction *action,
                                      gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  gchar          *setting;
   gboolean        state;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   state = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
-
-  if (mousepad_window_get_in_fullscreen (window))
-    {
-      setting = g_strconcat (g_action_get_name (G_ACTION (action)), "-in-fullscreen", NULL);
-      mousepad_setting_set_boolean (setting, state ? YES : NO);
-      g_free (setting);
-    }
-  else
-    mousepad_setting_set_boolean (g_action_get_name (G_ACTION (action)), state);
+  mousepad_setting_set_boolean (g_action_get_name (G_ACTION (action)), state);
 }
 
 
@@ -5880,6 +5871,10 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
   gint            offset;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* exit if there is actually no change */
+  if (g_variant_equal (state, g_action_get_state (G_ACTION (action))))
+    return;
 
   /* set the action state */
   g_simple_action_set_state (action, state);
