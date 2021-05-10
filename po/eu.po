@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-26 01:02+0200\n"
-"PO-Revision-Date: 2021-04-26 14:00+0000\n"
+"POT-Creation-Date: 2021-05-08 12:47+0200\n"
+"PO-Revision-Date: 2021-05-10 14:28+0000\n"
 "Last-Translator: beriain\n"
 "Language-Team: Basque (http://www.transifex.com/xfce/xfce-apps/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -20,80 +20,84 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../mousepad/mousepad-application.c:141
+#: ../mousepad/mousepad-application.c:140
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
 msgstr "Fitxategiak irekitzerakoan erabili beharreko kodeketa (utzi hutsik fitxategiak kodeketaren leihoarekin irekitzeko)"
 
-#: ../mousepad/mousepad-application.c:142
+#: ../mousepad/mousepad-application.c:141
 msgid "ENCODING"
 msgstr "KODEKETA"
 
-#: ../mousepad/mousepad-application.c:147
+#: ../mousepad/mousepad-application.c:146
 msgid "Display a list of possible encodings to open files"
 msgstr "Kodeketa erabilgarrien zerrenda bat erakutsi fitxategiak irekitzeko"
 
-#: ../mousepad/mousepad-application.c:152
+#: ../mousepad/mousepad-application.c:151
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
 msgstr "Kurtsorea kokatzeko lerro zenbakia (LERROA > 0 goitik, LERROA < 0 behetik)"
 
-#: ../mousepad/mousepad-application.c:153
+#: ../mousepad/mousepad-application.c:152
 msgid "LINE"
 msgstr "LERROA"
 
-#: ../mousepad/mousepad-application.c:158
+#: ../mousepad/mousepad-application.c:157
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
 msgstr "Kurtsorea kokatzeko zutabe zenbakia (ZUTABEA >= 0 hasieratik, ZUTABEA < 0 amaieratik)"
 
-#: ../mousepad/mousepad-application.c:159
+#: ../mousepad/mousepad-application.c:158
 msgid "COLUMN"
 msgstr "ZUTABEA"
 
-#: ../mousepad/mousepad-application.c:164
+#: ../mousepad/mousepad-application.c:163
+msgid "Open the preferences dialog"
+msgstr "Ireki hobespen leihoa"
+
+#: ../mousepad/mousepad-application.c:168
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Ez erregistratu D-BUS saio mezu bus-arekin"
 
-#: ../mousepad/mousepad-application.c:169
+#: ../mousepad/mousepad-application.c:173
 msgid "Quit a running Mousepad primary instance"
 msgstr "Itxi martxan dagoen Mousepaden instantzia nagusia"
 
-#: ../mousepad/mousepad-application.c:174
+#: ../mousepad/mousepad-application.c:178
 msgid "Print version information and exit"
 msgstr "Bertsio argibideak bistarazi eta irten"
 
-#: ../mousepad/mousepad-application.c:179
+#: ../mousepad/mousepad-application.c:183
 msgid "[FILES...]"
 msgstr "[FITX...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:371 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:376 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:380
+#: ../mousepad/mousepad-application.c:385
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Fitxategia irekitzeko modua: \"%s\", \"%s\" edo \"%s\" (fitxak leiho berrietan ireki)"
 
-#: ../mousepad/mousepad-application.c:383
+#: ../mousepad/mousepad-application.c:388
 msgid "MODE"
 msgstr "MODUA"
 
-#: ../mousepad/mousepad-application.c:436
+#: ../mousepad/mousepad-application.c:441
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Mousepad-en garatzaileak. Eskubide guztiak erreserbaturik."
 
-#: ../mousepad/mousepad-application.c:437
+#: ../mousepad/mousepad-application.c:442
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Arazoen berri hemen eman: <%s>"
 
-#: ../mousepad/mousepad-application.c:1498
+#: ../mousepad/mousepad-application.c:1475
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Egileak: %s | Fitxategi-izena: %s"
@@ -107,277 +111,274 @@ msgid "translator-credits"
 msgstr "Piarres Beobide <pi@beobide.net>"
 
 #. display an error message to the user
-#: ../mousepad/mousepad-dialogs.c:120
+#: ../mousepad/mousepad-dialogs.c:123
 msgid "Failed to open the documentation browser"
 msgstr "Dokumentazio nabigatzailea irekitzeak huts egin du"
 
 #. build dialog
-#: ../mousepad/mousepad-dialogs.c:136
+#: ../mousepad/mousepad-dialogs.c:139
 msgid "Select Tab Size"
 msgstr "Hautatu tabuladorearen tamaina"
 
 #. add buttons
 #. cancel button
-#: ../mousepad/mousepad-dialogs.c:137 ../mousepad/mousepad-dialogs.c:226
-#: ../mousepad/mousepad-dialogs.c:333 ../mousepad/mousepad-dialogs.c:397
-#: ../mousepad/mousepad-dialogs.c:510 ../mousepad/mousepad-dialogs.c:551
-#: ../mousepad/mousepad-dialogs.c:933 ../mousepad/mousepad-dialogs.c:993
-#: ../mousepad/mousepad-encoding-dialog.c:120
-#: ../mousepad/mousepad-encoding-dialog.c:191
+#: ../mousepad/mousepad-dialogs.c:140 ../mousepad/mousepad-dialogs.c:232
+#: ../mousepad/mousepad-dialogs.c:351 ../mousepad/mousepad-dialogs.c:391
+#: ../mousepad/mousepad-dialogs.c:474 ../mousepad/mousepad-dialogs.c:518
+#: ../mousepad/mousepad-dialogs.c:903 ../mousepad/mousepad-dialogs.c:966
+#: ../mousepad/mousepad-encoding-dialog.c:122
+#: ../mousepad/mousepad-encoding-dialog.c:193
 msgid "_Cancel"
 msgstr "Ut_zi"
 
-#: ../mousepad/mousepad-dialogs.c:138
-#: ../mousepad/mousepad-encoding-dialog.c:121
+#: ../mousepad/mousepad-dialogs.c:141
+#: ../mousepad/mousepad-encoding-dialog.c:123
 msgid "_OK"
 msgstr "Ad_os"
 
 #. build the dialog
-#: ../mousepad/mousepad-dialogs.c:225
+#: ../mousepad/mousepad-dialogs.c:231
 msgid "Go To"
 msgstr "Joan"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:230
+#: ../mousepad/mousepad-dialogs.c:239
 msgid "_Jump to"
 msgstr "_Joan hona"
 
-#: ../mousepad/mousepad-dialogs.c:250
+#: ../mousepad/mousepad-dialogs.c:259
 msgid "_Line number:"
 msgstr "_Lerro zenbakia: "
 
-#: ../mousepad/mousepad-dialogs.c:270
+#: ../mousepad/mousepad-dialogs.c:279
 msgid "C_olumn number:"
 msgstr "Z_utabe zenbakia:"
 
-#. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:332
+#: ../mousepad/mousepad-dialogs.c:339
+msgid "Remove all entries from the documents history?"
+msgstr "Dokumentu historiako sarrera guztiak ezabatu?"
+
+#. setup CSD titlebar
+#: ../mousepad/mousepad-dialogs.c:343
 msgid "Clear Documents History"
 msgstr "Garbitu dokumentu historia"
 
-#. set button
-#: ../mousepad/mousepad-dialogs.c:337
-msgid "Clea_r"
-msgstr "Ga_rbitu"
-
-#: ../mousepad/mousepad-dialogs.c:361
-msgid "<big><b>Remove all entries from the documents history?</b></big>"
-msgstr "<big><b>Kendu sarrera guztiak dokumentuen historiatik?</b></big>"
-
-#. secondary text
-#: ../mousepad/mousepad-dialogs.c:366
+#: ../mousepad/mousepad-dialogs.c:348
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
 msgstr "Dokumentuen historia garbitzeak une honetan zerrendatutako sarrera guztiak betiko ezabatuko ditu."
 
-#. create the question dialog
-#: ../mousepad/mousepad-dialogs.c:396
+#: ../mousepad/mousepad-dialogs.c:354
+msgid "Clea_r"
+msgstr "Ga_rbitu"
+
+#: ../mousepad/mousepad-dialogs.c:379
+msgid "Do you want to save the changes before closing?"
+msgstr "Irten aurretik aldaketak gorde nahi dituzu?"
+
+#. setup CSD titlebar
+#: ../mousepad/mousepad-dialogs.c:383 ../mousepad/mousepad-dialogs.c:510
 msgid "Save Changes"
 msgstr "Gorde aldaketak"
 
-#: ../mousepad/mousepad-dialogs.c:403
+#: ../mousepad/mousepad-dialogs.c:388
+msgid "If you don't save the document, all the changes will be lost."
+msgstr "Dokumentua ez baduzu gordetzen, aldaketa guztiak galduko dira."
+
+#: ../mousepad/mousepad-dialogs.c:393
 msgid "_Don't Save"
 msgstr "_Ez gorde"
 
-#: ../mousepad/mousepad-dialogs.c:410 ../mousepad/mousepad-dialogs.c:553
+#: ../mousepad/mousepad-dialogs.c:399 ../mousepad/mousepad-dialogs.c:521
 msgid "_Save As"
 msgstr "Gorde honela"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:418 ../mousepad/mousepad-dialogs.c:518
-#: ../mousepad/mousepad-dialogs.c:937
+#: ../mousepad/mousepad-dialogs.c:404 ../mousepad/mousepad-dialogs.c:482
+#: ../mousepad/mousepad-dialogs.c:910
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
 msgstr "_Gorde"
 
-#: ../mousepad/mousepad-dialogs.c:442
-msgid "<big><b>Do you want to save the changes before closing?</b></big>"
-msgstr "<big><b>Aldaketak gorde nahi dituzu itxi baino lehen?</b></big>"
-
-#. secondary text
-#: ../mousepad/mousepad-dialogs.c:447
-msgid "If you don't save the document, all the changes will be lost."
-msgstr "Dokumentua ez baduzu gordetzen, aldaketa guztiak galduko dira."
-
-#: ../mousepad/mousepad-dialogs.c:474
+#: ../mousepad/mousepad-dialogs.c:435
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
 msgstr "Dokumentua kanpoaldetik eraldatua izan da. Gordetzen jarraitu nahi al duzu?"
 
-#: ../mousepad/mousepad-dialogs.c:475
+#: ../mousepad/mousepad-dialogs.c:436
 msgid "If you save the document, all of the external changes will be lost."
 msgstr "Dokumentua gordetzen baduzu, kanpotik egindako aldaketa guztiak galduko dira."
 
-#: ../mousepad/mousepad-dialogs.c:477
+#: ../mousepad/mousepad-dialogs.c:438
 msgid "Save _As"
 msgstr "Gorde honela"
 
-#: ../mousepad/mousepad-dialogs.c:482
+#: ../mousepad/mousepad-dialogs.c:443
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
 msgstr "Dokumentua kanpotik aldatua izan da. Diskotik birkargatu nahi duzu?"
 
-#: ../mousepad/mousepad-dialogs.c:487
+#: ../mousepad/mousepad-dialogs.c:448
 msgid "You have unsaved changes. If you revert the file, they will be lost."
 msgstr "Gorde gabeko aldaketak dituzu. Fitxategia leheneratzen baduzu, galduko dira."
 
-#: ../mousepad/mousepad-dialogs.c:489 ../mousepad/mousepad-dialogs.c:556
+#: ../mousepad/mousepad-dialogs.c:450 ../mousepad/mousepad-dialogs.c:524
 msgid "_Revert"
 msgstr "Lehene_ratu"
 
-#: ../mousepad/mousepad-dialogs.c:495 ../mousepad/mousepad-window.c:3515
+#: ../mousepad/mousepad-dialogs.c:456 ../mousepad/mousepad-window.c:3512
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
 msgstr "Birkargatu"
 
-#. add title
-#: ../mousepad/mousepad-dialogs.c:505
+#. setup CSD titlebar
+#: ../mousepad/mousepad-dialogs.c:466
 msgid "Externally Modified"
 msgstr "Kanpotik eraldatua"
 
-#: ../mousepad/mousepad-dialogs.c:543
+#: ../mousepad/mousepad-dialogs.c:506
 msgid "Do you want to save your changes before reloading?"
 msgstr "Birkargatu aurretik aldaketak gorde nahi dituzu?"
 
-#: ../mousepad/mousepad-dialogs.c:548
+#: ../mousepad/mousepad-dialogs.c:515
 msgid "If you revert the file, all unsaved changes will be lost."
 msgstr "Fitxategia leheneratzen baduzu, gorde gabeko aldaketa guztiak galduko dira."
 
-#: ../mousepad/mousepad-dialogs.c:584
+#: ../mousepad/mousepad-dialogs.c:552
 #, c-format
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
 msgstr "Fitxategi hau %s(r)ekin kodetuta dagoela dirudi, baina %s kodeketa hautatu duzu. Hautaketa hau baieztatzen duzu?"
 
-#: ../mousepad/mousepad-dialogs.c:591
+#: ../mousepad/mousepad-dialogs.c:562
 msgid "If not, the guessed encoding will be used."
 msgstr "Horrela ez bada, antzemandako kodeketa erabiliko da."
 
-#: ../mousepad/mousepad-dialogs.c:674
+#: ../mousepad/mousepad-dialogs.c:643
 msgid "Please select a file"
 msgstr "Fitxategi bat hautatu mesedez"
 
-#: ../mousepad/mousepad-dialogs.c:701
+#: ../mousepad/mousepad-dialogs.c:670
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "Aldi baterako fitxategia kodeketa probetarako prestatzeak huts egin du"
 
-#: ../mousepad/mousepad-dialogs.c:764 ../mousepad/mousepad-dialogs.c:827
+#: ../mousepad/mousepad-dialogs.c:733 ../mousepad/mousepad-dialogs.c:797
 msgid "Open encoding dialog"
 msgstr "Kodeketa leihoa ireki"
 
-#: ../mousepad/mousepad-dialogs.c:766
+#: ../mousepad/mousepad-dialogs.c:735
 msgid "Go back to shorten list"
 msgstr "Bueltatu atzera zerrenda laburtzeko"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:820
+#: ../mousepad/mousepad-dialogs.c:790
 msgid "_Encoding:"
 msgstr "Kodeketa:"
 
-#: ../mousepad/mousepad-dialogs.c:832
-#: ../mousepad/mousepad-encoding-dialog.c:289
-#: ../mousepad/mousepad-encoding-dialog.c:290
+#: ../mousepad/mousepad-dialogs.c:802
+#: ../mousepad/mousepad-encoding-dialog.c:304
+#: ../mousepad/mousepad-encoding-dialog.c:305
 msgid "Default"
 msgstr "Lehenetsia"
 
-#: ../mousepad/mousepad-dialogs.c:842
-#: ../mousepad/mousepad-encoding-dialog.c:305
-#: ../mousepad/mousepad-encoding-dialog.c:307
-#: ../mousepad/mousepad-encoding-dialog.c:311
+#: ../mousepad/mousepad-dialogs.c:812
+#: ../mousepad/mousepad-encoding-dialog.c:320
+#: ../mousepad/mousepad-encoding-dialog.c:322
+#: ../mousepad/mousepad-encoding-dialog.c:326
 msgid "System"
 msgstr "Sistema"
 
-#: ../mousepad/mousepad-dialogs.c:855
+#: ../mousepad/mousepad-dialogs.c:825
 msgid "Current"
 msgstr "Oraingoa"
 
-#: ../mousepad/mousepad-dialogs.c:873
+#: ../mousepad/mousepad-dialogs.c:843
 msgid "Show all encodings"
 msgstr "Kodeketa guztiak erakutsi"
 
-#: ../mousepad/mousepad-dialogs.c:907
+#: ../mousepad/mousepad-dialogs.c:877
 msgid "Text Files"
 msgstr "Testu fitxategiak"
 
-#: ../mousepad/mousepad-dialogs.c:913
+#: ../mousepad/mousepad-dialogs.c:883
 msgid "All Files"
 msgstr "Fitxategi Guztiak"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:932
+#: ../mousepad/mousepad-dialogs.c:902
 msgid "Save As"
 msgstr "Gorde Honela"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:992
+#: ../mousepad/mousepad-dialogs.c:965
 msgid "Open File"
 msgstr "Fitxategia ireki"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:997
+#: ../mousepad/mousepad-dialogs.c:973
 msgid "_Open"
 msgstr "_Ireki"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1042
+#: ../mousepad/mousepad-dialogs.c:1018
 msgid "Choose Mousepad Font"
 msgstr "Hautatu Mousepadeko letra-tipoa"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:606
+#: ../mousepad/mousepad-document.c:631
 msgid "Close this tab"
 msgstr "Itxi fitxa hau"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:636
+#: ../mousepad/mousepad-document.c:661
 msgid "Untitled"
 msgstr "Izengabea"
 
-#: ../mousepad/mousepad-encoding-dialog.c:161
+#: ../mousepad/mousepad-encoding-dialog.c:163
 msgid "Other:"
 msgstr "Beste bat:"
 
-#: ../mousepad/mousepad-encoding-dialog.c:186
+#: ../mousepad/mousepad-encoding-dialog.c:188
 msgid "Checking encodings..."
 msgstr "Kodeketak analizatzen..."
 
-#: ../mousepad/mousepad-encoding-dialog.c:290
-#: ../mousepad/mousepad-encoding-dialog.c:307
+#: ../mousepad/mousepad-encoding-dialog.c:305
+#: ../mousepad/mousepad-encoding-dialog.c:322
 #, c-format
 msgid "%s (%s, partial)"
 msgstr "%s (%s, partziala)"
 
-#: ../mousepad/mousepad-encoding-dialog.c:305
+#: ../mousepad/mousepad-encoding-dialog.c:320
 #, c-format
 msgid "%s (%s, failed)"
 msgstr "%s (%s, huts egin du)"
 
-#: ../mousepad/mousepad-encoding-dialog.c:371
+#: ../mousepad/mousepad-encoding-dialog.c:386
 msgid "Other (partial):"
 msgstr "Beste bat (partzialak):"
 
-#: ../mousepad/mousepad-encoding-dialog.c:382
+#: ../mousepad/mousepad-encoding-dialog.c:397
 msgid "Other valid encodings were found, please choose below."
 msgstr "Beste kodeketa baliodun batzuk aurkitu dira, mesedez hautatu azpian."
 
-#: ../mousepad/mousepad-encoding-dialog.c:384
+#: ../mousepad/mousepad-encoding-dialog.c:399
 msgid "Other partially valid encodings were found, please choose below."
 msgstr "Beste partzialki baliodun kodeketak aurkitu dira, mesedez hautatu azpian."
 
-#: ../mousepad/mousepad-encoding-dialog.c:416
+#: ../mousepad/mousepad-encoding-dialog.c:431
 msgid "No other valid encoding was found."
 msgstr "Ez da beste kodeketa baliodunik aurkitu."
 
 #. dialog title
-#: ../mousepad/mousepad-encoding-dialog.c:620
+#: ../mousepad/mousepad-encoding-dialog.c:635
 #, c-format
 msgid "The document is %s valid."
 msgstr "Dokumentua %s balioduna da."
 
-#: ../mousepad/mousepad-encoding-dialog.c:621
+#: ../mousepad/mousepad-encoding-dialog.c:636
 #, c-format
 msgid "The document is not %s valid."
 msgstr "Dokumentua ez da %s balioduna."
@@ -500,22 +501,15 @@ msgstr "Japoniarra"
 msgid "Korean"
 msgstr "Korearra"
 
-#: ../mousepad/mousepad-file.c:609
+#: ../mousepad/mousepad-file.c:606
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Byteen sekuentzia baliogabea bihurketa-sarreran"
 
-#. add the close button
-#: ../mousepad/mousepad-prefs-dialog.c:586
-#: ../mousepad/mousepad-replace-dialog.c:274
-msgid "_Close"
-msgstr "It_xi"
-
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:592
-#: ../mousepad/resources/gtk/menus.ui.h:21
-msgid "Preferences"
-msgstr "Hobespenak"
+#: ../mousepad/mousepad-prefs-dialog.c:615 ../mousepad.desktop.in.in.h:4
+msgid "Mousepad Preferences"
+msgstr "Mousepad hobespenak"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:121
@@ -582,84 +576,88 @@ msgid "_Replace All"
 msgstr "O_rdeztu guztiak"
 
 #: ../mousepad/mousepad-replace-dialog.c:173
-#: ../mousepad/mousepad-replace-dialog.c:270
+#: ../mousepad/mousepad-replace-dialog.c:273
 msgid "_Replace"
 msgstr "O_rdeztu"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:259
+#: ../mousepad/mousepad-replace-dialog.c:262
 msgid "Find and Replace"
 msgstr "Aurkitu eta ordeztu"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:265
+#: ../mousepad/mousepad-replace-dialog.c:268
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "Aurkitu"
 
-#: ../mousepad/mousepad-replace-dialog.c:292
+#: ../mousepad/mousepad-replace-dialog.c:277
+msgid "_Close"
+msgstr "It_xi"
+
+#: ../mousepad/mousepad-replace-dialog.c:295
 msgid "_Search for:"
 msgstr "_Bilatu hau:"
 
-#: ../mousepad/mousepad-replace-dialog.c:326
+#: ../mousepad/mousepad-replace-dialog.c:329
 msgid "Replace _with:"
 msgstr "Ordeztu _honekin:"
 
-#: ../mousepad/mousepad-replace-dialog.c:348
+#: ../mousepad/mousepad-replace-dialog.c:351
 msgid "Search _direction:"
 msgstr "Bilaketa norabidea:"
 
-#: ../mousepad/mousepad-replace-dialog.c:357
+#: ../mousepad/mousepad-replace-dialog.c:360
 msgid "Up"
 msgstr "Gora"
 
-#: ../mousepad/mousepad-replace-dialog.c:358
+#: ../mousepad/mousepad-replace-dialog.c:361
 msgid "Down"
 msgstr "Behera"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:367
+#: ../mousepad/mousepad-replace-dialog.c:370
 msgid "_Wrap around"
 msgstr "_Doitu ingurua"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:374
+#: ../mousepad/mousepad-replace-dialog.c:377
 #: ../mousepad/mousepad-search-bar.c:259 ../mousepad/mousepad-search-bar.c:267
 msgid "Match _case"
 msgstr "Bereizi maiuskulak/minuskulak"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:383
+#: ../mousepad/mousepad-replace-dialog.c:386
 msgid "_Match whole word"
 msgstr "Hitz _osoak soilik"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:392
+#: ../mousepad/mousepad-replace-dialog.c:395
 #: ../mousepad/mousepad-search-bar.c:273 ../mousepad/mousepad-search-bar.c:281
 msgid "Regular e_xpression"
 msgstr "Espresio erregularra"
 
-#: ../mousepad/mousepad-replace-dialog.c:406
+#: ../mousepad/mousepad-replace-dialog.c:409
 msgid "Replace _all in:"
 msgstr "Aldatu dena hemen:"
 
-#: ../mousepad/mousepad-replace-dialog.c:411
+#: ../mousepad/mousepad-replace-dialog.c:414
 msgid "Selection"
 msgstr "Hautapena"
 
-#: ../mousepad/mousepad-replace-dialog.c:412
+#: ../mousepad/mousepad-replace-dialog.c:415
 msgid "Document"
 msgstr "Dokumentua"
 
-#: ../mousepad/mousepad-replace-dialog.c:413
+#: ../mousepad/mousepad-replace-dialog.c:416
 msgid "All Documents"
 msgstr "Dokumentu guztiak"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:599
-#: ../mousepad/mousepad-search-bar.c:400
+#: ../mousepad/mousepad-replace-dialog.c:602
+#: ../mousepad/mousepad-search-bar.c:403
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -700,31 +698,31 @@ msgid "Filetype: %s"
 msgstr "Fitxategi-mota: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1101
+#: ../mousepad/mousepad-window.c:1099
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Adi: root kontua erabiltzen ari zara. Zure sistema hondatu dezakezu."
 
-#: ../mousepad/mousepad-window.c:2253
+#: ../mousepad/mousepad-window.c:2246
 msgid "Read Only"
 msgstr "Irakurtzeko soilik"
 
-#: ../mousepad/mousepad-window.c:2257
+#: ../mousepad/mousepad-window.c:2250
 msgid "Viewer Mode"
 msgstr "Ikusle modua"
 
-#: ../mousepad/mousepad-window.c:3266
+#: ../mousepad/mousepad-window.c:3263
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Erabili '%s' txantiloi bezala"
 
-#: ../mousepad/mousepad-window.c:3292
+#: ../mousepad/mousepad-window.c:3289
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Ez da txantiloi fitxategirik aurkitu hemen\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3350
+#: ../mousepad/mousepad-window.c:3347
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -732,93 +730,93 @@ msgid ""
 msgstr "Txantiloien direktorioa falta da\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3402
+#: ../mousepad/mousepad-window.c:3399
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Ge_hiago (%d)"
 
-#: ../mousepad/mousepad-window.c:3412
+#: ../mousepad/mousepad-window.c:3409
 msgid "Ot_her..."
 msgstr "Ge_hiago..."
 
-#: ../mousepad/mousepad-window.c:3509
+#: ../mousepad/mousepad-window.c:3506
 msgid "Re_vert"
 msgstr "_Leheneratu"
 
-#: ../mousepad/mousepad-window.c:3511
+#: ../mousepad/mousepad-window.c:3508
 msgid "Revert to the saved version of the file"
 msgstr "Itzuli fitxategiaren gordetako bertsio batera"
 
-#: ../mousepad/mousepad-window.c:3517
+#: ../mousepad/mousepad-window.c:3514
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Fitxategia birkargatu diskotik"
 
-#: ../mousepad/mousepad-window.c:3523
+#: ../mousepad/mousepad-window.c:3520
 msgid "Leave fullscreen mode"
 msgstr "Pantaila-osoa modutik irten"
 
-#: ../mousepad/mousepad-window.c:3528
+#: ../mousepad/mousepad-window.c:3525
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Leihoa pantaila-osora moldatu"
 
 #. build description
 #. get the offset length: 'Encoding: '
-#: ../mousepad/mousepad-window.c:3679 ../mousepad/mousepad-window.c:3888
+#: ../mousepad/mousepad-window.c:3676 ../mousepad/mousepad-window.c:3885
 msgid "Charset"
 msgstr "Karaktere-jokoa"
 
-#: ../mousepad/mousepad-window.c:3823
+#: ../mousepad/mousepad-window.c:3820
 #, c-format
 msgid "Open '%s'"
 msgstr "Ireki '%s'"
 
-#: ../mousepad/mousepad-window.c:3851
+#: ../mousepad/mousepad-window.c:3848
 msgid "No items found"
 msgstr "Ez da elementurik aurkitu"
 
-#: ../mousepad/mousepad-window.c:3851
+#: ../mousepad/mousepad-window.c:3848
 msgid "History disabled"
 msgstr "Historia ezgaituta"
 
-#: ../mousepad/mousepad-window.c:3937
+#: ../mousepad/mousepad-window.c:3934
 msgid "Failed to clear the recent history"
 msgstr "Azkenaldiko historia garbitzeak huts egin du"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4401
+#: ../mousepad/mousepad-window.c:4402
 msgid "No clipboard data"
 msgstr "Ez dago arbel daturik"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4512
+#: ../mousepad/mousepad-window.c:4513
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Txantiloiak %s baliodunak izan behar dira"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4518
+#: ../mousepad/mousepad-window.c:4519
 msgid "Reading the template failed"
 msgstr "Txantiloia irakurtzeak huts egin du"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4523
+#: ../mousepad/mousepad-window.c:4524
 msgid "Loading the template failed"
 msgstr "Txantiloia kargatzeak huts egin du"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4707 ../mousepad/mousepad-window.c:4848
+#: ../mousepad/mousepad-window.c:4708 ../mousepad/mousepad-window.c:4850
 msgid "Failed to save the document"
 msgstr "Fitxategia gordetzeak huts egin du"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4954
+#: ../mousepad/mousepad-window.c:4956
 msgid "Failed to reload the document"
 msgstr "Fitxategia birkargatzeak huts egin du"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4985
+#: ../mousepad/mousepad-window.c:4988
 msgid "Failed to print the document"
 msgstr "Fitxategia inprimatzeak huts egin du"
 
@@ -901,6 +899,10 @@ msgstr "_Editatu"
 #: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Edit menu"
 msgstr "Editatu menua"
+
+#: ../mousepad/resources/gtk/menus.ui.h:21
+msgid "Preferences"
+msgstr "Hobespenak"
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -1390,28 +1392,28 @@ msgid "Reverse the order of something"
 msgstr "Zerbaiten ordena alderantzikatu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
-msgid "_Move Selection"
-msgstr "Hautapena _mugitu"
+msgid "_Move Lines"
+msgstr "Lerroak _mugitu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
-msgid "Move the selection in different ways"
-msgstr "Hautapena hainbat modutan mugitu"
+msgid "Move selected lines or current line in different ways"
+msgstr "Mugitu hautatutako lerroak edo uneko lerroa modu ezberdinetan"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
 msgstr "Lerroa _gora"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
-msgid "Move the selection one line up"
-msgstr "Mugitu hautapena lerro bat gorantz"
+msgid "Move lines one line up"
+msgstr "Lerroak mugitu lerro bat gora"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
 msgstr "Lerroa _behera"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
-msgid "Move the selection one line down"
-msgstr "Mugitu hautapena lerro bat beherantz"
+msgid "Move lines one line down"
+msgstr "Lerroak mugitu lerro bat behera"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Dup_licate Line / Selection"
@@ -1677,6 +1679,14 @@ msgstr "Testu editore sinplea"
 #: ../mousepad.desktop.in.in.h:3
 msgid "Text Editor"
 msgstr "Testu Editatzailea"
+
+#: ../mousepad-settings.desktop.in.in.h:1
+msgid "Text Editor Settings"
+msgstr "Testu editorearen ezarpenak"
+
+#: ../mousepad-settings.desktop.in.in.h:2
+msgid "Configure the Mousepad text editor"
+msgstr "Mousepad testu editorea konfiguratu"
 
 #: ../mousepad.appdata.xml.in.h:1
 msgid ""
