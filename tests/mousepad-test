@@ -1,0 +1,360 @@
+#!/bin/bash
+
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2 of the License, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+
+### Functions ###
+printerr ()
+{
+  local prefix
+
+  case $1 in
+  'error')
+    prefix='\033[1;31mError: \033[0m'
+    shift
+  ;;
+  'warning')
+    prefix='\033[1;33mWarning: \033[0m'
+    shift
+  ;;
+  'message')
+    prefix='\033[1;32mMessage: \033[0m'
+    shift
+  ;;
+  *)
+    prefix=''
+  ;;
+  esac
+
+  printf '%b%s\n' "$prefix" "$1" >&2
+}
+
+duperr ()
+{
+  if ((quiet)); then
+    tee /dev/null
+  else
+    tee >(cat >&2)
+  fi
+}
+
+cleanup ()
+{
+  local f
+
+  for f in "${tempfiles[@]}"; do
+    [ -f "$f" ] && rm "$f"
+  done
+}
+
+abort ()
+{
+  printf '\n%s\n' '*** Aborted ***' | duperr
+
+  case $1 in
+  'running')
+    echo 'A previous Mousepad instance did not terminate' | duperr
+  ;;
+  'file')
+    echo 'Creation of temporary file failed' | duperr
+  ;;
+  *)
+    echo "$1" | duperr
+  ;;
+  esac
+
+  cleanup
+
+  exit 1
+}
+
+filter ()
+{
+  if [ -z "$ignored" ]; then
+    cat
+  else
+    grep -E -v "${ignored[@]}"
+  fi
+}
+
+test_cli_args ()
+{
+  local -a cmd
+  local out
+  local -i r
+
+  # exit if ever the previous mousepad instance didn't terminate
+  [ -n "$(pgrep -x mousepad)" ] && abort 'running'
+
+  # log and run the command
+  cmd=("$mousepad" "$@")
+  ((n_cmds++))
+  echo "Command $n_cmds: ${cmd[*]}" | duperr
+
+  out=$($timeout "${cmd[@]}" 2> >(filter) 1>/dev/null)
+  r=$?
+
+  # log results
+  [ -n "$out" ] && {
+    warnings[n_warns++]=$n_cmds
+    sed 's/^/  /' <<<"$out"
+    printf '%s\n\n' "Exit code: $r"
+  }
+
+  ((r != 0)) && {
+    errors[n_errs++]=$n_cmds
+    printf '%s\n\n' "Exit code: $r"
+  }
+}
+
+test_gui_args ()
+{
+  local -a cmd
+  local out
+  local -i r pid id
+
+  # exit if ever the previous mousepad instance didn't terminate
+  [ -n "$(pgrep -x mousepad)" ] && abort 'running'
+
+  # log and run the command
+  cmd=("$mousepad" "$@")
+  ((n_cmds++))
+  echo "Command $n_cmds: ${cmd[*]}" | duperr
+
+  out=$(mktemp) || abort 'file'
+  "${cmd[@]}" 2> >(filter >"$out") 1>/dev/null &
+  pid=$!
+
+  # wait for the window to appear on screen, meaning mousepad is idle
+  id=$($timeout xdotool search --sync --onlyvisible --pid $pid | head -1) 2>&1
+  $timeout pwait -x mousepad 2>&1 &
+  pid=$!
+
+  # quit as gracefully as possible
+  if ((id != 0)); then
+    if [[ $* != *--disable-server* ]]; then
+      $timeout "$mousepad" --quit 2>&1
+    else
+      wmctrl -i -c $id
+    fi
+  else
+    pkill -x mousepad
+  fi
+
+  # send KILL signal if needed
+  wait $pid
+  r=$?
+  ((r >= 124)) && {
+    $timeout pwait -x mousepad 2>&1 &
+    pid=$!
+    pkill -9 -x mousepad
+    wait $pid
+    r=$?
+  }
+
+  # log results
+  [ -s "$out" ] && {
+    warnings[n_warns++]=$n_cmds
+    sed 's/^/  /' <"$out"
+    printf '%s\n\n' "Exit code: $r"
+  }
+
+  ((r != 0)) && {
+    errors[n_errs++]=$n_cmds
+    printf '%s\n\n' "Exit code: $r"
+  }
+
+  # cleanup
+  rm "$out"
+}
+
+
+
+### Preamble ###
+
+# Global variables
+declare -r timeout='timeout -v -k 5 -- 10'
+declare -a sections ignored warnings errors tempfiles
+declare -i quiet=0 n_warns=0 n_errs=0 n_cmds=0
+declare    mousepad logfile
+
+# Option parsing
+temp=$(getopt -o 'hqc:l:s:i:' \
+  -l 'help,quiet,command:,logfile:,section:,list-sections,ignore:' \
+  -n "$0" -- "$@"
+) || exit 1
+
+eval set -- "$temp" && unset temp
+
+section_list=('non-gui' 'simple-gui-no-file' 'simple-gui-one-file' 'simple-gui-multi-file')
+
+while [ "$1" != '--' ]; do
+  case $1 in
+  '-h'|'--help')
+    cat <<EOF
+Usage: ${0##*/} [OPTION]...
+  -h, --help		Display this help and exit
+  -q, --quiet		Do not print any progress indication
+  -c, --command=COMMAND	Path to the Mousepad executable to test (default: mousepad in \$PATH)
+  -l, --logfile=LOGFILE	Path to the logfile for writing the test report (default: "\$PWD/${0##*/}.log")
+  -s, --section=SECTION	Test section to run (can be used several times, default: all sections)
+      --list-sections	List possible test sections to run
+  -i, --ignore=PATTERN	Mousepad output to ignore on standard error, as an extended regular expression (can be used several times)
+
+Exit code:
+  0 when everything is fine
+  1 when aborted
+  2 when some commands issued warnings
+  3 when some commands failed
+  5 when 2 and 3
+EOF
+    exit 0
+  ;;
+  '-q'|'--quiet')
+    quiet=1
+  ;;
+  '-c'|'--command')
+    shift
+    mousepad=$1
+  ;;
+  '-l'|'--logfile')
+    shift
+    logfile=$1
+  ;;
+  '-s'|'--section')
+    shift
+
+    [[ ${section_list[*]} != *"$1"* ]] && {
+      printerr 'error' "Invalid section name '$1'"
+      exit 1
+    }
+
+    sections+=("$1")
+  ;;
+  '--list-sections')
+    printf '%s\n' "${section_list[@]}"
+    exit 0
+  ;;
+  '-i'|'--ignore')
+    shift
+    ignored+=('-e')
+    ignored+=("$1")
+  ;;
+  *)
+    printerr 'error' "Invalid option '$1'"
+    exit 1
+  ;;
+  esac
+
+  shift
+done
+
+unset section_list
+
+# Checks
+mousepad=${mousepad:-'mousepad'}
+which "$mousepad" &>/dev/null || {
+  printerr 'error' "Command not found '$mousepad'"
+  exit 1
+}
+
+logfile=${logfile:-"$PWD/${0##*/}.log"}
+[ -d "$logfile" ] && {
+  printerr 'error' "'$logfile' is a directory"
+  exit 1
+}
+[ ! -w "$(dirname "$logfile")" ] && {
+  printerr 'error' "Directory '$(dirname "$logfile")' is read-only"
+  exit 1
+}
+
+which xdotool &>/dev/null || {
+  printerr 'error' 'xdotool is required but does not seem to be installed'
+  exit 1
+}
+
+which wmctrl &>/dev/null || {
+  printerr 'error' 'wmctrl is required but does not seem to be installed'
+  exit 1
+}
+
+[ -n "$(pgrep -x mousepad)" ] && {
+  printerr 'error' 'Mousepad is running, all Mousepad instances should be terminated before running this script'
+  exit 1
+}
+
+# Set some global constants
+readonly quiet mousepad logfile sections ignored
+
+# From now on we write by default in the logfile
+exec 1>"$logfile"
+
+
+
+### Main ###
+
+# Non-GUI commands
+if [ -z "$sections" ] || [[ ${sections[*]} == *non-gui* ]]; then
+  echo '*** Non-GUI commands ***' | duperr
+  test_cli_args --list-encodings
+  test_cli_args --version
+fi
+
+# Simple GUI commands (`mousepad --quit` is implicitly tested each time, except with
+# `--disable-server`)
+if [ -z "$sections" ] || [[ ${sections[*]} == *simple-gui* ]]; then
+  printf '\n%s\n' '*** Simple GUI commands ***' | duperr
+fi
+
+if [ -z "$sections" ] || [[ ${sections[*]} == *simple-gui-no-file* ]]; then
+  echo '- No file -' | duperr
+  test_gui_args
+  test_gui_args --preferences
+  test_gui_args --disable-server
+fi
+
+tempfile=$(mktemp) || abort 'file' && tempfiles+=("$tempfile")
+echo >"$tempfile" \
+'First line
+Second line
+Third line'
+
+if [ -z "$sections" ] || [[ ${sections[*]} == *simple-gui-one-file* ]]; then
+  echo '- One file -' | duperr
+  test_gui_args "$tempfile"
+  test_gui_args --encoding -- "$tempfile"
+  test_gui_args --encoding=ISO-8859-15 -- "$tempfile"
+  test_gui_args --line=2 --column=3 -- "$tempfile"
+fi
+
+if [ -z "$sections" ] || [[ ${sections[*]} == *simple-gui-multi-file* ]]; then
+  echo '- Multi-file -' | duperr
+  tempfile=$(mktemp) || abort 'file' && tempfiles+=("$tempfile")
+  test_gui_args --opening-mode=tab -- "${tempfiles[@]}"
+  test_gui_args --opening-mode=window -- "${tempfiles[@]}"
+fi
+
+# Outcome
+printf '\n%s\n' '*** Outcome ***' | duperr
+((n_warns > 0)) && echo "Some commands issued warnings: ${warnings[*]}" | duperr
+((n_errs > 0)) && echo "Some commands failed: ${errors[*]}" | duperr
+((n_warns == 0 && n_errs == 0)) && echo 'Nothing wrong to report' | duperr
+
+printerr "Full test report written in $logfile"
+
+cleanup
+
+exit $(( 2 * (n_warns > 0) + 3 * (n_errs > 0) ))
