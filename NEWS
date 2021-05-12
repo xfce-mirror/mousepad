@@ -1,3 +1,50 @@
+0.5.5
+======
+- New Features:
+  - Add a `.desktop` file to make Mousepad appear in Xfce settings (!94)
+  - Add a command line option to open the prefs dialog (!94)
+  - Plugin support (!92)
+  - Add gspell plugin (#1, !92)
+  - Disable and wipe recent history if recent-menu-items is set to 0 (#112, !89)
+  - Support -ve line and column values for "Go to" location (#113, !84)
+
+- Appearance Changes:
+  - Switch to client-side decorations (!97)
+
+- Code Refactoring:
+  - Remove Xfconf dependency (#60, #122, !98)
+  - A general review of sanity checks
+  - A review of window lifetime management
+  - A review of document lifetime management
+  - Automate and sanitize memory management of sources
+  - A small review of GSettings use
+  - Do not use `== (TRUE|FALSE)` for boolean conditions
+
+- Bug Fixes:
+  - Fix actions to show/hide bars in fullscreen mode (#129)
+  - Fix broken "Revert" action
+  - Fix and extend "Move Lines" action (#87, #116, !96)
+  - Support for drag and drop of tabs when search is active
+  - Do a silent search when changing tabs with the search bar enabled
+  - Use get/set_real_line_offset () functions for "Paste as Column" (#114, !91)
+  - Restore cursor position after transpose (#115, !88)
+  - Fix "Delete Line" action (#117, !86)
+  - Fix recent_sort function (!90)
+  - Reset line and column number if not given on command line (#121, !87)
+  - menu: "Spaces to Tabs" converter converts leading spaces (#118, !85)
+  - Make window require attention when opening new tabs (2) (#119)
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Persian (Iran), Polish, Portuguese, Portuguese (Brazil),
+  Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish,
+  Thai, Turkish, Ukrainian, Uyghur
+
 0.5.4
 ======
 - New Features:
