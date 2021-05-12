@@ -3025,12 +3025,7 @@ mousepad_window_enable_edit_actions (GObject        *object,
   guint             n;
   gboolean          enabled;
   const gchar      *focus_actions[] = { "edit.paste", "edit.delete-selection", "edit.select-all" };
-  const gchar      *select_actions[] =
-  {
-    "edit.cut", "edit.copy",
-    "edit.convert.to-lowercase", "edit.convert.to-uppercase",
-    "edit.convert.to-title-case", "edit.convert.to-opposite-case"
-  };
+  const gchar      *select_actions[] = { "edit.cut", "edit.copy" };
 
   if (GTK_IS_TEXT_VIEW (object) || document->buffer == GTK_TEXT_BUFFER (object))
     {
@@ -4255,8 +4250,8 @@ mousepad_window_paste_history_activate (GtkMenuItem    *item,
   text = mousepad_object_get_data (item, "history-pointer");
 
   /* paste the text */
-  if (G_LIKELY (text))
-    mousepad_view_clipboard_paste (window->active->textview, text, FALSE);
+  if (G_LIKELY (text != NULL))
+    mousepad_view_custom_paste (window->active->textview, text);
 }
 
 
@@ -5098,10 +5093,7 @@ mousepad_window_action_undo (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* undo */
-  gtk_source_buffer_undo (GTK_SOURCE_BUFFER (window->active->buffer));
-
-  /* scroll to visible area */
-  mousepad_view_scroll_to_cursor (window->active->textview);
+  g_signal_emit_by_name (window->active->textview, "undo");
 }
 
 
@@ -5117,10 +5109,7 @@ mousepad_window_action_redo (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* redo */
-  gtk_source_buffer_redo (GTK_SOURCE_BUFFER (window->active->buffer));
-
-  /* scroll to visible area */
-  mousepad_view_scroll_to_cursor (window->active->textview);
+  g_signal_emit_by_name (window->active->textview, "redo");
 }
 
 
@@ -5136,7 +5125,7 @@ mousepad_window_action_cut (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* cut from textview */
-  mousepad_view_clipboard_cut (window->active->textview);
+  g_signal_emit_by_name (window->active->textview, "cut-clipboard");
 
   /* update the history */
   mousepad_window_paste_history_add (window);
@@ -5155,7 +5144,7 @@ mousepad_window_action_copy (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* copy from textview */
-  mousepad_view_clipboard_copy (window->active->textview);
+  g_signal_emit_by_name (window->active->textview, "copy-clipboard");
 
   /* update the history */
   mousepad_window_paste_history_add (window);
@@ -5174,7 +5163,7 @@ mousepad_window_action_paste (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* paste in textview */
-  mousepad_view_clipboard_paste (window->active->textview, NULL, FALSE);
+  g_signal_emit_by_name (window->active->textview, "paste-clipboard");
 }
 
 
@@ -5223,7 +5212,7 @@ mousepad_window_action_paste_column (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* paste the clipboard into a column */
-  mousepad_view_clipboard_paste (window->active->textview, NULL, TRUE);
+  mousepad_view_custom_paste (window->active->textview, NULL);
 }
 
 
@@ -5287,7 +5276,7 @@ mousepad_window_action_lowercase (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* convert selection to lowercase */
-  mousepad_view_convert_selection_case (window->active->textview, LOWERCASE);
+  g_signal_emit_by_name (window->active->textview, "change-case", GTK_SOURCE_CHANGE_CASE_LOWER);
 }
 
 
@@ -5303,7 +5292,7 @@ mousepad_window_action_uppercase (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* convert selection to uppercase */
-  mousepad_view_convert_selection_case (window->active->textview, UPPERCASE);
+  g_signal_emit_by_name (window->active->textview, "change-case", GTK_SOURCE_CHANGE_CASE_UPPER);
 }
 
 
@@ -5319,7 +5308,7 @@ mousepad_window_action_titlecase (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* convert selection to titlecase */
-  mousepad_view_convert_selection_case (window->active->textview, TITLECASE);
+  g_signal_emit_by_name (window->active->textview, "change-case", GTK_SOURCE_CHANGE_CASE_TITLE);
 }
 
 
@@ -5335,7 +5324,7 @@ mousepad_window_action_opposite_case (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* convert selection to opposite case */
-  mousepad_view_convert_selection_case (window->active->textview, OPPOSITE_CASE);
+  g_signal_emit_by_name (window->active->textview, "change-case", GTK_SOURCE_CHANGE_CASE_TOGGLE);
 }
 
 
@@ -5458,12 +5447,14 @@ mousepad_window_action_increase_indent (GSimpleAction *action,
                                         gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  GtkTextIter     start, end;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* increase the indent */
-  mousepad_view_indent (window->active->textview, INCREASE_INDENT);
+  gtk_text_buffer_get_selection_bounds (window->active->buffer, &start, &end);
+  gtk_source_view_indent_lines (GTK_SOURCE_VIEW (window->active->textview), &start, &end);
 }
 
 
@@ -5474,12 +5465,14 @@ mousepad_window_action_decrease_indent (GSimpleAction *action,
                                         gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  GtkTextIter     start, end;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* decrease the indent */
-  mousepad_view_indent (window->active->textview, DECREASE_INDENT);
+  gtk_text_buffer_get_selection_bounds (window->active->buffer, &start, &end);
+  gtk_source_view_unindent_lines (GTK_SOURCE_VIEW (window->active->textview), &start, &end);
 }
 
 

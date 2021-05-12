@@ -36,10 +36,6 @@ gchar       *mousepad_util_config_name                      (const gchar        
 
 gchar       *mousepad_util_key_name                         (const gchar                *name);
 
-gchar       *mousepad_util_utf8_strcapital                  (const gchar                *str);
-
-gchar       *mousepad_util_utf8_stropposite                 (const gchar                *str);
-
 gchar       *mousepad_util_escape_underscores               (const gchar                *str);
 
 GtkWidget   *mousepad_util_image_button                     (const gchar                *icon_name,
@@ -69,9 +65,6 @@ void         mousepad_util_set_real_line_offset             (GtkTextIter        
 void         mousepad_util_place_cursor                     (GtkTextBuffer              *buffer,
                                                              gint                        line,
                                                              gint                        column);
-
-gboolean     mousepad_util_forward_iter_to_text             (GtkTextIter                *iter,
-                                                             const GtkTextIter          *limit);
 
 gchar       *mousepad_util_get_save_location                (const gchar                *relpath,
                                                              gboolean                    create_parents);

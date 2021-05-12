@@ -33,14 +33,12 @@ static void      mousepad_view_set_property                  (GObject           
                                                               const GValue       *value,
                                                               GParamSpec         *pspec);
 
-/* GtkWidget virtual functions */
-static gboolean  mousepad_view_key_press_event               (GtkWidget          *widget,
-                                                              GdkEventKey        *event);
-
 /* GtkTextView virtual functions */
+static void      mousepad_view_cut_clipboard                 (GtkTextView        *text_view);
 static void      mousepad_view_delete_from_cursor            (GtkTextView        *text_view,
                                                               GtkDeleteType       type,
                                                               int                 count);
+static void      mousepad_view_paste_clipboard               (GtkTextView        *text_view);
 
 /* GtkSourceView virtual functions */
 #if GTK_SOURCE_MAJOR_VERSION >= 4
@@ -51,15 +49,10 @@ static void      mousepad_view_move_lines                    (GtkSourceView     
                                                               gboolean            copy,
                                                               gint                count);
 #endif
+static void      mousepad_view_redo                          (GtkSourceView      *source_view);
+static void      mousepad_view_undo                          (GtkSourceView      *source_view);
 
 /* MousepadView own functions */
-static void      mousepad_view_indent_increase               (MousepadView       *view,
-                                                              GtkTextIter        *iter);
-static void      mousepad_view_indent_decrease               (MousepadView       *view,
-                                                              GtkTextIter        *iter);
-static void      mousepad_view_indent_selection              (MousepadView       *view,
-                                                              gboolean            increase,
-                                                              gboolean            force);
 static void      mousepad_view_transpose_range               (GtkTextBuffer       *buffer,
                                                               GtkTextIter         *start_iter,
                                                               GtkTextIter         *end_iter);
@@ -128,18 +121,19 @@ static void
 mousepad_view_class_init (MousepadViewClass *klass)
 {
   GObjectClass       *gobject_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass     *widget_class = GTK_WIDGET_CLASS (klass);
   GtkTextViewClass   *textview_class = GTK_TEXT_VIEW_CLASS (klass);
   GtkSourceViewClass *sourceview_class = GTK_SOURCE_VIEW_CLASS (klass);
 
   gobject_class->finalize = mousepad_view_finalize;
   gobject_class->set_property = mousepad_view_set_property;
 
-  widget_class->key_press_event = mousepad_view_key_press_event;
-
+  textview_class->cut_clipboard = mousepad_view_cut_clipboard;
   textview_class->delete_from_cursor = mousepad_view_delete_from_cursor;
+  textview_class->paste_clipboard = mousepad_view_paste_clipboard;
 
   sourceview_class->move_lines = mousepad_view_move_lines;
+  sourceview_class->redo = mousepad_view_redo;
+  sourceview_class->undo = mousepad_view_undo;
 
   g_object_class_install_property (gobject_class, PROP_FONT,
     g_param_spec_string ("font", "Font", "The font to use in the view",
@@ -341,81 +335,14 @@ mousepad_view_set_property (GObject      *object,
 
 
 
-static gboolean
-mousepad_view_key_press_event (GtkWidget   *widget,
-                               GdkEventKey *event)
+static void
+mousepad_view_cut_clipboard (GtkTextView *text_view)
 {
-  MousepadView  *view = MOUSEPAD_VIEW (widget);
-  GtkTextBuffer *buffer;
-  GtkTextIter    iter;
-  GtkTextMark   *cursor;
-  guint          modifiers;
+  /* let GTK do the main job */
+  GTK_TEXT_VIEW_CLASS (mousepad_view_parent_class)->cut_clipboard (text_view);
 
-  /* get the modifiers state */
-  modifiers = event->state & gtk_accelerator_get_default_mod_mask ();
-
-  /* get the textview buffer */
-  buffer = mousepad_view_get_buffer (view);
-
-  /* handle the key event */
-  switch (event->keyval)
-    {
-      case GDK_KEY_End:
-      case GDK_KEY_KP_End:
-        if (modifiers & GDK_CONTROL_MASK)
-          {
-            /* get the end iter */
-            gtk_text_buffer_get_end_iter (buffer, &iter);
-
-            /* get the cursor mark */
-            cursor = gtk_text_buffer_get_insert (buffer);
-
-            goto move_cursor;
-          }
-        break;
-
-      case GDK_KEY_Home:
-      case GDK_KEY_KP_Home:
-        /* get the cursor mark */
-        cursor = gtk_text_buffer_get_insert (buffer);
-
-        /* when control is pressed, we jump to the start of the document */
-        if (modifiers & GDK_CONTROL_MASK)
-          {
-            /* get the start iter */
-            gtk_text_buffer_get_start_iter (buffer, &iter);
-
-            goto move_cursor;
-          }
-
-        /* get the iter position of the cursor */
-        gtk_text_buffer_get_iter_at_mark (buffer, &iter, cursor);
-
-        /* if the cursor starts a line, try to move it in front of the text */
-        if (gtk_text_iter_starts_line (&iter)
-            && mousepad_util_forward_iter_to_text (&iter, NULL))
-          {
-             /* label for the ctrl home/end events */
-             move_cursor:
-
-             /* move (select) or set (jump) cursor */
-             if (modifiers & GDK_SHIFT_MASK)
-               gtk_text_buffer_move_mark (buffer, cursor, &iter);
-             else
-               gtk_text_buffer_place_cursor (buffer, &iter);
-
-             /* make sure the cursor is visible for the user */
-             mousepad_view_scroll_to_cursor (view);
-
-             return TRUE;
-          }
-        break;
-
-      default:
-        break;
-    }
-
-  return (*GTK_WIDGET_CLASS (mousepad_view_parent_class)->key_press_event) (widget, event);
+  /* scroll to cursor in our way */
+  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (text_view));
 }
 
 
@@ -535,6 +462,18 @@ mousepad_view_delete_from_cursor (GtkTextView   *text_view,
 
 
 static void
+mousepad_view_paste_clipboard (GtkTextView *text_view)
+{
+  /* let GTK do the main job */
+  GTK_TEXT_VIEW_CLASS (mousepad_view_parent_class)->paste_clipboard (text_view);
+
+  /* scroll to cursor in our way */
+  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (text_view));
+}
+
+
+
+static void
 _mousepad_view_move_lines (GtkSourceView *source_view,
                            gboolean       down)
 {
@@ -639,148 +578,28 @@ mousepad_view_move_lines (GtkSourceView *source_view,
 
 
 
-/**
- * Indentation Functions
- **/
 static void
-mousepad_view_indent_increase (MousepadView *view,
-                               GtkTextIter  *iter)
+mousepad_view_redo (GtkSourceView *source_view)
 {
-  gchar         *string;
-  gint           offset, length, inline_len, tab_size;
-  GtkTextBuffer *buffer;
+  /* let GSV do the main job */
+  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->redo (source_view);
 
-  /* get the buffer */
-  buffer = mousepad_view_get_buffer (view);
-  tab_size = gtk_source_view_get_tab_width (GTK_SOURCE_VIEW (view));
-
-  if (gtk_source_view_get_insert_spaces_instead_of_tabs (GTK_SOURCE_VIEW (view)))
-    {
-      /* get the offset */
-      offset = mousepad_util_get_real_line_offset (iter);
-
-      /* calculate the length to inline with a tab */
-      inline_len = offset % tab_size;
-
-      if (inline_len == 0)
-        length = tab_size;
-      else
-        length = tab_size - inline_len;
-
-      /* create spaces string */
-      string = g_strnfill (length, ' ');
-
-      /* insert string */
-      gtk_text_buffer_insert (buffer, iter, string, length);
-
-      /* cleanup */
-      g_free (string);
-    }
-  else
-    {
-      /* insert a tab or a space */
-      gtk_text_buffer_insert (buffer, iter, "\t", -1);
-    }
+  /* scroll to cursor in our way */
+  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
 }
 
 
 
 static void
-mousepad_view_indent_decrease (MousepadView *view,
-                               GtkTextIter  *iter)
+mousepad_view_undo (GtkSourceView *source_view)
 {
-  GtkTextBuffer *buffer;
-  GtkTextIter    start, end;
-  gint           columns, tab_size;
-  gunichar       c;
+  /* let GSV do the main job */
+  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->undo (source_view);
 
-  /* set iters */
-  start = end = *iter;
-
-  tab_size = gtk_source_view_get_tab_width (GTK_SOURCE_VIEW (view));
-  columns = tab_size;
-
-  /* walk until we've removed enough columns */
-  while (columns > 0)
-    {
-      /* get the character */
-      c = gtk_text_iter_get_char (&end);
-
-      if (c == '\t')
-        columns -= tab_size;
-      else if (c == ' ')
-        columns--;
-      else
-        break;
-
-      /* go to the next character */
-      gtk_text_iter_forward_char (&end);
-    }
-
-  /* unindent the selection when the iters are not equal */
-  if (!gtk_text_iter_equal (&start, &end))
-    {
-      /* get the buffer */
-      buffer = mousepad_view_get_buffer (view);
-
-      /* remove the columns */
-      gtk_text_buffer_delete (buffer, &start, &end);
-    }
+  /* scroll to cursor in our way */
+  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
 }
 
-
-
-static void
-mousepad_view_indent_selection (MousepadView *view,
-                                gboolean      increase,
-                                gboolean      force)
-{
-  GtkTextBuffer *buffer;
-  GtkTextIter    start_iter, end_iter;
-  gint           start_line, end_line;
-  gint           i;
-
-  /* get the textview buffer */
-  buffer = mousepad_view_get_buffer (view);
-
-  if (gtk_text_buffer_get_selection_bounds (buffer, &start_iter, &end_iter) || force)
-    {
-      /* begin a user action */
-      gtk_text_buffer_begin_user_action (buffer);
-
-      /* get start and end line */
-      start_line = gtk_text_iter_get_line (&start_iter);
-      end_line = gtk_text_iter_get_line (&end_iter);
-
-      /* only change indentation when an entire line is selected or multiple lines */
-      if (start_line != end_line
-          || ((gtk_text_iter_starts_line (&start_iter) && gtk_text_iter_ends_line (&end_iter)) || force))
-        {
-          /* change indentation of each line */
-          for (i = start_line; i <= end_line && i < G_MAXINT; i++)
-            {
-              /* get the iter of the line we're going to indent */
-              gtk_text_buffer_get_iter_at_line (buffer, &start_iter, i);
-
-              /* don't change indentation of empty lines */
-              if (gtk_text_iter_ends_line (&start_iter))
-                continue;
-
-              /* increase or decrease the indentation */
-              if (increase)
-                mousepad_view_indent_increase (view, &start_iter);
-              else
-                mousepad_view_indent_decrease (view, &start_iter);
-            }
-        }
-
-      /* end user action */
-      gtk_text_buffer_end_user_action (buffer);
-
-      /* put cursor on screen */
-      mousepad_view_scroll_to_cursor (view);
-    }
-}
 
 
 gboolean
@@ -902,6 +721,8 @@ mousepad_view_transpose_lines (GtkTextBuffer *buffer,
   /* restore start iter */
   gtk_text_buffer_get_iter_at_line (buffer, start_iter, start_line);
 }
+
+
 
 static void
 mousepad_view_transpose_words (GtkTextBuffer *buffer,
@@ -1073,70 +894,26 @@ mousepad_view_transpose (MousepadView *view)
 
 
 void
-mousepad_view_clipboard_cut (MousepadView *view)
-{
-  GtkClipboard  *clipboard;
-  GtkTextBuffer *buffer;
-
-  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-  g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
-
-  /* get the clipboard */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
-
-  /* get the buffer */
-  buffer = mousepad_view_get_buffer (view);
-
-  /* cut from buffer */
-  gtk_text_buffer_cut_clipboard (buffer, clipboard, gtk_text_view_get_editable (GTK_TEXT_VIEW (view)));
-
-  /* put cursor on screen */
-  mousepad_view_scroll_to_cursor (view);
-}
-
-
-
-void
-mousepad_view_clipboard_copy (MousepadView *view)
-{
-  GtkClipboard  *clipboard;
-  GtkTextBuffer *buffer;
-
-  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-  g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
-
-  /* get the clipboard */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
-
-  /* get the buffer */
-  buffer = mousepad_view_get_buffer (view);
-
-  /* copy from buffer */
-  gtk_text_buffer_copy_clipboard (buffer, clipboard);
-
-  /* put cursor on screen */
-  mousepad_view_scroll_to_cursor (view);
-}
-
-
-
-void
-mousepad_view_clipboard_paste (MousepadView *view,
-                               const gchar  *string,
-                               gboolean      paste_as_column)
+mousepad_view_custom_paste (MousepadView *view,
+                            const gchar  *string)
 {
   GtkClipboard   *clipboard;
   GtkTextBuffer  *buffer;
-  gchar          *text = NULL;
   GtkTextMark    *mark;
-  GtkTextIter     iter;
-  GtkTextIter     start_iter, end_iter;
+  GtkTextIter     iter, start_iter, end_iter;
   gchar         **pieces;
+  gchar          *text = NULL;
   gint            i, column;
 
   /* leave when the view is not editable */
   if (! gtk_text_view_get_editable (GTK_TEXT_VIEW (view)))
     return;
+
+  /* get the buffer */
+  buffer = mousepad_view_get_buffer (view);
+
+  /* begin user action */
+  gtk_text_buffer_begin_user_action (buffer);
 
   if (string == NULL)
     {
@@ -1150,20 +927,8 @@ mousepad_view_clipboard_paste (MousepadView *view,
       if (G_UNLIKELY (text == NULL))
         return;
 
-      /* set the string */
-      string = text;
-    }
-
-  /* get the buffer */
-  buffer = mousepad_view_get_buffer (view);
-
-  /* begin user action */
-  gtk_text_buffer_begin_user_action (buffer);
-
-  if (paste_as_column)
-    {
       /* chop the string into pieces */
-      pieces = g_strsplit (string, "\n", -1);
+      pieces = g_strsplit (text, "\n", -1);
 
       /* get iter at cursor position */
       mark = gtk_text_buffer_get_insert (buffer);
@@ -1196,6 +961,7 @@ mousepad_view_clipboard_paste (MousepadView *view,
         }
 
       /* cleanup */
+      g_free (text);
       g_strfreev (pieces);
 
       /* set the cursor to the last iter position */
@@ -1214,92 +980,11 @@ mousepad_view_clipboard_paste (MousepadView *view,
       gtk_text_buffer_insert (buffer, &start_iter, string, -1);
     }
 
-  /* cleanup */
-  g_free (text);
-
   /* end user action */
   gtk_text_buffer_end_user_action (buffer);
 
   /* put cursor on screen */
   mousepad_view_scroll_to_cursor (view);
-}
-
-
-
-void
-mousepad_view_convert_selection_case (MousepadView *view,
-                                      gint          type)
-{
-  GtkTextBuffer *buffer;
-  GtkTextIter    start_iter, end_iter;
-  gchar         *text, *converted;
-  gint           offset;
-
-  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-  g_return_if_fail (mousepad_view_get_selection_length (view) > 0);
-
-  /* get the buffer */
-  buffer = mousepad_view_get_buffer (view);
-
-  /* begin a user action */
-  gtk_text_buffer_begin_user_action (buffer);
-
-  /* get selection bounds */
-  gtk_text_buffer_get_selection_bounds (buffer, &start_iter, &end_iter);
-
-  /* get string offset */
-  offset = gtk_text_iter_get_offset (&start_iter);
-
-  /* get the selected string */
-  text = gtk_text_buffer_get_slice (buffer, &start_iter, &end_iter, FALSE);
-  if (G_LIKELY (text != NULL))
-    {
-      switch (type)
-        {
-          case LOWERCASE:
-            converted = g_utf8_strdown (text, -1);
-            break;
-
-          case UPPERCASE:
-            converted = g_utf8_strup (text, -1);
-            break;
-
-          case TITLECASE:
-            converted = mousepad_util_utf8_strcapital (text);
-            break;
-
-          case OPPOSITE_CASE:
-            converted = mousepad_util_utf8_stropposite (text);
-            break;
-
-          default:
-            g_assert_not_reached ();
-            break;
-        }
-
-      /* only update the buffer if the string changed */
-      if (G_LIKELY (converted && strcmp (text, converted) != 0))
-        {
-          /* delete old string */
-          gtk_text_buffer_delete (buffer, &start_iter, &end_iter);
-
-          /* insert string */
-          gtk_text_buffer_insert (buffer, &end_iter, converted, -1);
-        }
-
-      /* cleanup */
-      g_free (converted);
-      g_free (text);
-    }
-
-  /* restore start iter */
-  gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, offset);
-
-  /* select range */
-  gtk_text_buffer_select_range (buffer, &end_iter, &start_iter);
-
-  /* end user action */
-  gtk_text_buffer_end_user_action (buffer);
 }
 
 
@@ -1587,18 +1272,6 @@ mousepad_view_duplicate (MousepadView *view)
 
   /* end the action */
   gtk_text_buffer_end_user_action (buffer);
-}
-
-
-
-void
-mousepad_view_indent (MousepadView *view,
-                      gint          type)
-{
-  g_return_if_fail (MOUSEPAD_IS_VIEW (view));
-
-  /* run a forced indent of the line(s) */
-  mousepad_view_indent_selection (view, type == INCREASE_INDENT, TRUE);
 }
 
 

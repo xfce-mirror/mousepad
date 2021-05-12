@@ -31,22 +31,8 @@ typedef struct _MousepadView      MousepadView;
 
 enum
 {
-  LOWERCASE,
-  UPPERCASE,
-  TITLECASE,
-  OPPOSITE_CASE
-};
-
-enum
-{
   SPACES_TO_TABS,
   TABS_TO_SPACES
-};
-
-enum
-{
-  INCREASE_INDENT,
-  DECREASE_INDENT
 };
 
 GType           mousepad_view_get_type                  (void) G_GNUC_CONST;
@@ -55,16 +41,8 @@ gboolean        mousepad_view_scroll_to_cursor          (gpointer           data
 
 void            mousepad_view_transpose                 (MousepadView      *view);
 
-void            mousepad_view_clipboard_cut             (MousepadView      *view);
-
-void            mousepad_view_clipboard_copy            (MousepadView      *view);
-
-void            mousepad_view_clipboard_paste           (MousepadView      *view,
-                                                         const gchar       *string,
-                                                         gboolean           paste_as_column);
-
-void            mousepad_view_convert_selection_case    (MousepadView      *view,
-                                                         gint               type);
+void            mousepad_view_custom_paste              (MousepadView      *view,
+                                                         const gchar       *string);
 
 void            mousepad_view_convert_spaces_and_tabs   (MousepadView      *view,
                                                          gint               type);
@@ -72,9 +50,6 @@ void            mousepad_view_convert_spaces_and_tabs   (MousepadView      *view
 void            mousepad_view_strip_trailing_spaces     (MousepadView      *view);
 
 void            mousepad_view_duplicate                 (MousepadView      *view);
-
-void            mousepad_view_indent                    (MousepadView      *view,
-                                                         gint               type);
 
 gint            mousepad_view_get_selection_length      (MousepadView      *view);
 
