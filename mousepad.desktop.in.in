@@ -10,6 +10,7 @@ StartupNotify=true
 Type=Application
 Categories=Utility;TextEditor;GTK;
 MimeType=text/plain;
+Actions=preferences;
 
 [Desktop Action preferences]
 _Name=Mousepad Preferences
