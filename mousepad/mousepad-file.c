@@ -221,7 +221,7 @@ mousepad_file_set_monitor (gpointer data)
       file->monitor = NULL;
     }
 
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
+  if (file->location != NULL && MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
     {
       file->monitor = g_file_monitor_file (file->location,
 #if GLIB_CHECK_VERSION (2, 56, 2)
