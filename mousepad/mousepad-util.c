@@ -507,8 +507,10 @@ mousepad_util_set_titlebar (GtkWindow *window)
                                    G_CALLBACK (mousepad_util_decoration_layout_changed), bar, 0);
         }
       else
-        gtk_header_bar_set_decoration_layout (GTK_HEADER_BAR (bar), "icon:minimize,maximize,close");
+        gtk_header_bar_set_decoration_layout (GTK_HEADER_BAR (bar), "icon,menu:minimize,maximize,close");
     }
+  else
+    mousepad_util_decoration_layout_changed (G_OBJECT (settings), NULL, bar);
 
   /* make the header bar slim */
   context = gtk_widget_get_style_context (bar);
