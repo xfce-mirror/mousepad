@@ -4660,8 +4660,13 @@ mousepad_window_action_save (GSimpleAction *action,
       /* file has no filename yet, open the save as dialog */
       g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
       v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
-      succeed = g_variant_get_int32 (v_succeed);
-      g_variant_unref (v_succeed);
+
+      /* can be NULL e.g. if "app.quit" is activated when the "Save As" dialog is open */
+      if (v_succeed != NULL)
+        {
+          succeed = g_variant_get_int32 (v_succeed);
+          g_variant_unref (v_succeed);
+        }
     }
   else
     {
