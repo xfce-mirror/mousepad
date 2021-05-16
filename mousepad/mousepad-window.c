@@ -3742,7 +3742,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
   GMenuItem      *menu_item;
   GAction        *subaction;
   GFile          *file;
-  GList          *items, *li, *filtered = NULL;
+  GList          *items, *li, *next, *filtered = NULL;
   const gchar    *uri, *display_name;
   gchar          *label, *filename, *filename_utf8, *tooltip;
   guint           n;
@@ -3788,8 +3788,10 @@ mousepad_window_recent_menu (GSimpleAction *action,
       n = MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS);
 
       /* append the items to the menu */
-      for (li = filtered; n > 0 && li != NULL; li = li->next)
+      li = filtered;
+      while (n > 0 && li != NULL)
         {
+          next = li->next;
           info = li->data;
 
           /* get the filename */
@@ -3830,15 +3832,18 @@ mousepad_window_recent_menu (GSimpleAction *action,
               n--;
             }
           /* remove the item, don't both the user if this fails */
-          else
-            gtk_recent_manager_remove_item (window->recent_manager, uri, NULL);
+          else if (gtk_recent_manager_remove_item (window->recent_manager, uri, NULL))
+            filtered = g_list_delete_link (filtered, li);
+
+          /* update pointer */
+          li = next;
 
           /* cleanup */
           g_free (filename);
         }
 
       /* add the "No items found"/"History disabled" insensitive menu item */
-      if (! filtered)
+      if (filtered == NULL)
         {
           label = n > 0 ? _("No items found") : _("History disabled");
           menu_item = g_menu_item_new (label, "win.insensitive");
