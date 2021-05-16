@@ -17,7 +17,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">none</col>
+        <col id="0">none</col>
         <col id="1" translatable="yes">None</col>
       </row>
     </data>
