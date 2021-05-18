@@ -2857,7 +2857,8 @@ mousepad_window_pending_widget_idle (gpointer data)
   MousepadWindow   *window;
 
   window = MOUSEPAD_WINDOW (gtk_widget_get_ancestor (data, MOUSEPAD_TYPE_WINDOW));
-  mousepad_window_externally_modified (document->file, window);
+  if (window != NULL)
+    mousepad_window_externally_modified (document->file, window);
 
   return FALSE;
 }
