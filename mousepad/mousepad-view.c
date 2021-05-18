@@ -49,8 +49,6 @@ static void      mousepad_view_move_lines                    (GtkSourceView     
                                                               gboolean            copy,
                                                               gint                count);
 #endif
-static void      mousepad_view_redo                          (GtkSourceView      *source_view);
-static void      mousepad_view_undo                          (GtkSourceView      *source_view);
 
 /* MousepadView own functions */
 static void      mousepad_view_transpose_range               (GtkTextBuffer       *buffer,
@@ -132,8 +130,6 @@ mousepad_view_class_init (MousepadViewClass *klass)
   textview_class->paste_clipboard = mousepad_view_paste_clipboard;
 
   sourceview_class->move_lines = mousepad_view_move_lines;
-  sourceview_class->redo = mousepad_view_redo;
-  sourceview_class->undo = mousepad_view_undo;
 
   g_object_class_install_property (gobject_class, PROP_FONT,
     g_param_spec_string ("font", "Font", "The font to use in the view",
@@ -578,30 +574,6 @@ mousepad_view_move_lines (GtkSourceView *source_view,
 
 
 
-static void
-mousepad_view_redo (GtkSourceView *source_view)
-{
-  /* let GSV do the main job */
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->redo (source_view);
-
-  /* scroll to cursor in our way */
-  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
-}
-
-
-
-static void
-mousepad_view_undo (GtkSourceView *source_view)
-{
-  /* let GSV do the main job */
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->undo (source_view);
-
-  /* scroll to cursor in our way */
-  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
-}
-
-
-
 gboolean
 mousepad_view_scroll_to_cursor (gpointer data)
 {
@@ -893,14 +865,34 @@ mousepad_view_transpose (MousepadView *view)
 
 
 
+static void
+mousepad_view_clipboard_read_text (GObject      *object,
+                                   GAsyncResult *result,
+                                   gpointer      data)
+{
+  MousepadView *view = data;
+  GdkClipboard *clipboard = GDK_CLIPBOARD (object);
+  gchar        *string;
+
+  string = gdk_clipboard_read_text_finish (clipboard, result, NULL);
+
+  mousepad_object_set_data (view, "text-read", GINT_TO_POINTER (TRUE));
+  mousepad_view_custom_paste (view, string);
+  mousepad_object_set_data (view, "text-read", GINT_TO_POINTER (FALSE));
+
+  g_free (string);
+}
+
+
+
 void
 mousepad_view_custom_paste (MousepadView *view,
                             const gchar  *string)
 {
-  GtkClipboard   *clipboard;
   GtkTextBuffer  *buffer;
   GtkTextMark    *mark;
   GtkTextIter     iter, start_iter, end_iter;
+  GdkClipboard   *clipboard;
   gchar         **pieces;
   gchar          *text = NULL;
   gint            i, column;
@@ -909,24 +901,31 @@ mousepad_view_custom_paste (MousepadView *view,
   if (! gtk_text_view_get_editable (GTK_TEXT_VIEW (view)))
     return;
 
+  if (string == NULL)
+    {
+      /* leave if we have already tried to read the text */
+      if (mousepad_object_get_data (view, "text-read"))
+        return;
+
+      /* get the clipboard */
+      clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view));
+
+      /* get the clipboard text: we can't always get it from the content provider which
+       * may be NULL (gdk_clipboard_is_local() == FALSE), so let's get it asynchronously */
+      gdk_clipboard_read_text_async (clipboard, NULL, mousepad_view_clipboard_read_text, view);
+
+      /* we'll be back */
+      return;
+    }
+
   /* get the buffer */
   buffer = mousepad_view_get_buffer (view);
 
   /* begin user action */
   gtk_text_buffer_begin_user_action (buffer);
 
-  if (string == NULL)
+  if (mousepad_object_get_data (view, "text-read"))
     {
-      /* get the clipboard */
-      clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
-
-      /* get the clipboard text */
-      text = gtk_clipboard_wait_for_text (clipboard);
-
-      /* leave when the text is null */
-      if (G_UNLIKELY (text == NULL))
-        return;
-
       /* chop the string into pieces */
       pieces = g_strsplit (text, "\n", -1);
 
@@ -1314,7 +1313,7 @@ mousepad_view_set_font (MousepadView *view,
 
   /* set font */
   provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+  gtk_css_provider_load_from_data (provider, css_string, -1);
   gtk_style_context_add_provider (gtk_widget_get_style_context (GTK_WIDGET (view)),
                                   GTK_STYLE_PROVIDER (provider),
                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
