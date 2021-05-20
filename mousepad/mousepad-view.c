@@ -585,62 +585,49 @@ static void
 mousepad_view_move_words (GtkSourceView *source_view,
                           gint           count)
 {
-  GtkTextBuffer *buffer;
-  GtkTextIter    start, end, iter;
-  gint           offset, length;
-  gboolean       cursor_start = FALSE;
+  GtkTextBuffer *buffer, *test_buffer;
+  GtkWidget     *test_view;
+  GtkTextIter    start, end;
+  gchar         *text;
+  gint           n_chars, start_offset, end_offset;
+  gboolean       succeed;
 
-  /* get selection bounds */
+  /*
+   * GSV sometimes fails to move words correctly, and removes content in these cases:
+   * see https://gitlab.gnome.org/GNOME/gtksourceview/-/issues/190.
+   * Below, we first test in a virtual view if the operation succeeds, before letting
+   * GSV operate on the real view.
+   */
+
+  /* get data to build the test view */
   buffer = mousepad_view_get_buffer (MOUSEPAD_VIEW (source_view));
-  gtk_text_buffer_get_selection_bounds (buffer, &start, &end);
+  n_chars = gtk_text_buffer_get_char_count (buffer);
+  gtk_text_buffer_get_bounds (buffer, &start, &end);
+  text = gtk_text_buffer_get_text (buffer, &start, &end, TRUE);
 
-  /* determine cursor position */
-  gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
-  if (gtk_text_iter_equal (&iter, &start))
-    cursor_start = TRUE;
+  gtk_text_buffer_get_iter_at_mark (buffer, &start, gtk_text_buffer_get_insert (buffer));
+  gtk_text_buffer_get_iter_at_mark (buffer, &end, gtk_text_buffer_get_selection_bound (buffer));
+  start_offset = gtk_text_iter_get_offset (&start);
+  end_offset = gtk_text_iter_get_offset (&end);
 
-  /* begin a user action */
-  g_object_freeze_notify (G_OBJECT (buffer));
-  gtk_text_buffer_begin_user_action (buffer);
+  /* build the test view */
+  test_view = g_object_ref_sink (gtk_source_view_new ());
+  test_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (test_view));
+  gtk_text_buffer_set_text (test_buffer, text, -1);
+  gtk_text_buffer_get_iter_at_offset (test_buffer, &start, start_offset);
+  gtk_text_buffer_get_iter_at_offset (test_buffer, &end, end_offset);
+  gtk_text_buffer_select_range (test_buffer, &start, &end);
 
-  /* adjust move selection, so that GSV->move_cursor() behaves as we want: select the
-   * smallest group of words containing the real selection */
-  gtk_text_buffer_place_cursor (buffer, &start);
-  g_signal_emit_by_name (source_view, "move-cursor", GTK_MOVEMENT_WORDS, 1, FALSE);
-  gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
-  while (gtk_text_iter_compare (&end, &iter) > 0)
-    {
-      g_signal_emit_by_name (source_view, "move-cursor", GTK_MOVEMENT_WORDS, 1, FALSE);
-      gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
-    }
-
-  while (gtk_text_iter_compare (&start, &iter) < 0)
-    {
-      g_signal_emit_by_name (source_view, "move-cursor", GTK_MOVEMENT_WORDS, -1, TRUE);
-      gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
-    }
-
-  /* determine the position of the real selection in the move selection */
-  offset = gtk_text_iter_get_offset (&start) - gtk_text_iter_get_offset (&iter);
-  length = gtk_text_iter_get_offset (&end) - gtk_text_iter_get_offset (&start);
+  /* exit if GSV fails to move words correctly */
+  g_signal_emit_by_name (test_view, "move-words", count);
+  succeed = (gtk_text_buffer_get_char_count (test_buffer) == n_chars);
+  g_object_unref (test_view);
+  g_free (text);
+  if (! succeed)
+    return;
 
   /* let GSV move words */
   GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_words (source_view, count);
-
-  /* restore selection */
-  gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
-  gtk_text_buffer_get_iter_at_offset (buffer, &start,
-                                      gtk_text_iter_get_offset (&iter) + offset);
-  gtk_text_buffer_get_iter_at_offset (buffer, &end,
-                                      gtk_text_iter_get_offset (&start) + length);
-  if (cursor_start)
-    gtk_text_buffer_select_range (buffer, &start, &end);
-  else
-    gtk_text_buffer_select_range (buffer, &end, &start);
-
-  /* end user action */
-  gtk_text_buffer_end_user_action (buffer);
-  g_object_thaw_notify (G_OBJECT (buffer));
 }
 
 
