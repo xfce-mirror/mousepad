@@ -609,8 +609,8 @@ mousepad_application_set_accels (MousepadApplication *application)
     { "win.edit.delete-line", "<Control><Shift>Delete" }, { "win.edit.select-all", "<Control>A" },
     { "win.edit.convert.to-opposite-case", "<Alt><Control>U" },
     { "win.edit.convert.transpose", "<Control>T" },
-    { "win.edit.move-selection.line-up", "<Alt>Page_Up" },
-    { "win.edit.move-selection.line-down", "<Alt>Page_Down" },
+    { "win.edit.move.line-up", "<Alt>Up" }, { "win.edit.move.line-down", "<Alt>Down" },
+    { "win.edit.move.word-left", "<Alt>Left" }, { "win.edit.move.word-right", "<Alt>Right" },
     { "win.edit.increase-indent", "<Control>I" }, { "win.edit.decrease-indent", "<Control>U" },
 
     /* "Search" menu */

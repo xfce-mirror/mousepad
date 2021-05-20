@@ -49,6 +49,8 @@ static void      mousepad_view_move_lines                    (GtkSourceView     
                                                               gboolean            copy,
                                                               gint                count);
 #endif
+static void      mousepad_view_move_words                    (GtkSourceView      *source_view,
+                                                              gint                count);
 static void      mousepad_view_redo                          (GtkSourceView      *source_view);
 static void      mousepad_view_undo                          (GtkSourceView      *source_view);
 
@@ -132,6 +134,7 @@ mousepad_view_class_init (MousepadViewClass *klass)
   textview_class->paste_clipboard = mousepad_view_paste_clipboard;
 
   sourceview_class->move_lines = mousepad_view_move_lines;
+  sourceview_class->move_words = mousepad_view_move_words;
   sourceview_class->redo = mousepad_view_redo;
   sourceview_class->undo = mousepad_view_undo;
 
@@ -575,6 +578,70 @@ mousepad_view_move_lines (GtkSourceView *source_view,
 }
 
 #endif
+
+
+
+static void
+mousepad_view_move_words (GtkSourceView *source_view,
+                          gint           count)
+{
+  GtkTextBuffer *buffer;
+  GtkTextIter    start, end, iter;
+  gint           offset, length;
+  gboolean       cursor_start = FALSE;
+
+  /* get selection bounds */
+  buffer = mousepad_view_get_buffer (MOUSEPAD_VIEW (source_view));
+  gtk_text_buffer_get_selection_bounds (buffer, &start, &end);
+
+  /* determine cursor position */
+  gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+  if (gtk_text_iter_equal (&iter, &start))
+    cursor_start = TRUE;
+
+  /* begin a user action */
+  g_object_freeze_notify (G_OBJECT (buffer));
+  gtk_text_buffer_begin_user_action (buffer);
+
+  /* adjust move selection, so that GSV->move_cursor() behaves as we want: select the
+   * smallest group of words containing the real selection */
+  gtk_text_buffer_place_cursor (buffer, &start);
+  g_signal_emit_by_name (source_view, "move-cursor", GTK_MOVEMENT_WORDS, 1, FALSE);
+  gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+  while (gtk_text_iter_compare (&end, &iter) > 0)
+    {
+      g_signal_emit_by_name (source_view, "move-cursor", GTK_MOVEMENT_WORDS, 1, FALSE);
+      gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+    }
+
+  while (gtk_text_iter_compare (&start, &iter) < 0)
+    {
+      g_signal_emit_by_name (source_view, "move-cursor", GTK_MOVEMENT_WORDS, -1, TRUE);
+      gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+    }
+
+  /* determine the position of the real selection in the move selection */
+  offset = gtk_text_iter_get_offset (&start) - gtk_text_iter_get_offset (&iter);
+  length = gtk_text_iter_get_offset (&end) - gtk_text_iter_get_offset (&start);
+
+  /* let GSV move words */
+  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_words (source_view, count);
+
+  /* restore selection */
+  gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+  gtk_text_buffer_get_iter_at_offset (buffer, &start,
+                                      gtk_text_iter_get_offset (&iter) + offset);
+  gtk_text_buffer_get_iter_at_offset (buffer, &end,
+                                      gtk_text_iter_get_offset (&start) + length);
+  if (cursor_start)
+    gtk_text_buffer_select_range (buffer, &start, &end);
+  else
+    gtk_text_buffer_select_range (buffer, &end, &start);
+
+  /* end user action */
+  gtk_text_buffer_end_user_action (buffer);
+  g_object_thaw_notify (G_OBJECT (buffer));
+}
 
 
 
