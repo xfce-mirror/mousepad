@@ -732,8 +732,13 @@ mousepad_application_load_plugins (MousepadApplication *application)
     }
   else if ((dir = g_dir_open (MOUSEPAD_PLUGIN_DIRECTORY, 0, &error)) == NULL)
     {
-      g_warning ("Failed to open plugin directory '%s': %s",
-                 MOUSEPAD_PLUGIN_DIRECTORY, error->message);
+      /* the plugin directory may not exist (compilation without plugin) */
+      if (g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
+        g_message ("Plugin directory '%s' not found", MOUSEPAD_PLUGIN_DIRECTORY);
+      else
+        g_warning ("Failed to open plugin directory '%s': %s",
+                   MOUSEPAD_PLUGIN_DIRECTORY, error->message);
+
       return;
     }
 
