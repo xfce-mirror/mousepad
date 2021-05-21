@@ -34,7 +34,7 @@
 /* Editor page */
 #define WID_TAB_WIDTH_SPIN                  "/prefs/editor/indentation/tab-width-spin"
 #define WID_TAB_MODE_COMBO                  "/prefs/editor/indentation/tab-mode-combo"
-#define WID_SMART_HOME_END_COMBO            "/prefs/editor/home-end/smart-home-end-combo"
+#define WID_SMART_HOME_END_COMBO            "/prefs/editor/smart-keys/smart-home-end-combo"
 
 /* Window page */
 #define WID_TOOLBAR_STYLE_COMBO             "/prefs/window/toolbar/style-combo"
