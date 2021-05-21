@@ -209,6 +209,14 @@
         'view-right-margin-position', when false it is not drawn.
       </description>
     </key>
+    <key name="smart-backspace" type="b">
+      <default>false</default>
+      <summary>Smart backspace</summary>
+      <description>
+        When true, pressing the Backspace key will try to delete spaces up to
+        the previous tab stop.
+      </description>
+    </key>
     <key name="smart-home-end" enum="org.xfce.mousepad.SmartHomeEnd">
       <default>'disabled'</default>
       <summary>Smart home end type</summary>
