@@ -559,6 +559,18 @@
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkCheckButton">
+                    <property name="label" translatable="yes">(Shift-)Tab: (De-)Indent selected text</property>
+                    <property name="visible">True</property>
+                    <property name="action-name">app.preferences.view.indent-on-tab</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Backspace: Delete indent spaces as tabs</property>
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.smart-backspace</property>
@@ -566,7 +578,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">0</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -578,7 +590,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -608,7 +620,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>

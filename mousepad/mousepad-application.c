@@ -223,6 +223,7 @@ static const GActionEntry dialog_actions[] =
   /* "Editor" tab */
   { MOUSEPAD_SETTING_INSERT_SPACES, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_AUTO_INDENT, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_INDENT_ON_TAB, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_SMART_BACKSPACE, mousepad_application_toggle_activate, NULL, "false", NULL },
 
   /* "Window" tab */
