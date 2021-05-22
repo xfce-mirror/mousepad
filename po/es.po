@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-17 00:46+0200\n"
-"PO-Revision-Date: 2021-05-18 18:10+0000\n"
+"PO-Revision-Date: 2021-05-22 11:57+0000\n"
 "Last-Translator: Toni Estévez <toni.estevez@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "%s | Autores: %s | Nombre del archivo: %s"
 
 #: ../mousepad/mousepad-dialogs.c:69
 msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
-msgstr "Mousepad es un editor de texto rápido para el entorno de escritorio Xfce."
+msgstr "Mousepad es un rápido editor de texto para el entorno de escritorio Xfce."
 
 #: ../mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
