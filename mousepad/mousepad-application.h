@@ -21,6 +21,20 @@
 
 G_BEGIN_DECLS
 
+/* repetitive code whose forgetting causes memory leaks */
+static inline gboolean
+mousepad_action_get_state_boolean (GAction *action)
+{
+  GVariant *variant;
+  gboolean  value;
+
+  variant = g_action_get_state (action);
+  value = g_variant_get_boolean (variant);
+  g_variant_unref (variant);
+
+  return value;
+}
+
 typedef struct _MousepadApplicationClass MousepadApplicationClass;
 typedef struct _MousepadApplication      MousepadApplication;
 

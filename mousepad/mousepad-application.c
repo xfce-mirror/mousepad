@@ -1591,7 +1591,7 @@ mousepad_application_toggle_activate (GSimpleAction *action,
   gboolean state;
 
   /* save the setting */
-  state = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+  state = ! mousepad_action_get_state_boolean (G_ACTION (action));
   mousepad_setting_set_boolean (g_action_get_name (G_ACTION (action)), state);
 }
 
@@ -1619,7 +1619,7 @@ mousepad_application_plugin_activate (GSimpleAction *action,
   guint         length = 0;
 
   /* get the new action state */
-  enabled = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+  enabled = ! mousepad_action_get_state_boolean (G_ACTION (action));
 
   /* get the list of enabled plugins */
   plugins = MOUSEPAD_SETTING_GET_STRV (ENABLED_PLUGINS);
@@ -1687,7 +1687,7 @@ mousepad_application_plugin_update (MousepadApplication *application)
 {
   MousepadPluginProvider  *mprovider;
   GTypeModule             *provider;
-  GActionGroup            *group = G_ACTION_GROUP (application);
+  GAction                 *action;
   GList                   *item;
   gchar                  **plugins;
   gboolean                 enabled, contained, destroyable;
@@ -1701,12 +1701,11 @@ mousepad_application_plugin_update (MousepadApplication *application)
     {
       provider = item->data;
       contained = g_strv_contains ((const gchar *const *) plugins, provider->name);
-      enabled = g_variant_get_boolean (g_action_group_get_action_state (group, provider->name));
+      action = g_action_map_lookup_action (G_ACTION_MAP (application), provider->name);
+      enabled = mousepad_action_get_state_boolean (action);
       if ((enabled && ! contained) || (! enabled && contained))
         {
-          g_action_group_change_action_state (group, provider->name,
-                                              g_variant_new_boolean (! enabled));
-
+          g_action_change_state (action, g_variant_new_boolean (! enabled));
           mprovider = item->data;
           destroyable = mousepad_plugin_provider_is_destroyable (mprovider);
 

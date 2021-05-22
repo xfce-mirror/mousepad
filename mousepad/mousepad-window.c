@@ -5839,7 +5839,7 @@ mousepad_window_action_bar_activate (GSimpleAction *action,
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
-  state = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+  state = ! mousepad_action_get_state_boolean (G_ACTION (action));
   mousepad_setting_set_boolean (g_action_get_name (G_ACTION (action)), state);
 }
 
@@ -5876,14 +5876,14 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* exit if there is actually no change */
-  if (g_variant_equal (state, g_action_get_state (G_ACTION (action))))
+  visible = g_variant_get_boolean (state);
+  if (visible == mousepad_action_get_state_boolean (G_ACTION (action)))
     return;
 
   /* set the action state */
   g_simple_action_set_state (action, state);
 
   /* show/hide the "Menubar" item in the text view menu */
-  visible = g_variant_get_boolean (state);
   textview_action = g_action_map_lookup_action (G_ACTION_MAP (window), "textview.menubar");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (textview_action), ! visible);
 
@@ -5931,7 +5931,7 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
   gboolean        fullscreen;
 
-  fullscreen = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+  fullscreen = ! mousepad_action_get_state_boolean (G_ACTION (action));
   g_action_change_state (G_ACTION (action), g_variant_new_boolean (fullscreen));
 
   /* entering/leaving fullscreen mode */
@@ -6058,7 +6058,7 @@ mousepad_window_action_write_bom (GSimpleAction *action,
       lock_menu_updates++;
 
       /* set the current state */
-      state = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+      state = ! mousepad_action_get_state_boolean (G_ACTION (action));
       g_action_change_state (G_ACTION (action), g_variant_new_boolean (state));
 
       /* set new value */
@@ -6092,7 +6092,7 @@ mousepad_window_action_viewer_mode (GSimpleAction *action,
       lock_menu_updates++;
 
       /* set the current state */
-      state = ! g_variant_get_boolean (g_action_get_state (G_ACTION (action)));
+      state = ! mousepad_action_get_state_boolean (G_ACTION (action));
       g_action_change_state (G_ACTION (action), g_variant_new_boolean (state));
 
       /* set new value */
