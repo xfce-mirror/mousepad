@@ -35,6 +35,21 @@ mousepad_action_get_state_boolean (GAction *action)
   return value;
 }
 
+/* same, but specific to non-toggle actions with boolean state: an int32 state
+ * is used so that the action is not interpreted as toggle */
+static inline gboolean
+mousepad_action_get_state_int32_boolean (GAction *action)
+{
+  GVariant *variant;
+  gboolean  value;
+
+  variant = g_action_get_state (action);
+  value = g_variant_get_int32 (variant);
+  g_variant_unref (variant);
+
+  return value;
+}
+
 typedef struct _MousepadApplicationClass MousepadApplicationClass;
 typedef struct _MousepadApplication      MousepadApplication;
 

@@ -1557,21 +1557,16 @@ mousepad_application_action_quit (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  GList    *windows, *window;
-  GAction  *close_action;
-  GVariant *v_succeed;
-  gboolean  succeed;
+  GList   *windows, *window;
+  GAction *close;
 
   /* try to close all windows, abort at the first failure */
   windows = g_list_copy (gtk_application_get_windows (data));
   for (window = windows; window != NULL; window = window->next)
     {
-      close_action = g_action_map_lookup_action (G_ACTION_MAP (window->data), "file.close-window");
-      g_action_activate (close_action, NULL);
-      v_succeed = g_action_get_state (close_action);
-      succeed = g_variant_get_int32 (v_succeed);
-      g_variant_unref (v_succeed);
-      if (! succeed)
+      close = g_action_map_lookup_action (G_ACTION_MAP (window->data), "file.close-window");
+      g_action_activate (close, NULL);
+      if (! mousepad_action_get_state_int32_boolean (close))
         break;
     }
 

@@ -2150,7 +2150,7 @@ mousepad_window_close_document (MousepadWindow   *window,
                                 MousepadDocument *document)
 {
   GtkNotebook *notebook = GTK_NOTEBOOK (window->notebook);
-  GVariant    *value;
+  GAction     *action;
   gboolean     succeed = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
@@ -2173,17 +2173,15 @@ mousepad_window_close_document (MousepadWindow   *window,
             break;
 
           case MOUSEPAD_RESPONSE_SAVE:
-            g_action_group_activate_action (G_ACTION_GROUP (window), "file.save", NULL);
-            value = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save");
-            succeed = g_variant_get_int32 (value);
-            g_variant_unref (value);
+            action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+            g_action_activate (action, NULL);
+            succeed = mousepad_action_get_state_int32_boolean (action);
             break;
 
           case MOUSEPAD_RESPONSE_SAVE_AS:
-            g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
-            value = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
-            succeed = g_variant_get_int32 (value);
-            g_variant_unref (value);
+            action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
+            g_action_activate (action, NULL);
+            succeed = mousepad_action_get_state_int32_boolean (action);
             break;
         }
     }
@@ -4654,8 +4652,8 @@ mousepad_window_action_save (GSimpleAction *action,
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document = window->active;
+  GAction          *save_as;
   GError           *error = NULL;
-  GVariant         *v_succeed;
   gboolean          succeed = FALSE;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -4664,15 +4662,9 @@ mousepad_window_action_save (GSimpleAction *action,
   if (! mousepad_file_location_is_set (document->file))
     {
       /* file has no filename yet, open the save as dialog */
-      g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
-      v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
-
-      /* can be NULL e.g. if "app.quit" is activated when the "Save As" dialog is open */
-      if (v_succeed != NULL)
-        {
-          succeed = g_variant_get_int32 (v_succeed);
-          g_variant_unref (v_succeed);
-        }
+      save_as = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
+      g_action_activate (save_as, NULL);
+      succeed = mousepad_action_get_state_int32_boolean (save_as);
     }
   else
     {
@@ -4695,10 +4687,9 @@ mousepad_window_action_save (GSimpleAction *action,
 
               case MOUSEPAD_RESPONSE_SAVE_AS:
                 /* run save as dialog */
-                g_action_group_activate_action (G_ACTION_GROUP (window), "file.save-as", NULL);
-                v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save-as");
-                succeed = g_variant_get_int32 (v_succeed);
-                g_variant_unref (v_succeed);
+                save_as = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
+                g_action_activate (save_as, NULL);
+                succeed = mousepad_action_get_state_int32_boolean (save_as);
                 break;
 
               case MOUSEPAD_RESPONSE_SAVE:
@@ -4730,8 +4721,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document = window->active;
   MousepadEncoding  encoding, current_encoding = MOUSEPAD_ENCODING_NONE;
-  GAction          *action_save;
-  GVariant         *v_succeed;
+  GAction          *save;
   GFile            *file, *current_file = NULL;
   gboolean          succeed = FALSE;
 
@@ -4756,11 +4746,9 @@ mousepad_window_action_save_as (GSimpleAction *action,
 
       /* save the file by an internal call (the save action may be disabled, depending
        * on the file status) */
-      action_save = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
-      mousepad_window_action_save (G_SIMPLE_ACTION (action_save), NULL, window);
-      v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), "file.save");
-      succeed = g_variant_get_int32 (v_succeed);
-      g_variant_unref (v_succeed);
+      save = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+      mousepad_window_action_save (G_SIMPLE_ACTION (save), NULL, window);
+      succeed = mousepad_action_get_state_int32_boolean (save);
 
       if (G_LIKELY (succeed))
         {
@@ -4801,7 +4789,7 @@ mousepad_window_action_save_all (GSimpleAction *action,
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadDocument *document;
-  GVariant         *v_succeed;
+  GAction          *save;
   GSList           *li, *documents = NULL;
   GError           *error = NULL;
   const gchar      *action_name;
@@ -4879,10 +4867,9 @@ mousepad_window_action_save_all (GSimpleAction *action,
               else
                 action_name = "file.save";
 
-              g_action_group_activate_action (G_ACTION_GROUP (window), action_name, NULL);
-              v_succeed = g_action_group_get_action_state (G_ACTION_GROUP (window), action_name);
-              succeed = g_variant_get_int32 (v_succeed);
-              g_variant_unref (v_succeed);
+              save = g_action_map_lookup_action (G_ACTION_MAP (window), action_name);
+              g_action_activate (save, NULL);
+              succeed = mousepad_action_get_state_int32_boolean (save);
             }
 
           /* break on problems */
