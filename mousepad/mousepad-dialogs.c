@@ -368,41 +368,59 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
 
 gint
 mousepad_dialogs_save_changes (GtkWindow *parent,
+                               gboolean   closing,
                                gboolean   readonly)
 {
-  GtkWidget *dialog, *button;
-  gint       response, button_response;
+  GtkWidget   *dialog, *button;
+  const gchar *text;
+  gint         response, button_response;
+
+  /* primary text */
+  if (G_LIKELY (closing))
+    text = _("Do you want to save the changes before closing?");
+  else
+    text = _("The document is read-only, do you want to save it as another file?");
 
   /* create the question dialog */
-  dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
-                                   GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-                                   _("Do you want to save the changes before closing?"));
+  dialog = gtk_message_dialog_new_with_markup (parent, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION,
+                                               GTK_BUTTONS_NONE, "<b><big>%s</big></b>", text);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
   gtk_window_set_title (GTK_WINDOW (dialog), _("Save Changes"));
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
-  /* set secondary text */
-  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
-    _("If you don't save the document, all the changes will be lost."));
-
   /* add buttons */
   gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
-  gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
-                                mousepad_util_image_button ("edit-delete", _("_Don't Save")),
-                                MOUSEPAD_RESPONSE_DONT_SAVE);
 
-  /* we show the save as button instead of save for readonly document */
-  if (G_UNLIKELY (readonly))
+  if (G_LIKELY (closing))
     {
-      button = mousepad_util_image_button ("document-save-as", _("_Save As"));
-      button_response = MOUSEPAD_RESPONSE_SAVE_AS;
+      gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
+                                    mousepad_util_image_button ("edit-delete", _("_Don't Save")),
+                                    MOUSEPAD_RESPONSE_DONT_SAVE);
+
+      /* we show different text and save button depending on the file status */
+      if (G_UNLIKELY (readonly))
+        {
+          text = _("If you don't save this read-only document as another file"
+                   ", all the changes will be lost.");
+          button = mousepad_util_image_button ("document-save-as", _("_Save As"));
+          button_response = MOUSEPAD_RESPONSE_SAVE_AS;
+        }
+      else
+        {
+          text = _("If you don't save the document, all the changes will be lost.");
+          button = mousepad_util_image_button ("document-save", _("_Save"));
+          button_response = MOUSEPAD_RESPONSE_SAVE;
+        }
+
+      /* set secondary text */
+      gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text);
     }
   else
     {
-      button = mousepad_util_image_button ("document-save", _("_Save"));
-      button_response = MOUSEPAD_RESPONSE_SAVE;
+      button = mousepad_util_image_button ("document-save-as", _("_Save As"));
+      button_response = MOUSEPAD_RESPONSE_SAVE_AS;
     }
 
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, button_response);
