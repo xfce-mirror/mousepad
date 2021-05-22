@@ -275,7 +275,7 @@ mousepad_file_set_location (MousepadFile *file,
   /* not a virtual change, such as when trying to save as */
   if (real)
     {
-      /* this is a definitve location */
+      /* this is a definitive location */
       file->temporary = FALSE;
 
       /* activate file monitoring with a delay, to not consider our own saving as
@@ -366,8 +366,7 @@ mousepad_file_is_savable (MousepadFile *file)
 {
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
 
-  return file->location == NULL
-         || (! file->readonly && gtk_text_buffer_get_modified (file->buffer));
+  return file->location == NULL || gtk_text_buffer_get_modified (file->buffer);
 }
 
 
@@ -893,8 +892,13 @@ mousepad_file_save (MousepadFile  *file,
                                           MOUSEPAD_SETTING_GET_BOOLEAN (MAKE_BACKUP),
                                           G_FILE_CREATE_NONE, &etag, NULL, error))
         {
+          /* update etag */
           g_free (file->etag);
           file->etag = etag;
+
+          /* update read-only status in case of save as */
+          if (G_UNLIKELY (file->temporary))
+            mousepad_file_set_read_only (file, FALSE);
         }
       else
         goto failed;
