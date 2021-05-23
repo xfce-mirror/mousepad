@@ -445,6 +445,9 @@ mousepad_search_bar_entry_changed (MousepadSearchBar *bar)
   flags = MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START
           | MOUSEPAD_SEARCH_FLAGS_DIR_FORWARD;
 
+  if (! MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_FIND_AS_YOU_TYPE))
+    flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_NONE;
+
   /* find */
   mousepad_search_bar_find_string (bar, flags);
 }

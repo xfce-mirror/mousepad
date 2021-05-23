@@ -512,6 +512,15 @@
         When true search results are highlighted, otherwise they aren't.
       </description>
     </key>
+    <key name="find-as-you-type" type="b">
+      <default>false</default>
+      <summary>Find as you type</summary>
+      <description>
+        When true, the closest search result is automatically selected and the view
+        automatically scrolls as the search field is modified. When false, the search
+        context is only silently updated.
+      </description>
+    </key>
   </schema>
 
   <!-- window state -->
