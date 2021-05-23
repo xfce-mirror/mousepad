@@ -342,6 +342,12 @@ static void              mousepad_window_action_move_line_up          (GSimpleAc
 static void              mousepad_window_action_move_line_down        (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
+static void              mousepad_window_action_move_word_left        (GSimpleAction          *action,
+                                                                       GVariant               *value,
+                                                                       gpointer                data);
+static void              mousepad_window_action_move_word_right       (GSimpleAction          *action,
+                                                                       GVariant               *value,
+                                                                       gpointer                data);
 static void              mousepad_window_action_duplicate             (GSimpleAction          *action,
                                                                        GVariant               *value,
                                                                        gpointer                data);
@@ -527,9 +533,11 @@ static const GActionEntry action_entries[] =
     { "edit.convert.strip-trailing-spaces", mousepad_window_action_strip_trailing_spaces, NULL, NULL, NULL },
 
     { "edit.convert.transpose", mousepad_window_action_transpose, NULL, NULL, NULL },
-  /* "Move selection" submenu */
-    { "edit.move-selection.line-up", mousepad_window_action_move_line_up, NULL, NULL, NULL },
-    { "edit.move-selection.line-down", mousepad_window_action_move_line_down, NULL, NULL, NULL },
+  /* "Move" submenu */
+    { "edit.move.line-up", mousepad_window_action_move_line_up, NULL, NULL, NULL },
+    { "edit.move.line-down", mousepad_window_action_move_line_down, NULL, NULL, NULL },
+    { "edit.move.word-left", mousepad_window_action_move_word_left, NULL, NULL, NULL },
+    { "edit.move.word-right", mousepad_window_action_move_word_right, NULL, NULL, NULL },
   { "edit.duplicate-line-selection", mousepad_window_action_duplicate, NULL, NULL, NULL },
   { "edit.increase-indent", mousepad_window_action_increase_indent, NULL, NULL, NULL },
   { "edit.decrease-indent", mousepad_window_action_decrease_indent, NULL, NULL, NULL },
@@ -5401,7 +5409,7 @@ mousepad_window_action_move_line_up (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* move the selection on line up */
+  /* move lines one line up */
   g_signal_emit_by_name (window->active->textview, "move-lines", FALSE);
 }
 
@@ -5417,8 +5425,40 @@ mousepad_window_action_move_line_down (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* move the selection on line down */
+  /* move lines one line down */
   g_signal_emit_by_name (window->active->textview, "move-lines", TRUE);
+}
+
+
+
+static void
+mousepad_window_action_move_word_left (GSimpleAction *action,
+                                       GVariant      *value,
+                                       gpointer       data)
+{
+  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+  /* move words one word left */
+  g_signal_emit_by_name (window->active->textview, "move-words", -1);
+}
+
+
+
+static void
+mousepad_window_action_move_word_right (GSimpleAction *action,
+                                        GVariant      *value,
+                                        gpointer       data)
+{
+  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+  /* move words one word right */
+  g_signal_emit_by_name (window->active->textview, "move-words", 1);
 }
 
 
