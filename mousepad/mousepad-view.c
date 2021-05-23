@@ -252,18 +252,19 @@ mousepad_view_init (MousepadView *view)
   MOUSEPAD_SETTING_BIND (setting, view, prop, G_SETTINGS_BIND_GET)
 
   BIND_ (AUTO_INDENT,            "auto-indent");
-  BIND_ (SHOW_WHITESPACE,        "show-whitespace");
-  BIND_ (SHOW_LINE_ENDINGS,      "show-line-endings");
-  BIND_ (HIGHLIGHT_CURRENT_LINE, "highlight-current-line");
   BIND_ (INDENT_ON_TAB,          "indent-on-tab");
   BIND_ (INDENT_WIDTH,           "indent-width");
+  BIND_ (TAB_WIDTH,              "tab-width");
   BIND_ (INSERT_SPACES,          "insert-spaces-instead-of-tabs");
-  BIND_ (RIGHT_MARGIN_POSITION,  "right-margin-position");
+  BIND_ (SMART_BACKSPACE,        "smart-backspace");
+  BIND_ (SMART_HOME_END,         "smart-home-end");
+  BIND_ (SHOW_WHITESPACE,        "show-whitespace");
+  BIND_ (SHOW_LINE_ENDINGS,      "show-line-endings");
   BIND_ (SHOW_LINE_MARKS,        "show-line-marks");
   BIND_ (SHOW_LINE_NUMBERS,      "show-line-numbers");
   BIND_ (SHOW_RIGHT_MARGIN,      "show-right-margin");
-  BIND_ (SMART_HOME_END,         "smart-home-end");
-  BIND_ (TAB_WIDTH,              "tab-width");
+  BIND_ (RIGHT_MARGIN_POSITION,  "right-margin-position");
+  BIND_ (HIGHLIGHT_CURRENT_LINE, "highlight-current-line");
   BIND_ (COLOR_SCHEME,           "color-scheme");
   BIND_ (WORD_WRAP,              "word-wrap");
   BIND_ (MATCH_BRACES,           "match-braces");
