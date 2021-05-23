@@ -193,7 +193,7 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
   GFileInfo *fileinfo;
 
   /* update readonly status */
-  if (event_type & G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED
+  if (event_type == G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED
       && G_LIKELY (fileinfo = g_file_query_info (location, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
                                                  G_FILE_QUERY_INFO_NONE, NULL, NULL)))
     {
@@ -203,7 +203,9 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
     }
 
   /* the file has been externally modified */
-  if (event_type & (G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT | G_FILE_MONITOR_EVENT_MOVED_IN))
+  if (event_type == G_FILE_MONITOR_EVENT_CHANGED || event_type == G_FILE_MONITOR_EVENT_CREATED
+      || event_type == G_FILE_MONITOR_EVENT_MOVED_IN
+      || (event_type == G_FILE_MONITOR_EVENT_RENAMED && g_file_equal (file->location, other_location)))
     g_signal_emit (file, file_signals[EXTERNALLY_MODIFIED], 0);
 }
 
