@@ -2160,7 +2160,7 @@ mousepad_window_close_document (MousepadWindow   *window,
   if (gtk_text_buffer_get_modified (document->buffer))
     {
       /* run save changes dialog */
-      switch (mousepad_dialogs_save_changes (GTK_WINDOW (window),
+      switch (mousepad_dialogs_save_changes (GTK_WINDOW (window), TRUE,
                                              mousepad_file_get_read_only (document->file)))
         {
           case MOUSEPAD_RESPONSE_DONT_SAVE:
@@ -4680,11 +4680,6 @@ mousepad_window_action_save (GSimpleAction *action,
           /* ask the user what to do */
           switch (mousepad_dialogs_externally_modified (GTK_WINDOW (window), TRUE, TRUE))
             {
-              case MOUSEPAD_RESPONSE_CANCEL:
-                /* do nothing */
-                succeed = FALSE;
-                break;
-
               case MOUSEPAD_RESPONSE_SAVE_AS:
                 /* run save as dialog */
                 save_as = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
@@ -4696,10 +4691,38 @@ mousepad_window_action_save (GSimpleAction *action,
                 /* force to save the document */
                 succeed = mousepad_file_save (document->file, TRUE, &error);
                 break;
+
+              default:
+                /* do nothing */
+                succeed = FALSE;
+                break;
+            }
+        }
+      /* file is readonly */
+      else if (G_UNLIKELY (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)
+                           || g_error_matches (error, G_IO_ERROR, G_IO_ERROR_READ_ONLY)))
+        {
+          /* cleanup */
+          g_clear_error (&error);
+
+          /* ask the user what to do */
+          switch (mousepad_dialogs_save_changes (GTK_WINDOW (window), FALSE, TRUE))
+            {
+              case MOUSEPAD_RESPONSE_SAVE_AS:
+                /* run save as dialog */
+                save_as = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
+                g_action_activate (save_as, NULL);
+                succeed = mousepad_action_get_state_int32_boolean (save_as);
+                break;
+
+              default:
+                /* do nothing */
+                succeed = FALSE;
+                break;
             }
         }
 
-      /* other kind of error */
+      /* other kind of error, which may result from the previous exceptions */
       if (G_UNLIKELY (error != NULL))
         {
           mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to save the document"));
