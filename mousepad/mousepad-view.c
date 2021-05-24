@@ -49,6 +49,8 @@ static void      mousepad_view_move_lines                    (GtkSourceView     
                                                               gboolean            copy,
                                                               gint                count);
 #endif
+static void      mousepad_view_move_words                    (GtkSourceView      *source_view,
+                                                              gint                count);
 static void      mousepad_view_redo                          (GtkSourceView      *source_view);
 static void      mousepad_view_undo                          (GtkSourceView      *source_view);
 
@@ -132,6 +134,7 @@ mousepad_view_class_init (MousepadViewClass *klass)
   textview_class->paste_clipboard = mousepad_view_paste_clipboard;
 
   sourceview_class->move_lines = mousepad_view_move_lines;
+  sourceview_class->move_words = mousepad_view_move_words;
   sourceview_class->redo = mousepad_view_redo;
   sourceview_class->undo = mousepad_view_undo;
 
@@ -575,6 +578,57 @@ mousepad_view_move_lines (GtkSourceView *source_view,
 }
 
 #endif
+
+
+
+static void
+mousepad_view_move_words (GtkSourceView *source_view,
+                          gint           count)
+{
+  GtkTextBuffer *buffer, *test_buffer;
+  GtkWidget     *test_view;
+  GtkTextIter    start, end;
+  gchar         *text;
+  gint           n_chars, start_offset, end_offset;
+  gboolean       succeed;
+
+  /*
+   * GSV sometimes fails to move words correctly, and removes content in these cases:
+   * see https://gitlab.gnome.org/GNOME/gtksourceview/-/issues/190.
+   * Below, we first test in a virtual view if the operation succeeds, before letting
+   * GSV operate on the real view.
+   */
+
+  /* get data to build the test view */
+  buffer = mousepad_view_get_buffer (MOUSEPAD_VIEW (source_view));
+  n_chars = gtk_text_buffer_get_char_count (buffer);
+  gtk_text_buffer_get_bounds (buffer, &start, &end);
+  text = gtk_text_buffer_get_text (buffer, &start, &end, TRUE);
+
+  gtk_text_buffer_get_iter_at_mark (buffer, &start, gtk_text_buffer_get_insert (buffer));
+  gtk_text_buffer_get_iter_at_mark (buffer, &end, gtk_text_buffer_get_selection_bound (buffer));
+  start_offset = gtk_text_iter_get_offset (&start);
+  end_offset = gtk_text_iter_get_offset (&end);
+
+  /* build the test view */
+  test_view = g_object_ref_sink (gtk_source_view_new ());
+  test_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (test_view));
+  gtk_text_buffer_set_text (test_buffer, text, -1);
+  gtk_text_buffer_get_iter_at_offset (test_buffer, &start, start_offset);
+  gtk_text_buffer_get_iter_at_offset (test_buffer, &end, end_offset);
+  gtk_text_buffer_select_range (test_buffer, &start, &end);
+
+  /* exit if GSV fails to move words correctly */
+  g_signal_emit_by_name (test_view, "move-words", count);
+  succeed = (gtk_text_buffer_get_char_count (test_buffer) == n_chars);
+  g_object_unref (test_view);
+  g_free (text);
+  if (! succeed)
+    return;
+
+  /* let GSV move words */
+  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_words (source_view, count);
+}
 
 
 
