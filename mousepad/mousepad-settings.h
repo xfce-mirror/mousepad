@@ -43,6 +43,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_SHOW_LINE_MARKS              "preferences.view.show-line-marks"
 #define MOUSEPAD_SETTING_SHOW_LINE_NUMBERS            "preferences.view.show-line-numbers"
 #define MOUSEPAD_SETTING_SHOW_RIGHT_MARGIN            "preferences.view.show-right-margin"
+#define MOUSEPAD_SETTING_SMART_BACKSPACE              "preferences.view.smart-backspace"
 #define MOUSEPAD_SETTING_SMART_HOME_END               "preferences.view.smart-home-end"
 #define MOUSEPAD_SETTING_TAB_WIDTH                    "preferences.view.tab-width"
 #define MOUSEPAD_SETTING_WORD_WRAP                    "preferences.view.word-wrap"
