@@ -467,14 +467,15 @@ mousepad_replace_dialog_reset_display (MousepadReplaceDialog *dialog)
 {
   const gchar *string;
 
-  /* reset entry color and occurrences label */
-  mousepad_util_entry_error (dialog->search_entry, FALSE);
+  /* reset occurrences label */
   gtk_label_set_text (GTK_LABEL (dialog->hits_label), NULL);
 
-  /* start the spinner */
+  /* start the spinner or reset entry color */
   string = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
   if (string != NULL && *string != '\0')
     gtk_spinner_start (GTK_SPINNER (dialog->spinner));
+  else
+    mousepad_util_entry_error (dialog->search_entry, FALSE);
 }
 
 
