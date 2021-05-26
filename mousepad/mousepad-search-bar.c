@@ -336,7 +336,8 @@ mousepad_search_bar_reset_display (MousepadSearchBar *bar)
   const gchar *string;
 
   /* reset entry color and occurrences label */
-  mousepad_util_entry_error (bar->entry, FALSE);
+  if(gtk_entry_get_text_length (GTK_ENTRY (bar->entry)) == 0)
+    mousepad_util_entry_error (bar->entry, FALSE);
   gtk_label_set_text (GTK_LABEL (bar->hits_label), NULL);
 
   /* start the spinner */
