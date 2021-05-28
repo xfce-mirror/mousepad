@@ -48,7 +48,7 @@ test_non_gui ()
 
 test_simple_gui ()
 {
-  local -i r=0 pid id
+  local -i r=0
 
   # exit if ever the previous mousepad instance didn't terminate
   [ -n "$(pgrep -x mousepad)" ] && abort 'running'
@@ -56,20 +56,16 @@ test_simple_gui ()
   # log and run the mousepad command
   temp_logfile=$(mktemp) || abort 'file'
   log_and_run_mousepad "$@" || r=$?
-  pid=$!
 
-  # wait for the window to appear on screen, meaning mousepad is idle
-  id=$($timeout xdotool search --sync --onlyvisible --pid $pid | head -1) 2>&1
-
-  # quit as gracefully as possible, testing `mousepad --quit` in various contexts by the way
-  ((id != 0)) && {
-    if [[ $* != *--disable-server* ]]; then
+  # try to quit gracefully, testing `mousepad --quit` in various contexts by the way
+  ((r == 0)) && {
+    if [[ $* == *--disable-server* ]]; then
+      # wait for the test plugin to run the quit command internally
+      $timeout pwait -x mousepad 2>&1
+    elif $timeout grep -q -x -F "$idle" 2>&1; then
       # purge the logs and run the quit command
       purge_logs
       log_and_run_mousepad --quit || r=$?
-    else
-      wmctrl -i -c $id &
-      $timeout pwait -x mousepad 2>&1
     fi
   }
 
@@ -87,7 +83,7 @@ test_gsettings ()
 {
   local    bak schema key value
   local -a schemas keys values
-  local -i r=0 pid id n
+  local -i r=0 n
 
   # exit if ever the previous mousepad instance didn't terminate
   [ -n "$(pgrep -x mousepad)" ] && abort 'running'
@@ -108,13 +104,9 @@ test_gsettings ()
   # log and run the mousepad command
   temp_logfile=$(mktemp) || abort 'file'
   log_and_run_mousepad "$@" || r=$?
-  pid=$!
-
-  # wait for the window to appear on screen, meaning mousepad is idle
-  id=$($timeout xdotool search --sync --onlyvisible --pid $pid | head -1) 2>&1
 
   # a working mousepad is a prerequisite here
-  ((id != 0)) && {
+  ((r == 0)) && $timeout grep -q -x -F "$idle" 2>&1 && {
     for n in ${!schemas[*]}; do
       # purge the logs and run the gsettings command
       purge_logs

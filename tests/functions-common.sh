@@ -62,7 +62,9 @@ cleanup ()
     [ -f "$f" ] && rm "$f"
   done
 
-  [ ! -f "$temp_logfile" ] || rm "$temp_logfile"
+  [ -f "$temp_logfile" ] && rm "$temp_logfile"
+
+  [ "$(ps -o comm --no-headers $gdbus_pid)" = 'gdbus' ] && kill $gdbus_pid
 }
 
 abort ()
