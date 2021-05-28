@@ -140,23 +140,26 @@ kill_mousepad ()
 
 purge_logs ()
 {
-  [ ! -s "$temp_logfile" ] || {
-    warnings[n_warns++]=$n_cmds
-    sed 's/^/  /' "$temp_logfile"
-    : >"$temp_logfile"
-  }
+  while IFS='' read -r; do
+    if [[ $REPLY == Command:* ]]; then
+      ((n_cmds++))
+      echo "Command $n_cmds:${REPLY#Command:}" | duperr
+    else
+      echo "  $REPLY"
+      ((n_warns == 0 || warnings[-1] != n_cmds)) && warnings[n_warns++]=$n_cmds
+    fi
+  done <"$temp_logfile"
+
+  : >"$temp_logfile"
 }
 
 log_results ()
 {
-  [ ! -s "$temp_logfile" ] || {
-    warnings[n_warns++]=$n_cmds
-    sed 's/^/  /' "$temp_logfile"
-    printf '%s\n\n' "Exit code: $1"
-  }
+  purge_logs
+  ((n_warns != 0 && warnings[-1] == n_cmds)) && printf '%s\n\n' "Exit code: $1"
 
   (($1 == 0)) || {
     errors[n_errs++]=$n_cmds
-    [ -s "$temp_logfile" ] || printf '%s\n\n' "Exit code: $1"
+    ((n_warns != 0 && warnings[-1] == n_cmds)) || printf '%s\n\n' "Exit code: $1"
   }
 }

@@ -988,7 +988,7 @@ mousepad_application_command_line (GApplication            *gapplication,
       data = g_ptr_array_free (files, FALSE);
 
       /* open the files */
-      mousepad_application_open (gapplication, (GFile **) data, n_files, NULL);
+      g_application_open (gapplication, (GFile **) data, n_files, NULL);
 
       /* cleanup */
       for (n = 0; n < n_files; n++)
@@ -996,7 +996,7 @@ mousepad_application_command_line (GApplication            *gapplication,
       g_free (data);
     }
   else
-    mousepad_application_activate (gapplication);
+    g_application_activate (gapplication);
 
   /* cleanup */
   g_free (filenames);
