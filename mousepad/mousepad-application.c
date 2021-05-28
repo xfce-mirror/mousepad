@@ -988,7 +988,7 @@ mousepad_application_command_line (GApplication            *gapplication,
       data = g_ptr_array_free (files, FALSE);
 
       /* open the files */
-      mousepad_application_open (gapplication, (GFile **) data, n_files, NULL);
+      g_application_open (gapplication, (GFile **) data, n_files, NULL);
 
       /* cleanup */
       for (n = 0; n < n_files; n++)
@@ -996,7 +996,7 @@ mousepad_application_command_line (GApplication            *gapplication,
       g_free (data);
     }
   else
-    mousepad_application_activate (gapplication);
+    g_application_activate (gapplication);
 
   /* cleanup */
   g_free (filenames);
@@ -1527,6 +1527,33 @@ mousepad_application_prefs_dialog_response (MousepadApplication *application,
 
 
 
+static GVariant *
+handle_get_property (GDBusConnection  *connection,
+                     const gchar      *sender,
+                     const gchar      *object_path,
+                     const gchar      *interface_name,
+                     const gchar      *property_name,
+                     GError          **error,
+                     gpointer          user_data)
+{
+  GVariant *ret;
+
+  ret = NULL;
+  if (g_strcmp0 (property_name, "visible") == 0)
+    {
+      ret = g_variant_new_boolean (gtk_widget_get_visible (user_data));
+    }
+
+  return ret;
+}
+
+static void
+forward_signal (GtkWidget *widget)
+{
+  g_dbus_connection_emit_signal (g_application_get_dbus_connection (g_application_get_default ()), NULL, "/org/xfce/mousepad/plugins", "org.freedesktop.DBus.Properties", "PropertiesChanged", g_variant_new_parsed ("('org.xfce.test_plugin', {'visible': <%b>}, @as [])", gtk_widget_get_visible (widget)), NULL);
+  //g_dbus_connection_call_sync (g_application_get_dbus_connection (g_application_get_default ()), NULL, "/org/xfce/mousepad/plugins", "org.freedesktop.DBus.Properties", "Get", g_variant_new_parsed ("('org.xfce.test_plugin', 'visible')"), NULL, G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL);
+}
+
 static void
 mousepad_application_action_preferences (GSimpleAction *action,
                                          GVariant      *value,
@@ -1548,6 +1575,27 @@ mousepad_application_action_preferences (GSimpleAction *action,
   /* associate it with the active window, if any */
   gtk_window_set_transient_for (GTK_WINDOW (application->prefs_dialog),
                                 gtk_application_get_active_window (data));
+
+  if (0)
+    {
+      const gchar introspection_xml[] =
+        "<node>"
+        "  <interface name='org.xfce.test_plugin'>"
+        "    <property type='b' name='visible' access='read'/>"
+        "  </interface>"
+        "</node>";
+      GDBusNodeInfo *introspection_data = g_dbus_node_info_new_for_xml (introspection_xml, NULL);
+      const GDBusInterfaceVTable interface_vtable =
+      {
+        NULL,
+        handle_get_property,
+        NULL,
+        { 0 }
+      };
+
+      g_dbus_connection_register_object (g_application_get_dbus_connection (data), "/org/xfce/mousepad/plugins", introspection_data->interfaces[0], &interface_vtable, application->prefs_dialog, NULL, NULL);
+      g_signal_connect (application->prefs_dialog, "notify::visible", G_CALLBACK (forward_signal), NULL);
+    }
 
   /* show it to the user */
   gtk_window_present (GTK_WINDOW (application->prefs_dialog));
