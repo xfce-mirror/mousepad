@@ -126,6 +126,7 @@ dnl *************************
 dnl *** Check for plugins ***
 dnl *************************
 MOUSEPAD_PLUGIN_GSPELL()
+MOUSEPAD_PLUGIN_TEST()
 
 dnl ***********************************
 dnl *** Check for debugging support ***
@@ -155,6 +156,7 @@ Makefile
 mousepad/Makefile
 plugins/Makefile
 plugins/gspell-plugin/Makefile
+plugins/test-plugin/Makefile
 po/Makefile.in
 icons/Makefile
 icons/16x16/Makefile
@@ -177,4 +179,5 @@ echo
 echo "Plugins:"
 echo
 echo "* gspell:                     $ac_mousepad_plugin_gspell"
+echo "* test:                       $ac_mousepad_plugin_test"
 echo
