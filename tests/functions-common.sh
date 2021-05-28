@@ -61,6 +61,10 @@ cleanup ()
   for f in "${tempfiles[@]}"; do
     [ -f "$f" ] && rm "$f"
   done
+
+  [ -f "$temp_logfile" ] && rm "$temp_logfile"
+
+  [ "$(ps -o comm --no-headers $gdbus_pid)" = 'gdbus' ] && kill $gdbus_pid
 }
 
 abort ()
@@ -94,81 +98,67 @@ abort ()
 
 filter ()
 {
-  if [ -z "$ignored" ]; then
+  if [ -z "${ignored[*]}" ]; then
     cat
   else
     grep -E -v "${ignored[@]}"
   fi
 }
 
-purge_logs ()
-{
-  [ -s "$1" ] && {
-    warnings[n_warns++]=$n_cmds
-    sed 's/^/  /' <"$1"
-    : >"$1"
-  }
-}
-
 
 
 #
-# Functions common only to test functions: they can modify local variables of these test
-# functions in addition to their own local variables
+# Functions common only to test functions: they can (but should not) modify local variables
+# of these test functions in addition to their own local variables
 #
 log_and_run_mousepad ()
 {
-  local out
-
   ((n_cmds++))
+  echo "Command $n_cmds: $mousepad $*" | duperr
+
   if [ "$1" = '--quit' ]; then
-    echo "Command $n_cmds: $mousepad --quit" | duperr
-    $timeout pwait -x mousepad 2>&1 &
-    pid=$!
-    $timeout "$mousepad" --quit 2>&1 &
+    "$mousepad" --quit 2> >(filter) 1>/dev/null &
+    $timeout pwait -x mousepad 2>&1
   else
-    out=$1
-    shift
-    echo "Command $n_cmds: $mousepad $*" | duperr
-    "$mousepad" "$@" 2> >(filter >"$out") 1>/dev/null &
-    pid=$!
+    "$mousepad" "$@" 2> >(filter >"$temp_logfile") 1>/dev/null &
   fi
 }
 
-wait_and_term_mousepad ()
+kill_mousepad ()
 {
-  $timeout pwait -x mousepad 2>&1 &
-  pid=$!
-  pkill -x mousepad &
+  local pid
+
+  # use a subshell to disable kill builtin only locally
+  if pid=$(pgrep -x mousepad); then
+    (
+      enable -n kill
+      kill --timeout 5000 KILL -- $pid
+    )
+    return 1
+  else
+    return 0
+  fi
 }
 
-wait_and_kill_mousepad ()
+purge_logs ()
 {
-  local -i r pid=$1
-
-  wait $pid
-  r=$?
-  ((r >= 124)) && {
-    $timeout pwait -x mousepad 2>&1 &
-    pid=$!
-    pkill -9 -x mousepad &
-    wait $pid
-    r=$?
+  [ ! -s "$temp_logfile" ] || {
+    warnings[n_warns++]=$n_cmds
+    sed 's/^/  /' "$temp_logfile"
+    : >"$temp_logfile"
   }
-
-  return $r
 }
 
 log_results ()
 {
-  [ -s "$1" ] && {
+  [ ! -s "$temp_logfile" ] || {
     warnings[n_warns++]=$n_cmds
-    sed 's/^/  /' <"$1"
-    printf '%s\n\n' "Exit code: $2"
+    sed 's/^/  /' "$temp_logfile"
+    printf '%s\n\n' "Exit code: $1"
   }
 
-  (($2 != 0)) && {
+  (($1 == 0)) || {
     errors[n_errs++]=$n_cmds
-    [ ! -s "$1" ] && printf '%s\n\n' "Exit code: $2"
+    [ -s "$temp_logfile" ] || printf '%s\n\n' "Exit code: $1"
   }
 }
