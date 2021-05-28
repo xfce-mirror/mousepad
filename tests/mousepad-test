@@ -157,6 +157,7 @@ which "$mousepad" &>/dev/null || {
   printerr 'error' "Command not found '$mousepad'"
   exit 1
 }
+mousepad=$(realpath "$(which "$mousepad")")
 
 logfile=${logfile:-"$PWD/$script_name.log"}
 logdir=$(dirname "$logfile")
