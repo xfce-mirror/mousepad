@@ -94,7 +94,7 @@ abort ()
 
 filter ()
 {
-  if [ -z "$ignored" ]; then
+  if [ -z "${ignored[*]}" ]; then
     cat
   else
     grep -E -v "${ignored[@]}"
@@ -113,8 +113,8 @@ purge_logs ()
 
 
 #
-# Functions common only to test functions: they can modify local variables of these test
-# functions in addition to their own local variables
+# Functions common only to test functions: they can (but should not) modify local variables
+# of these test functions in addition to their own local variables
 #
 log_and_run_mousepad ()
 {
@@ -123,40 +123,30 @@ log_and_run_mousepad ()
   ((n_cmds++))
   if [ "$1" = '--quit' ]; then
     echo "Command $n_cmds: $mousepad --quit" | duperr
-    $timeout pwait -x mousepad 2>&1 &
-    pid=$!
-    $timeout "$mousepad" --quit 2>&1 &
+    "$mousepad" --quit 2> >(filter) 1>/dev/null &
+    $timeout pwait -x mousepad 2>&1
   else
     out=$1
     shift
     echo "Command $n_cmds: $mousepad $*" | duperr
     "$mousepad" "$@" 2> >(filter >"$out") 1>/dev/null &
-    pid=$!
   fi
 }
 
-wait_and_term_mousepad ()
+kill_mousepad ()
 {
-  $timeout pwait -x mousepad 2>&1 &
-  pid=$!
-  pkill -x mousepad &
-}
+  local pid
 
-wait_and_kill_mousepad ()
-{
-  local -i r pid=$1
-
-  wait $pid
-  r=$?
-  ((r >= 124)) && {
-    $timeout pwait -x mousepad 2>&1 &
-    pid=$!
-    pkill -9 -x mousepad &
-    wait $pid
-    r=$?
-  }
-
-  return $r
+  # use a subshell to disable kill builtin only locally
+  if pid=$(pgrep -x mousepad); then
+    (
+      enable -n kill
+      kill --timeout 5000 KILL -- $pid
+    )
+    return 1
+  else
+    return 0
+  fi
 }
 
 log_results ()

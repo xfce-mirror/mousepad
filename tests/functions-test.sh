@@ -49,36 +49,33 @@ test_non_gui ()
 test_simple_gui ()
 {
   local    out
-  local -i r pid id
+  local -i r=0 pid id
 
   # exit if ever the previous mousepad instance didn't terminate
   [ -n "$(pgrep -x mousepad)" ] && abort 'running'
 
   # log and run the mousepad command
   out=$(mktemp) || abort 'file'
-  log_and_run_mousepad "$out" "$@"
+  log_and_run_mousepad "$out" "$@" || r=$?
+  pid=$!
 
   # wait for the window to appear on screen, meaning mousepad is idle
   id=$($timeout xdotool search --sync --onlyvisible --pid $pid | head -1) 2>&1
 
   # quit as gracefully as possible, testing `mousepad --quit` in various contexts by the way
-  if ((id != 0)); then
+  ((id != 0)) && {
     if [[ $* != *--disable-server* ]]; then
       # purge the logs and run the quit command
       purge_logs "$out"
-      log_and_run_mousepad --quit
+      log_and_run_mousepad --quit || r=$?
     else
-      $timeout pwait -x mousepad 2>&1 &
-      pid=$!
       wmctrl -i -c $id &
+      $timeout pwait -x mousepad 2>&1
     fi
-  else
-    wait_and_term_mousepad
-  fi
+  }
 
   # send KILL signal if needed
-  wait_and_kill_mousepad $pid
-  r=$?
+  kill_mousepad || r=$?
 
   # log results
   log_results "$out" "$r"
@@ -91,7 +88,7 @@ test_gsettings ()
 {
   local    out bak schema key value
   local -a schemas keys values
-  local -i r pid id n
+  local -i r=0 pid id n
 
   # exit if ever the previous mousepad instance didn't terminate
   [ -n "$(pgrep -x mousepad)" ] && abort 'running'
@@ -111,13 +108,14 @@ test_gsettings ()
 
   # log and run the mousepad command
   out=$(mktemp) || abort 'file'
-  log_and_run_mousepad "$out" "$@"
+  log_and_run_mousepad "$out" "$@" || r=$?
+  pid=$!
 
   # wait for the window to appear on screen, meaning mousepad is idle
   id=$($timeout xdotool search --sync --onlyvisible --pid $pid | head -1) 2>&1
 
   # a working mousepad is a prerequisite here
-  if ((id != 0)); then
+  ((id != 0)) && {
     for n in ${!schemas[*]}; do
       # purge the logs and run the gsettings command
       purge_logs "$out"
@@ -131,14 +129,11 @@ test_gsettings ()
 
     # purge the logs and run the quit command
     purge_logs "$out"
-    log_and_run_mousepad --quit
-  else
-    wait_and_term_mousepad
-  fi
+    log_and_run_mousepad --quit || r=$?
+  }
 
   # send KILL signal if needed
-  wait_and_kill_mousepad $pid
-  r=$?
+  kill_mousepad || r=$?
 
   # restore the settings
   for n in ${!schemas[*]}; do
@@ -173,7 +168,7 @@ test_actions ()
 {
   local    out type=$1 included excluded extrawins action param
   local -a cmd prereqs postprocs param_actions actions
-  local -i r pid main_id id m=0 n
+  local -i r=0 pid main_id id m=0 n
 
   # exit if ever the previous mousepad instance didn't terminate
   [ -n "$(pgrep -x mousepad)" ] && abort 'running'
@@ -181,13 +176,14 @@ test_actions ()
   # log and run the mousepad command
   shift
   out=$(mktemp) || abort 'file'
-  log_and_run_mousepad "$out" "$@"
+  log_and_run_mousepad "$out" "$@" || r=$?
+  pid=$!
 
   # wait for the window to appear on screen, meaning mousepad is idle
   main_id=$($timeout xdotool search --sync --onlyvisible --pid $pid | head -1) 2>&1
 
   # a working mousepad is a prerequisite here
-  if ((main_id != 0)); then
+  ((main_id != 0)) && {
     case $type in
     '--off-menu')
       included='font-size'
@@ -286,10 +282,7 @@ test_actions ()
 
       echo "Command $n_cmds: gdbus call ... $action \"[$param]\" '{}'" | duperr
       gdbus call --session --dest org.xfce.mousepad --object-path /org/xfce/mousepad/window/1 \
-        --method org.gtk.Actions.Activate "$action" "[$param]" '{}' >/dev/null &
-
-      # wait for the end of the action when possible
-      timeout 3 pwait -x gdbus
+        --method org.gtk.Actions.Activate --timeout 3 "$action" "[$param]" '{}' &>/dev/null
 
       # when needed, wait for the new window (main or dialog) to appear on screen and close it
       [[ $action =~ $extrawins ]] && {
@@ -308,14 +301,11 @@ test_actions ()
 
     # purge the logs and run the quit command
     purge_logs "$out"
-    log_and_run_mousepad --quit
-  else
-    wait_and_term_mousepad
-  fi
+    log_and_run_mousepad --quit || r=$?
+  }
 
   # send KILL signal if needed
-  wait_and_kill_mousepad $pid
-  r=$?
+  kill_mousepad || r=$?
 
   # log results
   log_results "$out" "$r"
