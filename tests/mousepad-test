@@ -69,7 +69,7 @@ create_tempfiles ()
 declare -r timeout='timeout -v -k 5 -- 10' script_name=${0##*/}
 declare -a ignored warnings errors tempfiles
 declare -i quiet=0 n_warns=0 n_errs=0 n_cmds=0
-declare    mousepad logfile logdir sections
+declare    mousepad logfile logdir temp_logfile sections
 
 # Option parsing
 temp=$(getopt -o 'hqc:l:s:i:' \
@@ -191,11 +191,15 @@ which wmctrl &>/dev/null || {
   [[ $REPLY != [yY] ]] && exit 0 || echo
 }
 
-# Set some global constants
-readonly quiet mousepad logfile logdir sections ignored
-
 # From now on we write by default in the logfile
 exec 1>"$logfile"
+
+# Try to be clean in case of a problem
+trap 'abort "INT signal received"' INT
+trap 'abort "Undetermined error"' ERR
+
+# Set some global constants
+readonly quiet mousepad logfile logdir sections ignored
 
 
 

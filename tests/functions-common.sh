@@ -61,6 +61,8 @@ cleanup ()
   for f in "${tempfiles[@]}"; do
     [ -f "$f" ] && rm "$f"
   done
+
+  [ ! -f "$temp_logfile" ] || rm "$temp_logfile"
 }
 
 abort ()
@@ -101,15 +103,6 @@ filter ()
   fi
 }
 
-purge_logs ()
-{
-  [ -s "$1" ] && {
-    warnings[n_warns++]=$n_cmds
-    sed 's/^/  /' <"$1"
-    : >"$1"
-  }
-}
-
 
 
 #
@@ -118,18 +111,14 @@ purge_logs ()
 #
 log_and_run_mousepad ()
 {
-  local out
-
   ((n_cmds++))
+  echo "Command $n_cmds: $mousepad $*" | duperr
+
   if [ "$1" = '--quit' ]; then
-    echo "Command $n_cmds: $mousepad --quit" | duperr
     "$mousepad" --quit 2> >(filter) 1>/dev/null &
     $timeout pwait -x mousepad 2>&1
   else
-    out=$1
-    shift
-    echo "Command $n_cmds: $mousepad $*" | duperr
-    "$mousepad" "$@" 2> >(filter >"$out") 1>/dev/null &
+    "$mousepad" "$@" 2> >(filter >"$temp_logfile") 1>/dev/null &
   fi
 }
 
@@ -149,16 +138,25 @@ kill_mousepad ()
   fi
 }
 
+purge_logs ()
+{
+  [ ! -s "$temp_logfile" ] || {
+    warnings[n_warns++]=$n_cmds
+    sed 's/^/  /' "$temp_logfile"
+    : >"$temp_logfile"
+  }
+}
+
 log_results ()
 {
-  [ -s "$1" ] && {
+  [ ! -s "$temp_logfile" ] || {
     warnings[n_warns++]=$n_cmds
-    sed 's/^/  /' <"$1"
-    printf '%s\n\n' "Exit code: $2"
+    sed 's/^/  /' "$temp_logfile"
+    printf '%s\n\n' "Exit code: $1"
   }
 
-  (($2 != 0)) && {
+  (($1 == 0)) || {
     errors[n_errs++]=$n_cmds
-    [ ! -s "$1" ] && printf '%s\n\n' "Exit code: $2"
+    [ -s "$temp_logfile" ] || printf '%s\n\n' "Exit code: $1"
   }
 }

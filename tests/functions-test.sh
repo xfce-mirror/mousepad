@@ -34,29 +34,28 @@ test_non_gui ()
   r=$?
 
   # log results
-  [ -n "$out" ] && {
+  [ -z "$out" ] || {
     warnings[n_warns++]=$n_cmds
     sed 's/^/  /' <<<"$out"
     printf '%s\n\n' "Exit code: $r"
   }
 
-  ((r != 0)) && {
+  ((r == 0)) || {
     errors[n_errs++]=$n_cmds
-    [ -z "$out" ] && printf '%s\n\n' "Exit code: $r"
+    [ -n "$out" ] || printf '%s\n\n' "Exit code: $r"
   }
 }
 
 test_simple_gui ()
 {
-  local    out
   local -i r=0 pid id
 
   # exit if ever the previous mousepad instance didn't terminate
   [ -n "$(pgrep -x mousepad)" ] && abort 'running'
 
   # log and run the mousepad command
-  out=$(mktemp) || abort 'file'
-  log_and_run_mousepad "$out" "$@" || r=$?
+  temp_logfile=$(mktemp) || abort 'file'
+  log_and_run_mousepad "$@" || r=$?
   pid=$!
 
   # wait for the window to appear on screen, meaning mousepad is idle
@@ -66,7 +65,7 @@ test_simple_gui ()
   ((id != 0)) && {
     if [[ $* != *--disable-server* ]]; then
       # purge the logs and run the quit command
-      purge_logs "$out"
+      purge_logs
       log_and_run_mousepad --quit || r=$?
     else
       wmctrl -i -c $id &
@@ -78,15 +77,15 @@ test_simple_gui ()
   kill_mousepad || r=$?
 
   # log results
-  log_results "$out" "$r"
+  log_results "$r"
 
   # cleanup
-  rm "$out"
+  rm "$temp_logfile"
 }
 
 test_gsettings ()
 {
-  local    out bak schema key value
+  local    bak schema key value
   local -a schemas keys values
   local -i r=0 pid id n
 
@@ -107,8 +106,8 @@ test_gsettings ()
   done <"$bak"
 
   # log and run the mousepad command
-  out=$(mktemp) || abort 'file'
-  log_and_run_mousepad "$out" "$@" || r=$?
+  temp_logfile=$(mktemp) || abort 'file'
+  log_and_run_mousepad "$@" || r=$?
   pid=$!
 
   # wait for the window to appear on screen, meaning mousepad is idle
@@ -118,7 +117,7 @@ test_gsettings ()
   ((id != 0)) && {
     for n in ${!schemas[*]}; do
       # purge the logs and run the gsettings command
-      purge_logs "$out"
+      purge_logs
       ((n_cmds++))
       echo "Command $n_cmds: gsettings reset ${schemas[n]} ${keys[n]}" | duperr
       gsettings reset "${schemas[n]}" "${keys[n]}"
@@ -128,7 +127,7 @@ test_gsettings ()
     done
 
     # purge the logs and run the quit command
-    purge_logs "$out"
+    purge_logs
     log_and_run_mousepad --quit || r=$?
   }
 
@@ -141,10 +140,10 @@ test_gsettings ()
   done
 
   # log results
-  log_results "$out" "$r"
+  log_results "$r"
 
   # cleanup
-  rm "$out" "$bak"
+  rm "$temp_logfile" "$bak"
 }
 
 # About the string variables 'included' 'excluded' and 'extrawins', and the array variables
@@ -166,7 +165,7 @@ test_gsettings ()
 #     pre-sorted (they are browsed only once).
 test_actions ()
 {
-  local    out type=$1 included excluded extrawins action param
+  local    type=$1 included excluded extrawins action param
   local -a cmd prereqs postprocs param_actions actions
   local -i r=0 pid main_id id m=0 n
 
@@ -175,8 +174,8 @@ test_actions ()
 
   # log and run the mousepad command
   shift
-  out=$(mktemp) || abort 'file'
-  log_and_run_mousepad "$out" "$@" || r=$?
+  temp_logfile=$(mktemp) || abort 'file'
+  log_and_run_mousepad "$@" || r=$?
   pid=$!
 
   # wait for the window to appear on screen, meaning mousepad is idle
@@ -272,7 +271,7 @@ test_actions ()
 
     for action in "${actions[@]}"; do
       # purge the logs and run the gdbus command
-      purge_logs "$out"
+      purge_logs
       ((n_cmds++))
       param=''
       [ "${param_actions[m]}" = "$action" ] && {
@@ -300,7 +299,7 @@ test_actions ()
     done
 
     # purge the logs and run the quit command
-    purge_logs "$out"
+    purge_logs
     log_and_run_mousepad --quit || r=$?
   }
 
@@ -308,8 +307,8 @@ test_actions ()
   kill_mousepad || r=$?
 
   # log results
-  log_results "$out" "$r"
+  log_results "$r"
 
   # cleanup
-  rm "$out"
+  rm "$temp_logfile"
 }
