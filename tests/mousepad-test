@@ -172,16 +172,6 @@ logdir=$(dirname "$logfile")
   exit 1
 }
 
-which xdotool &>/dev/null || {
-  printerr 'error' 'xdotool is required but does not seem to be installed'
-  exit 1
-}
-
-which wmctrl &>/dev/null || {
-  printerr 'error' 'wmctrl is required but does not seem to be installed'
-  exit 1
-}
-
 [ -n "$(pgrep -x mousepad)" ] && {
   printerr 'error' 'Mousepad is running, all Mousepad instances should be terminated before running this script'
   exit 1
