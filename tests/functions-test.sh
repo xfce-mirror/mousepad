@@ -34,64 +34,56 @@ test_non_gui ()
   r=$?
 
   # log results
-  [ -n "$out" ] && {
+  [ -z "$out" ] || {
     warnings[n_warns++]=$n_cmds
     sed 's/^/  /' <<<"$out"
     printf '%s\n\n' "Exit code: $r"
   }
 
-  ((r != 0)) && {
+  ((r == 0)) || {
     errors[n_errs++]=$n_cmds
-    [ -z "$out" ] && printf '%s\n\n' "Exit code: $r"
+    [ -n "$out" ] || printf '%s\n\n' "Exit code: $r"
   }
 }
 
 test_simple_gui ()
 {
-  local    out
-  local -i r pid id
+  local -i r=0
 
   # exit if ever the previous mousepad instance didn't terminate
   [ -n "$(pgrep -x mousepad)" ] && abort 'running'
 
   # log and run the mousepad command
-  out=$(mktemp) || abort 'file'
-  log_and_run_mousepad "$out" "$@"
+  temp_logfile=$(mktemp) || abort 'file'
+  log_and_run_mousepad "$@" || r=$?
 
-  # wait for the window to appear on screen, meaning mousepad is idle
-  id=$($timeout xdotool search --sync --onlyvisible --pid $pid | head -1) 2>&1
-
-  # quit as gracefully as possible, testing `mousepad --quit` in various contexts by the way
-  if ((id != 0)); then
-    if [[ $* != *--disable-server* ]]; then
+  # try to quit gracefully, testing `mousepad --quit` in various contexts by the way
+  ((r == 0)) && {
+    if [[ $* == *--disable-server* ]]; then
+      # wait for the test plugin to run the quit command internally
+      $timeout pwait -x mousepad 2>&1
+    elif $timeout grep -q -x -F "$idle" 2>&1; then
       # purge the logs and run the quit command
-      purge_logs "$out"
-      log_and_run_mousepad --quit
-    else
-      $timeout pwait -x mousepad 2>&1 &
-      pid=$!
-      wmctrl -i -c $id &
+      purge_logs
+      log_and_run_mousepad --quit || r=$?
     fi
-  else
-    wait_and_term_mousepad
-  fi
+  }
 
   # send KILL signal if needed
-  wait_and_kill_mousepad $pid
-  r=$?
+  kill_mousepad || r=$?
 
   # log results
-  log_results "$out" "$r"
+  log_results "$r"
 
   # cleanup
-  rm "$out"
+  rm "$temp_logfile"
 }
 
 test_gsettings ()
 {
-  local    out bak schema key value
+  local    bak schema key value
   local -a schemas keys values
-  local -i r pid id n
+  local -i r=0 n
 
   # exit if ever the previous mousepad instance didn't terminate
   [ -n "$(pgrep -x mousepad)" ] && abort 'running'
@@ -110,17 +102,14 @@ test_gsettings ()
   done <"$bak"
 
   # log and run the mousepad command
-  out=$(mktemp) || abort 'file'
-  log_and_run_mousepad "$out" "$@"
-
-  # wait for the window to appear on screen, meaning mousepad is idle
-  id=$($timeout xdotool search --sync --onlyvisible --pid $pid | head -1) 2>&1
+  temp_logfile=$(mktemp) || abort 'file'
+  log_and_run_mousepad "$@" || r=$?
 
   # a working mousepad is a prerequisite here
-  if ((id != 0)); then
+  ((r == 0)) && $timeout grep -q -x -F "$idle" 2>&1 && {
     for n in ${!schemas[*]}; do
       # purge the logs and run the gsettings command
-      purge_logs "$out"
+      purge_logs
       ((n_cmds++))
       echo "Command $n_cmds: gsettings reset ${schemas[n]} ${keys[n]}" | duperr
       gsettings reset "${schemas[n]}" "${keys[n]}"
@@ -130,15 +119,12 @@ test_gsettings ()
     done
 
     # purge the logs and run the quit command
-    purge_logs "$out"
-    log_and_run_mousepad --quit
-  else
-    wait_and_term_mousepad
-  fi
+    purge_logs
+    log_and_run_mousepad --quit || r=$?
+  }
 
   # send KILL signal if needed
-  wait_and_kill_mousepad $pid
-  r=$?
+  kill_mousepad || r=$?
 
   # restore the settings
   for n in ${!schemas[*]}; do
@@ -146,180 +132,48 @@ test_gsettings ()
   done
 
   # log results
-  log_results "$out" "$r"
+  log_results "$r"
 
   # cleanup
-  rm "$out" "$bak"
+  rm "$temp_logfile" "$bak"
 }
 
-# About the string variables 'included' 'excluded' and 'extrawins', and the array variables
-# 'prereqs' 'postprocs' and 'param_actions' below:
-# * 'included' and 'excluded' are ERE passed to awk to filter the action list provided by gdbus,
-#   so remember to double-escape characters when needed, e.g. '\\.' for a litteral dot.
-# * 'extrawins' is an ERE passed to bash to know which actions generate an extra window to be
-#   closed, so do not double-escape characters here, e.g. '\.' for a litteral dot.
-# * 'prereqs' and 'postprocs' are pairs (action - prerequisites/postprocesses), where:
-#   * 'action' is an action name
-#   * 'prerequisites/postprocesses' are sequences of actions separated by '\n', to be run
-#     before/after the above action during the test process.
-#   Example: prereqs=('edit.paste' 'edit.select-all\nedit.copy')
-# * 'param_actions' are pairs (action - param), where:
-#   * 'action' is an action name
-#   * 'param' is the parameter to pass to the above action (typically for radio actions)
-#   Example: 'document.filetype' "<'sh'>"
-# NB: actions are sorted at the output of `gdbus | awk`, so the above array variables must be
-#     pre-sorted (they are browsed only once).
 test_actions ()
 {
-  local    out type=$1 included excluded extrawins action param
-  local -a cmd prereqs postprocs param_actions actions
-  local -i r pid main_id id m=0 n
+  local    type=$1
+  local -a cmd
+  local -i r=0
 
   # exit if ever the previous mousepad instance didn't terminate
   [ -n "$(pgrep -x mousepad)" ] && abort 'running'
 
+  # check action type
+  [[ $type == --@(off-menu|file|edit|search|view|document|help) ]] \
+    || abort "${FUNCNAME[0]}(): Wrong argument '$type'"
+
   # log and run the mousepad command
   shift
-  out=$(mktemp) || abort 'file'
-  log_and_run_mousepad "$out" "$@"
-
-  # wait for the window to appear on screen, meaning mousepad is idle
-  main_id=$($timeout xdotool search --sync --onlyvisible --pid $pid | head -1) 2>&1
+  temp_logfile=$(mktemp) || abort 'file'
+  log_and_run_mousepad "$@" || r=$?
 
   # a working mousepad is a prerequisite here
-  if ((main_id != 0)); then
-    case $type in
-    '--off-menu')
-      included='font-size'
-      excluded='^[^.]+\\.'
-      extrawins='$^'
-    ;;
-    '--file')
-      included='^file\\.'
-      excluded='\\.(new-from-template\\.new|open-recent\\.new|close-window)$'
-      extrawins='\.(open|open-recent\.clear-history|save-as|print|new-window|detach-tab)$'
-      prereqs=('file.close-tab' 'file.new' 'file.detach-tab' 'file.new')
-      postprocs=('file.new' 'file.close-tab')
-    ;;
-    '--edit')
-      included='^edit\\.'
-      excluded='\\.(paste-from-history|select-all|undo)$'
-      prereqs=(
-        'edit.copy' 'edit.select-all' 'edit.cut' 'edit.select-all'
-        'edit.paste' 'edit.select-all\nedit.copy'
-        'edit.paste-special.paste-as-column' 'edit.select-all\nedit.copy' 'edit.redo' 'edit.undo'
-      )
-      postprocs=(
-        'edit.convert.spaces-to-tabs' 'edit.undo' 'edit.convert.tabs-to-spaces' 'edit.undo'
-        'edit.cut' 'edit.undo' 'edit.delete-selection' 'edit.undo' 'edit.redo' 'file.save'
-      )
-      extrawins='$^'
-
-      # we need the view to be focused for some actions, but don't abort if that fails
-      xdotool windowfocus $main_id 2>&1
-    ;;
-    '--search')
-      included='^search\\.'
-      excluded='$^'
-      extrawins='\.(find-and-replace|go-to)$'
-    ;;
-    '--view')
-      included='^view\\.|bar-visible$'
-      excluded='$^'
-      postprocs=(
-        'preferences.window.menubar-visible' 'preferences.window.menubar-visible'
-        'preferences.window.statusbar-visible' 'preferences.window.statusbar-visible'
-        'preferences.window.toolbar-visible' 'preferences.window.toolbar-visible'
-        'view.fullscreen' 'view.fullscreen'
-      )
-      extrawins='\.select-font$'
-    ;;
-    '--document')
-      included='^document'
-      excluded='$^'
-      prereqs=('document' 'file.new')
-      postprocs=(
-        'document.go-to-tab' 'document.go-to-tab'
-        'document.viewer-mode' 'document.viewer-mode'
-        'document.write-unicode-bom' 'document.write-unicode-bom\nfile.save'
-      )
-      extrawins='\.tab\.tab-size$'
-      param_actions=(
-        'document.filetype' "<'sh'>" 'document.go-to-tab' '<1>' 'document.go-to-tab' '<0>'
-        'document.line-ending' '<1>' 'document.tab.tab-size' '<0>'
-      )
-    ;;
-    '--help')
-      included='^help\\.'
-      excluded='\\.contents$'
-      extrawins='\.about$'
-    ;;
-    *)
-      # try to quit gracefully and abort
-      "$mousepad" --quit
-      abort "${FUNCNAME[0]}(): Wrong argument '$type'"
-    ;;
-    esac
-
-    # filter action list
-    mapfile -t actions < <(
-      gdbus call --session --dest org.xfce.mousepad --object-path /org/xfce/mousepad/window/1 \
-      --method org.gtk.Actions.List | sed "s/(\['\|'\],)//g; s/', '/\n/g" | sort \
-      | awk -v inc="$included" -v exc="$excluded" -v _pre="${prereqs[*]}" -v _post="${postprocs[*]}" '
-        BEGIN { split (_pre, pre, "[ ]"); split (_post, post, "[ ]"); m = n = 1 }
-        ($0 ~ inc && $0 !~ exc) {
-          if ($0 == pre[m]) { print pre[++m]; m++ }
-          print
-          if ($0 == post[n]) { print post[++n]; n++ }
-        }'
-    )
-
-    for action in "${actions[@]}"; do
-      # purge the logs and run the gdbus command
-      purge_logs "$out"
-      ((n_cmds++))
-      param=''
-      [ "${param_actions[m]}" = "$action" ] && {
-        param=${param_actions[++m]}
-        ((m++))
-      }
-
-      echo "Command $n_cmds: gdbus call ... $action \"[$param]\" '{}'" | duperr
-      gdbus call --session --dest org.xfce.mousepad --object-path /org/xfce/mousepad/window/1 \
-        --method org.gtk.Actions.Activate "$action" "[$param]" '{}' >/dev/null &
-
-      # wait for the end of the action when possible
-      timeout 3 pwait -x gdbus
-
-      # when needed, wait for the new window (main or dialog) to appear on screen and close it
-      [[ $action =~ $extrawins ]] && {
-        for ((n = 1; ; n++)); do
-          id=$(xdotool search --sync --onlyvisible --pid $pid 2>/dev/null | tail -1)
-          ((id != main_id && id != 0)) && {
-            wmctrl -i -c $id
-            break
-          }
-
-          ((n == 10)) && abort "${FUNCNAME[0]}(): Waiting time exceeded"
-          sleep 1
-        done
-      }
-    done
+  ((r == 0)) && $timeout grep -q -x -F "$idle" 2>&1 && {
+    # run the set of actions
+    gdbus call --session --dest 'org.xfce.mousepad' --object-path '/org/xfce/mousepad' \
+      --method 'org.gtk.Actions.Activate' --timeout 60 \
+        'mousepad-test-plugin.window-actions' "[<'${type:2}'>]" '{}' >/dev/null
 
     # purge the logs and run the quit command
-    purge_logs "$out"
-    log_and_run_mousepad --quit
-  else
-    wait_and_term_mousepad
-  fi
+    purge_logs
+    log_and_run_mousepad --quit || r=$?
+  }
 
   # send KILL signal if needed
-  wait_and_kill_mousepad $pid
-  r=$?
+  kill_mousepad || r=$?
 
   # log results
-  log_results "$out" "$r"
+  log_results "$r"
 
   # cleanup
-  rm "$out"
+  rm "$temp_logfile"
 }
