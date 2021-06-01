@@ -61,8 +61,8 @@ test_simple_gui ()
   ((r == 0)) && {
     if [[ $* == *--disable-server* ]]; then
       # wait for the test plugin to run the quit command internally
-      $timeout pwait -x mousepad 2>&1
-    elif $timeout grep -q -x -F "$idle" 2>&1; then
+      $timeout pwait -x mousepad 2> >(indent)
+    elif $timeout grep -q -x -F "$idle" 2> >(indent); then
       # purge the logs and run the quit command
       purge_logs
       log_and_run_mousepad --quit || r=$?
@@ -106,7 +106,7 @@ test_gsettings ()
   log_and_run_mousepad "$@" || r=$?
 
   # a working mousepad is a prerequisite here
-  ((r == 0)) && $timeout grep -q -x -F "$idle" 2>&1 && {
+  ((r == 0)) && $timeout grep -q -x -F "$idle" 2> >(indent) && {
     for n in ${!schemas[*]}; do
       # purge the logs and run the gsettings command
       purge_logs
@@ -157,7 +157,7 @@ test_actions ()
   log_and_run_mousepad "$@" || r=$?
 
   # a working mousepad is a prerequisite here
-  ((r == 0)) && $timeout grep -q -x -F "$idle" 2>&1 && {
+  ((r == 0)) && $timeout grep -q -x -F "$idle" 2> >(indent) && {
     # run the set of actions
     gdbus call --session --dest 'org.xfce.mousepad' --object-path '/org/xfce/mousepad' \
       --method 'org.gtk.Actions.Activate' --timeout 60 \

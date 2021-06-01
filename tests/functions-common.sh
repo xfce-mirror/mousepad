@@ -105,6 +105,11 @@ filter ()
   fi
 }
 
+indent ()
+{
+  sed 's/^/  /'
+}
+
 
 
 #
@@ -117,8 +122,8 @@ log_and_run_mousepad ()
   echo "Command $n_cmds: $mousepad $*" | duperr
 
   if [ "$1" = '--quit' ]; then
-    "$mousepad" --quit 2> >(filter) 1>/dev/null &
-    $timeout pwait -x mousepad 2>&1
+    "$mousepad" --quit 2> >(filter | indent) 1>/dev/null &
+    $timeout pwait -x mousepad 2> >(indent)
   else
     "$mousepad" "$@" 2> >(filter >"$temp_logfile") 1>/dev/null &
   fi
