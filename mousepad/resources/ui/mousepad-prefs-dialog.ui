@@ -571,9 +571,16 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton">
-                    <property name="label" translatable="yes">Backspace: Delete indent spaces as tabs</property>
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.smart-backspace</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Backspace: Delete indent spaces as tabs</property>
+                        <property name="wrap">True</property>
+                        <property name="max-width-chars">40</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
