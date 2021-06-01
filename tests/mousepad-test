@@ -177,6 +177,31 @@ logdir=$(dirname "$logfile")
   exit 1
 }
 
+temp="$(dirname "$mousepad")/../lib/mousepad/plugins"
+if [ -d "$temp" ]; then
+  [ -f "$temp/libmousepad-plugin-test.so" ] || {
+    printerr 'error' 'The Mousepad test plugin is not available, be sure to build Mousepad with `--enable-plugin-test`'
+    exit 1
+  }
+else
+  printerr 'warning' 'Unable to find the Mousepad plugin directory: the test plugin might not be available'
+fi
+unset temp
+
+temp=$(gsettings get 'org.xfce.mousepad.state.application' 'enabled-plugins')
+[[ $temp == *"'mousepad-plugin-test'"* ]] || {
+  if [ "$temp" = '@as []' ]; then
+    gsettings set 'org.xfce.mousepad.state.application' 'enabled-plugins' \
+      "['mousepad-plugin-test']"
+  else
+    gsettings set 'org.xfce.mousepad.state.application' 'enabled-plugins' \
+      "[${temp//[\[\]]/}, 'mousepad-plugin-test']"
+  fi
+
+  printerr 'message' 'The Mousepad test plugin has been automatically enabled'
+}
+unset temp
+
 [ -z "$sections" ] && {
   read -s -n1 -p 'Are you sure you want to run all the test sections, this could take a while? ([y]es, [N]o) '
   echo $REPLY
