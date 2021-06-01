@@ -186,10 +186,29 @@ test_plugin_dialog_shown_timeout (gpointer instance)
 
 
 static void
-test_plugin_is_busy_changed (GApplication *gapplication)
+test_plugin_disable_monitoring (TestPlugin *plugin)
+{
+  GAction *action;
+
+  /* remove pending sources */
+  while (g_source_remove_by_user_data (application));
+
+  /* disconnect signal handlers */
+  g_signal_handlers_disconnect_by_data (application, plugin);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (application), "preferences");
+  g_signal_handlers_disconnect_by_data (action, NULL);
+}
+
+
+
+static void
+test_plugin_is_busy_changed (GApplication *gapplication,
+                             GParamSpec   *pspec,
+                             TestPlugin   *plugin)
 {
   if (! g_application_get_is_busy (gapplication))
-    while (g_source_remove_by_user_data (gapplication));
+    test_plugin_disable_monitoring (plugin);
 }
 
 
@@ -260,8 +279,7 @@ test_plugin_enable (MousepadPlugin *mplugin)
 static void
 test_plugin_disable (MousepadPlugin *mplugin)
 {
-  /* disconnect signal handlers */
-  g_signal_handlers_disconnect_by_data (application, mplugin);
+  test_plugin_disable_monitoring (TEST_PLUGIN (mplugin));
 }
 
 
