@@ -475,6 +475,10 @@ mousepad_file_set_language (MousepadFile *file)
 
   g_return_if_fail (file->location != NULL);
 
+  /* exit if the user has already set the filetype */
+  if (file->user_set_language)
+    return;
+
   gtk_text_buffer_get_start_iter (file->buffer, &start);
   end = start;
   gtk_text_iter_forward_chars (&end, 255);
@@ -915,10 +919,8 @@ mousepad_file_save (MousepadFile  *file,
       /* everything has been saved */
       gtk_text_buffer_set_modified (file->buffer, FALSE);
 
-      /* if the user hasn't set the filetype, try and re-guess it now
-       * that we have a new location to go by */
-      if (! file->user_set_language)
-        mousepad_file_set_language (file);
+      /* re-guess the filetype which could have changed */
+      mousepad_file_set_language (file);
 
       /* everything went file */
       succeed = TRUE;
