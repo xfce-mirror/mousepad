@@ -327,7 +327,7 @@ mousepad_file_get_path (MousepadFile *file)
 {
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), NULL);
 
-  return mousepad_util_get_path (file->location);
+  return g_file_peek_path (file->location);
 }
 
 
