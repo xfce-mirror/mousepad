@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-25 00:47+0200\n"
-"PO-Revision-Date: 2021-05-27 21:15+0000\n"
+"PO-Revision-Date: 2021-06-02 21:21+0000\n"
 "Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -177,7 +177,7 @@ msgstr "Kas sa soovid enne sulgemist salvestada muudatused?"
 
 #: ../mousepad/mousepad-dialogs.c:382
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "Sul on vaid õigus seda dokumenti lugeda. Kas sa sooviksid muudatusi salvestada uue failina?"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:390 ../mousepad/mousepad-dialogs.c:528
@@ -192,7 +192,7 @@ msgstr "Ära salvesta"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Kui sa ainult lugemisõigustega dokumenti teise faili ei salvesta, siis kõik muutused lähevad kaotsi."
 
 #: ../mousepad/mousepad-dialogs.c:407 ../mousepad/mousepad-dialogs.c:422
 #: ../mousepad/mousepad-dialogs.c:539
@@ -943,11 +943,11 @@ msgstr "Otsi sama teksti tagasisuunas"
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "Find As You _Type"
-msgstr ""
+msgstr "Otsi _trükkimise ajal"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Automaatselt vali otsingutulemus ja nihuta ka vaade samasse"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -1341,7 +1341,7 @@ msgstr "Muuda teksti välimust"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
-msgstr "Muuda tektsi välimust erinevatel viisidel"
+msgstr "Muuda teksti välimust erinevatel viisidel"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
@@ -1410,11 +1410,11 @@ msgstr "Transponeeri teksti ehk pööra järjekord vastupidiseks"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move"
-msgstr ""
+msgstr "_Liiguta sisu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Liiguta sisu uude kohta erineval moel"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1422,7 +1422,7 @@ msgstr "Rida üle_s"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Tõsta ridu ühe rea võrra üles"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
@@ -1430,23 +1430,23 @@ msgstr "Rida _alla"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Tõsta ridu ühe rea võrra alla"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
-msgstr ""
+msgstr "Sõna _vasakule"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr ""
+msgstr "Tõsta sõnu ühe sõna võrra vasakule"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
-msgstr ""
+msgstr "Sõna _paremale"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr ""
+msgstr "Tõsta sõnu ühe sõna võrra paremale"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1617,15 +1617,15 @@ msgstr "<b>Taandread</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr ""
+msgstr "(Shift-)Tab: (Emalda)Lisa taandread valitud tekstile"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: Kustuta taandrea tühikud tabulaatorisammude kaupa"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: Tuvasta alguses või lõpus asuvad tühikud:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
 msgid "<b>Smart Keys</b>"
