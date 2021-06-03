@@ -140,7 +140,7 @@ mousepad_document_class_init (MousepadDocumentClass *klass)
 
   document_signals[ENCODING_CHANGED] =
     g_signal_new (I_("encoding-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__ENUM, G_TYPE_NONE, 1, G_TYPE_INT);
+                  0, NULL, NULL, g_cclosure_marshal_VOID__INT, G_TYPE_NONE, 1, G_TYPE_INT);
 
   document_signals[LANGUAGE_CHANGED] =
     g_signal_new (I_("language-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,

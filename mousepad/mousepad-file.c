@@ -103,7 +103,7 @@ mousepad_file_class_init (MousepadFileClass *klass)
 
   file_signals[ENCODING_CHANGED] =
     g_signal_new (I_("encoding-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__ENUM, G_TYPE_NONE, 1, G_TYPE_INT);
+                  0, NULL, NULL, g_cclosure_marshal_VOID__INT, G_TYPE_NONE, 1, G_TYPE_INT);
 
   file_signals[EXTERNALLY_MODIFIED] =
     g_signal_new (I_("externally-modified"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
