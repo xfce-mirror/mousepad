@@ -219,13 +219,14 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   g_signal_connect_swapped (widget, "clicked", G_CALLBACK (mousepad_search_bar_hide_clicked), bar);
 
   item = gtk_tool_item_new ();
+  gtk_widget_set_margin_end (GTK_WIDGET (item), 5);
   gtk_container_add (GTK_CONTAINER (item), widget);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
   /* box for the search entry and its buttons */
   box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_style_context_add_class (gtk_widget_get_style_context (box), GTK_STYLE_CLASS_LINKED);
-  gtk_widget_set_margin_end (box, 6);
+  gtk_widget_set_margin_end (box, 15);
 
   item = gtk_tool_item_new ();
   gtk_container_add (GTK_CONTAINER (item), box);
@@ -261,6 +262,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_entry_changed), bar);
 
   item = gtk_tool_item_new ();
+  gtk_widget_set_margin_end (GTK_WIDGET (item), 15);
   gtk_container_add (GTK_CONTAINER (item), widget);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
@@ -275,6 +277,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_entry_changed), bar);
 
   item = gtk_tool_item_new ();
+  gtk_widget_set_margin_end (GTK_WIDGET (item), 15);
   gtk_container_add (GTK_CONTAINER (item), widget);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
@@ -289,7 +292,6 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
                                GTK_STYLE_CLASS_DIM_LABEL);
 
   item = gtk_tool_item_new ();
-  gtk_widget_set_margin_start (GTK_WIDGET (item), 6);
   gtk_container_add (GTK_CONTAINER (item), bar->hits_label);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
