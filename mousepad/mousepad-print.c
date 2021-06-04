@@ -228,7 +228,10 @@ mousepad_print_settings_load (GtkPrintOperation *operation)
           /* set paper size */
           paper_size = gtk_print_settings_get_paper_size (settings);
           if (G_LIKELY (paper_size))
-            gtk_page_setup_set_paper_size (page_setup, paper_size);
+            {
+              gtk_page_setup_set_paper_size (page_setup, paper_size);
+              gtk_paper_size_free (paper_size);
+            }
 
           /* set the default page setup */
           gtk_print_operation_set_default_page_setup (operation, page_setup);
@@ -323,10 +326,10 @@ mousepad_print_settings_save (GtkPrintOperation *operation)
 {
   MousepadPrint    *print = MOUSEPAD_PRINT (operation);
   GKeyFile         *keyfile;
-  gchar            *filename;
   GtkPrintSettings *settings;
   GtkPageSetup     *page_setup;
   GtkPaperSize     *paper_size;
+  gchar            *filename, *str;
 
   /* get the save location */
   filename = mousepad_util_get_save_location (MOUSEPAD_RC_RELPATH, TRUE);
@@ -362,7 +365,10 @@ mousepad_print_settings_save (GtkPrintOperation *operation)
 
               /* set settings page size */
               if (G_LIKELY (paper_size))
-                gtk_print_settings_set_paper_size (settings, paper_size);
+                {
+                  gtk_print_settings_set_paper_size (settings, paper_size);
+                  gtk_paper_size_free (paper_size);
+                }
             }
 
           /* a bool we use for loading */
@@ -389,17 +395,17 @@ mousepad_print_settings_save (GtkPrintOperation *operation)
                                        "highlight-syntax",
                                        gtk_source_print_compositor_get_highlight_syntax (print->compositor));
 
-          gtk_print_settings_set (settings,
-                                  "body-font-name",
-                                  gtk_source_print_compositor_get_body_font_name (print->compositor));
+          str = gtk_source_print_compositor_get_body_font_name (print->compositor);
+          gtk_print_settings_set (settings, "body-font-name", str);
+          g_free (str);
 
-          gtk_print_settings_set (settings,
-                                  "header-font-name",
-                                  gtk_source_print_compositor_get_header_font_name (print->compositor));
+          str = gtk_source_print_compositor_get_header_font_name (print->compositor);
+          gtk_print_settings_set (settings, "header-font-name", str);
+          g_free (str);
 
-          gtk_print_settings_set (settings,
-                                  "line-numbers-font-name",
-                                  gtk_source_print_compositor_get_line_numbers_font_name (print->compositor));
+          str = gtk_source_print_compositor_get_line_numbers_font_name (print->compositor);
+          gtk_print_settings_set (settings, "line-numbers-font-name", str);
+          g_free (str);
 
           /* store all the print settings */
           gtk_print_settings_foreach (settings, mousepad_print_settings_save_foreach, keyfile);
@@ -590,12 +596,9 @@ static GtkWidget *
 mousepad_print_create_custom_widget (GtkPrintOperation *operation)
 {
   MousepadPrint *print = MOUSEPAD_PRINT (operation);
-  GtkWidget     *button;
-  GtkWidget     *vbox, *vbox2;
-  GtkWidget     *frame;
-  GtkWidget     *label;
-  GtkWidget     *grid;
+  GtkWidget     *button, *vbox, *vbox2, *frame, *label, *grid;
   GtkAdjustment *adjustment;
+  gchar         *str;
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
@@ -725,8 +728,9 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1, 1);
   gtk_widget_show (label);
 
-  print->widget_header_font = gtk_font_button_new_with_font (
-                                gtk_source_print_compositor_get_header_font_name (print->compositor));
+  str = gtk_source_print_compositor_get_header_font_name (print->compositor);
+  print->widget_header_font = gtk_font_button_new_with_font (str);
+  g_free (str);
   gtk_grid_attach (GTK_GRID (grid), print->widget_header_font, 1, 0, 1, 1);
   g_signal_connect (print->widget_header_font, "font-set",
                     G_CALLBACK (mousepad_print_button_font_set), print);
@@ -738,8 +742,9 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_grid_attach (GTK_GRID (grid), label, 0, 1, 1, 1);
   gtk_widget_show (label);
 
-  print->widget_body_font = gtk_font_button_new_with_font (
-                              gtk_source_print_compositor_get_body_font_name (print->compositor));
+  str = gtk_source_print_compositor_get_body_font_name (print->compositor);
+  print->widget_body_font = gtk_font_button_new_with_font (str);
+  g_free (str);
   gtk_grid_attach (GTK_GRID (grid), print->widget_body_font, 1, 1, 1, 1);
   g_signal_connect (print->widget_body_font, "font-set",
                     G_CALLBACK (mousepad_print_button_font_set), print);
@@ -751,7 +756,9 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_grid_attach (GTK_GRID (grid), label, 0, 2, 1, 1);
   gtk_widget_show (label);
 
-  print->widget_line_numbers_font = gtk_font_button_new_with_font (gtk_source_print_compositor_get_line_numbers_font_name (print->compositor));
+  str = gtk_source_print_compositor_get_line_numbers_font_name (print->compositor);
+  print->widget_line_numbers_font = gtk_font_button_new_with_font (str);
+  g_free (str);
   gtk_grid_attach (GTK_GRID (grid), print->widget_line_numbers_font, 1, 2, 1, 1);
   g_signal_connect (print->widget_line_numbers_font, "font-set",
                     G_CALLBACK (mousepad_print_button_font_set), print);
