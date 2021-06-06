@@ -178,11 +178,8 @@ static void              mousepad_window_can_redo                     (GtkSource
                                                                        MousepadWindow         *window);
 
 /* menu functions */
-static void              mousepad_window_menu_templates_fill          (MousepadWindow         *window,
-                                                                       GMenu                  *menu,
-                                                                       const gchar            *path);
 static void              mousepad_window_menu_templates               (GSimpleAction          *action,
-                                                                       GVariant               *value,
+                                                                       GVariant               *state,
                                                                        gpointer                data);
 static void              mousepad_window_menu_tab_sizes_update        (MousepadWindow         *window);
 static void              mousepad_window_menu_textview_popup          (GtkTextView            *textview,
@@ -193,7 +190,7 @@ static void              mousepad_window_update_menu_item             (MousepadW
                                                                        gint                    index,
                                                                        gpointer                data);
 static void              mousepad_window_update_gomenu                (GSimpleAction          *action,
-                                                                       GVariant               *value,
+                                                                       GVariant               *state,
                                                                        gpointer                data);
 static void              mousepad_window_update_tabs                  (MousepadWindow         *window,
                                                                        gchar                  *key,
@@ -204,7 +201,7 @@ static void              mousepad_window_recent_add                   (MousepadW
                                                                        MousepadFile           *file);
 static void              mousepad_window_recent_manager_init          (MousepadWindow         *window);
 static void              mousepad_window_recent_menu                  (GSimpleAction          *action,
-                                                                       GVariant               *value,
+                                                                       GVariant               *state,
                                                                        gpointer                data);
 static const gchar      *mousepad_window_recent_get_charset           (GtkRecentInfo          *info);
 static void              mousepad_window_recent_clear                 (MousepadWindow         *window);
@@ -3300,7 +3297,7 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
 
 static void
 mousepad_window_menu_templates (GSimpleAction *action,
-                                GVariant      *value,
+                                GVariant      *state,
                                 gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
@@ -3312,9 +3309,12 @@ mousepad_window_menu_templates (GSimpleAction *action,
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
+  /* set the action state */
+  g_simple_action_set_state (action, state);
+
   /* open the menu, ensuring the window has not been removed from the application list,
    * e.g. following an "app.quit" */
-  if (g_variant_get_boolean (value)
+  if (g_variant_get_boolean (state)
       && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
     {
       /* lock menu updates */
@@ -3577,7 +3577,7 @@ mousepad_window_update_window_menu_items (MousepadWindow *window)
 
 static void
 mousepad_window_update_gomenu (GSimpleAction *action,
-                               GVariant      *value,
+                               GVariant      *state,
                                gpointer       data)
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
@@ -3591,9 +3591,12 @@ mousepad_window_update_gomenu (GSimpleAction *action,
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
+  /* set the action state */
+  g_simple_action_set_state (action, state);
+
   /* open the menu, ensuring the window has not been removed from the application list,
    * e.g. following an "app.quit" */
-  if (g_variant_get_boolean (value)
+  if (g_variant_get_boolean (state)
       && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
     {
       /* prevent menu updates */
@@ -3739,7 +3742,7 @@ mousepad_window_recent_manager_init (MousepadWindow *window)
 
 static void
 mousepad_window_recent_menu (GSimpleAction *action,
-                             GVariant      *value,
+                             GVariant      *state,
                              gpointer       data)
 {
   MousepadWindow *window = MOUSEPAD_WINDOW (data);
@@ -3756,9 +3759,12 @@ mousepad_window_recent_menu (GSimpleAction *action,
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
+  /* set the action state */
+  g_simple_action_set_state (action, state);
+
   /* open the menu, ensuring the window has not been removed from the application list,
    * e.g. following an "app.quit" */
-  if (g_variant_get_boolean (value)
+  if (g_variant_get_boolean (state)
       && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
     {
       /* avoid updating the menu */
