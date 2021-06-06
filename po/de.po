@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-25 00:47+0200\n"
-"PO-Revision-Date: 2021-05-25 19:05+0000\n"
-"Last-Translator: Andreas Eitel <github-aneitel@online.de>\n"
+"PO-Revision-Date: 2021-06-06 12:08+0000\n"
+"Last-Translator: Ingo Brückl <ib@wupperonline.de>\n"
 "Language-Team: German (http://www.transifex.com/xfce/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -183,7 +183,7 @@ msgstr "Sollen die Änderungen vor dem Schließen gespeichert werden?"
 
 #: ../mousepad/mousepad-dialogs.c:382
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr "Das Dokument ist schreibgeschützt, wollen Sie es als andere Datei speichern?"
+msgstr "Das Dokument ist schreibgeschützt, soll es unter einem anderen Namen gespeichert werden?"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:390 ../mousepad/mousepad-dialogs.c:528
@@ -198,7 +198,7 @@ msgstr "_Nicht speichern"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr "Wenn Sie dieses schreibgeschützte Dokument nicht als andere Datei speichern, gehen alle Änderungen verloren."
+msgstr "Wenn Sie dieses schreibgeschützte Dokument nicht unter einem anderen Namen speichern, gehen alle Änderungen verloren."
 
 #: ../mousepad/mousepad-dialogs.c:407 ../mousepad/mousepad-dialogs.c:422
 #: ../mousepad/mousepad-dialogs.c:539
@@ -207,7 +207,7 @@ msgstr "_Speichern unter"
 
 #: ../mousepad/mousepad-dialogs.c:412
 msgid "If you don't save the document, all the changes will be lost."
-msgstr "Falls Sie nicht speichern, gehen alle vorgenommenen Änderungen unwiderruflich verloren."
+msgstr "Wenn Sie das Dokument nicht speichern, gehen alle Änderungen verloren."
 
 #. add button
 #: ../mousepad/mousepad-dialogs.c:413 ../mousepad/mousepad-dialogs.c:500
@@ -949,11 +949,11 @@ msgstr "Rückwärts nach dem gleichen Text suchen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "Find As You _Type"
-msgstr "Suchen während der _Eingabe"
+msgstr "Während der _Eingabe suchen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr "Automatisches Auswählen des Suchergebnisses und Blättern in der Ansicht"
+msgstr "Suchergebnis automatisch auswählen und die Ansicht anpassen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -1420,7 +1420,7 @@ msgstr "_Verschieben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
-msgstr "Inhalte auf verschiedene Arten verschieben"
+msgstr "Inhalte auf unterschiedliche Weise verschieben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1444,7 +1444,7 @@ msgstr "Wort _links"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr "Wörter um ein Wort nach links verschieben"
+msgstr "Text um ein Wort nach links verschieben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
@@ -1452,7 +1452,7 @@ msgstr "Wort _rechts"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr "Wörter um ein Wort nach rechts verschieben"
+msgstr "Text um ein Wort nach rechts verschieben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1492,15 +1492,15 @@ msgstr "Leerzeichen einfügen"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
 msgid "Never"
-msgstr "Niemals"
+msgstr "Nie"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
 msgid "First key press"
-msgstr "Erster Tastendruck"
+msgstr "Beim ersten Tastendruck"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "Second key press"
-msgstr "Zweiter Tastendruck"
+msgstr "Beim zweiten Tastendruck"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "Always"
@@ -1623,19 +1623,19 @@ msgstr "<b>Einzug</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr "(Umschalt-)Tab: Ausgewählten Text (ent-)rücken"
+msgstr "(Umschalt-)Tab: Ausgewählten Text (aus-)/einrücken"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr "Rücktaste: Einrückungsleerzeichen als Tabulatoren löschen"
+msgstr "Rücktaste: Führende Leerzeichen bis zum vorherigen Tabulatorstopp löschen"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr "Anfang/Ende: Führendes/nachlaufendes Leerzeichen erkennen:"
+msgstr "Pos1/Ende: Führende/Nachfolgende Leerzeichen ignorieren:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
 msgid "<b>Smart Keys</b>"
-msgstr "<b>Intelligente Tasten</b>"
+msgstr "<b>Spezialfunktionen für Tasten</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
