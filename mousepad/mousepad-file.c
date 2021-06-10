@@ -215,7 +215,9 @@ static gboolean
 mousepad_file_set_monitor (gpointer data)
 {
   MousepadFile *file = data;
+  GFile        *location;
   GError       *error = NULL;
+  gchar        *path;
 
   if (file->monitor != NULL)
     {
@@ -225,12 +227,25 @@ mousepad_file_set_monitor (gpointer data)
 
   if (file->location != NULL && MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
     {
-      file->monitor = g_file_monitor_file (file->location,
+      /* monitor the final target in case of a symlink: see
+       * https://gitlab.gnome.org/GNOME/glib/-/issues/2421 */
+      if (g_file_query_file_type (file->location, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, NULL)
+            == G_FILE_TYPE_SYMBOLIC_LINK
+          && (path = realpath (mousepad_util_get_path (file->location), NULL)) != NULL)
+        {
+          location = g_file_new_for_path (path);
+          g_free (path);
+        }
+      else
+        location = g_object_ref (file->location);
+
+      file->monitor = g_file_monitor_file (location,
 #if GLIB_CHECK_VERSION (2, 56, 2)
                                            G_FILE_MONITOR_WATCH_HARD_LINKS |
 #endif
                                            G_FILE_MONITOR_WATCH_MOVES,
                                            NULL, &error);
+      g_object_unref (location);
 
       /* inform the user */
       if (error != NULL)
