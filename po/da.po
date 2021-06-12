@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-25 00:47+0200\n"
-"PO-Revision-Date: 2021-06-11 20:51+0000\n"
+"PO-Revision-Date: 2021-06-12 01:06+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -1623,11 +1623,11 @@ msgstr "<b>Indrykning</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr ""
+msgstr "(Skift-)Tab: Afindryk/indryk valgte tekst"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: Slet indrykningsmellemrum som tabulatorstop"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "Home/End: Detect leading/trailing whitespace:"
