@@ -29,9 +29,11 @@
 
 struct MousepadSettingsStore_
 {
-  GObject     parent;
-  GSettings  *root;
-  GHashTable *keys;
+  GObject parent;
+
+  GSettingsBackend *backend;
+  GList            *roots;
+  GHashTable       *keys;
 };
 
 
@@ -76,8 +78,10 @@ mousepad_setting_key_new (const gchar *key_name,
 
 
 static void
-mousepad_setting_key_free (MousepadSettingKey *key)
+mousepad_setting_key_free (gpointer data)
 {
+  MousepadSettingKey *key = data;
+
   if (G_LIKELY (key != NULL))
     {
       g_object_unref (key->settings);
@@ -138,15 +142,15 @@ mousepad_settings_store_class_init (MousepadSettingsStoreClass *klass)
 static void
 mousepad_settings_store_finalize (GObject *object)
 {
-  MousepadSettingsStore *self;
+  MousepadSettingsStore *self = MOUSEPAD_SETTINGS_STORE (object);
 
   g_return_if_fail (MOUSEPAD_IS_SETTINGS_STORE (object));
 
-  self = MOUSEPAD_SETTINGS_STORE (object);
+  if (self->backend != NULL)
+    g_object_unref (self->backend);
 
+  g_list_free_full (self->roots, g_object_unref);
   g_hash_table_destroy (self->keys);
-
-  g_object_unref (self->root);
 
   G_OBJECT_CLASS (mousepad_settings_store_parent_class)->finalize (object);
 }
@@ -212,28 +216,19 @@ static void
 mousepad_settings_store_init (MousepadSettingsStore *self)
 {
 #ifdef MOUSEPAD_SETTINGS_KEYFILE_BACKEND
-  GSettingsBackend *backend;
-  gchar            *conf_file;
-  conf_file = g_build_filename (g_get_user_config_dir (),
-                                "Mousepad",
-                                "settings.conf",
-                                NULL);
-  backend = g_keyfile_settings_backend_new (conf_file, "/", NULL);
+  gchar *conf_file;
+
+  conf_file = g_build_filename (g_get_user_config_dir (), "Mousepad", "settings.conf", NULL);
+  self->backend = g_keyfile_settings_backend_new (conf_file, "/", NULL);
   g_free (conf_file);
-  self->root = g_settings_new_with_backend (MOUSEPAD_ID, backend);
-  g_object_unref (backend);
 #else
-  self->root = g_settings_new (MOUSEPAD_ID);
+  self->backend = NULL;
 #endif
 
-  self->keys = g_hash_table_new_full (g_str_hash,
-                                      g_str_equal,
-                                      NULL,
-                                      (GDestroyNotify) mousepad_setting_key_free);
+  self->roots = NULL;
+  self->keys = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, mousepad_setting_key_free);
 
-  mousepad_settings_store_add_settings (self, MOUSEPAD_ID,
-                                        g_settings_schema_source_get_default (),
-                                        self->root);
+  mousepad_settings_store_add_root (self, MOUSEPAD_ID);
 }
 
 
@@ -242,6 +237,31 @@ MousepadSettingsStore *
 mousepad_settings_store_new (void)
 {
   return g_object_new (MOUSEPAD_TYPE_SETTINGS_STORE, NULL);
+}
+
+
+
+void
+mousepad_settings_store_add_root (MousepadSettingsStore *self,
+                                  const gchar           *schema_id)
+{
+  GSettingsSchemaSource *source;
+  GSettingsSchema       *schema;
+  GSettings             *root;
+
+  source = g_settings_schema_source_get_default ();
+  schema = g_settings_schema_source_lookup (source, schema_id, TRUE);
+
+  /* exit silently if no schema is found: plugins may have settings or not */
+  if (schema == NULL)
+    return;
+
+  root = g_settings_new_full (schema, self->backend, NULL);
+  g_settings_schema_unref (schema);
+
+  self->roots = g_list_prepend (self->roots, root);
+
+  mousepad_settings_store_add_settings (self, schema_id, source, root);
 }
 
 

@@ -1,9 +1,5 @@
 <schemalist gettext-domain="mousepad">
 
-  <schema id="org.xfce.mousepad.plugins" path="/org/xfce/mousepad/plugins/">
-    <child name="gspell" schema="org.xfce.mousepad.plugins.gspell"/>
-  </schema>
-
   <schema id="org.xfce.mousepad.plugins.gspell" path="/org/xfce/mousepad/plugins/gspell/">
     <child name="preferences" schema="org.xfce.mousepad.plugins.gspell.preferences"/>
   </schema>

@@ -38,6 +38,9 @@ GType                  mousepad_settings_store_get_type        (void);
 
 MousepadSettingsStore *mousepad_settings_store_new             (void);
 
+void                   mousepad_settings_store_add_root        (MousepadSettingsStore  *store,
+                                                                const gchar            *schema_id);
+
 const gchar           *mousepad_settings_store_lookup_key_name (MousepadSettingsStore  *store,
                                                                 const gchar            *setting);
 

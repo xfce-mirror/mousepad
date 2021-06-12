@@ -724,7 +724,7 @@ mousepad_application_load_plugins (MousepadApplication *application)
   GError                  *error = NULL;
   GDir                    *dir;
   const gchar             *basename;
-  gchar                   *provider_name;
+  gchar                   *provider_name, *schema_id;
   gchar                  **strs;
   gsize                    n_strs;
 
@@ -782,6 +782,16 @@ mousepad_application_load_plugins (MousepadApplication *application)
                                            G_CALLBACK (mousepad_application_plugin_update),
                                            application, G_CONNECT_SWAPPED);
           g_action_map_add_action (G_ACTION_MAP (application), G_ACTION (action));
+
+          /* add its settings to the setting store */
+          if (g_str_has_prefix (provider_name, "mousepad-plugin-"))
+            schema_id = provider_name + 16;
+          else
+            schema_id = provider_name;
+
+          schema_id = g_strconcat (MOUSEPAD_ID, ".plugins.", schema_id, NULL);
+          mousepad_settings_add_root (schema_id);
+          g_free (schema_id);
 
           /* instantiate this provider types and initialize its action state */
           if (g_strv_contains ((const gchar *const *) strs, provider_name))

@@ -25,6 +25,15 @@ static MousepadSettingsStore *settings_store = NULL;
 
 
 void
+mousepad_settings_init (void)
+{
+  if (settings_store == NULL)
+    settings_store = mousepad_settings_store_new ();
+}
+
+
+
+void
 mousepad_settings_finalize (void)
 {
   g_settings_sync ();
@@ -39,10 +48,9 @@ mousepad_settings_finalize (void)
 
 
 void
-mousepad_settings_init (void)
+mousepad_settings_add_root (const gchar *schema_id)
 {
-  if (settings_store == NULL)
-    settings_store = mousepad_settings_store_new ();
+  mousepad_settings_store_add_root (settings_store, schema_id);
 }
 
 

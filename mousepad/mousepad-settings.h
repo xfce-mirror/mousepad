@@ -89,6 +89,7 @@ G_BEGIN_DECLS
 
 void       mousepad_settings_init          (void);
 void       mousepad_settings_finalize      (void);
+void       mousepad_settings_add_root      (const gchar        *schema_id);
 
 void       mousepad_setting_bind           (const gchar        *setting,
                                             gpointer            object,
