@@ -1,7 +1,6 @@
-<schemalist>
+<schemalist gettext-domain="mousepad">
 
   <!-- Enums and flags -->
-
   <enum id="org.xfce.mousepad.SmartHomeEnd">
     <value nick="disabled" value="0"/>
     <value nick="before" value="1"/>
@@ -38,26 +37,26 @@
   </enum>
 
   <!-- generic schemas -->
-  <schema id="org.xfce.mousepad" path="/org/xfce/mousepad/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad" path="/org/xfce/mousepad/">
     <child name="plugins" schema="org.xfce.mousepad.plugins"/>
     <child name="preferences" schema="org.xfce.mousepad.preferences"/>
     <child name="state" schema="org.xfce.mousepad.state"/>
   </schema>
 
-  <schema id="org.xfce.mousepad.preferences" path="/org/xfce/mousepad/preferences/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad.preferences" path="/org/xfce/mousepad/preferences/">
     <child name="file" schema="org.xfce.mousepad.preferences.file"/>
     <child name="view" schema="org.xfce.mousepad.preferences.view"/>
     <child name="window" schema="org.xfce.mousepad.preferences.window"/>
   </schema>
 
-  <schema id="org.xfce.mousepad.state" path="/org/xfce/mousepad/state/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad.state" path="/org/xfce/mousepad/state/">
     <child name="application" schema="org.xfce.mousepad.state.application"/>
     <child name="search" schema="org.xfce.mousepad.state.search"/>
     <child name="window" schema="org.xfce.mousepad.state.window"/>
   </schema>
 
   <!-- File preferences -->
-  <schema id="org.xfce.mousepad.preferences.file" path="/org/xfce/mousepad/preferences/file/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad.preferences.file" path="/org/xfce/mousepad/preferences/file/">
     <key name="default-encoding" type="s">
       <default>'UTF-8'</default>
       <summary>Default encoding to be used to open and save files</summary>
@@ -104,7 +103,7 @@
   </schema>
 
   <!-- Textview preferences -->
-  <schema id="org.xfce.mousepad.preferences.view" path="/org/xfce/mousepad/preferences/view/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad.preferences.view" path="/org/xfce/mousepad/preferences/view/">
     <child name="show-whitespace" schema="org.xfce.mousepad.preferences.view.show-whitespace"/>
     <key name="auto-indent" type="b">
       <default>false</default>
@@ -256,7 +255,7 @@
     </key>
   </schema>
 
-  <schema id="org.xfce.mousepad.preferences.view.show-whitespace" path="/org/xfce/mousepad/preferences/view/show-whitespace/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad.preferences.view.show-whitespace" path="/org/xfce/mousepad/preferences/view/show-whitespace/">
     <key name="leading" type="b">
       <default>true</default>
       <summary>Show leading white spaces</summary>
@@ -281,7 +280,7 @@
   </schema>
 
   <!-- window preferences -->
-  <schema id="org.xfce.mousepad.preferences.window" path="/org/xfce/mousepad/preferences/window/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad.preferences.window" path="/org/xfce/mousepad/preferences/window/">
     <key name="toolbar-style" enum="org.xfce.mousepad.ToolbarStyle">
       <default>'icons'</default>
       <summary>Toolbar style</summary>
@@ -442,7 +441,7 @@
   </schema>
 
   <!-- application state -->
-  <schema id="org.xfce.mousepad.state.application" path="/org/xfce/mousepad/state/application/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad.state.application" path="/org/xfce/mousepad/state/application/">
     <key name="enabled-plugins" type="as">
       <default>[]</default>
       <summary>Enabled plugins</summary>
@@ -453,7 +452,7 @@
   </schema>
 
   <!-- search state -->
-  <schema id="org.xfce.mousepad.state.search" path="/org/xfce/mousepad/state/search/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad.state.search" path="/org/xfce/mousepad/state/search/">
     <key name="direction" type="u">
       <range min="0" max="1"/>
       <default>1</default>
@@ -532,7 +531,7 @@
   </schema>
 
   <!-- window state -->
-  <schema id="org.xfce.mousepad.state.window" path="/org/xfce/mousepad/state/window/" gettext-domain="mousepad">
+  <schema id="org.xfce.mousepad.state.window" path="/org/xfce/mousepad/state/window/">
     <key name="height" type="u">
       <default>480</default>
       <summary>Window height</summary>
