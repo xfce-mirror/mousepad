@@ -2869,15 +2869,17 @@ mousepad_window_pending_widget_idle (gpointer data)
 
 
 static void
-mousepad_window_pending_window (MousepadWindow *window)
+mousepad_window_pending_window (MousepadWindow *window,
+                                GParamSpec     *pspec,
+                                gpointer       *document)
 {
   /* disconnect this handler */
-  mousepad_disconnect_by_func (window, mousepad_window_pending_window, NULL);
+  mousepad_disconnect_by_func (window, mousepad_window_pending_window, document);
 
   /* try again to inform the user about this file whenever idle, to allow for a possible
    * closing process to take place before */
   g_idle_add (mousepad_window_pending_widget_idle,
-              mousepad_util_source_autoremove (window->active));
+              mousepad_util_source_autoremove (document));
 }
 
 
@@ -2944,7 +2946,7 @@ mousepad_window_externally_modified (MousepadFile   *file,
   /* the file is inactive in the active tab of an inactive window */
   else
     g_signal_connect (window, "notify::is-active",
-                      G_CALLBACK (mousepad_window_pending_window), NULL);
+                      G_CALLBACK (mousepad_window_pending_window), document);
 }
 
 
