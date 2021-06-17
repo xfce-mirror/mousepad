@@ -9,14 +9,14 @@
 # Lucas Wilm <lucaswilm@gmail.com>, 2020-2021
 # Michael Martins <michaelfm21@gmail.com>, 2019-2020
 # The Cat, 2020-2021
-# Wellington Almeida <wsalmeida6@gmail.com>, 2020
+# Wellington Almeida <wsalmeida6@gmail.com>, 2020-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-25 00:47+0200\n"
-"PO-Revision-Date: 2021-05-30 21:18+0000\n"
-"Last-Translator: Michael Martins <michaelfm21@gmail.com>\n"
+"PO-Revision-Date: 2021-06-17 21:38+0000\n"
+"Last-Translator: Wellington Almeida <wsalmeida6@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/xfce/xfce-apps/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +42,7 @@ msgstr "Mostra uma lista de codificações possíveis para abrir arquivos"
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr ""
+msgstr "Número da linha em que o cursor posiciona (LINHA> 0 de cima, LINHA <0 de baixo)"
 
 #: ../mousepad/mousepad-application.c:152
 msgid "LINE"
@@ -52,7 +52,7 @@ msgstr "LINHA"
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr ""
+msgstr "Número da coluna onde o cursor posicionar (COLUNA> = 0 do início, COLUNA <0 do final)"
 
 #: ../mousepad/mousepad-application.c:158
 msgid "COLUMN"
@@ -183,7 +183,7 @@ msgstr "Deseja salvar as alterações antes de fechar?"
 
 #: ../mousepad/mousepad-dialogs.c:382
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "O documento é somente leitura, deseja salvá-lo como outro arquivo?"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:390 ../mousepad/mousepad-dialogs.c:528
@@ -198,7 +198,7 @@ msgstr "_Não Salvar"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Se você não salvar este documento somente leitura como outro arquivo, todas as alterações serão perdidas."
 
 #: ../mousepad/mousepad-dialogs.c:407 ../mousepad/mousepad-dialogs.c:422
 #: ../mousepad/mousepad-dialogs.c:539
@@ -949,11 +949,11 @@ msgstr "Pesquisar o mesmo texto para trás"
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "Find As You _Type"
-msgstr ""
+msgstr "Encontre enquanto você digita"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Selecione automaticamente o resultado da pesquisa e role a visualização"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -1440,11 +1440,11 @@ msgstr "Mover as linhas uma linha abaixo"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
-msgstr ""
+msgstr "Palavra_esquerda"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr ""
+msgstr "Mover palavras uma palavra para a esquerda"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
@@ -1452,7 +1452,7 @@ msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr ""
+msgstr "Mova as palavras uma palavra para a direita"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1623,19 +1623,19 @@ msgstr "<b>Recuo</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr ""
+msgstr "(Shift-) Tab: (De-) Recuar o texto selecionado"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: Exclua espaços de recuo como tabulações"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home / End: Detectar espaços em branco à esquerda / à direita:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>Chaves Inteligentes</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
@@ -1729,7 +1729,7 @@ msgstr "Configurações do Editor de Texto"
 
 #: ../mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
-msgstr ""
+msgstr "Configure o editor de texto Mousepad"
 
 #: ../mousepad.appdata.xml.in.h:1
 msgid ""
