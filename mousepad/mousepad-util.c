@@ -17,6 +17,7 @@
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-settings.h>
+#include <mousepad/mousepad-dialogs.h>
 
 #ifdef HAVE_MATH_H
 #include <math.h>
@@ -30,6 +31,14 @@
 #define FONT_STRETCH "font-stretch"
 #define FONT_WEIGHT  "font-weight"
 #define FONT_SIZE    "font-size"
+
+#define ENCODING_STR "Encoding"
+#define ENCODING_LEN G_N_ELEMENTS (ENCODING_STR) - 1
+enum
+{
+  ENCODING,
+  N_RECENT_DATA
+};
 
 
 
@@ -1188,4 +1197,166 @@ mousepad_util_source_autoremove (gpointer object)
     }
 
   return object;
+}
+
+
+
+void
+mousepad_util_recent_add (MousepadFile *file)
+{
+  GtkRecentData  info;
+  gchar         *uri, *description;
+  const gchar   *charset;
+  static gchar  *groups[] = { PACKAGE_NAME, NULL };
+
+  /* don't insert in the recent history if history disabled */
+  if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
+    return;
+
+  /* get the charset */
+  charset = mousepad_encoding_get_charset (mousepad_file_get_encoding (file));
+
+  /* build description */
+  description = g_strdup_printf ("%s: %s;", ENCODING_STR, charset);
+
+  /* create the recent data */
+  info.display_name = NULL;
+  info.description  = description;
+  info.mime_type    = "text/plain";
+  info.app_name     = PACKAGE_NAME;
+  info.app_exec     = PACKAGE " %u";
+  info.groups       = groups;
+  info.is_private   = FALSE;
+
+  /* add the new recent info to the recent manager */
+  uri = mousepad_file_get_uri (file);
+  gtk_recent_manager_add_full (gtk_recent_manager_get_default (), uri, &info);
+
+  /* cleanup */
+  g_free (description);
+  g_free (uri);
+}
+
+
+
+static void
+mousepad_util_recent_get_data (const gchar *uri,
+                               gint         data_type,
+                               gpointer     data)
+{
+  GtkRecentInfo *info;
+  const gchar   *description, *p, *q, *r;
+  gchar         *str;
+
+  /* exit if the given uri is not in the recent history */
+  info = gtk_recent_manager_lookup_item (gtk_recent_manager_get_default (), uri, NULL);
+  if (info == NULL)
+    return;
+  /* exit with a warning if the description is null */
+  else if (G_UNLIKELY ((description = gtk_recent_info_get_description (info)) == NULL))
+    {
+      g_warn_if_reached ();
+      gtk_recent_info_unref (info);
+
+      return;
+    }
+
+  /* try to get the data if the description looks valid, else warn */
+  switch (data_type)
+    {
+    case ENCODING:
+      if (G_LIKELY (
+            (p = g_strstr_len (description, -1, ENCODING_STR ": ")) != NULL
+            && (q = g_strstr_len (r = p + ENCODING_LEN + 2, -1, ";")) != NULL
+          ))
+        {
+          str = g_strndup (r, q - r);
+          *((gint *) data) = mousepad_encoding_find (str);
+          g_free (str);
+        }
+      else
+        g_warn_if_reached ();
+
+      break;
+
+    default:
+      break;
+    }
+
+  /* cleanup */
+  gtk_recent_info_unref (info);
+}
+
+
+
+MousepadEncoding
+mousepad_util_recent_get_encoding (const gchar *uri)
+{
+  MousepadEncoding encoding = MOUSEPAD_ENCODING_NONE;
+
+  mousepad_util_recent_get_data (uri, ENCODING, &encoding);
+
+  return encoding;
+}
+
+
+
+void
+mousepad_util_recent_clear (void)
+{
+  GtkRecentManager *manager;
+  GtkWindow        *window;
+  GList            *items, *li;
+  GError           *error = NULL;
+  const gchar      *uri;
+
+  /* get all the items in the manager */
+  manager = gtk_recent_manager_get_default ();
+  items = gtk_recent_manager_get_items (manager);
+
+  /* walk through the items */
+  for (li = items; li != NULL; li = li->next)
+    {
+      /* check if the item is in the Mousepad group */
+      if (! gtk_recent_info_has_group (li->data, PACKAGE_NAME))
+        continue;
+
+      /* get the uri of the recent item */
+      uri = gtk_recent_info_get_uri (li->data);
+
+      /* try to remove it, if it fails, break the loop to avoid multiple errors */
+      if (G_UNLIKELY (! gtk_recent_manager_remove_item (manager, uri, &error)))
+        break;
+     }
+
+  /* cleanup */
+  g_list_free_full (items, (GDestroyNotify) gtk_recent_info_unref);
+
+  /* print a warning is there is one */
+  if (G_UNLIKELY (error != NULL))
+    {
+      window = gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ()));
+      mousepad_dialogs_show_error (window, error, _("Failed to clear the recent history"));
+      g_error_free (error);
+    }
+}
+
+
+
+static void
+mousepad_util_recent_items_changed (void)
+{
+  if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
+    mousepad_util_recent_clear ();
+}
+
+
+
+void
+mousepad_util_recent_bind_disabled (void)
+{
+  mousepad_util_recent_items_changed ();
+  MOUSEPAD_SETTING_CONNECT (RECENT_MENU_ITEMS,
+                            G_CALLBACK (mousepad_util_recent_items_changed),
+                            NULL, 0);
 }
