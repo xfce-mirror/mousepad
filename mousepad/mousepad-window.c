@@ -3512,13 +3512,13 @@ mousepad_window_update_menu_item (MousepadWindow *window,
   if (g_strcmp0 (menu_id, "item.file.reload") == 0)
     if (GPOINTER_TO_INT (data))
       {
-        label = _("Re_vert");
+        label = MOUSEPAD_LABEL_REVERT;
         icon = "document-revert";
         tooltip = _("Revert to the saved version of the file");
       }
     else
       {
-        label = _("Re_load");
+        label = MOUSEPAD_LABEL_RELOAD;
         icon = "view-refresh";
         tooltip = _("Reload file from disk");
       }
