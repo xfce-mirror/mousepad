@@ -908,6 +908,9 @@ mousepad_application_startup (GApplication *gapplication)
   /* do some actions when the active window changes */
   g_signal_connect (application, "notify::active-window",
                     G_CALLBACK (mousepad_application_active_window_changed), NULL);
+
+  /* disable and wipe recent history when 'recent-menu-items' is set to 0 */
+  mousepad_util_recent_bind_disabled ();
 }
 
 
