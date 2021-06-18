@@ -191,6 +191,18 @@ mousepad_encoding_get_default (void)
 
 
 MousepadEncoding
+mousepad_encoding_get_system (void)
+{
+  const gchar *charset;
+
+  g_get_charset (&charset);
+
+  return mousepad_encoding_find (charset);
+}
+
+
+
+MousepadEncoding
 mousepad_encoding_read_bom (const gchar *contents,
                             gsize        length,
                             gsize       *bom_length)
