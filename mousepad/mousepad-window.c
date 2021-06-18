@@ -3308,16 +3308,21 @@ mousepad_window_menu_templates (GSimpleAction *action,
   GMenuItem      *item;
   const gchar    *homedir;
   gchar          *templates_path, *message;
+  gboolean        bstate;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* exit if there is actually no change */
+  bstate = g_variant_get_boolean (state);
+  if (bstate == mousepad_action_get_state_boolean (G_ACTION (action)))
+    return;
 
   /* set the action state */
   g_simple_action_set_state (action, state);
 
   /* open the menu, ensuring the window has not been removed from the application list,
    * e.g. following an "app.quit" */
-  if (g_variant_get_boolean (state)
-      && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
+  if (bstate && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
     {
       /* lock menu updates */
       lock_menu_updates++;
@@ -3590,16 +3595,21 @@ mousepad_window_update_gomenu (GSimpleAction *action,
   const gchar      *label, *tooltip;
   gchar            *action_name, *accelerator;
   gint              n_pages, n;
+  gboolean          bstate;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* exit if there is actually no change */
+  bstate = g_variant_get_boolean (state);
+  if (bstate == mousepad_action_get_state_boolean (G_ACTION (action)))
+    return;
 
   /* set the action state */
   g_simple_action_set_state (action, state);
 
   /* open the menu, ensuring the window has not been removed from the application list,
    * e.g. following an "app.quit" */
-  if (g_variant_get_boolean (state)
-      && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
+  if (bstate && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
     {
       /* prevent menu updates */
       lock_menu_updates++;
@@ -3758,16 +3768,21 @@ mousepad_window_recent_menu (GSimpleAction *action,
   const gchar    *uri, *display_name;
   gchar          *label, *filename, *filename_utf8, *tooltip;
   guint           n;
+  gboolean        bstate;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* exit if there is actually no change */
+  bstate = g_variant_get_boolean (state);
+  if (bstate == mousepad_action_get_state_boolean (G_ACTION (action)))
+    return;
 
   /* set the action state */
   g_simple_action_set_state (action, state);
 
   /* open the menu, ensuring the window has not been removed from the application list,
    * e.g. following an "app.quit" */
-  if (g_variant_get_boolean (state)
-      && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
+  if (bstate && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
     {
       /* avoid updating the menu */
       lock_menu_updates++;
