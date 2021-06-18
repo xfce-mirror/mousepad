@@ -908,6 +908,9 @@ mousepad_application_startup (GApplication *gapplication)
   /* do some actions when the active window changes */
   g_signal_connect (application, "notify::active-window",
                     G_CALLBACK (mousepad_application_active_window_changed), NULL);
+
+  /* initialize recent history management */
+  mousepad_util_recent_init ();
 }
 
 
