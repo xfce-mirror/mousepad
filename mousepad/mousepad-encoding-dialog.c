@@ -119,8 +119,9 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_window_set_default_size (GTK_WINDOW (dialog), 550, 350);
 
   /* add buttons */
-  gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL);
-  dialog->button_ok = gtk_dialog_add_button (GTK_DIALOG (dialog), _("_OK"), MOUSEPAD_RESPONSE_OK);
+  gtk_dialog_add_button (GTK_DIALOG (dialog), MOUSEPAD_LABEL_CANCEL, MOUSEPAD_RESPONSE_CANCEL);
+  dialog->button_ok = gtk_dialog_add_button (GTK_DIALOG (dialog),
+                                             MOUSEPAD_LABEL_OK, MOUSEPAD_RESPONSE_OK);
 
   /* create an empty header */
   dialog->title = NULL;
@@ -190,7 +191,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_widget_show (dialog->progress_bar);
 
   /* cancel button */
-  dialog->button_cancel = gtk_button_new_with_mnemonic (_("_Cancel"));
+  dialog->button_cancel = gtk_button_new_with_mnemonic (MOUSEPAD_LABEL_CANCEL);
   gtk_box_pack_start (GTK_BOX (hbox), dialog->button_cancel, FALSE, FALSE, 0);
   g_signal_connect (dialog->button_cancel, "clicked",
                     G_CALLBACK (mousepad_encoding_dialog_cancel_encoding_test), dialog);
