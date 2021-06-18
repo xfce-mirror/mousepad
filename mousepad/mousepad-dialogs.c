@@ -664,7 +664,7 @@ mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
           if (g_strstr_len (label, -1, "(") == NULL)
             {
               g_free (label);
-              label = g_strdup_printf ("%s (%s)", _("History"),
+              label = g_strdup_printf ("%s (%s)", MOUSEPAD_ENCODING_LABEL_HISTORY,
                                        mousepad_encoding_get_charset (encoding));
               gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, label, -1);
             }
@@ -683,10 +683,10 @@ mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
               gtk_tree_model_get (model, &iter, 0, &label, -1);
             }
           while (label != NULL && g_strstr_len (label, -1, "(") != NULL
-                 && ! (replace = g_strstr_len (label, -1, _("History")) != NULL));
+                 && ! (replace = g_strstr_len (label, -1, MOUSEPAD_ENCODING_LABEL_HISTORY) != NULL));
 
           g_free (label);
-          label = g_strdup_printf ("%s (%s)", _("History"),
+          label = g_strdup_printf ("%s (%s)", MOUSEPAD_ENCODING_LABEL_HISTORY,
                                    mousepad_encoding_get_charset (encoding));
           if (replace)
             gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, label, 1, encoding, -1);
@@ -917,7 +917,6 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   GtkWidget        *hbox, *widget, *combo;
   GtkListStore     *list;
   GtkCellRenderer  *cell;
-  const gchar      *charset;
   gchar            *label;
   guint             n_rows = 0, n;
   MousepadEncoding  encodings[] = { MOUSEPAD_ENCODING_UTF_8, MOUSEPAD_ENCODING_ISO_8859_15 };
@@ -940,17 +939,17 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
 
   /* add default charset */
   default_encoding = mousepad_encoding_get_default ();
-  label = g_strdup_printf ("%s (%s)", _("Default"),
+  label = g_strdup_printf ("%s (%s)", MOUSEPAD_ENCODING_LABEL_DEFAULT,
                            mousepad_encoding_get_charset (default_encoding));
   gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, label, 1, default_encoding, -1);
   g_free (label);
 
   /* add system charset if supported and different from default */
-  g_get_charset (&charset);
-  system_encoding = mousepad_encoding_find (charset);
+  system_encoding = mousepad_encoding_get_system ();
   if (system_encoding != MOUSEPAD_ENCODING_NONE && system_encoding != default_encoding)
     {
-      label = g_strdup_printf ("%s (%s)", _("System"), charset);
+      label = g_strdup_printf ("%s (%s)", MOUSEPAD_ENCODING_LABEL_SYSTEM,
+                               mousepad_encoding_get_charset (system_encoding));
       gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, label, 1, system_encoding, -1);
       g_free (label);
     }
