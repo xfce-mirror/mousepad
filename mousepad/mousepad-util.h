@@ -100,6 +100,9 @@ gpointer     mousepad_util_source_autoremove                (gpointer           
 
 void         mousepad_util_recent_add                       (MousepadFile               *file);
 
+void         mousepad_util_recent_get_language              (GFile                      *file,
+                                                             GtkSourceLanguage         **language);
+
 void         mousepad_util_recent_get_encoding              (GFile                      *file,
                                                              MousepadEncoding           *encoding);
 

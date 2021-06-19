@@ -32,10 +32,13 @@
 #define FONT_WEIGHT  "font-weight"
 #define FONT_SIZE    "font-size"
 
+#define LANGUAGE_STR "Language"
+#define LANGUAGE_LEN G_N_ELEMENTS (LANGUAGE_STR) - 1
 #define ENCODING_STR "Encoding"
 #define ENCODING_LEN G_N_ELEMENTS (ENCODING_STR) - 1
 enum
 {
+  LANGUAGE,
   ENCODING,
   N_RECENT_DATA
 };
@@ -1206,20 +1209,24 @@ mousepad_util_recent_add (MousepadFile *file)
 {
   GtkRecentData  info;
   gchar         *uri, *description;
-  const gchar   *charset;
+  const gchar   *language = "", *charset;
   static gchar  *groups[] = { PACKAGE_NAME, NULL };
 
   /* don't insert in the recent history if history disabled */
   if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
     return;
 
-  /* get the charset */
+  /* get the data */
   charset = mousepad_encoding_get_charset (mousepad_file_get_encoding (file));
+  if (mousepad_file_get_user_set_language (file))
+    language = gtk_source_language_get_id (mousepad_file_get_language (file));
 
   /* build description */
-  description = g_strdup_printf ("%s: %s;", ENCODING_STR, charset);
+  description = g_strdup_printf ("%s: %s; %s: %s;",
+                                 LANGUAGE_STR, language,
+                                 ENCODING_STR, charset);
 
-  /* create the recent data */
+  /* create the recent info */
   info.display_name = NULL;
   info.description  = description;
   info.mime_type    = "text/plain";
@@ -1266,6 +1273,20 @@ mousepad_util_recent_get_data (GFile    *file,
   /* try to get the data if the description looks valid, else warn */
   switch (data_type)
     {
+    case LANGUAGE:
+      if (G_LIKELY (
+            (p = g_strstr_len (description, -1, LANGUAGE_STR ": ")) != NULL
+            && (q = g_strstr_len (r = p + LANGUAGE_LEN + 2, -1, ";")) != NULL
+          ))
+        {
+          str = g_strndup (r, q - r);
+          *((GtkSourceLanguage **) data) = gtk_source_language_manager_get_language (
+                                             gtk_source_language_manager_get_default (), str);
+          g_free (str);
+        }
+
+      break;
+
     case ENCODING:
       if (G_LIKELY (
             (p = g_strstr_len (description, -1, ENCODING_STR ": ")) != NULL
@@ -1285,6 +1306,15 @@ mousepad_util_recent_get_data (GFile    *file,
 
   /* cleanup */
   gtk_recent_info_unref (info);
+}
+
+
+
+void
+mousepad_util_recent_get_language (GFile              *file,
+                                   GtkSourceLanguage **language)
+{
+  mousepad_util_recent_get_data (file, LANGUAGE, language);
 }
 
 
