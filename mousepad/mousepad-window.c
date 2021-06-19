@@ -2123,13 +2123,19 @@ mousepad_window_close_document (MousepadWindow   *window,
             break;
         }
     }
-  /* no changes in the document, safe to destroy it */
+  /* no changes in the document, safe to remove it */
   else
     succeed = TRUE;
 
   /* remove the document */
   if (succeed)
-    gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
+    {
+      /* store some data in the recent history if the file exists on disk */
+      if (g_file_query_exists (mousepad_file_get_location (document->file), NULL))
+        mousepad_util_recent_add (document->file);
+
+      gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
+    }
 
   return succeed;
 }
@@ -5880,11 +5886,7 @@ mousepad_window_action_language (GSimpleAction *action,
       g_action_change_state (G_ACTION (action), value);
       language = gtk_source_language_manager_get_language (gtk_source_language_manager_get_default (),
                                                            g_variant_get_string (value, NULL));
-      gtk_source_buffer_set_language (GTK_SOURCE_BUFFER (window->active->buffer), language);
-
-      /* mark the file as having its language chosen explicitly by the user
-       * so we don't clobber their choice by guessing ourselves */
-      mousepad_file_set_user_set_language (window->active->file, TRUE);
+      mousepad_file_set_language (window->active->file, language);
 
       /* allow menu actions again */
       lock_menu_updates--;
