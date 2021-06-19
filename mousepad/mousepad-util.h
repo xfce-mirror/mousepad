@@ -102,6 +102,9 @@ void         mousepad_util_recent_init                      (void);
 
 void         mousepad_util_recent_add                       (MousepadFile               *file);
 
+void         mousepad_util_recent_get_language              (GFile                      *file,
+                                                             gchar                     **language);
+
 void         mousepad_util_recent_get_encoding              (GFile                      *file,
                                                              MousepadEncoding           *encoding);
 
