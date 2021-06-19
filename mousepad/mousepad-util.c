@@ -35,6 +35,7 @@
 enum
 {
   ENCODING,
+  LANGUAGE,
   N_RECENT_DATA
 };
 
@@ -1222,6 +1223,9 @@ mousepad_util_recent_init (void)
   recent_data[ENCODING].str = "Encoding: ";
   recent_data[ENCODING].len = strlen (recent_data[ENCODING].str);
 
+  recent_data[LANGUAGE].str = "Language: ";
+  recent_data[LANGUAGE].len = strlen (recent_data[LANGUAGE].str);
+
   /* disable and wipe recent history when 'recent-menu-items' is set to 0 */
   mousepad_util_recent_items_changed ();
   MOUSEPAD_SETTING_CONNECT (RECENT_MENU_ITEMS,
@@ -1236,7 +1240,7 @@ mousepad_util_recent_add (MousepadFile *file)
 {
   GtkRecentData  info;
   gchar         *uri, *description;
-  const gchar   *charset;
+  const gchar   *language = "", *charset;
   static gchar  *groups[] = { PACKAGE_NAME, NULL };
 
   /* don't insert in the recent history if history disabled */
@@ -1245,9 +1249,13 @@ mousepad_util_recent_add (MousepadFile *file)
 
   /* get the data */
   charset = mousepad_encoding_get_charset (mousepad_file_get_encoding (file));
+  if (mousepad_file_get_user_set_language (file))
+    language = mousepad_file_get_language (file);
 
   /* build description */
-  description = g_strdup_printf ("%s%s;", recent_data[ENCODING].str, charset);
+  description = g_strdup_printf ("%s%s; %s%s;",
+                                 recent_data[LANGUAGE].str, language,
+                                 recent_data[ENCODING].str, charset);
 
   /* create the recent info */
   info.display_name = NULL;
@@ -1308,6 +1316,14 @@ mousepad_util_recent_get_data (GFile    *file,
 
       break;
 
+    case LANGUAGE:
+      if (g_strcmp0 (str, MOUSEPAD_LANGUAGE_NONE) == 0 ||
+          gtk_source_language_manager_get_language (
+            gtk_source_language_manager_get_default (), str) != NULL)
+        *((gchar **) data) = g_strdup (str);
+
+      break;
+
     default:
       break;
     }
@@ -1315,6 +1331,15 @@ mousepad_util_recent_get_data (GFile    *file,
   /* cleanup */
   g_free (str);
   gtk_recent_info_unref (info);
+}
+
+
+
+void
+mousepad_util_recent_get_language (GFile  *file,
+                                   gchar **language)
+{
+  mousepad_util_recent_get_data (file, LANGUAGE, language);
 }
 
 
