@@ -784,13 +784,17 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
       else
         {
           /* fallback to current encoding if possible */
+          current_file = mousepad_object_get_data (dialog, "file");
+          encoding = mousepad_file_get_encoding (current_file);
+          if (encoding != MOUSEPAD_ENCODING_NONE)
+            mousepad_dialogs_combo_set_active (combo, encoding);
+
           /* try to create a temporary file to save the current buffer */
           if ((g_file = g_file_new_tmp (NULL, &iostream, &error)) != NULL)
             {
-              current_file = mousepad_object_get_data (dialog, "file");
               file = mousepad_file_new (mousepad_file_get_buffer (current_file));
               mousepad_file_set_location (file, g_file, TRUE);
-              if ((encoding = mousepad_file_get_encoding (current_file)) != MOUSEPAD_ENCODING_NONE)
+              if (encoding != MOUSEPAD_ENCODING_NONE)
                 mousepad_file_set_encoding (file, encoding);
               else
                 mousepad_file_set_encoding (file, mousepad_encoding_get_default ());
@@ -901,6 +905,14 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
       mousepad_dialogs_combo_set_active (combo, mousepad_encoding_get_default ());
       if (gtk_file_chooser_get_action (GTK_FILE_CHOOSER (dialog)) == GTK_FILE_CHOOSER_ACTION_OPEN)
         mousepad_dialogs_open_selection_changed (GTK_FILE_CHOOSER (dialog), combo);
+      else
+        {
+          current_file = mousepad_object_get_data (dialog, "file");
+          encoding = mousepad_file_get_encoding (current_file);
+          if (encoding != MOUSEPAD_ENCODING_NONE)
+            mousepad_dialogs_combo_set_active (combo, encoding);
+        }
+
       /* reopen combo box */
       g_idle_add_full (G_PRIORITY_LOW, mousepad_dialogs_combo_popup,
                        mousepad_util_source_autoremove (combo), NULL);
@@ -998,8 +1010,11 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
   gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 0, NULL);
 
-  /* select default encoding */
-  mousepad_dialogs_combo_set_active (GTK_COMBO_BOX (combo), default_encoding);
+  /* select start encoding */
+  if (current_encoding != MOUSEPAD_ENCODING_NONE)
+    mousepad_dialogs_combo_set_active (GTK_COMBO_BOX (combo), current_encoding);
+  else
+    mousepad_dialogs_combo_set_active (GTK_COMBO_BOX (combo), default_encoding);
 
   return GTK_COMBO_BOX (combo);
 }
