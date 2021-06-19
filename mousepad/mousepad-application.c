@@ -404,6 +404,7 @@ mousepad_application_parse_encoding (const gchar  *option_name,
                                      GError      **error)
 {
   MousepadApplication *application;
+  gboolean             user_set_encoding = TRUE;
 
   application = MOUSEPAD_APPLICATION (g_application_get_default ());
 
@@ -420,8 +421,12 @@ mousepad_application_parse_encoding (const gchar  *option_name,
         {
           g_printerr ("Invalid encoding '%s': ignored\n", value);
           application->encoding = mousepad_encoding_get_default ();
+          user_set_encoding = FALSE;
         }
     }
+
+  /* to be attached to the files to open later */
+  mousepad_object_set_data (application, "user-set-encoding", GINT_TO_POINTER (user_set_encoding));
 
   return TRUE;
 }
@@ -488,6 +493,8 @@ mousepad_application_handle_local_options (GApplication *gapplication,
 
   /* transfer encoding from remote to primary instance via the options dictionary */
   g_variant_dict_insert (options, "encoding", "u", application->encoding);
+  g_variant_dict_insert (options, "user-set-encoding", "b",
+    GPOINTER_TO_INT (mousepad_object_get_data (application, "user-set-encoding")));
 
   /* chain up to startup (primary instance) or command_line (remote instance) */
   return -1;
@@ -927,6 +934,7 @@ mousepad_application_command_line (GApplication            *gapplication,
   const gchar          *opening_mode, *working_directory;
   gchar               **filenames = NULL;
   gint                  n, n_files;
+  gboolean              user_set_encoding;
 
   /* get the option dictionary */
   options = g_application_command_line_get_options_dict (command_line);
@@ -949,6 +957,7 @@ mousepad_application_command_line (GApplication            *gapplication,
 
   /* retrieve encoding from the remote instance */
   g_variant_dict_lookup (options, "encoding", "u", &(application->encoding));
+  g_variant_dict_lookup (options, "user-set-encoding", "b", &user_set_encoding);
 
   /* see if an opening mode was provided on the command line */
   if (g_variant_dict_lookup (options, "opening-mode", "&s", &opening_mode))
@@ -996,6 +1005,8 @@ mousepad_application_command_line (GApplication            *gapplication,
       for (n = 0; n < n_files; n++)
         {
           file = g_application_command_line_create_file_for_arg (command_line, filenames[n]);
+          mousepad_object_set_data (file, "user-set-encoding",
+                                    GINT_TO_POINTER (user_set_encoding));
           g_ptr_array_add (files, file);
         }
       data = g_ptr_array_free (files, FALSE);
