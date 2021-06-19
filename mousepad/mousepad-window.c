@@ -116,6 +116,9 @@ static void              mousepad_window_set_title                    (MousepadW
 static gboolean          mousepad_window_get_in_fullscreen            (MousepadWindow         *window);
 static void              mousepad_window_update_bar_visibility        (MousepadWindow         *window,
                                                                        const gchar            *key);
+static void              mousepad_window_update_tabs_visibility       (MousepadWindow         *window,
+                                                                       gchar                  *key,
+                                                                       GSettings              *settings);
 
 /* notebook signals */
 static void              mousepad_window_notebook_switch_page         (GtkNotebook            *notebook,
@@ -192,20 +195,9 @@ static void              mousepad_window_update_menu_item             (MousepadW
 static void              mousepad_window_update_gomenu                (GSimpleAction          *action,
                                                                        GVariant               *state,
                                                                        gpointer                data);
-static void              mousepad_window_update_tabs                  (MousepadWindow         *window,
-                                                                       gchar                  *key,
-                                                                       GSettings              *settings);
-
-/* recent functions */
-static void              mousepad_window_recent_add                   (MousepadWindow         *window,
-                                                                       MousepadFile           *file);
-static void              mousepad_window_recent_manager_init          (MousepadWindow         *window);
 static void              mousepad_window_recent_menu                  (GSimpleAction          *action,
                                                                        GVariant               *state,
                                                                        gpointer                data);
-static const gchar      *mousepad_window_recent_get_charset           (GtkRecentInfo          *info);
-static void              mousepad_window_recent_clear                 (MousepadWindow         *window);
-static void              mousepad_window_recent_items_changed         (MousepadWindow         *window);
 
 /* dnd */
 static void              mousepad_window_drag_data_received           (GtkWidget              *widget,
@@ -456,7 +448,6 @@ struct _MousepadWindow
   GtkWidget           *languages_menu;
 
   /* menubar related */
-  GtkRecentManager    *recent_manager;
   const gchar         *gtkmenu_key, *offset_key;
   gboolean             old_style_menu;
 
@@ -717,25 +708,6 @@ mousepad_window_finalize (GObject *object)
     }
 
   (*G_OBJECT_CLASS (mousepad_window_parent_class)->finalize) (object);
-}
-
-
-
-/* Called when always-show-tabs setting changes to update the UI. */
-static void
-mousepad_window_update_tabs (MousepadWindow *window,
-                             gchar          *key,
-                             GSettings      *settings)
-{
-  gint     n_pages;
-  gboolean always_show;
-
-  always_show = MOUSEPAD_SETTING_GET_BOOLEAN (ALWAYS_SHOW_TABS);
-
-  n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
-
-  gtk_notebook_set_show_tabs (GTK_NOTEBOOK (window->notebook),
-                              (n_pages > 1 || always_show) ? TRUE : FALSE);
 }
 
 
@@ -1229,7 +1201,6 @@ mousepad_window_init (MousepadWindow *window)
   window->textview_menu = NULL;
   window->tab_menu = NULL;
   window->languages_menu = NULL;
-  window->recent_manager = NULL;
   window->gtkmenu_key = NULL;
   window->offset_key = NULL;
   window->old_style_menu = MOUSEPAD_SETTING_GET_BOOLEAN (OLD_STYLE_MENU);
@@ -1283,13 +1254,6 @@ mousepad_window_init (MousepadWindow *window)
   g_signal_connect (window, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
 
-  /* clear recent history when 'recent-menu-items' is set to 0 */
-  mousepad_window_recent_items_changed (window);
-
-  MOUSEPAD_SETTING_CONNECT_OBJECT (RECENT_MENU_ITEMS,
-                                   G_CALLBACK (mousepad_window_recent_items_changed),
-                                   window, G_CONNECT_SWAPPED);
-
   /* update the window title when 'path-in-title' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE,
                                    G_CALLBACK (mousepad_window_set_title),
@@ -1297,7 +1261,7 @@ mousepad_window_init (MousepadWindow *window)
 
   /* update the tabs when 'always-show-tabs' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (ALWAYS_SHOW_TABS,
-                                   G_CALLBACK (mousepad_window_update_tabs),
+                                   G_CALLBACK (mousepad_window_update_tabs_visibility),
                                    window, G_CONNECT_SWAPPED);
 }
 
@@ -1905,13 +1869,12 @@ mousepad_window_open_file (MousepadWindow   *window,
                            gboolean          must_exist)
 {
   MousepadDocument *document;
-  GtkRecentInfo    *info;
+  MousepadEncoding  history_encoding;
   GError           *error = NULL;
   GFile            *opened_file;
-  const gchar      *charset;
   gchar            *uri;
   gint              npages, result, i;
-  gboolean          make_valid = FALSE, encoding_from_recent = FALSE;
+  gboolean          make_valid = FALSE, user_set_encoding;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (file != NULL, FALSE);
@@ -1947,6 +1910,9 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* set the file location */
   mousepad_file_set_location (document->file, file, TRUE);
 
+  /* get the encoding status attached to the GFile */
+  user_set_encoding = GPOINTER_TO_INT (mousepad_object_get_data (file, "user_set_encoding"));
+
   /* the user chose to open the file in the encoding dialog */
   if (encoding == MOUSEPAD_ENCODING_NONE)
     {
@@ -1960,9 +1926,16 @@ mousepad_window_open_file (MousepadWindow   *window,
           return FALSE;
         }
     }
+  /* try to lookup the encoding from the recent history if not set by the user */
+  else if (! user_set_encoding)
+    {
+      uri = g_file_get_uri (file);
+      history_encoding = mousepad_util_recent_get_encoding (uri);
+      g_free (uri);
 
-  /* make sure the recent manager is initialized */
-  mousepad_window_recent_manager_init (window);
+      if (history_encoding != MOUSEPAD_ENCODING_NONE)
+        encoding = history_encoding;
+    }
 
   retry:
 
@@ -1994,7 +1967,7 @@ mousepad_window_open_file (MousepadWindow   *window,
                           mousepad_util_source_autoremove (window->active->textview));
 
             /* insert in the recent history */
-            mousepad_window_recent_add (window, document->file);
+            mousepad_util_recent_add (document->file);
           }
         break;
 
@@ -2002,37 +1975,6 @@ mousepad_window_open_file (MousepadWindow   *window,
       case ERROR_ENCODING_NOT_VALID:
         /* clear the error */
         g_clear_error (&error);
-
-        /* try to lookup the encoding from the recent history only if the default was used */
-        if (! encoding_from_recent && encoding == mousepad_encoding_get_default ())
-          {
-            /* we only try this once */
-            encoding_from_recent = TRUE;
-
-            /* build uri */
-            uri = g_file_get_uri (file);
-
-            /* try to lookup the recent item */
-            if (G_LIKELY (uri != NULL))
-              {
-                info = gtk_recent_manager_lookup_item (window->recent_manager, uri, NULL);
-
-                /* cleanup */
-                g_free (uri);
-
-                if (G_LIKELY (info != NULL))
-                  {
-                    /* try to find the encoding */
-                    charset = mousepad_window_recent_get_charset (info);
-                    encoding = mousepad_encoding_find (charset);
-                    gtk_recent_info_unref (info);
-
-                    /* try to open again with the last used encoding */
-                    if (G_LIKELY (encoding != MOUSEPAD_ENCODING_NONE))
-                      goto retry;
-                  }
-              }
-          }
 
         /* run the encoding dialog */
         if (mousepad_encoding_dialog (GTK_WINDOW (window), document->file, FALSE, &encoding)
@@ -2434,6 +2376,23 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
 
 
 
+static void
+mousepad_window_update_tabs_visibility (MousepadWindow *window,
+                                        gchar          *key,
+                                        GSettings      *settings)
+{
+  gint     n_pages;
+  gboolean always_show;
+
+  always_show = MOUSEPAD_SETTING_GET_BOOLEAN (ALWAYS_SHOW_TABS);
+
+  n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
+
+  gtk_notebook_set_show_tabs (GTK_NOTEBOOK (window->notebook), n_pages > 1 || always_show);
+}
+
+
+
 /**
  * Notebook Signal Functions
  **/
@@ -2613,7 +2572,7 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_enable_edit_actions), window);
 
   /* change the visibility of the tabs accordingly */
-  mousepad_window_update_tabs (window, NULL, NULL);
+  mousepad_window_update_tabs_visibility (window, NULL, NULL);
 }
 
 
@@ -2660,7 +2619,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
     }
   /* change the visibility of the tabs accordingly */
   else
-    mousepad_window_update_tabs (window, NULL, NULL);
+    mousepad_window_update_tabs_visibility (window, NULL, NULL);
 }
 
 
@@ -3512,13 +3471,13 @@ mousepad_window_update_menu_item (MousepadWindow *window,
   if (g_strcmp0 (menu_id, "item.file.reload") == 0)
     if (GPOINTER_TO_INT (data))
       {
-        label = _("Re_vert");
+        label = MOUSEPAD_LABEL_REVERT;
         icon = "document-revert";
         tooltip = _("Revert to the saved version of the file");
       }
     else
       {
-        label = _("Re_load");
+        label = MOUSEPAD_LABEL_RELOAD;
         icon = "view-refresh";
         tooltip = _("Reload file from disk");
       }
@@ -3666,62 +3625,6 @@ mousepad_window_update_gomenu (GSimpleAction *action,
 
 
 
-/**
- * Funtions for managing the recent files
- **/
-static void
-mousepad_window_recent_add (MousepadWindow *window,
-                            MousepadFile   *file)
-{
-  GtkRecentData  info;
-  gchar         *uri;
-  gchar         *description;
-  const gchar   *charset;
-  static gchar  *groups[] = { PACKAGE_NAME, NULL };
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_FILE (file));
-
-  /* don't insert in the recent history if history disabled */
-  if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
-    return;
-
-  /* get the charset */
-  charset = mousepad_encoding_get_charset (mousepad_file_get_encoding (file));
-
-  /* build description */
-  description = g_strdup_printf ("%s: %s", _("Charset"), charset);
-
-  /* create the recent data */
-  info.display_name = NULL;
-  info.description  = description;
-  info.mime_type    = "text/plain";
-  info.app_name     = PACKAGE_NAME;
-  info.app_exec     = PACKAGE " %u";
-  info.groups       = groups;
-  info.is_private   = FALSE;
-
-  /* create an uri from the filename */
-  uri = mousepad_file_get_uri (file);
-
-  if (G_LIKELY (uri != NULL))
-    {
-      /* make sure the recent manager is initialized */
-      mousepad_window_recent_manager_init (window);
-
-      /* add the new recent info to the recent manager */
-      gtk_recent_manager_add_full (window->recent_manager, uri, &info);
-
-      /* cleanup */
-      g_free (uri);
-    }
-
-  /* cleanup */
-  g_free (description);
-}
-
-
-
 /* sort list in descending order */
 static gint
 mousepad_window_recent_sort (gconstpointer ga,
@@ -3743,32 +3646,23 @@ mousepad_window_recent_sort (gconstpointer ga,
 
 
 static void
-mousepad_window_recent_manager_init (MousepadWindow *window)
-{
-  /* set recent manager if not already done */
-  if (G_UNLIKELY (window->recent_manager == NULL))
-    window->recent_manager = gtk_recent_manager_get_default ();
-}
-
-
-
-static void
 mousepad_window_recent_menu (GSimpleAction *action,
                              GVariant      *state,
                              gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GtkApplication *application;
-  GtkRecentInfo  *info;
-  GMenu          *menu;
-  GMenuItem      *menu_item;
-  GAction        *subaction;
-  GFile          *file;
-  GList          *items, *li, *next, *filtered = NULL;
-  const gchar    *uri, *display_name;
-  gchar          *label, *filename, *filename_utf8, *tooltip;
-  guint           n;
-  gboolean        bstate;
+  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
+  GtkApplication   *application;
+  GtkRecentManager *manager;
+  GtkRecentInfo    *info;
+  GMenu            *menu;
+  GMenuItem        *menu_item;
+  GAction          *subaction;
+  GFile            *file;
+  GList            *items, *li, *next, *filtered = NULL;
+  const gchar      *uri, *display_name;
+  gchar            *label, *filename, *filename_utf8, *tooltip;
+  guint             n;
+  gboolean          bstate;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -3796,11 +3690,9 @@ mousepad_window_recent_menu (GSimpleAction *action,
       /* empty the menu */
       g_menu_remove_all (menu);
 
-      /* make sure the recent manager is initialized */
-      mousepad_window_recent_manager_init (window);
-
       /* get all the items in the manager */
-      items = gtk_recent_manager_get_items (window->recent_manager);
+      manager = gtk_recent_manager_get_default ();
+      items = gtk_recent_manager_get_items (manager);
 
       /* walk through the items in the manager and pick the ones that are in the mousepad group */
       for (li = items; li != NULL; li = li->next)
@@ -3833,12 +3725,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
           /* append to the menu if the file exists, else remove it from the history */
           if (filename != NULL && g_file_test (filename, G_FILE_TEST_EXISTS))
             {
-              /* link the info data to the action via the unique filename */
-              subaction = g_action_map_lookup_action (G_ACTION_MAP (window), "file.open-recent.new");
-              mousepad_object_set_data_full (subaction, g_intern_string (filename),
-                                             gtk_recent_info_ref (info), gtk_recent_info_unref);
-
-              /* get the name of the item and escape the underscores */
+              /* get label, escaping underscores for mnemonics */
               display_name = gtk_recent_info_get_display_name (info);
               label = mousepad_util_escape_underscores (display_name);
 
@@ -3851,7 +3738,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
                * character escape issue */
               menu_item = g_menu_item_new (label, NULL);
               g_menu_item_set_action_and_target_value (menu_item, "win.file.open-recent.new",
-                                                       g_variant_new_string (filename));
+                                                       g_variant_new_string (uri));
               g_menu_item_set_attribute_value (menu_item, "tooltip", g_variant_new_string (tooltip));
               g_menu_append_item (menu, menu_item);
               g_object_unref (menu_item);
@@ -3862,7 +3749,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
               n--;
             }
           /* remove the item, don't both the user if this fails */
-          else if (gtk_recent_manager_remove_item (window->recent_manager, uri, NULL))
+          else if (gtk_recent_manager_remove_item (manager, uri, NULL))
             filtered = g_list_delete_link (filtered, li);
 
           /* update pointer */
@@ -3896,85 +3783,6 @@ mousepad_window_recent_menu (GSimpleAction *action,
       mousepad_window_menu_update_tooltips (G_MENU_MODEL (menu), 0, 0, 0, window);
       lock_menu_updates--;
     }
-}
-
-
-
-static const gchar *
-mousepad_window_recent_get_charset (GtkRecentInfo *info)
-{
-  const gchar *description;
-  const gchar *charset = NULL;
-  guint        offset;
-
-  /* get the description */
-  description = gtk_recent_info_get_description (info);
-  if (G_LIKELY (description))
-    {
-      /* get the offset length: 'Encoding: ' */
-      offset = strlen (_("Charset")) + 2;
-
-      /* check if the encoding string looks valid, if so, set it */
-      if (G_LIKELY (strlen (description) > offset))
-        charset = description + offset;
-    }
-
-  return charset;
-}
-
-
-
-static void
-mousepad_window_recent_clear (MousepadWindow *window)
-{
-  GList         *items, *li;
-  const gchar   *uri;
-  GError        *error = NULL;
-  GtkRecentInfo *info;
-
-  /* make sure the recent manager is initialized */
-  mousepad_window_recent_manager_init (window);
-
-  /* get all the items in the manager */
-  items = gtk_recent_manager_get_items (window->recent_manager);
-
-  /* walk through the items */
-  for (li = items; li != NULL; li = li->next)
-    {
-      info = li->data;
-
-      /* check if the item is in the Mousepad group */
-      if (!gtk_recent_info_has_group (info, PACKAGE_NAME))
-        continue;
-
-      /* get the uri of the recent item */
-      uri = gtk_recent_info_get_uri (info);
-
-      /* try to remove it, if it fails, break the loop to avoid multiple errors */
-      if (G_UNLIKELY (! gtk_recent_manager_remove_item (window->recent_manager, uri, &error)))
-        break;
-     }
-
-  /* cleanup */
-  g_list_free_full (items, (GDestroyNotify) gtk_recent_info_unref);
-
-  /* print a warning is there is one */
-  if (G_UNLIKELY (error != NULL))
-    {
-      mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to clear the recent history"));
-      g_error_free (error);
-    }
-}
-
-
-
-static void
-mousepad_window_recent_items_changed (MousepadWindow *window)
-{
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
-    mousepad_window_recent_clear (window);
 }
 
 
@@ -4593,7 +4401,10 @@ mousepad_window_action_open (GSimpleAction *action,
 
       /* open all the selected locations in new tabs */
       for (file = files; file != NULL; file = file->next)
-        mousepad_window_open_file (window, file->data, encoding, 0, 0, TRUE);
+        {
+          mousepad_object_set_data (file->data, "user_set_encoding", GINT_TO_POINTER (TRUE));
+          mousepad_window_open_file (window, file->data, encoding, 0, 0, TRUE);
+        }
 
       /* cleanup */
       g_slist_free_full (files, g_object_unref);
@@ -4612,41 +4423,29 @@ mousepad_window_action_open_recent (GSimpleAction *action,
 {
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadEncoding  encoding;
-  GtkRecentInfo    *info;
   GFile            *file;
-  const gchar      *uri, *charset;
+  const gchar      *uri;
   gboolean          succeed = FALSE;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
-  /* get the info */
-  info = mousepad_object_get_data (action, g_variant_get_string (value, NULL));
+  /* try to find the encoding from recent history */
+  uri = g_variant_get_string (value, NULL);
+  encoding = mousepad_util_recent_get_encoding (uri);
+  if (G_UNLIKELY (encoding == MOUSEPAD_ENCODING_NONE))
+    encoding = mousepad_encoding_get_default ();
 
-  if (G_LIKELY (info != NULL))
-    {
-      /* get the file uri */
-      uri = gtk_recent_info_get_uri (info);
+  /* try to open the file */
+  file = g_file_new_for_uri (uri);
+  mousepad_object_set_data (file, "user_set_encoding", GINT_TO_POINTER (TRUE));
+  succeed = mousepad_window_open_file (window, file, encoding, 0, 0, TRUE);
+  g_object_unref (file);
 
-      if (G_LIKELY (uri != NULL))
-        {
-          /* try to get the charset from the description */
-          charset = mousepad_window_recent_get_charset (info);
-
-          /* lookup the encoding */
-          encoding = mousepad_encoding_find (charset);
-
-          /* try to open the file */
-          file = g_file_new_for_uri (uri);
-          succeed = mousepad_window_open_file (window, file, encoding, 0, 0, TRUE);
-          g_object_unref (file);
-
-          /* update the document history, don't both the user if this fails */
-          if (G_LIKELY (succeed))
-            gtk_recent_manager_add_item (window->recent_manager, uri);
-          else
-            gtk_recent_manager_remove_item (window->recent_manager, uri, NULL);
-        }
-    }
+  /* update the recent history, don't both the user if this fails */
+  if (G_LIKELY (succeed))
+    gtk_recent_manager_add_item (gtk_recent_manager_get_default (), uri);
+  else
+    gtk_recent_manager_remove_item (gtk_recent_manager_get_default (), uri, NULL);
 }
 
 
@@ -4667,7 +4466,7 @@ mousepad_window_action_clear_recent (GSimpleAction *action,
       lock_menu_updates++;
 
       /* clear the document history */
-      mousepad_window_recent_clear (window);
+      mousepad_util_recent_clear ();
 
       /* allow menu updates again */
       lock_menu_updates--;
@@ -4810,7 +4609,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
           mousepad_file_set_location (document->file, file, TRUE);
 
           /* add to the recent history */
-          mousepad_window_recent_add (window, document->file);
+          mousepad_util_recent_add (document->file);
 
           /* update last save location */
           if (last_save_location != NULL)
@@ -6100,11 +5899,7 @@ mousepad_window_action_language (GSimpleAction *action,
       g_action_change_state (G_ACTION (action), value);
       language = gtk_source_language_manager_get_language (gtk_source_language_manager_get_default (),
                                                            g_variant_get_string (value, NULL));
-      gtk_source_buffer_set_language (GTK_SOURCE_BUFFER (window->active->buffer), language);
-
-      /* mark the file as having its language chosen explicitly by the user
-       * so we don't clobber their choice by guessing ourselves */
-      mousepad_file_set_user_set_language (window->active->file, TRUE);
+      mousepad_file_set_language (window->active->file, language);
 
       /* allow menu actions again */
       lock_menu_updates--;

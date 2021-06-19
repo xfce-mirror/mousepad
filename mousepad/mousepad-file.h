@@ -89,8 +89,12 @@ void                mousepad_file_set_line_ending          (MousepadFile        
 
 MousepadLineEnding  mousepad_file_get_line_ending          (MousepadFile        *file);
 
-void                mousepad_file_set_user_set_language    (MousepadFile        *file,
-                                                            gboolean             set_by_user);
+void                mousepad_file_set_language             (MousepadFile        *file,
+                                                            GtkSourceLanguage   *language);
+
+GtkSourceLanguage  *mousepad_file_get_language             (MousepadFile        *file);
+
+gboolean            mousepad_file_get_user_set_language    (MousepadFile        *file);
 
 gint                mousepad_file_open                     (MousepadFile        *file,
                                                             gint                 line,
