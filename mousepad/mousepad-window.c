@@ -1869,11 +1869,12 @@ mousepad_window_open_file (MousepadWindow   *window,
                            gboolean          must_exist)
 {
   MousepadDocument *document;
+  MousepadEncoding  history_encoding;
   GError           *error = NULL;
   GFile            *opened_file;
   gchar            *uri;
   gint              npages, result, i;
-  gboolean          make_valid = FALSE, encoding_from_recent = FALSE;
+  gboolean          make_valid = FALSE, user_set_encoding;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (file != NULL, FALSE);
@@ -1909,6 +1910,9 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* set the file location */
   mousepad_file_set_location (document->file, file, TRUE);
 
+  /* get the encoding status attached to the GFile */
+  user_set_encoding = GPOINTER_TO_INT (mousepad_object_get_data (file, "user_set_encoding"));
+
   /* the user chose to open the file in the encoding dialog */
   if (encoding == MOUSEPAD_ENCODING_NONE)
     {
@@ -1921,6 +1925,16 @@ mousepad_window_open_file (MousepadWindow   *window,
 
           return FALSE;
         }
+    }
+  /* try to lookup the encoding from the recent history if not set by the user */
+  else if (! user_set_encoding)
+    {
+      uri = g_file_get_uri (file);
+      history_encoding = mousepad_util_recent_get_encoding (uri);
+      g_free (uri);
+
+      if (history_encoding != MOUSEPAD_ENCODING_NONE)
+        encoding = history_encoding;
     }
 
   retry:
@@ -1961,22 +1975,6 @@ mousepad_window_open_file (MousepadWindow   *window,
       case ERROR_ENCODING_NOT_VALID:
         /* clear the error */
         g_clear_error (&error);
-
-        /* try to lookup the encoding from the recent history only if the default was used */
-        if (! encoding_from_recent && encoding == mousepad_encoding_get_default ())
-          {
-            /* we only try this once */
-            encoding_from_recent = TRUE;
-
-            /* try to find the encoding from recent history */
-            uri = g_file_get_uri (file);
-            encoding = mousepad_util_recent_get_encoding (uri);
-            g_free (uri);
-
-            /* try to open again with the last used encoding */
-            if (G_LIKELY (encoding != MOUSEPAD_ENCODING_NONE))
-              goto retry;
-          }
 
         /* run the encoding dialog */
         if (mousepad_encoding_dialog (GTK_WINDOW (window), document->file, FALSE, &encoding)
@@ -4403,7 +4401,10 @@ mousepad_window_action_open (GSimpleAction *action,
 
       /* open all the selected locations in new tabs */
       for (file = files; file != NULL; file = file->next)
-        mousepad_window_open_file (window, file->data, encoding, 0, 0, TRUE);
+        {
+          mousepad_object_set_data (file->data, "user_set_encoding", GINT_TO_POINTER (TRUE));
+          mousepad_window_open_file (window, file->data, encoding, 0, 0, TRUE);
+        }
 
       /* cleanup */
       g_slist_free_full (files, g_object_unref);
@@ -4436,6 +4437,7 @@ mousepad_window_action_open_recent (GSimpleAction *action,
 
   /* try to open the file */
   file = g_file_new_for_uri (uri);
+  mousepad_object_set_data (file, "user_set_encoding", GINT_TO_POINTER (TRUE));
   succeed = mousepad_window_open_file (window, file, encoding, 0, 0, TRUE);
   g_object_unref (file);
 
