@@ -1872,7 +1872,7 @@ mousepad_window_open_file (MousepadWindow   *window,
   GError           *error = NULL;
   GFile            *opened_file;
   gint              npages, result, i;
-  gboolean          make_valid = FALSE, user_set_encoding;
+  gboolean          make_valid = FALSE, user_set_encoding, user_set_cursor;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (file != NULL, FALSE);
@@ -1908,8 +1908,9 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* set the file location */
   mousepad_file_set_location (document->file, file, TRUE);
 
-  /* get the encoding status attached to the GFile */
+  /* get the data status attached to the GFile */
   user_set_encoding = GPOINTER_TO_INT (mousepad_object_get_data (file, "user-set-encoding"));
+  user_set_cursor = GPOINTER_TO_INT (mousepad_object_get_data (file, "user-set-cursor"));
 
   /* the user chose to open the file in the encoding dialog */
   if (encoding == MOUSEPAD_ENCODING_NONE)
@@ -1927,6 +1928,10 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* try to lookup the encoding from the recent history if not set by the user */
   else if (! user_set_encoding)
     mousepad_util_recent_get_encoding (file, &encoding);
+
+  /* try to lookup the cursor position from the recent history if not set by the user */
+  if (! user_set_cursor)
+    mousepad_util_recent_get_cursor (file, &line, &column);
 
   retry:
 
@@ -2123,13 +2128,19 @@ mousepad_window_close_document (MousepadWindow   *window,
             break;
         }
     }
-  /* no changes in the document, safe to destroy it */
+  /* no changes in the document, safe to remove it */
   else
     succeed = TRUE;
 
   /* remove the document */
   if (succeed)
-    gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
+    {
+      /* store some data in the recent history if the file exists on disk */
+      if (g_file_query_exists (mousepad_file_get_location (document->file), NULL))
+        mousepad_util_recent_add (document->file);
+
+      gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
+    }
 
   return succeed;
 }
@@ -4377,6 +4388,7 @@ mousepad_window_action_open (GSimpleAction *action,
   MousepadWindow   *window = MOUSEPAD_WINDOW (data);
   MousepadEncoding  encoding;
   GSList           *files, *file;
+  gint              line, column;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -4394,7 +4406,10 @@ mousepad_window_action_open (GSimpleAction *action,
       for (file = files; file != NULL; file = file->next)
         {
           mousepad_object_set_data (file->data, "user-set-encoding", GINT_TO_POINTER (TRUE));
-          mousepad_window_open_file (window, file->data, encoding, 0, 0, TRUE);
+          mousepad_object_set_data (file->data, "user-set-cursor", GINT_TO_POINTER (TRUE));
+          line = column = 0;
+          mousepad_util_recent_get_cursor (file->data, &line, &column);
+          mousepad_window_open_file (window, file->data, encoding, line, column, TRUE);
         }
 
       /* cleanup */
@@ -4417,6 +4432,7 @@ mousepad_window_action_open_recent (GSimpleAction *action,
   GFile            *file;
   const gchar      *uri;
   gboolean          succeed = FALSE;
+  gint              line = 0, column = 0;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -4429,7 +4445,10 @@ mousepad_window_action_open_recent (GSimpleAction *action,
 
   /* try to open the file */
   mousepad_object_set_data (file, "user-set-encoding", GINT_TO_POINTER (TRUE));
-  succeed = mousepad_window_open_file (window, file, encoding, 0, 0, TRUE);
+  mousepad_object_set_data (file, "user-set-cursor", GINT_TO_POINTER (TRUE));
+  mousepad_util_recent_get_cursor (file, &line, &column);
+  succeed = mousepad_window_open_file (window, file, encoding, line, column, TRUE);
+  g_object_unref (file);
 
   /* update the recent history, don't both the user if this fails */
   if (G_LIKELY (succeed))
