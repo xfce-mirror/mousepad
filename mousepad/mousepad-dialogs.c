@@ -137,8 +137,8 @@ mousepad_dialogs_other_tab_size (GtkWindow *parent,
 
   /* build dialog */
   dialog = gtk_dialog_new_with_buttons (_("Select Tab Size"), parent, GTK_DIALOG_MODAL,
-                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL,
-                                        _("_OK"), MOUSEPAD_RESPONSE_OK, NULL);
+                                        MOUSEPAD_LABEL_CANCEL, MOUSEPAD_RESPONSE_CANCEL,
+                                        MOUSEPAD_LABEL_OK, MOUSEPAD_RESPONSE_OK, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
@@ -229,7 +229,7 @@ mousepad_dialogs_go_to (GtkWindow     *parent,
 
   /* build the dialog */
   dialog = gtk_dialog_new_with_buttons (_("Go To"), parent, GTK_DIALOG_MODAL,
-                                        _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+                                        MOUSEPAD_LABEL_CANCEL, MOUSEPAD_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
@@ -348,7 +348,8 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
     _("Clearing the documents history will permanently remove all currently listed entries."));
 
   /* add buttons */
-  gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+  gtk_dialog_add_buttons (GTK_DIALOG (dialog), MOUSEPAD_LABEL_CANCEL,
+                          MOUSEPAD_RESPONSE_CANCEL, NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
   button = mousepad_util_image_button ("edit-clear", _("Clea_r"));
@@ -391,7 +392,8 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* add buttons */
-  gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+  gtk_dialog_add_buttons (GTK_DIALOG (dialog), MOUSEPAD_LABEL_CANCEL,
+                          MOUSEPAD_RESPONSE_CANCEL, NULL);
 
   if (G_LIKELY (closing))
     {
@@ -404,13 +406,13 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
         {
           text = _("If you don't save this read-only document as another file"
                    ", all the changes will be lost.");
-          button = mousepad_util_image_button ("document-save-as", _("_Save As"));
+          button = mousepad_util_image_button ("document-save-as", MOUSEPAD_LABEL_SAVE_AS);
           button_response = MOUSEPAD_RESPONSE_SAVE_AS;
         }
       else
         {
           text = _("If you don't save the document, all the changes will be lost.");
-          button = mousepad_util_image_button ("document-save", _("_Save"));
+          button = mousepad_util_image_button ("document-save", MOUSEPAD_LABEL_SAVE);
           button_response = MOUSEPAD_RESPONSE_SAVE;
         }
 
@@ -419,7 +421,7 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
     }
   else
     {
-      button = mousepad_util_image_button ("document-save-as", _("_Save As"));
+      button = mousepad_util_image_button ("document-save-as", MOUSEPAD_LABEL_SAVE_AS);
       button_response = MOUSEPAD_RESPONSE_SAVE_AS;
     }
 
@@ -453,7 +455,7 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
       text_1 = _("The document has been externally modified. Do you want to continue saving?");
       text_2 = _("If you save the document, all of the external changes will be lost.");
       icon = "document-save-as";
-      label = _("Save _As");
+      label = MOUSEPAD_LABEL_SAVE_AS;
       button_response = MOUSEPAD_RESPONSE_SAVE_AS;
     }
   else
@@ -465,13 +467,13 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
         {
           text_2 = _("You have unsaved changes. If you revert the file, they will be lost.");
           icon = "document-revert";
-          label = _("_Revert");
+          label = MOUSEPAD_LABEL_REVERT;
         }
       else
         {
           text_2 = NULL;
           icon = "view-refresh";
-          label = _("Re_load");
+          label = MOUSEPAD_LABEL_RELOAD;
         }
     }
 
@@ -489,7 +491,8 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
     gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", text_2);
 
   /* add buttons */
-  gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+  gtk_dialog_add_buttons (GTK_DIALOG (dialog), MOUSEPAD_LABEL_CANCEL,
+                          MOUSEPAD_RESPONSE_CANCEL, NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
   button = mousepad_util_image_button (icon, label);
@@ -497,7 +500,7 @@ mousepad_dialogs_externally_modified (GtkWindow *parent,
 
   if (saving)
     {
-      button = mousepad_util_image_button ("document-save", _("_Save"));
+      button = mousepad_util_image_button ("document-save", MOUSEPAD_LABEL_SAVE);
       gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE);
     }
 
@@ -533,13 +536,14 @@ mousepad_dialogs_revert (GtkWindow *parent)
     _("If you revert the file, all unsaved changes will be lost."));
 
   /* add buttons */
-  gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Cancel"), MOUSEPAD_RESPONSE_CANCEL, NULL);
+  gtk_dialog_add_buttons (GTK_DIALOG (dialog), MOUSEPAD_LABEL_CANCEL,
+                          MOUSEPAD_RESPONSE_CANCEL, NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_CANCEL);
 
-  button = mousepad_util_image_button ("document-save-as", _("_Save As"));
+  button = mousepad_util_image_button ("document-save-as", MOUSEPAD_LABEL_SAVE_AS);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_SAVE_AS);
 
-  button = mousepad_util_image_button ("document-revert", _("_Revert"));
+  button = mousepad_util_image_button ("document-revert", MOUSEPAD_LABEL_REVERT);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_RELOAD);
 
   /* run the dialog */
@@ -586,6 +590,119 @@ mousepad_dialogs_confirm_encoding (const gchar *charset,
   gtk_widget_destroy (dialog);
 
   return response;
+}
+
+
+
+static gboolean
+mousepad_dialogs_combo_set_active (GtkComboBox      *combo,
+                                   MousepadEncoding  encoding)
+{
+  GtkTreeModel     *model;
+  GtkTreeIter       iter;
+  MousepadEncoding  value;
+  gint              n = 0;
+
+  model = gtk_combo_box_get_model (combo);
+  do
+    {
+      if (! gtk_tree_model_iter_nth_child (model, &iter, NULL, n++))
+        return FALSE;
+
+      gtk_tree_model_get (model, &iter, 1, &value, -1);
+    }
+  while (value != encoding);
+
+  gtk_combo_box_set_active_iter (combo, &iter);
+
+  return TRUE;
+}
+
+
+
+static void
+mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
+                                         GtkComboBox    *combo)
+{
+  MousepadEncoding  encoding = MOUSEPAD_ENCODING_NONE;
+  GtkTreeModel     *model;
+  GtkTreeIter       iter;
+  GSList           *files;
+  gchar            *label = NULL;
+  gint              row_type, row = 1;
+  gboolean          replace = FALSE;
+
+  /* do nothing if no file or several files are selected */
+  files = gtk_file_chooser_get_files (chooser);
+  if (files == NULL || g_slist_length (files) > 1)
+    {
+      g_slist_free_full (files, g_free);
+      return;
+    }
+
+  /* get encoding from history, exit on failure */
+  mousepad_util_recent_get_encoding (files->data, &encoding);
+  if (encoding == MOUSEPAD_ENCODING_NONE)
+    {
+      g_slist_free_full (files, g_free);
+      return;
+    }
+
+  /* get second row type */
+  model = gtk_combo_box_get_model (combo);
+  gtk_tree_model_iter_nth_child (model, &iter, NULL, row);
+  gtk_tree_model_get (model, &iter, 1, &row_type, -1);
+
+  /* shorten list */
+  if (row_type == -1)
+    {
+      /* if already in the list, set history encoding active and update label if needed */
+      if (mousepad_dialogs_combo_set_active (combo, encoding))
+        {
+          gtk_combo_box_get_active_iter (combo, &iter);
+          gtk_tree_model_get (model, &iter, 0, &label, -1);
+          if (g_strstr_len (label, -1, "(") == NULL)
+            {
+              g_free (label);
+              label = g_strdup_printf ("%s (%s)", MOUSEPAD_ENCODING_LABEL_HISTORY,
+                                       mousepad_encoding_get_charset (encoding));
+              gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, label, -1);
+            }
+
+          g_free (label);
+        }
+      /* not in the list, add it */
+      else
+        {
+          /* insert after all predefined encodings */
+          do
+            {
+              row++;
+              gtk_tree_model_iter_next (model, &iter);
+              g_free (label);
+              gtk_tree_model_get (model, &iter, 0, &label, -1);
+            }
+          while (label != NULL && g_strstr_len (label, -1, "(") != NULL
+                 && ! (replace = g_strstr_len (label, -1, MOUSEPAD_ENCODING_LABEL_HISTORY) != NULL));
+
+          g_free (label);
+          label = g_strdup_printf ("%s (%s)", MOUSEPAD_ENCODING_LABEL_HISTORY,
+                                   mousepad_encoding_get_charset (encoding));
+          if (replace)
+            gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, label, 1, encoding, -1);
+          else
+            gtk_list_store_insert_with_values (GTK_LIST_STORE (model), NULL, row,
+                                               0, label, 1, encoding, -1);
+
+          gtk_combo_box_set_active_iter (combo, &iter);
+          g_free (label);
+        }
+    }
+  /* full list */
+  else
+    mousepad_dialogs_combo_set_active (combo, encoding);
+
+  g_slist_free_full (files, g_free);
 }
 
 
@@ -643,12 +760,15 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
   if (row_type == -2)
     {
       /* fallback to default encoding as a last resort */
-      gtk_combo_box_set_active (combo, 2);
+      mousepad_dialogs_combo_set_active (combo, mousepad_encoding_get_default ());
 
       /* "Open" dialog */
       if (gtk_file_chooser_get_action (GTK_FILE_CHOOSER (dialog))
           == GTK_FILE_CHOOSER_ACTION_OPEN)
         {
+          /* fallback to history encoding if possible */
+          mousepad_dialogs_open_selection_changed (GTK_FILE_CHOOSER (dialog), combo);
+
           /* get a list of selected locations, must be non empty */
           if ((files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog))) != NULL)
             {
@@ -663,13 +783,18 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
       /* "Save As" dialog */
       else
         {
+          /* fallback to current encoding if possible */
+          current_file = mousepad_object_get_data (dialog, "file");
+          encoding = mousepad_file_get_encoding (current_file);
+          if (encoding != MOUSEPAD_ENCODING_NONE)
+            mousepad_dialogs_combo_set_active (combo, encoding);
+
           /* try to create a temporary file to save the current buffer */
           if ((g_file = g_file_new_tmp (NULL, &iostream, &error)) != NULL)
             {
-              current_file = mousepad_object_get_data (dialog, "file");
               file = mousepad_file_new (mousepad_file_get_buffer (current_file));
               mousepad_file_set_location (file, g_file, TRUE);
-              if ((encoding = mousepad_file_get_encoding (current_file)) != MOUSEPAD_ENCODING_NONE)
+              if (encoding != MOUSEPAD_ENCODING_NONE)
                 mousepad_file_set_encoding (file, encoding);
               else
                 mousepad_file_set_encoding (file, mousepad_encoding_get_default ());
@@ -761,7 +886,6 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
 
           /* set full list, spreading it over several columns */
           gtk_combo_box_set_model (combo, GTK_TREE_MODEL (list));
-          gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 2);
           n_rows = MOUSEPAD_N_ENCODINGS + 1;
           gtk_combo_box_set_wrap_width (combo, n_rows / 10 + (n_rows % 10 != 0));
         }
@@ -770,12 +894,23 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
         {
           /* set shorten list */
           gtk_combo_box_set_model (combo, short_model);
-          gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 2);
           gtk_combo_box_set_wrap_width (combo, 1);
 
           /* cleanup */
           g_object_unref (model);
           short_model = NULL;
+        }
+
+      /* select a reasonable encoding */
+      mousepad_dialogs_combo_set_active (combo, mousepad_encoding_get_default ());
+      if (gtk_file_chooser_get_action (GTK_FILE_CHOOSER (dialog)) == GTK_FILE_CHOOSER_ACTION_OPEN)
+        mousepad_dialogs_open_selection_changed (GTK_FILE_CHOOSER (dialog), combo);
+      else
+        {
+          current_file = mousepad_object_get_data (dialog, "file");
+          encoding = mousepad_file_get_encoding (current_file);
+          if (encoding != MOUSEPAD_ENCODING_NONE)
+            mousepad_dialogs_combo_set_active (combo, encoding);
         }
 
       /* reopen combo box */
@@ -794,7 +929,6 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   GtkWidget        *hbox, *widget, *combo;
   GtkListStore     *list;
   GtkCellRenderer  *cell;
-  const gchar      *charset;
   gchar            *label;
   guint             n_rows = 0, n;
   MousepadEncoding  encodings[] = { MOUSEPAD_ENCODING_UTF_8, MOUSEPAD_ENCODING_ISO_8859_15 };
@@ -817,17 +951,17 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
 
   /* add default charset */
   default_encoding = mousepad_encoding_get_default ();
-  label = g_strdup_printf ("%s (%s)", _("Default"),
+  label = g_strdup_printf ("%s (%s)", MOUSEPAD_ENCODING_LABEL_DEFAULT,
                            mousepad_encoding_get_charset (default_encoding));
   gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, label, 1, default_encoding, -1);
   g_free (label);
 
   /* add system charset if supported and different from default */
-  g_get_charset (&charset);
-  system_encoding = mousepad_encoding_find (charset);
+  system_encoding = mousepad_encoding_get_system ();
   if (system_encoding != MOUSEPAD_ENCODING_NONE && system_encoding != default_encoding)
     {
-      label = g_strdup_printf ("%s (%s)", _("System"), charset);
+      label = g_strdup_printf ("%s (%s)", MOUSEPAD_ENCODING_LABEL_SYSTEM,
+                               mousepad_encoding_get_charset (system_encoding));
       gtk_list_store_insert_with_values (list, NULL, n_rows++, 0, label, 1, system_encoding, -1);
       g_free (label);
     }
@@ -876,8 +1010,11 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
   gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 0, NULL);
 
-  /* select default encoding */
-  gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 2);
+  /* select start encoding */
+  if (current_encoding != MOUSEPAD_ENCODING_NONE)
+    mousepad_dialogs_combo_set_active (GTK_COMBO_BOX (combo), current_encoding);
+  else
+    mousepad_dialogs_combo_set_active (GTK_COMBO_BOX (combo), default_encoding);
 
   return GTK_COMBO_BOX (combo);
 }
@@ -918,14 +1055,14 @@ mousepad_dialogs_save_as (GtkWindow         *parent,
 
   /* create the dialog */
   dialog = gtk_file_chooser_dialog_new (_("Save As"), parent, GTK_FILE_CHOOSER_ACTION_SAVE,
-                                        _("_Cancel"), GTK_RESPONSE_CANCEL, NULL);
+                                        MOUSEPAD_LABEL_CANCEL, GTK_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* add button */
-  button = mousepad_util_image_button ("document-save", _("_Save"));
+  button = mousepad_util_image_button ("document-save", MOUSEPAD_LABEL_SAVE);
   gtk_widget_set_can_default (button, TRUE);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, GTK_RESPONSE_ACCEPT);
 
@@ -981,7 +1118,7 @@ mousepad_dialogs_open (GtkWindow         *parent,
 
   /* create new file chooser dialog */
   dialog = gtk_file_chooser_dialog_new (_("Open File"), parent, GTK_FILE_CHOOSER_ACTION_OPEN,
-                                        _("_Cancel"), GTK_RESPONSE_CANCEL, NULL);
+                                        MOUSEPAD_LABEL_CANCEL, GTK_RESPONSE_CANCEL, NULL);
   mousepad_dialogs_destroy_with_parent (dialog, parent);
 
   /* setup CSD titlebar */
@@ -1002,6 +1139,10 @@ mousepad_dialogs_open (GtkWindow         *parent,
 
   /* encoding selector */
   combo = mousepad_dialogs_add_encoding_combo (dialog);
+
+  /* update encoding selector from history when selection changes */
+  g_signal_connect (dialog, "selection-changed",
+                    G_CALLBACK (mousepad_dialogs_open_selection_changed), combo);
 
   /* select the active document in the file chooser */
   if (file != NULL && g_file_query_exists (file, NULL))

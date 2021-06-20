@@ -28,6 +28,14 @@ G_BEGIN_DECLS
 #define MOUSEPAD_MESSAGE_IO_ERROR             _("Failed to open the document")
 #define MOUSEPAD_MESSAGE_UNSUPPORTED_ENCODING _("Unsupported character set")
 
+/* button labels */
+#define MOUSEPAD_LABEL_CANCEL  _("_Cancel")
+#define MOUSEPAD_LABEL_OK      _("_OK")
+#define MOUSEPAD_LABEL_SAVE    _("_Save")
+#define MOUSEPAD_LABEL_SAVE_AS _("Save _As")
+#define MOUSEPAD_LABEL_REVERT  _("Re_vert")
+#define MOUSEPAD_LABEL_RELOAD  _("Re_load")
+
 /* dialog responses */
 enum {
   MOUSEPAD_RESPONSE_CANCEL,

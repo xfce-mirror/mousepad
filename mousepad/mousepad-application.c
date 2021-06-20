@@ -404,6 +404,7 @@ mousepad_application_parse_encoding (const gchar  *option_name,
                                      GError      **error)
 {
   MousepadApplication *application;
+  gboolean             user_set_encoding = TRUE;
 
   application = MOUSEPAD_APPLICATION (g_application_get_default ());
 
@@ -420,8 +421,12 @@ mousepad_application_parse_encoding (const gchar  *option_name,
         {
           g_printerr ("Invalid encoding '%s': ignored\n", value);
           application->encoding = mousepad_encoding_get_default ();
+          user_set_encoding = FALSE;
         }
     }
+
+  /* to be attached to the files to open later */
+  mousepad_object_set_data (application, "user-set-encoding", GINT_TO_POINTER (user_set_encoding));
 
   return TRUE;
 }
@@ -488,6 +493,8 @@ mousepad_application_handle_local_options (GApplication *gapplication,
 
   /* transfer encoding from remote to primary instance via the options dictionary */
   g_variant_dict_insert (options, "encoding", "u", application->encoding);
+  g_variant_dict_insert (options, "user-set-encoding", "b",
+    GPOINTER_TO_INT (mousepad_object_get_data (application, "user-set-encoding")));
 
   /* chain up to startup (primary instance) or command_line (remote instance) */
   return -1;
@@ -908,6 +915,9 @@ mousepad_application_startup (GApplication *gapplication)
   /* do some actions when the active window changes */
   g_signal_connect (application, "notify::active-window",
                     G_CALLBACK (mousepad_application_active_window_changed), NULL);
+
+  /* disable and wipe recent history when 'recent-menu-items' is set to 0 */
+  mousepad_util_recent_bind_disabled ();
 }
 
 
@@ -924,6 +934,7 @@ mousepad_application_command_line (GApplication            *gapplication,
   const gchar          *opening_mode, *working_directory;
   gchar               **filenames = NULL;
   gint                  n, n_files;
+  gboolean              user_set_encoding, user_set_cursor = FALSE;
 
   /* get the option dictionary */
   options = g_application_command_line_get_options_dict (command_line);
@@ -946,6 +957,7 @@ mousepad_application_command_line (GApplication            *gapplication,
 
   /* retrieve encoding from the remote instance */
   g_variant_dict_lookup (options, "encoding", "u", &(application->encoding));
+  g_variant_dict_lookup (options, "user-set-encoding", "b", &user_set_encoding);
 
   /* see if an opening mode was provided on the command line */
   if (g_variant_dict_lookup (options, "opening-mode", "&s", &opening_mode))
@@ -971,13 +983,20 @@ mousepad_application_command_line (GApplication            *gapplication,
   /* see if line number was not provided on the command line */
   if (! g_variant_dict_lookup (options, "line", "i", &(application->line)))
     application->line = 0;
-  /* for user line starts from 1 but for gtk line starts from 0 */
-  else if (application->line > 0)
-    --application->line;
+  else
+    {
+      user_set_cursor = TRUE;
+
+      /* for user line starts from 1 but for gtk line starts from 0 */
+      if (application->line > 0)
+        --application->line;
+    }
 
   /* see if column number was not provided on the command line */
   if (! g_variant_dict_lookup (options, "column", "i", &(application->column)))
     application->column = 0;
+  else
+    user_set_cursor = TRUE;
 
   /* extract filenames */
   g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);
@@ -993,6 +1012,10 @@ mousepad_application_command_line (GApplication            *gapplication,
       for (n = 0; n < n_files; n++)
         {
           file = g_application_command_line_create_file_for_arg (command_line, filenames[n]);
+          mousepad_object_set_data (file, "user-set-encoding",
+                                    GINT_TO_POINTER (user_set_encoding));
+          mousepad_object_set_data (file, "user-set-cursor",
+                                    GINT_TO_POINTER (user_set_cursor));
           g_ptr_array_add (files, file);
         }
       data = g_ptr_array_free (files, FALSE);
