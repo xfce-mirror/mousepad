@@ -34,6 +34,7 @@
 
 enum
 {
+  CURSOR,
   ENCODING,
   LANGUAGE,
   N_RECENT_DATA
@@ -1220,6 +1221,9 @@ mousepad_util_recent_items_changed (void)
 void
 mousepad_util_recent_init (void)
 {
+  recent_data[CURSOR].str = "Cursor: ";
+  recent_data[CURSOR].len = strlen (recent_data[CURSOR].str);
+
   recent_data[ENCODING].str = "Encoding: ";
   recent_data[ENCODING].len = strlen (recent_data[ENCODING].str);
 
@@ -1239,8 +1243,11 @@ void
 mousepad_util_recent_add (MousepadFile *file)
 {
   GtkRecentData  info;
+  GtkTextBuffer *buffer;
+  GtkTextIter    iter;
   gchar         *uri, *description;
   const gchar   *language = "", *charset;
+  gchar         *cursor;
   static gchar  *groups[] = { PACKAGE_NAME, NULL };
 
   /* don't insert in the recent history if history disabled */
@@ -1249,13 +1256,19 @@ mousepad_util_recent_add (MousepadFile *file)
 
   /* get the data */
   charset = mousepad_encoding_get_charset (mousepad_file_get_encoding (file));
+  buffer = mousepad_file_get_buffer (file);
+  gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+  cursor = g_strdup_printf ("%d:%d",
+                            gtk_text_iter_get_line (&iter),
+                            mousepad_util_get_real_line_offset (&iter));
   if (mousepad_file_get_user_set_language (file))
     language = gtk_source_language_get_id (mousepad_file_get_language (file));
 
   /* build description */
-  description = g_strdup_printf ("%s%s; %s%s;",
+  description = g_strdup_printf ("%s%s; %s%s; %s%s;",
                                  recent_data[LANGUAGE].str, language,
-                                 recent_data[ENCODING].str, charset);
+                                 recent_data[ENCODING].str, charset,
+                                 recent_data[CURSOR].str, cursor);
 
   /* create the recent info */
   info.display_name = NULL;
@@ -1309,6 +1322,29 @@ mousepad_util_recent_get_data (GFile    *file,
   str = g_strndup (r, q - r);
   switch (data_type)
     {
+    case CURSOR:
+      gint   **cursor = data;
+      gchar  **strv;
+      gchar   *m_end, *n_end;
+      gint64   m, n;
+
+      if (g_strstr_len (str, -1, ":") != NULL)
+        {
+          strv = g_strsplit_set (str, ":", 2);
+          m = g_ascii_strtoll (strv[0], &m_end, 10);
+          n = g_ascii_strtoll (strv[1], &n_end, 10);
+          if (*(strv[0]) != '\0' && *m_end == '\0'
+              && *(strv[1]) != '\0' && *n_end == '\0')
+            {
+              *(cursor[0]) = m;
+              *(cursor[1]) = n;
+            }
+
+          g_strfreev (strv);
+        }
+
+      break;
+
     case ENCODING:
       *((gint *) data) = mousepad_encoding_find (str);
       break;
@@ -1343,6 +1379,18 @@ mousepad_util_recent_get_encoding (GFile            *file,
                                    MousepadEncoding *encoding)
 {
   mousepad_util_recent_get_data (file, ENCODING, encoding);
+}
+
+
+
+void
+mousepad_util_recent_get_cursor (GFile *file,
+                                 gint  *line,
+                                 gint  *column)
+{
+  gint *cursor[2] = { line, column };
+
+  mousepad_util_recent_get_data (file, CURSOR, cursor);
 }
 
 
