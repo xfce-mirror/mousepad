@@ -108,6 +108,10 @@ void         mousepad_util_recent_get_language              (GFile              
 void         mousepad_util_recent_get_encoding              (GFile                      *file,
                                                              MousepadEncoding           *encoding);
 
+void         mousepad_util_recent_get_cursor                (GFile                      *file,
+                                                             gint                       *line,
+                                                             gint                       *column);
+
 void         mousepad_util_recent_clear                     (void);
 
 G_END_DECLS

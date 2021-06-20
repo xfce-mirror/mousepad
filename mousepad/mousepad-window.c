@@ -1872,7 +1872,7 @@ mousepad_window_open_file (MousepadWindow   *window,
   GError           *error = NULL;
   GFile            *opened_file;
   gint              npages, result, i;
-  gboolean          make_valid = FALSE, user_set_encoding;
+  gboolean          make_valid = FALSE, user_set_encoding, user_set_cursor;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (file != NULL, FALSE);
@@ -1908,8 +1908,9 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* set the file location */
   mousepad_file_set_location (document->file, file, TRUE);
 
-  /* get the encoding status attached to the GFile */
+  /* get the data status attached to the GFile */
   user_set_encoding = GPOINTER_TO_INT (mousepad_object_get_data (file, "user-set-encoding"));
+  user_set_cursor = GPOINTER_TO_INT (mousepad_object_get_data (file, "user-set-cursor"));
 
   /* the user chose to open the file in the encoding dialog */
   if (encoding == MOUSEPAD_ENCODING_NONE)
@@ -1927,6 +1928,10 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* try to lookup the encoding from the recent history if not set by the user */
   else if (! user_set_encoding)
     mousepad_util_recent_get_encoding (file, &encoding);
+
+  /* try to lookup the cursor position from the recent history if not set by the user */
+  if (! user_set_cursor)
+    mousepad_util_recent_get_cursor (file, &line, &column);
 
   retry:
 
