@@ -1306,9 +1306,8 @@ mousepad_window_init (MousepadWindow *window)
 static gboolean
 mousepad_window_save_geometry (gpointer data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  GdkWindowState  state;
-  gboolean        remember_size, remember_position, remember_state;
+  GdkWindowState state;
+  gboolean       remember_size, remember_position, remember_state;
 
   /* check if we should remember the window geometry */
   remember_size = MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SIZE);
@@ -1318,10 +1317,10 @@ mousepad_window_save_geometry (gpointer data)
   if (remember_size || remember_position || remember_state)
     {
       /* check if the window is still visible */
-      if (gtk_widget_get_visible (GTK_WIDGET (window)))
+      if (gtk_widget_get_visible (data))
         {
           /* determine the current state of the window */
-          state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (window)));
+          state = gdk_window_get_state (gtk_widget_get_window (data));
 
           /* don't save geometry for maximized or fullscreen windows */
           if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
@@ -1331,7 +1330,7 @@ mousepad_window_save_geometry (gpointer data)
                   gint width, height;
 
                   /* determine the current width/height of the window... */
-                  gtk_window_get_size (GTK_WINDOW (window), &width, &height);
+                  gtk_window_get_size (data, &width, &height);
 
                   /* ...and remember them as default for new windows */
                   MOUSEPAD_SETTING_SET_UINT (WINDOW_WIDTH, width);
@@ -1343,7 +1342,7 @@ mousepad_window_save_geometry (gpointer data)
                   gint left, top;
 
                   /* determine the current left/top position of the window */
-                  gtk_window_get_position (GTK_WINDOW (window), &left, &top);
+                  gtk_window_get_position (data, &left, &top);
 
                   /* and then remember it for next startup */
                   MOUSEPAD_SETTING_SET_UINT (WINDOW_LEFT, left);
@@ -1417,12 +1416,10 @@ static gboolean
 mousepad_window_delete_event (GtkWidget   *widget,
                               GdkEventAny *event)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (widget);
-
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
+  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (widget), FALSE);
 
   /* try to close the window */
-  g_action_group_activate_action (G_ACTION_GROUP (window), "file.close-window", NULL);
+  g_action_group_activate_action (G_ACTION_GROUP (widget), "file.close-window", NULL);
 
   /* we will close the window when all the tabs are closed */
   return TRUE;
@@ -1434,18 +1431,16 @@ static gboolean
 mousepad_window_scroll_event (GtkWidget      *widget,
                               GdkEventScroll *event)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (widget);
-
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
+  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (widget), FALSE);
 
   if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_UP)
     {
-      g_action_group_activate_action (G_ACTION_GROUP (window), "increase-font-size", NULL);
+      g_action_group_activate_action (G_ACTION_GROUP (widget), "increase-font-size", NULL);
       return TRUE;
     }
   else if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_DOWN)
     {
-      g_action_group_activate_action (G_ACTION_GROUP (window), "decrease-font-size", NULL);
+      g_action_group_activate_action (G_ACTION_GROUP (widget), "decrease-font-size", NULL);
       return TRUE;
     }
 
@@ -1921,10 +1916,10 @@ mousepad_window_open_file (MousepadWindow   *window,
   for (i = 0; i < npages; i++)
     {
       document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i));
-      if (G_LIKELY (document))
+      if (G_LIKELY (document != NULL))
         {
           /* get the file location */
-          opened_file = mousepad_file_get_location (MOUSEPAD_DOCUMENT (document)->file);
+          opened_file = mousepad_file_get_location (document->file);
 
           /* see if the file is already opened */
           if (opened_file != NULL && g_file_equal (file, opened_file))
@@ -2821,28 +2816,23 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
                                         gint            y,
                                         MousepadWindow *window)
 {
-  MousepadDocument *document;
-
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), NULL);
   g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (page), NULL);
 
   /* only create new window when there are more than 2 tabs */
   if (gtk_notebook_get_n_pages (notebook) >= 2)
     {
-      /* get the document */
-      document = MOUSEPAD_DOCUMENT (page);
-
       /* take a reference */
-      g_object_ref (document);
+      g_object_ref (page);
 
       /* remove the document from the active window */
       gtk_notebook_detach_tab (GTK_NOTEBOOK (window->notebook), page);
 
       /* emit the new window with document signal */
-      g_signal_emit (window, window_signals[NEW_WINDOW_WITH_DOCUMENT], 0, document, x, y);
+      g_signal_emit (window, window_signals[NEW_WINDOW_WITH_DOCUMENT], 0, page, x, y);
 
       /* release our reference */
-      g_object_unref (document);
+      g_object_unref (page);
     }
 
   return NULL;
@@ -3302,7 +3292,6 @@ mousepad_window_menu_templates (GSimpleAction *action,
                                 GVariant      *state,
                                 gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
   GtkApplication *application;
   GMenu          *menu;
   GMenuItem      *item;
@@ -3310,7 +3299,7 @@ mousepad_window_menu_templates (GSimpleAction *action,
   gchar          *templates_path, *message;
   gboolean        bstate;
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* exit if there is actually no change */
   bstate = g_variant_get_boolean (state);
@@ -3322,7 +3311,7 @@ mousepad_window_menu_templates (GSimpleAction *action,
 
   /* open the menu, ensuring the window has not been removed from the application list,
    * e.g. following an "app.quit" */
-  if (bstate && (application = gtk_window_get_application (GTK_WINDOW (window))) != NULL)
+  if (bstate && (application = gtk_window_get_application (data)) != NULL)
     {
       /* lock menu updates */
       lock_menu_updates++;
@@ -3346,10 +3335,10 @@ mousepad_window_menu_templates (GSimpleAction *action,
       if (g_file_test (templates_path, G_FILE_TEST_IS_DIR))
         {
           /* fill the menu, blocking tooltip update meanwhile */
-          g_signal_handlers_block_by_func (menu, mousepad_window_menu_update_tooltips, window);
-          mousepad_window_menu_templates_fill (window, menu, templates_path);
-          g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_update_tooltips, window);
-          mousepad_window_menu_update_tooltips (G_MENU_MODEL (menu), 0, 0, 0, window);
+          g_signal_handlers_block_by_func (menu, mousepad_window_menu_update_tooltips, data);
+          mousepad_window_menu_templates_fill (data, menu, templates_path);
+          g_signal_handlers_unblock_by_func (menu, mousepad_window_menu_update_tooltips, data);
+          mousepad_window_menu_update_tooltips (G_MENU_MODEL (menu), 0, 0, 0, data);
         }
       else
         {
@@ -3587,7 +3576,7 @@ mousepad_window_update_gomenu (GSimpleAction *action,
                                GVariant      *state,
                                gpointer       data)
 {
-  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow   *window = data;
   MousepadDocument *document;
   GtkApplication   *application;
   GMenu            *menu;
@@ -3757,7 +3746,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
                              GVariant      *state,
                              gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   GtkApplication *application;
   GtkRecentInfo  *info;
   GMenu          *menu;
@@ -4453,15 +4442,14 @@ mousepad_window_action_new (GSimpleAction *action,
                             gpointer       data)
 {
   MousepadDocument *document;
-  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* create new document */
   document = mousepad_document_new ();
 
   /* add the document to the window */
-  mousepad_window_add (window, document);
+  mousepad_window_add (data, document);
 }
 
 
@@ -4484,17 +4472,16 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
                                           GVariant      *value,
                                           gpointer       data)
 {
-  MousepadWindow    *window = MOUSEPAD_WINDOW (data);
-  MousepadDocument  *document;
-  MousepadEncoding   encoding;
-  GFile             *file;
-  GError            *error = NULL;
-  const gchar       *filename;
-  gchar             *message;
-  gint               result;
+  MousepadDocument *document;
+  MousepadEncoding  encoding;
+  GFile            *file;
+  GError           *error = NULL;
+  const gchar      *filename;
+  gchar            *message;
+  gint              result;
 
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* retrieve the filename */
   filename = g_variant_get_string (value, NULL);
@@ -4531,7 +4518,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
 
       /* no errors, insert the document */
       if (G_LIKELY (result == 0))
-        mousepad_window_add (window, document);
+        mousepad_window_add (data, document);
       else
         {
           /* handle the error */
@@ -4556,7 +4543,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
             }
 
           /* show the error */
-          mousepad_dialogs_show_error (GTK_WINDOW (window), error, message);
+          mousepad_dialogs_show_error (data, error, message);
 
           /* cleanup */
           g_free (message);
@@ -4575,7 +4562,7 @@ mousepad_window_action_open (GSimpleAction *action,
                              GVariant      *value,
                              gpointer       data)
 {
-  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow   *window = data;
   MousepadEncoding  encoding;
   GSList           *files, *file;
 
@@ -4610,7 +4597,7 @@ mousepad_window_action_open_recent (GSimpleAction *action,
                                     GVariant      *value,
                                     gpointer       data)
 {
-  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow   *window = data;
   MousepadEncoding  encoding;
   GtkRecentInfo    *info;
   GFile            *file;
@@ -4656,18 +4643,16 @@ mousepad_window_action_clear_recent (GSimpleAction *action,
                                      GVariant      *value,
                                      gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* ask the user if he really want to clear the history */
-  if (mousepad_dialogs_clear_recent (GTK_WINDOW (window)))
+  if (mousepad_dialogs_clear_recent (data))
     {
       /* avoid updating the menu */
       lock_menu_updates++;
 
       /* clear the document history */
-      mousepad_window_recent_clear (window);
+      mousepad_window_recent_clear (data);
 
       /* allow menu updates again */
       lock_menu_updates--;
@@ -4681,7 +4666,7 @@ mousepad_window_action_save (GSimpleAction *action,
                              GVariant      *value,
                              gpointer       data)
 {
-  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow   *window = data;
   MousepadDocument *document = window->active;
   GAction          *save_as;
   GError           *error = NULL;
@@ -4772,7 +4757,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
                                 GVariant      *value,
                                 gpointer       data)
 {
-  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow   *window = data;
   MousepadDocument *document = window->active;
   MousepadEncoding  encoding, current_encoding = MOUSEPAD_ENCODING_NONE;
   GAction          *save;
@@ -4841,7 +4826,7 @@ mousepad_window_action_save_all (GSimpleAction *action,
                                  GVariant      *value,
                                  gpointer       data)
 {
-  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow   *window = data;
   MousepadDocument *document;
   GAction          *save;
   GSList           *li, *documents = NULL;
@@ -4913,7 +4898,7 @@ mousepad_window_action_save_all (GSimpleAction *action,
               gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), page_num);
 
               /* trigger the save as function */
-              document = MOUSEPAD_DOCUMENT (li->data);
+              document = li->data;
               if (! mousepad_file_location_is_set (document->file)
                   || mousepad_file_get_read_only (document->file))
                 action_name = "file.save-as";
@@ -4947,7 +4932,7 @@ mousepad_window_action_reload (GSimpleAction *action,
                                GVariant      *value,
                                gpointer       data)
 {
-  MousepadWindow   *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow   *window = data;
   MousepadDocument *document = window->active;
   GtkTextIter       cursor;
   GError           *error = NULL;
@@ -5015,7 +5000,7 @@ mousepad_window_action_print (GSimpleAction *action,
                               GVariant      *value,
                               gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   MousepadPrint  *print;
   GError         *error = NULL;
   gboolean        succeed;
@@ -5047,7 +5032,7 @@ mousepad_window_action_detach (GSimpleAction *action,
                                GVariant      *value,
                                gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5065,7 +5050,7 @@ mousepad_window_action_close (GSimpleAction *action,
                               GVariant      *value,
                               gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5081,7 +5066,7 @@ mousepad_window_action_close_window (GSimpleAction *action,
                                      GVariant      *value,
                                      gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   GtkWidget      *document;
   gint            npages, i;
 
@@ -5139,7 +5124,7 @@ mousepad_window_action_undo (GSimpleAction *action,
                              GVariant      *value,
                              gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5155,7 +5140,7 @@ mousepad_window_action_redo (GSimpleAction *action,
                              GVariant      *value,
                              gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5171,7 +5156,7 @@ mousepad_window_action_cut (GSimpleAction *action,
                             GVariant      *value,
                             gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5190,7 +5175,7 @@ mousepad_window_action_copy (GSimpleAction *action,
                              GVariant      *value,
                              gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5209,7 +5194,7 @@ mousepad_window_action_paste (GSimpleAction *action,
                               GVariant      *value,
                               gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5225,7 +5210,7 @@ mousepad_window_action_paste_history (GSimpleAction *action,
                                       GVariant      *value,
                                       gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   GtkWidget      *menu;
   GdkRectangle    location;
 
@@ -5258,7 +5243,7 @@ mousepad_window_action_paste_column (GSimpleAction *action,
                                      GVariant      *value,
                                      gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5274,7 +5259,7 @@ mousepad_window_action_delete_selection (GSimpleAction *action,
                                          GVariant      *value,
                                          gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5290,7 +5275,7 @@ mousepad_window_action_delete_line (GSimpleAction *action,
                                     GVariant      *value,
                                     gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5306,7 +5291,7 @@ mousepad_window_action_select_all (GSimpleAction *action,
                                    GVariant      *value,
                                    gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5322,7 +5307,7 @@ mousepad_window_action_lowercase (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5338,7 +5323,7 @@ mousepad_window_action_uppercase (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5354,7 +5339,7 @@ mousepad_window_action_titlecase (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5370,7 +5355,7 @@ mousepad_window_action_opposite_case (GSimpleAction *action,
                                       GVariant      *value,
                                       gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5386,7 +5371,7 @@ mousepad_window_action_tabs_to_spaces (GSimpleAction *action,
                                        GVariant      *value,
                                        gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5402,7 +5387,7 @@ mousepad_window_action_spaces_to_tabs (GSimpleAction *action,
                                        GVariant      *value,
                                        gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5418,7 +5403,7 @@ mousepad_window_action_strip_trailing_spaces (GSimpleAction *action,
                                               GVariant      *value,
                                               gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5434,7 +5419,7 @@ mousepad_window_action_transpose (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5450,7 +5435,7 @@ mousepad_window_action_move_line_up (GSimpleAction *action,
                                      GVariant      *value,
                                      gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5466,7 +5451,7 @@ mousepad_window_action_move_line_down (GSimpleAction *action,
                                        GVariant      *value,
                                        gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5482,7 +5467,7 @@ mousepad_window_action_move_word_left (GSimpleAction *action,
                                        GVariant      *value,
                                        gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5498,7 +5483,7 @@ mousepad_window_action_move_word_right (GSimpleAction *action,
                                         GVariant      *value,
                                         gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5514,7 +5499,7 @@ mousepad_window_action_duplicate (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5530,7 +5515,7 @@ mousepad_window_action_increase_indent (GSimpleAction *action,
                                         GVariant      *value,
                                         gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   GtkTextIter     start, end;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -5548,7 +5533,7 @@ mousepad_window_action_decrease_indent (GSimpleAction *action,
                                         GVariant      *value,
                                         gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   GtkTextIter     start, end;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -5610,7 +5595,7 @@ mousepad_window_action_find (GSimpleAction *action,
                              GVariant      *value,
                              gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   GtkTextIter     selection_start, selection_end;
   gchar          *selection;
 
@@ -5674,7 +5659,7 @@ mousepad_window_action_find_next (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5691,7 +5676,7 @@ mousepad_window_action_find_previous (GSimpleAction *action,
                                       GVariant      *value,
                                       gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5744,7 +5729,7 @@ mousepad_window_action_replace (GSimpleAction *action,
                                 GVariant      *value,
                                 gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   GtkTextIter     selection_start, selection_end;
   gchar          *selection;
 
@@ -5801,7 +5786,7 @@ mousepad_window_action_go_to_position (GSimpleAction *action,
                                        GVariant      *value,
                                        gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5878,7 +5863,7 @@ mousepad_window_action_increase_font_size (GSimpleAction *action,
                                            GVariant      *value,
                                            gpointer       data)
 {
-  mousepad_window_change_font_size (MOUSEPAD_WINDOW (data), 1);
+  mousepad_window_change_font_size (data, 1);
 }
 
 
@@ -5888,7 +5873,7 @@ mousepad_window_action_decrease_font_size (GSimpleAction *action,
                                            GVariant      *value,
                                            gpointer       data)
 {
-  mousepad_window_change_font_size (MOUSEPAD_WINDOW (data), -1);
+  mousepad_window_change_font_size (data, -1);
 }
 
 
@@ -5898,7 +5883,7 @@ mousepad_window_action_reset_font_size (GSimpleAction *action,
                                         GVariant      *value,
                                         gpointer       data)
 {
-  mousepad_window_change_font_size (MOUSEPAD_WINDOW (data), 0);
+  mousepad_window_change_font_size (data, 0);
 }
 
 
@@ -5935,7 +5920,7 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
                                       GVariant      *state,
                                       gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   GtkApplication *application;
   GtkWidget      *label;
   GAction        *textview_action;
@@ -6001,20 +5986,19 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
                                    GVariant      *value,
                                    gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  gboolean        fullscreen;
+  gboolean fullscreen;
 
   fullscreen = ! mousepad_action_get_state_boolean (G_ACTION (action));
   g_action_change_state (G_ACTION (action), g_variant_new_boolean (fullscreen));
 
   /* entering/leaving fullscreen mode */
   if (fullscreen)
-    gtk_window_fullscreen (GTK_WINDOW (window));
+    gtk_window_fullscreen (data);
   else
-    gtk_window_unfullscreen (GTK_WINDOW (window));
+    gtk_window_unfullscreen (data);
 
   /* update the "Fullscreen" menu item */
-  mousepad_window_update_menu_item (window, "item.view.fullscreen", 0, GINT_TO_POINTER (fullscreen));
+  mousepad_window_update_menu_item (data, "item.view.fullscreen", 0, GINT_TO_POINTER (fullscreen));
 }
 
 
@@ -6024,7 +6008,7 @@ mousepad_window_action_line_ending (GSimpleAction *action,
                                     GVariant      *value,
                                     gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -6053,10 +6037,9 @@ mousepad_window_action_tab_size (GSimpleAction *action,
                                  GVariant      *value,
                                  gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
-  gint            tab_size;
+  gint tab_size;
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* leave when menu updates are locked */
   if (lock_menu_updates == 0)
@@ -6071,7 +6054,7 @@ mousepad_window_action_tab_size (GSimpleAction *action,
           tab_size = MOUSEPAD_SETTING_GET_UINT (TAB_WIDTH);
 
           /* select other size in dialog */
-          tab_size = mousepad_dialogs_other_tab_size (GTK_WINDOW (window), tab_size);
+          tab_size = mousepad_dialogs_other_tab_size (data, tab_size);
         }
 
       /* store as last used value */
@@ -6086,7 +6069,7 @@ mousepad_window_action_language (GSimpleAction *action,
                                  GVariant      *value,
                                  gpointer       data)
 {
-  MousepadWindow    *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow    *window = data;
   GtkSourceLanguage *language;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -6118,7 +6101,7 @@ mousepad_window_action_write_bom (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   gboolean        state;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -6152,7 +6135,7 @@ mousepad_window_action_viewer_mode (GSimpleAction *action,
                                     GVariant      *value,
                                     gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   gboolean        state;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -6186,7 +6169,7 @@ mousepad_window_action_prev_tab (GSimpleAction *action,
                                  GVariant      *value,
                                  gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   gint            page_num, n_pages;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -6206,7 +6189,7 @@ mousepad_window_action_next_tab (GSimpleAction *action,
                                  GVariant      *value,
                                  gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
   gint            page_num, n_pages;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -6226,7 +6209,7 @@ mousepad_window_action_go_to_tab (GSimpleAction *action,
                                   GVariant      *value,
                                   gpointer       data)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  MousepadWindow *window = data;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 

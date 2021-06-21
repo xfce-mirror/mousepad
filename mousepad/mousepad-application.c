@@ -1259,10 +1259,10 @@ mousepad_application_active_window_changed (MousepadApplication *application)
       && g_list_find (windows, app_windows->data))
     {
       /* update document dependent menu items */
-      mousepad_window_update_document_menu_items (MOUSEPAD_WINDOW (app_windows->data));
+      mousepad_window_update_document_menu_items (app_windows->data);
 
       /* update window dependent menu items */
-      mousepad_window_update_window_menu_items (MOUSEPAD_WINDOW (app_windows->data));
+      mousepad_window_update_window_menu_items (app_windows->data);
     }
 
   /* store a copy of the application windows list to compare at next call */
