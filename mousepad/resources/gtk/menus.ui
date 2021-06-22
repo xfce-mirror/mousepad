@@ -160,9 +160,9 @@
       </section>
       <section>
         <item>
-          <attribute name="label" translatable="yes">Find As You _Type</attribute>
+          <attribute name="label" translatable="yes">_Incremental Search</attribute>
           <attribute name="tooltip" translatable="yes">Automatically select the search result and scroll the view</attribute>
-          <attribute name="action">app.state.search.find-as-you-type</attribute>
+          <attribute name="action">app.state.search.incremental</attribute>
         </item>
         <item>
           <attribute name="label" translatable="yes">Highlight _All</attribute>

@@ -529,8 +529,8 @@ mousepad_replace_dialog_response (GtkWidget *widget,
     }
   else if (response_id == MOUSEPAD_RESPONSE_ENTRY_CHANGED)
     {
-      /* select the first match if "find-as-you-type" is enabled */
-      if (MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_FIND_AS_YOU_TYPE))
+      /* select the first match if incremental search is enabled */
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_INCREMENTAL))
         flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
       else
         flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_NONE;

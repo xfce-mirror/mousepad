@@ -241,7 +241,7 @@ static const GActionEntry dialog_actions[] =
 /* settings only accessible from the menubar */
 static const GActionEntry menubar_actions[] =
 {
-  { MOUSEPAD_SETTING_SEARCH_FIND_AS_YOU_TYPE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_SEARCH_INCREMENTAL, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_SEARCH_HIGHLIGHT_ALL, mousepad_application_toggle_activate, NULL, "false", NULL }
 };
 #define N_MENUBAR G_N_ELEMENTS (menubar_actions)
