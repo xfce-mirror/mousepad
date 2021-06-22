@@ -34,6 +34,8 @@ typedef struct _MousepadFile       MousepadFile;
 #define MOUSEPAD_IS_FILE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MOUSEPAD_TYPE_FILE))
 #define MOUSEPAD_FILE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_FILE, MousepadFileClass))
 
+#define MOUSEPAD_LANGUAGE_NONE "plain-text"
+
 /* I/O errors */
 enum
 {
@@ -89,8 +91,12 @@ void                mousepad_file_set_line_ending          (MousepadFile        
 
 MousepadLineEnding  mousepad_file_get_line_ending          (MousepadFile        *file);
 
-void                mousepad_file_set_user_set_language    (MousepadFile        *file,
-                                                            gboolean             set_by_user);
+void                mousepad_file_set_language             (MousepadFile        *file,
+                                                            const gchar         *language_id);
+
+const gchar        *mousepad_file_get_language             (MousepadFile        *file);
+
+gboolean            mousepad_file_get_user_set_language    (MousepadFile        *file);
 
 gint                mousepad_file_open                     (MousepadFile        *file,
                                                             gint                 line,
