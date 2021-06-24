@@ -19,6 +19,8 @@
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-dialogs.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-document.h>
+#include <mousepad/mousepad-window.h>
 
 
 
@@ -269,4 +271,170 @@ mousepad_history_recent_clear (void)
       mousepad_dialogs_show_error (window, error, _("Failed to clear the recent history"));
       g_error_free (error);
     }
+}
+
+
+
+void
+mousepad_history_session_save (gboolean toggle)
+{
+  MousepadDocument  *document;
+  GtkNotebook       *notebook;
+  GList             *list, *li;
+  gchar            **session;
+  gchar             *uri;
+  const gchar       *fmt;
+  guint              length = 0, id, current, n_pages, n;
+
+  static gboolean blocked = FALSE;
+
+  /* toggle blocked state if needed */
+  if (toggle)
+    blocked = ! blocked;
+
+  /* exit if session remembering is blocked or disabled */
+  if (blocked || ! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
+    return;
+
+  /* compute the maximum length of the session array */
+  list = gtk_application_get_windows (GTK_APPLICATION (g_application_get_default ()));
+  for (li = list; li != NULL; li = li->next)
+    {
+      notebook = GTK_NOTEBOOK (mousepad_window_get_notebook (li->data));
+      length += gtk_notebook_get_n_pages (notebook);
+    }
+
+  /* allocate the session array */
+  session = g_malloc0 ((length + 1) * sizeof (gchar *));
+
+  /* fill in the session array */
+  for (li = list, length = 0; li != NULL; li = li->next)
+  {
+    id = gtk_application_window_get_id (li->data);
+    notebook = GTK_NOTEBOOK (mousepad_window_get_notebook (li->data));
+    current = gtk_notebook_get_current_page (notebook);
+    n_pages = gtk_notebook_get_n_pages (notebook);
+    for (n = 0; n < n_pages; n++)
+      {
+        document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (notebook, n));
+        if (mousepad_file_location_is_set (document->file))
+          {
+            fmt = (n == current ? "%d::%s" : "%d:%s");
+            uri = mousepad_file_get_uri (document->file);
+            session[length++] = g_strdup_printf (fmt, id, uri);
+            g_free (uri);
+          }
+      }
+  }
+
+  /* save the session array */
+  MOUSEPAD_SETTING_SET_STRV (SESSION, (const gchar *const *) session);
+
+  /* cleanup */
+  g_strfreev (session);
+}
+
+
+
+static void
+mousepad_history_remember_session_changed (void)
+{
+  /* first session save */
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
+    mousepad_history_session_save (FALSE);
+  /* clear session array */
+  else
+    MOUSEPAD_SETTING_RESET (SESSION);
+}
+
+
+
+gboolean
+mousepad_history_session_restore (MousepadApplication *application)
+{
+  GtkWindow    *window;
+  GtkWidget    *notebook;
+  GFile       **files;
+  GFile        *file;
+  gchar       **session, **p;
+  const gchar  *uri;
+  guint         n_uris, n_files, n, sid, wid, current;
+
+  /* initialize session management */
+  MOUSEPAD_SETTING_CONNECT (REMEMBER_SESSION,
+                            G_CALLBACK (mousepad_history_remember_session_changed), NULL, 0);
+  if (! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
+    {
+      MOUSEPAD_SETTING_RESET (SESSION);
+      return FALSE;
+    }
+
+  /* get the session array */
+  session = MOUSEPAD_SETTING_GET_STRV (SESSION);
+  n_uris = g_strv_length (session);
+  if (n_uris == 0)
+   {
+     g_strfreev (session);
+     return FALSE;
+   }
+
+  /* walk the session array in reverse order: last open, first display plan */
+  sid = g_signal_lookup ("open", G_TYPE_APPLICATION);
+  p = session + n_uris;
+  do
+    {
+      /* get the number of files for this window */
+      wid = atoi (*(--p));
+      n_files = 1;
+      while (p != session && atoi (*(--p)) == (gint) wid)
+        n_files++;
+
+      /* readjust position */
+      if (p != session)
+        p++;
+
+      /* allocate the GFile array */
+      files = g_malloc (n_files * sizeof (GFile *));
+
+      /* add files from the session array */
+      for (n = 0, current = 0; n < n_files; n++)
+        {
+          /* get the uri, removing the window id and eventually the current tab mark */
+          uri = g_strstr_len (*(p + n), -1, ":") + 1;
+          if (*uri == ':')
+            {
+              current = n;
+              uri++;
+            }
+
+          file = g_file_new_for_uri (uri);
+          if (g_file_query_exists (file, NULL))
+            files[n] = file;
+          else
+            {
+              n_files--;
+              g_object_unref (file);
+            }
+        }
+
+      /* open files */
+      g_signal_emit (application, sid, 0, files, n_files, NULL, NULL);
+
+      /* set current tab */
+      window = gtk_application_get_active_window (GTK_APPLICATION (application));
+      notebook = mousepad_window_get_notebook (MOUSEPAD_WINDOW (window));
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), current);
+
+      /* free the GFile array */
+      for (n = 0; n < n_files; n++)
+        g_object_unref (files[n]);
+
+      g_free (files);
+    }
+  while (p != session);
+
+  /* cleanup */
+  g_strfreev (session);
+
+  return TRUE;
 }

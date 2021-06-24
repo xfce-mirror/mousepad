@@ -19,6 +19,7 @@
 
 #include <mousepad/mousepad-encoding.h>
 #include <mousepad/mousepad-file.h>
+#include <mousepad/mousepad-application.h>
 
 G_BEGIN_DECLS
 
@@ -37,6 +38,10 @@ void         mousepad_history_recent_get_cursor                (GFile           
                                                                 gint                       *column);
 
 void         mousepad_history_recent_clear                     (void);
+
+void         mousepad_history_session_save                     (gboolean                    toggle);
+
+gboolean     mousepad_history_session_restore                  (MousepadApplication        *application);
 
 G_END_DECLS
 
