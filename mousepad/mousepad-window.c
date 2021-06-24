@@ -1926,11 +1926,11 @@ mousepad_window_open_file (MousepadWindow   *window,
     }
   /* try to lookup the encoding from the recent history if not set by the user */
   else if (! user_set_encoding)
-    mousepad_util_recent_get_encoding (file, &encoding);
+    mousepad_history_recent_get_encoding (file, &encoding);
 
   /* try to lookup the cursor position from the recent history if not set by the user */
   if (! user_set_cursor)
-    mousepad_util_recent_get_cursor (file, &line, &column);
+    mousepad_history_recent_get_cursor (file, &line, &column);
 
   retry:
 
@@ -1962,7 +1962,7 @@ mousepad_window_open_file (MousepadWindow   *window,
                           mousepad_util_source_autoremove (window->active->textview));
 
             /* insert in the recent history */
-            mousepad_util_recent_add (document->file);
+            mousepad_history_recent_add (document->file);
           }
         break;
 
@@ -2144,7 +2144,7 @@ mousepad_window_close_document (MousepadWindow   *window,
       /* store some data in the recent history if the file exists on disk */
       if (mousepad_file_location_is_set (document->file)
           && g_file_query_exists (mousepad_file_get_location (document->file), NULL))
-        mousepad_util_recent_add (document->file);
+        mousepad_history_recent_add (document->file);
 
       gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
     }
@@ -4454,7 +4454,7 @@ mousepad_window_action_clear_recent (GSimpleAction *action,
       lock_menu_updates++;
 
       /* clear the document history */
-      mousepad_util_recent_clear ();
+      mousepad_history_recent_clear ();
 
       /* allow menu updates again */
       lock_menu_updates--;
@@ -4597,7 +4597,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
           mousepad_file_set_location (document->file, file, TRUE);
 
           /* add to the recent history */
-          mousepad_util_recent_add (document->file);
+          mousepad_history_recent_add (document->file);
 
           /* update last save location */
           if (last_save_location != NULL)

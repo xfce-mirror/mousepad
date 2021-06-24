@@ -504,7 +504,7 @@ mousepad_file_set_language (MousepadFile *file,
     return;
 
   /* ... or a previous one */
-  mousepad_util_recent_get_language (file->location, &data);
+  mousepad_history_recent_get_language (file->location, &data);
   if (data != NULL)
     {
       file->user_set_language = TRUE;
