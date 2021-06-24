@@ -928,10 +928,9 @@ mousepad_application_command_line (GApplication            *gapplication,
 {
   MousepadApplication  *application = MOUSEPAD_APPLICATION (gapplication);
   GVariantDict         *options;
-  GPtrArray            *files;
+  GFile               **files;
   GFile                *file;
-  gpointer             *data;
-  const gchar          *opening_mode, *working_directory;
+  const gchar          *opening_mode;
   gchar               **filenames = NULL;
   gint                  n, n_files;
   gboolean              user_set_encoding, user_set_cursor = FALSE;
@@ -1001,14 +1000,11 @@ mousepad_application_command_line (GApplication            *gapplication,
   /* extract filenames */
   g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);
 
-  /* get the current working directory */
-  working_directory = g_application_command_line_get_cwd (command_line);
-
   /* open files provided on the command line or an empty document */
-  if (working_directory && filenames && (n_files = g_strv_length (filenames)))
+  if (filenames != NULL && (n_files = g_strv_length (filenames)) > 0)
     {
-      /* prepare the GFiles array */
-      files = g_ptr_array_new ();
+      /* prepare the GFile array */
+      files = g_malloc (n_files * sizeof (GFile *));
       for (n = 0; n < n_files; n++)
         {
           file = g_application_command_line_create_file_for_arg (command_line, filenames[n]);
@@ -1016,17 +1012,17 @@ mousepad_application_command_line (GApplication            *gapplication,
                                     GINT_TO_POINTER (user_set_encoding));
           mousepad_object_set_data (file, "user-set-cursor",
                                     GINT_TO_POINTER (user_set_cursor));
-          g_ptr_array_add (files, file);
+          files[n] = file;
         }
-      data = g_ptr_array_free (files, FALSE);
 
       /* open the files */
-      g_application_open (gapplication, (GFile **) data, n_files, NULL);
+      g_application_open (gapplication, files, n_files, NULL);
 
       /* cleanup */
       for (n = 0; n < n_files; n++)
-        g_object_unref (data[n]);
-      g_free (data);
+        g_object_unref (files[n]);
+
+      g_free (files);
     }
   else
     g_application_activate (gapplication);
