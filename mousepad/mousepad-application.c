@@ -23,6 +23,7 @@
 #include <mousepad/mousepad-window.h>
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-plugin-provider.h>
+#include <mousepad/mousepad-history.h>
 
 
 
@@ -917,7 +918,7 @@ mousepad_application_startup (GApplication *gapplication)
                     G_CALLBACK (mousepad_application_active_window_changed), NULL);
 
   /* initialize recent history management */
-  mousepad_util_recent_init ();
+  mousepad_history_recent_init ();
 }
 
 
