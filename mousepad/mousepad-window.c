@@ -4882,9 +4882,13 @@ mousepad_window_action_close_window (GSimpleAction *action,
   if ((npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook))) == 0)
     {
       gtk_widget_destroy (GTK_WIDGET (window));
-
       return;
     }
+
+  /* disconnect session handler from this notebook: if it is the last window, the session
+   * should not be saved anymore, else it will be saved when the active window changes */
+  mousepad_disconnect_by_func (window->notebook,
+                               G_CALLBACK (mousepad_history_session_save), NULL);
 
   /* prevent menu updates */
   lock_menu_updates++;
@@ -4909,6 +4913,12 @@ mousepad_window_action_close_window (GSimpleAction *action,
 
           /* store the close result as the action state */
           g_action_change_state (G_ACTION (action), g_variant_new_int32 (FALSE));
+
+          /* save session and reconnect handler */
+          mousepad_history_session_save (FALSE);
+          g_signal_connect_object (window->notebook, "switch-page",
+                                   G_CALLBACK (mousepad_history_session_save), NULL,
+                                   G_CONNECT_SWAPPED | G_CONNECT_AFTER);
 
           /* leave function */
           return;
