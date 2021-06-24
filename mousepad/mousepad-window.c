@@ -1864,8 +1864,10 @@ mousepad_window_open_file (MousepadWindow   *window,
                            gboolean          must_exist)
 {
   MousepadDocument *document;
+  GtkNotebook      *notebook;
+  GList            *list, *li;
   GError           *error = NULL;
-  GFile            *opened_file;
+  GFile            *open_file;
   gint              npages, result, i;
   gboolean          make_valid = FALSE, user_set_encoding, user_set_cursor;
 
@@ -1873,20 +1875,22 @@ mousepad_window_open_file (MousepadWindow   *window,
   g_return_val_if_fail (file != NULL, FALSE);
 
   /* check if the file is already openend */
-  npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
-  for (i = 0; i < npages; i++)
+  list = gtk_application_get_windows (GTK_APPLICATION (
+           gtk_window_get_application (GTK_WINDOW (window))));
+  for (li = list; li != NULL; li = li->next)
     {
-      document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i));
-      if (G_LIKELY (document != NULL))
+      notebook = GTK_NOTEBOOK (MOUSEPAD_WINDOW (li->data)->notebook);
+      npages = gtk_notebook_get_n_pages (notebook);
+      for (i = 0; i < npages; i++)
         {
-          /* get the file location */
-          opened_file = mousepad_file_get_location (document->file);
-
           /* see if the file is already opened */
-          if (opened_file != NULL && g_file_equal (file, opened_file))
+          document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (notebook, i));
+          open_file = mousepad_file_get_location (document->file);
+          if (open_file != NULL && g_file_equal (file, open_file))
             {
-              /* switch to the tab */
-              gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), i);
+              /* switch to the tab and present the window */
+              gtk_notebook_set_current_page (notebook, i);
+              gtk_window_present (li->data);
 
               /* and we're done */
               return TRUE;
@@ -1922,11 +1926,11 @@ mousepad_window_open_file (MousepadWindow   *window,
     }
   /* try to lookup the encoding from the recent history if not set by the user */
   else if (! user_set_encoding)
-    mousepad_util_recent_get_encoding (file, &encoding);
+    mousepad_history_recent_get_encoding (file, &encoding);
 
   /* try to lookup the cursor position from the recent history if not set by the user */
   if (! user_set_cursor)
-    mousepad_util_recent_get_cursor (file, &line, &column);
+    mousepad_history_recent_get_cursor (file, &line, &column);
 
   retry:
 
@@ -1958,7 +1962,7 @@ mousepad_window_open_file (MousepadWindow   *window,
                           mousepad_util_source_autoremove (window->active->textview));
 
             /* insert in the recent history */
-            mousepad_util_recent_add (document->file);
+            mousepad_history_recent_add (document->file);
           }
         break;
 
@@ -2008,11 +2012,14 @@ mousepad_window_open_files (MousepadWindow    *window,
                             gint               column,
                             gboolean           must_exist)
 {
-  gint n;
+  gint n_tabs_in, n_tabs_out, n, ret = -1;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), 0);
   g_return_val_if_fail (files != NULL, 0);
   g_return_val_if_fail (*files != NULL, 0);
+
+  /* get the number of tabs before trying to open new files */
+  n_tabs_in = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
 
   /* block menu updates */
   lock_menu_updates++;
@@ -2026,9 +2033,13 @@ mousepad_window_open_files (MousepadWindow    *window,
 
   /* return the number of open documents, unless the window was destroyd, e.g. by "app.quit" */
   if (G_LIKELY (mousepad_is_application_window (window)))
-    return gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
-  else
-    return -1;
+    {
+      n_tabs_out = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
+      if (n_tabs_out > 0)
+        ret = n_tabs_out - n_tabs_in;
+    }
+
+  return ret;
 }
 
 
@@ -2133,7 +2144,7 @@ mousepad_window_close_document (MousepadWindow   *window,
       /* store some data in the recent history if the file exists on disk */
       if (mousepad_file_location_is_set (document->file)
           && g_file_query_exists (mousepad_file_get_location (document->file), NULL))
-        mousepad_util_recent_add (document->file);
+        mousepad_history_recent_add (document->file);
 
       gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
     }
@@ -4443,7 +4454,7 @@ mousepad_window_action_clear_recent (GSimpleAction *action,
       lock_menu_updates++;
 
       /* clear the document history */
-      mousepad_util_recent_clear ();
+      mousepad_history_recent_clear ();
 
       /* allow menu updates again */
       lock_menu_updates--;
@@ -4586,7 +4597,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
           mousepad_file_set_location (document->file, file, TRUE);
 
           /* add to the recent history */
-          mousepad_util_recent_add (document->file);
+          mousepad_history_recent_add (document->file);
 
           /* update last save location */
           if (last_save_location != NULL)
@@ -4871,9 +4882,13 @@ mousepad_window_action_close_window (GSimpleAction *action,
   if ((npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook))) == 0)
     {
       gtk_widget_destroy (GTK_WIDGET (window));
-
       return;
     }
+
+  /* disconnect session handler from this notebook: if it is the last window, the session
+   * should not be saved anymore, else it will be saved when the active window changes */
+  mousepad_disconnect_by_func (window->notebook,
+                               G_CALLBACK (mousepad_history_session_save), NULL);
 
   /* prevent menu updates */
   lock_menu_updates++;
@@ -4898,6 +4913,12 @@ mousepad_window_action_close_window (GSimpleAction *action,
 
           /* store the close result as the action state */
           g_action_change_state (G_ACTION (action), g_variant_new_int32 (FALSE));
+
+          /* save session and reconnect handler */
+          mousepad_history_session_save (FALSE);
+          g_signal_connect_object (window->notebook, "switch-page",
+                                   G_CALLBACK (mousepad_history_session_save), NULL,
+                                   G_CONNECT_SWAPPED | G_CONNECT_AFTER);
 
           /* leave function */
           return;

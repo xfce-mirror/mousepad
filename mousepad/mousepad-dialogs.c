@@ -641,7 +641,7 @@ mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
     }
 
   /* get encoding from history, exit on failure */
-  mousepad_util_recent_get_encoding (files->data, &encoding);
+  mousepad_history_recent_get_encoding (files->data, &encoding);
   if (encoding == MOUSEPAD_ENCODING_NONE)
     {
       g_slist_free_full (files, g_object_unref);

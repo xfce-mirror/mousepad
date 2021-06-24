@@ -19,6 +19,7 @@
 
 #include <mousepad/mousepad-encoding.h>
 #include <mousepad/mousepad-file.h>
+#include <mousepad/mousepad-history.h>
 
 #include <gtk/gtk.h>
 
