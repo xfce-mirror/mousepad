@@ -3804,8 +3804,7 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
 {
   GtkWidget  *notebook, **document;
   GtkWidget  *child, *label;
-  GPtrArray  *files;
-  gpointer   *data;
+  GFile     **files;
   gchar     **uris;
   gint        i, n_pages;
 
@@ -3820,19 +3819,21 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
       /* prepare the GFile array */
       uris = gtk_selection_data_get_uris (selection_data);
       n_pages = g_strv_length (uris);
-      files = g_ptr_array_sized_new (n_pages);
+      files = g_malloc (n_pages * sizeof (GFile *));
       for (i = 0; i < n_pages; i++)
-        g_ptr_array_add (files, g_file_new_for_uri (uris[i]));
+        files[i] = g_file_new_for_uri (uris[i]);
 
       /* open the files */
-      data = g_ptr_array_free (files, FALSE);
-      mousepad_window_open_files (window, (GFile **) data, n_pages,
+      mousepad_window_open_files (window, files, n_pages,
                                   mousepad_encoding_get_default (),
                                   0, 0, TRUE);
 
       /* cleanup */
       g_strfreev (uris);
-      g_free (data);
+      for (i = 0; i < n_pages; i++)
+        g_object_unref (files[i]);
+
+      g_free (files);
 
       /* finish the drag (copy) */
       gtk_drag_finish (context, TRUE, FALSE, drag_time);
