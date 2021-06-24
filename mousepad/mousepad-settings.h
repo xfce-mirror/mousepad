@@ -27,6 +27,8 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_MAKE_BACKUP                  "preferences.file.make-backup"
 #define MOUSEPAD_SETTING_MONITOR_CHANGES              "preferences.file.monitor-changes"
 #define MOUSEPAD_SETTING_MONITOR_DISABLING_TIMER      "preferences.file.monitor-disabling-timer"
+#define MOUSEPAD_SETTING_REMEMBER_SESSION             "preferences.file.remember-session"
+
 #define MOUSEPAD_SETTING_AUTO_INDENT                  "preferences.view.auto-indent"
 #define MOUSEPAD_SETTING_FONT                         "preferences.view.font-name"
 #define MOUSEPAD_SETTING_USE_DEFAULT_FONT             "preferences.view.use-default-monospace-font"
@@ -49,6 +51,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_WORD_WRAP                    "preferences.view.word-wrap"
 #define MOUSEPAD_SETTING_MATCH_BRACES                 "preferences.view.match-braces"
 #define MOUSEPAD_SETTING_COLOR_SCHEME                 "preferences.view.color-scheme"
+
 #define MOUSEPAD_SETTING_TOOLBAR_STYLE                "preferences.window.toolbar-style"
 #define MOUSEPAD_SETTING_TOOLBAR_ICON_SIZE            "preferences.window.toolbar-icon-size"
 #define MOUSEPAD_SETTING_ALWAYS_SHOW_TABS             "preferences.window.always-show-tabs"
@@ -71,6 +74,8 @@ G_BEGIN_DECLS
 
 /* State setting names */
 #define MOUSEPAD_SETTING_ENABLED_PLUGINS              "state.application.enabled-plugins"
+#define MOUSEPAD_SETTING_SESSION                      "state.application.session"
+
 #define MOUSEPAD_SETTING_SEARCH_DIRECTION             "state.search.direction"
 #define MOUSEPAD_SETTING_SEARCH_WRAP_AROUND           "state.search.wrap-around"
 #define MOUSEPAD_SETTING_SEARCH_MATCH_CASE            "state.search.match-case"
@@ -80,6 +85,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_SEARCH_REPLACE_ALL_LOCATION  "state.search.replace-all-location"
 #define MOUSEPAD_SETTING_SEARCH_HIGHLIGHT_ALL         "state.search.highlight-all"
 #define MOUSEPAD_SETTING_SEARCH_INCREMENTAL           "state.search.incremental"
+
 #define MOUSEPAD_SETTING_WINDOW_HEIGHT                "state.window.height"
 #define MOUSEPAD_SETTING_WINDOW_WIDTH                 "state.window.width"
 #define MOUSEPAD_SETTING_WINDOW_TOP                   "state.window.top"
@@ -111,6 +117,8 @@ void       mousepad_setting_disconnect     (const gchar        *setting,
                                             gpointer            user_data);
 
 /* functions for reading and writing settings */
+
+void       mousepad_setting_reset          (const gchar        *setting);
 
 void       mousepad_setting_get            (const gchar        *setting,
                                             const gchar        *format_string,
@@ -170,6 +178,8 @@ void       mousepad_setting_set_variant    (const gchar        *setting,
 
 #define MOUSEPAD_SETTING_DISCONNECT(setting, callback, user_data) \
   mousepad_setting_disconnect (MOUSEPAD_SETTING_##setting, callback, user_data)
+
+#define MOUSEPAD_SETTING_RESET(setting) mousepad_setting_reset (MOUSEPAD_SETTING_##setting)
 
 #define MOUSEPAD_SETTING_GET(setting, ...)           mousepad_setting_get (MOUSEPAD_SETTING_##setting, __VA_ARGS__)
 #define MOUSEPAD_SETTING_GET_BOOLEAN(setting)        mousepad_setting_get_boolean (MOUSEPAD_SETTING_##setting)
