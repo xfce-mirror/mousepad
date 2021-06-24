@@ -1864,8 +1864,10 @@ mousepad_window_open_file (MousepadWindow   *window,
                            gboolean          must_exist)
 {
   MousepadDocument *document;
+  GtkNotebook      *notebook;
+  GList            *list, *li;
   GError           *error = NULL;
-  GFile            *opened_file;
+  GFile            *open_file;
   gint              npages, result, i;
   gboolean          make_valid = FALSE, user_set_encoding, user_set_cursor;
 
@@ -1873,20 +1875,22 @@ mousepad_window_open_file (MousepadWindow   *window,
   g_return_val_if_fail (file != NULL, FALSE);
 
   /* check if the file is already openend */
-  npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
-  for (i = 0; i < npages; i++)
+  list = gtk_application_get_windows (GTK_APPLICATION (
+           gtk_window_get_application (GTK_WINDOW (window))));
+  for (li = list; li != NULL; li = li->next)
     {
-      document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i));
-      if (G_LIKELY (document != NULL))
+      notebook = GTK_NOTEBOOK (MOUSEPAD_WINDOW (li->data)->notebook);
+      npages = gtk_notebook_get_n_pages (notebook);
+      for (i = 0; i < npages; i++)
         {
-          /* get the file location */
-          opened_file = mousepad_file_get_location (document->file);
-
           /* see if the file is already opened */
-          if (opened_file != NULL && g_file_equal (file, opened_file))
+          document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (notebook, i));
+          open_file = mousepad_file_get_location (document->file);
+          if (open_file != NULL && g_file_equal (file, open_file))
             {
-              /* switch to the tab */
-              gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), i);
+              /* switch to the tab and present the window */
+              gtk_notebook_set_current_page (notebook, i);
+              gtk_window_present (li->data);
 
               /* and we're done */
               return TRUE;
@@ -2008,11 +2012,14 @@ mousepad_window_open_files (MousepadWindow    *window,
                             gint               column,
                             gboolean           must_exist)
 {
-  gint n;
+  gint n_tabs_in, n_tabs_out, n, ret = -1;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), 0);
   g_return_val_if_fail (files != NULL, 0);
   g_return_val_if_fail (*files != NULL, 0);
+
+  /* get the number of tabs before trying to open new files */
+  n_tabs_in = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
 
   /* block menu updates */
   lock_menu_updates++;
@@ -2026,9 +2033,13 @@ mousepad_window_open_files (MousepadWindow    *window,
 
   /* return the number of open documents, unless the window was destroyd, e.g. by "app.quit" */
   if (G_LIKELY (mousepad_is_application_window (window)))
-    return gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
-  else
-    return -1;
+    {
+      n_tabs_out = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
+      if (n_tabs_out > 0)
+        ret = n_tabs_out - n_tabs_in;
+    }
+
+  return ret;
 }
 
 
