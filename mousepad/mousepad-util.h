@@ -17,9 +17,6 @@
 #ifndef __MOUSEPAD_UTIL_H__
 #define __MOUSEPAD_UTIL_H__
 
-#include <mousepad/mousepad-encoding.h>
-#include <mousepad/mousepad-file.h>
-
 #include <gtk/gtk.h>
 #include <gtksourceview/gtksource.h>
 
@@ -97,22 +94,6 @@ gchar       *mousepad_util_pango_font_description_to_css    (const PangoFontDesc
 const gchar *mousepad_util_get_path                         (GFile                      *file);
 
 gpointer     mousepad_util_source_autoremove                (gpointer                    object);
-
-void         mousepad_util_recent_init                      (void);
-
-void         mousepad_util_recent_add                       (MousepadFile               *file);
-
-void         mousepad_util_recent_get_language              (GFile                      *file,
-                                                             gchar                     **language);
-
-void         mousepad_util_recent_get_encoding              (GFile                      *file,
-                                                             MousepadEncoding           *encoding);
-
-void         mousepad_util_recent_get_cursor                (GFile                      *file,
-                                                             gint                       *line,
-                                                             gint                       *column);
-
-void         mousepad_util_recent_clear                     (void);
 
 G_END_DECLS
 

@@ -169,6 +169,22 @@ mousepad_setting_disconnect (const gchar *setting,
 
 
 void
+mousepad_setting_reset (const gchar *setting)
+{
+  const gchar *key_name;
+  GSettings   *settings;
+
+  g_return_if_fail (setting != NULL);
+
+  if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
+    g_settings_reset (settings, key_name);
+  else
+    g_warn_if_reached ();
+}
+
+
+
+void
 mousepad_setting_get (const gchar *setting,
                       const gchar *format_string,
                       ...)
