@@ -37,7 +37,10 @@
 #define WID_SMART_HOME_END_COMBO            "/prefs/editor/smart-keys/smart-home-end-combo"
 
 /* Window page */
+/* TODO Toolbar */
+#if 0
 #define WID_TOOLBAR_STYLE_COMBO             "/prefs/window/toolbar/style-combo"
+#endif
 #define WID_TOOLBAR_ICON_SIZE_COMBO         "/prefs/window/toolbar/icon-size-combo"
 #define WID_OPENING_MODE_COMBO              "/prefs/window/notebook/opening-mode-combo"
 
@@ -106,6 +109,7 @@ static void
 mousepad_prefs_dialog_finalize (GObject *object)
 {
   MousepadPrefsDialog *self;
+  GObject             *notebook, *tab;
 
   g_return_if_fail (MOUSEPAD_IS_PREFS_DIALOG (object));
 
@@ -113,7 +117,15 @@ mousepad_prefs_dialog_finalize (GObject *object)
 
   /* destroy the GtkBuilder instance */
   if (self->builder != NULL)
-    g_object_unref (self->builder);
+    {
+      /* disconnect from the notebook "switch-page" signal which gets emitted
+       * when releasing the builder */
+      notebook = gtk_builder_get_object (self->builder, WID_NOTEBOOK);
+      tab = gtk_builder_get_object (self->builder, WID_PLUGINS_TAB);
+      g_signal_handlers_disconnect_by_data (notebook, tab);
+
+      g_object_unref (self->builder);
+    }
 
   G_OBJECT_CLASS (mousepad_prefs_dialog_parent_class)->finalize (object);
 }
@@ -127,8 +139,8 @@ mousepad_prefs_dialog_remove_setting_box (gpointer popover)
 {
   GtkWidget *child;
 
-  if ((child = gtk_bin_get_child (popover)) != NULL)
-    gtk_container_remove (popover, child);
+  if ((child = gtk_popover_get_child (popover)) != NULL)
+    gtk_popover_set_child (popover, NULL);
 }
 
 
@@ -148,8 +160,9 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
    * it with its popover */
   if (box != NULL && ! visible)
     {
-      popover = gtk_popover_new (button);
-      gtk_container_add (GTK_CONTAINER (popover), box);
+      popover = gtk_popover_new ();
+      gtk_widget_set_parent (popover, button);
+      gtk_popover_set_child (GTK_POPOVER (popover), box);
       g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_show), popover);
       g_signal_connect_swapped (button, "destroy",
                                 G_CALLBACK (mousepad_prefs_dialog_remove_setting_box),
@@ -185,13 +198,11 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
   MousepadPrefsDialog  *self;
   MousepadApplication  *application;
   GtkWidget            *box, *widget, *child, *grid = NULL;
-  GdkModifierType       mods;
   GTypeModule          *module;
   GList                *providers, *provider;
-  gchar               **accels;
   const gchar          *category = NULL;
   gchar                *str;
-  guint                 n, key;
+  guint                 n;
 
   /* filter other tabs */
   if (page != plugins_tab)
@@ -220,8 +231,7 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
 
           widget = gtk_frame_new (NULL);
           gtk_frame_set_label_widget (GTK_FRAME (widget), child);
-          gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
-          gtk_box_pack_start (GTK_BOX (box), widget, FALSE, TRUE, 0);
+          gtk_box_append (GTK_BOX (box), widget);
 
           grid = gtk_grid_new ();
           gtk_grid_set_column_spacing (GTK_GRID (grid), 6);
@@ -230,35 +240,26 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
           gtk_widget_set_margin_end (grid, 6);
           gtk_widget_set_margin_top (grid, 6);
           gtk_widget_set_margin_bottom (grid, 6);
-          gtk_container_add (GTK_CONTAINER (widget), grid);
-
-          /* show all widgets in the frame */
-          gtk_widget_show_all (widget);
+          gtk_frame_set_child (GTK_FRAME (widget), grid);
         }
 
       /* add the provider checkbox to the grid and build its action name */
-      widget = gtk_check_button_new ();
+      widget = gtk_check_button_new_with_label (mousepad_plugin_provider_get_label (provider->data));
+      gtk_widget_set_hexpand (widget, TRUE);
       gtk_grid_attach (GTK_GRID (grid), widget, 0, n, 1, 1);
       module = provider->data;
       str = g_strconcat ("app.", module->name, NULL);
 
-      /* add an accel label to the provider checkbox */
-      child = gtk_accel_label_new (mousepad_plugin_provider_get_label (provider->data));
-      gtk_widget_set_hexpand (child, TRUE);
-      accels = gtk_application_get_accels_for_action (GTK_APPLICATION (application), str);
-      key = mods = 0;
-      if (accels[0] != NULL)
-        gtk_accelerator_parse (accels[0], &key, &mods);
-
-      gtk_accel_label_set_accel (GTK_ACCEL_LABEL (child), key, mods);
-      g_strfreev (accels);
-      gtk_container_add (GTK_CONTAINER (widget), child);
-
-      /* add a prefs button to the grid */
-      child = gtk_button_new_from_icon_name ("preferences-system", GTK_ICON_SIZE_BUTTON);
+      /* add a shortcut label to the grid */
+      child = gtk_shortcut_label_new (mousepad_plugin_provider_get_accel (provider->data));
       gtk_grid_attach (GTK_GRID (grid), child, 1, n, 1, 1);
 
+      /* add a prefs button to the grid */
+      child = gtk_button_new_from_icon_name ("preferences-system");
+      gtk_grid_attach (GTK_GRID (grid), child, 2, n, 1, 1);
+
       /* show the button if the plugin already has a setting box, or when it gets one */
+      gtk_widget_hide (child);
       mousepad_object_set_data (child, "provider", provider->data);
       mousepad_prefs_dialog_checkbox_toggled_idle (child);
       g_signal_connect (widget, "toggled",
@@ -267,9 +268,6 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
       /* make the provider checkbox actionable, triggering in particular the handler above */
       gtk_actionable_set_action_name (GTK_ACTIONABLE (widget), str);
       g_free (str);
-
-      /* show all widgets in the checkbox */
-      gtk_widget_show_all (widget);
     }
 }
 
@@ -455,6 +453,8 @@ mousepad_prefs_dialog_home_end_setting_changed (MousepadPrefsDialog *self,
 
 
 
+/* TODO Toolbar */
+#if 0
 /* update toolbar style setting when combo changes */
 static void
 mousepad_prefs_dialog_toolbar_style_changed (MousepadPrefsDialog *self,
@@ -483,6 +483,7 @@ mousepad_prefs_dialog_toolbar_style_setting_changed (MousepadPrefsDialog *self,
 
   gtk_combo_box_set_active (combo, MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE));
 }
+#endif
 
 
 
@@ -608,8 +609,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* add the Glade/GtkBuilder notebook into this dialog */
   widget = gtk_dialog_get_content_area (GTK_DIALOG (self));
   child = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
-  gtk_box_pack_start (GTK_BOX (widget), child, FALSE, TRUE, 0);
-  gtk_widget_show (child);
+  gtk_box_append (GTK_BOX (widget), child);
 
   /* setup the window properties */
   gtk_window_set_title (GTK_WINDOW (self), _("Mousepad Preferences"));
@@ -624,8 +624,11 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (SMART_HOME_END));
 
   /* setup toolbar-related combo box */
+/* TODO Toolbar */
+#if 0
   widget = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_STYLE_COMBO);
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE));
+#endif
   mousepad_prefs_dialog_toolbar_icon_size_setting_changed (self, NULL, NULL);
 
   /* setup opening mode combo box */
@@ -635,48 +638,38 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* bind the right-margin-position setting to the spin button */
   MOUSEPAD_SETTING_BIND (RIGHT_MARGIN_POSITION,
                          gtk_builder_get_object (self->builder, WID_RIGHT_MARGIN_SPIN),
-                         "value",
-                         G_SETTINGS_BIND_DEFAULT);
+                         "value", G_SETTINGS_BIND_DEFAULT);
 
   /* bind the font button "font" property to the "font" setting */
-  MOUSEPAD_SETTING_BIND (FONT,
-                         gtk_builder_get_object (self->builder, WID_FONT_BUTTON),
-                         "font",
-                         G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+  MOUSEPAD_SETTING_BIND (FONT, gtk_builder_get_object (self->builder, WID_FONT_BUTTON),
+                         "font", G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
 
   mousepad_prefs_dialog_setup_color_schemes_combo (self);
 
-
   /* bind the tab-width spin button to the setting */
-  MOUSEPAD_SETTING_BIND (TAB_WIDTH,
-                         gtk_builder_get_object (self->builder, WID_TAB_WIDTH_SPIN),
-                         "value",
-                         G_SETTINGS_BIND_DEFAULT);
+  MOUSEPAD_SETTING_BIND (TAB_WIDTH, gtk_builder_get_object (self->builder, WID_TAB_WIDTH_SPIN),
+                         "value", G_SETTINGS_BIND_DEFAULT);
 
   /* update tab-mode when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TAB_MODE_COMBO),
-                            "changed",
-                            G_CALLBACK (mousepad_prefs_dialog_tab_mode_changed),
-                            self);
+                            "changed", G_CALLBACK (mousepad_prefs_dialog_tab_mode_changed), self);
 
   /* update tab mode combo when setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (INSERT_SPACES,
                                    G_CALLBACK (mousepad_prefs_dialog_tab_mode_setting_changed),
-                                   self,
-                                   G_CONNECT_SWAPPED);
+                                   self, G_CONNECT_SWAPPED);
 
   /* update home/end when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_SMART_HOME_END_COMBO),
-                            "changed",
-                            G_CALLBACK (mousepad_prefs_dialog_home_end_changed),
-                            self);
+                            "changed", G_CALLBACK (mousepad_prefs_dialog_home_end_changed), self);
 
   /* update home/end combo when setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (SMART_HOME_END,
                                    G_CALLBACK (mousepad_prefs_dialog_home_end_setting_changed),
-                                   self,
-                                   G_CONNECT_SWAPPED);
+                                   self, G_CONNECT_SWAPPED);
 
+/* TODO Toolbar */
+#if 0
   /* update toolbar style when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TOOLBAR_STYLE_COMBO),
                             "changed",
@@ -688,6 +681,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                                    G_CALLBACK (mousepad_prefs_dialog_toolbar_style_setting_changed),
                                    self,
                                    G_CONNECT_SWAPPED);
+#endif
 
   /* update toolbar icon size when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TOOLBAR_ICON_SIZE_COMBO),
@@ -713,16 +707,15 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                                    self,
                                    G_CONNECT_SWAPPED);
 
-  /* show the "Plugins" tab only if there is at least one plugin and fill it on demand,
-   * to not slow down the dialog opening */
+  /* hide the "Plugins" tab if there is no plugin and fill it on demand, to not
+   * slow down the dialog opening */
+  widget = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
+  child = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
   if (mousepad_application_get_providers (application) != NULL)
-    {
-      widget = mousepad_builder_get_widget (self->builder, WID_NOTEBOOK);
-      child = mousepad_builder_get_widget (self->builder, WID_PLUGINS_TAB);
-      g_signal_connect (widget, "switch-page",
-                        G_CALLBACK (mousepad_prefs_dialog_plugins_tab), child);
-      gtk_widget_show (child);
-    }
+    g_signal_connect (widget, "switch-page",
+                      G_CALLBACK (mousepad_prefs_dialog_plugins_tab), child);
+  else
+    gtk_widget_hide (child);
 }
 
 
