@@ -235,7 +235,13 @@ static const GActionEntry dialog_actions[] =
   { MOUSEPAD_SETTING_REMEMBER_STATE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_TOOLBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_ALWAYS_SHOW_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
-  { MOUSEPAD_SETTING_CYCLE_TABS, mousepad_application_toggle_activate, NULL, "false", NULL }
+  { MOUSEPAD_SETTING_CYCLE_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
+
+  /* "File" tab */
+  { MOUSEPAD_SETTING_ADD_LAST_EOL, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_MAKE_BACKUP, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_REMEMBER_SESSION, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_MONITOR_CHANGES, mousepad_application_toggle_activate, NULL, "false", NULL }
 };
 #define N_DIALOG G_N_ELEMENTS (dialog_actions)
 
