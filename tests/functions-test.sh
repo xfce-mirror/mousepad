@@ -77,6 +77,7 @@ test_simple_gui ()
 
   # cleanup
   rm "$temp_logfile"
+  ((! remember_session)) || gsettings reset org.xfce.mousepad.state.application session
 }
 
 test_gsettings ()
@@ -136,6 +137,7 @@ test_gsettings ()
 
   # cleanup
   rm "$temp_logfile" "$bak"
+  ((! remember_session)) || gsettings reset org.xfce.mousepad.state.application session
 }
 
 test_actions ()
@@ -176,4 +178,5 @@ test_actions ()
 
   # cleanup
   rm "$temp_logfile"
+  ((! remember_session)) || gsettings reset org.xfce.mousepad.state.application session
 }
