@@ -99,6 +99,15 @@
         you should leave it alone.
       </description>
     </key>
+    <key name="remember-session" type="b">
+      <default>false</default>
+      <summary>Remember session</summary>
+      <description>
+        When true Mousepad regularly saves the session state, i.e a list of open
+        tabs and windows (see the 'session' key in the 'state.application' schema),
+        and restore this state on next session.
+      </description>
+    </key>
   </schema>
 
   <!-- Textview preferences -->
@@ -446,6 +455,15 @@
       <summary>Enabled plugins</summary>
       <description>
         List of enabled plugins, among those found in the plugin directory.
+      </description>
+    </key>
+    <key name="session" type="as">
+      <default>[]</default>
+      <summary>Session</summary>
+      <description>
+        List of tabs per window for a session, in the form 'n:[:]uri' where 'n' is an
+        integer uniquely identifying a window, 'uri' the file uri for a tab, and the
+        optional ':' identifies the active tab in the window (the last one wins).
       </description>
     </key>
   </schema>

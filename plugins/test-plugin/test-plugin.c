@@ -17,6 +17,7 @@
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-plugin.h>
 #include <mousepad/mousepad-dialogs.h>
+#include <mousepad/mousepad-settings.h>
 
 #include <test-plugin/test-plugin.h>
 
@@ -233,6 +234,24 @@ test_plugin_action_added (GActionGroup *action_group,
 
 
 
+static gboolean
+test_plugin_window_shown_idle (gpointer data)
+{
+  g_application_unmark_busy (application);
+
+  /* `mousepad --disable-server` case: the test script can't run `mousepad --quit`
+   * to terminate the current instance, so let's do it internally */
+  if (g_application_get_flags (application) & G_APPLICATION_NON_UNIQUE)
+    {
+      LOG_COMMAND ("app.quit");
+      g_action_group_activate_action (G_ACTION_GROUP (application), "quit", NULL);
+    }
+
+  return FALSE;
+}
+
+
+
 static void
 test_plugin_window_shown (TestPlugin *plugin)
 {
@@ -241,15 +260,14 @@ test_plugin_window_shown (TestPlugin *plugin)
   window = gtk_application_get_active_window (GTK_APPLICATION (application));
   if (window != NULL && gtk_widget_get_visible (GTK_WIDGET (window)))
     {
-      g_application_unmark_busy (application);
-
-      /* `mousepad --disable-server` case: the test script can't run `mousepad --quit`
-       * to terminate the current instance, so let's do it internally */
-      if (g_application_get_flags (application) & G_APPLICATION_NON_UNIQUE)
+      /* allow time to restore the entire session if needed */
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
         {
-          LOG_COMMAND ("app.quit");
-          g_action_group_activate_action (G_ACTION_GROUP (application), "quit", NULL);
+          test_plugin_disable_monitoring (plugin);
+          g_idle_add (test_plugin_window_shown_idle, plugin);
         }
+      else
+        test_plugin_window_shown_idle (plugin);
     }
 }
 
