@@ -338,85 +338,86 @@ mousepad_print_settings_save (GtkPrintOperation *operation)
 
   /* get the save location */
   filename = mousepad_util_get_save_location (MOUSEPAD_RC_RELPATH, TRUE);
+  if (G_UNLIKELY (filename == NULL))
+    return;
+
+  /* get the print settings */
+  settings = gtk_print_operation_get_print_settings (operation);
+  if (G_UNLIKELY (settings == NULL))
+    {
+      g_free (filename);
+      return;
+    }
+
+  /* get the page setup */
+  page_setup = gtk_print_operation_get_default_page_setup (operation);
+
+  /* restore the page setup */
+  if (G_LIKELY (page_setup != NULL))
+    {
+      /* the the settings page orienation */
+      gtk_print_settings_set_orientation (settings,
+        gtk_page_setup_get_orientation (page_setup));
+
+      /* save margins */
+      gtk_print_settings_set_double (settings, "top-margin",
+        gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_MM));
+      gtk_print_settings_set_double (settings, "bottom-margin",
+        gtk_page_setup_get_bottom_margin (page_setup, GTK_UNIT_MM));
+      gtk_print_settings_set_double (settings, "right-margin",
+        gtk_page_setup_get_right_margin (page_setup, GTK_UNIT_MM));
+      gtk_print_settings_set_double (settings, "left-margin",
+        gtk_page_setup_get_left_margin (page_setup, GTK_UNIT_MM));
+
+      /* get the paper size */
+      paper_size = gtk_page_setup_get_paper_size (page_setup);
+
+      /* set settings page size */
+      if (G_LIKELY (paper_size))
+        gtk_print_settings_set_paper_size (settings, paper_size);
+    }
+
+  /* a bool we use for loading */
+  gtk_print_settings_set_bool (settings, "page-setup-saved", page_setup != NULL);
+
+  /* set print settings */
+  value = gtk_source_print_compositor_get_print_header (print->compositor);
+  gtk_print_settings_set_bool (settings, "print-header", value);
+
+  gtk_print_settings_set_bool (settings, "print-line-numbers", print->print_line_numbers);
+
+  gtk_print_settings_set_int (settings, "line-numbers-increment", print->line_number_increment);
+
+  value = gtk_source_print_compositor_get_wrap_mode (print->compositor) == GTK_WRAP_NONE ? FALSE
+                                                                                         : TRUE;
+  gtk_print_settings_set_bool (settings, "text-wrapping", value);
+
+  value = gtk_source_print_compositor_get_highlight_syntax (print->compositor);
+  gtk_print_settings_set_bool (settings, "highlight-syntax", value);
+
+  str = gtk_source_print_compositor_get_body_font_name (print->compositor);
+  gtk_print_settings_set (settings, "body-font-name", str);
+  g_free (str);
+
+  str = gtk_source_print_compositor_get_header_font_name (print->compositor);
+  gtk_print_settings_set (settings, "header-font-name", str);
+  g_free (str);
+
+  str = gtk_source_print_compositor_get_line_numbers_font_name (print->compositor);
+  gtk_print_settings_set (settings, "line-numbers-font-name", str);
+  g_free (str);
 
   /* create a new keyfile */
   keyfile = g_key_file_new ();
 
   /* load the existing settings */
-  if (G_LIKELY (g_key_file_load_from_file (keyfile, filename, G_KEY_FILE_NONE, NULL)))
-    {
-      /* get the print settings */
-      settings = gtk_print_operation_get_print_settings (operation);
+  g_key_file_load_from_file (keyfile, filename, G_KEY_FILE_NONE, NULL);
 
-      if (G_LIKELY (settings != NULL))
-        {
-          /* get the page setup */
-          page_setup = gtk_print_operation_get_default_page_setup (operation);
+  /* store all the print settings */
+  gtk_print_settings_foreach (settings, mousepad_print_settings_save_foreach, keyfile);
 
-          /* restore the page setup */
-          if (G_LIKELY (page_setup != NULL))
-            {
-              /* the the settings page orienation */
-              gtk_print_settings_set_orientation (settings,
-                gtk_page_setup_get_orientation (page_setup));
-
-              /* save margins */
-              gtk_print_settings_set_double (settings, "top-margin",
-                gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_MM));
-              gtk_print_settings_set_double (settings, "bottom-margin",
-                gtk_page_setup_get_bottom_margin (page_setup, GTK_UNIT_MM));
-              gtk_print_settings_set_double (settings, "right-margin",
-                gtk_page_setup_get_right_margin (page_setup, GTK_UNIT_MM));
-              gtk_print_settings_set_double (settings, "left-margin",
-                gtk_page_setup_get_left_margin (page_setup, GTK_UNIT_MM));
-
-              /* get the paper size */
-              paper_size = gtk_page_setup_get_paper_size (page_setup);
-
-              /* set settings page size */
-              if (G_LIKELY (paper_size))
-                gtk_print_settings_set_paper_size (settings, paper_size);
-            }
-
-          /* a bool we use for loading */
-          gtk_print_settings_set_bool (settings, "page-setup-saved", page_setup != NULL);
-
-          /* set print settings */
-          value = gtk_source_print_compositor_get_print_header (print->compositor);
-          gtk_print_settings_set_bool (settings, "print-header", value);
-
-          gtk_print_settings_set_bool (settings, "print-line-numbers",
-                                       print->print_line_numbers);
-
-          gtk_print_settings_set_int (settings, "line-numbers-increment",
-                                      print->line_number_increment);
-
-          value = gtk_source_print_compositor_get_wrap_mode (print->compositor) == GTK_WRAP_NONE
-                    ? FALSE : TRUE;
-          gtk_print_settings_set_bool (settings, "text-wrapping", value);
-
-          value = gtk_source_print_compositor_get_highlight_syntax (print->compositor);
-          gtk_print_settings_set_bool (settings, "highlight-syntax", value);
-
-          str = gtk_source_print_compositor_get_body_font_name (print->compositor);
-          gtk_print_settings_set (settings, "body-font-name", str);
-          g_free (str);
-
-          str = gtk_source_print_compositor_get_header_font_name (print->compositor);
-          gtk_print_settings_set (settings, "header-font-name", str);
-          g_free (str);
-
-          str = gtk_source_print_compositor_get_line_numbers_font_name (print->compositor);
-          gtk_print_settings_set (settings, "line-numbers-font-name", str);
-          g_free (str);
-
-          /* store all the print settings */
-          gtk_print_settings_foreach (settings, mousepad_print_settings_save_foreach, keyfile);
-
-          /* save the contents */
-          mousepad_util_save_key_file (keyfile, filename);
-        }
-    }
+  /* save the contents */
+  mousepad_util_save_key_file (keyfile, filename);
 
   /* cleanup */
   g_key_file_free (keyfile);
