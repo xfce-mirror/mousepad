@@ -20,6 +20,7 @@
 #include <mousepad/mousepad-encoding-dialog.h>
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-dialogs.h>
+#include <mousepad/mousepad-history.h>
 
 
 
@@ -359,8 +360,8 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
                                                        system_encoding, contents, length);
 
   /* set the history radio button */
-  mousepad_util_recent_get_encoding (mousepad_file_get_location (dialog->document->file),
-                                     &history_encoding);
+  mousepad_history_recent_get_encoding (mousepad_file_get_location (dialog->document->file),
+                                        &history_encoding);
   show_history = (history_encoding != MOUSEPAD_ENCODING_NONE
                   && history_encoding != default_encoding
                   && history_encoding != system_encoding);
@@ -655,7 +656,7 @@ mousepad_encoding_dialog (GtkWindow        *parent,
   if (mousepad_file_get_encoding (file) == MOUSEPAD_ENCODING_NONE)
     {
       *encoding = MOUSEPAD_ENCODING_NONE;
-      mousepad_util_recent_get_encoding (mousepad_file_get_location (file), encoding);
+      mousepad_history_recent_get_encoding (mousepad_file_get_location (file), encoding);
       if (*encoding == MOUSEPAD_ENCODING_NONE)
         *encoding = mousepad_encoding_get_default ();
 

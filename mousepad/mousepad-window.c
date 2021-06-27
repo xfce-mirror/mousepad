@@ -27,6 +27,7 @@
 #include <mousepad/mousepad-print.h>
 #include <mousepad/mousepad-window.h>
 #include <mousepad/mousepad-util.h>
+#include <mousepad/mousepad-history.h>
 
 
 
@@ -1926,11 +1927,11 @@ mousepad_window_open_file (MousepadWindow   *window,
     }
   /* try to lookup the encoding from the recent history if not set by the user */
   else if (! user_set_encoding)
-    mousepad_util_recent_get_encoding (file, &encoding);
+    mousepad_history_recent_get_encoding (file, &encoding);
 
   /* try to lookup the cursor position from the recent history if not set by the user */
   if (! user_set_cursor)
-    mousepad_util_recent_get_cursor (file, &line, &column);
+    mousepad_history_recent_get_cursor (file, &line, &column);
 
   retry:
 
@@ -1962,7 +1963,7 @@ mousepad_window_open_file (MousepadWindow   *window,
                           mousepad_util_source_autoremove (window->active->textview));
 
             /* insert in the recent history */
-            mousepad_util_recent_add (document->file);
+            mousepad_history_recent_add (document->file);
           }
         break;
 
@@ -2144,7 +2145,7 @@ mousepad_window_close_document (MousepadWindow   *window,
       /* store some data in the recent history if the file exists on disk */
       if (mousepad_file_location_is_set (document->file)
           && g_file_query_exists (mousepad_file_get_location (document->file), NULL))
-        mousepad_util_recent_add (document->file);
+        mousepad_history_recent_add (document->file);
 
       gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
     }
@@ -4455,7 +4456,7 @@ mousepad_window_action_clear_recent (GSimpleAction *action,
       lock_menu_updates++;
 
       /* clear the document history */
-      mousepad_util_recent_clear ();
+      mousepad_history_recent_clear ();
 
       /* allow menu updates again */
       lock_menu_updates--;
@@ -4598,7 +4599,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
           mousepad_file_set_location (document->file, file, TRUE);
 
           /* add to the recent history */
-          mousepad_util_recent_add (document->file);
+          mousepad_history_recent_add (document->file);
 
           /* update last save location */
           if (last_save_location != NULL)
@@ -4883,9 +4884,13 @@ mousepad_window_action_close_window (GSimpleAction *action,
   if ((npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook))) == 0)
     {
       gtk_widget_destroy (GTK_WIDGET (window));
-
       return;
     }
+
+  /* disconnect session handler from this notebook: if it is the last window, the session
+   * should not be saved anymore, else it will be saved when the active window changes */
+  mousepad_disconnect_by_func (window->notebook,
+                               G_CALLBACK (mousepad_history_session_save), NULL);
 
   /* prevent menu updates */
   lock_menu_updates++;
@@ -4910,6 +4915,12 @@ mousepad_window_action_close_window (GSimpleAction *action,
 
           /* store the close result as the action state */
           g_action_change_state (G_ACTION (action), g_variant_new_int32 (FALSE));
+
+          /* save session and reconnect handler */
+          mousepad_history_session_save (FALSE);
+          g_signal_connect_object (window->notebook, "switch-page",
+                                   G_CALLBACK (mousepad_history_session_save), NULL,
+                                   G_CONNECT_SWAPPED | G_CONNECT_AFTER);
 
           /* leave function */
           return;

@@ -36,6 +36,8 @@ libmousepad_la_SOURCES = \
 	mousepad-encoding-dialog.h \
 	mousepad-file.c \
 	mousepad-file.h \
+	mousepad-history.c \
+	mousepad-history.h \
 	mousepad-plugin.c \
 	mousepad-plugin.h \
 	mousepad-plugin-provider.c \
