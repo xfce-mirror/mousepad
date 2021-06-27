@@ -375,10 +375,7 @@ mousepad_print_settings_save (GtkPrintOperation *operation)
 
               /* set settings page size */
               if (G_LIKELY (paper_size))
-                {
-                  gtk_print_settings_set_paper_size (settings, paper_size);
-                  gtk_paper_size_free (paper_size);
-                }
+                gtk_print_settings_set_paper_size (settings, paper_size);
             }
 
           /* a bool we use for loading */
