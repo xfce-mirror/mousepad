@@ -23,6 +23,7 @@
 #include <mousepad/mousepad-window.h>
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-plugin-provider.h>
+#include <mousepad/mousepad-history.h>
 
 
 
@@ -234,7 +235,13 @@ static const GActionEntry dialog_actions[] =
   { MOUSEPAD_SETTING_REMEMBER_STATE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_TOOLBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_ALWAYS_SHOW_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
-  { MOUSEPAD_SETTING_CYCLE_TABS, mousepad_application_toggle_activate, NULL, "false", NULL }
+  { MOUSEPAD_SETTING_CYCLE_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
+
+  /* "File" tab */
+  { MOUSEPAD_SETTING_ADD_LAST_EOL, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_MAKE_BACKUP, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_REMEMBER_SESSION, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_MONITOR_CHANGES, mousepad_application_toggle_activate, NULL, "false", NULL }
 };
 #define N_DIALOG G_N_ELEMENTS (dialog_actions)
 
@@ -917,7 +924,7 @@ mousepad_application_startup (GApplication *gapplication)
                     G_CALLBACK (mousepad_application_active_window_changed), NULL);
 
   /* initialize recent history management */
-  mousepad_util_recent_init ();
+  mousepad_history_recent_init ();
 }
 
 
@@ -933,7 +940,7 @@ mousepad_application_command_line (GApplication            *gapplication,
   const gchar          *opening_mode;
   gchar               **filenames = NULL;
   gint                  n, n_files;
-  gboolean              user_set_encoding, user_set_cursor = FALSE;
+  gboolean              user_set_encoding, user_set_cursor = FALSE, restored;
 
   /* get the option dictionary */
   options = g_application_command_line_get_options_dict (command_line);
@@ -953,6 +960,11 @@ mousepad_application_command_line (GApplication            *gapplication,
 
       return EXIT_SUCCESS;
     }
+
+  /* restore previous session */
+  application->opening_mode = MIXED;
+  application->encoding = mousepad_encoding_get_default ();
+  restored = mousepad_history_session_restore (application);
 
   /* retrieve encoding from the remote instance */
   g_variant_dict_lookup (options, "encoding", "u", &(application->encoding));
@@ -1000,7 +1012,7 @@ mousepad_application_command_line (GApplication            *gapplication,
   /* extract filenames */
   g_variant_dict_lookup (options, G_OPTION_REMAINING, "^a&ay", &filenames);
 
-  /* open files provided on the command line or an empty document */
+  /* open files provided on the command line */
   if (filenames != NULL && (n_files = g_strv_length (filenames)) > 0)
     {
       /* prepare the GFile array */
@@ -1024,7 +1036,8 @@ mousepad_application_command_line (GApplication            *gapplication,
 
       g_free (files);
     }
-  else
+  /* open an empty document if previous session wasn't restored */
+  else if (! restored)
     g_application_activate (gapplication);
 
   /* cleanup */
@@ -1209,6 +1222,9 @@ mousepad_application_create_window (MousepadApplication *application)
                     G_CALLBACK (mousepad_application_new_window_with_document), application);
   g_signal_connect (window, "new-window",
                     G_CALLBACK (mousepad_application_new_window), application);
+  g_signal_connect_object (mousepad_window_get_notebook (MOUSEPAD_WINDOW (window)), "switch-page",
+                           G_CALLBACK (mousepad_history_session_save), NULL,
+                           G_CONNECT_SWAPPED | G_CONNECT_AFTER);
 
   return window;
 }
@@ -1282,6 +1298,9 @@ mousepad_application_active_window_changed (MousepadApplication *application)
 
       /* update window dependent menu items */
       mousepad_window_update_window_menu_items (app_windows->data);
+
+      /* save new session state */
+      mousepad_history_session_save (FALSE);
     }
 
   /* store a copy of the application windows list to compare at next call */
@@ -1592,6 +1611,9 @@ mousepad_application_action_quit (GSimpleAction *action,
   GList   *windows, *window;
   GAction *close;
 
+  /* block session handler */
+  mousepad_history_session_save (TRUE);
+
   /* try to close all windows, abort at the first failure */
   windows = g_list_copy (gtk_application_get_windows (data));
   for (window = windows; window != NULL; window = window->next)
@@ -1599,7 +1621,12 @@ mousepad_application_action_quit (GSimpleAction *action,
       close = g_action_map_lookup_action (G_ACTION_MAP (window->data), "file.close-window");
       g_action_activate (close, NULL);
       if (! mousepad_action_get_state_int32_boolean (close))
-        break;
+        {
+          /* unblock session handler and save session */
+          mousepad_history_session_save (TRUE);
+
+          break;
+        }
     }
 
   g_list_free (windows);

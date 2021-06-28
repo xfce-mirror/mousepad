@@ -70,8 +70,8 @@ declare -r timeout='timeout -v -k 5 -- 10' script_name=${0##*/} \
            idle=$(echo "/org/xfce/mousepad: org.freedesktop.DBus.Properties.PropertiesChanged" \
                        "('org.gtk.Application', {'Busy': <false>}, @as [])")
 declare -a ignored warnings errors tempfiles
-declare -i quiet=0 n_warns=0 n_errs=0 n_cmds=0 gdbus_pid
-declare    mousepad logfile logdir temp_logfile sections
+declare -i quiet=0 n_warns=0 n_errs=0 n_cmds=0 remember_session=0 gdbus_pid
+declare    mousepad logfile logdir temp_logfile sections session_backup
 
 # Option parsing
 temp=$(getopt -o 'hqc:l:s:i:' \
@@ -84,6 +84,7 @@ eval set -- "$temp" && unset temp
 section_list=(
   'non-gui'
   'simple-gui' 'simple-gui.no-file' 'simple-gui.one-file' 'simple-gui.multi-file'
+               'simple-gui.session-restore'
   'gsettings' 'gsettings.no-file' 'gsettings.preferences' 'gsettings.one-file'
               'gsettings.multi-tab' 'gsettings.multi-window'
   'actions' 'actions.off-menu' 'actions.file' 'actions.edit' 'actions.search'
@@ -224,6 +225,15 @@ readonly quiet mousepad logfile logdir sections ignored gdbus_pid
 
 ### Main ###
 
+# Backup and reset session array if needed
+[ "$(gsettings get org.xfce.mousepad.preferences.file remember-session)" = 'true' ] && {
+  remember_session=1
+  session_backup="$logdir/$script_name.gsettings.session.bak"
+  : >"$session_backup" || abort 'file'
+  gsettings get org.xfce.mousepad.state.application session >"$session_backup"
+  gsettings reset org.xfce.mousepad.state.application session
+}
+
 # Non-GUI commands
 section_is_enabled 'non-gui' && {
   echo '*** Non-GUI commands ***' | duperr
@@ -257,6 +267,16 @@ section_is_enabled 'simple-gui.multi-file' && {
   create_tempfiles 2
   test_simple_gui --opening-mode=tab -- "${tempfiles[@]}"
   test_simple_gui --opening-mode=window -- "${tempfiles[@]}"
+}
+
+section_is_enabled 'simple-gui.session-restore' && ((remember_session)) && {
+  echo '- Session restore -' | duperr
+
+  # restore three files in two windows and open another file in a third window
+  create_tempfiles 4
+  gsettings set org.xfce.mousepad.state.application session \
+    "['1:file://${tempfiles[0]}', '1::file://${tempfiles[1]}', '2:file://${tempfiles[2]}']"
+  test_simple_gui --opening-mode=window -- "${tempfiles[3]}"
 }
 
 # GSettings (setting change from cli when mousepad is running)
@@ -331,6 +351,13 @@ section_is_enabled 'actions.document' && {
 section_is_enabled 'actions.help' && {
   echo '- Help menu -' | duperr
   test_actions --help "${tempfiles[0]}"
+}
+
+# Restore session array if needed
+[ -n "$session_backup" ] && {
+  read -r <"$session_backup"
+  gsettings set org.xfce.mousepad.state.application session "$REPLY"
+  rm "$session_backup"
 }
 
 # Outcome
