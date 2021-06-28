@@ -218,7 +218,7 @@ mousepad_settings_store_init (MousepadSettingsStore *self)
 #ifdef MOUSEPAD_SETTINGS_KEYFILE_BACKEND
   gchar *conf_file;
 
-  conf_file = g_build_filename (g_get_user_config_dir (), "Mousepad", "settings.conf", NULL);
+  conf_file = g_build_filename (g_get_user_config_dir (), MOUSEPAD_SETTINGS_RELPATH, NULL);
   self->backend = g_keyfile_settings_backend_new (conf_file, "/", NULL);
   g_free (conf_file);
 #else

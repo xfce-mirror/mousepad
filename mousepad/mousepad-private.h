@@ -54,8 +54,9 @@ G_BEGIN_DECLS
 #define MOUSEPAD_ID_LEN G_N_ELEMENTS (MOUSEPAD_ID) - 1
 
 /* config file locations */
-#define MOUSEPAD_RC_RELPATH     ("Mousepad" G_DIR_SEPARATOR_S "mousepadrc")
-#define MOUSEPAD_ACCELS_RELPATH ("Mousepad" G_DIR_SEPARATOR_S "accels.scm")
+#define MOUSEPAD_SETTINGS_RELPATH ("Mousepad" G_DIR_SEPARATOR_S "settings.conf")
+#define MOUSEPAD_RC_RELPATH       ("Mousepad" G_DIR_SEPARATOR_S "mousepadrc")
+#define MOUSEPAD_ACCELS_RELPATH   ("Mousepad" G_DIR_SEPARATOR_S "accels.scm")
 
 /* handling flags */
 #define MOUSEPAD_SET_FLAG(flags, flag)   G_STMT_START{ ((flags) |= (flag)); }G_STMT_END
