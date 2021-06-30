@@ -792,8 +792,7 @@ mousepad_application_load_plugins (MousepadApplication *application)
                                                  g_variant_new_boolean (FALSE));
           g_signal_connect (action, "activate",
                             G_CALLBACK (mousepad_application_plugin_activate), application);
-          MOUSEPAD_SETTING_CONNECT_OBJECT (ENABLED_PLUGINS,
-                                           G_CALLBACK (mousepad_application_plugin_update),
+          MOUSEPAD_SETTING_CONNECT_OBJECT (ENABLED_PLUGINS, mousepad_application_plugin_update,
                                            application, G_CONNECT_SWAPPED);
           g_action_map_add_action (G_ACTION_MAP (application), G_ACTION (action));
 

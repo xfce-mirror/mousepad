@@ -69,9 +69,7 @@ mousepad_history_recent_init (void)
 
   /* disable and wipe recent history when 'recent-menu-items' is set to 0 */
   mousepad_history_recent_items_changed ();
-  MOUSEPAD_SETTING_CONNECT (RECENT_MENU_ITEMS,
-                            G_CALLBACK (mousepad_history_recent_items_changed),
-                            NULL, 0);
+  MOUSEPAD_SETTING_CONNECT (RECENT_MENU_ITEMS, mousepad_history_recent_items_changed, NULL, 0);
 }
 
 
@@ -366,8 +364,7 @@ mousepad_history_session_restore (MousepadApplication *application)
   gboolean      restored = FALSE;
 
   /* initialize session management */
-  MOUSEPAD_SETTING_CONNECT (REMEMBER_SESSION,
-                            G_CALLBACK (mousepad_history_remember_session_changed), NULL, 0);
+  MOUSEPAD_SETTING_CONNECT (REMEMBER_SESSION, mousepad_history_remember_session_changed, NULL, 0);
   if (! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
     {
       MOUSEPAD_SETTING_RESET (SESSION);
