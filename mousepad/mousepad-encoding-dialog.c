@@ -328,7 +328,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
                               NULL, &contents, &length, NULL, &error))
     {
       /* show the warning */
-      mousepad_dialogs_show_error (GTK_WINDOW (dialog), error, MOUSEPAD_MESSAGE_IO_ERROR);
+      mousepad_dialogs_show_error (GTK_WINDOW (dialog), error, MOUSEPAD_MESSAGE_IO_ERROR_OPEN);
 
       /* cleanup */
       g_error_free (error);
@@ -666,7 +666,7 @@ mousepad_encoding_dialog (GtkWindow        *parent,
       /* handle error */
       if (result == ERROR_READING_FAILED || result == ERROR_FILE_STATUS_FAILED)
         {
-          mousepad_dialogs_show_error (GTK_WINDOW (dialog), error, MOUSEPAD_MESSAGE_IO_ERROR);
+          mousepad_dialogs_show_error (GTK_WINDOW (dialog), error, MOUSEPAD_MESSAGE_IO_ERROR_OPEN);
           g_error_free (error);
 
           return MOUSEPAD_RESPONSE_CANCEL;
