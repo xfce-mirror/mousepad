@@ -1987,7 +1987,8 @@ mousepad_window_open_file (MousepadWindow   *window,
         if (G_LIKELY (error != NULL))
           {
             /* show the warning */
-            mousepad_dialogs_show_error (GTK_WINDOW (window), error, MOUSEPAD_MESSAGE_IO_ERROR);
+            mousepad_dialogs_show_error (GTK_WINDOW (window), error,
+                                         MOUSEPAD_MESSAGE_IO_ERROR_OPEN);
 
             /* cleanup */
             g_error_free (error);
@@ -4545,7 +4546,7 @@ mousepad_window_action_save (GSimpleAction *action,
       /* other kind of error, which may result from the previous exceptions */
       if (G_UNLIKELY (error != NULL))
         {
-          mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to save the document"));
+          mousepad_dialogs_show_error (GTK_WINDOW (window), error, MOUSEPAD_MESSAGE_IO_ERROR_SAVE);
           g_error_free (error);
         }
     }
@@ -4684,7 +4685,7 @@ mousepad_window_action_save_all (GSimpleAction *action,
       gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), i);
 
       /* show the error */
-      mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to save the document"));
+      mousepad_dialogs_show_error (GTK_WINDOW (window), error, MOUSEPAD_MESSAGE_IO_ERROR_SAVE);
 
       /* free error */
       g_error_free (error);
