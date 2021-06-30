@@ -273,7 +273,7 @@ mousepad_encoding_read_bom (const gchar *contents,
 
 void
 mousepad_encoding_write_bom (MousepadEncoding  *encoding,
-                             gint              *length,
+                             gsize             *length,
                              gchar            **contents)
 {
   guchar bom[4];

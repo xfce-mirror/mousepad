@@ -828,8 +828,7 @@ mousepad_file_save (MousepadFile  *file,
   const gchar  *charset;
   gchar        *contents, *p, *encoded, *etag = NULL;
   gchar       **chunks;
-  gint          length;
-  gsize         written;
+  gsize         length, written;
   gboolean      succeed = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
