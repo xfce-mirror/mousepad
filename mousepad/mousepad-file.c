@@ -140,7 +140,7 @@ mousepad_file_init (MousepadFile *file)
   file->user_set_language = FALSE;
 
   /* file monitoring */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (MONITOR_CHANGES, G_CALLBACK (mousepad_file_set_monitor),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (MONITOR_CHANGES, mousepad_file_set_monitor,
                                    file, G_CONNECT_SWAPPED);
 }
 

@@ -280,8 +280,7 @@ mousepad_document_init (MousepadDocument *document)
   /* forward some document attribute signals more or less directly */
   g_signal_connect_swapped (document->buffer, "notify::cursor-position",
                             G_CALLBACK (mousepad_document_notify_cursor_position), document);
-  MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH,
-                                   G_CALLBACK (mousepad_document_notify_cursor_position),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH, mousepad_document_notify_cursor_position,
                                    document, G_CONNECT_SWAPPED);
   g_signal_connect (document->file, "encoding-changed",
                     G_CALLBACK (mousepad_document_notify_encoding), document);
@@ -1003,10 +1002,10 @@ mousepad_document_search_widget_visible (MousepadDocument *document,
       /* activate the workaround to prevent endless buffer scanning */
       mousepad_document_prevent_endless_scanning (document, visible);
       MOUSEPAD_SETTING_CONNECT_OBJECT (SEARCH_HIGHLIGHT_ALL,
-                                       G_CALLBACK (mousepad_document_prevent_endless_scanning),
+                                       mousepad_document_prevent_endless_scanning,
                                        document, G_CONNECT_SWAPPED);
       MOUSEPAD_SETTING_CONNECT_OBJECT (SEARCH_ENABLE_REGEX,
-                                       G_CALLBACK (mousepad_document_prevent_endless_scanning),
+                                       mousepad_document_prevent_endless_scanning,
                                        document, G_CONNECT_SWAPPED);
 
       /* bind "highlight" and "regex-enabled" search settings to Mousepad settings */
