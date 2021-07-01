@@ -24,6 +24,7 @@
 
 
 
+/* recent history */
 enum
 {
   CURSOR,
@@ -39,6 +40,14 @@ struct MousepadRecentData
 };
 
 static struct MousepadRecentData recent_data[N_RECENT_DATA];
+
+/* autosave */
+#define AUTOSAVE_PREFIX     "autosave-"
+#define AUTOSAVE_PREFIX_LEN G_N_ELEMENTS (AUTOSAVE_PREFIX) - 1
+
+static guint autosave_id = 0;
+
+static void mousepad_history_autosave_timer_changed (void);
 
 
 
@@ -65,9 +74,7 @@ mousepad_history_recent_init (void)
 
   /* disable and wipe recent history when 'recent-menu-items' is set to 0 */
   mousepad_history_recent_items_changed ();
-  MOUSEPAD_SETTING_CONNECT (RECENT_MENU_ITEMS,
-                            G_CALLBACK (mousepad_history_recent_items_changed),
-                            NULL, 0);
+  MOUSEPAD_SETTING_CONNECT (RECENT_MENU_ITEMS, mousepad_history_recent_items_changed, NULL, 0);
 }
 
 
@@ -361,8 +368,7 @@ mousepad_history_session_restore (MousepadApplication *application)
   guint         n_uris, n_files, n, sid, wid, current;
 
   /* initialize session management */
-  MOUSEPAD_SETTING_CONNECT (REMEMBER_SESSION,
-                            G_CALLBACK (mousepad_history_remember_session_changed), NULL, 0);
+  MOUSEPAD_SETTING_CONNECT (REMEMBER_SESSION, mousepad_history_remember_session_changed, NULL, 0);
   if (! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
     {
       MOUSEPAD_SETTING_RESET (SESSION);
@@ -437,4 +443,165 @@ mousepad_history_session_restore (MousepadApplication *application)
   g_strfreev (session);
 
   return TRUE;
+}
+
+
+
+static void
+mousepad_history_autosave_disable (GDir        *dir,
+                                   const gchar *dirname)
+{
+  GError      *error = NULL;
+  GFile       *location;
+  gchar       *filename;
+  const gchar *basename;
+
+  /* reset autosave id */
+  autosave_id = 0;
+
+  /* the directory may not exist */
+  if (dir == NULL)
+    return;
+
+  /* clean up the directory */
+  for (basename = g_dir_read_name (dir); basename != NULL; basename = g_dir_read_name (dir))
+    if (g_str_has_prefix (basename, AUTOSAVE_PREFIX))
+      {
+        filename = g_build_filename (dirname, basename, NULL);
+        location = g_file_new_for_path (filename);
+        if (! g_file_delete (location, NULL, &error))
+          {
+            g_warning ("Autoremove failed: %s", error->message);
+            g_clear_error (&error);
+          }
+
+        g_free (filename);
+        g_object_unref (location);
+      }
+}
+
+
+
+static void
+mousepad_history_autosave_enable (GDir        *dir,
+                                  const gchar *dirname)
+{
+  GList       *list = NULL, *li;
+  gchar       *old_filename, *new_filename, *end;
+  const gchar *basename, *strid;
+  guint        id;
+
+  /* try to create the directory if needed */
+  if (dir == NULL && g_mkdir_with_parents (dirname, 0700) == -1)
+    {
+      g_critical ("Failed to create directory '%s', autosave disabled", dirname);
+      MOUSEPAD_SETTING_DISCONNECT (AUTOSAVE_TIMER,
+                                   mousepad_history_autosave_timer_changed, NULL);
+      MOUSEPAD_SETTING_SET_UINT (AUTOSAVE_TIMER, 0);
+
+      return;
+    }
+
+  /* get current file list */
+  for (basename = g_dir_read_name (dir); basename != NULL; basename = g_dir_read_name (dir))
+    if (g_str_has_prefix (basename, AUTOSAVE_PREFIX))
+      {
+        strid = basename + AUTOSAVE_PREFIX_LEN;
+        g_ascii_strtoll (strid, &end, 10);
+        if (*(strid) != '\0' && *end == '\0')
+          list = g_list_prepend (list, (gpointer) basename);
+      }
+
+  /* rename files to not let the autosave id grow indefinitely */
+  list = g_list_sort (list, g_str_equal);
+  for (li = list; li != NULL; li = li->next)
+    {
+      autosave_id++;
+      basename = li->data;
+      id = atoi (basename + AUTOSAVE_PREFIX_LEN);
+      if (id != autosave_id)
+        {
+          old_filename = g_build_filename (dirname, basename, NULL);
+          end = g_strdup_printf (AUTOSAVE_PREFIX "%d", autosave_id);
+          new_filename = g_build_filename (dirname, end, NULL);
+          if (rename (old_filename, new_filename) == -1)
+            {
+              g_warning ("Failed to rename file '%s'", old_filename);
+              autosave_id = id;
+            }
+
+          g_free (old_filename);
+          g_free (end);
+          g_free (new_filename);
+        }
+    }
+
+  autosave_id++;
+
+  /* cleanup */
+  g_list_free (list);
+}
+
+
+
+static void
+mousepad_history_autosave_timer_changed (void)
+{
+  GError *error = NULL;
+  GDir   *dir;
+  gchar  *dirname;
+
+  /* try to open Mousepad data dir */
+  dirname = g_build_filename (g_get_user_data_dir (), "Mousepad", NULL);
+  dir = g_dir_open (dirname, 0, &error);
+  if (dir == NULL && ! g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
+    {
+      g_critical ("Failed to open directory '%s', autosave disabled: %s",
+                  dirname, error->message);
+      MOUSEPAD_SETTING_DISCONNECT (AUTOSAVE_TIMER,
+                                   mousepad_history_autosave_timer_changed, NULL);
+      MOUSEPAD_SETTING_SET_UINT (AUTOSAVE_TIMER, 0);
+      g_free (dirname);
+      g_error_free (error);
+
+      return;
+    }
+
+  /* disabled -> enabled */
+  if (autosave_id == 0 && MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) > 0)
+    mousepad_history_autosave_enable (dir, dirname);
+  /* any state -> disabled */
+  else if (MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) == 0)
+    mousepad_history_autosave_disable (dir, dirname);
+
+  /* cleanup */
+  g_free (dirname);
+  if (dir != NULL)
+    g_dir_close (dir);
+}
+
+
+
+void
+mousepad_history_autosave_init (void)
+{
+  mousepad_history_autosave_timer_changed ();
+  MOUSEPAD_SETTING_CONNECT (AUTOSAVE_TIMER, mousepad_history_autosave_timer_changed, NULL, 0);
+}
+
+
+
+GFile *
+mousepad_history_autosave_get_location (void)
+{
+  GFile *location;
+  gchar *basename, *filename;
+
+  basename = g_strdup_printf (AUTOSAVE_PREFIX "%d", autosave_id++);
+  filename = g_build_filename (g_get_user_data_dir (), "Mousepad", basename, NULL);
+  location = g_file_new_for_path (filename);
+  g_free (basename);
+  g_free (filename);
+
+  return location;
 }

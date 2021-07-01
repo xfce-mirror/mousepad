@@ -1007,12 +1007,11 @@ mousepad_window_post_init (MousepadWindow *window)
   mousepad_window_update_bar_visibility (window, MENUBAR);
 
   /* connect to some signals to keep the menubar visibility in sync */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (MENUBAR_VISIBLE,
-                                   G_CALLBACK (mousepad_window_update_bar_visibility),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (MENUBAR_VISIBLE, mousepad_window_update_bar_visibility,
                                    window, G_CONNECT_SWAPPED);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (MENUBAR_VISIBLE_FULLSCREEN,
-                                   G_CALLBACK (mousepad_window_update_bar_visibility),
+                                   mousepad_window_update_bar_visibility,
                                    window, G_CONNECT_SWAPPED);
 
   /* create the toolbar */
@@ -1029,26 +1028,22 @@ mousepad_window_post_init (MousepadWindow *window)
   mousepad_window_update_toolbar_properties (window, NULL, NULL);
 
   /* connect to some signals to keep the toolbar properties in sync */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_VISIBLE,
-                                   G_CALLBACK (mousepad_window_update_bar_visibility),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_VISIBLE, mousepad_window_update_bar_visibility,
                                    window, G_CONNECT_SWAPPED);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_VISIBLE_FULLSCREEN,
-                                   G_CALLBACK (mousepad_window_update_bar_visibility),
+                                   mousepad_window_update_bar_visibility,
                                    window, G_CONNECT_SWAPPED);
 
-  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_STYLE,
-                                   G_CALLBACK (mousepad_window_update_toolbar_properties),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_STYLE, mousepad_window_update_toolbar_properties,
                                    window, G_CONNECT_SWAPPED);
 
-  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_ICON_SIZE,
-                                   G_CALLBACK (mousepad_window_update_toolbar_properties),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_ICON_SIZE, mousepad_window_update_toolbar_properties,
                                    window, G_CONNECT_SWAPPED);
 
   /* initialize the tab size menu and sync it with its setting */
   mousepad_window_menu_tab_sizes_update (window);
-  MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH,
-                                   G_CALLBACK (mousepad_window_menu_tab_sizes_update),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH, mousepad_window_menu_tab_sizes_update,
                                    window, G_CONNECT_SWAPPED);
 
   /* restore window geometry settings */
@@ -1174,12 +1169,11 @@ mousepad_window_create_statusbar (MousepadWindow *window)
                             G_CALLBACK (mousepad_window_action_statusbar_overwrite), window);
 
   /* connect to some signals to keep in sync */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE,
-                                   G_CALLBACK (mousepad_window_update_bar_visibility),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE, mousepad_window_update_bar_visibility,
                                    window, G_CONNECT_SWAPPED);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE_FULLSCREEN,
-                                   G_CALLBACK (mousepad_window_update_bar_visibility),
+                                   mousepad_window_update_bar_visibility,
                                    window, G_CONNECT_SWAPPED);
 }
 
@@ -1256,13 +1250,11 @@ mousepad_window_init (MousepadWindow *window)
                     G_CALLBACK (mousepad_window_drag_data_received), window);
 
   /* update the window title when 'path-in-title' setting changes */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE,
-                                   G_CALLBACK (mousepad_window_set_title),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE, mousepad_window_set_title,
                                    window, G_CONNECT_SWAPPED);
 
   /* update the tabs when 'always-show-tabs' setting changes */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (ALWAYS_SHOW_TABS,
-                                   G_CALLBACK (mousepad_window_update_tabs_visibility),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (ALWAYS_SHOW_TABS, mousepad_window_update_tabs_visibility,
                                    window, G_CONNECT_SWAPPED);
 }
 
@@ -1987,7 +1979,8 @@ mousepad_window_open_file (MousepadWindow   *window,
         if (G_LIKELY (error != NULL))
           {
             /* show the warning */
-            mousepad_dialogs_show_error (GTK_WINDOW (window), error, MOUSEPAD_MESSAGE_IO_ERROR);
+            mousepad_dialogs_show_error (GTK_WINDOW (window), error,
+                                         MOUSEPAD_MESSAGE_IO_ERROR_OPEN);
 
             /* cleanup */
             g_error_free (error);
@@ -4545,7 +4538,7 @@ mousepad_window_action_save (GSimpleAction *action,
       /* other kind of error, which may result from the previous exceptions */
       if (G_UNLIKELY (error != NULL))
         {
-          mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to save the document"));
+          mousepad_dialogs_show_error (GTK_WINDOW (window), error, MOUSEPAD_MESSAGE_IO_ERROR_SAVE);
           g_error_free (error);
         }
     }
@@ -4684,7 +4677,7 @@ mousepad_window_action_save_all (GSimpleAction *action,
       gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), i);
 
       /* show the error */
-      mousepad_dialogs_show_error (GTK_WINDOW (window), error, _("Failed to save the document"));
+      mousepad_dialogs_show_error (GTK_WINDOW (window), error, MOUSEPAD_MESSAGE_IO_ERROR_SAVE);
 
       /* free error */
       g_error_free (error);

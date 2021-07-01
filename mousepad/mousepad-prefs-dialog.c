@@ -384,7 +384,7 @@ mousepad_prefs_dialog_setup_color_schemes_combo (MousepadPrefsDialog *self)
                             G_CALLBACK (mousepad_prefs_dialog_color_scheme_changed), self);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (COLOR_SCHEME,
-                                   G_CALLBACK (mousepad_prefs_dialog_color_scheme_setting_changed),
+                                   mousepad_prefs_dialog_color_scheme_setting_changed,
                                    self, G_CONNECT_SWAPPED);
 }
 
@@ -645,7 +645,7 @@ mousepad_prefs_dialog_setup_encoding_combo (MousepadPrefsDialog *self)
                             G_CALLBACK (mousepad_prefs_dialog_encoding_changed), self);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (DEFAULT_ENCODING,
-                                   G_CALLBACK (mousepad_prefs_dialog_encoding_setting_changed),
+                                   mousepad_prefs_dialog_encoding_setting_changed,
                                    self, G_CONNECT_SWAPPED);
 }
 
@@ -750,8 +750,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                             "changed", G_CALLBACK (mousepad_prefs_dialog_tab_mode_changed), self);
 
   /* update tab mode combo when setting changes */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (INSERT_SPACES,
-                                   G_CALLBACK (mousepad_prefs_dialog_tab_mode_setting_changed),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (INSERT_SPACES, mousepad_prefs_dialog_tab_mode_setting_changed,
                                    self, G_CONNECT_SWAPPED);
 
   /* update home/end when changed */
@@ -759,8 +758,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                             "changed", G_CALLBACK (mousepad_prefs_dialog_home_end_changed), self);
 
   /* update home/end combo when setting changes */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (SMART_HOME_END,
-                                   G_CALLBACK (mousepad_prefs_dialog_home_end_setting_changed),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (SMART_HOME_END, mousepad_prefs_dialog_home_end_setting_changed,
                                    self, G_CONNECT_SWAPPED);
 
   /* update toolbar style when changed */
@@ -770,7 +768,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 
   /* update toolbar style combo when the setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_STYLE,
-                                   G_CALLBACK (mousepad_prefs_dialog_toolbar_style_setting_changed),
+                                   mousepad_prefs_dialog_toolbar_style_setting_changed,
                                    self, G_CONNECT_SWAPPED);
 
   /* update toolbar icon size when changed */
@@ -780,7 +778,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 
   /* update toolbar icon size combo when setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_ICON_SIZE,
-                                   G_CALLBACK (mousepad_prefs_dialog_toolbar_icon_size_setting_changed),
+                                   mousepad_prefs_dialog_toolbar_icon_size_setting_changed,
                                    self, G_CONNECT_SWAPPED);
 
   /* update opening mode when changed */
@@ -790,7 +788,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 
   /* update opening mode combo when setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (OPENING_MODE,
-                                   G_CALLBACK (mousepad_prefs_dialog_opening_mode_setting_changed),
+                                   mousepad_prefs_dialog_opening_mode_setting_changed,
                                    self, G_CONNECT_SWAPPED);
 
   /* ask user for confirmation before clearing recent history */
