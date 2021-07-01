@@ -45,6 +45,8 @@ void         mousepad_history_session_save                     (void);
 
 gboolean     mousepad_history_session_restore                  (MousepadApplication        *application);
 
+GFile       *mousepad_history_autosave_get_location            (void);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_HISTORY_H__ */

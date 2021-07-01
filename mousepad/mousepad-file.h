@@ -110,6 +110,8 @@ gboolean            mousepad_file_save                     (MousepadFile        
                                                             gboolean             forced,
                                                             GError             **error);
 
+void                mousepad_file_autosave_init            (MousepadFile        *file);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_FILE_H__ */
