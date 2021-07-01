@@ -1207,7 +1207,7 @@ static GtkWidget *
 mousepad_application_create_window (MousepadApplication *application)
 {
   GtkWindowGroup *window_group;
-  GtkWidget      *window;
+  GtkWidget      *window, *notebook;
 
   /* create a new window */
   window = mousepad_window_new (application);
@@ -1225,9 +1225,11 @@ mousepad_application_create_window (MousepadApplication *application)
                     G_CALLBACK (mousepad_application_new_window_with_document), application);
   g_signal_connect (window, "new-window",
                     G_CALLBACK (mousepad_application_new_window), application);
-  g_signal_connect_object (mousepad_window_get_notebook (MOUSEPAD_WINDOW (window)), "switch-page",
-                           G_CALLBACK (mousepad_history_session_save), NULL,
-                           G_CONNECT_SWAPPED | G_CONNECT_AFTER);
+  notebook = mousepad_window_get_notebook (MOUSEPAD_WINDOW (window));
+  g_signal_connect_object (notebook, "switch-page", G_CALLBACK (mousepad_history_session_save),
+                           NULL, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
+  g_signal_connect_object (notebook, "page-reordered", G_CALLBACK (mousepad_history_session_save),
+                           NULL, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
 
   return window;
 }

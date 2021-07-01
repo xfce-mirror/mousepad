@@ -4889,8 +4889,7 @@ mousepad_window_action_close_window (GSimpleAction *action,
 
   /* disconnect session handler from this notebook: if it is the last window, the session
    * should not be saved anymore, else it will be saved when the active window changes */
-  mousepad_disconnect_by_func (window->notebook,
-                               G_CALLBACK (mousepad_history_session_save), NULL);
+  mousepad_disconnect_by_func (window->notebook, mousepad_history_session_save, NULL);
 
   /* prevent menu updates */
   lock_menu_updates++;
@@ -4919,6 +4918,9 @@ mousepad_window_action_close_window (GSimpleAction *action,
           /* save session and reconnect handler */
           mousepad_history_session_save (FALSE);
           g_signal_connect_object (window->notebook, "switch-page",
+                                   G_CALLBACK (mousepad_history_session_save), NULL,
+                                   G_CONNECT_SWAPPED | G_CONNECT_AFTER);
+          g_signal_connect_object (window->notebook, "page-reordered",
                                    G_CALLBACK (mousepad_history_session_save), NULL,
                                    G_CONNECT_SWAPPED | G_CONNECT_AFTER);
 
