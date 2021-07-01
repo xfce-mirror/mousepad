@@ -165,7 +165,7 @@ mousepad_plugin_constructed (GObject *object)
 
   /* if the plugin isn't destroyed when disabled, bind to gsettings to keep its state in sync */
   if (! mousepad_plugin_provider_is_destroyable (priv->provider))
-    MOUSEPAD_SETTING_CONNECT_OBJECT (ENABLED_PLUGINS, G_CALLBACK (mousepad_plugin_state_changed),
+    MOUSEPAD_SETTING_CONNECT_OBJECT (ENABLED_PLUGINS, mousepad_plugin_state_changed,
                                      object, G_CONNECT_SWAPPED);
 
   G_OBJECT_CLASS (mousepad_plugin_parent_class)->constructed (object);
