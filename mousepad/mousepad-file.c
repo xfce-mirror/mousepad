@@ -819,164 +819,183 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
 
 
 
+static gboolean
+mousepad_file_prepare_save_contents (MousepadFile  *file,
+                                     gchar        **out_contents,
+                                     gsize         *out_length,
+                                     gchar        **out_eol,
+                                     GError       **error)
+{
+  GtkTextIter   start, end;
+  gchar       **chunks;
+  gchar        *contents, *p, *encoded;
+  const gchar  *charset, *eol = NULL;
+  gsize         length, written;
+
+  /* get buffer contents */
+  gtk_text_buffer_get_bounds (file->buffer, &start, &end);
+  contents = gtk_text_buffer_get_slice (file->buffer, &start, &end, TRUE);
+  length = strlen (contents);
+
+  /* convert to the encoding if different from UTF-8 */
+  if (file->encoding != MOUSEPAD_ENCODING_UTF_8)
+    {
+      /* get the charset */
+      charset = mousepad_encoding_get_charset (file->encoding);
+      if (G_UNLIKELY (charset == NULL))
+        {
+          g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_NO_CONVERSION,
+                       MOUSEPAD_MESSAGE_UNSUPPORTED_ENCODING);
+          g_free (contents);
+
+          return FALSE;
+        }
+
+      /* convert the content to the user encoding */
+      encoded = g_convert (contents, length, charset, "UTF-8", NULL, &written, error);
+
+      /* return if nothing was encoded */
+      if (G_UNLIKELY (encoded == NULL))
+        {
+          g_free (contents);
+          return FALSE;
+        }
+
+      /* set the new contents */
+      g_free (contents);
+      contents = encoded;
+      length = written;
+    }
+
+  /* handle line endings */
+  if (file->line_ending == MOUSEPAD_EOL_MAC)
+    {
+      /* replace the unix with a mac line ending */
+      for (p = contents; *p != '\0'; p++)
+        if (G_UNLIKELY (*p == '\n'))
+          *p = '\r';
+    }
+  else if (file->line_ending == MOUSEPAD_EOL_DOS)
+    {
+      /* split the contents into chunks */
+      chunks = g_strsplit (contents, "\n", -1);
+      g_free (contents);
+
+      /* join the chunks with dos line endings in between */
+      contents = g_strjoinv ("\r\n", chunks);
+      g_strfreev (chunks);
+
+      /* new contents length */
+      length = strlen (contents);
+    }
+
+  /* add line ending at end of last line if not present */
+  if (length > 0 && MOUSEPAD_SETTING_GET_BOOLEAN (ADD_LAST_EOL))
+    {
+      switch (file->line_ending)
+        {
+          case MOUSEPAD_EOL_UNIX:
+            if (contents[length - 1] != '\n')
+              {
+                contents = g_realloc (contents, length + 2);
+                contents[length] = '\n';
+                length++;
+                eol = "\n";
+              }
+            break;
+
+          case MOUSEPAD_EOL_MAC:
+            if (contents[length - 1] != '\r')
+              {
+                contents = g_realloc (contents, length + 2);
+                contents[length] = '\r';
+                length++;
+                eol = "\r";
+              }
+            break;
+
+          case MOUSEPAD_EOL_DOS:
+            if (contents[length - 1] != '\n' || (length > 1 && contents[length - 2] != '\r'))
+              {
+                contents = g_realloc (contents, length + 3);
+                contents[length] = '\r';
+                contents[length + 1] = '\n';
+                length += 2;
+                eol = "\r\n";
+              }
+            break;
+        }
+
+      contents[length] = '\0';
+    }
+
+  /* add a bom at the start of the contents if needed */
+  if (file->write_bom)
+    mousepad_encoding_write_bom (&(file->encoding), &length, &contents);
+
+  /* assign output variables */
+  *out_contents = contents;
+  *out_length = length;
+  if (out_eol != NULL && eol != NULL)
+    *out_eol = g_strdup (eol);
+
+  return TRUE;
+}
+
+
+
 gboolean
 mousepad_file_save (MousepadFile  *file,
                     gboolean       forced,
                     GError       **error)
 {
-  GtkTextIter   start, end;
-  const gchar  *charset;
-  gchar        *contents, *p, *encoded, *etag = NULL;
-  gchar       **chunks;
-  gsize         length, written;
-  gboolean      succeed = FALSE;
+  GtkTextIter  iter;
+  gchar       *contents, *eol = NULL, *etag = NULL;
+  gsize        length;
 
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
-  g_return_val_if_fail (GTK_IS_TEXT_BUFFER (file->buffer), FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-  g_return_val_if_fail (file->location != NULL, FALSE);
 
-  /* get the buffer bounds */
-  gtk_text_buffer_get_bounds (file->buffer, &start, &end);
+  /* prepare save contents */
+  if (! mousepad_file_prepare_save_contents (file, &contents, &length, &eol, error))
+    return FALSE;
 
-  /* get the buffer contents */
-  contents = gtk_text_buffer_get_slice (file->buffer, &start, &end, TRUE);
-
-  if (G_LIKELY (contents))
+  /* write the buffer to the file */
+  if (mousepad_file_replace_contents (file, file->location, contents, length,
+                                      (file->temporary || forced) ? NULL : file->etag,
+                                      MOUSEPAD_SETTING_GET_BOOLEAN (MAKE_BACKUP),
+                                      G_FILE_CREATE_NONE, &etag, NULL, error))
     {
-      /* get the content length */
-      length = strlen (contents);
+      /* update etag */
+      g_free (file->etag);
+      file->etag = etag;
 
-      /* convert to the encoding if set */
-      if (G_UNLIKELY (file->encoding != MOUSEPAD_ENCODING_UTF_8))
+      /* update read-only status in case of save as */
+      if (G_UNLIKELY (file->temporary))
+        mousepad_file_set_read_only (file, FALSE);
+
+      /* add last eol if needed */
+      if (eol != NULL)
         {
-          /* get the charset */
-          charset = mousepad_encoding_get_charset (file->encoding);
-          if (G_UNLIKELY (charset == NULL))
-            {
-              /* set an error */
-              g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_NO_CONVERSION,
-                           MOUSEPAD_MESSAGE_UNSUPPORTED_ENCODING);
-
-              goto failed;
-            }
-
-          /* convert the content to the user encoding */
-          encoded = g_convert (contents, length, charset, "UTF-8", NULL, &written, error);
-
-          /* return if nothing was encoded */
-          if (G_UNLIKELY (encoded == NULL))
-            goto failed;
-
-          /* cleanup */
-          g_free (contents);
-
-          /* set the new contents */
-          contents = encoded;
-          length = written;
+          gtk_text_buffer_get_end_iter (file->buffer, &iter);
+          gtk_text_buffer_insert (file->buffer, &iter, eol, -1);
+          g_free (eol);
         }
-
-      /* handle line endings */
-      if (file->line_ending == MOUSEPAD_EOL_MAC)
-        {
-          /* replace the unix with a mac line ending */
-          for (p = contents; *p != '\0'; p++)
-            if (G_UNLIKELY (*p == '\n'))
-              *p = '\r';
-        }
-      else if (file->line_ending == MOUSEPAD_EOL_DOS)
-        {
-          /* split the contents into chunks */
-          chunks = g_strsplit (contents, "\n", -1);
-
-          /* cleanup */
-          g_free (contents);
-
-          /* join the chunks with dos line endings in between */
-          contents = g_strjoinv ("\r\n", chunks);
-
-          /* cleanup */
-          g_strfreev (chunks);
-
-          /* new contents length */
-          length = strlen (contents);
-        }
-
-      /* add line ending at end of last line if not present */
-      if (length > 0 && MOUSEPAD_SETTING_GET_BOOLEAN (ADD_LAST_EOL))
-        {
-          switch (file->line_ending)
-            {
-              case MOUSEPAD_EOL_UNIX:
-                if (contents[length - 1] != '\n')
-                  {
-                    contents = g_realloc (contents, length + 2);
-                    contents[length] = '\n';
-                    gtk_text_buffer_insert (file->buffer, &end, "\n", 1);
-                    length++;
-                  }
-                break;
-
-              case MOUSEPAD_EOL_MAC:
-                if (contents[length - 1] != '\r')
-                  {
-                    contents = g_realloc (contents, length + 2);
-                    contents[length] = '\r';
-                    gtk_text_buffer_insert (file->buffer, &end, "\r", 1);
-                    length++;
-                  }
-                break;
-
-              case MOUSEPAD_EOL_DOS:
-                if (contents[length - 1] != '\n' || (length > 1 && contents[length - 2] != '\r'))
-                  {
-                    contents = g_realloc (contents, length + 3);
-                    contents[length] = '\r';
-                    contents[length + 1] = '\n';
-                    gtk_text_buffer_insert (file->buffer, &end, "\r\n", 2);
-                    length += 2;
-                  }
-                break;
-            }
-
-          contents[length] = '\0';
-        }
-
-      /* add a bom at the start of the contents if needed */
-      if (file->write_bom)
-        mousepad_encoding_write_bom (&(file->encoding), &length, &contents);
-
-      /* write the buffer to the file */
-      if (mousepad_file_replace_contents (file, file->location, contents, length,
-                                          (file->temporary || forced) ? NULL : file->etag,
-                                          MOUSEPAD_SETTING_GET_BOOLEAN (MAKE_BACKUP),
-                                          G_FILE_CREATE_NONE, &etag, NULL, error))
-        {
-          /* update etag */
-          g_free (file->etag);
-          file->etag = etag;
-
-          /* update read-only status in case of save as */
-          if (G_UNLIKELY (file->temporary))
-            mousepad_file_set_read_only (file, FALSE);
-        }
-      else
-        goto failed;
-
-      /* everything has been saved */
-      gtk_text_buffer_set_modified (file->buffer, FALSE);
-
-      /* re-guess the filetype which could have changed */
-      mousepad_file_set_language (file, NULL);
-
-      /* everything went file */
-      succeed = TRUE;
-
-      failed:
 
       /* cleanup */
       g_free (contents);
     }
+  else
+    {
+      g_free (contents);
+      return FALSE;
+    }
 
-  return succeed;
+  /* everything has been saved */
+  gtk_text_buffer_set_modified (file->buffer, FALSE);
+
+  /* re-guess the filetype which could have changed */
+  mousepad_file_set_language (file, NULL);
+
+  return TRUE;
 }
