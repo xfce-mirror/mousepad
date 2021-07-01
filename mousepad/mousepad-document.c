@@ -179,6 +179,10 @@ mousepad_document_hierarchy_changed (MousepadDocument *document,
   if (window == NULL)
     return;
 
+  /* initialize autosave only for documents in a MousepadWindow, and only once */
+  if (prev_window == NULL)
+    mousepad_file_autosave_init (document->file);
+
   /* bind some search properties to the "search-widget-visible" window property */
   g_signal_connect_object (window, "notify::search-widget-visible",
                            G_CALLBACK (mousepad_document_search_widget_visible),
