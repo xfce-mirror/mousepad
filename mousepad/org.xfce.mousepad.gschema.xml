@@ -108,6 +108,16 @@
         and restore this state on next session.
       </description>
     </key>
+    <key name="autosave-timer" type="u">
+      <range min="0" max="600"/>
+      <default>30</default>
+      <summary>Seconds timer to automatically save changes in an auxiliary file</summary>
+      <description>
+        If this value is greater than zero, Mousepad regularly saves modified
+        documents in auxiliary files, to restore them on next session if session
+        restore is enabled.
+      </description>
+    </key>
   </schema>
 
   <!-- Textview preferences -->
