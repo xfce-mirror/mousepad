@@ -385,45 +385,49 @@ mousepad_history_session_restore (MousepadApplication *application)
     {
       /* get the number of files for this window */
       wid = atoi (*(--p));
-      n_files = 1;
+      n_uris = 1;
       while (p != session && atoi (*(--p)) == (gint) wid)
-        n_files++;
+        n_uris++;
 
       /* readjust position */
       if (p != session)
         p++;
 
       /* allocate the GFile array */
-      files = g_malloc (n_files * sizeof (GFile *));
+      files = g_malloc (n_uris * sizeof (GFile *));
 
       /* add files from the session array */
-      for (n = 0, current = 0; n < n_files; n++)
+      for (n = 0, current = 0, n_files = 0; n < n_uris; n++)
         {
           /* get the uri, removing the window id and eventually the current tab mark */
           uri = g_strstr_len (*(p + n), -1, ":") + 1;
           if (*uri == ':')
             {
-              current = n;
+              current = n_files;
               uri++;
             }
 
           file = g_file_new_for_uri (uri);
           if (g_file_query_exists (file, NULL))
-            files[n] = file;
+            files[n_files++] = file;
           else
             {
-              n_files--;
               g_object_unref (file);
+              if (current == n_files)
+                current = 0;
             }
         }
 
-      /* open files */
-      g_signal_emit (application, sid, 0, files, n_files, NULL, NULL);
+      if (n_files > 0)
+        {
+          /* open files */
+          g_signal_emit (application, sid, 0, files, n_files, NULL, NULL);
 
-      /* set current tab */
-      window = gtk_application_get_active_window (GTK_APPLICATION (application));
-      notebook = mousepad_window_get_notebook (MOUSEPAD_WINDOW (window));
-      gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), current);
+          /* set current tab */
+          window = gtk_application_get_active_window (GTK_APPLICATION (application));
+          notebook = mousepad_window_get_notebook (MOUSEPAD_WINDOW (window));
+          gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), current);
+        }
 
       /* free the GFile array */
       for (n = 0; n < n_files; n++)
