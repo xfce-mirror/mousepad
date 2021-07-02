@@ -24,6 +24,11 @@
 
 
 
+static void mousepad_history_recent_init  (void);
+static void mousepad_history_session_init (void);
+
+
+
 /* recent data */
 enum
 {
@@ -46,6 +51,15 @@ static struct MousepadRecentData recent_data[N_RECENT_DATA];
 
 
 
+void
+mousepad_history_init (void)
+{
+  mousepad_history_recent_init ();
+  mousepad_history_session_init ();
+}
+
+
+
 static void
 mousepad_history_recent_items_changed (void)
 {
@@ -55,7 +69,7 @@ mousepad_history_recent_items_changed (void)
 
 
 
-void
+static void
 mousepad_history_recent_init (void)
 {
   recent_data[CURSOR].str = "Cursor: ";
@@ -277,6 +291,30 @@ mousepad_history_recent_clear (void)
 
 
 
+static void
+mousepad_history_remember_session_changed (void)
+{
+  /* first session save */
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
+    mousepad_history_session_save (FALSE);
+  /* clear session array */
+  else
+    MOUSEPAD_SETTING_RESET (SESSION);
+}
+
+
+
+static void
+mousepad_history_session_init (void)
+{
+  if (! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
+    MOUSEPAD_SETTING_RESET (SESSION);
+
+  MOUSEPAD_SETTING_CONNECT (REMEMBER_SESSION, mousepad_history_remember_session_changed, NULL, 0);
+}
+
+
+
 void
 mousepad_history_session_save (gboolean toggle)
 {
@@ -338,19 +376,6 @@ mousepad_history_session_save (gboolean toggle)
 
 
 
-static void
-mousepad_history_remember_session_changed (void)
-{
-  /* first session save */
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
-    mousepad_history_session_save (FALSE);
-  /* clear session array */
-  else
-    MOUSEPAD_SETTING_RESET (SESSION);
-}
-
-
-
 gboolean
 mousepad_history_session_restore (MousepadApplication *application)
 {
@@ -362,14 +387,6 @@ mousepad_history_session_restore (MousepadApplication *application)
   const gchar  *uri;
   guint         n_uris, n_files, n, sid, wid, current;
   gboolean      restored = FALSE;
-
-  /* initialize session management */
-  MOUSEPAD_SETTING_CONNECT (REMEMBER_SESSION, mousepad_history_remember_session_changed, NULL, 0);
-  if (! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
-    {
-      MOUSEPAD_SETTING_RESET (SESSION);
-      return FALSE;
-    }
 
   /* get the session array */
   session = MOUSEPAD_SETTING_GET_STRV (SESSION);
