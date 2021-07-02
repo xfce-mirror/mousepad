@@ -39,7 +39,9 @@ void         mousepad_history_recent_get_cursor                (GFile           
 
 void         mousepad_history_recent_clear                     (void);
 
-void         mousepad_history_session_save                     (gboolean                    toggle);
+void         mousepad_history_session_set_quitting             (gboolean                    quitting);
+
+void         mousepad_history_session_save                     (void);
 
 gboolean     mousepad_history_session_restore                  (MousepadApplication        *application);
 
