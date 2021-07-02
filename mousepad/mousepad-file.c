@@ -1156,6 +1156,8 @@ mousepad_file_autosave_timer_changed (MousepadFile *file)
                         G_CALLBACK (mousepad_file_autosave_schedule), file);
       g_signal_connect (file->buffer, "modified-changed",
                         G_CALLBACK (mousepad_file_autosave_delete), file);
+      g_signal_connect (file->buffer, "modified-changed",
+                        G_CALLBACK (mousepad_history_session_save), NULL);
 
     }
   /* enabled -> disabled */
@@ -1168,6 +1170,7 @@ mousepad_file_autosave_timer_changed (MousepadFile *file)
       /* disconnect handlers */
       mousepad_disconnect_by_func (file->buffer, mousepad_file_autosave_schedule, file);
       mousepad_disconnect_by_func (file->buffer, mousepad_file_autosave_delete, file);
+      mousepad_disconnect_by_func (file->buffer, mousepad_history_session_save, NULL);
     }
 }
 
@@ -1180,4 +1183,20 @@ mousepad_file_autosave_init (MousepadFile *file)
   mousepad_file_autosave_timer_changed (file);
   MOUSEPAD_SETTING_CONNECT_OBJECT (AUTOSAVE_TIMER, mousepad_file_autosave_timer_changed,
                                    file, G_CONNECT_SWAPPED);
+}
+
+
+
+gboolean
+mousepad_file_autosave_location_is_set (MousepadFile *file)
+{
+  return file->autosave_location != NULL;
+}
+
+
+
+gchar *
+mousepad_file_autosave_get_uri (MousepadFile *file)
+{
+  return g_file_get_uri (file->autosave_location);
 }
