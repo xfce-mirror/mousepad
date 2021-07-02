@@ -341,9 +341,10 @@ mousepad_history_session_save (void)
   GtkNotebook       *notebook;
   GList             *list, *li;
   gchar            **session;
-  gchar             *uri;
+  gchar             *uri, *autosave_uri;
   const gchar       *fmt;
   guint              length = 0, id, current, n_pages, n;
+  gboolean           loc_set, autoloc_set;
 
   /* exit if session remembering is blocked or disabled */
   if (session_quitting || ! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
@@ -370,12 +371,24 @@ mousepad_history_session_save (void)
     for (n = 0; n < n_pages; n++)
       {
         document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (notebook, n));
-        if (mousepad_file_location_is_set (document->file))
+        loc_set = mousepad_file_location_is_set (document->file);
+        autoloc_set = mousepad_file_autosave_location_is_set (document->file);
+        if (loc_set || autoloc_set)
           {
-            fmt = (n == current ? "%d::%s" : "%d:%s");
-            uri = mousepad_file_get_uri (document->file);
-            session[length++] = g_strdup_printf (fmt, id, uri);
+            if (loc_set)
+              uri = mousepad_file_get_uri (document->file);
+            else
+              uri = g_strdup ("");
+
+            if (autoloc_set && gtk_text_buffer_get_modified (document->buffer))
+              autosave_uri = mousepad_file_autosave_get_uri (document->file);
+            else
+              autosave_uri = g_strdup ("");
+
+            fmt = (n == current ? "%d;%s;+%s" : "%d;%s;%s");
+            session[length++] = g_strdup_printf (fmt, id, autosave_uri, uri);
             g_free (uri);
+            g_free (autosave_uri);
           }
       }
   }
@@ -395,8 +408,9 @@ mousepad_history_session_restore (MousepadApplication *application)
   GtkWindow    *window;
   GtkWidget    *notebook;
   GFile       **files;
-  GFile        *file;
+  GFile        *file, *autosave_file;
   gchar       **session, **p;
+  gchar        *autosave_uri;
   const gchar  *uri;
   guint         n_uris, n_files, n, sid, wid, current;
   gboolean      restored = FALSE;
@@ -432,7 +446,7 @@ mousepad_history_session_restore (MousepadApplication *application)
       for (n = 0, current = 0, n_files = 0; n < n_uris; n++)
         {
           /* skip the window id */
-          uri = g_strstr_len (*(p + n), -1, ":");
+          uri = g_strstr_len (*(p + n), -1, ";");
 
           /* guard against corrupted data */
           if (uri == NULL)
@@ -441,31 +455,92 @@ mousepad_history_session_restore (MousepadApplication *application)
               continue;
             }
 
+          /* see if there is a valid autosave uri */
+          autosave_uri = NULL;
+          autosave_file = NULL;
+          if (*(++uri) != ';')
+            {
+              /* search for the end of the autosave uri */
+              autosave_uri = (gchar *) uri;
+              uri = g_strstr_len (uri, -1, ";");
+              if (uri == NULL)
+                {
+                  g_warning (CORRUPTED_SESSION_DATA);
+                  continue;
+                }
+
+              autosave_uri = g_strndup (autosave_uri, uri - autosave_uri);
+              autosave_file = g_file_new_for_uri (autosave_uri);
+
+              /* validate file */
+              if (mousepad_util_get_path (autosave_file) == NULL)
+                {
+                  g_warning (CORRUPTED_SESSION_DATA);
+                  g_object_unref (autosave_file);
+
+                  continue;
+                }
+            }
+
           /* see if there is a current tab mark */
-          if (*(++uri) == ':')
+          if (*(++uri) == '+')
             {
               current = n_files;
               uri++;
             }
 
-          /* validate file */
-          file = g_file_new_for_uri (uri);
-          if (mousepad_util_get_path (file) == NULL)
+          /* see if there is a valid uri */
+          file = NULL;
+          if (*uri != '\0')
             {
-              g_warning (CORRUPTED_SESSION_DATA);
-              g_object_unref (file);
-              if (current == n_files)
-                current = 0;
+              file = g_file_new_for_uri (uri);
+              if (mousepad_util_get_path (file) == NULL)
+                {
+                  g_warning (CORRUPTED_SESSION_DATA);
+                  g_object_unref (file);
+                  if (autosave_file != NULL)
+                    g_object_unref (autosave_file);
 
-              continue;
+                  if (current == n_files)
+                    current = 0;
+
+                  continue;
+                }
             }
 
           /* add the file or drop it if it was removed since last session */
-          if (g_file_query_exists (file, NULL))
-            files[n_files++] = file;
+          if (file != NULL && g_file_query_exists (file, NULL))
+            {
+              mousepad_object_set_data_full (file, "autosave-uri", autosave_uri, g_free);
+              files[n_files++] = file;
+              if (autosave_file != NULL)
+                g_object_unref (autosave_file);
+            }
+          else if (autosave_file != NULL && g_file_query_exists (autosave_file, NULL))
+            {
+              /* keep original uri if it is valid */
+              if (file != NULL && mousepad_util_get_path (file) != NULL)
+                g_object_unref (autosave_file);
+              else
+                {
+                  if (file != NULL)
+                    g_object_unref (file);
+
+                  file = autosave_file;
+                }
+
+              mousepad_object_set_data_full (file, "autosave-uri", autosave_uri, g_free);
+              files[n_files++] = file;
+            }
           else
             {
-              g_object_unref (file);
+              g_free (autosave_uri);
+              if (file != NULL)
+                g_object_unref (file);
+
+              if (autosave_file != NULL)
+                g_object_unref (autosave_file);
+
               if (current == n_files)
                 current = 0;
             }
