@@ -471,9 +471,11 @@
       <default>[]</default>
       <summary>Session</summary>
       <description>
-        List of tabs per window for a session, in the form 'n:[:]uri' where 'n' is an
-        integer uniquely identifying a window, 'uri' the file uri for a tab, and the
-        optional ':' identifies the active tab in the window (the last one wins).
+        List of tabs per window for a session, in the form 'n;uri1;[+]uri2' where 'n'
+        is an integer uniquely identifying a window, 'uri1' the autosave uri for a tab
+        (see the 'autosave' key in the 'preferences.file' schema), the optional '+'
+        identifies the active tab in a window, and 'uri2' is the normal uri for a tab.
+        At least one of these two uris should be present for the file to be restored.
       </description>
     </key>
   </schema>
