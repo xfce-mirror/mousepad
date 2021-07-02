@@ -1226,10 +1226,10 @@ mousepad_application_create_window (MousepadApplication *application)
   g_signal_connect (window, "new-window",
                     G_CALLBACK (mousepad_application_new_window), application);
   notebook = mousepad_window_get_notebook (MOUSEPAD_WINDOW (window));
-  g_signal_connect_object (notebook, "switch-page", G_CALLBACK (mousepad_history_session_save),
-                           NULL, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
-  g_signal_connect_object (notebook, "page-reordered", G_CALLBACK (mousepad_history_session_save),
-                           NULL, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
+  g_signal_connect_after (notebook, "switch-page",
+                          G_CALLBACK (mousepad_history_session_save), NULL);
+  g_signal_connect_after (notebook, "page-reordered",
+                          G_CALLBACK (mousepad_history_session_save), NULL);
 
   return window;
 }
@@ -1305,7 +1305,7 @@ mousepad_application_active_window_changed (MousepadApplication *application)
       mousepad_window_update_window_menu_items (app_windows->data);
 
       /* save new session state */
-      mousepad_history_session_save (FALSE);
+      mousepad_history_session_save ();
     }
 
   /* store a copy of the application windows list to compare at next call */
@@ -1617,7 +1617,7 @@ mousepad_application_action_quit (GSimpleAction *action,
   GAction *close;
 
   /* block session handler */
-  mousepad_history_session_save (TRUE);
+  mousepad_history_session_set_quitting (TRUE);
 
   /* try to close all windows, abort at the first failure */
   windows = g_list_copy (gtk_application_get_windows (data));
@@ -1628,7 +1628,8 @@ mousepad_application_action_quit (GSimpleAction *action,
       if (! mousepad_action_get_state_int32_boolean (close))
         {
           /* unblock session handler and save session */
-          mousepad_history_session_save (TRUE);
+          mousepad_history_session_set_quitting (FALSE);
+          mousepad_history_session_save ();
 
           break;
         }

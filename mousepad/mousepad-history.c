@@ -49,6 +49,8 @@ static struct MousepadRecentData recent_data[N_RECENT_DATA];
 /* session data */
 #define CORRUPTED_SESSION_DATA "Corrupted session data in " MOUSEPAD_ID "." MOUSEPAD_SETTING_SESSION
 
+static gboolean session_quitting = FALSE;
+
 
 
 void
@@ -296,7 +298,7 @@ mousepad_history_remember_session_changed (void)
 {
   /* first session save */
   if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
-    mousepad_history_session_save (FALSE);
+    mousepad_history_session_save ();
   /* clear session array */
   else
     MOUSEPAD_SETTING_RESET (SESSION);
@@ -316,7 +318,15 @@ mousepad_history_session_init (void)
 
 
 void
-mousepad_history_session_save (gboolean toggle)
+mousepad_history_session_set_quitting (gboolean quitting)
+{
+  session_quitting = quitting;
+}
+
+
+
+void
+mousepad_history_session_save (void)
 {
   MousepadDocument  *document;
   GtkNotebook       *notebook;
@@ -326,14 +336,8 @@ mousepad_history_session_save (gboolean toggle)
   const gchar       *fmt;
   guint              length = 0, id, current, n_pages, n;
 
-  static gboolean blocked = FALSE;
-
-  /* toggle blocked state if needed */
-  if (toggle)
-    blocked = ! blocked;
-
   /* exit if session remembering is blocked or disabled */
-  if (blocked || ! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
+  if (session_quitting || ! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
     return;
 
   /* compute the maximum length of the session array */
