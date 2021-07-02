@@ -922,8 +922,8 @@ mousepad_application_startup (GApplication *gapplication)
   g_signal_connect (application, "notify::active-window",
                     G_CALLBACK (mousepad_application_active_window_changed), NULL);
 
-  /* initialize recent history management */
-  mousepad_history_recent_init ();
+  /* initialize history management */
+  mousepad_history_init ();
 }
 
 
@@ -961,7 +961,8 @@ mousepad_application_command_line (GApplication            *gapplication,
     }
 
   /* restore previous session */
-  if (! g_application_command_line_get_is_remote (command_line))
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION)
+      && ! g_application_command_line_get_is_remote (command_line))
     {
       application->opening_mode = MIXED;
       application->encoding = mousepad_encoding_get_default ();
