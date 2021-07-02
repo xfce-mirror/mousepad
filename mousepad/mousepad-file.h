@@ -112,6 +112,10 @@ gboolean            mousepad_file_save                     (MousepadFile        
 
 void                mousepad_file_autosave_init            (MousepadFile        *file);
 
+gboolean            mousepad_file_autosave_location_is_set (MousepadFile        *file);
+
+gchar              *mousepad_file_autosave_get_uri         (MousepadFile        *file);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_FILE_H__ */
