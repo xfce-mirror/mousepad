@@ -23,7 +23,7 @@
 
 G_BEGIN_DECLS
 
-void         mousepad_history_recent_init                      (void);
+void         mousepad_history_init                             (void);
 
 void         mousepad_history_recent_add                       (MousepadFile               *file);
 
