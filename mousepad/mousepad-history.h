@@ -50,6 +50,8 @@ void         mousepad_history_recent_clear                     (void);
 
 void         mousepad_history_session_set_quitting             (gboolean                    quitting);
 
+gboolean     mousepad_history_session_get_quitting             (void);
+
 void         mousepad_history_session_save                     (void);
 
 gboolean     mousepad_history_session_restore                  (MousepadApplication        *application);

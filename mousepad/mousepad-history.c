@@ -339,6 +339,14 @@ mousepad_history_session_set_quitting (gboolean quitting)
 
 
 
+gboolean
+mousepad_history_session_get_quitting (void)
+{
+  return session_quitting;
+}
+
+
+
 void
 mousepad_history_session_save (void)
 {
@@ -425,7 +433,8 @@ mousepad_history_session_restore (MousepadApplication *application)
   gchar        *autosave_uri;
   const gchar  *uri;
   guint         n_uris, n_files, n, sid, wid, current;
-  gboolean      restored = FALSE;
+  gint          restore_setting;
+  gboolean      autosaved = FALSE, restore = TRUE, restore_autosaved = TRUE, restored = FALSE;
 
   /* get the session array */
   session = MOUSEPAD_SETTING_GET_STRV (SESSION);
@@ -435,6 +444,13 @@ mousepad_history_session_restore (MousepadApplication *application)
      g_strfreev (session);
      return FALSE;
    }
+
+  /* see what we have to restore by default */
+  restore_setting = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
+  if (restore_setting == MOUSEPAD_SESSION_RESTORE_CRASH)
+    restore = FALSE;
+  else if (restore_setting == MOUSEPAD_SESSION_RESTORE_SAVED)
+    restore_autosaved = FALSE;
 
   /* walk the session array in reverse order: last open, first display plan */
   sid = g_signal_lookup ("open", G_TYPE_APPLICATION);
@@ -520,15 +536,35 @@ mousepad_history_session_restore (MousepadApplication *application)
                 }
             }
 
+          /* there is at least one autosaved file to restore */
+          if (! autosaved && autosave_file != NULL && g_file_query_exists (autosave_file, NULL))
+            {
+              autosaved = TRUE;
+
+              /* if the user uses session restore only on crash, ask him if he wants
+               * to restore this time */
+              if (restore_setting == MOUSEPAD_SESSION_RESTORE_CRASH
+                  && mousepad_dialogs_session_restore () == GTK_RESPONSE_YES)
+                restore = TRUE;
+              /* the same if he normally uses session restore only for saved documents */
+              else if (restore_setting == MOUSEPAD_SESSION_RESTORE_SAVED
+                       && mousepad_dialogs_session_restore () == GTK_RESPONSE_YES)
+                restore_autosaved = TRUE;
+            }
+
           /* add the file or drop it if it was removed since last session */
-          if (file != NULL && g_file_query_exists (file, NULL))
+          if (file != NULL && g_file_query_exists (file, NULL) && (
+                restore_setting != MOUSEPAD_SESSION_RESTORE_UNSAVED
+                || (autosave_file != NULL && g_file_query_exists (autosave_file, NULL))
+              ))
             {
               mousepad_object_set_data_full (file, "autosave-uri", autosave_uri, g_free);
               files[n_files++] = file;
               if (autosave_file != NULL)
                 g_object_unref (autosave_file);
             }
-          else if (autosave_file != NULL && g_file_query_exists (autosave_file, NULL))
+          else if (restore_autosaved && autosave_file != NULL
+                   && g_file_query_exists (autosave_file, NULL))
             {
               /* keep original uri if it is valid */
               if (file != NULL && mousepad_util_get_path (file) != NULL)
@@ -558,7 +594,7 @@ mousepad_history_session_restore (MousepadApplication *application)
             }
         }
 
-      if (n_files > 0)
+      if (n_files > 0 && restore)
         {
           /* try to open files */
           g_signal_emit (application, sid, 0, files, n_files, NULL, NULL);
