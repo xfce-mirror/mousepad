@@ -240,7 +240,6 @@ static const GActionEntry dialog_actions[] =
   /* "File" tab */
   { MOUSEPAD_SETTING_ADD_LAST_EOL, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_MAKE_BACKUP, mousepad_application_toggle_activate, NULL, "false", NULL },
-  { MOUSEPAD_SETTING_REMEMBER_SESSION, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_MONITOR_CHANGES, mousepad_application_toggle_activate, NULL, "false", NULL }
 };
 #define N_DIALOG G_N_ELEMENTS (dialog_actions)
@@ -961,7 +960,7 @@ mousepad_application_command_line (GApplication            *gapplication,
     }
 
   /* restore previous session */
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION)
+  if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) != MOUSEPAD_SESSION_RESTORE_NEVER
       && ! g_application_command_line_get_is_remote (command_line))
     {
       application->opening_mode = MIXED;
