@@ -576,8 +576,9 @@ mousepad_file_open (MousepadFile  *file,
 {
   MousepadEncoding  bom_encoding;
   GtkTextIter       start, end;
+  GFile            *location;
   GFileInfo        *fileinfo;
-  const gchar      *charset, *bom_charset, *endc, *n, *m;
+  const gchar      *autosave_uri, *charset, *bom_charset, *endc, *n, *m;
   gchar            *contents = NULL, *etag, *temp;
   gsize             file_size, written, bom_length;
   gint              retval = ERROR_READING_FAILED;
@@ -587,11 +588,19 @@ mousepad_file_open (MousepadFile  *file,
   g_return_val_if_fail (file->location != NULL, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
+  /* autosave restore */
+  if ((autosave_uri = mousepad_object_get_data (file->location, "autosave-uri")) != NULL)
+    location = g_file_new_for_uri (autosave_uri);
+  else
+    location = g_object_ref (file->location);
+
   /* if the file does not exist and this is allowed, no problem */
-  if (! g_file_load_contents (file->location, NULL, &contents, &file_size, &etag, error)
+  if (! g_file_load_contents (location, NULL, &contents, &file_size, &etag, error)
       && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND) && ! must_exist)
     {
       g_clear_error (error);
+      g_object_unref (location);
+
       return 0;
     }
   /* the file was sucessfully loaded */
@@ -739,7 +748,7 @@ mousepad_file_open (MousepadFile  *file,
 
       /* store the file status */
       if (G_LIKELY (! file->temporary))
-        if (G_LIKELY (fileinfo = g_file_query_info (file->location, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
+        if (G_LIKELY (fileinfo = g_file_query_info (location, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
                                                     G_FILE_QUERY_INFO_NONE, NULL, error)))
           {
             mousepad_file_set_read_only (file,
@@ -766,6 +775,7 @@ mousepad_file_open (MousepadFile  *file,
         }
 
       /* cleanup */
+      g_object_unref (location);
       g_free (contents);
 
       /* guess and set the file's filetype/language */
@@ -1136,11 +1146,17 @@ mousepad_file_autosave_delete (GtkTextBuffer *buffer,
 static void
 mousepad_file_autosave_timer_changed (MousepadFile *file)
 {
+  const gchar *autosave_uri;
+
   /* disabled -> enabled */
   if (file->autosave_location == NULL && MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) > 0)
     {
       /* get autosave location */
-      file->autosave_location = mousepad_history_autosave_get_location ();
+      if (file->location != NULL
+          && (autosave_uri = mousepad_object_get_data (file->location, "autosave-uri")) != NULL)
+        file->autosave_location = g_file_new_for_uri (autosave_uri);
+      else
+        file->autosave_location = mousepad_history_autosave_get_location ();
 
       /* schedule a first saving if needed (autosave enabling after startup) */
       if (gtk_text_buffer_get_modified (file->buffer))
