@@ -121,7 +121,7 @@ MousepadEncoding  mousepad_encoding_read_bom    (const gchar       *contents,
                                                  gsize             *bom_length);
 
 void              mousepad_encoding_write_bom   (MousepadEncoding  *encoding,
-                                                 gint              *length,
+                                                 gsize             *length,
                                                  gchar            **contents);
 
 G_END_DECLS

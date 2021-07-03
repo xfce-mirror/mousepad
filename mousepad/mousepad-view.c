@@ -276,8 +276,7 @@ mousepad_view_init (MousepadView *view)
 
   /* bind the "font" property conditionally */
   mousepad_view_use_default_font (view);
-  MOUSEPAD_SETTING_CONNECT_OBJECT (USE_DEFAULT_FONT,
-                                   G_CALLBACK (mousepad_view_use_default_font),
+  MOUSEPAD_SETTING_CONNECT_OBJECT (USE_DEFAULT_FONT, mousepad_view_use_default_font,
                                    view, G_CONNECT_SWAPPED);
 
   /* bind the whitespace display property to that of the application */

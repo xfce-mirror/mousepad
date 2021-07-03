@@ -28,6 +28,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_MONITOR_CHANGES              "preferences.file.monitor-changes"
 #define MOUSEPAD_SETTING_MONITOR_DISABLING_TIMER      "preferences.file.monitor-disabling-timer"
 #define MOUSEPAD_SETTING_REMEMBER_SESSION             "preferences.file.remember-session"
+#define MOUSEPAD_SETTING_AUTOSAVE_TIMER               "preferences.file.autosave-timer"
 
 #define MOUSEPAD_SETTING_AUTO_INDENT                  "preferences.view.auto-indent"
 #define MOUSEPAD_SETTING_FONT                         "preferences.view.font-name"
@@ -171,13 +172,13 @@ void       mousepad_setting_set_variant    (const gchar        *setting,
   mousepad_setting_bind (MOUSEPAD_SETTING_##setting, object, prop, flags)
 
 #define MOUSEPAD_SETTING_CONNECT(setting, callback, user_data, connect_flags) \
-  mousepad_setting_connect (MOUSEPAD_SETTING_##setting, callback, user_data, connect_flags)
+  mousepad_setting_connect (MOUSEPAD_SETTING_##setting, G_CALLBACK (callback), user_data, connect_flags)
 
 #define MOUSEPAD_SETTING_CONNECT_OBJECT(setting, callback, object, connect_flags) \
-  mousepad_setting_connect_object (MOUSEPAD_SETTING_##setting, callback, object, connect_flags)
+  mousepad_setting_connect_object (MOUSEPAD_SETTING_##setting, G_CALLBACK (callback), object, connect_flags)
 
 #define MOUSEPAD_SETTING_DISCONNECT(setting, callback, user_data) \
-  mousepad_setting_disconnect (MOUSEPAD_SETTING_##setting, callback, user_data)
+  mousepad_setting_disconnect (MOUSEPAD_SETTING_##setting, G_CALLBACK (callback), user_data)
 
 #define MOUSEPAD_SETTING_RESET(setting) mousepad_setting_reset (MOUSEPAD_SETTING_##setting)
 
