@@ -18,6 +18,7 @@
 #include <mousepad/mousepad-plugin.h>
 #include <mousepad/mousepad-dialogs.h>
 #include <mousepad/mousepad-settings.h>
+#include <mousepad/mousepad-history.h>
 
 #include <test-plugin/test-plugin.h>
 
@@ -261,7 +262,7 @@ test_plugin_window_shown (TestPlugin *plugin)
   if (window != NULL && gtk_widget_get_visible (GTK_WIDGET (window)))
     {
       /* allow time to restore the entire session if needed */
-      if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
+      if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) != MOUSEPAD_SESSION_RESTORE_NEVER)
         {
           test_plugin_disable_monitoring (plugin);
           g_idle_add (test_plugin_window_shown_idle, plugin);

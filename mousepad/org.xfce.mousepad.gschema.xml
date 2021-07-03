@@ -1,6 +1,14 @@
 <schemalist gettext-domain="mousepad">
 
   <!-- Enums and flags -->
+  <enum id="org.xfce.mousepad.SessionRestore">
+    <value nick="never" value="0"/>
+    <value nick="after-a-crash" value="1"/>
+    <value nick="unsaved-documents" value="2"/>
+    <value nick="saved-documents" value="3"/>
+    <value nick="always" value="4"/>
+  </enum>
+
   <enum id="org.xfce.mousepad.SmartHomeEnd">
     <value nick="disabled" value="0"/>
     <value nick="before" value="1"/>
@@ -99,13 +107,13 @@
         you should leave it alone.
       </description>
     </key>
-    <key name="remember-session" type="b">
-      <default>false</default>
-      <summary>Remember session</summary>
+    <key name="session-restore" enum="org.xfce.mousepad.SessionRestore">
+      <default>'after-a-crash'</default>
+      <summary>Session restore</summary>
       <description>
-        When true Mousepad regularly saves the session state, i.e a list of open
+        When enabled Mousepad regularly saves the session state, i.e a list of open
         tabs and windows (see the 'session' key in the 'state.application' schema),
-        and restore this state on next session.
+        and restores this state on next session according to the value set.
       </description>
     </key>
     <key name="autosave-timer" type="u">
