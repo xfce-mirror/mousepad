@@ -303,14 +303,21 @@ mousepad_history_recent_clear (void)
 
 
 static void
-mousepad_history_remember_session_changed (void)
+mousepad_history_session_restore_changed (void)
 {
-  /* first session save */
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
-    mousepad_history_session_save ();
-  /* clear session array */
+  /* do a (maybe first) session save and enable autosave if needed */
+  if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) != MOUSEPAD_SESSION_RESTORE_NEVER)
+    {
+      mousepad_history_session_save ();
+      if (MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) == 0)
+        MOUSEPAD_SETTING_RESET (AUTOSAVE_TIMER);
+    }
+  /* clear session array, disable autosave */
   else
-    MOUSEPAD_SETTING_RESET (SESSION);
+    {
+      MOUSEPAD_SETTING_RESET (SESSION);
+      MOUSEPAD_SETTING_SET_UINT (AUTOSAVE_TIMER, 0);
+    }
 }
 
 
@@ -318,10 +325,8 @@ mousepad_history_remember_session_changed (void)
 static void
 mousepad_history_session_init (void)
 {
-  if (! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
-    MOUSEPAD_SETTING_RESET (SESSION);
-
-  MOUSEPAD_SETTING_CONNECT (REMEMBER_SESSION, mousepad_history_remember_session_changed, NULL, 0);
+  mousepad_history_session_restore_changed ();
+  MOUSEPAD_SETTING_CONNECT (SESSION_RESTORE, mousepad_history_session_restore_changed, NULL, 0);
 }
 
 
@@ -346,12 +351,19 @@ mousepad_history_session_save (void)
   guint              length = 0, id, current, n_pages, n;
   gboolean           loc_set, autoloc_set;
 
-  /* exit if session remembering is blocked or disabled */
-  if (session_quitting || ! MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SESSION))
+  /* exit if session save is blocked or disabled */
+  if (session_quitting
+      || MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) == MOUSEPAD_SESSION_RESTORE_NEVER)
+    return;
+
+  /* get the application windows list */
+  list = gtk_application_get_windows (GTK_APPLICATION (g_application_get_default ()));
+
+  /* too early, or too late */
+  if (list == NULL)
     return;
 
   /* compute the maximum length of the session array */
-  list = gtk_application_get_windows (GTK_APPLICATION (g_application_get_default ()));
   for (li = list; li != NULL; li = li->next)
     {
       notebook = GTK_NOTEBOOK (mousepad_window_get_notebook (li->data));
