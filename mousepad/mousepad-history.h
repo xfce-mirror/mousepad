@@ -23,7 +23,16 @@
 
 G_BEGIN_DECLS
 
-void         mousepad_history_recent_init                      (void);
+enum
+{
+  MOUSEPAD_SESSION_RESTORE_NEVER,
+  MOUSEPAD_SESSION_RESTORE_CRASH,
+  MOUSEPAD_SESSION_RESTORE_UNSAVED,
+  MOUSEPAD_SESSION_RESTORE_SAVED,
+  MOUSEPAD_SESSION_RESTORE_ALWAYS,
+};
+
+void         mousepad_history_init                             (void);
 
 void         mousepad_history_recent_add                       (MousepadFile               *file);
 
@@ -39,9 +48,15 @@ void         mousepad_history_recent_get_cursor                (GFile           
 
 void         mousepad_history_recent_clear                     (void);
 
-void         mousepad_history_session_save                     (gboolean                    toggle);
+void         mousepad_history_session_set_quitting             (gboolean                    quitting);
+
+gboolean     mousepad_history_session_get_quitting             (void);
+
+void         mousepad_history_session_save                     (void);
 
 gboolean     mousepad_history_session_restore                  (MousepadApplication        *application);
+
+GFile       *mousepad_history_autosave_get_location            (void);
 
 G_END_DECLS
 

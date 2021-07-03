@@ -595,6 +595,41 @@ mousepad_dialogs_confirm_encoding (const gchar *charset,
 
 
 
+gint
+mousepad_dialogs_session_restore (void)
+{
+  GtkWindow *parent;
+  GtkWidget *dialog;
+  gint       response;
+
+  /* get the parent window */
+  parent = gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ()));
+
+  /* setup the dialog */
+  dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
+                                   GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+                                   _("It seems that the previous session did not end normally."
+                                     " Do you want to restore the available data?"));
+  mousepad_dialogs_destroy_with_parent (dialog, parent);
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
+
+  /* set secondary text */
+  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+                                            _("If not, all this data will be lost."));
+
+  /* run the dialog */
+  response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+  /* destroy the dialog */
+  gtk_widget_destroy (dialog);
+
+  return response;
+}
+
+
+
 static gboolean
 mousepad_dialogs_combo_set_active (GtkComboBox      *combo,
                                    MousepadEncoding  encoding)

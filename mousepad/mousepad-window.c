@@ -1861,8 +1861,10 @@ mousepad_window_open_file (MousepadWindow   *window,
   GList            *list, *li;
   GError           *error = NULL;
   GFile            *open_file;
+  gchar            *uri;
+  const gchar      *autosave_uri;
   gint              npages, result, i;
-  gboolean          make_valid = FALSE, user_set_encoding, user_set_cursor;
+  gboolean          make_valid = FALSE, user_set_encoding, user_set_cursor, succeed;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (file != NULL, FALSE);
@@ -1903,6 +1905,7 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* get the data status attached to the GFile */
   user_set_encoding = GPOINTER_TO_INT (mousepad_object_get_data (file, "user-set-encoding"));
   user_set_cursor = GPOINTER_TO_INT (mousepad_object_get_data (file, "user-set-cursor"));
+  autosave_uri = mousepad_object_get_data (file, "autosave-uri");
 
   /* the user chose to open the file in the encoding dialog */
   if (encoding == MOUSEPAD_ENCODING_NONE)
@@ -1954,8 +1957,9 @@ mousepad_window_open_file (MousepadWindow   *window,
               g_idle_add (mousepad_view_scroll_to_cursor,
                           mousepad_util_source_autoremove (window->active->textview));
 
-            /* insert in the recent history */
-            mousepad_history_recent_add (document->file);
+            /* insert in the recent history, don't pollute with autosave data */
+            if (autosave_uri == NULL)
+              mousepad_history_recent_add (document->file);
           }
         break;
 
@@ -1992,7 +1996,27 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* decrease reference count if everything went well, else release the document */
   g_object_unref (document);
 
-  return (result == 0);
+  /* autosave restore: some post-process actions if everything went well */
+  succeed = (result == 0);
+  if (succeed && autosave_uri != NULL)
+    {
+      /* set definitive location */
+      uri = g_file_get_uri (file);
+      if (g_strcmp0 (uri, autosave_uri) == 0)
+        mousepad_file_set_location (document->file, NULL, FALSE);
+      else
+        {
+          mousepad_object_set_data (file, "autosave-uri", NULL);
+          mousepad_file_set_location (document->file, file, TRUE);
+        }
+
+      g_free (uri);
+
+      /* mark document as modified */
+      gtk_text_buffer_set_modified (document->buffer, TRUE);
+    }
+
+  return succeed;
 }
 
 
@@ -2094,6 +2118,7 @@ mousepad_window_close_document (MousepadWindow   *window,
 {
   GtkNotebook *notebook = GTK_NOTEBOOK (window->notebook);
   GAction     *action;
+  gint         restore;
   gboolean     succeed = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
@@ -2102,30 +2127,41 @@ mousepad_window_close_document (MousepadWindow   *window,
   /* check if the document has been modified */
   if (gtk_text_buffer_get_modified (document->buffer))
     {
-      /* run save changes dialog */
-      switch (mousepad_dialogs_save_changes (GTK_WINDOW (window), TRUE,
-                                             mousepad_file_get_read_only (document->file)))
+      restore = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
+      if (mousepad_history_session_get_quitting () && (
+            restore == MOUSEPAD_SESSION_RESTORE_UNSAVED
+            || restore == MOUSEPAD_SESSION_RESTORE_ALWAYS
+          ))
+        succeed = mousepad_file_autosave_save_sync (document->file);
+      else
         {
-          case MOUSEPAD_RESPONSE_DONT_SAVE:
-            /* don't save, only destroy the document */
-            succeed = TRUE;
-            break;
+          /* run save changes dialog */
+          switch (mousepad_dialogs_save_changes (GTK_WINDOW (window), TRUE,
+                                                 mousepad_file_get_read_only (document->file)))
+            {
+              case MOUSEPAD_RESPONSE_DONT_SAVE:
+                /* don't save, only destroy the document, eventually triggering
+                 * autosave file deletion */
+                gtk_text_buffer_set_modified (document->buffer, FALSE);
+                succeed = TRUE;
+                break;
 
-          case MOUSEPAD_RESPONSE_CANCEL:
-            /* do nothing */
-            break;
+              case MOUSEPAD_RESPONSE_CANCEL:
+                /* do nothing */
+                break;
 
-          case MOUSEPAD_RESPONSE_SAVE:
-            action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
-            g_action_activate (action, NULL);
-            succeed = mousepad_action_get_state_int32_boolean (action);
-            break;
+              case MOUSEPAD_RESPONSE_SAVE:
+                action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+                g_action_activate (action, NULL);
+                succeed = mousepad_action_get_state_int32_boolean (action);
+                break;
 
-          case MOUSEPAD_RESPONSE_SAVE_AS:
-            action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
-            g_action_activate (action, NULL);
-            succeed = mousepad_action_get_state_int32_boolean (action);
-            break;
+              case MOUSEPAD_RESPONSE_SAVE_AS:
+                action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
+                g_action_activate (action, NULL);
+                succeed = mousepad_action_get_state_int32_boolean (action);
+                break;
+            }
         }
     }
   /* no changes in the document, safe to remove it */
@@ -4880,9 +4916,9 @@ mousepad_window_action_close_window (GSimpleAction *action,
       return;
     }
 
-  /* disconnect session handler from this notebook: if it is the last window, the session
-   * should not be saved anymore, else it will be saved when the active window changes */
-  mousepad_disconnect_by_func (window->notebook, mousepad_history_session_save, NULL);
+  /* block session handler at last window */
+  if (g_list_length (gtk_application_get_windows (gtk_window_get_application (data))) == 1)
+    mousepad_history_session_set_quitting (TRUE);
 
   /* prevent menu updates */
   lock_menu_updates++;
@@ -4908,14 +4944,9 @@ mousepad_window_action_close_window (GSimpleAction *action,
           /* store the close result as the action state */
           g_action_change_state (G_ACTION (action), g_variant_new_int32 (FALSE));
 
-          /* save session and reconnect handler */
-          mousepad_history_session_save (FALSE);
-          g_signal_connect_object (window->notebook, "switch-page",
-                                   G_CALLBACK (mousepad_history_session_save), NULL,
-                                   G_CONNECT_SWAPPED | G_CONNECT_AFTER);
-          g_signal_connect_object (window->notebook, "page-reordered",
-                                   G_CALLBACK (mousepad_history_session_save), NULL,
-                                   G_CONNECT_SWAPPED | G_CONNECT_AFTER);
+          /* unblock session handler and save session */
+          mousepad_history_session_set_quitting (FALSE);
+          mousepad_history_session_save ();
 
           /* leave function */
           return;
