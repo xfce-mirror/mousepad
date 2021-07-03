@@ -45,6 +45,7 @@
 
 /* File page */
 #define WID_RECENT_SPIN                     "/prefs/file/history/recent-spin"
+#define WID_SESSION_COMBO                   "/prefs/file/history/session-combo"
 #define WID_ENCODING_COMBO                  "/prefs/file/history/encoding-combo"
 #define WID_ENCODING_MODEL                  "/prefs/file/history/encoding-model"
 
@@ -744,6 +745,11 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* bind the recent menu spin button to the setting */
   MOUSEPAD_SETTING_BIND (RECENT_MENU_ITEMS, gtk_builder_get_object (self->builder, WID_RECENT_SPIN),
                          "value", G_SETTINGS_BIND_GET);
+
+  /* bind the session restore setting to the session combo box */
+  MOUSEPAD_SETTING_BIND (SESSION_RESTORE,
+                         gtk_builder_get_object (self->builder, WID_SESSION_COMBO),
+                         "active-id", G_SETTINGS_BIND_DEFAULT);
 
   /* update tab-mode when changed */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TAB_MODE_COMBO),
