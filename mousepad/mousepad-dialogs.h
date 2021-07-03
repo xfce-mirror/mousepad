@@ -90,6 +90,8 @@ gint       mousepad_dialogs_revert              (GtkWindow         *parent);
 gint       mousepad_dialogs_confirm_encoding    (const gchar       *charset,
                                                  const gchar       *user_charset);
 
+gint       mousepad_dialogs_session_restore     (void);
+
 gint       mousepad_dialogs_save_as             (GtkWindow         *parent,
                                                  MousepadFile      *current_file,
                                                  GFile             *last_save_location,
