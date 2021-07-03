@@ -1861,8 +1861,10 @@ mousepad_window_open_file (MousepadWindow   *window,
   GList            *list, *li;
   GError           *error = NULL;
   GFile            *open_file;
+  gchar            *uri;
+  const gchar      *autosave_uri;
   gint              npages, result, i;
-  gboolean          make_valid = FALSE, user_set_encoding, user_set_cursor;
+  gboolean          make_valid = FALSE, user_set_encoding, user_set_cursor, succeed;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (file != NULL, FALSE);
@@ -1897,12 +1899,13 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* make sure it's not a floating object */
   g_object_ref_sink (document);
 
-  /* set the file location */
-  mousepad_file_set_location (document->file, file, TRUE);
-
   /* get the data status attached to the GFile */
   user_set_encoding = GPOINTER_TO_INT (mousepad_object_get_data (file, "user-set-encoding"));
   user_set_cursor = GPOINTER_TO_INT (mousepad_object_get_data (file, "user-set-cursor"));
+  autosave_uri = mousepad_object_get_data (file, "autosave-uri");
+
+  /* set the file location */
+  mousepad_file_set_location (document->file, file, autosave_uri == NULL);
 
   /* the user chose to open the file in the encoding dialog */
   if (encoding == MOUSEPAD_ENCODING_NONE)
@@ -1954,8 +1957,9 @@ mousepad_window_open_file (MousepadWindow   *window,
               g_idle_add (mousepad_view_scroll_to_cursor,
                           mousepad_util_source_autoremove (window->active->textview));
 
-            /* insert in the recent history */
-            mousepad_history_recent_add (document->file);
+            /* insert in the recent history, don't pollute with autosave data */
+            if (autosave_uri == NULL)
+              mousepad_history_recent_add (document->file);
           }
         break;
 
@@ -1992,7 +1996,27 @@ mousepad_window_open_file (MousepadWindow   *window,
   /* decrease reference count if everything went well, else release the document */
   g_object_unref (document);
 
-  return (result == 0);
+  /* autosave restore: some post-process actions if everything went well */
+  succeed = (result == 0);
+  if (succeed && autosave_uri != NULL)
+    {
+      /* set definitive location */
+      uri = g_file_get_uri (file);
+      if (g_strcmp0 (uri, autosave_uri) == 0)
+        mousepad_file_set_location (document->file, NULL, FALSE);
+      else
+        {
+          mousepad_object_set_data (file, "autosave-uri", NULL);
+          mousepad_file_set_location (document->file, file, TRUE);
+        }
+
+      g_free (uri);
+
+      /* mark document as modified */
+      gtk_text_buffer_set_modified (document->buffer, TRUE);
+    }
+
+  return succeed;
 }
 
 
