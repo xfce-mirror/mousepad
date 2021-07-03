@@ -2118,6 +2118,7 @@ mousepad_window_close_document (MousepadWindow   *window,
 {
   GtkNotebook *notebook = GTK_NOTEBOOK (window->notebook);
   GAction     *action;
+  gint         restore;
   gboolean     succeed = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
@@ -2126,30 +2127,41 @@ mousepad_window_close_document (MousepadWindow   *window,
   /* check if the document has been modified */
   if (gtk_text_buffer_get_modified (document->buffer))
     {
-      /* run save changes dialog */
-      switch (mousepad_dialogs_save_changes (GTK_WINDOW (window), TRUE,
-                                             mousepad_file_get_read_only (document->file)))
+      restore = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
+      if (mousepad_history_session_get_quitting () && (
+            restore == MOUSEPAD_SESSION_RESTORE_UNSAVED
+            || restore == MOUSEPAD_SESSION_RESTORE_ALWAYS
+          ))
+        succeed = mousepad_file_autosave_save_sync (document->file);
+      else
         {
-          case MOUSEPAD_RESPONSE_DONT_SAVE:
-            /* don't save, only destroy the document */
-            succeed = TRUE;
-            break;
+          /* run save changes dialog */
+          switch (mousepad_dialogs_save_changes (GTK_WINDOW (window), TRUE,
+                                                 mousepad_file_get_read_only (document->file)))
+            {
+              case MOUSEPAD_RESPONSE_DONT_SAVE:
+                /* don't save, only destroy the document, eventually triggering
+                 * autosave file deletion */
+                gtk_text_buffer_set_modified (document->buffer, FALSE);
+                succeed = TRUE;
+                break;
 
-          case MOUSEPAD_RESPONSE_CANCEL:
-            /* do nothing */
-            break;
+              case MOUSEPAD_RESPONSE_CANCEL:
+                /* do nothing */
+                break;
 
-          case MOUSEPAD_RESPONSE_SAVE:
-            action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
-            g_action_activate (action, NULL);
-            succeed = mousepad_action_get_state_int32_boolean (action);
-            break;
+              case MOUSEPAD_RESPONSE_SAVE:
+                action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save");
+                g_action_activate (action, NULL);
+                succeed = mousepad_action_get_state_int32_boolean (action);
+                break;
 
-          case MOUSEPAD_RESPONSE_SAVE_AS:
-            action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
-            g_action_activate (action, NULL);
-            succeed = mousepad_action_get_state_int32_boolean (action);
-            break;
+              case MOUSEPAD_RESPONSE_SAVE_AS:
+                action = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
+                g_action_activate (action, NULL);
+                succeed = mousepad_action_get_state_int32_boolean (action);
+                break;
+            }
         }
     }
   /* no changes in the document, safe to remove it */
