@@ -45,6 +45,7 @@
 
 /* File page */
 #define WID_RECENT_SPIN                     "/prefs/file/history/recent-spin"
+#define WID_SESSION_COMBO                   "/prefs/file/history/session-combo"
 #define WID_ENCODING_COMBO                  "/prefs/file/history/encoding-combo"
 #define WID_ENCODING_MODEL                  "/prefs/file/history/encoding-model"
 
@@ -596,6 +597,9 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
                          "active-id", G_SETTINGS_BIND_DEFAULT);
   MOUSEPAD_SETTING_BIND (OPENING_MODE,
                          gtk_builder_get_object (self->builder, WID_OPENING_MODE_COMBO),
+                         "active-id", G_SETTINGS_BIND_DEFAULT);
+  MOUSEPAD_SETTING_BIND (SESSION_RESTORE,
+                         gtk_builder_get_object (self->builder, WID_SESSION_COMBO),
                          "active-id", G_SETTINGS_BIND_DEFAULT);
 
   /* show the "Plugins" tab only if there is at least one plugin and fill it on demand,

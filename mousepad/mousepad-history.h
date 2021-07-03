@@ -23,6 +23,15 @@
 
 G_BEGIN_DECLS
 
+enum
+{
+  MOUSEPAD_SESSION_RESTORE_NEVER,
+  MOUSEPAD_SESSION_RESTORE_CRASH,
+  MOUSEPAD_SESSION_RESTORE_UNSAVED,
+  MOUSEPAD_SESSION_RESTORE_SAVED,
+  MOUSEPAD_SESSION_RESTORE_ALWAYS,
+};
+
 void         mousepad_history_init                             (void);
 
 void         mousepad_history_recent_add                       (MousepadFile               *file);
