@@ -45,6 +45,7 @@
 
 /* File page */
 #define WID_RECENT_SPIN                     "/prefs/file/history/recent-spin"
+#define WID_SESSION_COMBO                   "/prefs/file/history/session-combo"
 #define WID_ENCODING_COMBO                  "/prefs/file/history/encoding-combo"
 #define WID_ENCODING_MODEL                  "/prefs/file/history/encoding-model"
 
@@ -581,6 +582,37 @@ mousepad_prefs_dialog_opening_mode_setting_changed (MousepadPrefsDialog *self,
 
 
 
+/* update session restore setting when combo changes */
+static void
+mousepad_prefs_dialog_session_restore_changed (MousepadPrefsDialog *self,
+                                               GtkComboBox         *combo)
+{
+  self->blocked = TRUE;
+  MOUSEPAD_SETTING_SET_ENUM (SESSION_RESTORE, gtk_combo_box_get_active (combo));
+  self->blocked = FALSE;
+}
+
+
+
+/* update the combo when the setting changes */
+static void
+mousepad_prefs_dialog_session_restore_setting_changed (MousepadPrefsDialog *self,
+                                                       gchar               *key,
+                                                       GSettings           *settings)
+{
+  GtkComboBox *combo;
+
+  /* don't do anything when the combo box is itself updating the setting */
+  if (self->blocked)
+    return;
+
+  combo = GTK_COMBO_BOX (gtk_builder_get_object (self->builder, WID_SESSION_COMBO));
+
+  gtk_combo_box_set_active (combo, MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE));
+}
+
+
+
 /* update encoding when the prefs dialog widget changes */
 static void
 mousepad_prefs_dialog_encoding_changed (MousepadPrefsDialog *self,
@@ -725,6 +757,10 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   widget = mousepad_builder_get_widget (self->builder, WID_OPENING_MODE_COMBO);
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE));
 
+  /* setup session combo box */
+  widget = mousepad_builder_get_widget (self->builder, WID_SESSION_COMBO);
+  gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE));
+
   /* setup encoding combo box */
   mousepad_prefs_dialog_setup_encoding_combo (self);
 
@@ -789,6 +825,15 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* update opening mode combo when setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (OPENING_MODE,
                                    mousepad_prefs_dialog_opening_mode_setting_changed,
+                                   self, G_CONNECT_SWAPPED);
+
+  /* update session restore when changed */
+  g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_SESSION_COMBO), "changed",
+                            G_CALLBACK (mousepad_prefs_dialog_session_restore_changed), self);
+
+  /* update session combo when setting changes */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (SESSION_RESTORE,
+                                   mousepad_prefs_dialog_session_restore_setting_changed,
                                    self, G_CONNECT_SWAPPED);
 
   /* ask user for confirmation before clearing recent history */

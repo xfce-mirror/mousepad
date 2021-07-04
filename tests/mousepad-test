@@ -70,7 +70,7 @@ declare -r timeout='timeout -v -k 5 -- 10' script_name=${0##*/} \
            idle=$(echo "/org/xfce/mousepad: org.freedesktop.DBus.Properties.PropertiesChanged" \
                        "('org.gtk.Application', {'Busy': <false>}, @as [])")
 declare -a ignored warnings errors tempfiles
-declare -i quiet=0 n_warns=0 n_errs=0 n_cmds=0 remember_session=0 gdbus_pid
+declare -i quiet=0 n_warns=0 n_errs=0 n_cmds=0 session_restore=0 gdbus_pid
 declare    mousepad logfile logdir temp_logfile sections session_backup
 
 # Option parsing
@@ -225,13 +225,25 @@ readonly quiet mousepad logfile logdir sections ignored gdbus_pid
 
 ### Main ###
 
-# Backup and reset session array if needed
-[ "$(gsettings get org.xfce.mousepad.preferences.file remember-session)" = 'true' ] && {
-  remember_session=1
+# Backup and adapt session settings if needed
+[ "$(gsettings get org.xfce.mousepad.preferences.file session-restore)" != "'never'" ] && {
+  session_restore=1
   session_backup="$logdir/$script_name.gsettings.session.bak"
   : >"$session_backup" || abort 'file'
+
+  # backup and reset session array
   gsettings get org.xfce.mousepad.state.application session >"$session_backup"
   gsettings reset org.xfce.mousepad.state.application session
+
+  # backup and set autosave timer to 1 second, to trigger as many operations as possible
+  gsettings get org.xfce.mousepad.preferences.file autosave-timer >>"$session_backup"
+  gsettings set org.xfce.mousepad.preferences.file autosave-timer 1
+
+  # rename autosave files if any, link them as backup files
+  shopt -s nullglob
+  for f in "${XDG_DATA_HOME:-$HOME/.local/share}/Mousepad/autosave-"*; do
+    mv "$f" "$f.bak" && ln -s "$f.bak" "$logdir/${f##*/}.bak"
+  done
 }
 
 # Non-GUI commands
@@ -269,13 +281,13 @@ section_is_enabled 'simple-gui.multi-file' && {
   test_simple_gui --opening-mode=window -- "${tempfiles[@]}"
 }
 
-section_is_enabled 'simple-gui.session-restore' && ((remember_session)) && {
+section_is_enabled 'simple-gui.session-restore' && ((session_restore)) && {
   echo '- Session restore -' | duperr
 
   # restore three files in two windows and open another file in a third window
   create_tempfiles 4
   gsettings set org.xfce.mousepad.state.application session \
-    "['1:file://${tempfiles[0]}', '1::file://${tempfiles[1]}', '2:file://${tempfiles[2]}']"
+    "['1;;file://${tempfiles[0]}', '1;;+file://${tempfiles[1]}', '2;;+file://${tempfiles[2]}']"
   test_simple_gui --opening-mode=window -- "${tempfiles[3]}"
 }
 
@@ -353,11 +365,21 @@ section_is_enabled 'actions.help' && {
   test_actions --help "${tempfiles[0]}"
 }
 
-# Restore session array if needed
+# Restore session settings if needed
 [ -n "$session_backup" ] && {
-  read -r <"$session_backup"
+  exec 3<"$session_backup"
+
+  read -r -u 3
   gsettings set org.xfce.mousepad.state.application session "$REPLY"
+  read -r -u 3
+  gsettings set org.xfce.mousepad.preferences.file autosave-timer "$REPLY"
+
+  exec 3<&-
   rm "$session_backup"
+
+  for f in "${XDG_DATA_HOME:-$HOME/.local/share}/Mousepad/autosave-"*.bak; do
+    mv "$f" "${f%.bak}" && rm "$logdir/${f##*/}"
+  done
 }
 
 # Outcome

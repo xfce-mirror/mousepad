@@ -240,7 +240,6 @@ static const GActionEntry dialog_actions[] =
   /* "File" tab */
   { MOUSEPAD_SETTING_ADD_LAST_EOL, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_MAKE_BACKUP, mousepad_application_toggle_activate, NULL, "false", NULL },
-  { MOUSEPAD_SETTING_REMEMBER_SESSION, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_MONITOR_CHANGES, mousepad_application_toggle_activate, NULL, "false", NULL }
 };
 #define N_DIALOG G_N_ELEMENTS (dialog_actions)
@@ -922,8 +921,8 @@ mousepad_application_startup (GApplication *gapplication)
   g_signal_connect (application, "notify::active-window",
                     G_CALLBACK (mousepad_application_active_window_changed), NULL);
 
-  /* initialize recent history management */
-  mousepad_history_recent_init ();
+  /* initialize history management */
+  mousepad_history_init ();
 }
 
 
@@ -961,7 +960,8 @@ mousepad_application_command_line (GApplication            *gapplication,
     }
 
   /* restore previous session */
-  if (! g_application_command_line_get_is_remote (command_line))
+  if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) != MOUSEPAD_SESSION_RESTORE_NEVER
+      && ! g_application_command_line_get_is_remote (command_line))
     {
       application->opening_mode = MIXED;
       application->encoding = mousepad_encoding_get_default ();
@@ -1193,6 +1193,11 @@ mousepad_application_shutdown (GApplication *gapplication)
       g_free (filename);
     }
 
+  /* we're about to quit, the user uses session restore only on crash and everything
+   * went well: clear session array */
+  if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) == MOUSEPAD_SESSION_RESTORE_CRASH)
+    MOUSEPAD_SETTING_RESET (SESSION);
+
   /* finalize mousepad settings */
   mousepad_settings_finalize ();
 
@@ -1225,10 +1230,10 @@ mousepad_application_create_window (MousepadApplication *application)
   g_signal_connect (window, "new-window",
                     G_CALLBACK (mousepad_application_new_window), application);
   notebook = mousepad_window_get_notebook (MOUSEPAD_WINDOW (window));
-  g_signal_connect_object (notebook, "switch-page", G_CALLBACK (mousepad_history_session_save),
-                           NULL, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
-  g_signal_connect_object (notebook, "page-reordered", G_CALLBACK (mousepad_history_session_save),
-                           NULL, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
+  g_signal_connect_after (notebook, "switch-page",
+                          G_CALLBACK (mousepad_history_session_save), NULL);
+  g_signal_connect_after (notebook, "page-reordered",
+                          G_CALLBACK (mousepad_history_session_save), NULL);
 
   return window;
 }
@@ -1304,7 +1309,7 @@ mousepad_application_active_window_changed (MousepadApplication *application)
       mousepad_window_update_window_menu_items (app_windows->data);
 
       /* save new session state */
-      mousepad_history_session_save (FALSE);
+      mousepad_history_session_save ();
     }
 
   /* store a copy of the application windows list to compare at next call */
@@ -1616,7 +1621,7 @@ mousepad_application_action_quit (GSimpleAction *action,
   GAction *close;
 
   /* block session handler */
-  mousepad_history_session_save (TRUE);
+  mousepad_history_session_set_quitting (TRUE);
 
   /* try to close all windows, abort at the first failure */
   windows = g_list_copy (gtk_application_get_windows (data));
@@ -1627,7 +1632,8 @@ mousepad_application_action_quit (GSimpleAction *action,
       if (! mousepad_action_get_state_int32_boolean (close))
         {
           /* unblock session handler and save session */
-          mousepad_history_session_save (TRUE);
+          mousepad_history_session_set_quitting (FALSE);
+          mousepad_history_session_save ();
 
           break;
         }
