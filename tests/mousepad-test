@@ -225,13 +225,25 @@ readonly quiet mousepad logfile logdir sections ignored gdbus_pid
 
 ### Main ###
 
-# Backup and reset session array if needed
+# Backup and adapt session settings if needed
 [ "$(gsettings get org.xfce.mousepad.preferences.file session-restore)" != "'never'" ] && {
   session_restore=1
   session_backup="$logdir/$script_name.gsettings.session.bak"
   : >"$session_backup" || abort 'file'
+
+  # backup and reset session array
   gsettings get org.xfce.mousepad.state.application session >"$session_backup"
   gsettings reset org.xfce.mousepad.state.application session
+
+  # backup and set autosave timer to 1 second, to trigger as many operations as possible
+  gsettings get org.xfce.mousepad.preferences.file autosave-timer >>"$session_backup"
+  gsettings set org.xfce.mousepad.preferences.file autosave-timer 1
+
+  # rename autosave files if any, link them as backup files
+  shopt -s nullglob
+  for f in "${XDG_DATA_HOME:-$HOME/.local/share}/Mousepad/autosave-"*; do
+    mv "$f" "$f.bak" && ln -s "$f.bak" "$logdir/${f##*/}.bak"
+  done
 }
 
 # Non-GUI commands
@@ -353,11 +365,21 @@ section_is_enabled 'actions.help' && {
   test_actions --help "${tempfiles[0]}"
 }
 
-# Restore session array if needed
+# Restore session settings if needed
 [ -n "$session_backup" ] && {
-  read -r <"$session_backup"
+  exec 3<"$session_backup"
+
+  read -r -u 3
   gsettings set org.xfce.mousepad.state.application session "$REPLY"
+  read -r -u 3
+  gsettings set org.xfce.mousepad.preferences.file autosave-timer "$REPLY"
+
+  exec 3<&-
   rm "$session_backup"
+
+  for f in "${XDG_DATA_HOME:-$HOME/.local/share}/Mousepad/autosave-"*.bak; do
+    mv "$f" "${f%.bak}" && rm "$logdir/${f##*/}"
+  done
 }
 
 # Outcome
