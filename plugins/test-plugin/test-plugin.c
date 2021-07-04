@@ -449,6 +449,7 @@ test_plugin_window_actions (GSimpleAction *test_action,
   gchar        **actions, **pname, **qname;
   const gchar   *type;
   gboolean       save = FALSE;
+  gint           restore;
 
   /* get the window actions list */
   group = G_ACTION_GROUP (gtk_application_get_active_window (GTK_APPLICATION (application)));
@@ -595,7 +596,9 @@ test_plugin_window_actions (GSimpleAction *test_action,
       }
 
   /* final save to avoid triggering a dialog */
-  if (save)
+  restore = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
+  if (save && restore != MOUSEPAD_SESSION_RESTORE_UNSAVED
+      && restore != MOUSEPAD_SESSION_RESTORE_ALWAYS)
     test_plugin_activate_action (group, "file.save");
 
   /* cleanup */
