@@ -49,25 +49,25 @@
   <object class="GtkListStore" id="/prefs/editor/smart-keys/smart-home-end-model">
     <columns>
       <!-- column-name id -->
-      <column type="gint"/>
+      <column type="gchararray"/>
       <!-- column-name name -->
       <column type="gchararray"/>
     </columns>
     <data>
       <row>
-        <col id="0">0</col>
+        <col id="0">disabled</col>
         <col id="1" translatable="yes">Never</col>
       </row>
       <row>
-        <col id="0">1</col>
+        <col id="0">before</col>
         <col id="1" translatable="yes">First key press</col>
       </row>
       <row>
-        <col id="0">2</col>
+        <col id="0">after</col>
         <col id="1" translatable="yes">Second key press</col>
       </row>
       <row>
-        <col id="0">3</col>
+        <col id="0">always</col>
         <col id="1" translatable="yes">Always</col>
       </row>
     </data>
@@ -76,7 +76,7 @@
   <object class="GtkListStore" id="/prefs/window/toolbar/style-model">
     <columns>
       <!-- column-name style -->
-      <column type="GtkToolbarStyle"/>
+      <column type="gchararray"/>
       <!-- column-name name -->
       <column type="gchararray"/>
     </columns>
@@ -103,7 +103,7 @@
   <object class="GtkListStore" id="/prefs/window/toolbar/icon-size-model">
     <columns>
       <!-- column-name size -->
-      <column type="GtkIconSize"/>
+      <column type="gchararray"/>
       <!-- column-name name -->
       <column type="gchararray"/>
     </columns>
@@ -138,21 +138,21 @@
   <object class="GtkListStore" id="/prefs/window/notebook/opening-mode-model">
     <columns>
       <!-- column-name opening mode -->
-      <column type="gint"/>
+      <column type="gchararray"/>
       <!-- column-name name -->
       <column type="gchararray"/>
     </columns>
     <data>
       <row>
-        <col id="0">0</col>
+        <col id="0">tab</col>
         <col id="1" translatable="yes" comments="Preceded by: &quot;Open files in:&quot;">new tabs</col>
       </row>
       <row>
-        <col id="0">1</col>
+        <col id="0">window</col>
         <col id="1" translatable="yes" comments="Preceded by: &quot;Open files in:&quot;">new windows</col>
       </row>
       <row>
-        <col id="0">2</col>
+        <col id="0">mixed</col>
         <col id="1" translatable="yes" comments="Preceded by: &quot;Open files in:&quot;">new tabs in a new window</col>
       </row>
     </data>
@@ -625,7 +625,7 @@
                       <object class="GtkComboBox" id="/prefs/editor/smart-keys/smart-home-end-combo">
                         <property name="visible">True</property>
                         <property name="model">/prefs/editor/smart-keys/smart-home-end-model</property>
-                        <property name="active">0</property>
+                        <property name="id-column">0</property>
                         <property name="expand">False</property>
                         <child>
                           <object class="GtkCellRendererText"/>
@@ -830,7 +830,7 @@
                   <object class="GtkComboBox" id="/prefs/window/toolbar/style-combo">
                     <property name="visible">True</property>
                     <property name="model">/prefs/window/toolbar/style-model</property>
-                    <property name="active">0</property>
+                    <property name="id-column">0</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check"
                               bind-property="active" bind-flags="G_BINDING_SYNC_CREATE"/>
                     <child>
@@ -849,7 +849,7 @@
                   <object class="GtkComboBox" id="/prefs/window/toolbar/icon-size-combo">
                     <property name="visible">True</property>
                     <property name="model">/prefs/window/toolbar/icon-size-model</property>
-                    <property name="active">0</property>
+                    <property name="id-column">0</property>
                     <property name="sensitive" bind-source="/prefs/window/toolbar/visible-check"
                               bind-property="active" bind-flags="G_BINDING_SYNC_CREATE"/>
                     <child>
@@ -942,7 +942,7 @@
                       <object class="GtkComboBox" id="/prefs/window/notebook/opening-mode-combo">
                         <property name="visible">True</property>
                         <property name="model">/prefs/window/notebook/opening-mode-model</property>
-                        <property name="active">0</property>
+                        <property name="id-column">0</property>
                         <child>
                           <object class="GtkCellRendererText">
                             <property name="wrap-mode">PANGO_WRAP_WORD_CHAR</property>

@@ -428,159 +428,6 @@ mousepad_prefs_dialog_tab_mode_setting_changed (MousepadPrefsDialog *self,
 
 
 
-/* update the home/end key setting when the combo changes */
-static void
-mousepad_prefs_dialog_home_end_changed (MousepadPrefsDialog *self,
-                                        GtkComboBox         *combo)
-{
-  self->blocked = TRUE;
-  MOUSEPAD_SETTING_SET_ENUM (SMART_HOME_END, gtk_combo_box_get_active (combo));
-  self->blocked = FALSE;
-}
-
-
-
-/* update the combo when the setting changes */
-static void
-mousepad_prefs_dialog_home_end_setting_changed (MousepadPrefsDialog *self,
-                                                gchar               *key,
-                                                GSettings           *settings)
-{
-  GtkComboBox *combo;
-
-  /* don't do anything when the combo box is itself updating the setting */
-  if (self->blocked)
-    return;
-
-  combo = GTK_COMBO_BOX (gtk_builder_get_object (self->builder, WID_SMART_HOME_END_COMBO));
-
-  gtk_combo_box_set_active (combo, MOUSEPAD_SETTING_GET_ENUM (SMART_HOME_END));
-}
-
-
-
-/* update toolbar style setting when combo changes */
-static void
-mousepad_prefs_dialog_toolbar_style_changed (MousepadPrefsDialog *self,
-                                             GtkComboBox         *combo)
-{
-  self->blocked = TRUE;
-  MOUSEPAD_SETTING_SET_ENUM (TOOLBAR_STYLE, gtk_combo_box_get_active (combo));
-  self->blocked = FALSE;
-}
-
-
-
-/* update the combo when the setting changes */
-static void
-mousepad_prefs_dialog_toolbar_style_setting_changed (MousepadPrefsDialog *self,
-                                                     gchar               *key,
-                                                     GSettings           *settings)
-{
-  GtkComboBox *combo;
-
-  /* don't do anything when the combo box is itself updating the setting */
-  if (self->blocked)
-    return;
-
-  combo = GTK_COMBO_BOX (gtk_builder_get_object (self->builder, WID_TOOLBAR_STYLE_COMBO));
-
-  gtk_combo_box_set_active (combo, MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE));
-}
-
-
-
-/* update toolbar icon size setting when combo changes */
-static void
-mousepad_prefs_dialog_toolbar_icon_size_changed (MousepadPrefsDialog *self,
-                                                 GtkComboBox         *combo)
-{
-  GtkTreeIter iter;
-
-  if (gtk_combo_box_get_active_iter (combo, &iter))
-    {
-      GtkTreeModel *model;
-      gint          icon_size = 0;
-
-      model = gtk_combo_box_get_model (combo);
-
-      gtk_tree_model_get (model, &iter, 0, &icon_size, -1);
-
-      self->blocked = TRUE;
-      MOUSEPAD_SETTING_SET_ENUM (TOOLBAR_ICON_SIZE, icon_size);
-      self->blocked = FALSE;
-    }
-}
-
-
-
-/* update the combo when the setting changes */
-static void
-mousepad_prefs_dialog_toolbar_icon_size_setting_changed (MousepadPrefsDialog *self,
-                                                         gchar               *key,
-                                                         GSettings           *settings)
-{
-  GtkComboBox  *combo;
-  GtkTreeModel *model;
-  GtkTreeIter   iter;
-  gint          icon_size;
-  gboolean      valid;
-
-  /* don't do anything when the combo box is itself updating the setting */
-  if (self->blocked)
-    return;
-
-  icon_size = MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_ICON_SIZE);
-  combo = GTK_COMBO_BOX (gtk_builder_get_object (self->builder, WID_TOOLBAR_ICON_SIZE_COMBO));
-  model = gtk_combo_box_get_model (combo);
-  valid = gtk_tree_model_get_iter_first (model, &iter);
-
-  while (valid)
-    {
-      gint size = 0;
-      gtk_tree_model_get (model, &iter, 0, &size, -1);
-      if (size == icon_size)
-        {
-          gtk_combo_box_set_active_iter (combo, &iter);
-          break;
-        }
-      valid = gtk_tree_model_iter_next (model, &iter);
-    }
-}
-
-
-
-/* update opening mode setting when combo changes */
-static void
-mousepad_prefs_dialog_opening_mode_changed (MousepadPrefsDialog *self,
-                                            GtkComboBox         *combo)
-{
-  self->blocked = TRUE;
-  MOUSEPAD_SETTING_SET_ENUM (OPENING_MODE, gtk_combo_box_get_active (combo));
-  self->blocked = FALSE;
-}
-
-
-
-/* update the combo when the setting changes */
-static void
-mousepad_prefs_dialog_opening_mode_setting_changed (MousepadPrefsDialog *self,
-                                                    gchar               *key,
-                                                    GSettings           *settings)
-{
-  GtkComboBox *combo;
-
-  /* don't do anything when the combo box is itself updating the setting */
-  if (self->blocked)
-    return;
-
-  combo = GTK_COMBO_BOX (gtk_builder_get_object (self->builder, WID_OPENING_MODE_COMBO));
-
-  gtk_combo_box_set_active (combo, MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE));
-}
-
-
-
 /* update encoding when the prefs dialog widget changes */
 static void
 mousepad_prefs_dialog_encoding_changed (MousepadPrefsDialog *self,
@@ -711,90 +558,45 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   /* setup tab mode combo box */
   widget = mousepad_builder_get_widget (self->builder, WID_TAB_MODE_COMBO);
   gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_BOOLEAN (INSERT_SPACES));
-
-  /* setup home/end keys combo box */
-  widget = mousepad_builder_get_widget (self->builder, WID_SMART_HOME_END_COMBO);
-  gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (SMART_HOME_END));
-
-  /* setup toolbar-related combo box */
-  widget = mousepad_builder_get_widget (self->builder, WID_TOOLBAR_STYLE_COMBO);
-  gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (TOOLBAR_STYLE));
-  mousepad_prefs_dialog_toolbar_icon_size_setting_changed (self, NULL, NULL);
-
-  /* setup opening mode combo box */
-  widget = mousepad_builder_get_widget (self->builder, WID_OPENING_MODE_COMBO);
-  gtk_combo_box_set_active (GTK_COMBO_BOX (widget), MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE));
+  g_signal_connect_swapped (widget, "changed",
+                            G_CALLBACK (mousepad_prefs_dialog_tab_mode_changed), self);
+  MOUSEPAD_SETTING_CONNECT_OBJECT (INSERT_SPACES, mousepad_prefs_dialog_tab_mode_setting_changed,
+                                   self, G_CONNECT_SWAPPED);
 
   /* setup encoding combo box */
   mousepad_prefs_dialog_setup_encoding_combo (self);
-
-  /* bind the right-margin-position setting to the spin button */
-  MOUSEPAD_SETTING_BIND (RIGHT_MARGIN_POSITION,
-                         gtk_builder_get_object (self->builder, WID_RIGHT_MARGIN_SPIN),
-                         "value", G_SETTINGS_BIND_DEFAULT);
 
   /* bind the font button "font" property to the "font" setting */
   MOUSEPAD_SETTING_BIND (FONT, gtk_builder_get_object (self->builder, WID_FONT_BUTTON),
                          "font", G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
 
-  /* bind the tab-width spin button to the setting */
-  MOUSEPAD_SETTING_BIND (TAB_WIDTH, gtk_builder_get_object (self->builder, WID_TAB_WIDTH_SPIN),
-                         "value", G_SETTINGS_BIND_DEFAULT);
-
   /* bind the recent menu spin button to the setting */
   MOUSEPAD_SETTING_BIND (RECENT_MENU_ITEMS, gtk_builder_get_object (self->builder, WID_RECENT_SPIN),
                          "value", G_SETTINGS_BIND_GET);
-
-  /* update tab-mode when changed */
-  g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TAB_MODE_COMBO),
-                            "changed", G_CALLBACK (mousepad_prefs_dialog_tab_mode_changed), self);
-
-  /* update tab mode combo when setting changes */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (INSERT_SPACES, mousepad_prefs_dialog_tab_mode_setting_changed,
-                                   self, G_CONNECT_SWAPPED);
-
-  /* update home/end when changed */
-  g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_SMART_HOME_END_COMBO),
-                            "changed", G_CALLBACK (mousepad_prefs_dialog_home_end_changed), self);
-
-  /* update home/end combo when setting changes */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (SMART_HOME_END, mousepad_prefs_dialog_home_end_setting_changed,
-                                   self, G_CONNECT_SWAPPED);
-
-  /* update toolbar style when changed */
-  g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TOOLBAR_STYLE_COMBO),
-                            "changed",
-                            G_CALLBACK (mousepad_prefs_dialog_toolbar_style_changed), self);
-
-  /* update toolbar style combo when the setting changes */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_STYLE,
-                                   mousepad_prefs_dialog_toolbar_style_setting_changed,
-                                   self, G_CONNECT_SWAPPED);
-
-  /* update toolbar icon size when changed */
-  g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_TOOLBAR_ICON_SIZE_COMBO),
-                            "changed",
-                            G_CALLBACK (mousepad_prefs_dialog_toolbar_icon_size_changed), self);
-
-  /* update toolbar icon size combo when setting changes */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_ICON_SIZE,
-                                   mousepad_prefs_dialog_toolbar_icon_size_setting_changed,
-                                   self, G_CONNECT_SWAPPED);
-
-  /* update opening mode when changed */
-  g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_OPENING_MODE_COMBO),
-                            "changed",
-                            G_CALLBACK (mousepad_prefs_dialog_opening_mode_changed), self);
-
-  /* update opening mode combo when setting changes */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (OPENING_MODE,
-                                   mousepad_prefs_dialog_opening_mode_setting_changed,
-                                   self, G_CONNECT_SWAPPED);
-
-  /* ask user for confirmation before clearing recent history */
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_RECENT_SPIN),
                             "value-changed",
                             G_CALLBACK (mousepad_prefs_dialog_recent_spin_changed), self);
+
+  /* bind simple spin buttons to the settings */
+  MOUSEPAD_SETTING_BIND (RIGHT_MARGIN_POSITION,
+                         gtk_builder_get_object (self->builder, WID_RIGHT_MARGIN_SPIN),
+                         "value", G_SETTINGS_BIND_DEFAULT);
+  MOUSEPAD_SETTING_BIND (TAB_WIDTH, gtk_builder_get_object (self->builder, WID_TAB_WIDTH_SPIN),
+                         "value", G_SETTINGS_BIND_DEFAULT);
+
+  /* bind simple combo boxes to the settings */
+  MOUSEPAD_SETTING_BIND (SMART_HOME_END,
+                         gtk_builder_get_object (self->builder, WID_SMART_HOME_END_COMBO),
+                         "active-id", G_SETTINGS_BIND_DEFAULT);
+  MOUSEPAD_SETTING_BIND (TOOLBAR_STYLE,
+                         gtk_builder_get_object (self->builder, WID_TOOLBAR_STYLE_COMBO),
+                         "active-id", G_SETTINGS_BIND_DEFAULT);
+  MOUSEPAD_SETTING_BIND (TOOLBAR_ICON_SIZE,
+                         gtk_builder_get_object (self->builder, WID_TOOLBAR_ICON_SIZE_COMBO),
+                         "active-id", G_SETTINGS_BIND_DEFAULT);
+  MOUSEPAD_SETTING_BIND (OPENING_MODE,
+                         gtk_builder_get_object (self->builder, WID_OPENING_MODE_COMBO),
+                         "active-id", G_SETTINGS_BIND_DEFAULT);
 
   /* show the "Plugins" tab only if there is at least one plugin and fill it on demand,
    * to not slow down the dialog opening */
