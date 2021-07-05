@@ -166,6 +166,37 @@
     <property name="page-increment">10</property>
   </object>
 
+  <object class="GtkListStore" id="/prefs/file/history/session-model">
+    <columns>
+      <!-- column-name id -->
+      <column type="gchararray"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">never</col>
+        <col id="1" translatable="yes">never</col>
+      </row>
+      <row>
+        <col id="0">after-a-crash</col>
+        <col id="1" translatable="yes">after a crash</col>
+      </row>
+      <row>
+        <col id="0">unsaved-documents</col>
+        <col id="1" translatable="yes">unsaved documents</col>
+      </row>
+      <row>
+        <col id="0">saved-documents</col>
+        <col id="1" translatable="yes">saved documents</col>
+      </row>
+      <row>
+        <col id="0">always</col>
+        <col id="1" translatable="yes">always</col>
+      </row>
+    </data>
+  </object>
+
   <object class="GtkListStore" id="/prefs/file/history/encoding-model">
     <columns>
       <!-- column-name id -->
@@ -1074,10 +1105,44 @@
                 <property name="margin-end">6</property>
                 <property name="spacing">2</property>
                 <child>
-                  <object class="GtkCheckButton">
-                    <property name="label" translatable="yes">Restore previous session</property>
+                  <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="action-name">app.preferences.file.remember-session</property>
+                    <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+                    <property name="margin-top">2</property>
+                    <property name="margin-bottom">0</property>
+                    <property name="margin-start">0</property>
+                    <property name="margin-end">0</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Restore previous session:</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="/prefs/file/history/session-combo">
+                        <property name="visible">True</property>
+                        <property name="model">/prefs/file/history/session-model</property>
+                        <property name="id-column">0</property>
+                        <child>
+                          <object class="GtkCellRendererText"/>
+                          <attributes>
+                            <attribute name="text">1</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
