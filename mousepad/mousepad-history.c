@@ -420,7 +420,7 @@ mousepad_history_session_restore (MousepadApplication *application)
 
           /* validate file */
           file = g_file_new_for_uri (uri);
-          if (mousepad_util_get_path (file) == NULL)
+          if (g_file_peek_path (file) == NULL)
             {
               g_warning (CORRUPTED_SESSION_DATA);
               g_object_unref (file);
