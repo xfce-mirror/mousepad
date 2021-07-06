@@ -596,6 +596,79 @@ mousepad_dialogs_confirm_encoding (const gchar *charset,
 
 
 static gboolean
+mousepad_dialogs_session_restore_quit_idle (gpointer data)
+{
+  g_action_activate (data, NULL);
+
+  return FALSE;
+}
+
+
+
+static void
+mousepad_dialogs_session_restore_quit (GSimpleAction *action,
+                                       GVariant      *parameter,
+                                       GtkDialog     *dialog)
+{
+  /* disconnect this handler */
+  mousepad_disconnect_by_func (action, mousepad_dialogs_session_restore_quit, dialog);
+
+  /* cancel dialog, which results in restoring files, and activate "app.quit" again */
+  mousepad_dialogs_response_cancel (dialog);
+  g_idle_add (mousepad_dialogs_session_restore_quit_idle,
+              mousepad_util_source_autoremove (action));
+}
+
+
+
+gint
+mousepad_dialogs_session_restore (void)
+{
+  GtkApplication *application;
+  GtkWindow      *parent;
+  GtkWidget      *dialog;
+  GAction        *action;
+  gint            response;
+
+  /* get the parent window */
+  application = GTK_APPLICATION (g_application_get_default ());
+  parent = gtk_application_get_active_window (application);
+
+  /* setup the dialog */
+  dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
+                                   GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+                                   _("It seems that the previous session did not end normally."
+                                     " Do you want to restore the available data?"));
+
+  /* destroy with parent or on "app.quit" */
+  if (parent != NULL)
+    mousepad_dialogs_destroy_with_parent (dialog, parent);
+  else
+    {
+      action = g_action_map_lookup_action (G_ACTION_MAP (application), "quit");
+      g_signal_connect_object (action, "activate",
+                               G_CALLBACK (mousepad_dialogs_session_restore_quit), dialog, 0);
+    }
+
+  /* setup CSD titlebar */
+  mousepad_util_set_titlebar (GTK_WINDOW (dialog));
+
+  /* set secondary text */
+  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+                                            _("If not, all this data will be lost."));
+
+  /* run the dialog */
+  response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+  /* destroy the dialog */
+  gtk_widget_destroy (dialog);
+
+  return response;
+}
+
+
+
+static gboolean
 mousepad_dialogs_combo_set_active (GtkComboBox      *combo,
                                    MousepadEncoding  encoding)
 {

@@ -69,7 +69,7 @@ cleanup ()
 
 abort ()
 {
-  local files
+  local -a files
 
   printf '\n%s\n' '*** Aborted ***' | duperr
 
@@ -169,4 +169,17 @@ log_results ()
     errors[n_errs++]=$n_cmds
     ((n_warns != 0 && warnings[-1] == n_cmds)) || printf '%s\n\n' "Exit code: $1"
   }
+}
+
+shopt -s nullglob extglob
+session_restore_cleanup ()
+{
+  local -a files
+
+  ((session_restore)) || return 0
+
+  gsettings reset org.xfce.mousepad.state.application session
+
+  files=("${XDG_DATA_HOME:-$HOME/.local/share}/Mousepad/autosave-"+([0-9]))
+  [ -z "${files[*]}" ] || rm "${files[@]}"
 }

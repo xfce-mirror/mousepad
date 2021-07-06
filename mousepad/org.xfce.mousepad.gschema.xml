@@ -1,6 +1,14 @@
 <schemalist gettext-domain="mousepad">
 
   <!-- Enums and flags -->
+  <enum id="org.xfce.mousepad.SessionRestore">
+    <value nick="never" value="0"/>
+    <value nick="after-a-crash" value="1"/>
+    <value nick="unsaved-documents" value="2"/>
+    <value nick="saved-documents" value="3"/>
+    <value nick="always" value="4"/>
+  </enum>
+
   <enum id="org.xfce.mousepad.SmartHomeEnd">
     <value nick="disabled" value="0"/>
     <value nick="before" value="1"/>
@@ -99,13 +107,23 @@
         you should leave it alone.
       </description>
     </key>
-    <key name="remember-session" type="b">
-      <default>false</default>
-      <summary>Remember session</summary>
+    <key name="session-restore" enum="org.xfce.mousepad.SessionRestore">
+      <default>'after-a-crash'</default>
+      <summary>Session restore</summary>
       <description>
-        When true Mousepad regularly saves the session state, i.e a list of open
+        When enabled Mousepad regularly saves the session state, i.e a list of open
         tabs and windows (see the 'session' key in the 'state.application' schema),
-        and restore this state on next session.
+        and restores this state on next session according to the value set.
+      </description>
+    </key>
+    <key name="autosave-timer" type="u">
+      <range min="0" max="600"/>
+      <default>30</default>
+      <summary>Seconds timer to automatically save changes in an auxiliary file</summary>
+      <description>
+        If this value is greater than zero, Mousepad regularly saves modified
+        documents in auxiliary files, to restore them on next session if session
+        restore is enabled.
       </description>
     </key>
   </schema>
@@ -461,9 +479,11 @@
       <default>[]</default>
       <summary>Session</summary>
       <description>
-        List of tabs per window for a session, in the form 'n:[:]uri' where 'n' is an
-        integer uniquely identifying a window, 'uri' the file uri for a tab, and the
-        optional ':' identifies the active tab in the window (the last one wins).
+        List of tabs per window for a session, in the form 'n;uri1;[+]uri2' where 'n'
+        is an integer uniquely identifying a window, 'uri1' the autosave uri for a tab
+        (see the 'autosave' key in the 'preferences.file' schema), the optional '+'
+        identifies the active tab in a window, and 'uri2' is the normal uri for a tab.
+        At least one of these two uris should be present for the file to be restored.
       </description>
     </key>
   </schema>
