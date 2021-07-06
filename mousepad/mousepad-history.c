@@ -595,16 +595,11 @@ mousepad_history_session_restore (MousepadApplication *application)
           else if (restore_autosaved && autosave_file != NULL
                    && g_file_query_exists (autosave_file, NULL))
             {
-              /* keep original uri if it is valid */
-              if (file != NULL && mousepad_util_get_path (file) != NULL)
+              /* keep original uri if it exists */
+              if (file != NULL)
                 g_object_unref (autosave_file);
               else
-                {
-                  if (file != NULL)
-                    g_object_unref (file);
-
-                  file = autosave_file;
-                }
+                file = autosave_file;
 
               mousepad_object_set_data_full (file, "autosave-uri", autosave_uri, g_free);
               files[n_files++] = file;
