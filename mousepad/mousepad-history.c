@@ -22,9 +22,14 @@
 #include <mousepad/mousepad-document.h>
 #include <mousepad/mousepad-window.h>
 
+#ifdef G_OS_UNIX
+#include <glib-unix.h>
+#endif
+
 
 
 static void     mousepad_history_recent_init                (void);
+static gboolean mousepad_history_session_external_signal    (gpointer      data);
 static void     mousepad_history_session_init               (void);
 static guint    mousepad_history_autosave_check_basename    (const gchar  *basename);
 static void     mousepad_history_autosave_cleanup_directory (guint         ids);
@@ -52,8 +57,10 @@ static struct MousepadRecentData recent_data[N_RECENT_DATA];
 
 /* session data */
 #define CORRUPTED_SESSION_DATA "Corrupted session data in " MOUSEPAD_ID "." MOUSEPAD_SETTING_SESSION
+#define SESSION_N_SIGNALS      3
 
-static gboolean session_quitting = FALSE;
+static gint  session_quitting = MOUSEPAD_SESSION_QUITTING_NO;
+static guint session_source_ids[SESSION_N_SIGNALS] = { 0 };
 
 /* autosave data */
 #define AUTOSAVE_PREFIX     "autosave-"
@@ -308,9 +315,58 @@ mousepad_history_recent_clear (void)
 
 
 static void
+mousepad_history_session_external_disconnect (GApplication *application)
+{
+  gint n;
+
+  mousepad_disconnect_by_func (application, mousepad_history_session_external_signal, NULL);
+  for (n = 0; n < SESSION_N_SIGNALS; n++)
+    if (session_source_ids[n] != 0)
+      {
+        g_source_remove (session_source_ids[n]);
+        session_source_ids[n] = 0;
+      }
+}
+
+
+
+static gboolean
+mousepad_history_session_external_signal (gpointer data)
+{
+  GApplication *application;
+
+  /* inhibit session logout if possible */
+  if (data != NULL)
+    {
+      application = data;
+      gtk_application_inhibit (data, gtk_application_get_active_window (data),
+                               GTK_APPLICATION_INHIBIT_LOGOUT, "Mousepad is quitting");
+    }
+  else
+    application = g_application_get_default ();
+
+  /* disconnect this handler and remove sources: we do the same thing regardless
+   * of the signal received, and we only do it once */
+  mousepad_history_session_external_disconnect (application);
+
+  /* quit non-interactively */
+  session_quitting = MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE;
+  g_action_group_activate_action (G_ACTION_GROUP (application), "quit", NULL);
+
+  return FALSE;
+}
+
+
+
+static void
 mousepad_history_session_restore_changed (void)
 {
-  gint restore;
+  GApplication *application = g_application_get_default ();
+  gint          restore;
+#ifdef G_OS_UNIX
+  gint          n;
+  guint         signals[SESSION_N_SIGNALS] = { SIGHUP, SIGINT, SIGTERM };
+#endif
 
   /* disabled or startup -> enabled */
   restore = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
@@ -321,6 +377,23 @@ mousepad_history_session_restore_changed (void)
         MOUSEPAD_SETTING_RESET (AUTOSAVE_TIMER);
 
       mousepad_history_session_save ();
+
+      /* register with the session manager */
+      g_object_set (application, "register-session", TRUE, NULL);
+
+#ifdef G_OS_UNIX
+      /* trap external signals */
+      for (n = 0; n < SESSION_N_SIGNALS; n++)
+        session_source_ids[n] = g_unix_signal_add (signals[n],
+                                                   mousepad_history_session_external_signal,
+                                                   NULL);
+#endif
+
+#if GTK_CHECK_VERSION (3, 24, 8)
+      /* be aware of session logout */
+      g_signal_connect (application, "query-end",
+                        G_CALLBACK (mousepad_history_session_external_signal), NULL);
+#endif
     }
   /* any state -> disabled */
   else if (restore == MOUSEPAD_SESSION_RESTORE_NEVER)
@@ -328,6 +401,12 @@ mousepad_history_session_restore_changed (void)
       /* clear session array, disable autosave */
       MOUSEPAD_SETTING_RESET (SESSION);
       MOUSEPAD_SETTING_SET_UINT (AUTOSAVE_TIMER, 0);
+
+      /* unregister from the session manager */
+      g_object_set (application, "register-session", FALSE, NULL);
+
+      /* disconnect handler and remove sources */
+      mousepad_history_session_external_disconnect (application);
     }
 }
 
@@ -345,12 +424,13 @@ mousepad_history_session_init (void)
 void
 mousepad_history_session_set_quitting (gboolean quitting)
 {
-  session_quitting = quitting;
+  session_quitting = quitting ? MOUSEPAD_SESSION_QUITTING_INTERACTIVE
+                              : MOUSEPAD_SESSION_QUITTING_NO;
 }
 
 
 
-gboolean
+gint
 mousepad_history_session_get_quitting (void)
 {
   return session_quitting;
@@ -371,7 +451,7 @@ mousepad_history_session_save (void)
   gboolean           loc_set, autoloc_set;
 
   /* exit if session save is blocked or disabled */
-  if (session_quitting
+  if (session_quitting != MOUSEPAD_SESSION_QUITTING_NO
       || MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) == MOUSEPAD_SESSION_RESTORE_NEVER)
     return;
 
