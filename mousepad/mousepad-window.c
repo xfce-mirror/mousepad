@@ -2118,7 +2118,7 @@ mousepad_window_close_document (MousepadWindow   *window,
 {
   GtkNotebook *notebook = GTK_NOTEBOOK (window->notebook);
   GAction     *action;
-  gint         restore;
+  gint         restore, quitting;
   gboolean     succeed = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
@@ -2128,10 +2128,12 @@ mousepad_window_close_document (MousepadWindow   *window,
   if (gtk_text_buffer_get_modified (document->buffer))
     {
       restore = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
-      if (mousepad_history_session_get_quitting () && (
-            restore == MOUSEPAD_SESSION_RESTORE_UNSAVED
-            || restore == MOUSEPAD_SESSION_RESTORE_ALWAYS
-          ))
+      quitting = mousepad_history_session_get_quitting ();
+      if (quitting == MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE || (
+            quitting == MOUSEPAD_SESSION_QUITTING_INTERACTIVE && (
+              restore == MOUSEPAD_SESSION_RESTORE_UNSAVED
+              || restore == MOUSEPAD_SESSION_RESTORE_ALWAYS
+          )))
         succeed = mousepad_file_autosave_save_sync (document->file);
       else
         {

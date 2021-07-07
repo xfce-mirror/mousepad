@@ -1219,10 +1219,11 @@ mousepad_file_autosave_get_uri (MousepadFile *file)
 gboolean
 mousepad_file_autosave_save_sync (MousepadFile *file)
 {
-  GtkWindow *window;
-  GError    *error = NULL;
-  gchar     *contents;
-  gsize      length;
+  GtkWindow  *window;
+  GError    **perror = NULL;
+  GError     *error = NULL;
+  gchar      *contents;
+  gsize       length;
 
   /* file already saved */
   if (! file->autosave_scheduled)
@@ -1231,8 +1232,13 @@ mousepad_file_autosave_save_sync (MousepadFile *file)
   /* update autosave state, in particular to prevent any concurrent async saving */
   file->autosave_scheduled = FALSE;
 
+  /* handle error only in interactive mode */
+  if (mousepad_history_session_get_quitting () == MOUSEPAD_SESSION_QUITTING_INTERACTIVE)
+    perror = &error;
+
   /* prepare save contents */
-  if (! mousepad_file_prepare_save_contents (file, &contents, &length, NULL, &error))
+  if (! mousepad_file_prepare_save_contents (file, &contents, &length, NULL, perror)
+      && perror != NULL)
     {
       window = gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ()));
       mousepad_dialogs_show_error (window, error, MOUSEPAD_MESSAGE_IO_ERROR_SAVE);
@@ -1243,7 +1249,8 @@ mousepad_file_autosave_save_sync (MousepadFile *file)
 
   /* save contents */
   if (! g_file_replace_contents (file->autosave_location, contents, length, NULL, FALSE,
-                                 G_FILE_CREATE_NONE, NULL, NULL, &error))
+                                 G_FILE_CREATE_NONE, NULL, NULL, perror)
+      && perror != NULL)
     {
       window = gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ()));
       mousepad_dialogs_show_error (window, error, MOUSEPAD_MESSAGE_IO_ERROR_SAVE);
