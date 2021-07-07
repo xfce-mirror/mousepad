@@ -312,16 +312,22 @@ mousepad_history_recent_clear (void)
 static void
 mousepad_history_session_restore_changed (void)
 {
-  /* do a (maybe first) session save and enable autosave if needed */
-  if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) != MOUSEPAD_SESSION_RESTORE_NEVER)
+  gint restore;
+
+  /* disabled or startup -> enabled */
+  restore = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
+  if (autosave_ids == 0 && restore != MOUSEPAD_SESSION_RESTORE_NEVER)
     {
-      mousepad_history_session_save ();
+      /* enable autosave if needed and do a first session save */
       if (MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) == 0)
         MOUSEPAD_SETTING_RESET (AUTOSAVE_TIMER);
+
+      mousepad_history_session_save ();
     }
-  /* clear session array, disable autosave */
-  else
+  /* any state -> disabled */
+  else if (restore == MOUSEPAD_SESSION_RESTORE_NEVER)
     {
+      /* clear session array, disable autosave */
       MOUSEPAD_SETTING_RESET (SESSION);
       MOUSEPAD_SETTING_SET_UINT (AUTOSAVE_TIMER, 0);
     }
@@ -758,7 +764,7 @@ mousepad_history_autosave_disable (GDir *dir)
 
 
 
-static void
+static gboolean
 mousepad_history_autosave_enable (GDir *dir)
 {
   gchar       *dirname;
@@ -775,7 +781,7 @@ mousepad_history_autosave_enable (GDir *dir)
       MOUSEPAD_SETTING_SET_UINT (AUTOSAVE_TIMER, 0);
       g_free (dirname);
 
-      return;
+      return FALSE;
     }
 
   /* get current file list, store taken ids as flags */
@@ -785,6 +791,8 @@ mousepad_history_autosave_enable (GDir *dir)
 
   /* cleanup */
   g_free (dirname);
+
+  return TRUE;
 }
 
 
@@ -792,18 +800,26 @@ mousepad_history_autosave_enable (GDir *dir)
 static void
 mousepad_history_autosave_timer_changed (void)
 {
-  GDir *dir;
+  GDir     *dir;
+  guint     timer;
+  gboolean  succeed;
 
   /* try to open Mousepad data dir */
-  if (! mousepad_history_autosave_open_directory (&dir))
-    return;
+  succeed = mousepad_history_autosave_open_directory (&dir);
 
-  /* disabled -> enabled */
-  if (autosave_ids == 0 && MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) > 0)
-    mousepad_history_autosave_enable (dir);
+  /* disabled or startup -> enabled */
+  timer = MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER);
+  if (autosave_ids == 0 && timer > 0
+      && succeed && mousepad_history_autosave_enable (dir)
+      && MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) == MOUSEPAD_SESSION_RESTORE_NEVER)
+    MOUSEPAD_SETTING_RESET (SESSION_RESTORE);
   /* any state -> disabled */
-  else if (MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) == 0)
-    mousepad_history_autosave_disable (dir);
+  else if (timer == 0)
+    {
+      MOUSEPAD_SETTING_SET_ENUM (SESSION_RESTORE, MOUSEPAD_SESSION_RESTORE_NEVER);
+      if (succeed)
+        mousepad_history_autosave_disable (dir);
+    }
 
   /* cleanup */
   if (dir != NULL)
