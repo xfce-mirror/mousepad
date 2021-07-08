@@ -3,13 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2020
+# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2020-2021
 # Hunt Xu <huntxu@live.cn>, 2012
+# No Body, 2020
 # No Body, 2020
 # qingxianhao <qinghao1@foxmail.com>, 2012
 # qingxianhao <qinghao1@foxmail.com>, 2012
 # SamHX <samzh@outlook.com>, 2017
+# SamHX <samzh@outlook.com>, 2017
 # Shun <shun98@139.com>, 2018
+# Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2021
+# yjwork527 <yjwork.xfce@gmail.com>, 2012
 # 玉堂白鹤 <yjwork@qq.com>, 2014
 # YuHeng Chou <wojiushixxx@126.com>, 2020
 # Xiaobo Zhou <zhouxiaobo.500@gmail.com>, 2013
@@ -21,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-06 12:48+0200\n"
-"PO-Revision-Date: 2021-07-07 04:59+0000\n"
-"Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
+"PO-Revision-Date: 2021-07-08 15:05+0000\n"
+"Last-Translator: Xiaobo Zhou <zhouxiaobo.500@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/xfce/xfce-apps/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -114,7 +118,7 @@ msgstr "%s | 作者: %s | 文件名: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70
 msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
-msgstr "Mousepad 是 Xfce 桌面环境下一个快速的文本编辑器 。"
+msgstr "Mousepad 是 Xfce 桌面环境下的一款快速文本编辑器。"
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -1394,19 +1398,19 @@ msgstr "向下移动一行"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
-msgstr ""
+msgstr "文字左移(_L)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr ""
+msgstr "左移一个字"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
-msgstr ""
+msgstr "文字右移(_R)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr ""
+msgstr "右移一个字"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1597,11 +1601,11 @@ msgstr "<b>缩进</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr ""
+msgstr "(Shift-)Tab: 取消缩进选择的文字"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace 键: 删除以tabs制表符作为缩进的空格"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Home/End: Detect leading/trailing whitespace:"
@@ -1609,7 +1613,7 @@ msgstr "Home/End: 检测前导/尾随空格:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>智能键</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
@@ -1678,11 +1682,11 @@ msgstr "窗口"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "确保在文末添加新一行"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "建立带有 '~' 后缀的副本"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "<b>File saving</b>"
