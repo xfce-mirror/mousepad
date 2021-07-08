@@ -424,8 +424,9 @@ mousepad_history_session_init (void)
 void
 mousepad_history_session_set_quitting (gboolean quitting)
 {
-  session_quitting = quitting ? MOUSEPAD_SESSION_QUITTING_INTERACTIVE
-                              : MOUSEPAD_SESSION_QUITTING_NO;
+  if (session_quitting != MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE)
+    session_quitting = quitting ? MOUSEPAD_SESSION_QUITTING_INTERACTIVE
+                                : MOUSEPAD_SESSION_QUITTING_NO;
 }
 
 
