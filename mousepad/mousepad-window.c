@@ -2119,24 +2119,34 @@ mousepad_window_close_document (MousepadWindow   *window,
   GtkNotebook *notebook = GTK_NOTEBOOK (window->notebook);
   GAction     *action;
   gint         restore, quitting;
-  gboolean     succeed = FALSE;
+  gboolean     deleted, autosave, succeed = FALSE;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (document), FALSE);
 
-  /* check if the document has been modified */
-  if (gtk_text_buffer_get_modified (document->buffer))
+  /* check if the document has been modified or the file deleted */
+  if (gtk_text_buffer_get_modified (document->buffer) || (deleted = (
+        mousepad_file_location_is_set (document->file)
+        && ! g_file_query_exists (mousepad_file_get_location (document->file), NULL)
+      )))
     {
+      /* non-interactive saving */
       restore = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
       quitting = mousepad_history_session_get_quitting ();
-      if (quitting == MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE || (
-            quitting == MOUSEPAD_SESSION_QUITTING_INTERACTIVE && (
-              restore == MOUSEPAD_SESSION_RESTORE_UNSAVED
-              || restore == MOUSEPAD_SESSION_RESTORE_ALWAYS
-          )))
+      autosave = (quitting == MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE || (
+                    quitting == MOUSEPAD_SESSION_QUITTING_INTERACTIVE && (
+                      restore == MOUSEPAD_SESSION_RESTORE_UNSAVED
+                      || restore == MOUSEPAD_SESSION_RESTORE_ALWAYS
+                 )));
+      if (! deleted && autosave)
         succeed = mousepad_file_autosave_save_sync (document->file);
-      else
+      /* interactive procedure */
+      else if (quitting != MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE)
         {
+          /* mark the document as modified if it is not already so */
+          if (deleted)
+            gtk_text_buffer_set_modified (document->buffer, TRUE);
+
           /* run save changes dialog */
           switch (mousepad_dialogs_save_changes (GTK_WINDOW (window), TRUE,
                                                  mousepad_file_get_read_only (document->file)))
@@ -2165,6 +2175,11 @@ mousepad_window_close_document (MousepadWindow   *window,
                 break;
             }
         }
+      /* the file was deleted, file monitoring is disabled or didn't mark the document
+       * as modified in time, and we are in non-interactive mode: it's too late to handle
+       * this case */
+      else /* deleted && quitting == MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE */
+        succeed = TRUE;
     }
   /* no changes in the document, safe to remove it */
   else
