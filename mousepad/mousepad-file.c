@@ -1023,17 +1023,13 @@ mousepad_file_autosave_save_finish (GObject      *source_object,
                                     GAsyncResult *res,
                                     gpointer      user_data)
 {
-  MousepadFile *file = user_data;
-  GError       *error = NULL;
+  GError *error = NULL;
 
   if (! g_file_replace_contents_finish (G_FILE (source_object), res, NULL, &error))
     {
       g_warning ("Autosave failed: %s", error->message);
       g_error_free (error);
     }
-  /* allow new scheduling only if the operation fully succeeded */
-  else
-    file->autosave_scheduled = FALSE;
 
   /* decrease application use count in all cases */
   g_application_release (g_application_get_default ());
@@ -1053,6 +1049,9 @@ mousepad_file_autosave_save (gpointer data)
   /* autosave cancelled */
   if (! file->autosave_scheduled)
     return FALSE;
+
+  /* update autosave state right now, in particular to prevent any concurrent sync saving */
+  file->autosave_scheduled = FALSE;
 
   /* prepare save contents */
   if (! mousepad_file_prepare_save_contents (file, &strcont, &length, NULL, &error))
@@ -1229,7 +1228,7 @@ mousepad_file_autosave_save_sync (MousepadFile *file)
   if (! file->autosave_scheduled)
     return TRUE;
 
-  /* update autosave state, in particular to prevent any concurrent async saving */
+  /* update autosave state right now, in particular to prevent any concurrent async saving */
   file->autosave_scheduled = FALSE;
 
   /* handle error only in interactive mode */
