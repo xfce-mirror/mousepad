@@ -32,6 +32,13 @@ enum
   MOUSEPAD_SESSION_RESTORE_ALWAYS,
 };
 
+enum
+{
+  MOUSEPAD_SESSION_QUITTING_NO,
+  MOUSEPAD_SESSION_QUITTING_INTERACTIVE,
+  MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE,
+};
+
 void         mousepad_history_init                             (void);
 
 void         mousepad_history_recent_add                       (MousepadFile               *file);
@@ -50,7 +57,7 @@ void         mousepad_history_recent_clear                     (void);
 
 void         mousepad_history_session_set_quitting             (gboolean                    quitting);
 
-gboolean     mousepad_history_session_get_quitting             (void);
+gint         mousepad_history_session_get_quitting             (void);
 
 void         mousepad_history_session_save                     (void);
 

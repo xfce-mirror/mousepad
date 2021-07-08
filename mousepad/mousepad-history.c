@@ -22,14 +22,17 @@
 #include <mousepad/mousepad-document.h>
 #include <mousepad/mousepad-window.h>
 
+#ifdef G_OS_UNIX
+#include <glib-unix.h>
+#endif
+
 
 
 static void     mousepad_history_recent_init                (void);
+static gboolean mousepad_history_session_external_signal    (gpointer      data);
 static void     mousepad_history_session_init               (void);
 static guint    mousepad_history_autosave_check_basename    (const gchar  *basename);
-static gboolean mousepad_history_autosave_open_directory    (GDir        **dir);
-static void     mousepad_history_autosave_cleanup_directory (GDir         *dir,
-                                                             guint         ids);
+static void     mousepad_history_autosave_cleanup_directory (guint         ids);
 static void     mousepad_history_autosave_timer_changed     (void);
 static void     mousepad_history_autosave_init              (void);
 
@@ -54,8 +57,10 @@ static struct MousepadRecentData recent_data[N_RECENT_DATA];
 
 /* session data */
 #define CORRUPTED_SESSION_DATA "Corrupted session data in " MOUSEPAD_ID "." MOUSEPAD_SETTING_SESSION
+#define SESSION_N_SIGNALS      3
 
-static gboolean session_quitting = FALSE;
+static gint  session_quitting = MOUSEPAD_SESSION_QUITTING_NO;
+static guint session_source_ids[SESSION_N_SIGNALS] = { 0 };
 
 /* autosave data */
 #define AUTOSAVE_PREFIX     "autosave-"
@@ -310,20 +315,98 @@ mousepad_history_recent_clear (void)
 
 
 static void
+mousepad_history_session_external_disconnect (GApplication *application)
+{
+  gint n;
+
+  mousepad_disconnect_by_func (application, mousepad_history_session_external_signal, NULL);
+  for (n = 0; n < SESSION_N_SIGNALS; n++)
+    if (session_source_ids[n] != 0)
+      {
+        g_source_remove (session_source_ids[n]);
+        session_source_ids[n] = 0;
+      }
+}
+
+
+
+static gboolean
+mousepad_history_session_external_signal (gpointer data)
+{
+  GApplication *application;
+
+  /* inhibit session logout if possible */
+  if (data != NULL)
+    {
+      application = data;
+      gtk_application_inhibit (data, gtk_application_get_active_window (data),
+                               GTK_APPLICATION_INHIBIT_LOGOUT, "Mousepad is quitting");
+    }
+  else
+    application = g_application_get_default ();
+
+  /* disconnect this handler and remove sources: we do the same thing regardless
+   * of the signal received, and we only do it once */
+  mousepad_history_session_external_disconnect (application);
+
+  /* quit non-interactively */
+  session_quitting = MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE;
+  g_action_group_activate_action (G_ACTION_GROUP (application), "quit", NULL);
+
+  return FALSE;
+}
+
+
+
+static void
 mousepad_history_session_restore_changed (void)
 {
-  /* do a (maybe first) session save and enable autosave if needed */
-  if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) != MOUSEPAD_SESSION_RESTORE_NEVER)
+  GApplication *application = g_application_get_default ();
+  gint          restore;
+#ifdef G_OS_UNIX
+  gint          n;
+  guint         signals[SESSION_N_SIGNALS] = { SIGHUP, SIGINT, SIGTERM };
+#endif
+
+  /* disabled or startup -> enabled */
+  restore = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
+  if (autosave_ids == 0 && restore != MOUSEPAD_SESSION_RESTORE_NEVER)
     {
-      mousepad_history_session_save ();
+      /* enable autosave if needed and do a first session save */
       if (MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) == 0)
         MOUSEPAD_SETTING_RESET (AUTOSAVE_TIMER);
+
+      mousepad_history_session_save ();
+
+      /* register with the session manager */
+      g_object_set (application, "register-session", TRUE, NULL);
+
+#ifdef G_OS_UNIX
+      /* trap external signals */
+      for (n = 0; n < SESSION_N_SIGNALS; n++)
+        session_source_ids[n] = g_unix_signal_add (signals[n],
+                                                   mousepad_history_session_external_signal,
+                                                   NULL);
+#endif
+
+#if GTK_CHECK_VERSION (3, 24, 8)
+      /* be aware of session logout */
+      g_signal_connect (application, "query-end",
+                        G_CALLBACK (mousepad_history_session_external_signal), NULL);
+#endif
     }
-  /* clear session array, disable autosave */
-  else
+  /* any state -> disabled */
+  else if (restore == MOUSEPAD_SESSION_RESTORE_NEVER)
     {
+      /* clear session array, disable autosave */
       MOUSEPAD_SETTING_RESET (SESSION);
       MOUSEPAD_SETTING_SET_UINT (AUTOSAVE_TIMER, 0);
+
+      /* unregister from the session manager */
+      g_object_set (application, "register-session", FALSE, NULL);
+
+      /* disconnect handler and remove sources */
+      mousepad_history_session_external_disconnect (application);
     }
 }
 
@@ -341,12 +424,13 @@ mousepad_history_session_init (void)
 void
 mousepad_history_session_set_quitting (gboolean quitting)
 {
-  session_quitting = quitting;
+  session_quitting = quitting ? MOUSEPAD_SESSION_QUITTING_INTERACTIVE
+                              : MOUSEPAD_SESSION_QUITTING_NO;
 }
 
 
 
-gboolean
+gint
 mousepad_history_session_get_quitting (void)
 {
   return session_quitting;
@@ -367,7 +451,7 @@ mousepad_history_session_save (void)
   gboolean           loc_set, autoloc_set;
 
   /* exit if session save is blocked or disabled */
-  if (session_quitting
+  if (session_quitting != MOUSEPAD_SESSION_QUITTING_NO
       || MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) == MOUSEPAD_SESSION_RESTORE_NEVER)
     return;
 
@@ -595,16 +679,11 @@ mousepad_history_session_restore (MousepadApplication *application)
           else if (restore_autosaved && autosave_file != NULL
                    && g_file_query_exists (autosave_file, NULL))
             {
-              /* keep original uri if it is valid */
-              if (file != NULL && mousepad_util_get_path (file) != NULL)
+              /* keep original uri if it exists */
+              if (file != NULL)
                 g_object_unref (autosave_file);
               else
-                {
-                  if (file != NULL)
-                    g_object_unref (file);
-
-                  file = autosave_file;
-                }
+                file = autosave_file;
 
               mousepad_object_set_data_full (file, "autosave-uri", autosave_uri, g_free);
               files[n_files++] = file;
@@ -654,7 +733,7 @@ mousepad_history_session_restore (MousepadApplication *application)
   g_strfreev (session);
   if ((restore_setting == MOUSEPAD_SESSION_RESTORE_CRASH && ! restore)
       || (restore_setting == MOUSEPAD_SESSION_RESTORE_SAVED && ! restore_autosaved))
-    mousepad_history_autosave_cleanup_directory (NULL, fids);
+    mousepad_history_autosave_cleanup_directory (fids);
 
   return restored;
 }
@@ -681,46 +760,45 @@ mousepad_history_autosave_check_basename (const gchar *basename)
 
 
 
-static gboolean
-mousepad_history_autosave_open_directory (GDir **dir)
+static GDir *
+mousepad_history_autosave_open_directory (void)
 {
+  GDir   *dir;
   GError *error = NULL;
   gchar  *dirname;
 
   dirname = g_build_filename (g_get_user_data_dir (), "Mousepad", NULL);
-  *dir = g_dir_open (dirname, 0, &error);
-  if (*dir == NULL && ! g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
+  dir = g_dir_open (dirname, 0, &error);
+  if (dir == NULL && ! g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
     {
       g_critical ("Failed to open directory '%s', autosave disabled: %s",
                   dirname, error->message);
       MOUSEPAD_SETTING_DISCONNECT (AUTOSAVE_TIMER,
                                    mousepad_history_autosave_timer_changed, NULL);
       MOUSEPAD_SETTING_SET_UINT (AUTOSAVE_TIMER, 0);
-      g_free (dirname);
       g_error_free (error);
-
-      return FALSE;
     }
 
+  /* cleanup */
   g_free (dirname);
 
-  return TRUE;
+  return dir;
 }
 
 
 
 static void
-mousepad_history_autosave_cleanup_directory (GDir  *dir,
-                                             guint  ids)
+mousepad_history_autosave_cleanup_directory (guint ids)
 {
+  GDir        *dir;
   GError      *error = NULL;
   GFile       *location;
   gchar       *dirname, *filename;
   const gchar *basename;
   guint        id;
 
-  /* try to open Mousepad data dir if needed */
-  if (dir == NULL && (! mousepad_history_autosave_open_directory (&dir) || dir == NULL))
+  /* try to open Mousepad data dir */
+  if ((dir = mousepad_history_autosave_open_directory ()) == NULL)
     return;
 
   dirname = g_build_filename (g_get_user_data_dir (), "Mousepad", NULL);
@@ -743,36 +821,34 @@ mousepad_history_autosave_cleanup_directory (GDir  *dir,
 
   /* cleanup */
   g_free (dirname);
+  g_dir_close (dir);
 }
 
 
 
 static void
-mousepad_history_autosave_disable (GDir *dir)
+mousepad_history_autosave_disable (void)
 {
   /* reset autosave ids */
   autosave_ids = 0;
 
-  /* the directory may not exist */
-  if (dir == NULL)
-    return;
-
   /* clear the directory */
-  mousepad_history_autosave_cleanup_directory (dir, -1);
+  mousepad_history_autosave_cleanup_directory (-1);
 }
 
 
 
-static void
-mousepad_history_autosave_enable (GDir *dir)
+static gboolean
+mousepad_history_autosave_enable (void)
 {
+  GDir        *dir;
   gchar       *dirname;
   const gchar *basename;
   guint        id;
 
-  /* try to create the directory if needed */
+  /* try to create Mousepad data dir if needed */
   dirname = g_build_filename (g_get_user_data_dir (), "Mousepad", NULL);
-  if (dir == NULL && g_mkdir_with_parents (dirname, 0700) == -1)
+  if (g_mkdir_with_parents (dirname, 0700) == -1)
     {
       g_critical ("Failed to create directory '%s', autosave disabled", dirname);
       MOUSEPAD_SETTING_DISCONNECT (AUTOSAVE_TIMER,
@@ -780,8 +856,11 @@ mousepad_history_autosave_enable (GDir *dir)
       MOUSEPAD_SETTING_SET_UINT (AUTOSAVE_TIMER, 0);
       g_free (dirname);
 
-      return;
+      return FALSE;
     }
+  /* try to open the directory */
+  else if ((dir = mousepad_history_autosave_open_directory ()) == NULL)
+    return FALSE;
 
   /* get current file list, store taken ids as flags */
   for (basename = g_dir_read_name (dir); basename != NULL; basename = g_dir_read_name (dir))
@@ -790,6 +869,9 @@ mousepad_history_autosave_enable (GDir *dir)
 
   /* cleanup */
   g_free (dirname);
+  g_dir_close (dir);
+
+  return TRUE;
 }
 
 
@@ -797,22 +879,20 @@ mousepad_history_autosave_enable (GDir *dir)
 static void
 mousepad_history_autosave_timer_changed (void)
 {
-  GDir *dir;
+  guint timer;
 
-  /* try to open Mousepad data dir */
-  if (! mousepad_history_autosave_open_directory (&dir))
-    return;
-
-  /* disabled -> enabled */
-  if (autosave_ids == 0 && MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) > 0)
-    mousepad_history_autosave_enable (dir);
+  /* disabled or startup -> enabled */
+  timer = MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER);
+  if (autosave_ids == 0 && timer > 0
+      && mousepad_history_autosave_enable ()
+      && MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) == MOUSEPAD_SESSION_RESTORE_NEVER)
+    MOUSEPAD_SETTING_RESET (SESSION_RESTORE);
   /* any state -> disabled */
-  else if (MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) == 0)
-    mousepad_history_autosave_disable (dir);
-
-  /* cleanup */
-  if (dir != NULL)
-    g_dir_close (dir);
+  else if (timer == 0)
+    {
+      MOUSEPAD_SETTING_SET_ENUM (SESSION_RESTORE, MOUSEPAD_SESSION_RESTORE_NEVER);
+      mousepad_history_autosave_disable ();
+    }
 }
 
 
