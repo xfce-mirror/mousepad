@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 12:48+0200\n"
-"PO-Revision-Date: 2021-06-29 21:45+0000\n"
+"POT-Creation-Date: 2021-07-06 12:48+0200\n"
+"PO-Revision-Date: 2021-07-09 10:47+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/xfce/xfce-apps/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -77,29 +77,29 @@ msgid "[FILES...]"
 msgstr "[FICHEIROS...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:386 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:385 ../mousepad.desktop.in.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:395
+#: ../mousepad/mousepad-application.c:394
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Modo de abertura de ficheiro: \"%s\", \"%s\" ou \"%s\" (abrir separadores numa nova janela)"
 
-#: ../mousepad/mousepad-application.c:398
+#: ../mousepad/mousepad-application.c:397
 msgid "MODE"
 msgstr "MODO"
 
-#: ../mousepad/mousepad-application.c:456
+#: ../mousepad/mousepad-application.c:455
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Os programadores do Mousepad. Todos os direitos reservados."
 
-#: ../mousepad/mousepad-application.c:457
+#: ../mousepad/mousepad-application.c:456
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Por favor, reporte os erros em <%s>."
 
-#: ../mousepad/mousepad-application.c:1534
+#: ../mousepad/mousepad-application.c:1540
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autores: %s | Nome de ficheiro: %s"
@@ -229,70 +229,80 @@ msgstr "O ficheiro parece estar codificado em %s, mas escolheu a codificação %
 msgid "If not, the guessed encoding will be used."
 msgstr "Caso contrário, será utilizada a codificação adivinhada."
 
-#: ../mousepad/mousepad-dialogs.c:785
+#: ../mousepad/mousepad-dialogs.c:640
+msgid ""
+"It seems that the previous session did not end normally. Do you want to "
+"restore the available data?"
+msgstr "Parece que a sessão anterior não terminou normalmente. Quer restaurar os dados disponíveis?"
+
+#: ../mousepad/mousepad-dialogs.c:658
+msgid "If not, all this data will be lost."
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:858
 msgid "Please select a file"
 msgstr "Seleccione um ficheiro"
 
-#: ../mousepad/mousepad-dialogs.c:817
+#: ../mousepad/mousepad-dialogs.c:890
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "Falha na preparação do ficheiro temporário para os testes de codificação"
 
-#: ../mousepad/mousepad-dialogs.c:880 ../mousepad/mousepad-dialogs.c:953
+#: ../mousepad/mousepad-dialogs.c:953 ../mousepad/mousepad-dialogs.c:1026
 msgid "Open encoding dialog"
 msgstr "Abrir caixa de diálogo de codificação"
 
-#: ../mousepad/mousepad-dialogs.c:882
+#: ../mousepad/mousepad-dialogs.c:955
 msgid "Go back to shorten list"
 msgstr "Voltar para encurtar a lista"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:946
+#: ../mousepad/mousepad-dialogs.c:1019
 msgid "_Encoding:"
 msgstr "_Codificação:"
 
-#: ../mousepad/mousepad-dialogs.c:981
+#: ../mousepad/mousepad-dialogs.c:1054
 msgid "Current"
 msgstr "Atual"
 
-#: ../mousepad/mousepad-dialogs.c:999
+#: ../mousepad/mousepad-dialogs.c:1072
 msgid "Show all encodings"
 msgstr "Mostrar todas as codificações"
 
-#: ../mousepad/mousepad-dialogs.c:1036
+#: ../mousepad/mousepad-dialogs.c:1109
 msgid "Text Files"
 msgstr "Ficheiros de texto"
 
-#: ../mousepad/mousepad-dialogs.c:1042
+#: ../mousepad/mousepad-dialogs.c:1115
 msgid "All Files"
 msgstr "Todos os ficheiros"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:1061
+#: ../mousepad/mousepad-dialogs.c:1134
 msgid "Save As"
 msgstr "Gravar como"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1124
+#: ../mousepad/mousepad-dialogs.c:1197
 msgid "Open File"
 msgstr "Abrir ficheiro"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:1132
+#: ../mousepad/mousepad-dialogs.c:1205
 msgid "_Open"
 msgstr "_Abrir"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1181
+#: ../mousepad/mousepad-dialogs.c:1254
 msgid "Choose Mousepad Font"
 msgstr "Escolha o tipo de letra do Mousepad"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:631
+#: ../mousepad/mousepad-document.c:634
 msgid "Close this tab"
 msgstr "Fechar este separador"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:661
+#: ../mousepad/mousepad-document.c:664
 msgid "Untitled"
 msgstr "Sem nome"
 
@@ -460,17 +470,17 @@ msgstr "Japonês"
 msgid "Korean"
 msgstr "Coreano"
 
-#: ../mousepad/mousepad-file.c:666
+#: ../mousepad/mousepad-file.c:681
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Sequência inválida na entrada de conversão"
 
-#: ../mousepad/mousepad-history.c:271
+#: ../mousepad/mousepad-history.c:305
 msgid "Failed to clear the recent history"
 msgstr "Ocorreu um erro ao apagar o histórico"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:705 ../mousepad.desktop.in.in.h:4
+#: ../mousepad/mousepad-prefs-dialog.c:553 ../mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Preferências do Mousepad"
 
@@ -661,31 +671,31 @@ msgid "Filetype: %s"
 msgstr "Tipo de ficheiro: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1077
+#: ../mousepad/mousepad-window.c:1072
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Aviso: está a usar a conta root. Pode prejudicar o seu sistema."
 
-#: ../mousepad/mousepad-window.c:2201
+#: ../mousepad/mousepad-window.c:2230
 msgid "Read Only"
 msgstr "Só leitura"
 
-#: ../mousepad/mousepad-window.c:2205
+#: ../mousepad/mousepad-window.c:2234
 msgid "Viewer Mode"
 msgstr "Modo de visualização"
 
-#: ../mousepad/mousepad-window.c:3229
+#: ../mousepad/mousepad-window.c:3258
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Utilizar '%s' como modelo"
 
-#: ../mousepad/mousepad-window.c:3255
+#: ../mousepad/mousepad-window.c:3284
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Não foram encontrados ficheiros modelo em\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3320
+#: ../mousepad/mousepad-window.c:3349
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -693,79 +703,74 @@ msgid ""
 msgstr "Diretório de Modelos em falta\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3372
+#: ../mousepad/mousepad-window.c:3401
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Out_ro (%d)..."
 
-#: ../mousepad/mousepad-window.c:3382
+#: ../mousepad/mousepad-window.c:3411
 msgid "Ot_her..."
 msgstr "Out_ro..."
 
-#: ../mousepad/mousepad-window.c:3481
+#: ../mousepad/mousepad-window.c:3510
 msgid "Revert to the saved version of the file"
 msgstr "Reverter para a versão gravada"
 
-#: ../mousepad/mousepad-window.c:3487
+#: ../mousepad/mousepad-window.c:3516
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Recarregar ficheiro a partir do disco"
 
-#: ../mousepad/mousepad-window.c:3493
+#: ../mousepad/mousepad-window.c:3522
 msgid "Leave fullscreen mode"
 msgstr "Deixe ficar o modo de ecrã inteiro"
 
-#: ../mousepad/mousepad-window.c:3498
+#: ../mousepad/mousepad-window.c:3527
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Ponha a janela em ecrã inteiro"
 
-#: ../mousepad/mousepad-window.c:3738
+#: ../mousepad/mousepad-window.c:3767
 #, c-format
 msgid "Open '%s'"
 msgstr "Abrir \"%s\""
 
-#: ../mousepad/mousepad-window.c:3769
+#: ../mousepad/mousepad-window.c:3798
 msgid "No items found"
 msgstr "Nenhum item encontrado"
 
-#: ../mousepad/mousepad-window.c:3769
+#: ../mousepad/mousepad-window.c:3798
 msgid "History disabled"
 msgstr "Histórico desativado"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4244
+#: ../mousepad/mousepad-window.c:4273
 msgid "No clipboard data"
 msgstr "Não existem dados na área de transferência"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4353
+#: ../mousepad/mousepad-window.c:4382
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Os modelos devem ser válidos %s"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4359
+#: ../mousepad/mousepad-window.c:4388
 msgid "Reading the template failed"
 msgstr "Falha na leitura do modelo"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4364
+#: ../mousepad/mousepad-window.c:4393
 msgid "Loading the template failed"
 msgstr "Ocorreu um erro ao carregar o modelo"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4548 ../mousepad/mousepad-window.c:4687
-msgid "Failed to save the document"
-msgstr "Ocorreu um erro ao guardar o documento"
-
-#. show the error
-#: ../mousepad/mousepad-window.c:4792
+#: ../mousepad/mousepad-window.c:4821
 msgid "Failed to reload the document"
 msgstr "Ocorreu um erro ao recarregar o documento"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4824
+#: ../mousepad/mousepad-window.c:4853
 msgid "Failed to print the document"
 msgstr "Ocorreu um erro ao imprimir o documento"
 
@@ -935,7 +940,7 @@ msgid "Line N_umbers"
 msgstr "_Número das linhas"
 
 #: ../mousepad/resources/gtk/menus.ui.h:42
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
 msgid "Show line numbers"
 msgstr "Mostrar número das linhas"
 
@@ -1503,192 +1508,218 @@ msgstr "novas janelas"
 msgid "new tabs in a new window"
 msgstr "novos separadores numa nova janela"
 
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
+msgid "never"
+msgstr "nunca"
+
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
+msgid "after a crash"
+msgstr "após uma falha"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
+msgid "unsaved documents"
+msgstr "documentos não guardados"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
+msgid "saved documents"
+msgstr "documentos guardados"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
+msgid "always"
+msgstr "sempre"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
 msgid "Display whitespace"
 msgstr "Mostrar espaço em branco"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:31
 msgid "Display line endings"
 msgstr "Mostrar linhas finais"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:32
 msgid "Long line margin at column:"
 msgstr "Margem de linha comprida na coluna:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
 msgid "Highlight current line"
 msgstr "Destacar linha atual"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
 msgid "Highlight matching brackets"
 msgstr "Destacar parênteses correspondentes"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:35
 msgid "Wrap long lines"
 msgstr "Envolva linhas longas"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:31
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
 msgid "<b>Display</b>"
 msgstr "<b>Ecrã</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:32
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
 msgid "Use system monospace font"
 msgstr "Usar tipo de letra mono-espaçada do sistema"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:38
 msgid "<b>Font</b>"
 msgstr "<b>Tipo de letra</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color scheme</b>"
 msgstr "<b>Esquema de cores</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:35
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
 msgstr "Vista"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Tab width:"
 msgstr "Largura do separador:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "Tab mode:"
 msgstr "Modo do separador:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:38
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
 msgid "Enable automatic indentation"
 msgstr "Ativar recuo automático"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
 msgid "<b>Indentation</b>"
 msgstr "<b>Indentação</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "(Shift-)Tab: (De-)Indent selected text"
 msgstr "(Shift-)Tab: (Des-)Recuar o texto selecionado"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Backspace: Delete indent spaces as tabs"
 msgstr "Backspace: Eliminar espaços de recuo como separadores"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Home/End: Detect leading/trailing whitespace:"
 msgstr "Home/End: Detetar espaços em branco à esquerda/à direita:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "<b>Smart Keys</b>"
 msgstr "<b>Teclas inteligentes</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Editor"
 msgstr "Editor"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 msgid "Show status bar"
 msgstr "Mostrar barra de estado"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Show full filename in title bar"
 msgstr "Mostrar nome completo do ficheiro na barra de titulo"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
 msgid "Remember window size"
 msgstr "Lembrar tamanho da janela"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:53
 msgid "Remember window position"
 msgstr "Lembrar posição da janela"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
 msgid "Remember window state"
 msgstr "Lembrar estado da janela"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
 msgid "<b>General</b>"
 msgstr "<b>Geral</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "Show toolbar"
 msgstr "Mostrar barra de ferramentas"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "Style:"
 msgstr "Estilo:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:53
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
 msgid "Icon Size:"
 msgstr "Tamanho do Ícone:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
 msgid "<b>Toolbar</b>"
 msgstr "<b>Barra de Ferramentas</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:60
 msgid "Always show tabs even with one file"
 msgstr "Exibir sempre separadores, mesmo com um ficheiro"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
 msgid "Cycled notebook tab switching"
 msgstr "Comutação de separador de caderno cíclico"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Open files in:"
 msgstr "Abrir ficheiros em:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "<b>Notebook tabs</b>"
 msgstr "<b>Separadores de Cadernos</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
 msgid "Window"
 msgstr "Janela"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:60
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "Ensure new line at file end"
 msgstr "Assegurar uma nova linha no final do ficheiro"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Make a copy with '~' suffix"
 msgstr "Fazer uma cópia com o sufixo '~'"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "<b>File saving</b>"
 msgstr "<b>Gravação de ficheiros</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
-msgid "Restore previous session"
-msgstr "Restaurar a sessão anterior"
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
+msgid "Session restore:"
+msgstr ""
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
+msgid ""
+"When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
+" saving modified documents when quitting"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Recent file menu length:"
 msgstr "Comprimento do menu de ficheiro recente:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid "'0' disables and wipes recent history"
 msgstr "'0' desativa e limpa a histórico recente"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "<b>History</b>"
 msgstr "<b>Histórico</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "File monitoring"
 msgstr "Monitorização de ficheiros"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Default encoding:"
 msgstr "Codificação predefinida:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Diversos</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "File"
 msgstr "Ficheiro"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Plugins"
 msgstr "Plugins"
 
