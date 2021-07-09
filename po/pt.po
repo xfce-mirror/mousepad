@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-06 12:48+0200\n"
-"PO-Revision-Date: 2021-07-09 10:47+0000\n"
+"PO-Revision-Date: 2021-07-09 10:49+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/xfce/xfce-apps/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -237,7 +237,7 @@ msgstr "Parece que a sessão anterior não terminou normalmente. Quer restaurar 
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "Caso contrário, todos estes dados serão perdidos."
 
 #: ../mousepad/mousepad-dialogs.c:858
 msgid "Please select a file"
@@ -1683,13 +1683,13 @@ msgstr "<b>Gravação de ficheiros</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "Session restore:"
-msgstr ""
+msgstr "Restauro de sessão:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Quando se seleciona \"documentos não guardados\" ou \"sempre\", o Mousepad não pedirá para guardar documentos modificados ao sair"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Recent file menu length:"
