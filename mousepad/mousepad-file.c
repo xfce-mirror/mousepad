@@ -208,12 +208,19 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
         ! g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
       g_object_unref (fileinfo);
     }
-
   /* the file has been externally modified */
-  if (event_type == G_FILE_MONITOR_EVENT_CHANGED || event_type == G_FILE_MONITOR_EVENT_CREATED
-      || event_type == G_FILE_MONITOR_EVENT_MOVED_IN
-      || (event_type == G_FILE_MONITOR_EVENT_RENAMED && g_file_equal (file->location, other_location)))
+  else if (event_type == G_FILE_MONITOR_EVENT_CHANGED
+           || event_type == G_FILE_MONITOR_EVENT_CREATED
+           || event_type == G_FILE_MONITOR_EVENT_MOVED_IN
+           || (event_type == G_FILE_MONITOR_EVENT_RENAMED
+               && g_file_equal (file->location, other_location)))
     g_signal_emit (file, file_signals[EXTERNALLY_MODIFIED], 0);
+  /* the file has been deleted */
+  else if (event_type == G_FILE_MONITOR_EVENT_DELETED
+           || event_type == G_FILE_MONITOR_EVENT_MOVED_OUT
+           || (event_type == G_FILE_MONITOR_EVENT_RENAMED
+               && g_file_equal (file->location, location)))
+    gtk_text_buffer_set_modified (file->buffer, TRUE);
 }
 
 
