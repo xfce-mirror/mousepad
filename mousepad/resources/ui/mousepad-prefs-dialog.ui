@@ -783,6 +783,13 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton">
+                    <property name="label" translatable="yes">Expand tabs to fill available space</property>
+                    <property name="visible">True</property>
+                    <property name="action-name">app.preferences.window.expand-tabs</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Cycled notebook tab switching</property>
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.window.cycle-tabs</property>

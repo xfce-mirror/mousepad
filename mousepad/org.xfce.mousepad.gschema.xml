@@ -330,6 +330,13 @@
         false the tabs will be hidden when there is only one document open.
       </description>
     </key>
+    <key name="expand-tabs" type="b">
+      <default>true</default>
+      <summary>Expand tabs to fill available space</summary>
+      <description>
+        When true tabs fill the whole window width all the time.
+      </description>
+    </key>
     <key name="cycle-tabs" type="b">
       <default>false</default>
       <summary>Cycle tabs</summary>

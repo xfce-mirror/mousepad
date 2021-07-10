@@ -601,6 +601,20 @@ mousepad_document_focus_textview (MousepadDocument *document)
 
 
 
+static void
+mousepad_document_expand_tabs_changed (MousepadDocument *document)
+{
+  gboolean expand;
+
+  expand = MOUSEPAD_SETTING_GET_BOOLEAN (EXPAND_TABS);
+
+  gtk_widget_set_hexpand (document->priv->label, expand);
+  gtk_label_set_ellipsize (GTK_LABEL (document->priv->label),
+                           expand ? PANGO_ELLIPSIZE_MIDDLE : PANGO_ELLIPSIZE_NONE);
+}
+
+
+
 GtkWidget *
 mousepad_document_get_tab_label (MousepadDocument *document)
 {
@@ -619,7 +633,9 @@ mousepad_document_get_tab_label (MousepadDocument *document)
 
   /* create the label */
   document->priv->label = gtk_label_new (mousepad_document_get_basename (document));
-  gtk_label_set_ellipsize (GTK_LABEL (document->priv->label), PANGO_ELLIPSIZE_MIDDLE);
+  mousepad_document_expand_tabs_changed (document);
+  MOUSEPAD_SETTING_CONNECT_OBJECT (EXPAND_TABS, mousepad_document_expand_tabs_changed,
+                                   document, G_CONNECT_SWAPPED);
   gtk_container_add (GTK_CONTAINER (document->priv->ebox), document->priv->label);
   gtk_widget_show (document->priv->label);
 

@@ -235,6 +235,7 @@ static const GActionEntry dialog_actions[] =
   { MOUSEPAD_SETTING_REMEMBER_STATE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_TOOLBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_ALWAYS_SHOW_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_EXPAND_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_CYCLE_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
 
   /* "File" tab */
