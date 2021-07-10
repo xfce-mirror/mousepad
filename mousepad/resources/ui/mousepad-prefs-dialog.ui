@@ -617,9 +617,9 @@
                 <property name="spacing">2</property>
                 <child>
                   <object class="GtkCheckButton">
-                    <property name="label" translatable="yes">Show status bar</property>
+                    <property name="label" translatable="yes">Client-side decorations (restart required)</property>
                     <property name="visible">True</property>
-                    <property name="action-name">app.preferences.window.statusbar-visible</property>
+                    <property name="action-name">app.preferences.window.client-side-decorations</property>
                   </object>
                 </child>
                 <child>

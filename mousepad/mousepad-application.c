@@ -228,7 +228,7 @@ static const GActionEntry dialog_actions[] =
   { MOUSEPAD_SETTING_SMART_BACKSPACE, mousepad_application_toggle_activate, NULL, "false", NULL },
 
   /* "Window" tab */
-  { MOUSEPAD_SETTING_STATUSBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_CLIENT_SIDE_DECORATIONS, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_PATH_IN_TITLE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_SIZE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_POSITION, mousepad_application_toggle_activate, NULL, "false", NULL },
