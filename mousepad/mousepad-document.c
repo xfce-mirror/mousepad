@@ -36,14 +36,6 @@ static void      mousepad_document_notify_language         (GtkSourceBuffer     
 static void      mousepad_document_notify_overwrite        (GtkTextView            *textview,
                                                             GParamSpec             *pspec,
                                                             MousepadDocument       *document);
-static void      mousepad_document_drag_data_received      (GtkWidget              *widget,
-                                                            GdkDragContext         *context,
-                                                            gint                    x,
-                                                            gint                    y,
-                                                            GtkSelectionData       *selection_data,
-                                                            guint                   info,
-                                                            guint                   drag_time,
-                                                            MousepadDocument       *document);
 static void      mousepad_document_location_changed        (MousepadDocument       *document,
                                                             GFile                  *file);
 static void      mousepad_document_label_color             (MousepadDocument       *document);
@@ -81,15 +73,14 @@ enum
 
 struct _MousepadDocumentClass
 {
-  GtkScrolledWindowClass __parent__;
+  GtkBoxClass __parent__;
 };
 
 struct _MousepadDocumentPrivate
 {
-  GtkScrolledWindow      __parent__;
+  GtkBox      __parent__;
 
-  /* the tab label, ebox and CSS provider */
-  GtkWidget              *ebox;
+  /* the tab label */
   GtkWidget              *label;
   GtkCssProvider         *css_provider;
 
@@ -100,6 +91,7 @@ struct _MousepadDocumentPrivate
   /* search related */
   GtkSourceSearchContext *search_context, *selection_context;
   GtkSourceBuffer        *selection_buffer;
+  GtkWidget              *prev_window;
   gint                    prev_search_state;
 };
 
@@ -117,7 +109,7 @@ mousepad_document_new (void)
 
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (MousepadDocument, mousepad_document, GTK_TYPE_SCROLLED_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (MousepadDocument, mousepad_document, GTK_TYPE_BOX)
 
 
 
@@ -160,15 +152,10 @@ mousepad_document_class_init (MousepadDocumentClass *klass)
 
 
 static void
-mousepad_document_hierarchy_changed (MousepadDocument *document,
-                                     GtkWidget        *prev_window)
+mousepad_document_root_changed (MousepadDocument *document)
 {
   GtkWidget *window;
   gboolean   visible;
-
-  /* disconnect from previous window signals in case of a drag and drop */
-  if (prev_window != NULL)
-    mousepad_disconnect_by_func (prev_window, mousepad_document_search_widget_visible, document);
 
   /* get the ancestor MousepadWindow */
   window = gtk_widget_get_ancestor (GTK_WIDGET (document), MOUSEPAD_TYPE_WINDOW);
@@ -177,11 +164,21 @@ mousepad_document_hierarchy_changed (MousepadDocument *document,
    * drag and drop), there might also not be a MousepadWindow ancestor, e.g. when the
    * document is packed in a MousepadEncodingDialog */
   if (window == NULL)
-    return;
+    {
+      /* disconnect from previous window signals in case of a drag and drop */
+      if (document->priv->prev_window != NULL)
+        mousepad_disconnect_by_func (document->priv->prev_window,
+                                     mousepad_document_search_widget_visible, document);
+
+      return;
+    }
 
   /* initialize autosave only for documents in a MousepadWindow, and only once */
-  if (prev_window == NULL)
+  if (document->priv->prev_window == NULL)
     mousepad_file_autosave_init (document->file);
+
+  /* update previous parent window */
+  document->priv->prev_window = window;
 
   /* bind some search properties to the "search-widget-visible" window property */
   g_signal_connect_object (window, "notify::search-widget-visible",
@@ -211,12 +208,11 @@ mousepad_document_hierarchy_changed (MousepadDocument *document,
 static void
 mousepad_document_init (MousepadDocument *document)
 {
-  GtkTargetList           *target_list;
   GtkSourceSearchSettings *search_settings;
+  GtkWidget               *scrolled_window;
 
   /* we will complete initialization when the document is anchored */
-  g_signal_connect (document, "hierarchy-changed",
-                    G_CALLBACK (mousepad_document_hierarchy_changed), NULL);
+  g_signal_connect (document, "notify::root", G_CALLBACK (mousepad_document_root_changed), NULL);
 
   /* private structure */
   document->priv = mousepad_document_get_instance_private (document);
@@ -228,14 +224,8 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->css_provider = gtk_css_provider_new ();
   document->priv->selection_context = NULL;
   document->priv->selection_buffer = NULL;
+  document->priv->prev_window = NULL;
   document->priv->prev_search_state = INIT;
-
-  /* setup the scrolled window */
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (document),
-                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (document), GTK_SHADOW_ETCHED_IN);
-  gtk_scrolled_window_set_hadjustment (GTK_SCROLLED_WINDOW (document), NULL);
-  gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (document), NULL);
 
   /* create a textbuffer and associated search context */
   document->buffer = GTK_TEXT_BUFFER (gtk_source_buffer_new (NULL));
@@ -264,12 +254,17 @@ mousepad_document_init (MousepadDocument *document)
 
   /* setup the textview */
   document->textview = g_object_new (MOUSEPAD_TYPE_VIEW, "buffer", document->buffer, NULL);
-  gtk_container_add (GTK_CONTAINER (document), GTK_WIDGET (document->textview));
-  gtk_widget_show (GTK_WIDGET (document->textview));
+  scrolled_window = gtk_scrolled_window_new ();
+  gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (scrolled_window),
+                                 GTK_WIDGET (document->textview));
+  gtk_widget_set_hexpand (scrolled_window, TRUE);
+  gtk_box_append (GTK_BOX (document), scrolled_window);
 
-  /* also allow dropping of uris and tabs in the textview */
-  target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (document->textview));
-  gtk_target_list_add_table (target_list, drop_targets, G_N_ELEMENTS (drop_targets));
+  /* catch click events to popup the textview menu */
+  document->controller = GTK_EVENT_CONTROLLER (gtk_gesture_click_new ());
+  gtk_event_controller_set_propagation_phase (document->controller, GTK_PHASE_TARGET);
+  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (document->controller), 3);
+  gtk_widget_add_controller (GTK_WIDGET (document->textview), document->controller);
 
   /* connect handlers to the document attribute signals */
   g_signal_connect_swapped (document->buffer, "modified-changed",
@@ -278,8 +273,6 @@ mousepad_document_init (MousepadDocument *document)
                             G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->textview, "notify::editable",
                             G_CALLBACK (mousepad_document_label_color), document);
-  g_signal_connect (document->textview, "drag-data-received",
-                    G_CALLBACK (mousepad_document_drag_data_received), document);
 
   /* forward some document attribute signals more or less directly */
   g_signal_connect_swapped (document->buffer, "notify::cursor-position",
@@ -473,26 +466,6 @@ mousepad_document_send_signals (MousepadDocument *document)
 
 
 static void
-mousepad_document_drag_data_received (GtkWidget        *widget,
-                                      GdkDragContext   *context,
-                                      gint              x,
-                                      gint              y,
-                                      GtkSelectionData *selection_data,
-                                      guint             info,
-                                      guint             drag_time,
-                                      MousepadDocument *document)
-{
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-
-  /* emit the drag-data-received signal from the document when a tab or uri has been dropped */
-  if (info == TARGET_TEXT_URI_LIST || info == TARGET_GTK_NOTEBOOK_TAB)
-    g_signal_emit_by_name (document, "drag-data-received", context,
-                           x, y, selection_data, info, drag_time);
-}
-
-
-
-static void
 mousepad_document_location_changed (MousepadDocument *document,
                                     GFile            *file)
 {
@@ -504,7 +477,7 @@ mousepad_document_location_changed (MousepadDocument *document,
   g_return_if_fail (file != NULL);
 
   /* convert the title into a utf-8 valid version for display */
-  utf8_filename = g_filename_to_utf8 (mousepad_util_get_path (file), -1, NULL, NULL, NULL);
+  utf8_filename = g_filename_to_utf8 (g_file_peek_path (file), -1, NULL, NULL, NULL);
   if (G_LIKELY (utf8_filename))
     {
       /* create a shorter display filename: replace $HOME with a tilde if user is not root */
@@ -534,7 +507,7 @@ mousepad_document_location_changed (MousepadDocument *document,
           gtk_label_set_text (GTK_LABEL (document->priv->label), utf8_basename);
 
           /* set the tab tooltip */
-          gtk_widget_set_tooltip_text (document->priv->ebox, utf8_filename);
+          gtk_widget_set_tooltip_text (document->priv->label, utf8_filename);
 
           /* update label color */
           mousepad_document_label_color (document);
@@ -560,15 +533,15 @@ mousepad_document_label_color (MousepadDocument *document)
       /* grey out the label text */
       if (mousepad_file_get_read_only (document->file)
           || ! gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview)))
-        gtk_style_context_add_class (context, GTK_STYLE_CLASS_DIM_LABEL);
+        gtk_style_context_add_class (context, "dim-label");
       else
-        gtk_style_context_remove_class (context, GTK_STYLE_CLASS_DIM_LABEL);
+        gtk_style_context_remove_class (context, "dim-label");
 
       /* change the label text color */
       if (gtk_text_buffer_get_modified (document->buffer))
         {
           gtk_css_provider_load_from_data (document->priv->css_provider,
-                                           "label { color: red; }", -1, NULL);
+                                           "label { color: red; }", -1);
           gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (document->priv->css_provider),
                                           GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
         }
@@ -618,37 +591,28 @@ mousepad_document_expand_tabs_changed (MousepadDocument *document)
 GtkWidget *
 mousepad_document_get_tab_label (MousepadDocument *document)
 {
-  GtkWidget  *hbox, *button;
+  GtkWidget *hbox, *button;
 
   /* create the box */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_widget_show (hbox);
-
-  /* the ebox */
-  document->priv->ebox = g_object_new (GTK_TYPE_EVENT_BOX, "border-width", 2,
-                                       "visible-window", FALSE, NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), document->priv->ebox, TRUE, TRUE, 0);
-  gtk_widget_set_tooltip_text (document->priv->ebox, document->priv->utf8_filename);
-  gtk_widget_show (document->priv->ebox);
 
   /* create the label */
   document->priv->label = gtk_label_new (mousepad_document_get_basename (document));
   mousepad_document_expand_tabs_changed (document);
   MOUSEPAD_SETTING_CONNECT_OBJECT (EXPAND_TABS, mousepad_document_expand_tabs_changed,
                                    document, G_CONNECT_SWAPPED);
-  gtk_container_add (GTK_CONTAINER (document->priv->ebox), document->priv->label);
-  gtk_widget_show (document->priv->label);
+  gtk_widget_set_tooltip_text (document->priv->label, document->priv->utf8_filename);
+  gtk_box_append (GTK_BOX (hbox), document->priv->label);
 
   /* set label color */
   mousepad_document_label_color (document);
 
   /* create the button */
   button = mousepad_close_button_new ();
-  gtk_widget_show (button);
 
   /* pack button, add signal and tooltip */
   gtk_widget_set_tooltip_text (button, _("Close this tab"));
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), button);
   g_signal_connect (button, "clicked",
                     G_CALLBACK (mousepad_document_tab_button_clicked), document);
 
@@ -735,21 +699,12 @@ mousepad_document_search_completed (GObject      *object,
     gtk_text_buffer_get_selection_bounds (document->buffer, NULL, &iter);
 
   /* get the search result */
-#if GTK_SOURCE_MAJOR_VERSION >= 4
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
     found = gtk_source_search_context_backward_finish (search_context, result,
                                                        &start, &end, NULL, &error);
   else
     found = gtk_source_search_context_forward_finish (search_context, result,
                                                       &start, &end, NULL, &error);
-#else
-  if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
-    found = gtk_source_search_context_backward_finish2 (search_context, result,
-                                                        &start, &end, NULL, &error);
-  else
-    found = gtk_source_search_context_forward_finish2 (search_context, result,
-                                                       &start, &end, NULL, &error);
-#endif
 
   /* exit if the operation was cancelled */
   if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -770,11 +725,7 @@ mousepad_document_search_completed (GObject      *object,
       if (found && ! (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA))
         {
           /* replace selected occurrence */
-#if GTK_SOURCE_MAJOR_VERSION >= 4
           gtk_source_search_context_replace (search_context, &start, &end, replace, -1, NULL);
-#else
-          gtk_source_search_context_replace2 (search_context, &start, &end, replace, -1, NULL);
-#endif
 
           /* select next occurrence */
           flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
