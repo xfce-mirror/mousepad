@@ -504,7 +504,16 @@ mousepad_document_location_changed (MousepadDocument *document,
   g_return_if_fail (file != NULL);
 
   /* convert the title into a utf-8 valid version for display */
-  utf8_filename = g_filename_to_utf8 (mousepad_util_get_path (file), -1, NULL, NULL, NULL);
+  utf8_filename = (gchar *) mousepad_util_get_path (file);
+  if (G_LIKELY (utf8_filename != NULL))
+    utf8_filename = g_filename_to_utf8 (utf8_filename, -1, NULL, NULL, NULL);
+  else
+    {
+      utf8_short_filename = g_file_get_uri (file);
+      utf8_filename = g_uri_unescape_string (utf8_short_filename, NULL);
+      g_free (utf8_short_filename);
+    }
+
   if (G_LIKELY (utf8_filename))
     {
       /* create a shorter display filename: replace $HOME with a tilde if user is not root */

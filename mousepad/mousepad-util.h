@@ -22,6 +22,11 @@
 
 G_BEGIN_DECLS
 
+#define mousepad_util_validate_file(file) \
+  (mousepad_util_get_path (file) != NULL || ( \
+    g_file_has_uri_scheme (file, "trash") && g_file_query_exists (file, NULL) \
+  ))
+
 gboolean     mousepad_util_iter_inside_word                 (const GtkTextIter          *iter);
 
 gboolean     mousepad_util_iter_forward_word_end            (GtkTextIter                *iter);
