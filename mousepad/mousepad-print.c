@@ -488,9 +488,7 @@ mousepad_print_page_setup_dialog (GtkWidget         *button,
   GtkPageSetup     *page_setup;
 
   /* get the toplevel of the button */
-  toplevel = gtk_widget_get_toplevel (button);
-  if (G_UNLIKELY (!gtk_widget_is_toplevel (toplevel)))
-    toplevel = NULL;
+  toplevel = gtk_widget_get_ancestor (button, GTK_TYPE_WINDOW);
 
   /* get the print settings */
   settings = gtk_print_operation_get_print_settings (operation);
@@ -607,38 +605,34 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gchar         *str;
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
+  gtk_widget_set_margin_start (vbox, 8);
+  gtk_widget_set_margin_end (vbox, 8);
+  gtk_widget_set_margin_top (vbox, 8);
+  gtk_widget_set_margin_bottom (vbox, 8);
 
   frame = gtk_frame_new (NULL);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
-  gtk_widget_show (frame);
+  gtk_box_append (GTK_BOX (vbox), frame);
 
   label = gtk_label_new (_("Page Setup"));
   gtk_label_set_attributes (GTK_LABEL (label), mousepad_print_attr_list_bold ());
   gtk_frame_set_label_widget (GTK_FRAME (frame), label);
-  gtk_widget_show (label);
 
   button = mousepad_util_image_button ("document-properties",
-                                       _("_Adjust page size and orientation"));
+                                       _("_Adjust page size and orientation"), 0, 0, 0, 0);
   g_signal_connect (button, "clicked", G_CALLBACK (mousepad_print_page_setup_dialog), operation);
   gtk_widget_set_halign (button, GTK_ALIGN_START);
   gtk_widget_set_margin_start (button, 12);
   gtk_widget_set_margin_end (button, 6);
   gtk_widget_set_margin_top (button, 6);
   gtk_widget_set_margin_bottom (button, 6);
-  gtk_container_add (GTK_CONTAINER (frame), button);
-  gtk_widget_show (button);
+  gtk_frame_set_child (GTK_FRAME (frame), button);
 
   frame = gtk_frame_new (NULL);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
-  gtk_widget_show (frame);
+  gtk_box_append (GTK_BOX (vbox), frame);
 
   label = gtk_label_new (_("Appearance"));
   gtk_label_set_attributes (GTK_LABEL (label), mousepad_print_attr_list_bold ());
   gtk_frame_set_label_widget (GTK_FRAME (frame), label);
-  gtk_widget_show (label);
 
   vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_widget_set_halign (vbox2, GTK_ALIGN_START);
@@ -646,24 +640,20 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_set_margin_end (vbox2, 6);
   gtk_widget_set_margin_top (vbox2, 6);
   gtk_widget_set_margin_bottom (vbox2, 6);
-  gtk_container_add (GTK_CONTAINER (frame), vbox2);
-  gtk_widget_show (vbox2);
+  gtk_frame_set_child (GTK_FRAME (frame), vbox2);
 
   button = print->widget_page_headers =
     gtk_check_button_new_with_mnemonic (_("Print page _headers"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-                                gtk_source_print_compositor_get_print_header (print->compositor));
+  gtk_check_button_set_active (GTK_CHECK_BUTTON (button),
+                               gtk_source_print_compositor_get_print_header (print->compositor));
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
-  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
-  gtk_widget_show (button);
+  gtk_box_append (GTK_BOX (vbox2), button);
 
   button = print->widget_line_numbers =
     gtk_check_button_new_with_mnemonic (_("Print _line numbers"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-                                print->print_line_numbers);
+  gtk_check_button_set_active (GTK_CHECK_BUTTON (button), print->print_line_numbers);
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
-  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
-  gtk_widget_show (button);
+  gtk_box_append (GTK_BOX (vbox2), button);
 
   print->widget_line_numbers_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_widget_set_sensitive (print->widget_line_numbers_hbox, print->print_line_numbers);
@@ -672,14 +662,12 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_set_margin_end (print->widget_line_numbers_hbox, 0);
   gtk_widget_set_margin_top (print->widget_line_numbers_hbox, 0);
   gtk_widget_set_margin_bottom (print->widget_line_numbers_hbox, 0);
-  gtk_container_add (GTK_CONTAINER (vbox2), print->widget_line_numbers_hbox);
-  gtk_widget_show (print->widget_line_numbers_hbox);
+  gtk_box_append (GTK_BOX (vbox2), print->widget_line_numbers_hbox);
 
   label = gtk_label_new (_("Numbering interval:"));
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_box_pack_start (GTK_BOX (print->widget_line_numbers_hbox), label, FALSE, TRUE, 0);
-  gtk_widget_show (label);
+  gtk_box_append (GTK_BOX (print->widget_line_numbers_hbox), label);
 
   adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 100.0, 1.0, 0.0, 0.0));
   print->widget_line_numbers_spin = gtk_spin_button_new (adjustment, 1.0, 0);
@@ -691,36 +679,29 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
                              print->line_number_increment);
   g_signal_connect (print->widget_line_numbers_spin, "value-changed",
                     G_CALLBACK (mousepad_print_spin_value_changed), print);
-  gtk_box_pack_start (GTK_BOX (print->widget_line_numbers_hbox),
-                      print->widget_line_numbers_spin, FALSE, TRUE, 0);
-  gtk_widget_show (print->widget_line_numbers_spin);
+  gtk_box_append (GTK_BOX (print->widget_line_numbers_hbox), print->widget_line_numbers_spin);
 
   button = print->widget_text_wrapping =
     gtk_check_button_new_with_mnemonic (_("Enable text _wrapping"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-                                gtk_source_print_compositor_get_wrap_mode (print->compositor)
-                                  == GTK_WRAP_NONE ? FALSE : TRUE);
+  gtk_check_button_set_active (GTK_CHECK_BUTTON (button),
+                               gtk_source_print_compositor_get_wrap_mode (print->compositor)
+                                 == GTK_WRAP_NONE ? FALSE : TRUE);
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
-  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
-  gtk_widget_show (button);
+  gtk_box_append (GTK_BOX (vbox2), button);
 
   button = print->widget_syntax_highlighting =
     gtk_check_button_new_with_mnemonic (_("Enable _syntax highlighting"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-                                gtk_source_print_compositor_get_highlight_syntax (print->compositor));
+  gtk_check_button_set_active (GTK_CHECK_BUTTON (button),
+                               gtk_source_print_compositor_get_highlight_syntax (print->compositor));
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
-  gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
-  gtk_widget_show (button);
+  gtk_box_append (GTK_BOX (vbox2), button);
 
   frame = gtk_frame_new (NULL);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
-  gtk_widget_show (frame);
+  gtk_box_append (GTK_BOX (vbox), frame);
 
   label = gtk_label_new (_("Fonts"));
   gtk_label_set_attributes (GTK_LABEL (label), mousepad_print_attr_list_bold ());
   gtk_frame_set_label_widget (GTK_FRAME (frame), label);
-  gtk_widget_show (label);
 
   grid = gtk_grid_new ();
   gtk_grid_set_row_spacing (GTK_GRID (grid), 6);
@@ -730,14 +711,12 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_widget_set_margin_end (grid, 6);
   gtk_widget_set_margin_top (grid, 6);
   gtk_widget_set_margin_bottom (grid, 6);
-  gtk_container_add (GTK_CONTAINER (frame), grid);
-  gtk_widget_show (grid);
+  gtk_frame_set_child (GTK_FRAME (frame), grid);
 
   label = gtk_label_new (_("Header:"));
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1, 1);
-  gtk_widget_show (label);
 
   str = gtk_source_print_compositor_get_header_font_name (print->compositor);
   print->widget_header_font = gtk_font_button_new_with_font (str);
@@ -745,13 +724,11 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_grid_attach (GTK_GRID (grid), print->widget_header_font, 1, 0, 1, 1);
   g_signal_connect (print->widget_header_font, "font-set",
                     G_CALLBACK (mousepad_print_button_font_set), print);
-  gtk_widget_show (print->widget_header_font);
 
   label = gtk_label_new (_("Body:"));
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_grid_attach (GTK_GRID (grid), label, 0, 1, 1, 1);
-  gtk_widget_show (label);
 
   str = gtk_source_print_compositor_get_body_font_name (print->compositor);
   print->widget_body_font = gtk_font_button_new_with_font (str);
@@ -759,13 +736,11 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_grid_attach (GTK_GRID (grid), print->widget_body_font, 1, 1, 1, 1);
   g_signal_connect (print->widget_body_font, "font-set",
                     G_CALLBACK (mousepad_print_button_font_set), print);
-  gtk_widget_show (print->widget_body_font);
 
   label = gtk_label_new (_("Line numbers:"));
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_grid_attach (GTK_GRID (grid), label, 0, 2, 1, 1);
-  gtk_widget_show (label);
 
   str = gtk_source_print_compositor_get_line_numbers_font_name (print->compositor);
   print->widget_line_numbers_font = gtk_font_button_new_with_font (str);
@@ -773,7 +748,6 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_grid_attach (GTK_GRID (grid), print->widget_line_numbers_font, 1, 2, 1, 1);
   g_signal_connect (print->widget_line_numbers_font, "font-set",
                     G_CALLBACK (mousepad_print_button_font_set), print);
-  gtk_widget_show (print->widget_line_numbers_font);
 
   return vbox;
 }
