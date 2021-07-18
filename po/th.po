@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 12:48+0200\n"
-"PO-Revision-Date: 2021-07-03 10:38+0000\n"
+"POT-Creation-Date: 2021-07-11 00:46+0200\n"
+"PO-Revision-Date: 2021-07-18 09:19+0000\n"
 "Last-Translator: Theppitak Karoonboonyanan <theppitak@gmail.com>\n"
 "Language-Team: Thai (http://www.transifex.com/xfce/xfce-apps/language/th/)\n"
 "MIME-Version: 1.0\n"
@@ -25,35 +25,35 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "รหัสอักขระที่จะใช้ในการเปิดแฟ้ม (ปล่อยว่างไว้หากต้องการเปิดแฟ้มในกล่องโต้ตอบรหัสอักขระ)"
 
 #: ../mousepad/mousepad-application.c:142
 msgid "ENCODING"
-msgstr ""
+msgstr "{รหัสอักขระ}"
 
 #: ../mousepad/mousepad-application.c:147
 msgid "Display a list of possible encodings to open files"
-msgstr ""
+msgstr "แสดงรายชื่อรหัสอักขระที่สามารถใช้เปิดแฟ้มได้"
 
 #: ../mousepad/mousepad-application.c:152
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr ""
+msgstr "หมายเลขบรรทัดที่จะวางเคอร์เซอร์ ({บรรทัด} > 0 จะนับจากต้นแฟ้ม, {บรรทัด} < 0 จะนับจากท้ายแฟ้ม)"
 
 #: ../mousepad/mousepad-application.c:153
 msgid "LINE"
-msgstr ""
+msgstr "{บรรทัด}"
 
 #: ../mousepad/mousepad-application.c:158
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr ""
+msgstr "หมายเลขคอลัมน์ที่จะวางเคอร์เซอร์ ({คอลัมน์} > 0 จะนับจากต้นบรรทัด, {คอลัมน์} < 0 จะนับจากท้ายบรรทัด)"
 
 #: ../mousepad/mousepad-application.c:159
 msgid "COLUMN"
-msgstr ""
+msgstr "{คอลัมน์}"
 
 #: ../mousepad/mousepad-application.c:164
 msgid "Open the preferences dialog"
@@ -65,7 +65,7 @@ msgstr "ไม่ต้องลงทะเบียนกับบัสข้
 
 #: ../mousepad/mousepad-application.c:174
 msgid "Quit a running Mousepad primary instance"
-msgstr ""
+msgstr "จบการทำงานอินสแตนซ์หลักของ Mousepad ที่ทำงานอยู่"
 
 #: ../mousepad/mousepad-application.c:179
 msgid "Print version information and exit"
@@ -73,7 +73,7 @@ msgstr "แสดงข้อมูลรุ่นแล้วจบการท
 
 #: ../mousepad/mousepad-application.c:184
 msgid "[FILES...]"
-msgstr "[แฟ้ม...]"
+msgstr "[{แฟ้ม}...]"
 
 #. default application name
 #: ../mousepad/mousepad-application.c:386 ../mousepad.desktop.in.in.h:1
@@ -83,22 +83,22 @@ msgstr "Mousepad"
 #: ../mousepad/mousepad-application.c:395
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "โหมดของการเปิดแฟ้ม: \"%s\", \"%s\" หรือ \"%s\" (เปิดแท็บในหน้าต่างใหม่)"
 
 #: ../mousepad/mousepad-application.c:398
 msgid "MODE"
-msgstr ""
+msgstr "{โหมด}"
 
 #: ../mousepad/mousepad-application.c:456
 msgid "The Mousepad developers. All rights reserved."
-msgstr ""
+msgstr "The Mousepad developers. All rights reserved."
 
 #: ../mousepad/mousepad-application.c:457
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "หากพบปัญหา กรุณารายงานที่ <%s>"
 
-#: ../mousepad/mousepad-application.c:1534
+#: ../mousepad/mousepad-application.c:1541
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | ผู้เขียน: %s | ชื่อแฟ้ม: %s"
@@ -129,7 +129,7 @@ msgstr "ไปที่"
 #. add button
 #: ../mousepad/mousepad-dialogs.c:240
 msgid "_Jump to"
-msgstr ""
+msgstr "ไ_ป"
 
 #: ../mousepad/mousepad-dialogs.c:260
 msgid "_Line number:"
@@ -152,11 +152,11 @@ msgstr "ล้างประวัติเอกสาร"
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
-msgstr "การล้างประวัติเอกสารจะเป็นการลบทุกรายการในนั้น"
+msgstr "การล้างประวัติเอกสารจะเป็นการลบทุกรายการในนั้นอย่างถาวร"
 
 #: ../mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
-msgstr ""
+msgstr "_ล้าง"
 
 #: ../mousepad/mousepad-dialogs.c:382
 msgid "Do you want to save the changes before closing?"
@@ -164,7 +164,7 @@ msgstr "คุณต้องการบันทึกการเปลี่
 
 #: ../mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "เอกสารนี้อ่านได้อย่างเดียว คุณต้องการบันทึกเป็นแฟ้มชื่ออื่นแทนหรือไม่?"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:392 ../mousepad/mousepad-dialogs.c:532
@@ -179,7 +179,7 @@ msgstr "ไ_ม่บันทึก"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "ถ้าคุณไม่บันทึกเอกสารที่อ่านได้อย่างเดียวฉบับนี้เป็นแฟ้มชื่ออื่น การเปลี่ยนแปลงทั้งหมดก็จะสูญหาย"
 
 #: ../mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -198,11 +198,11 @@ msgstr "ถ้าคุณบันทึกเอกสาร การเป�
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "เอกสารมีการเปลี่ยนแปลงจากภายนอก คุณต้องการอ่านใหม่จากดิสก์หรือไม่?"
 
 #: ../mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr ""
+msgstr "คุณมีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก ถ้าคุณย้อนคืนเนื้อหาแฟ้ม การเปลี่ยนแปลงดังกล่าวก็จะสูญหาย"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:487
@@ -222,76 +222,86 @@ msgstr "ถ้าคุณย้อนคืนเนื้อหาแฟ้ม
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "ดูเหมือนแฟ้มนี้จะใช้รหัสอักขระ %s แค่คุณได้เลือกรหัสอักขระ %s คุณยืนยันตัวเลือกนี้หรือไม่?"
 
 #: ../mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
+msgstr "ถ้าไม่ยืนยัน ก็จะใช้รหัสอักขระตามที่ได้คาดเดาไว้"
+
+#: ../mousepad/mousepad-dialogs.c:640
+msgid ""
+"It seems that the previous session did not end normally. Do you want to "
+"restore the available data?"
 msgstr ""
 
-#: ../mousepad/mousepad-dialogs.c:785
+#: ../mousepad/mousepad-dialogs.c:658
+msgid "If not, all this data will be lost."
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.c:858
 msgid "Please select a file"
-msgstr ""
+msgstr "กรุณาเลือกแฟ้ม"
 
-#: ../mousepad/mousepad-dialogs.c:817
+#: ../mousepad/mousepad-dialogs.c:890
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "เตรียมแฟ้มชั่วคราวสำหรับทดสอบรหัสอักขระไม่สำเร็จ"
 
-#: ../mousepad/mousepad-dialogs.c:880 ../mousepad/mousepad-dialogs.c:953
+#: ../mousepad/mousepad-dialogs.c:953 ../mousepad/mousepad-dialogs.c:1026
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "เปิดกล่องโต้ตอบรหัสอักขระ"
 
-#: ../mousepad/mousepad-dialogs.c:882
+#: ../mousepad/mousepad-dialogs.c:955
 msgid "Go back to shorten list"
-msgstr ""
+msgstr "กลับไปใช้รายชื่ออย่างสั้น"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:946
+#: ../mousepad/mousepad-dialogs.c:1019
 msgid "_Encoding:"
 msgstr "_รหัสอักขระ:"
 
-#: ../mousepad/mousepad-dialogs.c:981
+#: ../mousepad/mousepad-dialogs.c:1054
 msgid "Current"
-msgstr ""
+msgstr "ปัจจุบัน"
 
-#: ../mousepad/mousepad-dialogs.c:999
+#: ../mousepad/mousepad-dialogs.c:1072
 msgid "Show all encodings"
-msgstr ""
+msgstr "แสดงรหัสอักขระทั้งหมด"
 
-#: ../mousepad/mousepad-dialogs.c:1036
+#: ../mousepad/mousepad-dialogs.c:1109
 msgid "Text Files"
-msgstr ""
+msgstr "แฟ้มข้อความ"
 
-#: ../mousepad/mousepad-dialogs.c:1042
+#: ../mousepad/mousepad-dialogs.c:1115
 msgid "All Files"
 msgstr "ทุกแฟ้ม"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:1061
+#: ../mousepad/mousepad-dialogs.c:1134
 msgid "Save As"
 msgstr "บันทึกเป็น"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1124
+#: ../mousepad/mousepad-dialogs.c:1197
 msgid "Open File"
 msgstr "เปิดแฟ้ม"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:1132
+#: ../mousepad/mousepad-dialogs.c:1205
 msgid "_Open"
 msgstr "_เปิด"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1181
+#: ../mousepad/mousepad-dialogs.c:1254
 msgid "Choose Mousepad Font"
 msgstr "เลือกแบบอักษรของ Mousepad"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:631
+#: ../mousepad/mousepad-document.c:650
 msgid "Close this tab"
 msgstr "ปิดแท็บนี้"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:661
+#: ../mousepad/mousepad-document.c:680
 msgid "Untitled"
 msgstr "Untitled"
 
@@ -306,40 +316,40 @@ msgstr "กำลังตรวจสอบรหัสอักขระ..."
 #: ../mousepad/mousepad-encoding-dialog.c:292
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s (%s, ล้มเหลว)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:294
 #: ../mousepad/mousepad-encoding-dialog.c:349
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s (%s, ได้บางส่วน)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:423
 msgid "Other (partial):"
-msgstr ""
+msgstr "อื่นๆ (ใช้ได้บางส่วน):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:434
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "พบรหัสอักขระอื่นที่ใช้กับเอกสารได้ กรุณาเลือกที่ด้านล่างนี้"
 
 #: ../mousepad/mousepad-encoding-dialog.c:436
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "พบรหัสอักขระอื่นที่ใช้กับเอกสารได้บางส่วน กรุณาเลือกที่ด้านล่างนี้"
 
 #: ../mousepad/mousepad-encoding-dialog.c:472
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "ไม่พบรหัสอักขระอื่นที่ใช้กับเอกสารได้"
 
 #. dialog title
 #: ../mousepad/mousepad-encoding-dialog.c:679
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "เอกสารนี้เป็น %s ที่ถูกต้อง"
 
 #: ../mousepad/mousepad-encoding-dialog.c:680
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "เอกสารนี้ไม่ใช่ %s ที่ถูกต้อง"
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
@@ -459,19 +469,19 @@ msgstr "ญี่ปุ่น"
 msgid "Korean"
 msgstr "เกาหลี"
 
-#: ../mousepad/mousepad-file.c:666
+#: ../mousepad/mousepad-file.c:688
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "พบลำดับไบต์ที่ไม่ถูกต้องในข้อมูลขาเข้าของการแปลงรหัส"
 
-#: ../mousepad/mousepad-history.c:271
+#: ../mousepad/mousepad-history.c:310
 msgid "Failed to clear the recent history"
 msgstr "ล้างประวัติเอกสารล่าสุดไม่สำเร็จ"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:705 ../mousepad.desktop.in.in.h:4
+#: ../mousepad/mousepad-prefs-dialog.c:553 ../mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
-msgstr ""
+msgstr "ปรับแต่ง Mousepad"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:121
@@ -545,13 +555,13 @@ msgstr "แ_ทนที่"
 #. set dialog properties
 #: ../mousepad/mousepad-replace-dialog.c:262
 msgid "Find and Replace"
-msgstr ""
+msgstr "หาและแทนที่"
 
 #. dialog buttons
 #: ../mousepad/mousepad-replace-dialog.c:268
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
-msgstr ""
+msgstr "_หา"
 
 #: ../mousepad/mousepad-replace-dialog.c:277
 msgid "_Close"
@@ -587,7 +597,7 @@ msgstr "หมดแล้วเริ่มให_ม่"
 #: ../mousepad/mousepad-replace-dialog.c:377
 #: ../mousepad/mousepad-search-bar.c:259 ../mousepad/mousepad-search-bar.c:267
 msgid "Match _case"
-msgstr ""
+msgstr "ตัว_พิมพ์ใหญ่-เล็กตรงกัน"
 
 #. match whole word
 #: ../mousepad/mousepad-replace-dialog.c:386
@@ -599,7 +609,7 @@ msgstr "ค้นหาทั้ง_คำ"
 #: ../mousepad/mousepad-replace-dialog.c:395
 #: ../mousepad/mousepad-search-bar.c:273 ../mousepad/mousepad-search-bar.c:281
 msgid "Regular e_xpression"
-msgstr ""
+msgstr "นิพจน์เ_รกิวลาร์"
 
 #: ../mousepad/mousepad-replace-dialog.c:409
 msgid "Replace _all in:"
@@ -659,111 +669,106 @@ msgid "Filetype: %s"
 msgstr "ชนิดแฟ้ม: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1077
+#: ../mousepad/mousepad-window.c:1072
 msgid "Warning: you are using the root account. You may harm your system."
-msgstr ""
+msgstr "คำเตือน: คุณกำลังใช้บัญชี root ซึ่งอาจทำอันตรายต่อระบบของคุณได้"
 
-#: ../mousepad/mousepad-window.c:2201
+#: ../mousepad/mousepad-window.c:2248
 msgid "Read Only"
 msgstr "อ่านเท่านั้น"
 
-#: ../mousepad/mousepad-window.c:2205
+#: ../mousepad/mousepad-window.c:2252
 msgid "Viewer Mode"
-msgstr ""
+msgstr "โหมดจัดแสดง"
 
-#: ../mousepad/mousepad-window.c:3229
+#: ../mousepad/mousepad-window.c:3276
 #, c-format
 msgid "Use '%s' as template"
-msgstr ""
+msgstr "ใช้ '%s' เป็นแม่แบบ"
 
-#: ../mousepad/mousepad-window.c:3255
+#: ../mousepad/mousepad-window.c:3302
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
-msgstr "ไม่พบแฟ้มเทมเพลตใน\n'%s'"
+msgstr "ไม่พบแฟ้มแม่แบบใน\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3320
+#: ../mousepad/mousepad-window.c:3367
 #, c-format
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr ""
+msgstr "ไม่พบไดเรกทอรีแม่แบบ\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3372
+#: ../mousepad/mousepad-window.c:3419
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_อื่นๆ (%d)..."
 
-#: ../mousepad/mousepad-window.c:3382
+#: ../mousepad/mousepad-window.c:3429
 msgid "Ot_her..."
 msgstr "_อื่นๆ..."
 
-#: ../mousepad/mousepad-window.c:3481
+#: ../mousepad/mousepad-window.c:3528
 msgid "Revert to the saved version of the file"
 msgstr "คืนเนื้อหาแฟ้มกลับสู่ฉบับที่บันทึกไว้"
 
-#: ../mousepad/mousepad-window.c:3487
+#: ../mousepad/mousepad-window.c:3534
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
-msgstr ""
+msgstr "โหลดแฟ้มอีกครั้งจากดิสก์"
 
-#: ../mousepad/mousepad-window.c:3493
+#: ../mousepad/mousepad-window.c:3540
 msgid "Leave fullscreen mode"
 msgstr "เลิกแสดงเต็มจอ"
 
-#: ../mousepad/mousepad-window.c:3498
+#: ../mousepad/mousepad-window.c:3545
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "ขยายหน้าต่างให้เต็มจอ"
 
-#: ../mousepad/mousepad-window.c:3738
+#: ../mousepad/mousepad-window.c:3785
 #, c-format
 msgid "Open '%s'"
 msgstr "เปิด '%s'"
 
-#: ../mousepad/mousepad-window.c:3769
+#: ../mousepad/mousepad-window.c:3816
 msgid "No items found"
 msgstr "ไม่พบรายการ"
 
-#: ../mousepad/mousepad-window.c:3769
+#: ../mousepad/mousepad-window.c:3816
 msgid "History disabled"
-msgstr ""
+msgstr "ประวัติถูกปิดใช้งาน"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4244
+#: ../mousepad/mousepad-window.c:4291
 msgid "No clipboard data"
 msgstr "ไม่มีข้อมูลในคลิปบอร์ด"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4353
+#: ../mousepad/mousepad-window.c:4400
 #, c-format
 msgid "Templates should be %s valid"
-msgstr ""
+msgstr "แม่แบบควรเป็น %s ที่ถูกต้อง"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4359
+#: ../mousepad/mousepad-window.c:4406
 msgid "Reading the template failed"
-msgstr ""
+msgstr "อ่านแม่แบบไม่สำเร็จ"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4364
+#: ../mousepad/mousepad-window.c:4411
 msgid "Loading the template failed"
 msgstr "โหลดแม่แบบไม่สำเร็จ"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4548 ../mousepad/mousepad-window.c:4687
-msgid "Failed to save the document"
-msgstr "บันทึกเอกสารไม่สำเร็จ"
-
-#. show the error
-#: ../mousepad/mousepad-window.c:4792
+#: ../mousepad/mousepad-window.c:4839
 msgid "Failed to reload the document"
 msgstr "โหลดเอกสารซ้ำไม่สำเร็จ"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4824
+#: ../mousepad/mousepad-window.c:4871
 msgid "Failed to print the document"
 msgstr "พิมพ์เอกสารไม่สำเร็จ"
 
@@ -773,7 +778,7 @@ msgstr "แ_ฟ้ม"
 
 #: ../mousepad/resources/gtk/menus.ui.h:2
 msgid "File menu"
-msgstr ""
+msgstr "เมนูแฟ้ม"
 
 #: ../mousepad/resources/gtk/menus.ui.h:3
 msgid "New _Window"
@@ -789,7 +794,7 @@ msgstr "สร้างใหม่จากแ_ม่แบบ"
 
 #: ../mousepad/resources/gtk/menus.ui.h:6
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "สร้างเอกสารใหม่จากแม่แบบ"
 
 #: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "Op_en Recent"
@@ -797,7 +802,7 @@ msgstr "เปิดเอกสาร_ล่าสุด"
 
 #: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "Open a recently used file"
-msgstr ""
+msgstr "เปิดแฟ้มที่ใช้งานล่าสุด"
 
 #: ../mousepad/resources/gtk/menus.ui.h:9
 msgid "Clear _History"
@@ -837,7 +842,7 @@ msgstr "_ออก"
 
 #: ../mousepad/resources/gtk/menus.ui.h:18
 msgid "Quit Mousepad"
-msgstr ""
+msgstr "ออกจาก Mousepad"
 
 #: ../mousepad/resources/gtk/menus.ui.h:19
 msgid "_Edit"
@@ -845,7 +850,7 @@ msgstr "แ_ก้ไข"
 
 #: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Edit menu"
-msgstr ""
+msgstr "เมนูแก้ไข"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences"
@@ -861,7 +866,7 @@ msgstr "_ค้นหา"
 
 #: ../mousepad/resources/gtk/menus.ui.h:24
 msgid "Search menu"
-msgstr ""
+msgstr "เมนูค้นหา"
 
 #: ../mousepad/resources/gtk/menus.ui.h:25
 msgid "Find _Next"
@@ -893,7 +898,7 @@ msgstr "เ_น้นทุกแห่ง"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search occurrences"
-msgstr ""
+msgstr "เน้นคำค้นที่พบทุกแห่ง"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -901,7 +906,7 @@ msgstr "มุ_มมอง"
 
 #: ../mousepad/resources/gtk/menus.ui.h:34
 msgid "View menu"
-msgstr ""
+msgstr "เมนูมุมมอง"
 
 #: ../mousepad/resources/gtk/menus.ui.h:35
 msgid "Select F_ont..."
@@ -917,7 +922,7 @@ msgstr "ชุด_สี"
 
 #: ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "ชุดสีที่จะใช้ในการแสดงเอกสาร"
 
 #: ../mousepad/resources/gtk/menus.ui.h:39
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
@@ -933,7 +938,7 @@ msgid "Line N_umbers"
 msgstr "เ_ลขบรรทัด"
 
 #: ../mousepad/resources/gtk/menus.ui.h:42
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
 msgid "Show line numbers"
 msgstr "แสดงหมายเลขบรรทัด"
 
@@ -967,7 +972,7 @@ msgstr "เ_อกสาร"
 
 #: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Document menu"
-msgstr ""
+msgstr "เมนูเอกสาร"
 
 #: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "_Word Wrap"
@@ -991,27 +996,27 @@ msgstr "ขนาดแ_ท็บ"
 
 #: ../mousepad/resources/gtk/menus.ui.h:56
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "จำนวนอักขระช่องว่างที่ใช้ตั้งระยะแท็บ"
 
 #: ../mousepad/resources/gtk/menus.ui.h:57
 msgid "Two spaces"
-msgstr ""
+msgstr "ช่องว่างสองช่อง"
 
 #: ../mousepad/resources/gtk/menus.ui.h:58
 msgid "Three spaces"
-msgstr ""
+msgstr "ช่องว่างสามช่อง"
 
 #: ../mousepad/resources/gtk/menus.ui.h:59
 msgid "Four spaces"
-msgstr ""
+msgstr "ช่องว่างสี่ช่อง"
 
 #: ../mousepad/resources/gtk/menus.ui.h:60
 msgid "Eight spaces"
-msgstr ""
+msgstr "ช่องว่างแปดช่อง"
 
 #: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "Other..."
-msgstr ""
+msgstr "อื่นๆ..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:62
 msgid "Set custom tab size"
@@ -1031,7 +1036,7 @@ msgstr "_ชนิดแฟ้ม"
 
 #: ../mousepad/resources/gtk/menus.ui.h:66
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "ภาษาที่จะใช้เน้นไวยากรณ์"
 
 #: ../mousepad/resources/gtk/menus.ui.h:67
 msgid "Plain Text"
@@ -1047,7 +1052,7 @@ msgstr "การ_จบบรรทัด"
 
 #: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "อักขระที่จะใช้ในการจบบรรทัด"
 
 #: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "Set the line ending of the document to Unix (LF)"
@@ -1071,11 +1076,11 @@ msgstr "เก็บเครื่องหมายบ่งชี้ลำด
 
 #: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "โหมดจัดแ_สดง"
 
 #: ../mousepad/resources/gtk/menus.ui.h:77
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "ไม่อนุญาตให้แก้ไขด้วยแป้นพิมพ์หรือเมาส์"
 
 #: ../mousepad/resources/gtk/menus.ui.h:78
 msgid "_Previous Tab"
@@ -1099,7 +1104,7 @@ msgstr "_วิธีใช้"
 
 #: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Help menu"
-msgstr ""
+msgstr "เมนูวิธีใช้"
 
 #: ../mousepad/resources/gtk/menus.ui.h:84
 msgid "_Contents"
@@ -1151,7 +1156,7 @@ msgstr "บันทึกเอกสารปัจจุบันเป็น
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
-msgstr ""
+msgstr "_อ่านใหม่"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
@@ -1171,7 +1176,7 @@ msgstr "ปิดเอกสารปัจจุบัน"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:15
 msgid "_Undo"
-msgstr ""
+msgstr "เรี_ยกคืน"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:16
 msgid "Undo the last action"
@@ -1179,7 +1184,7 @@ msgstr "เรียกคืนการทำคำสั่งสุดท้
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:17
 msgid "_Redo"
-msgstr ""
+msgstr "_ทำซ้ำ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:18
 msgid "Redo the last undone action"
@@ -1187,7 +1192,7 @@ msgstr "ทำซ้ำคำสั่งที่เรียกคืนล่
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:19
 msgid "Cu_t"
-msgstr ""
+msgstr "_ตัด"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:20
 msgid "Cut the selection"
@@ -1247,7 +1252,7 @@ msgstr "แปะแบบ_พิเศษ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:36
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "แปะจากคลิปบอร์ดด้วยวิธีพิเศษ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:37
 msgid "Paste from _History"
@@ -1267,7 +1272,7 @@ msgstr "แปะข้อความในคลิปบอร์ดเป็
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
 msgid "_Delete Selection"
-msgstr ""
+msgstr "_ลบข้อความที่เลือก"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:42
 msgid "Delete the current selection"
@@ -1275,11 +1280,11 @@ msgstr "ลบข้อความที่เลือกอยู่"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:43
 msgid "Delete _Line"
-msgstr ""
+msgstr "ลบ_บรรทัด"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:44
 msgid "Delete the current line"
-msgstr ""
+msgstr "ลบบรรทัดปัจจุบัน"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
@@ -1287,7 +1292,7 @@ msgstr "แ_ปลง"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "แปลงข้อความในแบบต่างๆ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
@@ -1331,7 +1336,7 @@ msgstr "แปลงแท็บทั้งหมดในข้อความ
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "_ช่องว่างต้นบรรทัดเป็นแท็บ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
@@ -1356,11 +1361,11 @@ msgstr "กลับลำดับของอักขระในข้อค
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move"
-msgstr ""
+msgstr "_ย้าย"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
-msgstr ""
+msgstr "ย้ายเนื้อหาในแบบต่างๆ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1368,7 +1373,7 @@ msgstr "ย้ายบรรทัด_ขึ้น"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
-msgstr ""
+msgstr "ย้ายบรรทัดขึ้นหนึ่งบรรทัด"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
@@ -1376,23 +1381,23 @@ msgstr "ย้ายบรรทัด_ลง"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
-msgstr ""
+msgstr "ย้ายบรรทัดลงหนึ่งบรรทัด"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
-msgstr ""
+msgstr "ย้ายคำไปทางซ้า_ย"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr ""
+msgstr "ย้ายคำไปทางซ้ายหนึ่งคำ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
-msgstr ""
+msgstr "ย้ายคำไปทาง_ขวา"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr ""
+msgstr "ย้ายคำไปทางขวาหนึ่งคำ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1420,7 +1425,7 @@ msgstr "ลดระยะร่นของข้อความที่เล
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:79
 msgid "label-to-be-filled-in"
-msgstr ""
+msgstr "label-to-be-filled-in"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "Insert Tabs"
@@ -1436,11 +1441,11 @@ msgstr "ไม่เลย"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
 msgid "First key press"
-msgstr ""
+msgstr "กดปุ่มครั้งแรก"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "Second key press"
-msgstr ""
+msgstr "กดปุ่มครั้งที่สอง"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "Always"
@@ -1489,215 +1494,245 @@ msgstr "กล่องโต้ตอบ"
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
 msgid "new tabs"
-msgstr ""
+msgstr "แท็บใหม่"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:21
 msgid "new windows"
-msgstr ""
+msgstr "หน้าต่างใหม่"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:23
 msgid "new tabs in a new window"
+msgstr "แท็บใหม่ในหน้าต่างใหม่"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
+msgid "never"
 msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
+msgid "after a crash"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
+msgid "unsaved documents"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
+msgid "saved documents"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
+msgid "always"
+msgstr "เสมอ"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
 msgid "Display whitespace"
 msgstr "แสดงช่องว่าง"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:31
 msgid "Display line endings"
 msgstr "แสดงจุดจบบรรทัด"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:32
 msgid "Long line margin at column:"
 msgstr "ขอบขวาบรรทัดยาวที่คอลัมน์:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
 msgid "Highlight current line"
 msgstr "เน้นบรรทัดปัจจุบัน"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
 msgid "Highlight matching brackets"
 msgstr "เน้นวงเล็บที่คู่กัน"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:35
 msgid "Wrap long lines"
 msgstr "ตัดบรรทัดยาว"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:31
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
 msgid "<b>Display</b>"
 msgstr "<b>การแสดงผล</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:32
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
 msgid "Use system monospace font"
 msgstr "ใช้แบบอักษรความกว้างคงที่ของระบบ"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:33
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:38
 msgid "<b>Font</b>"
 msgstr "<b>แบบอักษร</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:34
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color scheme</b>"
-msgstr ""
+msgstr "<b>ชุดสี</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:35
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
 msgstr "การแสดงผล"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Tab width:"
 msgstr "ความกว้างแท็บ:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "Tab mode:"
 msgstr "โหมดแท็บ:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:38
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
 msgid "Enable automatic indentation"
 msgstr "เปิดใช้การร่นย่อหน้าอัตโนมัติ"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
 msgid "<b>Indentation</b>"
 msgstr "<b>การร่นย่อหน้า</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr ""
+msgstr "(Shift-)Tab: (ลดระยะ)ร่นข้อความที่เลือก"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: ลบช่องว่างที่ใช้ร่นย่อหน้าเสมือนเป็นแท็บ"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: ตรวจหาช่องว่างที่ต้น/ท้ายบรรทัด"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>ปุ่มฉลาด</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:44
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Editor"
 msgstr "เครื่องมือแก้ไข"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
-msgid "Show status bar"
-msgstr "แสดงแถบสถานะ"
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
+msgid "Client-side decorations (restart required)"
+msgstr ""
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Show full filename in title bar"
 msgstr "แสดงชื่อแฟ้มเต็มในแถบหัวหน้าต่าง"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
 msgid "Remember window size"
 msgstr "จำขนาดหน้าต่างไว้"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:53
 msgid "Remember window position"
 msgstr "จำตำแหน่งหน้าต่างไว้"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
 msgid "Remember window state"
 msgstr "จำสถานะหน้าต่างไว้"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
 msgid "<b>General</b>"
 msgstr "<b>ทั่วไป</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "Show toolbar"
 msgstr "แสดงแถบเครื่องมือ"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "Style:"
 msgstr "รูปแบบ:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:53
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
 msgid "Icon Size:"
 msgstr "ขนาดไอคอน:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
 msgid "<b>Toolbar</b>"
 msgstr "<b>แถบเครื่องมือ</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:60
 msgid "Always show tabs even with one file"
 msgstr "แสดงแท็บเสมอแม้เปิดเพียงแฟ้มเดียว"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
-msgid "Cycled notebook tab switching"
-msgstr "สลับแท็บสมุดบันทึกแบบวนรอบ"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
-msgid "Open files in:"
-msgstr ""
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
-msgid "<b>Notebook tabs</b>"
-msgstr "<b>แท็บสมุดบันทึก</b>"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
-msgid "Window"
-msgstr "หน้าต่าง"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:60
-msgid "Ensure new line at file end"
-msgstr ""
-
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
-msgid "Make a copy with '~' suffix"
+msgid "Expand tabs to fill available space"
 msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
-msgid "<b>File saving</b>"
-msgstr ""
+msgid "Cycled notebook tab switching"
+msgstr "สลับแท็บสมุดบันทึกแบบวนรอบ"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
-msgid "Restore previous session"
-msgstr ""
+msgid "Open files in:"
+msgstr "เปิดแฟ้มใน:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
-msgid "Recent file menu length:"
-msgstr ""
+msgid "<b>Notebook tabs</b>"
+msgstr "<b>แท็บสมุดบันทึก</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
-msgid "'0' disables and wipes recent history"
-msgstr ""
+msgid "Window"
+msgstr "หน้าต่าง"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
-msgid "<b>History</b>"
-msgstr ""
+msgid "Ensure new line at file end"
+msgstr "ทำให้แน่ใจว่ามีการจบบรรทัดที่ท้ายแฟ้ม"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
-msgid "File monitoring"
-msgstr ""
+msgid "Make a copy with '~' suffix"
+msgstr "ทำสำเนาโดยเติม '~' ท้ายชื่อแฟ้ม"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
-msgid "Default encoding:"
-msgstr ""
+msgid "<b>File saving</b>"
+msgstr "<b>การบันทึกแฟ้ม</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
+msgid "Session restore:"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
+msgid ""
+"When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
+" saving modified documents when quitting"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
+msgid "Recent file menu length:"
+msgstr "ความยาวของเมนูแฟ้มล่าสุด:"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
+msgid "'0' disables and wipes recent history"
+msgstr "'0' จะปิดใช้งานและล้างรายการประวัติทั้งหมด"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
+msgid "<b>History</b>"
+msgstr "<b>ประวัติ</b>"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
+msgid "File monitoring"
+msgstr "เฝ้าสังเกตแฟ้ม"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
+msgid "Default encoding:"
+msgstr "รหัสอักขระปริยาย:"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>เบ็ดเตล็ด</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "File"
 msgstr "แฟ้ม"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Plugins"
-msgstr ""
+msgstr "ปลั๊กอิน"
 
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:45
 msgid "Spell Checking"
-msgstr ""
+msgstr "การตรวจตัวสะกด"
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
 msgid "Default language:"
-msgstr ""
+msgstr "ภาษาปริยาย:"
 
 #: ../mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
@@ -1709,18 +1744,18 @@ msgstr "เครื่องมือแก้ไขข้อความ"
 
 #: ../mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "ตั้งค่าเครื่องมือแก้ไขข้อความ"
 
 #: ../mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
-msgstr ""
+msgstr "ตั้งค่าเครื่องมือแก้ไขข้อความ Mousepad"
 
 #: ../mousepad.appdata.xml.in.h:1
 msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr ""
+msgstr "Mousepad มุ่งหมายให้เป็นเครื่องมือแก้ไขข้อความที่สะดวกรวดเร็ว โดยมีเป้าหมายที่การแก้ไขแฟ้มข้อความอย่างเร็ว ไม่ใช่เป็นสภาพแวดล้อมสำหรับพัฒนาโปรแกรมหรือมีปลั๊กอินรุงรัง"
 
 #: ../mousepad.appdata.xml.in.h:2
 msgid ""
@@ -1728,7 +1763,7 @@ msgid ""
 "means that if Gtk adds something new in a major release that is useful for "
 "the editor, we will likely bump the Gtk dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "ในขณะเดียวกัน เราก็พยายามจะใช้ความสามารถใหม่ๆ ของ Gtk ซึ่งหมายความว่า ถ้า Gtk เพิ่มสิ่งใดเข้ามาในรุ่นใหม่ที่เป็นประโยชน์ต่อตัวโปรแกรม เราก็อาจขยับความต้องการรุ่นของ Gtk ขึ้น และเชื่อมรวมความสามารถใหม่ดังกล่าวเข้ามาใน Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
