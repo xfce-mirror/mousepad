@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-07-18 09:19+0000\n"
+"PO-Revision-Date: 2021-07-19 09:10+0000\n"
 "Last-Translator: Theppitak Karoonboonyanan <theppitak@gmail.com>\n"
 "Language-Team: Thai (http://www.transifex.com/xfce/xfce-apps/language/th/)\n"
 "MIME-Version: 1.0\n"
@@ -232,11 +232,11 @@ msgstr "ถ้าไม่ยืนยัน ก็จะใช้รหัส�
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "ดูเหมือนวาระการใช้งานก่อนหน้าจะไม่ได้จบแบบปกติ คุณต้องการกู้คืนข้อมูลหรือไม่?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "ถ้าไม่กู้คืน ข้อมูลทั้งหมดก็จะสูญหายไป"
 
 #: ../mousepad/mousepad-dialogs.c:858
 msgid "Please select a file"
@@ -886,11 +886,11 @@ msgstr "ค้นหาข้อความเดิมแบบถอยหล
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_Incremental Search"
-msgstr ""
+msgstr "ค้นหาทีละ_ส่วน"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "เลือกข้อความค้นหาที่พบและเลื่อนหน้าจอโดยอัตโนมัติ"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -1508,19 +1508,19 @@ msgstr "แท็บใหม่ในหน้าต่างใหม่"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "never"
-msgstr ""
+msgstr "ไม่เลย"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "after a crash"
-msgstr ""
+msgstr "หลังโปรแกรมพัง"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "unsaved documents"
-msgstr ""
+msgstr "เอกสารไม่ได้บันทึก"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
 msgid "saved documents"
-msgstr ""
+msgstr "เอกสารบันทึกแล้ว"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
 msgid "always"
@@ -1609,7 +1609,7 @@ msgstr "เครื่องมือแก้ไข"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "การวาดกรอบหน้าต่างที่ฝั่งไคลเอนต์ (ต้องเริ่มโปรแกรมใหม่)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Show full filename in title bar"
@@ -1653,7 +1653,7 @@ msgstr "แสดงแท็บเสมอแม้เปิดเพียง
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "ขยายแท็บเต็มพื้นที่"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Cycled notebook tab switching"
@@ -1685,13 +1685,13 @@ msgstr "<b>การบันทึกแฟ้ม</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
-msgstr ""
+msgstr "การกู้คืนวาระ:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "ถ้าเลือก \"เอกสารไม่ได้บันทึก\" หรือ \"เสมอ\" Mousepad จะไม่ถามก่อนออกจากโปรแกรมให้บันทึกเอกสารที่มีการแก้ไข"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid "Recent file menu length:"
