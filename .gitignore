@@ -10,8 +10,8 @@
 Makefile
 Makefile.in
 Makefile.in.in
-mousepad*.desktop
-mousepad.appdata.xml
+org.xfce.mousepad*.desktop
+org.xfce.mousepad.appdata.xml
 aclocal.m4
 autom4te.cache/
 ChangeLog
