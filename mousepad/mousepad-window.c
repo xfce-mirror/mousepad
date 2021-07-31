@@ -2750,7 +2750,7 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
 {
   GtkWidget *page, *label;
   guint      page_num = 0;
-  gint       x_root;
+  gint       x_root, y_root;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
 
@@ -2764,12 +2764,14 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
           label = gtk_notebook_get_tab_label (notebook, page);
 
           /* get the origin of the label */
-          gdk_window_get_origin (gtk_widget_get_window (label), &x_root, NULL);
+          gdk_window_get_origin (gtk_widget_get_window (label), &x_root, &y_root);
           gtk_widget_get_allocation (label, &alloc);
-          x_root = x_root + alloc.x;
+          x_root += alloc.x;
+          y_root += alloc.y;
 
           /* check if the cursor is inside this label */
-          if (event->x_root >= x_root && event->x_root <= (x_root + alloc.width))
+          if (event->x_root >= x_root && event->x_root <= (x_root + alloc.width)
+              && event->y_root >= y_root && event->y_root <= (y_root + alloc.height))
             {
               /* switch to this tab */
               gtk_notebook_set_current_page (notebook, page_num);
@@ -2791,7 +2793,7 @@ mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
     }
   else if (event->type == GDK_2BUTTON_PRESS && event->button == 1)
     {
-      GtkWidget   *ev_widget, *nb_child;
+      GtkWidget *ev_widget, *nb_child;
 
       ev_widget = gtk_get_event_widget ((GdkEvent *) event);
       nb_child = gtk_notebook_get_nth_page (notebook,
