@@ -1,3 +1,66 @@
+0.5.6
+======
+- New Features:
+  - Add session backup and restore
+    - Remember windows and tabs (#21, !108)
+    - Handle unsaved documents (#32, !109)
+    - DE session support (#3, !110)
+  - Extend the use of recent history (!107)
+  - Add use of `GtkSourceView:smart-backspace` (!101)
+  - Add a "Move Words" action (!100)
+
+- Appearance Changes:
+  - Add a setting to control tab expansion (#100)
+  - Prefs dialog: Substitute CSD for status bar visibility
+  - Add a "File" tab to the prefs dialog (!108)
+  - Make search input fields less flickery (!104)
+  - Allow saving non-existent, empty but named file (#120, !103)
+  - Enable "Save" action for read-only documents (#126, !103)
+  - Make "Find as you type" an option (!102)
+  - Reveal hidden setting "indent-on-tab" (!101)
+
+- Code Refactoring:
+  - A review of duplicated view-related actions (#127)
+
+- Tests:
+  - Add a test plugin to monitor application state (!105)
+  - Add a test script for Mousepad (!99)
+
+- Bug Fixes:
+  - Filter notebook click events also on y-coordinate (#144)
+  - Allow to open files from the trash can (#141, !112)
+  - Monitor file deletion (#140, !111)
+  - Printing: Create config file if it does not exist
+  - Check all windows for the file to be opened
+  - Fix wrong externally modified document in some situations
+  - Plugin support: Properly handle plugin settings (#136)
+  - Direct monitoring of symlink targets
+  - Set the state of submenu actions
+  - print-dialog: Fix some memory leaks
+  - Fix a type inconsistency in the "encoding-changed" signal
+  - Always check if the user has explicitly set a filetype
+  - Fix monitoring events to listen to
+  - Ensure statefull actions exist until their state is recovered
+  - Fix GVariant-related memory leaks
+  - Do not warn if the plugin directory does not exist
+  - Add a sanity check on the window for "Externally Modified"
+  - Do not set the style scheme id as translatable
+  - Properly update recent menu in case of file deletion
+  - CSD: Set the decoration layout for all windows
+  - Add a sanity check on file location for monitoring
+  - Add "preferences" action to `mousepad.desktop` (#130)
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Persian (Iran), Polish, Portuguese, Portuguese (Brazil),
+  Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish,
+  Thai, Turkish, Ukrainian, Uyghur
+
 0.5.5
 ======
 - New Features:
