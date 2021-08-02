@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-08-01 22:38+0000\n"
+"PO-Revision-Date: 2021-08-02 11:08+0000\n"
 "Last-Translator: Stergios Gemelas <sgemelas@protonmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -320,7 +320,7 @@ msgstr "Έλεγχος κωδικοποιήσεων..."
 #: ../mousepad/mousepad-encoding-dialog.c:292
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s (%s, απέτυχε)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:294
 #: ../mousepad/mousepad-encoding-dialog.c:349
@@ -684,7 +684,7 @@ msgstr "Μόνο για ανάγνωση"
 
 #: ../mousepad/mousepad-window.c:2252
 msgid "Viewer Mode"
-msgstr ""
+msgstr "Λειτουργία προβολής"
 
 #: ../mousepad/mousepad-window.c:3276
 #, c-format
