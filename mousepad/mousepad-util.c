@@ -443,6 +443,8 @@ mousepad_util_decoration_layout_changed (GObject    *settings,
       if (p == NULL)
         {
           g_warn_if_reached ();
+          g_free (layout);
+
           return;
         }
 
