@@ -1228,7 +1228,7 @@ mousepad_file_autosave_save_sync (MousepadFile *file)
   GtkWindow  *window;
   GError    **perror = NULL;
   GError     *error = NULL;
-  gchar      *contents;
+  gchar      *contents = NULL;
   gsize       length;
 
   /* file already saved */
@@ -1254,8 +1254,9 @@ mousepad_file_autosave_save_sync (MousepadFile *file)
     }
 
   /* save contents */
-  if (! g_file_replace_contents (file->autosave_location, contents, length, NULL, FALSE,
-                                 G_FILE_CREATE_NONE, NULL, NULL, perror)
+  if (contents
+      && ! g_file_replace_contents (file->autosave_location, contents, length, NULL, FALSE,
+                                    G_FILE_CREATE_NONE, NULL, NULL, perror)
       && perror != NULL)
     {
       window = gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ()));
