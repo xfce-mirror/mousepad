@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-07-10 22:46+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2021-08-08 13:58+0000\n"
+"Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -229,11 +229,11 @@ msgstr "Vastasel korral üritame märgistikku ära arvata."
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "Tundub, et eelmine sessioon ei lõppenud tavapäraselt. Kas sa soovid taastada olemasolevad andmed?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "Vastasel juhul lähevad salvestamata andmed kaotsi."
 
 #: ../mousepad/mousepad-dialogs.c:858
 msgid "Please select a file"
@@ -1506,19 +1506,19 @@ msgstr "uutel kaartidel, mis asuvad uues aknas"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "never"
-msgstr ""
+msgstr "mitte kunagi"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "after a crash"
-msgstr ""
+msgstr "peale kokkujooksmist"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "unsaved documents"
-msgstr ""
+msgstr "salvestamata dokumendid"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
 msgid "saved documents"
-msgstr ""
+msgstr "salvestatud dokumendid"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
 msgid "always"
@@ -1607,7 +1607,7 @@ msgstr "Kirjutamine"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Kliendi-poolne kujundus (taaskäivitamine on vajalik)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Show full filename in title bar"
@@ -1651,7 +1651,7 @@ msgstr "Näita kaarte ka ühe dokumendi puhul"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Laienda kaart nii, et kogu saadaolev laius on täidetud"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Cycled notebook tab switching"
@@ -1683,13 +1683,13 @@ msgstr "<b>Failide salvestamine</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
-msgstr ""
+msgstr "Sessiooni taastamine:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Kui  oled valinud „salvestamata dokumendid“ või „alati“, siis Mousepad väljumisel ei küsi muudetud dokumentide salvestamise kohta"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid "Recent file menu length:"
