@@ -3869,7 +3869,7 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
       /* prepare the GFile array */
       uris = gtk_selection_data_get_uris (selection_data);
       n_pages = g_strv_length (uris);
-      files = g_malloc (n_pages * sizeof (GFile *));
+      files = g_malloc0_n (n_pages, sizeof (GFile *));
       for (i = 0; i < n_pages; i++)
         files[i] = g_file_new_for_uri (uris[i]);
 
