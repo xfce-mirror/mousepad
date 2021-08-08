@@ -1228,8 +1228,8 @@ mousepad_file_autosave_save_sync (MousepadFile *file)
   GtkWindow  *window;
   GError    **perror = NULL;
   GError     *error = NULL;
-  gchar      *contents;
-  gsize       length;
+  gchar      *contents = NULL;
+  gsize       length = 0;
 
   /* file already saved */
   if (! file->autosave_scheduled)
