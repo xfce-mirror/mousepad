@@ -1019,7 +1019,7 @@ mousepad_application_command_line (GApplication            *gapplication,
   if (filenames != NULL && (n_files = g_strv_length ((gchar **) filenames)) > 0)
     {
       /* prepare the GFile array */
-      files = g_malloc (n_files * sizeof (GFile *));
+      files = g_malloc_n (n_files, sizeof (GFile *));
       for (n = 0; n < n_files; n++)
         {
           file = g_application_command_line_create_file_for_arg (command_line, filenames[n]);
