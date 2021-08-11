@@ -2034,7 +2034,6 @@ mousepad_window_open_files (MousepadWindow    *window,
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), 0);
   g_return_val_if_fail (files != NULL, 0);
-  g_return_val_if_fail (*files != NULL, 0);
 
   /* get the number of tabs before trying to open new files */
   n_tabs_in = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
@@ -3864,12 +3863,12 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
   /* we only accept text/uri-list drops with format 8 and atleast one byte of data */
   if (info == TARGET_TEXT_URI_LIST
       && gtk_selection_data_get_format (selection_data) == 8
-      && gtk_selection_data_get_length (selection_data) > 0)
+      && gtk_selection_data_get_length (selection_data) > 0
+      && (uris = gtk_selection_data_get_uris (selection_data)) != NULL)
     {
       /* prepare the GFile array */
-      uris = gtk_selection_data_get_uris (selection_data);
       n_pages = g_strv_length (uris);
-      files = g_malloc (n_pages * sizeof (GFile *));
+      files = g_new (GFile *, n_pages);
       for (i = 0; i < n_pages; i++)
         files[i] = g_file_new_for_uri (uris[i]);
 
