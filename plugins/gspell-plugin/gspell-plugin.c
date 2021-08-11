@@ -274,7 +274,7 @@ gspell_plugin_document_added (GspellPlugin *plugin,
   if (item == NULL)
     {
       /* allocate and fill in a new plugin view */
-      view = g_malloc (sizeof (GspellPluginView));
+      view = g_new (GspellPluginView, 1);
       view->mousepad_view = document->textview;
       text_view = GTK_TEXT_VIEW (document->textview);
       view->gspell_view = gspell_text_view_get_from_gtk_text_view (text_view);

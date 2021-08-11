@@ -371,8 +371,8 @@ test_plugin_action_hook_new (guint pr,
   va_list     ap;
 
   hook = g_new (ActionHook, 1);
-  hook->prereqs = g_malloc ((pr + 1) * sizeof (gchar *));
-  hook->postprocs = g_malloc ((pp + 1) * sizeof (gchar *));
+  hook->prereqs = g_malloc_n ((pr + 1), sizeof (gchar *));
+  hook->postprocs = g_malloc_n ((pp + 1), sizeof (gchar *));
 
   va_start (ap, pp);
 
