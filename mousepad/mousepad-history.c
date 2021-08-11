@@ -471,7 +471,7 @@ mousepad_history_session_save (void)
     }
 
   /* allocate the session array */
-  session = g_malloc0 ((length + 1) * sizeof (gchar *));
+  session = g_new0 ((gchar *), (length + 1));
 
   /* fill in the session array */
   for (li = list, length = 0; li != NULL; li = li->next)
@@ -565,7 +565,7 @@ mousepad_history_session_restore (MousepadApplication *application)
         p++;
 
       /* allocate the GFile array */
-      files = g_malloc (n_uris * sizeof (GFile *));
+      files = g_malloc_n (n_uris, sizeof (GFile *));
 
       /* add files from the session array */
       for (n = 0, current = 0, n_files = 0; n < n_uris; n++)
