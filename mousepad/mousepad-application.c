@@ -1698,7 +1698,7 @@ mousepad_application_plugin_activate (GSimpleAction *action,
     {
       need_update = TRUE;
       length = g_strv_length (plugins);
-      plugins = g_realloc (plugins, (length + 2) * sizeof (gchar *));
+      plugins = g_renew (gchar *, plugins, length + 2);
       plugins[length] = g_strdup (action_name);
       plugins[length + 1] = NULL;
     }

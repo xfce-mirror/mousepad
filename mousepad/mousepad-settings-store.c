@@ -101,17 +101,12 @@ mousepad_settings_store_update_env (void)
   if (old_value != NULL)
     {
       gchar **paths = g_strsplit (old_value, G_SEARCHPATH_SEPARATOR_S, 0);
-      gchar **paths2;
-      gsize   len = g_strv_length (paths);
+      gsize   len = g_strv_length (paths) + 1;
 
-      paths2 = g_realloc (paths, len + 2);
-      if (paths2 != NULL)
-        {
-          paths = paths2;
-          paths[len++] = g_strdup (MOUSEPAD_GSETTINGS_SCHEMA_DIR);
-          paths[len] = NULL;
-          new_value = g_strjoinv (G_SEARCHPATH_SEPARATOR_S, paths);
-        }
+      paths = g_renew (gchar *, paths, len + 1);
+      paths[len - 1] = g_strdup (MOUSEPAD_GSETTINGS_SCHEMA_DIR);
+      paths[len] = NULL;
+      new_value = g_strjoinv (G_SEARCHPATH_SEPARATOR_S, paths);
       g_strfreev (paths);
     }
 

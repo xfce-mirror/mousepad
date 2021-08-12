@@ -920,7 +920,7 @@ mousepad_file_prepare_save_contents (MousepadFile  *file,
           case MOUSEPAD_EOL_UNIX:
             if (contents[length - 1] != '\n')
               {
-                contents = g_realloc (contents, length + 2);
+                contents = g_renew (gchar, contents, length + 2);
                 contents[length] = '\n';
                 length++;
                 eol = "\n";
@@ -930,7 +930,7 @@ mousepad_file_prepare_save_contents (MousepadFile  *file,
           case MOUSEPAD_EOL_MAC:
             if (contents[length - 1] != '\r')
               {
-                contents = g_realloc (contents, length + 2);
+                contents = g_renew (gchar, contents, length + 2);
                 contents[length] = '\r';
                 length++;
                 eol = "\r";
@@ -940,7 +940,7 @@ mousepad_file_prepare_save_contents (MousepadFile  *file,
           case MOUSEPAD_EOL_DOS:
             if (contents[length - 1] != '\n' || (length > 1 && contents[length - 2] != '\r'))
               {
-                contents = g_realloc (contents, length + 3);
+                contents = g_renew (gchar, contents, length + 3);
                 contents[length] = '\r';
                 contents[length + 1] = '\n';
                 length += 2;

@@ -327,7 +327,7 @@ mousepad_encoding_write_bom (MousepadEncoding  *encoding,
   if (G_LIKELY (bytes > 0))
     {
       /* realloc the contents string */
-      *contents = g_realloc (*contents, *length + bytes + 1);
+      *contents = g_renew (gchar, *contents, *length + bytes + 1);
 
       /* move the existing contents */
       memmove (*contents + bytes, *contents, *length + 1);
