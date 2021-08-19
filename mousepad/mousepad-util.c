@@ -1197,6 +1197,26 @@ mousepad_util_query_exists (GFile    *file,
 
 
 
+gchar *
+mousepad_util_get_display_path (GFile *file)
+{
+  gchar *path, *display_path;
+
+  if ((path = g_file_get_path (file)) == NULL)
+    {
+      path = g_file_get_uri (file);
+      display_path = g_uri_unescape_string (path, NULL);
+    }
+  else
+    display_path = g_filename_to_utf8 (path, -1, NULL, NULL, NULL);
+
+  g_free (path);
+
+  return display_path;
+}
+
+
+
 static void
 mousepad_util_source_remove_all (gpointer  data,
                                  GObject  *object)

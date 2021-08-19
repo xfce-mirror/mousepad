@@ -3712,7 +3712,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
   GFile            *file;
   GList            *items, *li, *next, *filtered = NULL;
   const gchar      *uri, *display_name;
-  gchar            *label, *filename, *filename_utf8, *tooltip;
+  gchar            *label, *filename_utf8, *tooltip;
   guint             n;
   gboolean          bstate;
 
@@ -3768,21 +3768,19 @@ mousepad_window_recent_menu (GSimpleAction *action,
           next = li->next;
           info = li->data;
 
-          /* get the filename */
+          /* get the file */
           uri = gtk_recent_info_get_uri (info);
           file = g_file_new_for_uri (uri);
-          filename = g_file_get_path (file);
-          g_object_unref (file);
 
           /* append to the menu if the file exists, else remove it from the history */
-          if (filename != NULL && g_file_test (filename, G_FILE_TEST_EXISTS))
+          if (mousepad_util_query_exists (file, TRUE))
             {
               /* get label, escaping underscores for mnemonics */
               display_name = gtk_recent_info_get_display_name (info);
               label = mousepad_util_escape_underscores (display_name);
 
               /* create an utf-8 valid version of the filename for the tooltip */
-              filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+              filename_utf8 = mousepad_util_get_display_path (file);
               tooltip = g_strdup_printf (_("Open '%s'"), filename_utf8);
               g_free (filename_utf8);
 
@@ -3808,7 +3806,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
           li = next;
 
           /* cleanup */
-          g_free (filename);
+          g_object_unref (file);
         }
 
       /* add the "No items found"/"History disabled" insensitive menu item */
@@ -4568,7 +4566,9 @@ mousepad_window_action_save (GSimpleAction *action,
         }
       /* file is readonly */
       else if (G_UNLIKELY (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)
-                           || g_error_matches (error, G_IO_ERROR, G_IO_ERROR_READ_ONLY)))
+                           || g_error_matches (error, G_IO_ERROR, G_IO_ERROR_READ_ONLY)
+                           || g_file_has_uri_scheme (mousepad_file_get_location (document->file),
+                                                     "trash")))
         {
           /* cleanup */
           g_clear_error (&error);

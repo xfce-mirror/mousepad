@@ -319,8 +319,9 @@ mousepad_file_set_monitor (gpointer data)
       /* inform the user */
       if (error != NULL)
         {
-          g_message ("File monitoring is disabled for file '%s': %s",
-                     mousepad_file_get_path (file), error->message);
+          path = mousepad_util_get_display_path (file->location);
+          g_message ("File monitoring is disabled for file '%s': %s", path, error->message);
+          g_free (path);
           g_error_free (error);
         }
       /* watch file for changes */
@@ -382,6 +383,8 @@ mousepad_file_set_location (MousepadFile *file,
             ! g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
           g_object_unref (fileinfo);
         }
+      else if (g_file_has_uri_scheme (location, "trash"))
+        mousepad_file_set_read_only (file, TRUE);
       else
         mousepad_file_set_read_only (file, FALSE);
 

@@ -29,7 +29,6 @@ G_BEGIN_DECLS
 #define mousepad_util_validate_file(file) \
   (mousepad_util_get_path (file) != NULL || ( \
     g_file_has_uri_scheme (file, "trash") \
-    && g_file_query_exists (file, NULL) \
     && ! mousepad_util_is_symlink (file) \
   ))
 
@@ -106,6 +105,8 @@ const gchar *mousepad_util_get_path                         (GFile              
 
 gboolean     mousepad_util_query_exists                     (GFile                      *file,
                                                              gboolean                    follow_symlink);
+
+gchar       *mousepad_util_get_display_path                 (GFile                      *file);
 
 gpointer     mousepad_util_source_autoremove                (gpointer                    object);
 

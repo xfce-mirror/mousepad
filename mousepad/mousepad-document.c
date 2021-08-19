@@ -503,51 +503,40 @@ mousepad_document_location_changed (MousepadDocument *document,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
   g_return_if_fail (file != NULL);
 
-  /* convert the title into a utf-8 valid version for display */
-  utf8_filename = (gchar *) mousepad_util_get_path (file);
-  if (G_LIKELY (utf8_filename != NULL))
-    utf8_filename = g_filename_to_utf8 (utf8_filename, -1, NULL, NULL, NULL);
-  else
+  /* get the display filename */
+  utf8_filename = mousepad_util_get_display_path (file);
+
+  /* create a shorter display filename: replace $HOME with a tilde if user is not root */
+  if (geteuid () && (home = g_get_home_dir ()) && (home_len = strlen (home))
+      && g_str_has_prefix (utf8_filename, home))
     {
-      utf8_short_filename = g_file_get_uri (file);
-      utf8_filename = g_uri_unescape_string (utf8_short_filename, NULL);
-      g_free (utf8_short_filename);
+      utf8_short_filename = g_strconcat ("~", utf8_filename + home_len, NULL);
+      g_free (utf8_filename);
+      utf8_filename = utf8_short_filename;
     }
 
-  if (G_LIKELY (utf8_filename))
+  /* create the display name */
+  utf8_basename = g_filename_display_basename (utf8_filename);
+
+  /* remove the old names */
+  g_free (document->priv->utf8_filename);
+  g_free (document->priv->utf8_basename);
+
+  /* set the new names */
+  document->priv->utf8_filename = utf8_filename;
+  document->priv->utf8_basename = utf8_basename;
+
+  /* update the tab label and tooltip */
+  if (G_UNLIKELY (document->priv->label))
     {
-      /* create a shorter display filename: replace $HOME with a tilde if user is not root */
-      if (geteuid () && (home = g_get_home_dir ()) && (home_len = strlen (home))
-          && g_str_has_prefix (utf8_filename, home))
-        {
-          utf8_short_filename = g_strconcat ("~", utf8_filename + home_len, NULL);
-          g_free (utf8_filename);
-          utf8_filename = utf8_short_filename;
-        }
+      /* set the tab label */
+      gtk_label_set_text (GTK_LABEL (document->priv->label), utf8_basename);
 
-      /* create the display name */
-      utf8_basename = g_filename_display_basename (utf8_filename);
+      /* set the tab tooltip */
+      gtk_widget_set_tooltip_text (document->priv->ebox, utf8_filename);
 
-      /* remove the old names */
-      g_free (document->priv->utf8_filename);
-      g_free (document->priv->utf8_basename);
-
-      /* set the new names */
-      document->priv->utf8_filename = utf8_filename;
-      document->priv->utf8_basename = utf8_basename;
-
-      /* update the tab label and tooltip */
-      if (G_UNLIKELY (document->priv->label))
-        {
-          /* set the tab label */
-          gtk_label_set_text (GTK_LABEL (document->priv->label), utf8_basename);
-
-          /* set the tab tooltip */
-          gtk_widget_set_tooltip_text (document->priv->ebox, utf8_filename);
-
-          /* update label color */
-          mousepad_document_label_color (document);
-        }
+      /* update label color */
+      mousepad_document_label_color (document);
     }
 }
 
