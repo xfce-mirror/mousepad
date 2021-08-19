@@ -339,6 +339,8 @@ mousepad_file_set_location (MousepadFile *file,
                             GFile        *location,
                             gboolean      real)
 {
+  GFileInfo *fileinfo;
+
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
   /* set location */
@@ -371,13 +373,25 @@ mousepad_file_set_location (MousepadFile *file,
       /* this is a definitive location */
       file->temporary = FALSE;
 
+      /* update read-only status */
+      if (mousepad_util_query_exists (location, TRUE)
+          && G_LIKELY (fileinfo = g_file_query_info (location, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
+                                                     G_FILE_QUERY_INFO_NONE, NULL, NULL)))
+        {
+          mousepad_file_set_read_only (file,
+            ! g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
+          g_object_unref (fileinfo);
+        }
+      else
+        mousepad_file_set_read_only (file, FALSE);
+
       /* activate file monitoring with a delay, to not consider our own saving as
        * external modification after a save as */
       g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
                      mousepad_file_set_monitor, mousepad_util_source_autoremove (file));
 
       /* send a signal that the name has been changed */
-      g_signal_emit (file, file_signals[LOCATION_CHANGED], 0, file->location);
+      g_signal_emit (file, file_signals[LOCATION_CHANGED], 0, location);
     }
   /* toggle location state */
   else
@@ -1065,10 +1079,6 @@ mousepad_file_save (MousepadFile  *file,
       /* update etag */
       g_free (file->etag);
       file->etag = etag;
-
-      /* update read-only status in case of save as */
-      if (G_UNLIKELY (file->temporary))
-        mousepad_file_set_read_only (file, FALSE);
 
       /* add last eol if needed */
       if (eol != NULL)
