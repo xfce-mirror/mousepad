@@ -651,7 +651,7 @@ mousepad_history_session_restore (MousepadApplication *application)
             }
 
           /* there is at least one autosaved file to restore */
-          if (! autosaved && autosave_file != NULL && g_file_query_exists (autosave_file, NULL))
+          if (! autosaved && autosave_file != NULL && mousepad_util_query_exists (autosave_file, FALSE))
             {
               autosaved = TRUE;
 
@@ -667,9 +667,9 @@ mousepad_history_session_restore (MousepadApplication *application)
             }
 
           /* add the file or drop it if it was removed since last session */
-          if (file != NULL && g_file_query_exists (file, NULL) && (
+          if (file != NULL && mousepad_util_query_exists (file, TRUE) && (
                 restore_setting != MOUSEPAD_SESSION_RESTORE_UNSAVED
-                || (autosave_file != NULL && g_file_query_exists (autosave_file, NULL))
+                || (autosave_file != NULL && mousepad_util_query_exists (autosave_file, FALSE))
               ))
             {
               mousepad_object_set_data_full (file, "autosave-uri", autosave_uri, g_free);
@@ -678,7 +678,7 @@ mousepad_history_session_restore (MousepadApplication *application)
                 g_object_unref (autosave_file);
             }
           else if (restore_autosaved && autosave_file != NULL
-                   && g_file_query_exists (autosave_file, NULL))
+                   && mousepad_util_query_exists (autosave_file, FALSE))
             {
               /* keep original uri if it exists */
               if (file != NULL)

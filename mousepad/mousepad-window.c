@@ -2126,7 +2126,7 @@ mousepad_window_close_document (MousepadWindow   *window,
   modified = gtk_text_buffer_get_modified (document->buffer);
   if (modified || (
         mousepad_file_location_is_set (document->file)
-        && ! g_file_query_exists (mousepad_file_get_location (document->file), NULL)
+        && ! mousepad_util_query_exists (mousepad_file_get_location (document->file), TRUE)
       ))
     {
       restore = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
@@ -2190,7 +2190,7 @@ mousepad_window_close_document (MousepadWindow   *window,
     {
       /* store some data in the recent history if the file exists on disk */
       if (mousepad_file_location_is_set (document->file)
-          && g_file_query_exists (mousepad_file_get_location (document->file), NULL))
+          && mousepad_util_query_exists (mousepad_file_get_location (document->file), TRUE))
         mousepad_history_recent_add (document->file);
 
       gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));

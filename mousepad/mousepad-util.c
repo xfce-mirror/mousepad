@@ -1183,6 +1183,20 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
 
 
+gboolean
+mousepad_util_query_exists (GFile    *file,
+                            gboolean  follow_symlink)
+{
+  const gchar *path;
+
+  if (follow_symlink && (path = mousepad_util_get_path (file)) != NULL)
+    return g_file_test (path, G_FILE_TEST_EXISTS);
+  else
+    return g_file_query_exists (file, NULL);
+}
+
+
+
 static void
 mousepad_util_source_remove_all (gpointer  data,
                                  GObject  *object)

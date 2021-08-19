@@ -101,6 +101,9 @@ gchar       *mousepad_util_pango_font_description_to_css    (const PangoFontDesc
 
 const gchar *mousepad_util_get_path                         (GFile                      *file);
 
+gboolean     mousepad_util_query_exists                     (GFile                      *file,
+                                                             gboolean                    follow_symlink);
+
 gpointer     mousepad_util_source_autoremove                (gpointer                    object);
 
 G_END_DECLS

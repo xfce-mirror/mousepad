@@ -293,7 +293,7 @@ mousepad_file_set_location (MousepadFile *file,
 
       /* mark the document as modified (and therefore savable) in case of a new, empty
        * but localized document */
-      if (! g_file_query_exists (location, NULL))
+      if (! mousepad_util_query_exists (location, TRUE))
         gtk_text_buffer_set_modified (file->buffer, TRUE);
     }
   /* reset location */

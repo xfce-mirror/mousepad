@@ -1222,7 +1222,7 @@ mousepad_dialogs_open (GtkWindow         *parent,
                     G_CALLBACK (mousepad_dialogs_open_selection_changed), combo);
 
   /* select the active document in the file chooser */
-  if (file != NULL && g_file_query_exists (file, NULL))
+  if (file != NULL && mousepad_util_query_exists (file, FALSE))
     gtk_file_chooser_set_file (GTK_FILE_CHOOSER (dialog), file, NULL);
 
   /* run the dialog */
