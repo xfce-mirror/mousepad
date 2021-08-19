@@ -22,12 +22,15 @@
 
 G_BEGIN_DECLS
 
+#define mousepad_util_is_symlink(file) \
+  (g_file_query_file_type (file, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, NULL) \
+    == G_FILE_TYPE_SYMBOLIC_LINK)
+
 #define mousepad_util_validate_file(file) \
   (mousepad_util_get_path (file) != NULL || ( \
     g_file_has_uri_scheme (file, "trash") \
     && g_file_query_exists (file, NULL) \
-    && g_file_query_file_type (file, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, NULL) \
-        != G_FILE_TYPE_SYMBOLIC_LINK \
+    && ! mousepad_util_is_symlink (file) \
   ))
 
 gboolean     mousepad_util_iter_inside_word                 (const GtkTextIter          *iter);

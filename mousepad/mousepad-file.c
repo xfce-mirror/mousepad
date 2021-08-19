@@ -67,8 +67,9 @@ struct _MousepadFile
 
   /* file monitoring */
   GFileMonitor *monitor;
+  GFile        *monitor_location;
   gchar        *etag;
-  gboolean      readonly;
+  gboolean      readonly, symlink;
 
   /* encoding of the file */
   MousepadEncoding encoding;
@@ -131,7 +132,9 @@ mousepad_file_init (MousepadFile *file)
   file->location = NULL;
   file->temporary = FALSE;
   file->monitor = NULL;
+  file->monitor_location = NULL;
   file->readonly = FALSE;
+  file->symlink = FALSE;
   file->encoding = mousepad_encoding_get_default ();
 #ifdef G_OS_WIN32
   file->line_ending = MOUSEPAD_EOL_DOS;
@@ -164,6 +167,9 @@ mousepad_file_finalize (GObject *object)
 
   if (file->monitor != NULL)
     g_object_unref (file->monitor);
+
+  if (file->monitor_location != NULL)
+    g_object_unref (file->monitor_location);
 
   if (file->autosave_location != NULL)
     g_object_unref (file->autosave_location);
@@ -213,13 +219,21 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
            || event_type == G_FILE_MONITOR_EVENT_CREATED
            || event_type == G_FILE_MONITOR_EVENT_MOVED_IN
            || (event_type == G_FILE_MONITOR_EVENT_RENAMED
-               && g_file_equal (file->location, other_location)))
-    g_signal_emit (file, file_signals[EXTERNALLY_MODIFIED], 0);
+               && g_file_equal (file->monitor_location, other_location)))
+    {
+      g_signal_emit (file, file_signals[EXTERNALLY_MODIFIED], 0);
+
+      /* update monitor location in case of a symlink (exit this handler first) */
+      if (event_type != G_FILE_MONITOR_EVENT_CHANGED && (
+            file->symlink || (file->symlink = mousepad_util_is_symlink (file->location))
+          ))
+        g_idle_add (mousepad_file_set_monitor, mousepad_util_source_autoremove (file));
+    }
   /* the file has been deleted */
   else if (event_type == G_FILE_MONITOR_EVENT_DELETED
            || event_type == G_FILE_MONITOR_EVENT_MOVED_OUT
            || (event_type == G_FILE_MONITOR_EVENT_RENAMED
-               && g_file_equal (file->location, location)))
+               && g_file_equal (file->monitor_location, location)))
     gtk_text_buffer_set_modified (file->buffer, TRUE);
 }
 
@@ -229,7 +243,6 @@ static gboolean
 mousepad_file_set_monitor (gpointer data)
 {
   MousepadFile *file = data;
-  GFile        *location;
   GError       *error = NULL;
   gchar        *path;
 
@@ -239,27 +252,31 @@ mousepad_file_set_monitor (gpointer data)
       file->monitor = NULL;
     }
 
+  if (file->monitor_location != NULL)
+    {
+      g_object_unref (file->monitor_location);
+      file->monitor_location = NULL;
+    }
+
   if (file->location != NULL && MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
     {
       /* monitor the final target in case of a symlink: see
        * https://gitlab.gnome.org/GNOME/glib/-/issues/2421 */
-      if (g_file_query_file_type (file->location, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, NULL)
-            == G_FILE_TYPE_SYMBOLIC_LINK
+      if ((file->symlink = mousepad_util_is_symlink (file->location))
           && (path = realpath (mousepad_util_get_path (file->location), NULL)) != NULL)
         {
-          location = g_file_new_for_path (path);
+          file->monitor_location = g_file_new_for_path (path);
           g_free (path);
         }
       else
-        location = g_object_ref (file->location);
+        file->monitor_location = g_object_ref (file->location);
 
-      file->monitor = g_file_monitor_file (location,
+      file->monitor = g_file_monitor_file (file->monitor_location,
 #if GLIB_CHECK_VERSION (2, 56, 2)
                                            G_FILE_MONITOR_WATCH_HARD_LINKS |
 #endif
                                            G_FILE_MONITOR_WATCH_MOVES,
                                            NULL, &error);
-      g_object_unref (location);
 
       /* inform the user */
       if (error != NULL)
@@ -599,7 +616,16 @@ mousepad_file_open (MousepadFile  *file,
   if ((autosave_uri = mousepad_object_get_data (file->location, "autosave-uri")) != NULL)
     location = g_file_new_for_uri (autosave_uri);
   else
-    location = g_object_ref (file->location);
+    {
+      location = g_object_ref (file->location);
+
+      /* update monitor location in case of a symlink (really useful only on reload,
+       * but not very costly) */
+      if (file->monitor != NULL && (
+            file->symlink || (file->symlink = mousepad_util_is_symlink (file->location))
+          ))
+        mousepad_file_set_monitor (file);
+    }
 
   /* if the file does not exist and this is allowed, no problem */
   if (! g_file_load_contents (location, NULL, &contents, &file_size, &etag, error)
@@ -831,11 +857,20 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
   succeed = g_file_replace_contents (file, contents, length, etag, make_backup,
                                      flags, new_etag, cancellable, error);
 
-  /* reactivate file monitoring with a delay, to not consider our own saving as
-   * external modification */
   if (m_file->monitor != NULL)
-    g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
-                   mousepad_file_monitor_unblock, mousepad_util_source_autoremove (m_file));
+    {
+      /* update monitor location in case of a symlink */
+      if (succeed && (
+            m_file->symlink || (m_file->symlink = mousepad_util_is_symlink (m_file->location))
+         ))
+        g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
+                       mousepad_file_set_monitor, mousepad_util_source_autoremove (m_file));
+      /* reactivate file monitoring with a delay, to not consider our own saving as
+       * external modification */
+      else
+        g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
+                       mousepad_file_monitor_unblock, mousepad_util_source_autoremove (m_file));
+    }
 
   return succeed;
 }
