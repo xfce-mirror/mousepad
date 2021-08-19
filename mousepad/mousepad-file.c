@@ -244,7 +244,7 @@ mousepad_file_set_monitor (gpointer data)
 {
   MousepadFile *file = data;
   GError       *error = NULL;
-  gchar        *path;
+  gchar        *path, *dir, *str;
 
   if (file->monitor != NULL)
     {
@@ -262,11 +262,49 @@ mousepad_file_set_monitor (gpointer data)
     {
       /* monitor the final target in case of a symlink: see
        * https://gitlab.gnome.org/GNOME/glib/-/issues/2421 */
-      if ((file->symlink = mousepad_util_is_symlink (file->location))
-          && (path = realpath (mousepad_util_get_path (file->location), NULL)) != NULL)
+      if ((file->symlink = mousepad_util_is_symlink (file->location)))
         {
-          file->monitor_location = g_file_new_for_path (path);
-          g_free (path);
+          /* try to get the final target */
+          path = realpath (mousepad_util_get_path (file->location), NULL);
+
+          /* this is a broken link: we have to use readlink() to get the final target */
+          if (path == NULL && g_file_error_from_errno (errno) == G_FILE_ERROR_NOENT)
+            {
+              path = g_file_get_path (file->location);
+              dir = g_path_get_dirname (path);
+              while ((str = g_file_read_link (path, &error)) != NULL)
+                {
+                  g_free (path);
+                  if (g_str_has_prefix (str, "/"))
+                    path = str;
+                  else
+                    {
+                      path = g_strconcat (dir, "/", str, NULL);
+                      g_free (str);
+                    }
+                }
+
+              /* readlink() encountered a real error */
+              if (! g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
+                {
+                  g_free (path);
+                  path = NULL;
+                }
+
+              /* cleanup (error is reused for file monitoring below) */
+              g_clear_error (&error);
+              g_free (dir);
+            }
+
+          /* we managed to get the final target */
+          if (path != NULL)
+            {
+              file->monitor_location = g_file_new_for_path (path);
+              g_free (path);
+            }
+          /* fall back to the original location */
+          else
+            file->monitor_location = g_object_ref (file->location);
         }
       else
         file->monitor_location = g_object_ref (file->location);
