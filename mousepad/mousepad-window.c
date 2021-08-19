@@ -3875,7 +3875,7 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
       /* open the files */
       mousepad_window_open_files (window, files, n_pages,
                                   mousepad_encoding_get_default (),
-                                  0, 0, TRUE);
+                                  0, 0, FALSE);
 
       /* cleanup */
       g_strfreev (uris);
