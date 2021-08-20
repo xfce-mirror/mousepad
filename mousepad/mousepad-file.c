@@ -1074,27 +1074,10 @@ mousepad_file_save (MousepadFile  *file,
     return FALSE;
 
   /* write the buffer to the file */
-  if (mousepad_file_replace_contents (file, file->location, contents, length,
-                                      (file->temporary || forced) ? NULL : file->etag,
-                                      MOUSEPAD_SETTING_GET_BOOLEAN (MAKE_BACKUP),
-                                      G_FILE_CREATE_NONE, &etag, NULL, error))
-    {
-      /* update etag */
-      g_free (file->etag);
-      file->etag = etag;
-
-      /* add last eol if needed */
-      if (eol != NULL)
-        {
-          gtk_text_buffer_get_end_iter (file->buffer, &iter);
-          gtk_text_buffer_insert (file->buffer, &iter, eol, -1);
-          g_free (eol);
-        }
-
-      /* cleanup */
-      g_free (contents);
-    }
-  else
+  if (! mousepad_file_replace_contents (file, file->location, contents, length,
+                                        (file->temporary || forced) ? NULL : file->etag,
+                                        MOUSEPAD_SETTING_GET_BOOLEAN (MAKE_BACKUP),
+                                        G_FILE_CREATE_NONE, &etag, NULL, error))
     {
       g_free (contents);
       g_free (eol);
@@ -1102,11 +1085,26 @@ mousepad_file_save (MousepadFile  *file,
       return FALSE;
     }
 
+  /* update etag */
+  g_free (file->etag);
+  file->etag = etag;
+
+  /* add last eol if needed */
+  if (eol != NULL)
+    {
+      gtk_text_buffer_get_end_iter (file->buffer, &iter);
+      gtk_text_buffer_insert (file->buffer, &iter, eol, -1);
+      g_free (eol);
+    }
+
   /* everything has been saved */
   gtk_text_buffer_set_modified (file->buffer, FALSE);
 
   /* re-guess the filetype which could have changed */
   mousepad_file_set_language (file, NULL);
+
+  /* cleanup */
+  g_free (contents);
 
   return TRUE;
 }
