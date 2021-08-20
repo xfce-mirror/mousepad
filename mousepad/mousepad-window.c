@@ -2605,8 +2605,6 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_language_changed), window);
   g_signal_connect (page, "overwrite-changed",
                     G_CALLBACK (mousepad_window_overwrite_changed), window);
-  g_signal_connect (page, "drag-data-received",
-                    G_CALLBACK (mousepad_window_drag_data_received), window);
   g_signal_connect (page, "search-completed",
                     G_CALLBACK (mousepad_window_search_completed), window);
   g_signal_connect (document->buffer, "notify::has-selection",
@@ -2623,6 +2621,8 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_location_changed), window);
   g_signal_connect (document->file, "readonly-changed",
                     G_CALLBACK (mousepad_window_readonly_changed), window);
+  g_signal_connect (document->textview, "drag-data-received",
+                    G_CALLBACK (mousepad_window_drag_data_received), window);
   g_signal_connect (document->textview, "populate-popup",
                     G_CALLBACK (mousepad_window_menu_textview_popup), window);
   g_signal_connect (document->textview, "notify::has-focus",
@@ -2652,7 +2652,6 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (page, mousepad_window_encoding_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_language_changed, window);
   mousepad_disconnect_by_func (page, mousepad_window_overwrite_changed, window);
-  mousepad_disconnect_by_func (page, mousepad_window_drag_data_received, window);
   mousepad_disconnect_by_func (page, mousepad_window_search_completed, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_enable_edit_actions, window);
   mousepad_disconnect_by_func (document->buffer, mousepad_window_can_undo, window);
@@ -2661,6 +2660,7 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->file, mousepad_window_externally_modified, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_location_changed, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
+  mousepad_disconnect_by_func (document->textview, mousepad_window_drag_data_received, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_enable_edit_actions, window);
 

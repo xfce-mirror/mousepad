@@ -36,14 +36,6 @@ static void      mousepad_document_notify_language         (GtkSourceBuffer     
 static void      mousepad_document_notify_overwrite        (GtkTextView            *textview,
                                                             GParamSpec             *pspec,
                                                             MousepadDocument       *document);
-static void      mousepad_document_drag_data_received      (GtkWidget              *widget,
-                                                            GdkDragContext         *context,
-                                                            gint                    x,
-                                                            gint                    y,
-                                                            GtkSelectionData       *selection_data,
-                                                            guint                   info,
-                                                            guint                   drag_time,
-                                                            MousepadDocument       *document);
 static void      mousepad_document_location_changed        (MousepadDocument       *document,
                                                             GFile                  *file);
 static void      mousepad_document_label_color             (MousepadDocument       *document);
@@ -278,8 +270,6 @@ mousepad_document_init (MousepadDocument *document)
                             G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->textview, "notify::editable",
                             G_CALLBACK (mousepad_document_label_color), document);
-  g_signal_connect (document->textview, "drag-data-received",
-                    G_CALLBACK (mousepad_document_drag_data_received), document);
 
   /* forward some document attribute signals more or less directly */
   g_signal_connect_swapped (document->buffer, "notify::cursor-position",
@@ -468,26 +458,6 @@ mousepad_document_send_signals (MousepadDocument *document)
 
   /* re-send the overwrite signal */
   mousepad_document_notify_overwrite (GTK_TEXT_VIEW (document->textview), NULL, document);
-}
-
-
-
-static void
-mousepad_document_drag_data_received (GtkWidget        *widget,
-                                      GdkDragContext   *context,
-                                      gint              x,
-                                      gint              y,
-                                      GtkSelectionData *selection_data,
-                                      guint             info,
-                                      guint             drag_time,
-                                      MousepadDocument *document)
-{
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-
-  /* emit the drag-data-received signal from the document when a tab or uri has been dropped */
-  if (info == TARGET_TEXT_URI_LIST || info == TARGET_GTK_NOTEBOOK_TAB)
-    g_signal_emit_by_name (document, "drag-data-received", context,
-                           x, y, selection_data, info, drag_time);
 }
 
 
