@@ -849,7 +849,7 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
           if ((files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog))) != NULL)
             {
               file = mousepad_file_new (GTK_TEXT_BUFFER (gtk_source_buffer_new (NULL)));
-              mousepad_file_set_location (file, files->data, TRUE);
+              mousepad_file_set_location (file, files->data, MOUSEPAD_LOCATION_REAL);
               mousepad_file_set_encoding (file, encoding);
               g_slist_free_full (files, g_object_unref);
             }
@@ -870,7 +870,7 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
           if ((g_file = g_file_new_tmp (NULL, &iostream, &error)) != NULL)
             {
               file = mousepad_file_new (mousepad_file_get_buffer (current_file));
-              mousepad_file_set_location (file, g_file, TRUE);
+              mousepad_file_set_location (file, g_file, MOUSEPAD_LOCATION_REAL);
               if (encoding != MOUSEPAD_ENCODING_NONE)
                 mousepad_file_set_encoding (file, encoding);
               else

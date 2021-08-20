@@ -684,7 +684,8 @@ mousepad_encoding_dialog (GtkWindow        *parent,
   mousepad_util_dialog_update_header (GTK_DIALOG (dialog), dialog->title, NULL, "text-x-generic");
 
   /* set the file location */
-  mousepad_file_set_location (dialog->document->file, mousepad_file_get_location (file), TRUE);
+  mousepad_file_set_location (dialog->document->file, mousepad_file_get_location (file),
+                              MOUSEPAD_LOCATION_REAL);
 
   /* queue idle function */
   mousepad_encoding_dialog_test_encodings (dialog);

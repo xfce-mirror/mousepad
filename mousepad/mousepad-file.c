@@ -338,11 +338,14 @@ mousepad_file_set_monitor (gpointer data)
 void
 mousepad_file_set_location (MousepadFile *file,
                             GFile        *location,
-                            gboolean      real)
+                            gint          type)
 {
   GFileInfo *fileinfo;
 
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
+
+  /* update location state */
+  file->temporary = (type == MOUSEPAD_LOCATION_VIRTUAL);
 
   /* set location */
   if (file->location == NULL && location != NULL)
@@ -369,11 +372,8 @@ mousepad_file_set_location (MousepadFile *file,
     }
 
   /* not a virtual change, such as when trying to save as */
-  if (real)
+  if (type == MOUSEPAD_LOCATION_REAL)
     {
-      /* this is a definitive location */
-      file->temporary = FALSE;
-
       /* update read-only status */
       if (mousepad_util_query_exists (location, TRUE)
           && G_LIKELY (fileinfo = g_file_query_info (location, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
@@ -396,9 +396,6 @@ mousepad_file_set_location (MousepadFile *file,
       /* send a signal that the name has been changed */
       g_signal_emit (file, file_signals[LOCATION_CHANGED], 0, location);
     }
-  /* toggle location state */
-  else
-    file->temporary = ! file->temporary;
 }
 
 

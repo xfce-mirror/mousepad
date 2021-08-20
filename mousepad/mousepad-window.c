@@ -1905,7 +1905,9 @@ mousepad_window_open_file (MousepadWindow   *window,
   autosave_uri = mousepad_object_get_data (file, "autosave-uri");
 
   /* set the file location */
-  mousepad_file_set_location (document->file, file, autosave_uri == NULL);
+  mousepad_file_set_location (document->file, file,
+                              autosave_uri == NULL ? MOUSEPAD_LOCATION_REAL
+                                                   : MOUSEPAD_LOCATION_VIRTUAL);
 
   /* the user chose to open the file in the encoding dialog */
   if (encoding == MOUSEPAD_ENCODING_NONE)
@@ -2003,11 +2005,11 @@ mousepad_window_open_file (MousepadWindow   *window,
       /* set definitive location */
       uri = g_file_get_uri (file);
       if (g_strcmp0 (uri, autosave_uri) == 0)
-        mousepad_file_set_location (document->file, NULL, FALSE);
+        mousepad_file_set_location (document->file, NULL, MOUSEPAD_LOCATION_REVERT);
       else
         {
           mousepad_object_set_data (file, "autosave-uri", NULL);
-          mousepad_file_set_location (document->file, file, TRUE);
+          mousepad_file_set_location (document->file, file, MOUSEPAD_LOCATION_REAL);
         }
 
       g_free (uri);
@@ -4369,7 +4371,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
 
       /* virtually set the file location */
       file = g_file_new_for_path (filename);
-      mousepad_file_set_location (document->file, file, FALSE);
+      mousepad_file_set_location (document->file, file, MOUSEPAD_LOCATION_VIRTUAL);
       g_object_unref (file);
 
       /* set encoding to default */
@@ -4380,7 +4382,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       result = mousepad_file_open (document->file, 0, 0, TRUE, FALSE, FALSE, &error);
 
       /* reset the file location */
-      mousepad_file_set_location (document->file, NULL, FALSE);
+      mousepad_file_set_location (document->file, NULL, MOUSEPAD_LOCATION_REVERT);
 
       /* release the lock */
       gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
@@ -4616,8 +4618,15 @@ mousepad_window_action_save_as (GSimpleAction *action,
   GFile            *file, *current_file = NULL;
   gboolean          succeed = FALSE;
 
+  /* "Save As" calls "Save" which can call "Save As" in turn,
+   * and we have to act differently if there is recursion */
+  static guint depth = 0, max_depth = 0;
+
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
+
+  /* increase recursion count */
+  max_depth = ++depth;
 
   /* run the dialog */
   if (mousepad_dialogs_save_as (GTK_WINDOW (window), document->file,
@@ -4632,7 +4641,7 @@ mousepad_window_action_save_as (GSimpleAction *action,
         }
 
       /* virtually set the new file location */
-      mousepad_file_set_location (document->file, file, FALSE);
+      mousepad_file_set_location (document->file, file, MOUSEPAD_LOCATION_VIRTUAL);
       mousepad_file_set_encoding (document->file, encoding);
 
       /* save the file by an internal call (the save action may be disabled, depending
@@ -4641,10 +4650,10 @@ mousepad_window_action_save_as (GSimpleAction *action,
       mousepad_window_action_save (G_SIMPLE_ACTION (save), NULL, window);
       succeed = mousepad_action_get_state_int32_boolean (save);
 
-      if (G_LIKELY (succeed))
+      if (G_LIKELY (succeed && depth == max_depth))
         {
           /* validate file location change */
-          mousepad_file_set_location (document->file, file, TRUE);
+          mousepad_file_set_location (document->file, file, MOUSEPAD_LOCATION_REAL);
 
           /* add to the recent history */
           mousepad_history_recent_add (document->file);
@@ -4652,12 +4661,13 @@ mousepad_window_action_save_as (GSimpleAction *action,
           /* update last save location */
           if (last_save_location != NULL)
             g_object_unref (last_save_location);
+
           last_save_location = g_file_get_parent (file);
         }
       /* revert file location change */
-      else
+      else if (depth == 1)
         {
-          mousepad_file_set_location (document->file, current_file, FALSE);
+          mousepad_file_set_location (document->file, current_file, MOUSEPAD_LOCATION_REVERT);
           mousepad_file_set_encoding (document->file, current_encoding);
         }
 
@@ -4669,6 +4679,9 @@ mousepad_window_action_save_as (GSimpleAction *action,
 
   /* store the save result as the action state */
   g_action_change_state (G_ACTION (action), g_variant_new_int32 (succeed));
+
+  /* decrease recursion count */
+  depth--;
 }
 
 
