@@ -1097,6 +1097,8 @@ mousepad_file_save (MousepadFile  *file,
   else
     {
       g_free (contents);
+      g_free (eol);
+
       return FALSE;
     }
 
