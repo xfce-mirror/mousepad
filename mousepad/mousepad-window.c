@@ -2952,7 +2952,7 @@ mousepad_window_externally_modified (MousepadFile   *file,
                           G_CALLBACK (mousepad_window_externally_modified), window);
 
       /* drop extra reference, maybe releasing the document */
-      g_object_ref (document);
+      g_object_unref (document);
     }
   /* the file is inactive in an inactive tab */
   else if (document->file != file)
