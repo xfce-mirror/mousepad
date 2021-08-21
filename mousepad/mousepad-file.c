@@ -21,6 +21,10 @@
 #include <mousepad/mousepad-dialogs.h>
 #include <mousepad/mousepad-history.h>
 
+#ifdef HAVE_ERRNO_H
+#include <errno.h>
+#endif
+
 
 
 enum

@@ -76,7 +76,7 @@ AC_SEARCH_LIBS([round], [m], [], [
 dnl **********************************
 dnl *** Check for standard headers ***
 dnl **********************************
-AC_CHECK_HEADERS([libintl.h locale.h math.h stdio.h stdlib.h string.h])
+AC_CHECK_HEADERS([errno.h libintl.h locale.h math.h stdio.h stdlib.h string.h])
 
 dnl ******************************
 dnl *** Check for i18n support ***
