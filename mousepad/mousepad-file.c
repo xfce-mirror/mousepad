@@ -27,6 +27,10 @@
 
 
 
+#ifndef HAVE_REALPATH
+#define realpath(path, resolved_path) NULL
+#endif
+
 enum
 {
   ENCODING_CHANGED,
