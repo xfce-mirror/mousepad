@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-07-26 09:23+0000\n"
+"PO-Revision-Date: 2021-08-25 11:53+0000\n"
 "Last-Translator: Саша Петровић <salepetronije@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/xfce/xfce-apps/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -1338,7 +1338,7 @@ msgstr "Претвори све празнине у размаке избора 
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "_Водеће размаке у картице"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
@@ -1590,15 +1590,15 @@ msgstr "<b>Увлачење</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr ""
+msgstr "(Shift-)Tab: (Врати)увуци изабрано писмо"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Брисање назад: Бриши увучене размаке као картице"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: Препознај почетну/завршну празнину:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "<b>Smart Keys</b>"
@@ -1611,7 +1611,7 @@ msgstr "Уредник"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Корисничко украшавање (потребно је препокретање)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Show full filename in title bar"
@@ -1655,7 +1655,7 @@ msgstr "Увек приказуј листове чак и са једном д�
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Прошири картице ради попуне доступног простора"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Cycled notebook tab switching"
@@ -1675,45 +1675,45 @@ msgstr "Прозор"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "Обавежи испис нове линије на концу датотеке"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Умножи са наставком „~“"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "<b>File saving</b>"
-msgstr ""
+msgstr "<b>Чување датотека</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
-msgstr ""
+msgstr "Повратак седнице:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Када је „несачуван докуменат“ или „увек“ одабрано, Мишоловка неће питати да ли да чува измењене документе приликом напуштања"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid "Recent file menu length:"
-msgstr ""
+msgstr "Дужина изборника скорашњих датотека:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "„0“ онемогућава и брише запис скорашњих датотека"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>Историја</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "File monitoring"
-msgstr ""
+msgstr "Надгледање датотеке"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "Default encoding:"
-msgstr ""
+msgstr "Подразумевано кодирање:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "<b>Miscellaneous</b>"
@@ -1729,12 +1729,12 @@ msgstr "Прикључци"
 
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:45
 msgid "Spell Checking"
-msgstr ""
+msgstr "Провера правописа"
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
 msgid "Default language:"
-msgstr ""
+msgstr "Подразумевани језик:"
 
 #: ../mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
@@ -1746,11 +1746,11 @@ msgstr "Уређивач писања"
 
 #: ../mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "Поставке уредника писања"
 
 #: ../mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
-msgstr ""
+msgstr "Подесите уредника писања Мишоловку"
 
 #: ../mousepad.appdata.xml.in.h:1
 msgid ""
