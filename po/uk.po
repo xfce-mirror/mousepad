@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-08-31 20:57+0000\n"
+"PO-Revision-Date: 2021-09-04 14:47+0000\n"
 "Last-Translator: Taras Panchenko <top39@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/xfce/xfce-apps/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "Кодування, яке буде використовуватися для відкриття файлів (залиште порожнім, щоб відкрити файли в діалоговому вікні кодування)"
 
 #: ../mousepad/mousepad-application.c:142
 msgid "ENCODING"
@@ -32,7 +32,7 @@ msgstr "КОДУВАННЯ"
 
 #: ../mousepad/mousepad-application.c:147
 msgid "Display a list of possible encodings to open files"
-msgstr ""
+msgstr "Вивести список можливих кодувань для відкриття файлів"
 
 #: ../mousepad/mousepad-application.c:152
 msgid ""
@@ -128,7 +128,7 @@ msgstr "Перейти до"
 #. add button
 #: ../mousepad/mousepad-dialogs.c:240
 msgid "_Jump to"
-msgstr ""
+msgstr "_Перейти до"
 
 #: ../mousepad/mousepad-dialogs.c:260
 msgid "_Line number:"
@@ -155,7 +155,7 @@ msgstr "Очищення історії документів назавжди в
 
 #: ../mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
-msgstr ""
+msgstr "О_чистити"
 
 #: ../mousepad/mousepad-dialogs.c:382
 msgid "Do you want to save the changes before closing?"
@@ -221,11 +221,11 @@ msgstr "Якщо відновити файл, то всі незбережені
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "Здається, файл кодований у %s, але обрано %s кодування. Ви підтверджуєте цей вибір?"
 
 #: ../mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "Якщо ні, буде використано вгадане кодування."
 
 #: ../mousepad/mousepad-dialogs.c:640
 msgid ""
@@ -235,7 +235,7 @@ msgstr "Схоже, що попередній сеанс не закінчивс
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "Якщо ні, всі ці дані буде втрачено."
 
 #: ../mousepad/mousepad-dialogs.c:858
 msgid "Please select a file"
@@ -243,7 +243,7 @@ msgstr "Виберіть файл, будь ласка"
 
 #: ../mousepad/mousepad-dialogs.c:890
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "Не вдалося підготувати тимчасовий файл для тестів кодування"
 
 #: ../mousepad/mousepad-dialogs.c:953 ../mousepad/mousepad-dialogs.c:1026
 msgid "Open encoding dialog"
@@ -673,7 +673,7 @@ msgstr "Тип файлу: %s"
 #. add the label with the root warning
 #: ../mousepad/mousepad-window.c:1072
 msgid "Warning: you are using the root account. You may harm your system."
-msgstr ""
+msgstr "Попередження: використовується обліковий запис root. Ви можете завдати шкоди своїй системі."
 
 #: ../mousepad/mousepad-window.c:2248
 msgid "Read Only"
@@ -686,7 +686,7 @@ msgstr "Режим перегляду"
 #: ../mousepad/mousepad-window.c:3276
 #, c-format
 msgid "Use '%s' as template"
-msgstr ""
+msgstr "Використовувати '%s' як шаблон"
 
 #: ../mousepad/mousepad-window.c:3302
 #, c-format
@@ -700,7 +700,7 @@ msgstr "Не знайдено файлів-шаблонів в\n'%s'"
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr ""
+msgstr "Відсутній каталог шаблонів\n'%s'"
 
 #. create suitable text label for the "Other" menu
 #: ../mousepad/mousepad-window.c:3419
@@ -757,7 +757,7 @@ msgstr ""
 #. set error message
 #: ../mousepad/mousepad-window.c:4406
 msgid "Reading the template failed"
-msgstr ""
+msgstr "Не вдалося прочитати шаблон"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:4411
@@ -796,7 +796,7 @@ msgstr "Новий з _шаблону"
 
 #: ../mousepad/resources/gtk/menus.ui.h:6
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "Створити новий документ із шаблону"
 
 #: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "Op_en Recent"
@@ -888,11 +888,11 @@ msgstr "Шукати назад той самий текст"
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_Incremental Search"
-msgstr ""
+msgstr "Пос_туповий пошук"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Автоматично обрати результат пошуку та прокручувати подання"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -900,7 +900,7 @@ msgstr "Виділити _все"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search occurrences"
-msgstr ""
+msgstr "Підсвічувати пошукові запити"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -924,7 +924,7 @@ msgstr "_Схема кольору"
 
 #: ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Кольорова схема для використання відображення тексту"
 
 #: ../mousepad/resources/gtk/menus.ui.h:39
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
@@ -998,27 +998,27 @@ msgstr "Розмір _табуляції"
 
 #: ../mousepad/resources/gtk/menus.ui.h:56
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "Кількість пробілів для табуляції"
 
 #: ../mousepad/resources/gtk/menus.ui.h:57
 msgid "Two spaces"
-msgstr ""
+msgstr "Два пробіли"
 
 #: ../mousepad/resources/gtk/menus.ui.h:58
 msgid "Three spaces"
-msgstr ""
+msgstr "Три пробіли"
 
 #: ../mousepad/resources/gtk/menus.ui.h:59
 msgid "Four spaces"
-msgstr ""
+msgstr "Чотири пробіли"
 
 #: ../mousepad/resources/gtk/menus.ui.h:60
 msgid "Eight spaces"
-msgstr ""
+msgstr "Вісім пробілів"
 
 #: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "Other..."
-msgstr ""
+msgstr "Інше..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:62
 msgid "Set custom tab size"
@@ -1078,11 +1078,11 @@ msgstr "Зберегти порядок байтів у файл"
 
 #: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "_Режим перегляду"
 
 #: ../mousepad/resources/gtk/menus.ui.h:77
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Заборонити зміни за допомогою клавіатури / миші"
 
 #: ../mousepad/resources/gtk/menus.ui.h:78
 msgid "_Previous Tab"
@@ -1158,7 +1158,7 @@ msgstr "Зберегти документ як інший файл"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
-msgstr ""
+msgstr "Переза_вантажити"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
@@ -1178,7 +1178,7 @@ msgstr "Закрити поточний документ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:15
 msgid "_Undo"
-msgstr ""
+msgstr "Поверн_ути"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:16
 msgid "Undo the last action"
@@ -1186,7 +1186,7 @@ msgstr "Відмінити останню дію"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:17
 msgid "_Redo"
-msgstr ""
+msgstr "Повто_рити"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:18
 msgid "Redo the last undone action"
@@ -1194,7 +1194,7 @@ msgstr "Відновити останню зроблену дію"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:19
 msgid "Cu_t"
-msgstr ""
+msgstr "Виріза_ти"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:20
 msgid "Cut the selection"
