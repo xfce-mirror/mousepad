@@ -14,8 +14,8 @@ distuninstallcheck_listfiles = 						\
 
 desktopdir = $(datadir)/applications
 desktop_in_in_files = 								\
-	mousepad.desktop.in.in \
-	mousepad-settings.desktop.in.in
+	org.xfce.mousepad.desktop.in.in \
+	org.xfce.mousepad-settings.desktop.in.in
 desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in)
 %.desktop.in: %.desktop.in.in
 	sed -e "s,\@libexecdir\@,$(libexecdir),g" < $< > $@
@@ -28,7 +28,7 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_XML_RULE@
 appdatadir = $(datadir)/metainfo
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
-appdata_in_files = mousepad.appdata.xml.in
+appdata_in_files = org.xfce.mousepad.appdata.xml.in
 
 polkit_policydir = $(datadir)/polkit-1/actions
 polkit_in_in_files =			\
