@@ -955,6 +955,10 @@ mousepad_document_prevent_endless_scanning (MousepadDocument *document,
       mousepad_disconnect_by_func (document->buffer, mousepad_document_scanning_started, document);
       mousepad_disconnect_by_func (document->priv->search_context,
                                    mousepad_document_scanning_completed, document);
+
+      /* re-enable highlighting if disconnection occurs between the two switches above */
+      gtk_source_search_context_set_highlight (document->priv->search_context,
+                                               MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_HIGHLIGHT_ALL));
     }
 }
 
