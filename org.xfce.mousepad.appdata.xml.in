@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Eric Koegel <eric.koegel@gmail.com> and Simon Steinbeiss <simon@xfce.org> -->
 <component type="desktop">
-  <id>mousepad.desktop</id>
+  <id>org.xfce.mousepad</id>
   <metadata_license>CC-BY-3.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>Mousepad</name>
@@ -33,6 +33,7 @@
   <updatecontact>xfce4-dev@xfce.org</updatecontact>
   <translation type="gettext">Mousepad</translation>
 
+  <launchable type="desktop-id">org.xfce.mousepad.desktop</launchable>
   <provides>
     <binary>mousepad</binary>
   </provides>
