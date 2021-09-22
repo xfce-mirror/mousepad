@@ -1,0 +1,6 @@
+#!/bin/sh
+
+script_dir=$(dirname "$0")
+
+flatpak-builder --user --force-clean --install --state-dir="$script_dir/.flatpak-builder" \
+                "$script_dir/build" "$script_dir/org.xfce.mousepad.yml"
