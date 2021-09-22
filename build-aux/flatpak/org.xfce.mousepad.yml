@@ -1,0 +1,114 @@
+app-id: org.xfce.mousepad
+runtime: org.freedesktop.Platform
+runtime-version: '21.08'
+sdk: org.freedesktop.Sdk
+command: mousepad
+
+# temporary, to test before the file renaming is committed
+rename-desktop-file: mousepad.desktop
+rename-appdata-file: mousepad.appdata.xml
+
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=fallback-x11
+  - --socket=wayland
+  # using GtkFileChooserNative would imply non-trivial changes and a loss of functionality
+  - --filesystem=host
+
+cleanup:
+  - '*.a'
+  - '*.la'
+  - /lib/girepository-1.0
+  - /lib/pkgconfig
+  - /include
+  - /share/gir-1.0
+  - /share/gtk-doc
+  - /share/man
+
+modules:
+  # build-time dependencies
+  - name: intltool
+    cleanup:
+      - '*'
+    sources:
+      - type: archive
+        url: https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
+        sha256: 67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd
+        x-checker-data:
+          type: anitya
+          project-id: 1385
+          url-template: https://launchpad.net/intltool/trunk/$version/+download/intltool-$version.tar.gz
+
+  # mandatory dependencies
+  - name: gtksourceview
+    cleanup:
+      - /bin
+    buildsystem: meson
+    config-opts:
+      - -Dvapi=false
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.2.tar.xz
+        sha256: 842de7e5cb52000fd810e4be39cd9fe29ffa87477f15da85c18f7b82d45637cc
+        x-checker-data:
+          type: gnome
+          name: gtksourceview
+
+  # optionnal dependencies (plugins)
+  - name: gspell
+    modules:
+      - name: enchant
+        cleanup:
+          - /bin
+        sources:
+          - type: archive
+            url: https://github.com/AbiWord/enchant/releases/download/v2.3.1/enchant-2.3.1.tar.gz
+            sha256: 7b4b1afcf2cd8bfa691deea6188404d337f23174bbc39b9c2add2bf340736e9c
+            x-checker-data:
+              type: anitya
+              project-id: 6601
+              url-template: https://github.com/AbiWord/enchant/releases/download/v$version/enchant-$version.tar.gz
+    cleanup:
+      - /bin
+    config-opts:
+      - --disable-vala
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gspell/1.8/gspell-1.8.4.tar.xz
+        sha256: cf4d16a716e813449bd631405dc1001ea89537b8cdae2b8abfb3999212bd43b4
+        x-checker-data:
+          type: gnome
+          name: gspell
+
+  # git build, not in the Flathub version
+  - name: mousepad
+    modules:
+      - name: xfce4-dev-tools
+        cleanup:
+          - '*'
+        sources:
+          - type: archive
+            url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.16/xfce4-dev-tools-4.16.0.tar.bz2
+            sha256: f50b3070e66f3ebdf331744dd1ec5e1af5de333965d491e15ce05545e8eb4f04
+    config-opts:
+      - --enable-maintainer-mode
+    sources:
+      - type: git
+        url: https://gitlab.xfce.org/apps/mousepad.git
+        # to build a local branch, comment out 'url' and uncomment:
+        #path: ../../
+        #branch: your-branch
+
+  #  # archive build, for the Flathub version
+  # - name: mousepad
+  #   config-opts:
+  #     - --disable-debug
+  #   sources:
+  #     - type: archive
+  #       url: https://archive.xfce.org/src/apps/mousepad/0.5/mousepad-0.5.6.tar.bz2
+  #       sha256: 42559863b01d89bd21136beea0a1461530377fabc6553bdfe14399d55596350f
+  #       x-checker-data:
+  #         type: anitya
+  #         project-id: 198617
+  #         url-template: https://archive.xfce.org/src/apps/mousepad/$major.$minor/mousepad-$version.tar.bz2
