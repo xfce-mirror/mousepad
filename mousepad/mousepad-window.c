@@ -2956,12 +2956,12 @@ mousepad_window_externally_modified (MousepadFile   *file,
     }
   /* the file is inactive in an inactive tab */
   else if (document->file != file)
-    g_signal_connect (window->notebook, "switch-page",
-                      G_CALLBACK (mousepad_window_pending_tab), file);
+    g_signal_connect_object (window->notebook, "switch-page",
+                             G_CALLBACK (mousepad_window_pending_tab), file, 0);
   /* the file is inactive in the active tab of an inactive window */
   else
-    g_signal_connect (window, "notify::is-active",
-                      G_CALLBACK (mousepad_window_pending_window), document);
+    g_signal_connect_object (window, "notify::is-active",
+                             G_CALLBACK (mousepad_window_pending_window), document, 0);
 }
 
 
