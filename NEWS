@@ -1,3 +1,35 @@
+0.5.7
+======
+- Bug Fixes:
+  - Update Appdata file and use the same description everywhere
+  - Prevent warning when saving a deleted file via a symlink (#135)
+  - Conform to Freedesktop.org standard for file naming
+  - Properly disconnect signal handlers
+  - Be sure not to disable highlighting when disabling regex search
+  - Check for realpath()
+  - Check for `errno.h` required by CI
+  - Fix a nasty memory leak
+  - Fix "Save As" procedure when it recurses
+  - Allow drag and drop on selections in the textview
+  - Code cleanup: Remove a useless dnd signal forwarding
+  - Code cleanup: Simplify `mousepad_file_save()`
+  - Fix a small memory leak
+  - Improve trash can management
+  - Update read-only status on file location change/validation
+  - Monitor also the target of broken links
+  - Fix monitoring of files opened through a symlink
+  - Allow drag and drop of broken links
+  - Follow symlinks if necessary when checking if a file exists
+  - Replace `g_realloc()` with `g_renew()`
+  - Replace `g_malloc*()` with `g_new*()` (!113)
+  - Make sure that `gtk_selection_data_get_uris()` returned non-NULL (!113)
+  - Initialize `contents` and use it to guard `g_file_replace_contents` (!113)
+  - Fix an unlikely memory leak
+  - Make CSD consistent with other Xfce windows (#145)
+- Translation Updates:
+  Estonian, Greek, Kazakh, Polish, Serbian, Slovenian, Swedish,
+  Ukrainian
+
 0.5.6
 ======
 - New Features:
