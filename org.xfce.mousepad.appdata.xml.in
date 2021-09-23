@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Eric Koegel <eric.koegel@gmail.com> and Simon Steinbeiss <simon@xfce.org> -->
-<component type="desktop">
+<component type="desktop-application">
   <id>org.xfce.mousepad</id>
-  <metadata_license>CC-BY-3.0</metadata_license>
+  <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
-  <name>Mousepad</name>
-  <summary>Mousepad is a simple text editor for the Xfce desktop environment</summary>
+  <_name>Mousepad</_name>
+  <_summary>Mousepad is a simple text editor for the Xfce desktop environment</_summary>
 
   <description>
     <_p>Mousepad aims to be an easy-to-use and fast editor. Our target is an
         editor for quickly editing text files, not a development environment
         or an editor with a huge bunch of plugins.
    </_p>
-   <_p>On the other hand we try to use the latest Gtk+ features available,
-        which means that if Gtk adds something new in a major release that is
-        useful for the editor, we will likely bump the Gtk dependency and
+    <_p>On the other hand we try to use the latest GTK features available,
+        which means that if GTK adds something new in a major release that is
+        useful for the editor, we will likely bump the GTK dependency and
         integrate this new feature in Mousepad.
     </_p>
   </description>
@@ -28,14 +28,20 @@
   <url type="homepage">https://xfce.org</url>
   <url type="bugtracker">https://gitlab.xfce.org/apps/mousepad/</url>
   <url type="help">https://docs.xfce.org/apps/mousepad/start</url>
+  <url type="donation">https://opencollective.com/xfce/donate</url>
+  <url type="translate">https://docs.xfce.org/contribute/translate/start</url>
 
   <project_group>Xfce</project_group>
-  <updatecontact>xfce4-dev@xfce.org</updatecontact>
+  <update_contact>xfce4-dev@xfce.org</update_contact>
+  <developer_name>The Mousepad developers</developer_name>
   <translation type="gettext">Mousepad</translation>
-
   <launchable type="desktop-id">org.xfce.mousepad.desktop</launchable>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release date="2021-07-31" version="0.5.6"/>
+  </releases>
+
   <provides>
     <binary>mousepad</binary>
   </provides>
-
 </component>
