@@ -913,6 +913,15 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
   if (m_file->monitor != NULL)
     g_signal_handlers_block_by_func (m_file->monitor, mousepad_file_monitor_changed, m_file);
 
+  /*
+   * Prevent g_file_replace_contents() from returning G_IO_ERROR_WRONG_ETAG when the
+   * link target has been removed.
+   * See https://gitlab.gnome.org/GNOME/glib/-/issues/2466
+   */
+  if (mousepad_util_is_symlink (m_file->location)
+      && ! mousepad_util_query_exists (m_file->location, TRUE))
+    etag = NULL;
+
   /* replace contents */
   succeed = g_file_replace_contents (file, contents, length, etag, make_backup,
                                      flags, new_etag, cancellable, error);
