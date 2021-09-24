@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-07-11 15:34+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
+"POT-Creation-Date: 2021-09-24 00:48+0200\n"
+"PO-Revision-Date: 2021-09-23 22:48+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,7 +77,9 @@ msgid "[FILES...]"
 msgstr "[ファイル...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:386 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:386
+#: ../org.xfce.mousepad.desktop.in.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
@@ -104,9 +106,9 @@ msgstr "バグの報告は <%s> までお願いします。"
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | 作者: %s | ファイル名: %s"
 
-#: ../mousepad/mousepad-dialogs.c:70
-msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
-msgstr "Mousepad は Xfce デスクトップ環境用の高速なテキストエディターです。"
+#: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
+msgid "Mousepad is a simple text editor for the Xfce desktop environment"
+msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -297,12 +299,12 @@ msgid "Choose Mousepad Font"
 msgstr "Mousepad のフォントを選択する"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:650
+#: ../mousepad/mousepad-document.c:618
 msgid "Close this tab"
 msgstr "このタブを閉じます"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:680
+#: ../mousepad/mousepad-document.c:648
 msgid "Untitled"
 msgstr "無題"
 
@@ -470,7 +472,7 @@ msgstr "日本語"
 msgid "Korean"
 msgstr "韓国語"
 
-#: ../mousepad/mousepad-file.c:688
+#: ../mousepad/mousepad-file.c:774
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "変換入力内に不正なバイト列があります"
@@ -480,7 +482,8 @@ msgid "Failed to clear the recent history"
 msgstr "ドキュメント履歴のクリアに失敗しました"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:553 ../mousepad.desktop.in.in.h:4
+#: ../mousepad/mousepad-prefs-dialog.c:553
+#: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Mousepad 設定"
 
@@ -674,27 +677,27 @@ msgstr "ファイルタイプ: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "警告: あなたは root アカウントを使用しています。システムに悪影響を与えるかもしれません。"
 
-#: ../mousepad/mousepad-window.c:2248
+#: ../mousepad/mousepad-window.c:2249
 msgid "Read Only"
 msgstr "読込専用"
 
-#: ../mousepad/mousepad-window.c:2252
+#: ../mousepad/mousepad-window.c:2253
 msgid "Viewer Mode"
 msgstr "ビュアーモード"
 
-#: ../mousepad/mousepad-window.c:3276
+#: ../mousepad/mousepad-window.c:3279
 #, c-format
 msgid "Use '%s' as template"
 msgstr "'%s' をテンプレートとして使用する"
 
-#: ../mousepad/mousepad-window.c:3302
+#: ../mousepad/mousepad-window.c:3305
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "テンプレートファイルが '%s' 内に\nありません"
 
-#: ../mousepad/mousepad-window.c:3367
+#: ../mousepad/mousepad-window.c:3370
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -702,74 +705,74 @@ msgid ""
 msgstr "テンプレートディレクトリがありません\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3419
+#: ../mousepad/mousepad-window.c:3422
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "その他 (%d)(_H)..."
 
-#: ../mousepad/mousepad-window.c:3429
+#: ../mousepad/mousepad-window.c:3432
 msgid "Ot_her..."
 msgstr "その他(_H)..."
 
-#: ../mousepad/mousepad-window.c:3528
+#: ../mousepad/mousepad-window.c:3531
 msgid "Revert to the saved version of the file"
 msgstr "保存されているファイルに戻します"
 
-#: ../mousepad/mousepad-window.c:3534
+#: ../mousepad/mousepad-window.c:3537
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "ディスクからファイルをリロードする"
 
-#: ../mousepad/mousepad-window.c:3540
+#: ../mousepad/mousepad-window.c:3543
 msgid "Leave fullscreen mode"
 msgstr "全画面モードから復帰します"
 
-#: ../mousepad/mousepad-window.c:3545
+#: ../mousepad/mousepad-window.c:3548
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "ウィンドウを全画面化します"
 
-#: ../mousepad/mousepad-window.c:3785
+#: ../mousepad/mousepad-window.c:3786
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s' を開きます"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "No items found"
 msgstr "アイテムが見つかりません"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "History disabled"
 msgstr "履歴が無効になっています"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4291
+#: ../mousepad/mousepad-window.c:4292
 msgid "No clipboard data"
 msgstr "クリップボードにデータがありません"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4400
+#: ../mousepad/mousepad-window.c:4401
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "テンプレートは %s が有効である必要があります"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4406
+#: ../mousepad/mousepad-window.c:4407
 msgid "Reading the template failed"
 msgstr "テンプレートの読み込みに失敗しました"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4411
+#: ../mousepad/mousepad-window.c:4412
 msgid "Loading the template failed"
 msgstr "テンプレートの読み込みに失敗しました"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4839
+#: ../mousepad/mousepad-window.c:4853
 msgid "Failed to reload the document"
 msgstr "文書の再読み込みに失敗しました"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4871
+#: ../mousepad/mousepad-window.c:4885
 msgid "Failed to print the document"
 msgstr "文書の印刷に失敗しました"
 
@@ -1735,36 +1738,36 @@ msgstr "スペルチェック"
 msgid "Default language:"
 msgstr "デフォルトの言語:"
 
-#: ../mousepad.desktop.in.in.h:2
+#: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
 msgstr "シンプルなテキストエディターです"
 
-#: ../mousepad.desktop.in.in.h:3
+#: ../org.xfce.mousepad.desktop.in.in.h:3
 msgid "Text Editor"
 msgstr "テキストエディター"
 
-#: ../mousepad-settings.desktop.in.in.h:1
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
 msgstr "テキストエディター設定"
 
-#: ../mousepad-settings.desktop.in.in.h:2
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
 msgstr "Mousepad テキストエディターを設定します"
 
-#: ../mousepad.appdata.xml.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:3
 msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
 msgstr "Mousepad は、使いやすく高速なエディターを目指しています。私たちのターゲットは開発環境や膨大な数のプラグインを持つエディターではなく、テキストファイルをすばやく編集するためのエディターです。"
 
-#: ../mousepad.appdata.xml.in.h:2
+#: ../org.xfce.mousepad.appdata.xml.in.h:4
 msgid ""
-"On the other hand we try to use the latest Gtk+ features available, which "
-"means that if Gtk adds something new in a major release that is useful for "
-"the editor, we will likely bump the Gtk dependency and integrate this new "
+"On the other hand we try to use the latest GTK features available, which "
+"means that if GTK adds something new in a major release that is useful for "
+"the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "その一方で最新のGtk+の機能を使おうとしています。つまり、Gtkがメジャーリリースにおいてエディターに役立つ新しいものを追加した場合、古いGtkの依存関係を解消し、新しい機能を Mousepad に統合する可能性があります。"
+msgstr ""
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
