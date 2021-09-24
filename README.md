@@ -4,12 +4,12 @@
 
 Mousepad is a simple text editor for the [Xfce](https://www.xfce.org) desktop environment.
 
-**Mousepad** aims to be an easy-to-use and fast editor. Our target is an
+Mousepad aims to be an easy-to-use and fast editor. Our target is an
 editor for quickly editing text files, not a development environment or an
 editor with a huge bunch of plugins. On the other hand we try to use the latest
 GTK features available, which means that if GTK adds something new in a major
 release that is useful for the editor, we will likely bump the GTK dependency
-and integrate this new feature in **Mousepad**.
+and integrate this new feature in Mousepad.
 
 ----
 
@@ -62,6 +62,10 @@ From release tarball:
     % ./configure
     % make
     % make install
+
+From [Flathub](https://flathub.org/apps/details/org.xfce.mousepad):
+
+    % flatpak install flathub org.xfce.mousepad
 
 ### Reporting Bugs
 
