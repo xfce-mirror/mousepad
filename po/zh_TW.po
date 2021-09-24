@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-07-11 00:33+0000\n"
+"POT-Creation-Date: 2021-09-24 00:48+0200\n"
+"PO-Revision-Date: 2021-09-24 01:58+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/xfce/xfce-apps/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,9 @@ msgid "[FILES...]"
 msgstr "[檔案...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:386 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:386
+#: ../org.xfce.mousepad.desktop.in.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
@@ -104,9 +106,9 @@ msgstr "請將臭蟲回報至 <%s>。"
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | 作者：%s | 檔案名稱：%s"
 
-#: ../mousepad/mousepad-dialogs.c:70
-msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
-msgstr "Mousepad 是 Xfce 桌面環境的快速文字編輯器。"
+#: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
+msgid "Mousepad is a simple text editor for the Xfce desktop environment"
+msgstr "Mousepad 是 Xfce 桌面環境的簡潔文字編輯器"
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -297,12 +299,12 @@ msgid "Choose Mousepad Font"
 msgstr "選擇 Mousepad 字型"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:650
+#: ../mousepad/mousepad-document.c:618
 msgid "Close this tab"
 msgstr "關閉此分頁"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:680
+#: ../mousepad/mousepad-document.c:648
 msgid "Untitled"
 msgstr "未命名"
 
@@ -470,7 +472,7 @@ msgstr "日文"
 msgid "Korean"
 msgstr "韓文"
 
-#: ../mousepad/mousepad-file.c:688
+#: ../mousepad/mousepad-file.c:774
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "在轉換輸入有無效的位元組序列"
@@ -480,7 +482,8 @@ msgid "Failed to clear the recent history"
 msgstr "無法清除最近歷史"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:553 ../mousepad.desktop.in.in.h:4
+#: ../mousepad/mousepad-prefs-dialog.c:553
+#: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Mousepad 偏好設定"
 
@@ -674,27 +677,27 @@ msgstr "檔案類型：%s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "警告：您正在使用 root 帳號。您可能會弄壞您的系統。"
 
-#: ../mousepad/mousepad-window.c:2248
+#: ../mousepad/mousepad-window.c:2249
 msgid "Read Only"
 msgstr "唯讀"
 
-#: ../mousepad/mousepad-window.c:2252
+#: ../mousepad/mousepad-window.c:2253
 msgid "Viewer Mode"
 msgstr "檢視器模式"
 
-#: ../mousepad/mousepad-window.c:3276
+#: ../mousepad/mousepad-window.c:3279
 #, c-format
 msgid "Use '%s' as template"
 msgstr "使用「%s」作為範本"
 
-#: ../mousepad/mousepad-window.c:3302
+#: ../mousepad/mousepad-window.c:3305
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "在下列的位置中沒有發現模板檔案\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3367
+#: ../mousepad/mousepad-window.c:3370
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -702,74 +705,74 @@ msgid ""
 msgstr "模板目錄遺失\n「%s」"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3419
+#: ../mousepad/mousepad-window.c:3422
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "其他(_H) (%d)..."
 
-#: ../mousepad/mousepad-window.c:3429
+#: ../mousepad/mousepad-window.c:3432
 msgid "Ot_her..."
 msgstr "其他(_H)..."
 
-#: ../mousepad/mousepad-window.c:3528
+#: ../mousepad/mousepad-window.c:3531
 msgid "Revert to the saved version of the file"
 msgstr "還原至檔案的儲存版本"
 
-#: ../mousepad/mousepad-window.c:3534
+#: ../mousepad/mousepad-window.c:3537
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "從磁碟重新載入"
 
-#: ../mousepad/mousepad-window.c:3540
+#: ../mousepad/mousepad-window.c:3543
 msgid "Leave fullscreen mode"
 msgstr "離開全螢幕模式"
 
-#: ../mousepad/mousepad-window.c:3545
+#: ../mousepad/mousepad-window.c:3548
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "讓視窗變為全螢幕"
 
-#: ../mousepad/mousepad-window.c:3785
+#: ../mousepad/mousepad-window.c:3786
 #, c-format
 msgid "Open '%s'"
 msgstr "開啟「%s」"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "No items found"
 msgstr "找不到項目"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "History disabled"
 msgstr "已停用歷史紀錄"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4291
+#: ../mousepad/mousepad-window.c:4292
 msgid "No clipboard data"
 msgstr "剪貼簿沒有資料"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4400
+#: ../mousepad/mousepad-window.c:4401
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "範本應為 %s 有效"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4406
+#: ../mousepad/mousepad-window.c:4407
 msgid "Reading the template failed"
 msgstr "讀取範本失敗"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4411
+#: ../mousepad/mousepad-window.c:4412
 msgid "Loading the template failed"
 msgstr "範本載入失敗"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4839
+#: ../mousepad/mousepad-window.c:4853
 msgid "Failed to reload the document"
 msgstr "未能重新載入文件"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4871
+#: ../mousepad/mousepad-window.c:4885
 msgid "Failed to print the document"
 msgstr "未能列印文件"
 
@@ -1735,36 +1738,36 @@ msgstr "拼字檢查"
 msgid "Default language:"
 msgstr "預設語言"
 
-#: ../mousepad.desktop.in.in.h:2
+#: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
 msgstr "簡易文字編輯器"
 
-#: ../mousepad.desktop.in.in.h:3
+#: ../org.xfce.mousepad.desktop.in.in.h:3
 msgid "Text Editor"
 msgstr "文字編輯器"
 
-#: ../mousepad-settings.desktop.in.in.h:1
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
 msgstr "文字編輯器設定"
 
-#: ../mousepad-settings.desktop.in.in.h:2
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
 msgstr "設定 Mousepad 文字編輯器"
 
-#: ../mousepad.appdata.xml.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:3
 msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
 msgstr "Mousepad 致力於成為易用且快速的編輯器。我們的目標是可以快速編輯文字檔的編輯器，不是開發環境或有大量外掛程式的編輯器。"
 
-#: ../mousepad.appdata.xml.in.h:2
+#: ../org.xfce.mousepad.appdata.xml.in.h:4
 msgid ""
-"On the other hand we try to use the latest Gtk+ features available, which "
-"means that if Gtk adds something new in a major release that is useful for "
-"the editor, we will likely bump the Gtk dependency and integrate this new "
+"On the other hand we try to use the latest GTK features available, which "
+"means that if GTK adds something new in a major release that is useful for "
+"the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "另一方面，我們試著使用最新的 Gtk+ 功能，這代表了如果 Gtk 在新的主要版本中加入了某些可能對編輯器有用的新東西，我們可能會破壞 Gtk 的依賴關係來將此功能整合到 Mousepad 中。"
+msgstr "另一方面，我們試著使用最新的 GTK 功能，這代表了如果 GTK 在新的主要版本中加入了某些可能對編輯器有用的新東西，我們可能會破壞 GTK 的依賴關係來將此功能整合到 Mousepad 中。"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
