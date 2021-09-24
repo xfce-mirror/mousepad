@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-07-10 22:46+0000\n"
+"POT-Creation-Date: 2021-09-24 00:48+0200\n"
+"PO-Revision-Date: 2021-09-23 22:48+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Croatian (http://www.transifex.com/xfce/xfce-apps/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,9 @@ msgid "[FILES...]"
 msgstr "[DATOTEKE...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:386 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:386
+#: ../org.xfce.mousepad.desktop.in.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
@@ -103,9 +105,9 @@ msgstr "Molim prijavite probleme na <%s>."
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autori: %s | Naziv datoteke: %s"
 
-#: ../mousepad/mousepad-dialogs.c:70
-msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
-msgstr "Mousepad je brzi uređivač teksta za Xfce radno okruženje."
+#: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
+msgid "Mousepad is a simple text editor for the Xfce desktop environment"
+msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -296,12 +298,12 @@ msgid "Choose Mousepad Font"
 msgstr "Odaberite Mousepad font"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:650
+#: ../mousepad/mousepad-document.c:618
 msgid "Close this tab"
 msgstr "Zatvori ovu karticu"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:680
+#: ../mousepad/mousepad-document.c:648
 msgid "Untitled"
 msgstr "Neimenovano"
 
@@ -469,7 +471,7 @@ msgstr "Japanski"
 msgid "Korean"
 msgstr "Korejski"
 
-#: ../mousepad/mousepad-file.c:688
+#: ../mousepad/mousepad-file.c:774
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Nepravilan slijed bajtova u ulazu konverzije"
@@ -479,7 +481,8 @@ msgid "Failed to clear the recent history"
 msgstr "Neuspjelo čišćenje nedavne povijesti"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:553 ../mousepad.desktop.in.in.h:4
+#: ../mousepad/mousepad-prefs-dialog.c:553
+#: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr ""
 
@@ -675,27 +678,27 @@ msgstr "Vrsta datoteke: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Upozorenje: koristite korijenski račun. Možete oštetiti vaš sustav."
 
-#: ../mousepad/mousepad-window.c:2248
+#: ../mousepad/mousepad-window.c:2249
 msgid "Read Only"
 msgstr "Samo čitanje"
 
-#: ../mousepad/mousepad-window.c:2252
+#: ../mousepad/mousepad-window.c:2253
 msgid "Viewer Mode"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3276
+#: ../mousepad/mousepad-window.c:3279
 #, c-format
 msgid "Use '%s' as template"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3302
+#: ../mousepad/mousepad-window.c:3305
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Nije nađena datoteka predloška\nu '%s'"
 
-#: ../mousepad/mousepad-window.c:3367
+#: ../mousepad/mousepad-window.c:3370
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -703,74 +706,74 @@ msgid ""
 msgstr "Nedostaje direktorij predložaka\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3419
+#: ../mousepad/mousepad-window.c:3422
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Os_talo (%d)..."
 
-#: ../mousepad/mousepad-window.c:3429
+#: ../mousepad/mousepad-window.c:3432
 msgid "Ot_her..."
 msgstr "Os_talo..."
 
-#: ../mousepad/mousepad-window.c:3528
+#: ../mousepad/mousepad-window.c:3531
 msgid "Revert to the saved version of the file"
 msgstr "Vrati na spremljenu verziju datoteke"
 
-#: ../mousepad/mousepad-window.c:3534
+#: ../mousepad/mousepad-window.c:3537
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Ponovno učitaj sa diska"
 
-#: ../mousepad/mousepad-window.c:3540
+#: ../mousepad/mousepad-window.c:3543
 msgid "Leave fullscreen mode"
 msgstr "Napusti prikaz u cijelom zaslonu"
 
-#: ../mousepad/mousepad-window.c:3545
+#: ../mousepad/mousepad-window.c:3548
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Učini da prozor zauzima cijeli zaslon"
 
-#: ../mousepad/mousepad-window.c:3785
+#: ../mousepad/mousepad-window.c:3786
 #, c-format
 msgid "Open '%s'"
 msgstr "Otvori '%s'"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "No items found"
 msgstr "NIjedna stavka nije nađena"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "History disabled"
 msgstr ""
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4291
+#: ../mousepad/mousepad-window.c:4292
 msgid "No clipboard data"
 msgstr "Nema podataka u međuspremniku"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4400
+#: ../mousepad/mousepad-window.c:4401
 #, c-format
 msgid "Templates should be %s valid"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4406
+#: ../mousepad/mousepad-window.c:4407
 msgid "Reading the template failed"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4411
+#: ../mousepad/mousepad-window.c:4412
 msgid "Loading the template failed"
 msgstr "Neuspjelo učitavanje predloška"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4839
+#: ../mousepad/mousepad-window.c:4853
 msgid "Failed to reload the document"
 msgstr "Neuspjelo ponovno učitavanje dokumenta"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4871
+#: ../mousepad/mousepad-window.c:4885
 msgid "Failed to print the document"
 msgstr "Neuspjeli ispis dokumenta"
 
@@ -1736,36 +1739,36 @@ msgstr ""
 msgid "Default language:"
 msgstr ""
 
-#: ../mousepad.desktop.in.in.h:2
+#: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
 msgstr "Jednostavni uređivač teksta"
 
-#: ../mousepad.desktop.in.in.h:3
+#: ../org.xfce.mousepad.desktop.in.in.h:3
 msgid "Text Editor"
 msgstr "Uređivač teksta"
 
-#: ../mousepad-settings.desktop.in.in.h:1
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
 msgstr ""
 
-#: ../mousepad-settings.desktop.in.in.h:2
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
 msgstr ""
 
-#: ../mousepad.appdata.xml.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:3
 msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
 msgstr "Mousepad cilja biti uređivač koji je brz i jednostavan za korištenje. Naš cilj je uređivač za brzo uređivanje, a ne cijelo okruženje za razvoj ili uređivač sa puno priključaka."
 
-#: ../mousepad.appdata.xml.in.h:2
+#: ../org.xfce.mousepad.appdata.xml.in.h:4
 msgid ""
-"On the other hand we try to use the latest Gtk+ features available, which "
-"means that if Gtk adds something new in a major release that is useful for "
-"the editor, we will likely bump the Gtk dependency and integrate this new "
+"On the other hand we try to use the latest GTK features available, which "
+"means that if GTK adds something new in a major release that is useful for "
+"the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "S druge strane, nastojimo koristiti zadnje dostupne mogućnosti koje nudi Gtk+. Ako smatramo da je neka od tih mogućnosti dobra za Mousepad, vjerojatno ćemo je iskoristiti i podignuti verziju Gtk+ ovisnosti."
+msgstr ""
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
