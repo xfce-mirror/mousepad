@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-07-10 22:46+0000\n"
+"POT-Creation-Date: 2021-09-24 00:48+0200\n"
+"PO-Revision-Date: 2021-09-23 22:48+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Korean (http://www.transifex.com/xfce/xfce-apps/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,9 @@ msgid "[FILES...]"
 msgstr "<파일...>"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:386 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:386
+#: ../org.xfce.mousepad.desktop.in.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:1
 msgid "Mousepad"
 msgstr "마우스패드"
 
@@ -101,9 +103,9 @@ msgstr "<%s>에 버그를 알려주십시오."
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | 작성자: %s | 파일 이름: %s"
 
-#: ../mousepad/mousepad-dialogs.c:70
-msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
-msgstr "마우스 패드는 Xfce 데스크톱 환경의 빠른 텍스트 편집기입니다."
+#: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
+msgid "Mousepad is a simple text editor for the Xfce desktop environment"
+msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -294,12 +296,12 @@ msgid "Choose Mousepad Font"
 msgstr "마우스패드 글꼴 선택"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:650
+#: ../mousepad/mousepad-document.c:618
 msgid "Close this tab"
 msgstr "이 탭 닫기"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:680
+#: ../mousepad/mousepad-document.c:648
 msgid "Untitled"
 msgstr "이름 없음"
 
@@ -467,7 +469,7 @@ msgstr "일본어"
 msgid "Korean"
 msgstr "한국어"
 
-#: ../mousepad/mousepad-file.c:688
+#: ../mousepad/mousepad-file.c:774
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "컨버전 입력의 바이트 순서가 잘못되었습니다"
@@ -477,7 +479,8 @@ msgid "Failed to clear the recent history"
 msgstr "최근 기록 지우기에 실패했습니다"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:553 ../mousepad.desktop.in.in.h:4
+#: ../mousepad/mousepad-prefs-dialog.c:553
+#: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr ""
 
@@ -671,27 +674,27 @@ msgstr "파일 형식: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "경고: 루트 계정을 사용하고 있습니다. 시스템에 해를 끼칠 수 있습니다."
 
-#: ../mousepad/mousepad-window.c:2248
+#: ../mousepad/mousepad-window.c:2249
 msgid "Read Only"
 msgstr "읽기 전용"
 
-#: ../mousepad/mousepad-window.c:2252
+#: ../mousepad/mousepad-window.c:2253
 msgid "Viewer Mode"
 msgstr "보기 모드"
 
-#: ../mousepad/mousepad-window.c:3276
+#: ../mousepad/mousepad-window.c:3279
 #, c-format
 msgid "Use '%s' as template"
 msgstr "'%s'을(를) 양식으로 활용"
 
-#: ../mousepad/mousepad-window.c:3302
+#: ../mousepad/mousepad-window.c:3305
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "'%s'에 양식 파일이\n없습니다"
 
-#: ../mousepad/mousepad-window.c:3367
+#: ../mousepad/mousepad-window.c:3370
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -699,74 +702,74 @@ msgid ""
 msgstr "다음 양식 디렉터리가 빠졌습니다\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3419
+#: ../mousepad/mousepad-window.c:3422
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "기타(%d)(_H)..."
 
-#: ../mousepad/mousepad-window.c:3429
+#: ../mousepad/mousepad-window.c:3432
 msgid "Ot_her..."
 msgstr "기타(_H)..."
 
-#: ../mousepad/mousepad-window.c:3528
+#: ../mousepad/mousepad-window.c:3531
 msgid "Revert to the saved version of the file"
 msgstr "파일의 저장한 버전으로 복구합니다"
 
-#: ../mousepad/mousepad-window.c:3534
+#: ../mousepad/mousepad-window.c:3537
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "디스크에서 다시 불러오기"
 
-#: ../mousepad/mousepad-window.c:3540
+#: ../mousepad/mousepad-window.c:3543
 msgid "Leave fullscreen mode"
 msgstr "화면 복귀"
 
-#: ../mousepad/mousepad-window.c:3545
+#: ../mousepad/mousepad-window.c:3548
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "창을 전 화면에 채웁니다"
 
-#: ../mousepad/mousepad-window.c:3785
+#: ../mousepad/mousepad-window.c:3786
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s'파일 열기"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "No items found"
 msgstr "항목을 찾을 수 없음"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "History disabled"
 msgstr "기록 끔"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4291
+#: ../mousepad/mousepad-window.c:4292
 msgid "No clipboard data"
 msgstr "클립보드 데이터 없음"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4400
+#: ../mousepad/mousepad-window.c:4401
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "양식은 유효한 %s 이어야 합니다"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4406
+#: ../mousepad/mousepad-window.c:4407
 msgid "Reading the template failed"
 msgstr "양식 읽기 실패"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4411
+#: ../mousepad/mousepad-window.c:4412
 msgid "Loading the template failed"
 msgstr "양식 불러오기에 실패했습니다"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4839
+#: ../mousepad/mousepad-window.c:4853
 msgid "Failed to reload the document"
 msgstr "문서 다시 불러오기에 실패했습니다"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4871
+#: ../mousepad/mousepad-window.c:4885
 msgid "Failed to print the document"
 msgstr "문서 인쇄에 실패했습니다"
 
@@ -1732,36 +1735,36 @@ msgstr ""
 msgid "Default language:"
 msgstr ""
 
-#: ../mousepad.desktop.in.in.h:2
+#: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
 msgstr "간단한 문서 편집기"
 
-#: ../mousepad.desktop.in.in.h:3
+#: ../org.xfce.mousepad.desktop.in.in.h:3
 msgid "Text Editor"
 msgstr "문서 편집기"
 
-#: ../mousepad-settings.desktop.in.in.h:1
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
 msgstr ""
 
-#: ../mousepad-settings.desktop.in.in.h:2
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
 msgstr ""
 
-#: ../mousepad.appdata.xml.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:3
 msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
 msgstr "마우스패드는 쉽고 빠른 편집기를 지향합니다. 우리의 지향점은 텍스트 파일을 빠르게 편집하는 편집기를 만들어나가며, 개발 환경이나 다양한 플러그인을 크게 붙여두는 편집기를 만들려는 것이 아닙니다."
 
-#: ../mousepad.appdata.xml.in.h:2
+#: ../org.xfce.mousepad.appdata.xml.in.h:4
 msgid ""
-"On the other hand we try to use the latest Gtk+ features available, which "
-"means that if Gtk adds something new in a major release that is useful for "
-"the editor, we will likely bump the Gtk dependency and integrate this new "
+"On the other hand we try to use the latest GTK features available, which "
+"means that if GTK adds something new in a major release that is useful for "
+"the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "그러나 늘 gtk+ 최신 기능을 접목하려고 합니다. gtk 주 버전 릴리스에 편집기에 필요한 새로운 무언가를 추가했다면 gtk의 기능에 따라 마우스패드에 새 기능을 넣습니다."
+msgstr ""
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
