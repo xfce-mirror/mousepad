@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 00:46+0200\n"
-"PO-Revision-Date: 2021-07-16 21:19+0000\n"
-"Last-Translator: jc1 <jc1.quebecos@gmail.com>\n"
+"POT-Creation-Date: 2021-09-24 00:48+0200\n"
+"PO-Revision-Date: 2021-09-23 22:48+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +84,9 @@ msgid "[FILES...]"
 msgstr "[FICHIERS…]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:386 ../mousepad.desktop.in.in.h:1
+#: ../mousepad/mousepad-application.c:386
+#: ../org.xfce.mousepad.desktop.in.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
@@ -111,9 +113,9 @@ msgstr "Veuillez signaler les bogues à <%s>."
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Auteurs : %s | Nom de fichier : %s"
 
-#: ../mousepad/mousepad-dialogs.c:70
-msgid "Mousepad is a fast text editor for the Xfce Desktop Environment."
-msgstr "Mousepad est un éditeur de texte rapide pour l’environnement de bureau Xfce."
+#: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
+msgid "Mousepad is a simple text editor for the Xfce desktop environment"
+msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -304,12 +306,12 @@ msgid "Choose Mousepad Font"
 msgstr "Choisir la police de Mousepad"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:650
+#: ../mousepad/mousepad-document.c:618
 msgid "Close this tab"
 msgstr "Fermer cet onglet"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:680
+#: ../mousepad/mousepad-document.c:648
 msgid "Untitled"
 msgstr "Sans titre"
 
@@ -477,7 +479,7 @@ msgstr "Japonais"
 msgid "Korean"
 msgstr "Coréen"
 
-#: ../mousepad/mousepad-file.c:688
+#: ../mousepad/mousepad-file.c:774
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Séquence d’octets non valide en entrée de conversion"
@@ -487,7 +489,8 @@ msgid "Failed to clear the recent history"
 msgstr "Impossible d’effacer l’historique"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:553 ../mousepad.desktop.in.in.h:4
+#: ../mousepad/mousepad-prefs-dialog.c:553
+#: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Préférences Mousepad"
 
@@ -682,27 +685,27 @@ msgstr "Type de fichier : %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Attention : vous utilisez le compte administrateur. Vous risquez d’endommager votre système."
 
-#: ../mousepad/mousepad-window.c:2248
+#: ../mousepad/mousepad-window.c:2249
 msgid "Read Only"
 msgstr "Lecture seule"
 
-#: ../mousepad/mousepad-window.c:2252
+#: ../mousepad/mousepad-window.c:2253
 msgid "Viewer Mode"
 msgstr "Mode visionneuse"
 
-#: ../mousepad/mousepad-window.c:3276
+#: ../mousepad/mousepad-window.c:3279
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Utiliser « %s » comme modèle"
 
-#: ../mousepad/mousepad-window.c:3302
+#: ../mousepad/mousepad-window.c:3305
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Aucun modèle de fichier trouvé dans\n« %s »"
 
-#: ../mousepad/mousepad-window.c:3367
+#: ../mousepad/mousepad-window.c:3370
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -710,74 +713,74 @@ msgid ""
 msgstr "Répertoire des modèles manquant\n« %s »"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3419
+#: ../mousepad/mousepad-window.c:3422
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Aut_re (%d)…"
 
-#: ../mousepad/mousepad-window.c:3429
+#: ../mousepad/mousepad-window.c:3432
 msgid "Ot_her..."
 msgstr "Aut_re…"
 
-#: ../mousepad/mousepad-window.c:3528
+#: ../mousepad/mousepad-window.c:3531
 msgid "Revert to the saved version of the file"
 msgstr "Rétablir la version enregistrée du fichier"
 
-#: ../mousepad/mousepad-window.c:3534
+#: ../mousepad/mousepad-window.c:3537
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Recharger le fichier à partir du disque"
 
-#: ../mousepad/mousepad-window.c:3540
+#: ../mousepad/mousepad-window.c:3543
 msgid "Leave fullscreen mode"
 msgstr "Quitter le mode plein écran"
 
-#: ../mousepad/mousepad-window.c:3545
+#: ../mousepad/mousepad-window.c:3548
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Basculer la fenêtre en plein écran"
 
-#: ../mousepad/mousepad-window.c:3785
+#: ../mousepad/mousepad-window.c:3786
 #, c-format
 msgid "Open '%s'"
 msgstr "Ouvrir « %s »"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "No items found"
 msgstr "Aucun élément trouvé"
 
-#: ../mousepad/mousepad-window.c:3816
+#: ../mousepad/mousepad-window.c:3817
 msgid "History disabled"
 msgstr "Historique désactivée"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4291
+#: ../mousepad/mousepad-window.c:4292
 msgid "No clipboard data"
 msgstr "Le presse-papiers est vide"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4400
+#: ../mousepad/mousepad-window.c:4401
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Les modèles doivent être valides %s"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4406
+#: ../mousepad/mousepad-window.c:4407
 msgid "Reading the template failed"
 msgstr "La lecture du modèle a échoué"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4411
+#: ../mousepad/mousepad-window.c:4412
 msgid "Loading the template failed"
 msgstr "Le chargement du modèle a échoué"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4839
+#: ../mousepad/mousepad-window.c:4853
 msgid "Failed to reload the document"
 msgstr "Impossible de recharger le document"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4871
+#: ../mousepad/mousepad-window.c:4885
 msgid "Failed to print the document"
 msgstr "Impossible d’imprimer le document"
 
@@ -1743,36 +1746,36 @@ msgstr "Vérification orthographique"
 msgid "Default language:"
 msgstr "Langage par défaut :"
 
-#: ../mousepad.desktop.in.in.h:2
+#: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
 msgstr "Éditeur de texte simple"
 
-#: ../mousepad.desktop.in.in.h:3
+#: ../org.xfce.mousepad.desktop.in.in.h:3
 msgid "Text Editor"
 msgstr "Éditeur de texte"
 
-#: ../mousepad-settings.desktop.in.in.h:1
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
 msgstr "Paramètres de l'éditeur de texte"
 
-#: ../mousepad-settings.desktop.in.in.h:2
+#: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
 msgstr "Configurer l'éditeur de texte Mousepad"
 
-#: ../mousepad.appdata.xml.in.h:1
+#: ../org.xfce.mousepad.appdata.xml.in.h:3
 msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
 msgstr "Mousepad se veut être un éditeur rapide et facile à utiliser. Notre objectif est d’en faire un éditeur pour éditer rapidement des fichiers texte, et non pas un environnement de développement ou un éditeur avec un tas de greffons."
 
-#: ../mousepad.appdata.xml.in.h:2
+#: ../org.xfce.mousepad.appdata.xml.in.h:4
 msgid ""
-"On the other hand we try to use the latest Gtk+ features available, which "
-"means that if Gtk adds something new in a major release that is useful for "
-"the editor, we will likely bump the Gtk dependency and integrate this new "
+"On the other hand we try to use the latest GTK features available, which "
+"means that if GTK adds something new in a major release that is useful for "
+"the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "D’un autre côté nous essayons d’utiliser les dernières fonctionnalités Gtk+ disponibles, ce qui signifie que si Gtk ajoute quelque chose de nouveau dans une version majeure qui est utile pour l’éditeur, nous mettrons probablement à jour la dépendance Gtk et intégrerons cette nouvelle fonctionnalité dans Mousepad."
+msgstr ""
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
