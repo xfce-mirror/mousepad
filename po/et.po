@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-24 00:48+0200\n"
-"PO-Revision-Date: 2021-09-23 22:48+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2021-10-03 20:44+0000\n"
+"Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -104,7 +104,7 @@ msgstr "%s | Autorid: %s | Faili nimi: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad on lihtne tekstiredaktor Xfce töölauakeskkonna jaoks"
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -1756,7 +1756,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr "Mouspad soovib olla lihtsalt kasutatav ja kiire tekstiredaktor. Meie eesmärgiks on luua tekstiredaktor, millega saaks kiiresti tekstifaile luua ja muuta, kuid mis poleks integreeritud arenduskeskkond või tekstiredaktor tohutu hulga pistikprogrammidega."
+msgstr "Mousepad soovib olla lihtsalt kasutatav ja kiire tekstiredaktor. Meie eesmärgiks on luua rakendus, millega saaks kiiresti tekstifaile luua ja muuta, kuid mis poleks integreeritud arenduskeskkond või tekstiredaktor tohutu hulga pistikprogrammidega."
 
 #: ../org.xfce.mousepad.appdata.xml.in.h:4
 msgid ""
@@ -1764,7 +1764,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "Teisalt me proovime kasutada GTK teekide uusimad võimalusi. See tähendab, et kui järgmises GTK põhiversioonis on midagi asjalikku meie rakenduses kasutamiseks, siis me määrame kompileerimissõltuvuse uuele versioonile ja proovime lisandunud võimalust Mousepad'is kasutada."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
