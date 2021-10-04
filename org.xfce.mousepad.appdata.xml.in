@@ -34,7 +34,7 @@
   <project_group>Xfce</project_group>
   <update_contact>xfce4-dev@xfce.org</update_contact>
   <developer_name>The Mousepad developers</developer_name>
-  <translation type="gettext">Mousepad</translation>
+  <translation type="gettext">mousepad</translation>
   <launchable type="desktop-id">org.xfce.mousepad.desktop</launchable>
   <content_rating type="oars-1.1"/>
   <releases>
