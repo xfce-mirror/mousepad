@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-24 00:48+0200\n"
-"PO-Revision-Date: 2021-09-23 22:48+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2021-10-11 07:31+0000\n"
+"Last-Translator: Arnold Marko <arnold.marko@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,7 +105,7 @@ msgstr "%s | Avtorji: %s | Ime datoteke: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad je preprost urejevalnik besedila za Xfce namizno okolje."
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -1767,7 +1767,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "Po drugi strani skušamo uporabljati zadnje funkcionalnosti, ki jih prinaša Gtk, kar pomeni, da kadar Gtk nekaj doda v glavni izdaji in je to uporabno za naš urejevalnik, bomo verjetno zavrgli odvisnost od GTK in to integrirali neposredno v Mousepad."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
