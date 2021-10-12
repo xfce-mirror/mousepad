@@ -612,10 +612,21 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
 
 
 
+static gboolean
+mousepad_replace_dialog_changed_idle (gpointer dialog)
+{
+  gtk_dialog_response (dialog, MOUSEPAD_RESPONSE_ENTRY_CHANGED);
+
+  return FALSE;
+}
+
+
+
 static void
 mousepad_replace_dialog_changed (MousepadReplaceDialog *dialog)
 {
-  gtk_dialog_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_ENTRY_CHANGED);
+  /* allow time for the search context settings to synchronize with those of Mousepad */
+  g_idle_add (mousepad_replace_dialog_changed_idle, mousepad_util_source_autoremove (dialog));
 }
 
 

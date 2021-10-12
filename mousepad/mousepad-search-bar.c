@@ -437,8 +437,8 @@ mousepad_search_bar_entry_activate_backward (MousepadSearchBar *bar)
 
 
 
-static void
-mousepad_search_bar_entry_changed (MousepadSearchBar *bar)
+static gboolean
+mousepad_search_bar_entry_changed_idle (gpointer bar)
 {
   MousepadSearchFlags flags;
 
@@ -451,6 +451,17 @@ mousepad_search_bar_entry_changed (MousepadSearchBar *bar)
 
   /* find */
   mousepad_search_bar_find_string (bar, flags);
+
+  return FALSE;
+}
+
+
+
+static void
+mousepad_search_bar_entry_changed (MousepadSearchBar *bar)
+{
+  /* allow time for the search context settings to synchronize with those of Mousepad */
+  g_idle_add (mousepad_search_bar_entry_changed_idle, mousepad_util_source_autoremove (bar));
 }
 
 
