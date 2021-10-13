@@ -1,3 +1,10 @@
 #!/bin/sh
 
-flatpak uninstall --user org.xfce.mousepad
+script_dir=$(dirname "$0")
+runtime=$(sed -En '/runtime:/{s/runtime:| //g; p; q}' "$script_dir/org.xfce.mousepad.yml")
+sdk=$(sed -En '/sdk:/{s/sdk:| //g; p; q}' "$script_dir/org.xfce.mousepad.yml")
+version=$(sed -En '/runtime-version:/{s/[^0-9.]//g; p; q}' "$script_dir/org.xfce.mousepad.yml")
+
+flatpak uninstall --user --delete-data org.xfce.mousepad \
+  && flatpak uninstall --user "$runtime//$version/" "$sdk//$version/" \
+  && flatpak uninstall --user --unused

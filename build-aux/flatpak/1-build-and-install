@@ -3,5 +3,6 @@
 script_dir=$(dirname "$0")
 data_dir=${1:-$script_dir}
 
-flatpak-builder --user --force-clean --install --state-dir="$data_dir/.flatpak-builder" \
+flatpak-builder --user --force-clean --install --install-deps-from=flathub \
+                --state-dir="$data_dir/.flatpak-builder" \
                 "$data_dir/build" "$script_dir/org.xfce.mousepad.yml"
