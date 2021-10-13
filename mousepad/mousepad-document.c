@@ -93,6 +93,7 @@ struct _MousepadDocumentPrivate
   GtkSourceSearchContext *search_context, *selection_context;
   GtkSourceBuffer        *selection_buffer;
   gint                    prev_search_state;
+  guint                   search_id;
 };
 
 
@@ -233,6 +234,7 @@ mousepad_document_init (MousepadDocument *document)
   document->buffer = GTK_TEXT_BUFFER (gtk_source_buffer_new (NULL));
   document->priv->search_context = gtk_source_search_context_new (
                                      GTK_SOURCE_BUFFER (document->buffer), NULL);
+  document->priv->search_id = 0;
 
   /* bind search settings to Mousepad settings, except "regex-enabled" to prevent prohibitive
    * computation times in some situations (see
@@ -663,6 +665,92 @@ mousepad_document_get_filename (MousepadDocument *document)
 
 
 
+static gboolean
+mousepad_document_search_completed_idle (gpointer data)
+{
+  MousepadDocument        *document = data;
+  MousepadSearchFlags      flags;
+  GtkSourceSearchContext  *search_context;
+  GtkSourceSearchSettings *search_settings;
+  GtkTextBuffer           *selection_buffer;
+  GtkTextIter             *start, *end;
+  GtkTextIter              iter;
+  gchar                   *selected_text;
+  const gchar             *string, *replace;
+  gboolean                 found;
+
+  /* retrieve the first stage data */
+  search_context = mousepad_object_get_data (document, "search-context");
+  flags = GPOINTER_TO_INT (mousepad_object_get_data (search_context, "flags"));
+  replace = mousepad_object_get_data (search_context, "replace");
+  start = mousepad_object_get_data (search_context, "start");
+  end = mousepad_object_get_data (search_context, "end");
+  found = GPOINTER_TO_INT (mousepad_object_get_data (search_context, "found"));
+  search_settings = gtk_source_search_context_get_settings (search_context);
+  string = gtk_source_search_settings_get_search_text (search_settings);
+
+  if (flags & MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START)
+    gtk_text_buffer_get_selection_bounds (document->buffer, &iter, NULL);
+  else
+    gtk_text_buffer_get_selection_bounds (document->buffer, NULL, &iter);
+
+  /* handle the action */
+  if (found && (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT)
+      && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
+    gtk_text_buffer_select_range (document->buffer, start, end);
+  else if (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE)
+    {
+      if (found && ! (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA))
+        {
+          /* replace selected occurrence */
+#if GTK_SOURCE_MAJOR_VERSION >= 4
+          gtk_source_search_context_replace (search_context, start, end, replace, -1, NULL);
+#else
+          gtk_source_search_context_replace2 (search_context, start, end, replace, -1, NULL);
+#endif
+
+          /* select next occurrence */
+          flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
+          flags &= ~ MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE;
+          mousepad_document_search (document, string, NULL, flags);
+        }
+      else if (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA)
+        {
+          /* replace all occurrences in the buffer in use */
+          gtk_source_search_context_replace_all (search_context, replace, -1, NULL);
+
+          if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION)
+            {
+              /* get the text in the virtual selection buffer */
+              selection_buffer = GTK_TEXT_BUFFER (gtk_source_search_context_get_buffer (search_context));
+              gtk_text_buffer_get_bounds (selection_buffer, start, end);
+              selected_text = gtk_text_buffer_get_text (selection_buffer, start, end, FALSE);
+
+              /* replace selection in the real buffer by the text in the virtual selection buffer */
+              gtk_text_buffer_get_selection_bounds (document->buffer, start, end);
+              gtk_text_buffer_begin_user_action (document->buffer);
+              gtk_text_buffer_delete (document->buffer, start, end);
+              gtk_text_buffer_insert (document->buffer, start, selected_text, -1);
+              gtk_text_buffer_end_user_action (document->buffer);
+              g_free (selected_text);
+            }
+        }
+    }
+  /* deselect previous result when the new search fails or the search field is reset */
+  else if (! (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE)
+           && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
+    gtk_text_buffer_place_cursor (document->buffer, &iter);
+
+  /* cleanup */
+  gtk_text_iter_free (start);
+  gtk_text_iter_free (end);
+  document->priv->search_id = 0;
+
+  return FALSE;
+}
+
+
+
 static void
 mousepad_document_search_completed (GObject      *object,
                                     GAsyncResult *result,
@@ -671,12 +759,8 @@ mousepad_document_search_completed (GObject      *object,
   MousepadDocument        *document = data;
   MousepadSearchFlags      flags;
   GtkSourceSearchContext  *search_context = GTK_SOURCE_SEARCH_CONTEXT (object);
-  GtkSourceSearchSettings *search_settings;
-  GtkTextBuffer           *selection_buffer;
-  GtkTextIter              iter, start, end;
+  GtkTextIter              start, end;
   GError                  *error = NULL;
-  gchar                   *selected_text;
-  const gchar             *string, *replace;
   gboolean                 found;
 
   /* exit if the document was removed during the search process */
@@ -691,18 +775,8 @@ mousepad_document_search_completed (GObject      *object,
   /* remove extra reference kept at first stage */
   g_object_unref (document);
 
-  /* retrieve the first stage data */
-  flags = GPOINTER_TO_INT (mousepad_object_get_data (search_context, "flags"));
-  replace = mousepad_object_get_data (search_context, "replace");
-  search_settings = gtk_source_search_context_get_settings (search_context);
-  string = gtk_source_search_settings_get_search_text (search_settings);
-
-  if (flags & MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START)
-    gtk_text_buffer_get_selection_bounds (document->buffer, &iter, NULL);
-  else
-    gtk_text_buffer_get_selection_bounds (document->buffer, NULL, &iter);
-
   /* get the search result */
+  flags = GPOINTER_TO_INT (mousepad_object_get_data (search_context, "flags"));
 #if GTK_SOURCE_MAJOR_VERSION >= 4
   if (flags & MOUSEPAD_SEARCH_FLAGS_DIR_BACKWARD)
     found = gtk_source_search_context_backward_finish (search_context, result,
@@ -721,7 +795,15 @@ mousepad_document_search_completed (GObject      *object,
 
   /* exit if the operation was cancelled */
   if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-    return;
+    {
+      g_error_free (error);
+      return;
+    }
+  else if (error != NULL)
+    {
+      g_warning ("%s", error->message);
+      g_error_free (error);
+    }
 
   /* force the signal emission, to cover cases where Mousepad search settings change without
    * changing GtkSourceView settings (e.g. when switching between single-document mode and
@@ -729,53 +811,18 @@ mousepad_document_search_completed (GObject      *object,
   if (gtk_source_search_context_get_occurrences_count (search_context) != -1)
     g_object_notify (G_OBJECT (search_context), "occurrences-count");
 
-  /* handle the action */
-  if (found && (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT)
-      && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
-    gtk_text_buffer_select_range (document->buffer, &start, &end);
-  else if (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE)
-    {
-      if (found && ! (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA))
-        {
-          /* replace selected occurrence */
-#if GTK_SOURCE_MAJOR_VERSION >= 4
-          gtk_source_search_context_replace (search_context, &start, &end, replace, -1, NULL);
-#else
-          gtk_source_search_context_replace2 (search_context, &start, &end, replace, -1, NULL);
-#endif
+  /* now we need first to exit this async task callback to prevent any warning,
+   * but we launch the rest as soon as possible to preserve real-time behavior */
+  mousepad_object_set_data (search_context, "found", GINT_TO_POINTER (found));
+  mousepad_object_set_data (search_context, "start", gtk_text_iter_copy (&start));
+  mousepad_object_set_data (search_context, "end", gtk_text_iter_copy (&end));
+  mousepad_object_set_data (document, "search-context", search_context);
+  if (document->priv->search_id != 0)
+    g_source_remove (document->priv->search_id);
 
-          /* select next occurrence */
-          flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
-          flags &= ~ MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE;
-          mousepad_document_search (document, string, NULL, flags);
-          return;
-        }
-      else if (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA)
-        {
-          /* replace all occurrences in the buffer in use */
-          gtk_source_search_context_replace_all (search_context, replace, -1, NULL);
-
-          if (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION)
-            {
-              /* get the text in the virtual selection buffer */
-              selection_buffer = GTK_TEXT_BUFFER (gtk_source_search_context_get_buffer (search_context));
-              gtk_text_buffer_get_bounds (selection_buffer, &start, &end);
-              selected_text = gtk_text_buffer_get_text (selection_buffer, &start, &end, FALSE);
-
-              /* replace selection in the real buffer by the text in the virtual selection buffer */
-              gtk_text_buffer_get_selection_bounds (document->buffer, &start, &end);
-              gtk_text_buffer_begin_user_action (document->buffer);
-              gtk_text_buffer_delete (document->buffer, &start, &end);
-              gtk_text_buffer_insert (document->buffer, &start, selected_text, -1);
-              gtk_text_buffer_end_user_action (document->buffer);
-              g_free (selected_text);
-            }
-        }
-    }
-  /* deselect previous result when the new search fails or the search field is reset */
-  else if (! (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE)
-           && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
-    gtk_text_buffer_place_cursor (document->buffer, &iter);
+  document->priv->search_id =
+    g_idle_add_full (G_PRIORITY_HIGH, mousepad_document_search_completed_idle,
+                     mousepad_util_source_autoremove (document), NULL);
 }
 
 
@@ -810,6 +857,9 @@ mousepad_document_search (MousepadDocument    *document,
           document->priv->selection_buffer = gtk_source_buffer_new (NULL);
           document->priv->selection_context =
             gtk_source_search_context_new (document->priv->selection_buffer, NULL);
+          g_signal_connect_swapped (document->priv->selection_context, "notify::occurrences-count",
+                                    G_CALLBACK (mousepad_document_emit_search_signal), document);
+          gtk_source_search_context_set_highlight (document->priv->selection_context, FALSE);
         }
 
       /* get the text in the selection area */
@@ -822,13 +872,8 @@ mousepad_document_search (MousepadDocument    *document,
       gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (document->priv->selection_buffer), &iter);
       g_free (selected_text);
 
-      /* associate the search context */
-      search_context = document->priv->selection_context;
-      gtk_source_search_context_set_highlight (search_context, FALSE);
-      g_signal_connect_swapped (search_context, "notify::occurrences-count",
-                                G_CALLBACK (mousepad_document_emit_search_signal), document);
-
       /* copy search settings from those of the document */
+      search_context = document->priv->selection_context;
       search_settings = gtk_source_search_context_get_settings (search_context);
       search_settings_doc = gtk_source_search_context_get_settings (document->priv->search_context);
 
