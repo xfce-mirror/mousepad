@@ -687,23 +687,7 @@ mousepad_replace_dialog_history_insert_text (const gchar *text)
 void
 mousepad_replace_dialog_history_clean (void)
 {
-  GSList *li;
-
-  if (history_list)
-    {
-      /* remove all the entries */
-      for (li = history_list; li != NULL; li = li->next)
-        {
-          /* cleanup the string */
-          g_free (li->data);
-
-          /* remove the item from the list */
-          history_list = g_slist_delete_link (history_list, li);
-        }
-
-      /* cleanup the list */
-      g_slist_free (history_list);
-    }
+  g_slist_free_full (history_list, g_free);
 }
 
 
