@@ -10,6 +10,8 @@ finish-args:
   - --socket=wayland
   # using GtkFileChooserNative would imply non-trivial changes and a loss of functionality
   - --filesystem=host
+  # access remote locations with GVfs
+  - --filesystem=xdg-run/gvfs
 
 cleanup:
   - '*.a'
