@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-24 00:48+0200\n"
-"PO-Revision-Date: 2021-09-23 22:48+0000\n"
+"POT-Creation-Date: 2021-10-16 12:49+0200\n"
+"PO-Revision-Date: 2021-10-16 10:49+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Korean (http://www.transifex.com/xfce/xfce-apps/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -296,12 +296,12 @@ msgid "Choose Mousepad Font"
 msgstr "마우스패드 글꼴 선택"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:618
+#: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
 msgstr "이 탭 닫기"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:648
+#: ../mousepad/mousepad-document.c:650
 msgid "Untitled"
 msgstr "이름 없음"
 
@@ -485,62 +485,54 @@ msgid "Mousepad Preferences"
 msgstr ""
 
 #. set a custom tab label
-#: ../mousepad/mousepad-print.c:121
+#: ../mousepad/mousepad-print.c:117
 msgid "Document Settings"
 msgstr "문서 설정"
 
-#: ../mousepad/mousepad-print.c:617
-msgid "Page Setup"
-msgstr "페이지 설정"
-
-#: ../mousepad/mousepad-print.c:623
-msgid "_Adjust page size and orientation"
-msgstr "페이지 크기와 방향 조정(_A)"
-
-#: ../mousepad/mousepad-print.c:638
+#: ../mousepad/mousepad-print.c:570
 msgid "Appearance"
 msgstr "모양새"
 
-#: ../mousepad/mousepad-print.c:653
+#: ../mousepad/mousepad-print.c:585
 msgid "Print page _headers"
 msgstr "페이지 헤더 인쇄(_H)"
 
-#: ../mousepad/mousepad-print.c:661
+#: ../mousepad/mousepad-print.c:593
 msgid "Print _line numbers"
 msgstr "행 번호 출력(_L)"
 
-#: ../mousepad/mousepad-print.c:678
+#: ../mousepad/mousepad-print.c:610
 msgid "Numbering interval:"
 msgstr "숫자매기기 간격:"
 
-#: ../mousepad/mousepad-print.c:687
+#: ../mousepad/mousepad-print.c:619
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
 msgstr "줄 번호 출력 간격입니다. 값을 1로 주면 각 줄별로 번호를 출력합니다. 2로 주면 한 줄 건너 하나씩 줄 번호를 출력합니다. 다른 번호도 마찬가집니다."
 
-#: ../mousepad/mousepad-print.c:699
+#: ../mousepad/mousepad-print.c:631
 msgid "Enable text _wrapping"
 msgstr "텍스트 단위 줄 바꿈 활성화(_W)"
 
-#: ../mousepad/mousepad-print.c:708
+#: ../mousepad/mousepad-print.c:640
 msgid "Enable _syntax highlighting"
 msgstr "문법 강조 활성화(_S)"
 
-#: ../mousepad/mousepad-print.c:720
+#: ../mousepad/mousepad-print.c:652
 msgid "Fonts"
 msgstr "글꼴"
 
-#: ../mousepad/mousepad-print.c:736
+#: ../mousepad/mousepad-print.c:668
 msgid "Header:"
 msgstr "헤더:"
 
-#: ../mousepad/mousepad-print.c:750
+#: ../mousepad/mousepad-print.c:682
 msgid "Body:"
 msgstr "본문:"
 
-#: ../mousepad/mousepad-print.c:764
+#: ../mousepad/mousepad-print.c:696
 msgid "Line numbers:"
 msgstr "행 번호:"
 
