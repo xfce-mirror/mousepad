@@ -36,8 +36,6 @@ static void           mousepad_print_begin_print           (GtkPrintOperation   
 static void           mousepad_print_draw_page             (GtkPrintOperation       *operation,
                                                             GtkPrintContext         *context,
                                                             gint                     page_nr);
-static void           mousepad_print_page_setup_dialog     (GtkWidget               *button,
-                                                            GtkPrintOperation       *operation);
 static void           mousepad_print_button_toggled        (GtkWidget               *button,
                                                             MousepadPrint           *print);
 static void           mousepad_print_button_font_set       (GtkFontButton           *button,
@@ -75,7 +73,6 @@ struct _MousepadPrint
   GtkWidget                *widget_line_numbers_hbox;
 
   /* settings */
-  GtkPageSetup             *page_setup;
   gboolean                  print_line_numbers;
   gint                      line_number_increment;
 
@@ -112,7 +109,6 @@ static void
 mousepad_print_init (MousepadPrint *print)
 {
   /* init */
-  print->page_setup = NULL;
   print->print_line_numbers = FALSE;
   print->line_number_increment = 1;
   print->compositor = NULL;
@@ -129,9 +125,6 @@ mousepad_print_finalize (GObject *object)
   MousepadPrint *print = MOUSEPAD_PRINT (object);
 
   /* cleanup */
-  if (print->page_setup != NULL)
-    g_object_unref (print->page_setup);
-
   g_object_unref (print->compositor);
 
   (*G_OBJECT_CLASS (mousepad_print_parent_class)->finalize) (object);
@@ -435,10 +428,6 @@ mousepad_print_begin_print (GtkPrintOperation *operation,
   gint              n_pages = 1;
   const gchar      *file_name;
 
-  /* apply the saved page setup, if any */
-  if (print->page_setup != NULL)
-    gtk_print_operation_set_default_page_setup (operation, print->page_setup);
-
   /* print header */
   if (gtk_source_print_compositor_get_print_header (print->compositor))
     {
@@ -474,42 +463,6 @@ mousepad_print_draw_page (GtkPrintOperation *operation,
   MousepadPrint *print = MOUSEPAD_PRINT (operation);
 
   gtk_source_print_compositor_draw_page (print->compositor, context, page_nr);
-}
-
-
-
-static void
-mousepad_print_page_setup_dialog (GtkWidget         *button,
-                                  GtkPrintOperation *operation)
-{
-  MousepadPrint    *print = MOUSEPAD_PRINT (operation);
-  GtkWidget        *toplevel;
-  GtkPrintSettings *settings;
-  GtkPageSetup     *page_setup;
-
-  /* get the toplevel of the button */
-  toplevel = gtk_widget_get_toplevel (button);
-  if (G_UNLIKELY (!gtk_widget_is_toplevel (toplevel)))
-    toplevel = NULL;
-
-  /* get the print settings */
-  settings = gtk_print_operation_get_print_settings (operation);
-  if (G_UNLIKELY (settings == NULL))
-    settings = gtk_print_settings_new ();
-
-  /* get the page setup */
-  page_setup = gtk_print_operation_get_default_page_setup (operation);
-
-  /*
-   * For some reason (most likely a bug on GTK side, see
-   * https://gitlab.gnome.org/GNOME/gtk/-/issues/1752), the page setup is lost between
-   * this dialog and begin_print(). So let's save it here as a MousepadPrint attribute
-   * and apply it later in begin_print().
-   */
-  if (print->page_setup != NULL)
-    g_object_unref (print->page_setup);
-
-  print->page_setup = gtk_print_run_page_setup_dialog (GTK_WINDOW (toplevel), page_setup, settings);
 }
 
 
@@ -608,27 +561,6 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
-
-  frame = gtk_frame_new (NULL);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 0);
-  gtk_widget_show (frame);
-
-  label = gtk_label_new (_("Page Setup"));
-  gtk_label_set_attributes (GTK_LABEL (label), mousepad_print_attr_list_bold ());
-  gtk_frame_set_label_widget (GTK_FRAME (frame), label);
-  gtk_widget_show (label);
-
-  button = mousepad_util_image_button ("document-properties",
-                                       _("_Adjust page size and orientation"));
-  g_signal_connect (button, "clicked", G_CALLBACK (mousepad_print_page_setup_dialog), operation);
-  gtk_widget_set_halign (button, GTK_ALIGN_START);
-  gtk_widget_set_margin_start (button, 12);
-  gtk_widget_set_margin_end (button, 6);
-  gtk_widget_set_margin_top (button, 6);
-  gtk_widget_set_margin_bottom (button, 6);
-  gtk_container_add (GTK_CONTAINER (frame), button);
-  gtk_widget_show (button);
 
   frame = gtk_frame_new (NULL);
   gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
@@ -805,7 +737,7 @@ mousepad_print_done (GtkPrintOperation       *operation,
 MousepadPrint *
 mousepad_print_new (void)
 {
-  return g_object_new (MOUSEPAD_TYPE_PRINT, NULL);
+  return g_object_new (MOUSEPAD_TYPE_PRINT, "embed-page-setup", TRUE, NULL);
 }
 
 
