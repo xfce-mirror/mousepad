@@ -4,9 +4,11 @@
 mousepad/main.c
 mousepad/mousepad-application.c
 mousepad/mousepad-dialogs.c
+mousepad/mousepad-dialogs.h
 mousepad/mousepad-document.c
 mousepad/mousepad-encoding-dialog.c
 mousepad/mousepad-encoding.c
+mousepad/mousepad-encoding.h
 mousepad/mousepad-file.c
 mousepad/mousepad-history.c
 mousepad/mousepad-prefs-dialog.c
