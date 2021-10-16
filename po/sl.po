@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-24 00:48+0200\n"
-"PO-Revision-Date: 2021-10-11 07:31+0000\n"
-"Last-Translator: Arnold Marko <arnold.marko@gmail.com>\n"
+"POT-Creation-Date: 2021-10-16 12:49+0200\n"
+"PO-Revision-Date: 2021-10-16 10:49+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -296,12 +296,12 @@ msgid "Choose Mousepad Font"
 msgstr "Izberi pisavo za Mousepad"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:618
+#: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
 msgstr "Zapri ta zavihek"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:648
+#: ../mousepad/mousepad-document.c:650
 msgid "Untitled"
 msgstr "Neimenovano"
 
@@ -485,62 +485,54 @@ msgid "Mousepad Preferences"
 msgstr "Nastavitve za Mousepad"
 
 #. set a custom tab label
-#: ../mousepad/mousepad-print.c:121
+#: ../mousepad/mousepad-print.c:117
 msgid "Document Settings"
 msgstr "Nastavitve dokumenta"
 
-#: ../mousepad/mousepad-print.c:617
-msgid "Page Setup"
-msgstr "Nastavitev strani"
-
-#: ../mousepad/mousepad-print.c:623
-msgid "_Adjust page size and orientation"
-msgstr "Pril_agodi velikost in orientacijo strani"
-
-#: ../mousepad/mousepad-print.c:638
+#: ../mousepad/mousepad-print.c:570
 msgid "Appearance"
 msgstr "Videz"
 
-#: ../mousepad/mousepad-print.c:653
+#: ../mousepad/mousepad-print.c:585
 msgid "Print page _headers"
 msgstr "Izpiši _glave strani"
 
-#: ../mousepad/mousepad-print.c:661
+#: ../mousepad/mousepad-print.c:593
 msgid "Print _line numbers"
 msgstr "Izpiši številke _vrstic"
 
-#: ../mousepad/mousepad-print.c:678
+#: ../mousepad/mousepad-print.c:610
 msgid "Numbering interval:"
 msgstr "Interval številčenja:"
 
-#: ../mousepad/mousepad-print.c:687
+#: ../mousepad/mousepad-print.c:619
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
 msgstr "Interval pri katerem naj se izpišejo številke vrstic. Na primer pri vrednosti 1 se bodo izpisale številke vsake vrstice, pri vrednosti 2 se bodo izpisale številke vsake druge vrstice, in tako dalje."
 
-#: ../mousepad/mousepad-print.c:699
+#: ../mousepad/mousepad-print.c:631
 msgid "Enable text _wrapping"
 msgstr "Omogoči _ovijanje besedila"
 
-#: ../mousepad/mousepad-print.c:708
+#: ../mousepad/mousepad-print.c:640
 msgid "Enable _syntax highlighting"
 msgstr "Omogoči označevanje _sintakse"
 
-#: ../mousepad/mousepad-print.c:720
+#: ../mousepad/mousepad-print.c:652
 msgid "Fonts"
 msgstr "Pisave"
 
-#: ../mousepad/mousepad-print.c:736
+#: ../mousepad/mousepad-print.c:668
 msgid "Header:"
 msgstr "Glava:"
 
-#: ../mousepad/mousepad-print.c:750
+#: ../mousepad/mousepad-print.c:682
 msgid "Body:"
 msgstr "Telo:"
 
-#: ../mousepad/mousepad-print.c:764
+#: ../mousepad/mousepad-print.c:696
 msgid "Line numbers:"
 msgstr "Številke vrstic:"
 
