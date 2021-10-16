@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-24 00:48+0200\n"
-"PO-Revision-Date: 2021-09-23 22:48+0000\n"
+"POT-Creation-Date: 2021-10-16 12:49+0200\n"
+"PO-Revision-Date: 2021-10-16 10:49+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Belarusian (http://www.transifex.com/xfce/xfce-apps/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -304,12 +304,12 @@ msgid "Choose Mousepad Font"
 msgstr "Абраць шрыфт"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:618
+#: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
 msgstr "Закрыць гэтую ўкладку"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:648
+#: ../mousepad/mousepad-document.c:650
 msgid "Untitled"
 msgstr "Без назвы"
 
@@ -493,62 +493,54 @@ msgid "Mousepad Preferences"
 msgstr "Налады Mousepad"
 
 #. set a custom tab label
-#: ../mousepad/mousepad-print.c:121
+#: ../mousepad/mousepad-print.c:117
 msgid "Document Settings"
 msgstr "Налады дакумента"
 
-#: ../mousepad/mousepad-print.c:617
-msgid "Page Setup"
-msgstr "Налады старонкі"
-
-#: ../mousepad/mousepad-print.c:623
-msgid "_Adjust page size and orientation"
-msgstr "_Падладзіць памер і арыентацыю старонкі"
-
-#: ../mousepad/mousepad-print.c:638
+#: ../mousepad/mousepad-print.c:570
 msgid "Appearance"
 msgstr "Выгляд"
 
-#: ../mousepad/mousepad-print.c:653
+#: ../mousepad/mousepad-print.c:585
 msgid "Print page _headers"
 msgstr "Размяшчаць _загалоўкі старонак"
 
-#: ../mousepad/mousepad-print.c:661
+#: ../mousepad/mousepad-print.c:593
 msgid "Print _line numbers"
 msgstr "Размяшчаць _нумары радкоў"
 
-#: ../mousepad/mousepad-print.c:678
+#: ../mousepad/mousepad-print.c:610
 msgid "Numbering interval:"
 msgstr "Інтэрвал нумарацыі:"
 
-#: ../mousepad/mousepad-print.c:687
+#: ../mousepad/mousepad-print.c:619
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
 msgstr "Інтэрвал размяшчэння нумароў радкоў. Напрыклад, пры значэнні 1 будзе нумаравацца кожны радок, пры значэнні 2 — праз 1 радок і г.д."
 
-#: ../mousepad/mousepad-print.c:699
+#: ../mousepad/mousepad-print.c:631
 msgid "Enable text _wrapping"
 msgstr "Уключыць перанос _тэксту"
 
-#: ../mousepad/mousepad-print.c:708
+#: ../mousepad/mousepad-print.c:640
 msgid "Enable _syntax highlighting"
 msgstr "Уключыць _падсвятленне сінтаксісу"
 
-#: ../mousepad/mousepad-print.c:720
+#: ../mousepad/mousepad-print.c:652
 msgid "Fonts"
 msgstr "Шрыфты"
 
-#: ../mousepad/mousepad-print.c:736
+#: ../mousepad/mousepad-print.c:668
 msgid "Header:"
 msgstr "Загаловак:"
 
-#: ../mousepad/mousepad-print.c:750
+#: ../mousepad/mousepad-print.c:682
 msgid "Body:"
 msgstr "Цела:"
 
-#: ../mousepad/mousepad-print.c:764
+#: ../mousepad/mousepad-print.c:696
 msgid "Line numbers:"
 msgstr "Нумар радка:"
 
