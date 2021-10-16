@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-24 00:48+0200\n"
-"PO-Revision-Date: 2021-09-24 06:44+0000\n"
-"Last-Translator: Emanuele Petriglia <transifex@emanuelepetriglia.com>\n"
+"POT-Creation-Date: 2021-10-16 12:49+0200\n"
+"PO-Revision-Date: 2021-10-16 10:49+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Italian (http://www.transifex.com/xfce/xfce-apps/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -299,12 +299,12 @@ msgid "Choose Mousepad Font"
 msgstr "Scelta del tipo di carattere di Mousepad"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:618
+#: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
 msgstr "Chiude questa scheda"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:648
+#: ../mousepad/mousepad-document.c:650
 msgid "Untitled"
 msgstr "Senza titolo"
 
@@ -488,62 +488,54 @@ msgid "Mousepad Preferences"
 msgstr "Preferenze di Mousepad"
 
 #. set a custom tab label
-#: ../mousepad/mousepad-print.c:121
+#: ../mousepad/mousepad-print.c:117
 msgid "Document Settings"
 msgstr "Impostazioni del documento"
 
-#: ../mousepad/mousepad-print.c:617
-msgid "Page Setup"
-msgstr "Impostazioni pagina"
-
-#: ../mousepad/mousepad-print.c:623
-msgid "_Adjust page size and orientation"
-msgstr "_Imposta dimensione e orientamento della pagina"
-
-#: ../mousepad/mousepad-print.c:638
+#: ../mousepad/mousepad-print.c:570
 msgid "Appearance"
 msgstr "Aspetto"
 
-#: ../mousepad/mousepad-print.c:653
+#: ../mousepad/mousepad-print.c:585
 msgid "Print page _headers"
 msgstr "Stampa _intestazioni pagina"
 
-#: ../mousepad/mousepad-print.c:661
+#: ../mousepad/mousepad-print.c:593
 msgid "Print _line numbers"
 msgstr "Stampa numero _righe"
 
-#: ../mousepad/mousepad-print.c:678
+#: ../mousepad/mousepad-print.c:610
 msgid "Numbering interval:"
 msgstr "Intervallo di numerazione:"
 
-#: ../mousepad/mousepad-print.c:687
+#: ../mousepad/mousepad-print.c:619
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
 msgstr "L'intervallo con cui stampare i numeri delle righe; per esempio con il valore 1 verranno stampati i numeri di ogni riga, con il valore 2 verranno stampati i numeri a righe alterne e così via."
 
-#: ../mousepad/mousepad-print.c:699
+#: ../mousepad/mousepad-print.c:631
 msgid "Enable text _wrapping"
 msgstr "Abilita a _capo automatico"
 
-#: ../mousepad/mousepad-print.c:708
+#: ../mousepad/mousepad-print.c:640
 msgid "Enable _syntax highlighting"
 msgstr "Abilita _sintassi evidenziata"
 
-#: ../mousepad/mousepad-print.c:720
+#: ../mousepad/mousepad-print.c:652
 msgid "Fonts"
 msgstr "Tipi di caratteri"
 
-#: ../mousepad/mousepad-print.c:736
+#: ../mousepad/mousepad-print.c:668
 msgid "Header:"
 msgstr "Intestazione:"
 
-#: ../mousepad/mousepad-print.c:750
+#: ../mousepad/mousepad-print.c:682
 msgid "Body:"
 msgstr "Corpo:"
 
-#: ../mousepad/mousepad-print.c:764
+#: ../mousepad/mousepad-print.c:696
 msgid "Line numbers:"
 msgstr "Numero righe:"
 
