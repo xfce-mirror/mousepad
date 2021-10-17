@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-16 12:49+0200\n"
-"PO-Revision-Date: 2021-10-16 10:49+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2021-10-17 00:48+0200\n"
+"PO-Revision-Date: 2021-10-16 22:49+0000\n"
+"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -298,6 +298,46 @@ msgstr "_Obre"
 msgid "Choose Mousepad Font"
 msgstr "Trieu la lletra de Mousepad"
 
+#. error dialog messages
+#: ../mousepad/mousepad-dialogs.h:28
+msgid "Failed to open the document"
+msgstr "Ha fallat l'obriment del document"
+
+#: ../mousepad/mousepad-dialogs.h:29
+msgid "Failed to save the document"
+msgstr "Ha fallat el desament del fitxer"
+
+#: ../mousepad/mousepad-dialogs.h:30
+msgid "Unsupported character set"
+msgstr "Conjunt de caràcters no admès"
+
+#. button labels
+#: ../mousepad/mousepad-dialogs.h:33
+msgid "_Cancel"
+msgstr "_Cancel·la"
+
+#: ../mousepad/mousepad-dialogs.h:34
+msgid "_OK"
+msgstr "D'ac_ord"
+
+#: ../mousepad/mousepad-dialogs.h:35
+#: ../mousepad/resources/gtk/menus-common.ui.h:5
+msgid "_Save"
+msgstr "De_sa"
+
+#: ../mousepad/mousepad-dialogs.h:36
+msgid "Save _As"
+msgstr "_Anomena i desa"
+
+#: ../mousepad/mousepad-dialogs.h:37
+msgid "Re_vert"
+msgstr "Re_verteix"
+
+#: ../mousepad/mousepad-dialogs.h:38
+#: ../mousepad/resources/gtk/menus-common.ui.h:9
+msgid "Re_load"
+msgstr "Re_carrega"
+
 #. pack button, add signal and tooltip
 #: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
@@ -471,6 +511,19 @@ msgstr "Japonès"
 #: ../mousepad/mousepad-encoding.c:108 ../mousepad/mousepad-encoding.c:109
 msgid "Korean"
 msgstr "Coreà"
+
+#. button labels
+#: ../mousepad/mousepad-encoding.h:23
+msgid "Default"
+msgstr "Predeterminat"
+
+#: ../mousepad/mousepad-encoding.h:24
+msgid "System"
+msgstr "Sistema"
+
+#: ../mousepad/mousepad-encoding.h:25
+msgid "History"
+msgstr ""
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
@@ -1135,10 +1188,6 @@ msgstr "_Obre..."
 msgid "Open a file"
 msgstr "Obre un fitxer"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:5
-msgid "_Save"
-msgstr "De_sa"
-
 #: ../mousepad/resources/gtk/menus-common.ui.h:6
 msgid "Save the current document"
 msgstr "Desa el document actual"
@@ -1150,10 +1199,6 @@ msgstr "_Anomena i desa..."
 #: ../mousepad/resources/gtk/menus-common.ui.h:8
 msgid "Save current document as another file"
 msgstr "Desa el document actual com a un altre fitxer"
-
-#: ../mousepad/resources/gtk/menus-common.ui.h:9
-msgid "Re_load"
-msgstr "Re_carrega"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
