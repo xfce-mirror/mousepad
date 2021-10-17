@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-16 12:49+0200\n"
-"PO-Revision-Date: 2021-10-16 10:49+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2021-10-17 00:48+0200\n"
+"PO-Revision-Date: 2021-10-16 22:49+0000\n"
+"Last-Translator: Gheyret Kenji <gheyret@yahoo.com>\n"
 "Language-Team: Uyghur (http://www.transifex.com/xfce/xfce-apps/language/ug/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -293,6 +293,46 @@ msgstr "ئاچ(_O)"
 msgid "Choose Mousepad Font"
 msgstr "خەت نۇسخىسىنى تاللاش"
 
+#. error dialog messages
+#: ../mousepad/mousepad-dialogs.h:28
+msgid "Failed to open the document"
+msgstr "ھۆججەتنى ئېچىش مەغلۇپ بولدى"
+
+#: ../mousepad/mousepad-dialogs.h:29
+msgid "Failed to save the document"
+msgstr "پۈتۈكنى ساقلاش مەغلۇپ بولدى"
+
+#: ../mousepad/mousepad-dialogs.h:30
+msgid "Unsupported character set"
+msgstr ""
+
+#. button labels
+#: ../mousepad/mousepad-dialogs.h:33
+msgid "_Cancel"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.h:34
+msgid "_OK"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.h:35
+#: ../mousepad/resources/gtk/menus-common.ui.h:5
+msgid "_Save"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.h:36
+msgid "Save _As"
+msgstr ""
+
+#: ../mousepad/mousepad-dialogs.h:37
+msgid "Re_vert"
+msgstr "ئەسلىدىكىگە قايتۇر(_V)"
+
+#: ../mousepad/mousepad-dialogs.h:38
+#: ../mousepad/resources/gtk/menus-common.ui.h:9
+msgid "Re_load"
+msgstr ""
+
 #. pack button, add signal and tooltip
 #: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
@@ -466,6 +506,19 @@ msgstr "ياپونچە"
 #: ../mousepad/mousepad-encoding.c:108 ../mousepad/mousepad-encoding.c:109
 msgid "Korean"
 msgstr "كورېيەچە"
+
+#. button labels
+#: ../mousepad/mousepad-encoding.h:23
+msgid "Default"
+msgstr "كۆڭۈلدىكى"
+
+#: ../mousepad/mousepad-encoding.h:24
+msgid "System"
+msgstr "سىستېما"
+
+#: ../mousepad/mousepad-encoding.h:25
+msgid "History"
+msgstr ""
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
@@ -1130,10 +1183,6 @@ msgstr "ئاچ(_O)…"
 msgid "Open a file"
 msgstr "ھۆججەت ئاچىدۇ"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:5
-msgid "_Save"
-msgstr ""
-
 #: ../mousepad/resources/gtk/menus-common.ui.h:6
 msgid "Save the current document"
 msgstr "نۆۋەتتىكى ھۆججەتنى ساقلايدۇ"
@@ -1145,10 +1194,6 @@ msgstr "باشقا ئاتتا ساقلا(_S)…"
 #: ../mousepad/resources/gtk/menus-common.ui.h:8
 msgid "Save current document as another file"
 msgstr "نۆۋەتتىكى ھۆججەتكە باشقا ئات قويۇپ ساقلايدۇ"
-
-#: ../mousepad/resources/gtk/menus-common.ui.h:9
-msgid "Re_load"
-msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
