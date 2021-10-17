@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-16 12:49+0200\n"
-"PO-Revision-Date: 2021-10-16 10:49+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2021-10-17 00:48+0200\n"
+"PO-Revision-Date: 2021-10-16 22:49+0000\n"
+"Last-Translator: gabrieltandil <gabriel.tandil@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -306,6 +306,46 @@ msgstr "_Abrir"
 msgid "Choose Mousepad Font"
 msgstr "Seleccionar la tipografía de Mousepad"
 
+#. error dialog messages
+#: ../mousepad/mousepad-dialogs.h:28
+msgid "Failed to open the document"
+msgstr "No se pudo abrir el documento"
+
+#: ../mousepad/mousepad-dialogs.h:29
+msgid "Failed to save the document"
+msgstr "No se ha podido guardar el documento"
+
+#: ../mousepad/mousepad-dialogs.h:30
+msgid "Unsupported character set"
+msgstr "Juego de caracteres no soportado"
+
+#. button labels
+#: ../mousepad/mousepad-dialogs.h:33
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: ../mousepad/mousepad-dialogs.h:34
+msgid "_OK"
+msgstr "_Aceptar"
+
+#: ../mousepad/mousepad-dialogs.h:35
+#: ../mousepad/resources/gtk/menus-common.ui.h:5
+msgid "_Save"
+msgstr "_Guardar"
+
+#: ../mousepad/mousepad-dialogs.h:36
+msgid "Save _As"
+msgstr "G_uardar como"
+
+#: ../mousepad/mousepad-dialogs.h:37
+msgid "Re_vert"
+msgstr "_Restaurar"
+
+#: ../mousepad/mousepad-dialogs.h:38
+#: ../mousepad/resources/gtk/menus-common.ui.h:9
+msgid "Re_load"
+msgstr "Re_cargar"
+
 #. pack button, add signal and tooltip
 #: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
@@ -479,6 +519,19 @@ msgstr "Japonés"
 #: ../mousepad/mousepad-encoding.c:108 ../mousepad/mousepad-encoding.c:109
 msgid "Korean"
 msgstr "Coreano"
+
+#. button labels
+#: ../mousepad/mousepad-encoding.h:23
+msgid "Default"
+msgstr "Por defecto"
+
+#: ../mousepad/mousepad-encoding.h:24
+msgid "System"
+msgstr "Sistema"
+
+#: ../mousepad/mousepad-encoding.h:25
+msgid "History"
+msgstr ""
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
@@ -1143,10 +1196,6 @@ msgstr "_Abrir..."
 msgid "Open a file"
 msgstr "Abrir un archivo"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:5
-msgid "_Save"
-msgstr "_Guardar"
-
 #: ../mousepad/resources/gtk/menus-common.ui.h:6
 msgid "Save the current document"
 msgstr "Guardar el documento actual"
@@ -1158,10 +1207,6 @@ msgstr "G_uardar como..."
 #: ../mousepad/resources/gtk/menus-common.ui.h:8
 msgid "Save current document as another file"
 msgstr "Guardar el documento actual como otro archivo"
-
-#: ../mousepad/resources/gtk/menus-common.ui.h:9
-msgid "Re_load"
-msgstr "Re_cargar"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
