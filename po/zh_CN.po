@@ -24,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-16 12:49+0200\n"
-"PO-Revision-Date: 2021-10-16 10:49+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2021-10-17 00:48+0200\n"
+"PO-Revision-Date: 2021-10-16 22:49+0000\n"
+"Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/xfce/xfce-apps/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -310,6 +310,46 @@ msgstr "打开(&O)"
 msgid "Choose Mousepad Font"
 msgstr "选择 Mousepad 字体"
 
+#. error dialog messages
+#: ../mousepad/mousepad-dialogs.h:28
+msgid "Failed to open the document"
+msgstr "打开文档失败"
+
+#: ../mousepad/mousepad-dialogs.h:29
+msgid "Failed to save the document"
+msgstr "保存文档失败"
+
+#: ../mousepad/mousepad-dialogs.h:30
+msgid "Unsupported character set"
+msgstr "不支持的字符集"
+
+#. button labels
+#: ../mousepad/mousepad-dialogs.h:33
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: ../mousepad/mousepad-dialogs.h:34
+msgid "_OK"
+msgstr "确定(_O)"
+
+#: ../mousepad/mousepad-dialogs.h:35
+#: ../mousepad/resources/gtk/menus-common.ui.h:5
+msgid "_Save"
+msgstr "保存(_S)"
+
+#: ../mousepad/mousepad-dialogs.h:36
+msgid "Save _As"
+msgstr "另存为(_A)"
+
+#: ../mousepad/mousepad-dialogs.h:37
+msgid "Re_vert"
+msgstr "恢复(_V)"
+
+#: ../mousepad/mousepad-dialogs.h:38
+#: ../mousepad/resources/gtk/menus-common.ui.h:9
+msgid "Re_load"
+msgstr "重新加载(_L)"
+
 #. pack button, add signal and tooltip
 #: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
@@ -483,6 +523,19 @@ msgstr "日语"
 #: ../mousepad/mousepad-encoding.c:108 ../mousepad/mousepad-encoding.c:109
 msgid "Korean"
 msgstr "朝鲜语"
+
+#. button labels
+#: ../mousepad/mousepad-encoding.h:23
+msgid "Default"
+msgstr "默认"
+
+#: ../mousepad/mousepad-encoding.h:24
+msgid "System"
+msgstr "系统"
+
+#: ../mousepad/mousepad-encoding.h:25
+msgid "History"
+msgstr ""
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
@@ -1146,10 +1199,6 @@ msgstr "打开(_O)..."
 msgid "Open a file"
 msgstr "打开文件"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:5
-msgid "_Save"
-msgstr "保存(_S)"
-
 #: ../mousepad/resources/gtk/menus-common.ui.h:6
 msgid "Save the current document"
 msgstr "保存当前文档"
@@ -1161,10 +1210,6 @@ msgstr "另存为(_A)..."
 #: ../mousepad/resources/gtk/menus-common.ui.h:8
 msgid "Save current document as another file"
 msgstr "保持当前文档为其他文件"
-
-#: ../mousepad/resources/gtk/menus-common.ui.h:9
-msgid "Re_load"
-msgstr "重新加载(_L)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
