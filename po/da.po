@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-16 12:49+0200\n"
-"PO-Revision-Date: 2021-10-16 10:49+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2021-10-17 00:48+0200\n"
+"PO-Revision-Date: 2021-10-16 22:49+0000\n"
+"Last-Translator: Chris Darnell <chris@cedeel.com>\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -300,6 +300,46 @@ msgstr "_Åbn"
 msgid "Choose Mousepad Font"
 msgstr "Vælg skrifttype til Mousepad"
 
+#. error dialog messages
+#: ../mousepad/mousepad-dialogs.h:28
+msgid "Failed to open the document"
+msgstr "Kunne ikke åbne dokumentet"
+
+#: ../mousepad/mousepad-dialogs.h:29
+msgid "Failed to save the document"
+msgstr "Kunne ikke gemme dokumentet"
+
+#: ../mousepad/mousepad-dialogs.h:30
+msgid "Unsupported character set"
+msgstr "Ikke-understøttet tegnsæt"
+
+#. button labels
+#: ../mousepad/mousepad-dialogs.h:33
+msgid "_Cancel"
+msgstr "_Annuller"
+
+#: ../mousepad/mousepad-dialogs.h:34
+msgid "_OK"
+msgstr "_OK"
+
+#: ../mousepad/mousepad-dialogs.h:35
+#: ../mousepad/resources/gtk/menus-common.ui.h:5
+msgid "_Save"
+msgstr "_Gem"
+
+#: ../mousepad/mousepad-dialogs.h:36
+msgid "Save _As"
+msgstr "Gem _som"
+
+#: ../mousepad/mousepad-dialogs.h:37
+msgid "Re_vert"
+msgstr "_Tilbagefør"
+
+#: ../mousepad/mousepad-dialogs.h:38
+#: ../mousepad/resources/gtk/menus-common.ui.h:9
+msgid "Re_load"
+msgstr "_Genindlæs"
+
 #. pack button, add signal and tooltip
 #: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
@@ -473,6 +513,19 @@ msgstr "Japansk"
 #: ../mousepad/mousepad-encoding.c:108 ../mousepad/mousepad-encoding.c:109
 msgid "Korean"
 msgstr "Koreansk"
+
+#. button labels
+#: ../mousepad/mousepad-encoding.h:23
+msgid "Default"
+msgstr "Standard"
+
+#: ../mousepad/mousepad-encoding.h:24
+msgid "System"
+msgstr "System"
+
+#: ../mousepad/mousepad-encoding.h:25
+msgid "History"
+msgstr ""
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
@@ -1137,10 +1190,6 @@ msgstr "_Åbn ..."
 msgid "Open a file"
 msgstr "Åbn en fil"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:5
-msgid "_Save"
-msgstr "_Gem"
-
 #: ../mousepad/resources/gtk/menus-common.ui.h:6
 msgid "Save the current document"
 msgstr "Gem det nuværende dokument"
@@ -1152,10 +1201,6 @@ msgstr "Gem _som ..."
 #: ../mousepad/resources/gtk/menus-common.ui.h:8
 msgid "Save current document as another file"
 msgstr "Gem det nuværende dokument som anden fil"
-
-#: ../mousepad/resources/gtk/menus-common.ui.h:9
-msgid "Re_load"
-msgstr "_Genindlæs"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
