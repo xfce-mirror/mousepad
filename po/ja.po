@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-16 12:49+0200\n"
-"PO-Revision-Date: 2021-10-16 10:49+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2021-10-17 00:48+0200\n"
+"PO-Revision-Date: 2021-10-16 23:40+0000\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -298,6 +298,46 @@ msgstr "開く(_O)"
 msgid "Choose Mousepad Font"
 msgstr "Mousepad のフォントを選択する"
 
+#. error dialog messages
+#: ../mousepad/mousepad-dialogs.h:28
+msgid "Failed to open the document"
+msgstr "文書を開くことに失敗しました"
+
+#: ../mousepad/mousepad-dialogs.h:29
+msgid "Failed to save the document"
+msgstr "文書の保存に失敗しました"
+
+#: ../mousepad/mousepad-dialogs.h:30
+msgid "Unsupported character set"
+msgstr "サポートされていない文字セット"
+
+#. button labels
+#: ../mousepad/mousepad-dialogs.h:33
+msgid "_Cancel"
+msgstr "キャンセル(_C)"
+
+#: ../mousepad/mousepad-dialogs.h:34
+msgid "_OK"
+msgstr "OK(_O)"
+
+#: ../mousepad/mousepad-dialogs.h:35
+#: ../mousepad/resources/gtk/menus-common.ui.h:5
+msgid "_Save"
+msgstr "保存(_S)"
+
+#: ../mousepad/mousepad-dialogs.h:36
+msgid "Save _As"
+msgstr "名前を付けて保存(_A)"
+
+#: ../mousepad/mousepad-dialogs.h:37
+msgid "Re_vert"
+msgstr "復帰(_V)"
+
+#: ../mousepad/mousepad-dialogs.h:38
+#: ../mousepad/resources/gtk/menus-common.ui.h:9
+msgid "Re_load"
+msgstr "リロード(_L)"
+
 #. pack button, add signal and tooltip
 #: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
@@ -471,6 +511,19 @@ msgstr "日本語"
 #: ../mousepad/mousepad-encoding.c:108 ../mousepad/mousepad-encoding.c:109
 msgid "Korean"
 msgstr "韓国語"
+
+#. button labels
+#: ../mousepad/mousepad-encoding.h:23
+msgid "Default"
+msgstr "デフォルト"
+
+#: ../mousepad/mousepad-encoding.h:24
+msgid "System"
+msgstr "システム"
+
+#: ../mousepad/mousepad-encoding.h:25
+msgid "History"
+msgstr "履歴"
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
@@ -1134,10 +1187,6 @@ msgstr "開く(_O)..."
 msgid "Open a file"
 msgstr "ファイルを開きます"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:5
-msgid "_Save"
-msgstr "保存(_S)"
-
 #: ../mousepad/resources/gtk/menus-common.ui.h:6
 msgid "Save the current document"
 msgstr "現在の文書を保存します"
@@ -1149,10 +1198,6 @@ msgstr "名前を付けて保存(_A)..."
 #: ../mousepad/resources/gtk/menus-common.ui.h:8
 msgid "Save current document as another file"
 msgstr "現在の文書を別のファイルとして保存します"
-
-#: ../mousepad/resources/gtk/menus-common.ui.h:9
-msgid "Re_load"
-msgstr "リロード(_L)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
@@ -1699,7 +1744,7 @@ msgstr "「0」は最近の履歴を無効にし、消去します "
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "<b>History</b>"
-msgstr "<b>ヒストリー</b>"
+msgstr "<b>履歴</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "File monitoring"
