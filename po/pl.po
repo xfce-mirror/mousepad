@@ -6,6 +6,7 @@
 # ised, 2014
 # ised, 2014
 # Marcin Mikołajczak <me@mkljczk.pl>, 2017
+# Marek Adamski, 2021
 # Nick Schermer <nick@xfce.org>, 2014
 # Nick Schermer <nick@xfce.org>, 2014
 # Marek Adamski, 2018-2021
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-16 12:49+0200\n"
-"PO-Revision-Date: 2021-10-16 10:49+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2021-10-17 00:48+0200\n"
+"PO-Revision-Date: 2021-10-17 09:32+0000\n"
+"Last-Translator: Marek Adamski\n"
 "Language-Team: Polish (http://www.transifex.com/xfce/xfce-apps/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -302,6 +303,46 @@ msgstr "_Otwórz"
 msgid "Choose Mousepad Font"
 msgstr "Wybór czcionki"
 
+#. error dialog messages
+#: ../mousepad/mousepad-dialogs.h:28
+msgid "Failed to open the document"
+msgstr "Nie udało się otworzyć dokumentu"
+
+#: ../mousepad/mousepad-dialogs.h:29
+msgid "Failed to save the document"
+msgstr "Nie udało się zapisać dokumentu"
+
+#: ../mousepad/mousepad-dialogs.h:30
+msgid "Unsupported character set"
+msgstr "Nieobsługiwany zestaw znaków"
+
+#. button labels
+#: ../mousepad/mousepad-dialogs.h:33
+msgid "_Cancel"
+msgstr "A_nuluj"
+
+#: ../mousepad/mousepad-dialogs.h:34
+msgid "_OK"
+msgstr "_OK"
+
+#: ../mousepad/mousepad-dialogs.h:35
+#: ../mousepad/resources/gtk/menus-common.ui.h:5
+msgid "_Save"
+msgstr "_Zapisz"
+
+#: ../mousepad/mousepad-dialogs.h:36
+msgid "Save _As"
+msgstr "Zapisz _jako"
+
+#: ../mousepad/mousepad-dialogs.h:37
+msgid "Re_vert"
+msgstr "_Przywróć"
+
+#: ../mousepad/mousepad-dialogs.h:38
+#: ../mousepad/resources/gtk/menus-common.ui.h:9
+msgid "Re_load"
+msgstr "W_czytaj ponownie"
+
 #. pack button, add signal and tooltip
 #: ../mousepad/mousepad-document.c:620
 msgid "Close this tab"
@@ -475,6 +516,19 @@ msgstr "Japońskie"
 #: ../mousepad/mousepad-encoding.c:108 ../mousepad/mousepad-encoding.c:109
 msgid "Korean"
 msgstr "Koreańskie"
+
+#. button labels
+#: ../mousepad/mousepad-encoding.h:23
+msgid "Default"
+msgstr "Domyślne"
+
+#: ../mousepad/mousepad-encoding.h:24
+msgid "System"
+msgstr "Systemowe"
+
+#: ../mousepad/mousepad-encoding.h:25
+msgid "History"
+msgstr "Historia"
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
@@ -1141,10 +1195,6 @@ msgstr "_Otwórz..."
 msgid "Open a file"
 msgstr "Otwiera plik"
 
-#: ../mousepad/resources/gtk/menus-common.ui.h:5
-msgid "_Save"
-msgstr "_Zapisz"
-
 #: ../mousepad/resources/gtk/menus-common.ui.h:6
 msgid "Save the current document"
 msgstr "Zapisuje bieżący dokument"
@@ -1156,10 +1206,6 @@ msgstr "Zapisz j_ako..."
 #: ../mousepad/resources/gtk/menus-common.ui.h:8
 msgid "Save current document as another file"
 msgstr "Zapisuje bieżący dokument w innym pliku"
-
-#: ../mousepad/resources/gtk/menus-common.ui.h:9
-msgid "Re_load"
-msgstr "W_czytaj ponownie"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:11
 msgid "_Detach Tab"
