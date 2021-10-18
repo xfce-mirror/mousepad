@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-17 00:48+0200\n"
-"PO-Revision-Date: 2021-10-16 22:49+0000\n"
-"Last-Translator: gabrieltandil <gabriel.tandil@gmail.com>\n"
+"PO-Revision-Date: 2021-10-18 19:40+0000\n"
+"Last-Translator: Toni Estévez <toni.estevez@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -309,7 +309,7 @@ msgstr "Seleccionar la tipografía de Mousepad"
 #. error dialog messages
 #: ../mousepad/mousepad-dialogs.h:28
 msgid "Failed to open the document"
-msgstr "No se pudo abrir el documento"
+msgstr "No se ha podido abrir el documento"
 
 #: ../mousepad/mousepad-dialogs.h:29
 msgid "Failed to save the document"
@@ -317,7 +317,7 @@ msgstr "No se ha podido guardar el documento"
 
 #: ../mousepad/mousepad-dialogs.h:30
 msgid "Unsupported character set"
-msgstr "Juego de caracteres no soportado"
+msgstr "Juego de caracteres no compatible"
 
 #. button labels
 #: ../mousepad/mousepad-dialogs.h:33
@@ -531,7 +531,7 @@ msgstr "Sistema"
 
 #: ../mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "Historial"
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
