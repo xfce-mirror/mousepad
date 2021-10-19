@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-17 00:48+0200\n"
-"PO-Revision-Date: 2021-10-16 22:49+0000\n"
+"PO-Revision-Date: 2021-10-19 03:56+0000\n"
 "Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/xfce/xfce-apps/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -535,7 +535,7 @@ msgstr "系统"
 
 #: ../mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "历史"
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
