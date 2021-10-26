@@ -146,24 +146,22 @@ test_plugin_finalize (GObject *object)
 static gboolean
 test_plugin_dialog_shown (gpointer instance)
 {
-  gpointer  dialog;
-  GList    *windows, *window;
+  GList *windows, *window;
 
   /* disconnect this handler */
   if (G_IS_ACTION (instance))
     mousepad_disconnect_by_func (instance, test_plugin_dialog_shown, NULL);
 
-  /* search for a GtkDialog in the GdkWindow list */
-  windows = gdk_screen_get_toplevel_windows (gdk_screen_get_default ());
+  /* search for a GtkDialog in the GtkWindow list */
+  windows = gtk_window_list_toplevels ();
   for (window = windows; window != NULL; window = window->next)
     {
-      gdk_window_get_user_data (window->data, &dialog);
-      if (GTK_IS_DIALOG (dialog) && gtk_widget_get_visible (dialog))
+      if (GTK_IS_DIALOG (window->data) && gtk_widget_get_visible (window->data))
         {
           if (g_application_get_is_busy (application))
             g_application_unmark_busy (application);
           else
-            gtk_dialog_response (dialog, MOUSEPAD_RESPONSE_CANCEL);
+            gtk_dialog_response (window->data, MOUSEPAD_RESPONSE_CANCEL);
 
           break;
         }
