@@ -1094,63 +1094,46 @@ mousepad_application_open (GApplication  *gapplication,
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GtkWidget           *window;
-  GFile               *valid_files[n_files];
-  gchar               *uri;
-  gint                 n, valid = 0, opened = 0;
+  gint                 n, opened = 0;
 
-  /* URIs may be invalid when entered by the user */
-  for (n = 0; n < n_files; n++)
-    if (! mousepad_util_validate_file (files[n]))
-      {
-        /* inform the user */
-        uri = g_file_get_uri (files[n]);
-        g_message ("Invalid URI: %s", uri);
-        g_free (uri);
-      }
-    else
-      valid_files[valid++] = files[n];
-
-  if (valid > 0)
+  /* open the files in tabs */
+  if (application->opening_mode != WINDOW)
     {
-      /* open the files in tabs */
-      if (application->opening_mode != WINDOW)
-        {
-          /* get the window to open the files */
-          window = mousepad_application_get_window_for_files (application);
+      /* get the window to open the files */
+      window = mousepad_application_get_window_for_files (application);
 
-          /* open the files */
-          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files, valid,
+      /* open the files */
+      opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), files, n_files,
+                                           application->encoding, application->line,
+                                           application->column, FALSE);
+
+      /* if at least one file was finally opened, present the window, so that it requires
+       * attention if already open */
+      if (opened > 0)
+        gtk_window_present (GTK_WINDOW (window));
+      /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
+      else if (G_LIKELY (mousepad_is_application_window (window)) && opened < 0)
+        gtk_widget_destroy (window);
+    }
+  /* open the files in windows */
+  else
+    {
+      for (n = 0; n < n_files; n++)
+        {
+          /* create a new window (signals added and already hooked up) */
+          window = mousepad_application_create_window (application);
+
+          /* open the file */
+          opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), files + n, 1,
                                                application->encoding, application->line,
                                                application->column, FALSE);
 
-          /* if at least one file was finally opened, present the window, so that it requires
-           * attention if already open */
+          /* if the file was finally opened, show the window */
           if (opened > 0)
-            gtk_window_present (GTK_WINDOW (window));
+            gtk_widget_show (window);
           /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
-          else if (G_LIKELY (mousepad_is_application_window (window)) && opened < 0)
+          else if (G_LIKELY (mousepad_is_application_window (window)))
             gtk_widget_destroy (window);
-        }
-      /* open the files in windows */
-      else
-        {
-          for (n = 0; n < valid; n++)
-            {
-              /* create a new window (signals added and already hooked up) */
-              window = mousepad_application_create_window (application);
-
-              /* open the file */
-              opened = mousepad_window_open_files (MOUSEPAD_WINDOW (window), valid_files + n, 1,
-                                                   application->encoding, application->line,
-                                                   application->column, FALSE);
-
-              /* if the file was finally opened, show the window */
-              if (opened > 0)
-                gtk_widget_show (window);
-              /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
-              else if (G_LIKELY (mousepad_is_application_window (window)))
-                gtk_widget_destroy (window);
-            }
         }
     }
 }

@@ -598,7 +598,7 @@ mousepad_history_session_restore (MousepadApplication *application)
               autosave_file = g_file_new_for_uri (autosave_uri);
 
               /* validate file */
-              if (! mousepad_util_validate_file (autosave_file))
+              if (mousepad_util_get_path (autosave_file) == NULL)
                 {
                   g_warning (CORRUPTED_SESSION_DATA);
                   g_object_unref (autosave_file);
@@ -631,24 +631,10 @@ mousepad_history_session_restore (MousepadApplication *application)
               uri++;
             }
 
-          /* see if there is a valid uri */
+          /* see if there is a uri */
           file = NULL;
           if (*uri != '\0')
-            {
               file = g_file_new_for_uri (uri);
-              if (! mousepad_util_validate_file (file))
-                {
-                  g_warning (CORRUPTED_SESSION_DATA);
-                  g_object_unref (file);
-                  if (autosave_file != NULL)
-                    g_object_unref (autosave_file);
-
-                  if (current == n_files)
-                    current = 0;
-
-                  continue;
-                }
-            }
 
           /* there is at least one autosaved file to restore */
           if (! autosaved && autosave_file != NULL && mousepad_util_query_exists (autosave_file, FALSE))

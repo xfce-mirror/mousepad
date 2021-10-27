@@ -391,7 +391,7 @@ mousepad_file_set_location (MousepadFile *file,
             ! g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
           g_object_unref (fileinfo);
         }
-      else if (g_file_has_uri_scheme (location, "trash"))
+      else if (mousepad_util_get_path (location) == NULL)
         mousepad_file_set_read_only (file, TRUE);
       else
         mousepad_file_set_read_only (file, FALSE);

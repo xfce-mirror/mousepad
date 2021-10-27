@@ -4569,8 +4569,7 @@ mousepad_window_action_save (GSimpleAction *action,
       /* file is readonly */
       else if (G_UNLIKELY (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)
                            || g_error_matches (error, G_IO_ERROR, G_IO_ERROR_READ_ONLY)
-                           || g_file_has_uri_scheme (mousepad_file_get_location (document->file),
-                                                     "trash")))
+                           || mousepad_file_get_path (document->file) == NULL))
         {
           /* cleanup */
           g_clear_error (&error);
