@@ -288,56 +288,6 @@ mousepad_document_init (MousepadDocument *document)
 
 
 
-static gboolean
-mousepad_document_unref (gpointer data)
-{
-  g_object_unref (data);
-
-  return FALSE;
-}
-
-
-
-static void
-mousepad_document_post_finalize (GtkSourceSearchContext *search_context,
-                                 GParamSpec             *pspec,
-                                 gpointer                buffer)
-{
-  /* let the search context finish its work completely (no warning without that,
-   * but Valgrind sees invalid reads) */
-  g_idle_add (mousepad_document_unref, search_context);
-  g_idle_add (mousepad_document_unref, buffer);
-}
-
-
-
-static void
-mousepad_document_finalize_search (MousepadDocument       *document,
-                                   gpointer                buffer,
-                                   GtkSourceSearchContext *search_context)
-{
-  GtkSourceSearchSettings *search_settings;
-
-  /* disconnect any handler connected to the buffer or the search context, to not interfer
-   * with what follows */
-  g_signal_handlers_disconnect_by_data (search_context, document);
-  g_signal_handlers_disconnect_by_data (buffer, document);
-
-  /* reset some critical settings to ensure that the last search is almost instantaneous
-   * (see mousepad_document_prevent_endless_scanning() below) */
-  search_settings = gtk_source_search_context_get_settings (search_context);
-  gtk_source_search_context_set_highlight (search_context, FALSE);
-  gtk_source_search_settings_set_regex_enabled (search_settings, FALSE);
-
-  /* cancel any current search by launching a last one, the result of which will trigger
-   * post_finalize() */
-  g_signal_connect (search_context, "notify::occurrences-count",
-                    G_CALLBACK (mousepad_document_post_finalize), buffer);
-  gtk_source_search_settings_set_search_text (search_settings, NULL);
-}
-
-
-
 static void
 mousepad_document_finalize (GObject *object)
 {
@@ -351,16 +301,16 @@ mousepad_document_finalize (GObject *object)
   /* release the file */
   g_object_unref (document->file);
 
-  /*
-   * We will release buffers and search contexts when a last search is completed,
-   * including buffers scanning, to prevent too late accesses to the buffers.
-   */
-  mousepad_document_finalize_search (document, document->buffer, document->priv->search_context);
+  /* search related */
+  g_object_unref (document->priv->search_context);
+  g_object_unref (document->buffer);
   if (document->priv->selection_buffer != NULL)
-    mousepad_document_finalize_search (document, document->priv->selection_buffer,
-                                       document->priv->selection_context);
+    {
+      g_object_unref (document->priv->selection_context);
+      g_object_unref (document->priv->selection_buffer);
+    }
 
-  (*G_OBJECT_CLASS (mousepad_document_parent_class)->finalize) (object);
+  G_OBJECT_CLASS (mousepad_document_parent_class)->finalize (object);
 }
 
 
@@ -745,6 +695,16 @@ mousepad_document_search_completed_idle (gpointer data)
   gtk_text_iter_free (start);
   gtk_text_iter_free (end);
   document->priv->search_id = 0;
+
+  return FALSE;
+}
+
+
+
+static gboolean
+mousepad_document_unref (gpointer data)
+{
+  g_object_unref (data);
 
   return FALSE;
 }
