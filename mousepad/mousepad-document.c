@@ -691,9 +691,6 @@ mousepad_document_search_completed_idle (gpointer data)
            && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
     gtk_text_buffer_place_cursor (document->buffer, &iter);
 
-  /* cleanup */
-  gtk_text_iter_free (start);
-  gtk_text_iter_free (end);
   document->priv->search_id = 0;
 
   return FALSE;
@@ -774,8 +771,10 @@ mousepad_document_search_completed (GObject      *object,
   /* now we need first to exit this async task callback to prevent any warning,
    * but we launch the rest as soon as possible to preserve real-time behavior */
   mousepad_object_set_data (search_context, "found", GINT_TO_POINTER (found));
-  mousepad_object_set_data (search_context, "start", gtk_text_iter_copy (&start));
-  mousepad_object_set_data (search_context, "end", gtk_text_iter_copy (&end));
+  mousepad_object_set_data_full (search_context, "start",
+                                 gtk_text_iter_copy (&start), gtk_text_iter_free);
+  mousepad_object_set_data_full (search_context, "end",
+                                 gtk_text_iter_copy (&end), gtk_text_iter_free);
   mousepad_object_set_data (document, "search-context", search_context);
   if (document->priv->search_id != 0)
     g_source_remove (document->priv->search_id);
