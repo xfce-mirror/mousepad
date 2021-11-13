@@ -6,15 +6,15 @@
 # Elishai Eliyahu <elishai@mailfence.com>, 2016,2018-2020
 # Elishai Eliyahu <elishai@mailfence.com>, 2020-2021
 # GenghisKhan <genghiskhan@gmx.ca>, 2016
-# Omeritzics Games <omeritzicschwartz@gmail.com>, 2021
-# Omeritzics Games <omeritzicschwartz@gmail.com>, 2020
-# Omeritzics Games <omeritzicschwartz@gmail.com>, 2020
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2021
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-17 00:48+0200\n"
-"PO-Revision-Date: 2021-10-16 22:49+0000\n"
+"PO-Revision-Date: 2021-11-13 19:34+0000\n"
 "Last-Translator: Elishai Eliyahu <elishai@mailfence.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -524,7 +524,7 @@ msgstr "מערכת"
 
 #: ../mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "היסטוריה"
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
