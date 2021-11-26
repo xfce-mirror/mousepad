@@ -1,5 +1,34 @@
-0.5.7
-======
+0.5.8 (2021-11-26)
+=====
+- Bug Fixes:
+  - Revert "Chain-up to parent in `mousepad_window_scroll_event()`" (#150)
+  - Search: Fix a memory leak
+  - Search: Remove obsolete workaround for the document finalization
+  - Drop restrictions on URI scheme
+  - Update `POTFILES.in`
+  - Printing: Remove the "Page Setup" dialog (#148)
+  - Flatpak: Complete scripts
+  - Flatpak: Access remote locations with GVfs
+  - Search: Fix the history cleanup
+  - Search: Prevent GTask warnings when replacing text
+  - Search: Ensure settings synchronization before searching
+  - Fix translation domain in Appdata file
+  - flatpak: Update README
+  - flatpak: Add generic manifest and basic scripts
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Persian (Iran), Polish, Portuguese, Portuguese (Brazil),
+  Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish,
+  Thai, Turkish, Ukrainian, Uyghur
+
+0.5.7 (2021-09-23)
+=====
 - Bug Fixes:
   - Update Appdata file and use the same description everywhere
   - Prevent warning when saving a deleted file via a symlink (#135)
@@ -26,12 +55,13 @@
   - Initialize `contents` and use it to guard `g_file_replace_contents` (!113)
   - Fix an unlikely memory leak
   - Make CSD consistent with other Xfce windows (#145)
+
 - Translation Updates:
   Estonian, Greek, Kazakh, Polish, Serbian, Slovenian, Swedish,
   Ukrainian
 
-0.5.6
-======
+0.5.6 (2021-07-31)
+=====
 - New Features:
   - Add session backup and restore
     - Remember windows and tabs (#21, !108)
@@ -93,8 +123,8 @@
   Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish,
   Thai, Turkish, Ukrainian, Uyghur
 
-0.5.5
-======
+0.5.5 (2021-05-12)
+=====
 - New Features:
   - Add a `.desktop` file to make Mousepad appear in Xfce settings (!94)
   - Add a command line option to open the prefs dialog (!94)
@@ -140,8 +170,8 @@
   Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish,
   Thai, Turkish, Ukrainian, Uyghur
 
-0.5.4
-======
+0.5.4 (2021-04-02)
+=====
 - New Features:
   - Add --line/-l and --column/-c number (#107, !83)
   - Port to GtkSourceView 4 (#55, #80, !10)
@@ -160,8 +190,8 @@
 - Translation Updates:
   Hebrew, Indonesian, Spanish, Swedish
 
-0.5.3
-======
+0.5.3 (2021-02-28)
+=====
 - Appearance Changes:
   - Use old style menu alignment (#97, !77)
 
@@ -176,8 +206,8 @@
   Basque, French, Galician, Portuguese (Brazil), Russian, Slovenian,
   Swedish
 
-0.5.2
-======
+0.5.2 (2021-01-31)
+=====
 - New Features:
   - Add a "Viewer Mode" toggle (#50, !72)
   - Improve `--quit` option: close all windows interactively (!71)
@@ -230,8 +260,8 @@
   Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish,
   Ukrainian, Uyghur
 
-0.5.1
-======
+0.5.1 (2020-12-23)
+=====
 - Dependency Changes:
   - GLib >= 2.52.0
   - GTK >= 3.22.0
@@ -264,8 +294,8 @@
   Lithuanian, Norwegian Bokmål, Portuguese, Portuguese (Brazil),
   Russian, Serbian, Spanish, Swedish, Turkish
 
-0.5.0
-======
+0.5.0 (2020-11-30)
+=====
 - Bump required GTK+ in `mousepad-prefs-dialog.ui` (#78)
 - Fix an oversight in updating actions state (#76)
 - Remove TODO file (#74)
@@ -275,7 +305,7 @@
   Hebrew, Indonesian, Italian, Norwegian Bokmål, Portuguese,
   Portuguese (Brazil), Slovenian, Spanish, Japanese
 
-0.4.90
+0.4.90 (2020-11-20)
 ======
 Release candidate for upcoming stable version 0.5.
 
@@ -358,8 +388,8 @@ Release candidate for upcoming stable version 0.5.
   (Brazil), Romanian, Russian, Serbian, Slovak, Slovenian, Spanish,
   Swedish, Telugu, Thai, Turkish, Ukrainian, Uyghur
 
-0.4.2
-======
+0.4.2 (2019-07-28)
+=====
 - Port to GDBus (Bug #14337)
 - Show full path in window title by default (Bug #2896)
 - Reset modification time when new filename is set (Bug #10498)
@@ -393,7 +423,7 @@ Release candidate for upcoming stable version 0.5.
   Portuguese (Brazilian), Romanian, Russian, Serbian, Slovak, Slovenian,
   Spanish, Swedish, Telugu, Thai, Turkish, Ukrainian, Uyghur
 
-0.4.1
+0.4.1 (2018-06-01)
 =====
 - Fix crash when dragging tab to root window (Bug #13336)
 - Fix the signal definition of user-set-language (Bug #13630)
@@ -411,7 +441,7 @@ Release candidate for upcoming stable version 0.5.
   Occitan, Polish, Portuguese, Portuguese (Brazil), Romanian, Russian, Serbian,
   Slovak, Slovenian, Spanish, Swedish, Telugu, Thai, Turkish, Ukrainian, Uyghu
 
-0.4.0
+0.4.0 (2015-02-28)
 =====
 - Use GSettings to improve preference handling
 - A new preferences dialog exposing all preferences in the GUI
@@ -434,7 +464,7 @@ Release candidate for upcoming stable version 0.5.
 - Support for building against GTK+ 3
 - Various other improvements and bugs fixed
 
-0.3.0
+0.3.0 (2012-12-30)
 =====
 Highlights:
     - A complete rewrite of Mousepad. The code is now written in GOjects
