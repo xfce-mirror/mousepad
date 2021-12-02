@@ -31,7 +31,8 @@ static void              mousepad_replace_dialog_search_completed       (Mousepa
                                                                          gint                   n_matches,
                                                                          const gchar           *search_string,
                                                                          MousepadSearchFlags    flags);
-static void              mousepad_replace_dialog_changed                (MousepadReplaceDialog *dialog);
+static void              mousepad_replace_dialog_entry_changed          (MousepadReplaceDialog *dialog);
+static void              mousepad_replace_dialog_setting_changed        (MousepadReplaceDialog *dialog);
 static void              mousepad_replace_dialog_entry_activate         (MousepadReplaceDialog *dialog);
 static void              mousepad_replace_dialog_entry_reverse_activate (MousepadReplaceDialog *dialog);
 static void              mousepad_replace_dialog_history_combo_box      (GtkComboBoxText       *combo_box);
@@ -154,7 +155,7 @@ mousepad_replace_dialog_bind_setting (MousepadReplaceDialog *dialog,
   mousepad_setting_bind (path, object, property, G_SETTINGS_BIND_DEFAULT);
 
   mousepad_setting_connect_object (path,
-                                   G_CALLBACK (mousepad_replace_dialog_changed),
+                                   G_CALLBACK (mousepad_replace_dialog_setting_changed),
                                    dialog,
                                    G_CONNECT_SWAPPED);
 }
@@ -306,7 +307,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   /* store as an entry widget */
   dialog->search_entry = gtk_bin_get_child (GTK_BIN (combo));
   g_signal_connect_swapped (dialog->search_entry, "changed",
-                            G_CALLBACK (mousepad_replace_dialog_changed), dialog);
+                            G_CALLBACK (mousepad_replace_dialog_entry_changed), dialog);
   g_signal_connect_swapped (dialog->search_entry, "activate",
                             G_CALLBACK (mousepad_replace_dialog_entry_activate), dialog);
   g_signal_connect_swapped (dialog->search_entry, "reverse-activate",
@@ -612,10 +613,18 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
 
 
 
-static gboolean
-mousepad_replace_dialog_changed_idle (gpointer dialog)
+static void
+mousepad_replace_dialog_entry_changed (MousepadReplaceDialog *dialog)
 {
-  gtk_dialog_response (dialog, MOUSEPAD_RESPONSE_ENTRY_CHANGED);
+  gtk_dialog_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_ENTRY_CHANGED);
+}
+
+
+
+static gboolean
+mousepad_replace_dialog_setting_changed_idle (gpointer dialog)
+{
+  mousepad_replace_dialog_entry_changed (dialog);
 
   return FALSE;
 }
@@ -623,10 +632,11 @@ mousepad_replace_dialog_changed_idle (gpointer dialog)
 
 
 static void
-mousepad_replace_dialog_changed (MousepadReplaceDialog *dialog)
+mousepad_replace_dialog_setting_changed (MousepadReplaceDialog *dialog)
 {
   /* allow time for the search context settings to synchronize with those of Mousepad */
-  g_idle_add (mousepad_replace_dialog_changed_idle, mousepad_util_source_autoremove (dialog));
+  g_idle_add (mousepad_replace_dialog_setting_changed_idle,
+              mousepad_util_source_autoremove (dialog));
 }
 
 
@@ -719,7 +729,7 @@ mousepad_replace_dialog_page_switched (MousepadReplaceDialog *dialog,
                            dialog, G_CONNECT_SWAPPED);
 
   /* run a search */
-  mousepad_replace_dialog_changed (dialog);
+  mousepad_replace_dialog_entry_changed (dialog);
 }
 
 

@@ -34,6 +34,7 @@ static void      mousepad_search_bar_hide_clicked               (MousepadSearchB
 static void      mousepad_search_bar_entry_activate             (MousepadSearchBar       *bar);
 static void      mousepad_search_bar_entry_activate_backward    (MousepadSearchBar       *bar);
 static void      mousepad_search_bar_entry_changed              (MousepadSearchBar       *bar);
+static void      mousepad_search_bar_setting_changed            (MousepadSearchBar       *bar);
 
 
 
@@ -258,7 +259,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   /* check button for case sensitive, including the proxy menu item */
   widget = gtk_check_button_new_with_mnemonic (_("Match _case"));
   MOUSEPAD_SETTING_BIND (SEARCH_MATCH_CASE, widget, "active", G_SETTINGS_BIND_DEFAULT);
-  g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_entry_changed), bar);
+  g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_setting_changed), bar);
 
   item = gtk_tool_item_new ();
   gtk_container_add (GTK_CONTAINER (item), widget);
@@ -272,7 +273,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   /* check button for enabling regex, including the proxy menu item */
   widget = gtk_check_button_new_with_mnemonic (_("Regular e_xpression"));
   MOUSEPAD_SETTING_BIND (SEARCH_ENABLE_REGEX, widget, "active", G_SETTINGS_BIND_DEFAULT);
-  g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_entry_changed), bar);
+  g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_setting_changed), bar);
 
   item = gtk_tool_item_new ();
   gtk_container_add (GTK_CONTAINER (item), widget);
@@ -437,8 +438,8 @@ mousepad_search_bar_entry_activate_backward (MousepadSearchBar *bar)
 
 
 
-static gboolean
-mousepad_search_bar_entry_changed_idle (gpointer bar)
+static void
+mousepad_search_bar_entry_changed (MousepadSearchBar *bar)
 {
   MousepadSearchFlags flags;
 
@@ -451,6 +452,14 @@ mousepad_search_bar_entry_changed_idle (gpointer bar)
 
   /* find */
   mousepad_search_bar_find_string (bar, flags);
+}
+
+
+
+static gboolean
+mousepad_search_bar_setting_changed_idle (gpointer bar)
+{
+  mousepad_search_bar_entry_changed (bar);
 
   return FALSE;
 }
@@ -458,10 +467,10 @@ mousepad_search_bar_entry_changed_idle (gpointer bar)
 
 
 static void
-mousepad_search_bar_entry_changed (MousepadSearchBar *bar)
+mousepad_search_bar_setting_changed (MousepadSearchBar *bar)
 {
   /* allow time for the search context settings to synchronize with those of Mousepad */
-  g_idle_add (mousepad_search_bar_entry_changed_idle, mousepad_util_source_autoremove (bar));
+  g_idle_add (mousepad_search_bar_setting_changed_idle, mousepad_util_source_autoremove (bar));
 }
 
 
