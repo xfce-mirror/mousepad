@@ -6,13 +6,13 @@
 # Edin Veskovic <edin.lockedin@gmail.com>, 2018-2019
 # Edin Veskovic <edin.lockedin@gmail.com>, 2016
 # Edin Veskovic <edin.lockedin@gmail.com>, 2014
-# Ivica  Kolić <ikoli@yahoo.com>, 2013-2015,2019-2020
+# Ivica  Kolić <ikoli@yahoo.com>, 2013-2015,2019-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-17 00:48+0200\n"
-"PO-Revision-Date: 2021-10-16 22:49+0000\n"
+"PO-Revision-Date: 2021-12-03 17:34+0000\n"
 "Last-Translator: Ivica  Kolić <ikoli@yahoo.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/xfce/xfce-apps/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:153
 msgid "LINE"
-msgstr ""
+msgstr "REDAK"
 
 #: ../mousepad/mousepad-application.c:158
 msgid ""
@@ -53,7 +53,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:159
 msgid "COLUMN"
-msgstr ""
+msgstr "STUPAC"
 
 #: ../mousepad/mousepad-application.c:164
 msgid "Open the preferences dialog"
@@ -93,7 +93,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:456
 msgid "The Mousepad developers. All rights reserved."
-msgstr ""
+msgstr "Razvijatelji Mousepada. Sva prava pridržana."
 
 #: ../mousepad/mousepad-application.c:457
 #, c-format
@@ -107,7 +107,7 @@ msgstr "%s | Autori: %s | Naziv datoteke: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad je jednostavni uređivač teksta za Xfce radno okruženje."
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -242,7 +242,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:858
 msgid "Please select a file"
-msgstr ""
+msgstr "Molim odaberite datoteku"
 
 #: ../mousepad/mousepad-dialogs.c:890
 msgid "Failed to prepare the temporary file for encoding tests"
@@ -263,7 +263,7 @@ msgstr "_Enkodiranje:"
 
 #: ../mousepad/mousepad-dialogs.c:1054
 msgid "Current"
-msgstr ""
+msgstr "Trenutno"
 
 #: ../mousepad/mousepad-dialogs.c:1072
 msgid "Show all encodings"
@@ -271,7 +271,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:1109
 msgid "Text Files"
-msgstr ""
+msgstr "Tekstualne datoteke"
 
 #: ../mousepad/mousepad-dialogs.c:1115
 msgid "All Files"
@@ -386,12 +386,12 @@ msgstr ""
 #: ../mousepad/mousepad-encoding-dialog.c:679
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "Dokument je %s valjan."
 
 #: ../mousepad/mousepad-encoding-dialog.c:680
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "Dokument nije %s valjan."
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
@@ -522,7 +522,7 @@ msgstr "Sustav"
 
 #: ../mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "Povijest"
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
@@ -537,7 +537,7 @@ msgstr "Neuspjelo čišćenje nedavne povijesti"
 #: ../mousepad/mousepad-prefs-dialog.c:553
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
-msgstr ""
+msgstr "Mousepad osobitosti"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:117
@@ -1314,7 +1314,7 @@ msgstr "Zalijepi tekst iz međuspremnika u stupac"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
 msgid "_Delete Selection"
-msgstr ""
+msgstr "_Izbriši odabir"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:42
 msgid "Delete the current selection"
@@ -1322,11 +1322,11 @@ msgstr "Izbriši trenutni odabir"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:43
 msgid "Delete _Line"
-msgstr ""
+msgstr "Izbriši _redak"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:44
 msgid "Delete the current line"
-msgstr ""
+msgstr "Izbriši trenutni redak"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
@@ -1403,7 +1403,7 @@ msgstr "Preokreni redoslijed nečega"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move"
-msgstr ""
+msgstr "_Premjesti"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
@@ -1550,7 +1550,7 @@ msgstr "nove kartice u novom prozoru"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "never"
-msgstr ""
+msgstr "nikada"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "after a crash"
@@ -1558,11 +1558,11 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "unsaved documents"
-msgstr ""
+msgstr "nespremljeni dokumenti"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
 msgid "saved documents"
-msgstr ""
+msgstr "spremljeni dokumenti"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
 msgid "always"
@@ -1745,7 +1745,7 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>Povijest</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "File monitoring"
