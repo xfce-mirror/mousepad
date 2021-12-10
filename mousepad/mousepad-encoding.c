@@ -134,7 +134,7 @@ mousepad_encoding_get_name (MousepadEncoding encoding)
   /* try to find and return the translated name */
   for (i = 0; i < MOUSEPAD_N_ENCODINGS; i++)
     if (encoding_infos[i].encoding == encoding)
-      return _(encoding_infos[i].name);
+      return i == 0 ? NULL : _(encoding_infos[i].name);
 
   return NULL;
 }
