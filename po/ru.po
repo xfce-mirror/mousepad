@@ -3,13 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexander Filёv, 2020
 # Alex . <sanet13@mail.ru>, 2021
 # Andrey Kondratev <andrey.kondratev29@gmail.com>, 2020
 # Artem Vakhitov <temcat@mail.ru>, 2004
 # Dmitry Unruh <dmitryunruh@googlemail.com>, 2020
-# AlexanderFilev <avfill@outlook.com>, 2020
+# Alexander Filёv, 2020
 # Igor <f2404@yandex.ru>, 2018-2020
 # ivmazurenko <ivmazurenko@yandex.ru>, 2021
+# ivmazurenko <ivmazurenko@yandex.ru>, 2021
+# Olesya Gerasimenko <translation-team@basealt.ru>, 2021
 # Sergey Alyoshin <alyoshin.s@gmail.com>, 2014,2020
 # Sergey Fedoseev <fedoseev.sergey@gmail.com>, 2006
 msgid ""
@@ -17,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-17 00:48+0200\n"
-"PO-Revision-Date: 2021-10-16 22:49+0000\n"
-"Last-Translator: Nick Schermer <nick@xfce.org>\n"
+"PO-Revision-Date: 2021-12-14 12:25+0000\n"
+"Last-Translator: Olesya Gerasimenko <gammaray@basealt.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,21 +47,21 @@ msgstr "Отобразить список возможных кодировок 
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr ""
+msgstr "Номер строки, на которую должен указывать курсор (СТРОКА > 0 сверху, СТРОКА < 0 снизу)"
 
 #: ../mousepad/mousepad-application.c:153
 msgid "LINE"
-msgstr ""
+msgstr "СТРОКА"
 
 #: ../mousepad/mousepad-application.c:158
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr ""
+msgstr "Номер столбца, на который должен указывать курсор (СТОЛБЕЦ >= 0 с начала, СТОЛБЕЦ < 0 с конца)"
 
 #: ../mousepad/mousepad-application.c:159
 msgid "COLUMN"
-msgstr ""
+msgstr "СТОЛБЕЦ"
 
 #: ../mousepad/mousepad-application.c:164
 msgid "Open the preferences dialog"
@@ -112,11 +115,11 @@ msgstr "%s | Авторы: %s | Имя файла: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad — простой текстовый редактор для окружения рабочего стола Xfce"
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
-msgstr "Artem Vakhitov <temcat@mail.ru>, 2004\nSergey Alyoshin <alyoshin.s@gmail.com>, 2014\nSergey Fedoseev <fedoseev.sergey@gmail.com>, 2006"
+msgstr "Artem Vakhitov <temcat@mail.ru>, 2004\nOlesya Gerasimenko <translation-team@basealt.ru>, 2021\nSergey Alyoshin <alyoshin.s@gmail.com>, 2014\nSergey Fedoseev <fedoseev.sergey@gmail.com>, 2006"
 
 #. display an error message to the user
 #: ../mousepad/mousepad-dialogs.c:124
@@ -163,7 +166,7 @@ msgstr "Очистка истории открытых документов на
 
 #: ../mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
-msgstr ""
+msgstr "О_чистить"
 
 #: ../mousepad/mousepad-dialogs.c:382
 msgid "Do you want to save the changes before closing?"
@@ -171,7 +174,7 @@ msgstr "Сохранить изменения перед закрытием?"
 
 #: ../mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "Документ доступен только для чтения. Сохранить его как другой файл?"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:392 ../mousepad/mousepad-dialogs.c:532
@@ -186,7 +189,7 @@ msgstr "_Не сохранять"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Если этот доступный только для чтения документ не будет сохранён как другой файл, все изменения будут потеряны."
 
 #: ../mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -229,29 +232,29 @@ msgstr "Если вы перезагрузите файл, все несохра
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "Предположительно, кодировка файла — %s, но вы выбрали кодировку %s. Подтвердить этот выбор?"
 
 #: ../mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "Если нет, будет использована предполагаемая кодировка."
 
 #: ../mousepad/mousepad-dialogs.c:640
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "Похоже, что предыдущий сеанс не завершился в штатном режиме. Восстановить доступные данные?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "Если нет, все эти данные будут потеряны."
 
 #: ../mousepad/mousepad-dialogs.c:858
 msgid "Please select a file"
-msgstr ""
+msgstr "Выберите файл"
 
 #: ../mousepad/mousepad-dialogs.c:890
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "Не удалось подготовить временный файл для тестов кодировки"
 
 #: ../mousepad/mousepad-dialogs.c:953 ../mousepad/mousepad-dialogs.c:1026
 msgid "Open encoding dialog"
@@ -268,7 +271,7 @@ msgstr "_Кодировка:"
 
 #: ../mousepad/mousepad-dialogs.c:1054
 msgid "Current"
-msgstr ""
+msgstr "Текущая"
 
 #: ../mousepad/mousepad-dialogs.c:1072
 msgid "Show all encodings"
@@ -322,7 +325,7 @@ msgstr "О_тмена"
 
 #: ../mousepad/mousepad-dialogs.h:34
 msgid "_OK"
-msgstr "_Ок"
+msgstr "_ОК"
 
 #: ../mousepad/mousepad-dialogs.h:35
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
@@ -331,7 +334,7 @@ msgstr "_Сохранить"
 
 #: ../mousepad/mousepad-dialogs.h:36
 msgid "Save _As"
-msgstr ""
+msgstr "Сохранить _как..."
 
 #: ../mousepad/mousepad-dialogs.h:37
 msgid "Re_vert"
@@ -363,29 +366,29 @@ msgstr "Проверка кодировки..."
 #: ../mousepad/mousepad-encoding-dialog.c:292
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s (%s, ошибка)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:294
 #: ../mousepad/mousepad-encoding-dialog.c:349
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s (%s, частично)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:423
 msgid "Other (partial):"
-msgstr ""
+msgstr "Другая (частично):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:434
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "Обнаружены другие корректные кодировки, они доступны для выбора ниже."
 
 #: ../mousepad/mousepad-encoding-dialog.c:436
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "Обнаружены другие частично корректные кодировки, они доступны для выбора ниже."
 
 #: ../mousepad/mousepad-encoding-dialog.c:472
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "Не обнаружено других корректных кодировок."
 
 #. dialog title
 #: ../mousepad/mousepad-encoding-dialog.c:679
@@ -527,7 +530,7 @@ msgstr "Системная"
 
 #: ../mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "История"
 
 #: ../mousepad/mousepad-file.c:774
 #, c-format
@@ -542,7 +545,7 @@ msgstr "Не удалось очистить историю открытых ф�
 #: ../mousepad/mousepad-prefs-dialog.c:553
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
-msgstr ""
+msgstr "Параметры Mousepad"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:117
@@ -795,7 +798,7 @@ msgstr "Нет элементов"
 
 #: ../mousepad/mousepad-window.c:3817
 msgid "History disabled"
-msgstr ""
+msgstr "История отключена"
 
 #. create an item to inform the user
 #: ../mousepad/mousepad-window.c:4292
@@ -806,7 +809,7 @@ msgstr "В буфере обмена нет данных"
 #: ../mousepad/mousepad-window.c:4401
 #, c-format
 msgid "Templates should be %s valid"
-msgstr ""
+msgstr "Шаблоны должны быть корректны в %s"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:4407
@@ -942,11 +945,11 @@ msgstr "Обратный поиск этого же текста"
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_Incremental Search"
-msgstr ""
+msgstr "_Последовательный поиск"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Автоматически выбирать результат поиска и прокручивать область просмотра"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -1384,12 +1387,12 @@ msgstr "Преобразовать табуляции в пробелы в вы�
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "_Начальные пробелы в табуляции"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr "Преобразовать все ведущие пробелы в табуляции в выделенных строках или документе"
+msgstr "Преобразовать все начальные пробелы в табуляции в выделенных строках или документе"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:59
 msgid "St_rip Trailing Spaces"
@@ -1409,11 +1412,11 @@ msgstr "Изменить порядок на обратный"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move"
-msgstr ""
+msgstr "_Переместить"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Переместить содержимое особым образом"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1421,7 +1424,7 @@ msgstr "_Вверх"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Переместить строки на одну строку выше"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
@@ -1429,23 +1432,23 @@ msgstr "В_низ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Переместить строки на одну строку ниже"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
-msgstr ""
+msgstr "В_лево"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr ""
+msgstr "Переместить слова на одно слово влево"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
-msgstr ""
+msgstr "В_право"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr ""
+msgstr "Переместить слова на одно слово вправо"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1473,7 +1476,7 @@ msgstr "Уменьшить отступ выделения или текущей
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:79
 msgid "label-to-be-filled-in"
-msgstr ""
+msgstr "подпись-для-заполнения"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "Insert Tabs"
@@ -1556,19 +1559,19 @@ msgstr "новые вкладки в новом окне"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "never"
-msgstr ""
+msgstr "никогда"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "after a crash"
-msgstr ""
+msgstr "после сбоя"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "unsaved documents"
-msgstr ""
+msgstr "несохранённые документы"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
 msgid "saved documents"
-msgstr ""
+msgstr "сохранённые документы"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
 msgid "always"
@@ -1636,19 +1639,19 @@ msgstr "<b>Отступы</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr ""
+msgstr "(Shift-)Tab: снять или установить отступ выделенного текста"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: удалять пробелы отступа как табуляции"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: выявить начальные/конечные непечатаемые символы:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>Смарт-клавиши</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
@@ -1657,7 +1660,7 @@ msgstr "Редактор"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Оформление со стороны клиента (требуется перезагрузка)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Show full filename in title bar"
@@ -1701,7 +1704,7 @@ msgstr "Показывать вкладки даже при одном файл�
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Разворачивать вкладки для заполнения доступного пространства"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Cycled notebook tab switching"
@@ -1721,45 +1724,45 @@ msgstr "Окно"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "Обеспечить новую строку в конце файла"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Создавать копию с суффиксом «~»"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "<b>File saving</b>"
-msgstr ""
+msgstr "<b>Сохранение файлов</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
-msgstr ""
+msgstr "Восстановление сеанса:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Если выбран вариант «несохранённые документы» или «всегда», Mousepad не будет предлагать сохранить изменённые документы при выходе"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid "Recent file menu length:"
-msgstr ""
+msgstr "Длина меню последних файлов:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "«0» отключает и удаляет историю недавних файлов"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>История</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "File monitoring"
-msgstr ""
+msgstr "Отслеживание файлов"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "Default encoding:"
-msgstr ""
+msgstr "Кодировка по умолчанию:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "<b>Miscellaneous</b>"
@@ -1775,12 +1778,12 @@ msgstr "Плагины"
 
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:45
 msgid "Spell Checking"
-msgstr ""
+msgstr "Проверка орфографии"
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
 msgid "Default language:"
-msgstr ""
+msgstr "Язык по умолчанию:"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
@@ -1792,18 +1795,18 @@ msgstr "Текстовый редактор"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "Параметры текстового редактора"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
-msgstr ""
+msgstr "Настройка текстового редактора Mousepad"
 
 #: ../org.xfce.mousepad.appdata.xml.in.h:3
 msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr "Mousepad старается быть простым в использовании и быстрым редактором. Наша цель – это редактор для быстрой правки текстовых файлов, а не среда разработки или редактор с целой кучей плагинов."
+msgstr "Mousepad старается быть простым в использовании и быстрым редактором. Наша цель — это редактор для быстрой правки текстовых файлов, а не среда разработки или редактор с целой кучей плагинов."
 
 #: ../org.xfce.mousepad.appdata.xml.in.h:4
 msgid ""
@@ -1811,7 +1814,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "С другой стороны, мы стараемся использовать последние доступные возможности GTK. Это значит, что если GTK добавляет в основной выпуск какую-либо новую функцию, которая полезна для редактора, мы, скорее всего, обновим зависимость GTK и интегрируем эту новую функцию в Mousepad."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
