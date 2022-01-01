@@ -7,15 +7,15 @@
 # Anders Jonsson <transifex@norsjovallen.se>, 2021
 # Arve Eriksson <031299870@telia.com>, 2020-2021
 # Carlos Dz <cls567@tuta.io>, 2020
-# Luna Jernberg <bittin@cafe8bitar.se>, 2020-2021
+# Luna Jernberg <bittin@cafe8bitar.se>, 2020-2022
 # Påvel Nicklasson <pavel@frimix.se>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-17 00:48+0200\n"
-"PO-Revision-Date: 2021-12-24 00:42+0000\n"
-"Last-Translator: Anders Jonsson <transifex@norsjovallen.se>\n"
+"PO-Revision-Date: 2022-01-01 09:08+0000\n"
+"Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/xfce/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1806,7 +1806,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "Å andra sidan försöker vi använda de senaste Gtk-funktionerna tillgängliga, vilket innebär att om Gtk lägger till något nytt i en stor utgåva som vi kan använda till editorn så kommer vi sannolikt ändra beroendet och integrera den nya funktionen i Mousepad."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
