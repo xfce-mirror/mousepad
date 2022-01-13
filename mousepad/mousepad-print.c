@@ -761,6 +761,9 @@ mousepad_print_document_interactive (MousepadPrint     *print,
   print->document = document;
   print->compositor = gtk_source_print_compositor_new (GTK_SOURCE_BUFFER (document->buffer));
 
+  /* set some reasonable defaults */
+ gtk_source_print_compositor_set_wrap_mode (print->compositor, GTK_WRAP_WORD_CHAR);
+
   /* load settings */
   mousepad_print_settings_load (GTK_PRINT_OPERATION (print));
 
