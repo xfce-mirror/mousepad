@@ -5699,7 +5699,12 @@ mousepad_window_change_font_size (MousepadWindow *window,
 
   /* reset case */
   if (change == 0)
-    font_string = MOUSEPAD_SETTING_GET_STRING (FONT);
+    {
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (USE_DEFAULT_FONT))
+        g_object_get (g_application_get_default (), "default-font", &font_string, NULL);
+      else
+        font_string = MOUSEPAD_SETTING_GET_STRING (FONT);
+    }
   else
     {
       /* retrieve current font size and add it the change */
