@@ -49,6 +49,9 @@ ChangeLog: Makefile
 
 dist-hook: ChangeLog
 
+README: README.md
+	$(LN_S) $^ $@
+
 EXTRA_DIST =									\
 	README.md									\
 	intltool-extract.in							\
