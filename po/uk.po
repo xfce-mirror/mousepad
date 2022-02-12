@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Andrii Protsun <minamotosoft@gmail.com>, 2022
 # Andrij Mizyk <andmizyk@gmail.com>, 2022
 # Taras Panchenko <top39@ukr.net>, 2021
 # Yarema aka Knedlyk <yarpry@gmail.com>, 2012
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-17 00:48+0200\n"
-"PO-Revision-Date: 2022-02-04 19:15+0000\n"
+"PO-Revision-Date: 2022-02-12 10:21+0000\n"
 "Last-Translator: Andrij Mizyk <andmizyk@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/xfce/xfce-apps/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +86,7 @@ msgstr "Mousepad"
 #: ../mousepad/mousepad-application.c:395
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "Режим відкривання файлів: \"%s\", \"%s\" або \"%s\" (відкрити вкладки в новому вікні)"
 
 #: ../mousepad/mousepad-application.c:398
 msgid "MODE"
@@ -107,7 +108,7 @@ msgstr "%s | Автори: %s | Назва файлу: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad — простий текстовий редактор для стільничного середовища Xfce"
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -1428,7 +1429,7 @@ msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
-msgstr ""
+msgstr "Слово _Вліво"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
@@ -1436,7 +1437,7 @@ msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
-msgstr ""
+msgstr "Слово _Вправо"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
@@ -1484,11 +1485,11 @@ msgstr "Ніколи"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
 msgid "First key press"
-msgstr ""
+msgstr "Натискання першої клавіші"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "Second key press"
-msgstr ""
+msgstr "Натискання другої клавіші"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "Always"
@@ -1635,7 +1636,7 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: Видаляти відступи з пробілами як таби"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Home/End: Detect leading/trailing whitespace:"
@@ -1643,7 +1644,7 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>Швидкі кнопки</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
@@ -1652,7 +1653,7 @@ msgstr "Редактор"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Декорування на стороні клієнта (вимагає перезапуску)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Show full filename in title bar"
@@ -1704,7 +1705,7 @@ msgstr "Кругова зміна вкладок ноутбука"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "Open files in:"
-msgstr ""
+msgstr "Відкрити файл в:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
 msgid "<b>Notebook tabs</b>"
@@ -1720,11 +1721,11 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Зробити копію зі суфіксом '~'"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "<b>File saving</b>"
-msgstr ""
+msgstr "<b>Файл збережено</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
@@ -1746,11 +1747,11 @@ msgstr "'0' вимикає та видаляє історію недавніх �
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>Історія</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "File monitoring"
-msgstr ""
+msgstr "Моніторинг файлів"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "Default encoding:"
