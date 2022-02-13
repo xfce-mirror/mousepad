@@ -401,7 +401,7 @@
             <child type="label">
               <object class="GtkLabel">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">&lt;b&gt;Color scheme&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Color Scheme&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
             </child>
@@ -836,7 +836,7 @@
             <child type="label">
               <object class="GtkLabel">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">&lt;b&gt;Notebook tabs&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Notebook Tabs&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
             </child>
@@ -890,7 +890,7 @@
             <child type="label">
               <object class="GtkLabel">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">&lt;b&gt;File saving&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;File Saving&lt;/b&gt;</property>
                 <property name="use-markup">True</property>
               </object>
             </child>
