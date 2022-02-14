@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-17 00:48+0200\n"
-"PO-Revision-Date: 2021-10-18 19:40+0000\n"
-"Last-Translator: Toni Estévez <toni.estevez@gmail.com>\n"
+"POT-Creation-Date: 2022-02-14 00:49+0100\n"
+"PO-Revision-Date: 2022-02-13 23:49+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -109,7 +109,7 @@ msgstr "Los desarrolladores de Mousepad. Todos los derechos reservados."
 msgid "Please report bugs to <%s>."
 msgstr "Informe de errores a <%s>."
 
-#: ../mousepad/mousepad-application.c:1541
+#: ../mousepad/mousepad-application.c:1524
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autores: %s | Nombre del archivo: %s"
@@ -347,12 +347,12 @@ msgid "Re_load"
 msgstr "Re_cargar"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:620
+#: ../mousepad/mousepad-document.c:570
 msgid "Close this tab"
 msgstr "Cerrar esta pestaña"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:650
+#: ../mousepad/mousepad-document.c:600
 msgid "Untitled"
 msgstr "Sin título"
 
@@ -600,93 +600,93 @@ msgstr "Cuerpo:"
 msgid "Line numbers:"
 msgstr "Números de línea:"
 
-#: ../mousepad/mousepad-replace-dialog.c:173
+#: ../mousepad/mousepad-replace-dialog.c:174
 msgid "_Replace All"
 msgstr "_Reemplazar todo"
 
-#: ../mousepad/mousepad-replace-dialog.c:173
-#: ../mousepad/mousepad-replace-dialog.c:273
+#: ../mousepad/mousepad-replace-dialog.c:174
+#: ../mousepad/mousepad-replace-dialog.c:274
 msgid "_Replace"
 msgstr "_Reemplazar"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:262
+#: ../mousepad/mousepad-replace-dialog.c:263
 msgid "Find and Replace"
 msgstr "Buscar y reemplazar"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:268
+#: ../mousepad/mousepad-replace-dialog.c:269
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "_Buscar"
 
-#: ../mousepad/mousepad-replace-dialog.c:277
+#: ../mousepad/mousepad-replace-dialog.c:278
 msgid "_Close"
 msgstr "_Cerrar"
 
-#: ../mousepad/mousepad-replace-dialog.c:295
+#: ../mousepad/mousepad-replace-dialog.c:296
 msgid "_Search for:"
 msgstr "_Buscar:"
 
-#: ../mousepad/mousepad-replace-dialog.c:329
+#: ../mousepad/mousepad-replace-dialog.c:330
 msgid "Replace _with:"
 msgstr "Reemplazar _con:"
 
-#: ../mousepad/mousepad-replace-dialog.c:351
+#: ../mousepad/mousepad-replace-dialog.c:352
 msgid "Search _direction:"
 msgstr "_Dirección de búsqueda:"
 
-#: ../mousepad/mousepad-replace-dialog.c:360
+#: ../mousepad/mousepad-replace-dialog.c:361
 msgid "Up"
 msgstr "Hacia arriba"
 
-#: ../mousepad/mousepad-replace-dialog.c:361
+#: ../mousepad/mousepad-replace-dialog.c:362
 msgid "Down"
 msgstr "Hacia abajo"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:370
+#: ../mousepad/mousepad-replace-dialog.c:371
 msgid "_Wrap around"
 msgstr "Reiniciar al _final"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:377
-#: ../mousepad/mousepad-search-bar.c:259 ../mousepad/mousepad-search-bar.c:267
+#: ../mousepad/mousepad-replace-dialog.c:378
+#: ../mousepad/mousepad-search-bar.c:260 ../mousepad/mousepad-search-bar.c:268
 msgid "Match _case"
 msgstr "Coincidencia de _mayúsculas y minúsculas"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:386
+#: ../mousepad/mousepad-replace-dialog.c:387
 msgid "_Match whole word"
 msgstr "_Palabras completas"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:395
-#: ../mousepad/mousepad-search-bar.c:273 ../mousepad/mousepad-search-bar.c:281
+#: ../mousepad/mousepad-replace-dialog.c:396
+#: ../mousepad/mousepad-search-bar.c:274 ../mousepad/mousepad-search-bar.c:282
 msgid "Regular e_xpression"
 msgstr "E_xpresión regular"
 
-#: ../mousepad/mousepad-replace-dialog.c:409
+#: ../mousepad/mousepad-replace-dialog.c:410
 msgid "Replace _all in:"
 msgstr "Remplazar _todo en:"
 
-#: ../mousepad/mousepad-replace-dialog.c:414
+#: ../mousepad/mousepad-replace-dialog.c:415
 msgid "Selection"
 msgstr "Selección"
 
-#: ../mousepad/mousepad-replace-dialog.c:415
+#: ../mousepad/mousepad-replace-dialog.c:416
 msgid "Document"
 msgstr "Documento"
 
-#: ../mousepad/mousepad-replace-dialog.c:416
+#: ../mousepad/mousepad-replace-dialog.c:417
 msgid "All Documents"
 msgstr "Todos los documentos"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:606
-#: ../mousepad/mousepad-search-bar.c:404
+#: ../mousepad/mousepad-replace-dialog.c:607
+#: ../mousepad/mousepad-search-bar.c:405
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -731,27 +731,27 @@ msgstr "Tipo de archivo: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Aviso: está usando la cuenta de superusuario. Puede dañar su sistema."
 
-#: ../mousepad/mousepad-window.c:2249
+#: ../mousepad/mousepad-window.c:2250
 msgid "Read Only"
 msgstr "Solo lectura"
 
-#: ../mousepad/mousepad-window.c:2253
+#: ../mousepad/mousepad-window.c:2254
 msgid "Viewer Mode"
 msgstr "Modo de visualización"
 
-#: ../mousepad/mousepad-window.c:3279
+#: ../mousepad/mousepad-window.c:3280
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Usar «%s» como plantilla"
 
-#: ../mousepad/mousepad-window.c:3305
+#: ../mousepad/mousepad-window.c:3306
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "No se han encontrado plantillas en\n«%s»"
 
-#: ../mousepad/mousepad-window.c:3370
+#: ../mousepad/mousepad-window.c:3371
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -759,64 +759,64 @@ msgid ""
 msgstr "Falta la carpeta de plantillas\n«%s»"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3422
+#: ../mousepad/mousepad-window.c:3423
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_Otro (%d)..."
 
-#: ../mousepad/mousepad-window.c:3432
+#: ../mousepad/mousepad-window.c:3433
 msgid "Ot_her..."
 msgstr "_Otro..."
 
-#: ../mousepad/mousepad-window.c:3531
+#: ../mousepad/mousepad-window.c:3532
 msgid "Revert to the saved version of the file"
 msgstr "Restaurar la versión guardada del archivo"
 
-#: ../mousepad/mousepad-window.c:3537
+#: ../mousepad/mousepad-window.c:3538
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Recargar el archivo desde el disco"
 
-#: ../mousepad/mousepad-window.c:3543
+#: ../mousepad/mousepad-window.c:3544
 msgid "Leave fullscreen mode"
 msgstr "Salir del modo a pantalla completa"
 
-#: ../mousepad/mousepad-window.c:3548
+#: ../mousepad/mousepad-window.c:3549
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Mostrar la ventana a pantalla completa"
 
-#: ../mousepad/mousepad-window.c:3786
+#: ../mousepad/mousepad-window.c:3787
 #, c-format
 msgid "Open '%s'"
 msgstr "Abrir «%s»"
 
-#: ../mousepad/mousepad-window.c:3817
+#: ../mousepad/mousepad-window.c:3818
 msgid "No items found"
 msgstr "Sin elementos"
 
-#: ../mousepad/mousepad-window.c:3817
+#: ../mousepad/mousepad-window.c:3818
 msgid "History disabled"
 msgstr "Historial desactivado"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4292
+#: ../mousepad/mousepad-window.c:4293
 msgid "No clipboard data"
 msgstr "Sin datos en el portapapeles"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4401
+#: ../mousepad/mousepad-window.c:4402
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Las plantillas deben ser %s válido"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4407
+#: ../mousepad/mousepad-window.c:4408
 msgid "Reading the template failed"
 msgstr "Error al leer la plantilla"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4412
+#: ../mousepad/mousepad-window.c:4413
 msgid "Loading the template failed"
 msgstr "Error al cargar la plantilla"
 
@@ -1613,8 +1613,8 @@ msgid "<b>Font</b>"
 msgstr "<b>Tipografía</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
-msgid "<b>Color scheme</b>"
-msgstr "<b>Combinación de colores</b>"
+msgid "<b>Color Scheme</b>"
+msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1714,8 +1714,8 @@ msgid "Open files in:"
 msgstr "Abrir archivos en:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
-msgid "<b>Notebook tabs</b>"
-msgstr "<b>Pestañas</b>"
+msgid "<b>Notebook Tabs</b>"
+msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "Window"
@@ -1730,8 +1730,8 @@ msgid "Make a copy with '~' suffix"
 msgstr "Hacer una copia con el sufijo «~»"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
-msgid "<b>File saving</b>"
-msgstr "<b>Guardando archivo</b>"
+msgid "<b>File Saving</b>"
+msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
