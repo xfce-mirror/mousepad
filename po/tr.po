@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-17 00:48+0200\n"
-"PO-Revision-Date: 2021-10-25 22:01+0000\n"
-"Last-Translator: Demiray Muhterem <mdemiray@msn.com>\n"
+"POT-Creation-Date: 2022-02-14 00:49+0100\n"
+"PO-Revision-Date: 2022-02-13 23:49+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/xfce/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,7 +108,7 @@ msgstr "Mousepad geliştiricileri. Tüm hakları saklıdır."
 msgid "Please report bugs to <%s>."
 msgstr "Lütfen hataları <%s> adresine gönderin."
 
-#: ../mousepad/mousepad-application.c:1541
+#: ../mousepad/mousepad-application.c:1524
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Yazarlar: %s | Dosya Adı: %s"
@@ -346,12 +346,12 @@ msgid "Re_load"
 msgstr "Yeniden _Yükle"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:620
+#: ../mousepad/mousepad-document.c:570
 msgid "Close this tab"
 msgstr "Bu sekmeyi kapat"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:650
+#: ../mousepad/mousepad-document.c:600
 msgid "Untitled"
 msgstr "Adsız"
 
@@ -599,93 +599,93 @@ msgstr "Gövde:"
 msgid "Line numbers:"
 msgstr "Satır numaraları:"
 
-#: ../mousepad/mousepad-replace-dialog.c:173
+#: ../mousepad/mousepad-replace-dialog.c:174
 msgid "_Replace All"
 msgstr "_Tümünü Değiştir"
 
-#: ../mousepad/mousepad-replace-dialog.c:173
-#: ../mousepad/mousepad-replace-dialog.c:273
+#: ../mousepad/mousepad-replace-dialog.c:174
+#: ../mousepad/mousepad-replace-dialog.c:274
 msgid "_Replace"
 msgstr "_Değiştir"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:262
+#: ../mousepad/mousepad-replace-dialog.c:263
 msgid "Find and Replace"
 msgstr "Bul ve Değiştir"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:268
+#: ../mousepad/mousepad-replace-dialog.c:269
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "_Bul"
 
-#: ../mousepad/mousepad-replace-dialog.c:277
+#: ../mousepad/mousepad-replace-dialog.c:278
 msgid "_Close"
 msgstr "_Kapat"
 
-#: ../mousepad/mousepad-replace-dialog.c:295
+#: ../mousepad/mousepad-replace-dialog.c:296
 msgid "_Search for:"
 msgstr "_Aranacak:"
 
-#: ../mousepad/mousepad-replace-dialog.c:329
+#: ../mousepad/mousepad-replace-dialog.c:330
 msgid "Replace _with:"
 msgstr "Ş_ununla değiştir:"
 
-#: ../mousepad/mousepad-replace-dialog.c:351
+#: ../mousepad/mousepad-replace-dialog.c:352
 msgid "Search _direction:"
 msgstr "Arama _yönü:"
 
-#: ../mousepad/mousepad-replace-dialog.c:360
+#: ../mousepad/mousepad-replace-dialog.c:361
 msgid "Up"
 msgstr "Yukarı"
 
-#: ../mousepad/mousepad-replace-dialog.c:361
+#: ../mousepad/mousepad-replace-dialog.c:362
 msgid "Down"
 msgstr "Aşağı"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:370
+#: ../mousepad/mousepad-replace-dialog.c:371
 msgid "_Wrap around"
 msgstr "Başa _sar"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:377
-#: ../mousepad/mousepad-search-bar.c:259 ../mousepad/mousepad-search-bar.c:267
+#: ../mousepad/mousepad-replace-dialog.c:378
+#: ../mousepad/mousepad-search-bar.c:260 ../mousepad/mousepad-search-bar.c:268
 msgid "Match _case"
 msgstr "Büyük/küçük harf _eşleştir"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:386
+#: ../mousepad/mousepad-replace-dialog.c:387
 msgid "_Match whole word"
 msgstr "_Tüm sözcüğü eşleştir"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:395
-#: ../mousepad/mousepad-search-bar.c:273 ../mousepad/mousepad-search-bar.c:281
+#: ../mousepad/mousepad-replace-dialog.c:396
+#: ../mousepad/mousepad-search-bar.c:274 ../mousepad/mousepad-search-bar.c:282
 msgid "Regular e_xpression"
 msgstr "Düzenli _ifade"
 
-#: ../mousepad/mousepad-replace-dialog.c:409
+#: ../mousepad/mousepad-replace-dialog.c:410
 msgid "Replace _all in:"
 msgstr "Tü_münü değiştir:"
 
-#: ../mousepad/mousepad-replace-dialog.c:414
+#: ../mousepad/mousepad-replace-dialog.c:415
 msgid "Selection"
 msgstr "Seçim"
 
-#: ../mousepad/mousepad-replace-dialog.c:415
+#: ../mousepad/mousepad-replace-dialog.c:416
 msgid "Document"
 msgstr "Belge"
 
-#: ../mousepad/mousepad-replace-dialog.c:416
+#: ../mousepad/mousepad-replace-dialog.c:417
 msgid "All Documents"
 msgstr "Tüm Belgeler"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:606
-#: ../mousepad/mousepad-search-bar.c:404
+#: ../mousepad/mousepad-replace-dialog.c:607
+#: ../mousepad/mousepad-search-bar.c:405
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -730,27 +730,27 @@ msgstr "Dosya türü: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Uyarı: Kök hesabı kullanıyorsunuz. Sisteminize zarar verebilirsiniz."
 
-#: ../mousepad/mousepad-window.c:2249
+#: ../mousepad/mousepad-window.c:2250
 msgid "Read Only"
 msgstr "Salt okunur"
 
-#: ../mousepad/mousepad-window.c:2253
+#: ../mousepad/mousepad-window.c:2254
 msgid "Viewer Mode"
 msgstr "Görüntüleyici Kip"
 
-#: ../mousepad/mousepad-window.c:3279
+#: ../mousepad/mousepad-window.c:3280
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Şablon olarak '%s' kullanın"
 
-#: ../mousepad/mousepad-window.c:3305
+#: ../mousepad/mousepad-window.c:3306
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Şablon dosyaları bulunamadı\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3370
+#: ../mousepad/mousepad-window.c:3371
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -758,64 +758,64 @@ msgid ""
 msgstr "Taslak klasörü yok\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3422
+#: ../mousepad/mousepad-window.c:3423
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Diğer (%d)..."
 
-#: ../mousepad/mousepad-window.c:3432
+#: ../mousepad/mousepad-window.c:3433
 msgid "Ot_her..."
 msgstr "_Diğer..."
 
-#: ../mousepad/mousepad-window.c:3531
+#: ../mousepad/mousepad-window.c:3532
 msgid "Revert to the saved version of the file"
 msgstr "Dosyanın kayıtlı sürümüne geri dön"
 
-#: ../mousepad/mousepad-window.c:3537
+#: ../mousepad/mousepad-window.c:3538
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Diskten dosyayı yeniden yükle"
 
-#: ../mousepad/mousepad-window.c:3543
+#: ../mousepad/mousepad-window.c:3544
 msgid "Leave fullscreen mode"
 msgstr "Tam ekran kipinden çık"
 
-#: ../mousepad/mousepad-window.c:3548
+#: ../mousepad/mousepad-window.c:3549
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Pencereyi tam ekran yap"
 
-#: ../mousepad/mousepad-window.c:3786
+#: ../mousepad/mousepad-window.c:3787
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s' aç"
 
-#: ../mousepad/mousepad-window.c:3817
+#: ../mousepad/mousepad-window.c:3818
 msgid "No items found"
 msgstr "Öge bulunamadı"
 
-#: ../mousepad/mousepad-window.c:3817
+#: ../mousepad/mousepad-window.c:3818
 msgid "History disabled"
 msgstr "Geçmiş devre dışıdır"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4292
+#: ../mousepad/mousepad-window.c:4293
 msgid "No clipboard data"
 msgstr "Panoda veri yok"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4401
+#: ../mousepad/mousepad-window.c:4402
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Şablon, %s uyumlu olmalıdır"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4407
+#: ../mousepad/mousepad-window.c:4408
 msgid "Reading the template failed"
 msgstr "Şablon okunamadı"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4412
+#: ../mousepad/mousepad-window.c:4413
 msgid "Loading the template failed"
 msgstr "Şablon yüklenemedi"
 
@@ -1612,8 +1612,8 @@ msgid "<b>Font</b>"
 msgstr "<b>Kaynak</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
-msgid "<b>Color scheme</b>"
-msgstr "<b>Renk şeması</b>"
+msgid "<b>Color Scheme</b>"
+msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1713,8 +1713,8 @@ msgid "Open files in:"
 msgstr "Dosyaları şunda aç:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
-msgid "<b>Notebook tabs</b>"
-msgstr "<b>Not defteri sekmeleri</b>"
+msgid "<b>Notebook Tabs</b>"
+msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "Window"
@@ -1729,8 +1729,8 @@ msgid "Make a copy with '~' suffix"
 msgstr "'~' son ekiyle bir kopya oluşturun"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
-msgid "<b>File saving</b>"
-msgstr "<b>Dosya kaydediliyor</b>"
+msgid "<b>File Saving</b>"
+msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
