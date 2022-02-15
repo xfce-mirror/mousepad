@@ -5,7 +5,7 @@
 # Translators:
 # Daichi Kawahata <daichi@xfce.org>, 2005
 # Masato HASHIMOTO <cabezon.hashimoto@gmail.com>, 2012
-# Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2008,2018-2021
+# Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2008,2018-2022
 # Tarot Osuji <tarot@sdf.lonestar.org>, 2004
 # UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2019-2021
 msgid ""
@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-14 00:49+0100\n"
-"PO-Revision-Date: 2022-02-13 23:49+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2022-02-15 07:11+0000\n"
+"Last-Translator: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1605,7 +1605,7 @@ msgstr "<b>フォント</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>カラースキーム</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1706,7 +1706,7 @@ msgstr "次の場所でファイルを開く:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>ノートブックタブ</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "Window"
@@ -1722,7 +1722,7 @@ msgstr "「~」接頭辞を付けてコピーを作成する"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>ファイル保存</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
