@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-14 00:49+0100\n"
-"PO-Revision-Date: 2022-02-13 23:49+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2022-02-20 09:44+0000\n"
+"Last-Translator: Саша Петровић <salepetronije@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/xfce/xfce-apps/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1606,7 +1606,7 @@ msgstr "<b>Словни лик</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Образац боја</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1707,7 +1707,7 @@ msgstr "Отвори датотеке у:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>Листови бележнице</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "Window"
@@ -1723,7 +1723,7 @@ msgstr "Умножи са наставком „~“"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>Чување датотека</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
