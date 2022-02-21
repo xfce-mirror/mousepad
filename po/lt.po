@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-14 00:49+0100\n"
-"PO-Revision-Date: 2022-02-14 09:33+0000\n"
+"POT-Creation-Date: 2022-02-21 00:49+0100\n"
+"PO-Revision-Date: 2022-02-21 09:25+0000\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -902,8 +902,8 @@ msgid "Edit menu"
 msgstr "Taisymo meniu"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
-msgid "Preferences"
-msgstr "Nuostatos"
+msgid "Preferences..."
+msgstr "Nuostatos..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
