@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-14 00:49+0100\n"
-"PO-Revision-Date: 2022-02-14 02:31+0000\n"
+"POT-Creation-Date: 2022-02-21 00:49+0100\n"
+"PO-Revision-Date: 2022-02-21 02:09+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/xfce/xfce-apps/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -902,8 +902,8 @@ msgid "Edit menu"
 msgstr "編輯選單"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
-msgid "Preferences"
-msgstr "偏好設定"
+msgid "Preferences..."
+msgstr "偏好設定……"
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
