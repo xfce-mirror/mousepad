@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-14 00:49+0100\n"
-"PO-Revision-Date: 2022-02-14 04:07+0000\n"
+"POT-Creation-Date: 2022-02-21 00:49+0100\n"
+"PO-Revision-Date: 2022-02-21 02:43+0000\n"
 "Last-Translator: Jan Ziak <0xe2.0x9a.0x9b@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/xfce/xfce-apps/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -182,7 +182,7 @@ msgstr "_Neuložiť"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Ak tento nezapisovateľný dokument neuložíte ako iný súbor, všetky zmeny sa stratia."
 
 #: ../mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -225,7 +225,7 @@ msgstr "Ak súbor obnovíte, všetky neuložené zmeny budú stratené."
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "Zdá sa, že súbor používa kódovanie %s, ale zvolili ste kódovanie %s. Potvrdzujete túto voľbu?"
 
 #: ../mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
@@ -235,7 +235,7 @@ msgstr "Ak nie, použije sa odhadnuté kódovanie."
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "Zdá sa, že predchádzajúce sedenie sa neskončilo normálne. Chcete obnoviť dostupné údaje?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
@@ -247,7 +247,7 @@ msgstr "Prosím vyberte súbor"
 
 #: ../mousepad/mousepad-dialogs.c:890
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "Nepodarilo sa pripraviť dočasný súbor na testy kódovania"
 
 #: ../mousepad/mousepad-dialogs.c:953 ../mousepad/mousepad-dialogs.c:1026
 msgid "Open encoding dialog"
@@ -373,11 +373,11 @@ msgstr ""
 
 #: ../mousepad/mousepad-encoding-dialog.c:434
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "Našli sa iné platné kódovania, vyberte si nižšie."
 
 #: ../mousepad/mousepad-encoding-dialog.c:436
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "Našli sa iné čiastočne platné kódovania, vyberte si nižšie."
 
 #: ../mousepad/mousepad-encoding-dialog.c:472
 msgid "No other valid encoding was found."
@@ -387,12 +387,12 @@ msgstr "Nenašlo sa iné platné kódovanie."
 #: ../mousepad/mousepad-encoding-dialog.c:679
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "Dokument %s je platný."
 
 #: ../mousepad/mousepad-encoding-dialog.c:680
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "Dokument %s nie je platný."
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
@@ -604,7 +604,7 @@ msgstr "_Nahradiť"
 #. set dialog properties
 #: ../mousepad/mousepad-replace-dialog.c:263
 msgid "Find and Replace"
-msgstr ""
+msgstr "Nájsť a nahradiť"
 
 #. dialog buttons
 #: ../mousepad/mousepad-replace-dialog.c:269
@@ -791,7 +791,7 @@ msgstr "Nenájdené žiadne položky"
 
 #: ../mousepad/mousepad-window.c:3818
 msgid "History disabled"
-msgstr ""
+msgstr "História vypnutá"
 
 #. create an item to inform the user
 #: ../mousepad/mousepad-window.c:4293
@@ -830,7 +830,7 @@ msgstr "_Súbor"
 
 #: ../mousepad/resources/gtk/menus.ui.h:2
 msgid "File menu"
-msgstr ""
+msgstr "Súborové menu"
 
 #: ../mousepad/resources/gtk/menus.ui.h:3
 msgid "New _Window"
@@ -902,11 +902,11 @@ msgstr "_Upraviť"
 
 #: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Edit menu"
-msgstr ""
+msgstr "Menu úprav"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
-msgid "Preferences"
-msgstr "Predvoľby"
+msgid "Preferences..."
+msgstr "Nastavenia..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -918,7 +918,7 @@ msgstr "_Vyhľadať"
 
 #: ../mousepad/resources/gtk/menus.ui.h:24
 msgid "Search menu"
-msgstr ""
+msgstr "Ponuky vyhľadávania"
 
 #: ../mousepad/resources/gtk/menus.ui.h:25
 msgid "Find _Next"
@@ -942,7 +942,7 @@ msgstr "_Inkrementálne vyhľadávanie"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Automaticky vybrať výsledok vyhľadávania a posunúť zobrazenie"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -950,7 +950,7 @@ msgstr "Zvýrazniť _všetky"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search occurrences"
-msgstr ""
+msgstr "Zvýrazniť výskyty vyhľadávania"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -958,7 +958,7 @@ msgstr "_Zobraziť"
 
 #: ../mousepad/resources/gtk/menus.ui.h:34
 msgid "View menu"
-msgstr ""
+msgstr "Ponuky zobrazenia"
 
 #: ../mousepad/resources/gtk/menus.ui.h:35
 msgid "Select F_ont..."
@@ -974,7 +974,7 @@ msgstr "_Farebná schéma"
 
 #: ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Farebná schéma pre zobrazenie textu"
 
 #: ../mousepad/resources/gtk/menus.ui.h:39
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
@@ -1024,7 +1024,7 @@ msgstr "_Dokument"
 
 #: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Document menu"
-msgstr ""
+msgstr "Nastavenia dokumentu"
 
 #: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "_Word Wrap"
@@ -1104,7 +1104,7 @@ msgstr "Uko_nčenia riadkov"
 
 #: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "Znak(y), ktoré sa majú použiť ako koniec riadku"
 
 #: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "Set the line ending of the document to Unix (LF)"
@@ -1156,7 +1156,7 @@ msgstr "_Pomocník"
 
 #: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Help menu"
-msgstr ""
+msgstr "Menu pomocníka"
 
 #: ../mousepad/resources/gtk/menus.ui.h:84
 msgid "_Contents"
@@ -1393,7 +1393,7 @@ msgstr "Odst_rániť koncové medzery"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:60
 msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr "Odstráni všetky medzery na koncoch vybratých riadkov, alebo dokumentu"
+msgstr "Odstráni všetky koncové medzery z vybratých riadkov alebo z dokumentu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:61
 msgid "_Transpose"
@@ -1405,11 +1405,11 @@ msgstr "Obrátiť poradie niečoho"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move"
-msgstr ""
+msgstr "_Presúvanie"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Presúvanie obsahu rôznymi spôsobmi"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1417,7 +1417,7 @@ msgstr "O riadok v_yššie"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Presunúť riadky o jeden riadok vyššie"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
@@ -1425,7 +1425,7 @@ msgstr "O riadok _nižšie"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Presunúť riadky o jeden riadok nižšie"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
@@ -1433,7 +1433,7 @@ msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr ""
+msgstr "Presunúť slová o jedno slovo doľava"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
@@ -1441,7 +1441,7 @@ msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr ""
+msgstr "Presunúť slová o jedno slovo doprava"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1485,11 +1485,11 @@ msgstr "Nikdy"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
 msgid "First key press"
-msgstr ""
+msgstr "Prvé stlačenie klávesu"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "Second key press"
-msgstr ""
+msgstr "Druhé stlačenie klávesu"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "Always"
@@ -1729,7 +1729,7 @@ msgstr "<b>Ukladanie súborov</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "Session restore:"
-msgstr ""
+msgstr "Obnovenie sedenia:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid ""
@@ -1788,7 +1788,7 @@ msgstr "Textový editor"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "Nastavenia textového editora"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
