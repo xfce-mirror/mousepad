@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-14 00:49+0100\n"
-"PO-Revision-Date: 2022-02-13 23:49+0000\n"
+"POT-Creation-Date: 2022-02-21 00:49+0100\n"
+"PO-Revision-Date: 2022-02-20 23:49+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -906,8 +906,8 @@ msgid "Edit menu"
 msgstr "תפריט עריכה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
-msgid "Preferences"
-msgstr "העדפות"
+msgid "Preferences..."
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
