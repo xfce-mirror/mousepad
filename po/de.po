@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-21 00:49+0100\n"
-"PO-Revision-Date: 2022-02-21 21:37+0000\n"
+"PO-Revision-Date: 2022-02-22 13:16+0000\n"
 "Last-Translator: Ingo Brückl <ib@wupperonline.de>\n"
 "Language-Team: German (http://www.transifex.com/xfce/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgstr "Programmversion anzeigen und beenden"
 
 #: ../mousepad/mousepad-application.c:184
 msgid "[FILES...]"
-msgstr "[DATEIEN …]"
+msgstr "[DATEIEN …]"
 
 #. default application name
 #: ../mousepad/mousepad-application.c:386
@@ -356,7 +356,7 @@ msgstr "Andere:"
 
 #: ../mousepad/mousepad-encoding-dialog.c:188
 msgid "Checking encodings..."
-msgstr "Zeichenkodierung wird geprüft …"
+msgstr "Zeichenkodierung wird geprüft …"
 
 #: ../mousepad/mousepad-encoding-dialog.c:292
 #, c-format
@@ -756,11 +756,11 @@ msgstr "Vorlagen-Verzeichnis »%s« fehlt"
 #: ../mousepad/mousepad-window.c:3423
 #, c-format
 msgid "Ot_her (%d)..."
-msgstr "A_ndere (%d) …"
+msgstr "A_ndere (%d) …"
 
 #: ../mousepad/mousepad-window.c:3433
 msgid "Ot_her..."
-msgstr "A_ndere …"
+msgstr "A_ndere …"
 
 #: ../mousepad/mousepad-window.c:3532
 msgid "Revert to the saved version of the file"
@@ -874,7 +874,7 @@ msgstr "Alle Dokumente in diesem Fenster speichern"
 
 #: ../mousepad/resources/gtk/menus.ui.h:13
 msgid "_Print..."
-msgstr "_Drucken …"
+msgstr "_Drucken …"
 
 #: ../mousepad/resources/gtk/menus.ui.h:14
 msgid "Print the current document"
@@ -906,7 +906,7 @@ msgstr "Bearbeitungsmenü"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences..."
-msgstr "Einstellungen …"
+msgstr "Einstellungen …"
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -962,7 +962,7 @@ msgstr "Ansichtsmenü"
 
 #: ../mousepad/resources/gtk/menus.ui.h:35
 msgid "Select F_ont..."
-msgstr "_Schrift auswählen …"
+msgstr "_Schrift auswählen …"
 
 #: ../mousepad/resources/gtk/menus.ui.h:36
 msgid "Change the editor font"
@@ -1068,7 +1068,7 @@ msgstr "Acht Leerzeichen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "Other..."
-msgstr "Andere …"
+msgstr "Andere …"
 
 #: ../mousepad/resources/gtk/menus.ui.h:62
 msgid "Set custom tab size"
@@ -1184,7 +1184,7 @@ msgstr "Neues Dokument erstellen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:3
 msgid "_Open..."
-msgstr "_Öffnen …"
+msgstr "_Öffnen …"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:4
 msgid "Open a file"
@@ -1196,7 +1196,7 @@ msgstr "Aktuelles Dokument speichern"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:7
 msgid "Save _As..."
-msgstr "Speichern _unter …"
+msgstr "Speichern _unter …"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:8
 msgid "Save current document as another file"
@@ -1272,7 +1272,7 @@ msgstr "Textsuche"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:29
 msgid "Find and Rep_lace..."
-msgstr "Suchen und E_rsetzen …"
+msgstr "Suchen und E_rsetzen …"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:30
 msgid "Search for and replace text"
@@ -1280,7 +1280,7 @@ msgstr "Text suchen und ersetzen"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:31
 msgid "_Go to..."
-msgstr "_Gehen zu …"
+msgstr "_Gehen zu …"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:32
 msgid "Go to a specific location in the document"
