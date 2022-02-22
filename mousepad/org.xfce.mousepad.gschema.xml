@@ -464,7 +464,7 @@
       </description>
     </key>
     <key name="client-side-decorations" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Client-side decorations</summary>
       <description>
         When true, Mousepad draws its own window decorations, instead of the window manager.
