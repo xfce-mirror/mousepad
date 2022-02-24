@@ -78,6 +78,7 @@ struct _MousepadFile
   GFile        *monitor_location;
   gchar        *etag;
   gboolean      readonly, symlink;
+  guint         deleted_id;
 
   /* encoding of the file */
   MousepadEncoding encoding;
@@ -143,6 +144,7 @@ mousepad_file_init (MousepadFile *file)
   file->monitor_location = NULL;
   file->readonly = FALSE;
   file->symlink = FALSE;
+  file->deleted_id = 0;
   file->encoding = mousepad_encoding_get_default ();
 #ifdef G_OS_WIN32
   file->line_ending = MOUSEPAD_EOL_DOS;
@@ -202,6 +204,18 @@ mousepad_file_new (GtkTextBuffer *buffer)
   return file;
 }
 
+static gboolean
+mousepad_file_monitor_deleted (gpointer data)
+{
+  MousepadFile *file = data;
+
+  if (! mousepad_util_query_exists (file->monitor_location, FALSE))
+    gtk_text_buffer_set_modified (file->buffer, TRUE);
+
+  file->deleted_id = 0;
+
+  return FALSE;
+}
 
 
 static void
@@ -211,6 +225,8 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
                                GFileMonitorEvent  event_type,
                                MousepadFile      *file)
 {
+  static gboolean deleted_pending = FALSE;
+
   GFileInfo *fileinfo;
 
   /* update readonly status */
@@ -229,6 +245,15 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
            || (event_type == G_FILE_MONITOR_EVENT_RENAMED
                && g_file_equal (file->monitor_location, other_location)))
     {
+      if (event_type != G_FILE_MONITOR_EVENT_CHANGED && file->deleted_id != 0)
+        {
+          g_source_remove (file->deleted_id);
+          file->deleted_id = 0;
+          deleted_pending = TRUE;
+
+          return;
+        }
+
       g_signal_emit (file, file_signals[EXTERNALLY_MODIFIED], 0);
 
       /* update monitor location in case of a symlink (exit this handler first) */
@@ -236,13 +261,33 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
             file->symlink || (file->symlink = mousepad_util_is_symlink (file->location))
           ))
         g_idle_add (mousepad_file_set_monitor, mousepad_util_source_autoremove (file));
+
+      /* a "changed" event may or may not be issued following a "deleted"-"created" pair:
+       * if it is issued, we no longer wait for "done-hint" to issue it manually */
+      if (event_type == G_FILE_MONITOR_EVENT_CHANGED && deleted_pending)
+        deleted_pending = FALSE;
     }
-  /* the file has been deleted */
+  /*
+   * The file has been deleted: this can be permanently, or as a step in a modification
+   * process generating a "deleted" and then a "created" event. Unfortunately, there is no
+   * systematic way to differentiate between the two cases, so let's just give the "created"
+   * event a reasonable chance to reach us before deciding what action to take.
+   */
   else if (event_type == G_FILE_MONITOR_EVENT_DELETED
            || event_type == G_FILE_MONITOR_EVENT_MOVED_OUT
            || (event_type == G_FILE_MONITOR_EVENT_RENAMED
                && g_file_equal (file->monitor_location, location)))
-    gtk_text_buffer_set_modified (file->buffer, TRUE);
+    {
+      if (file->deleted_id != 0)
+        g_source_remove (file->deleted_id);
+
+      file->deleted_id = g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
+                                        mousepad_file_monitor_deleted,
+                                        mousepad_util_source_autoremove (file));
+    }
+  else if (event_type == G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT && deleted_pending)
+    mousepad_file_monitor_changed (monitor, location, NULL,
+                                   G_FILE_MONITOR_EVENT_CHANGED, file);
 }
 
 
