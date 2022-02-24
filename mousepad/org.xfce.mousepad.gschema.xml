@@ -107,6 +107,14 @@
         you should leave it alone.
       </description>
     </key>
+    <key name="auto-reload" type="b">
+      <default>false</default>
+      <summary>Automatic reloading</summary>
+      <description>
+        When true Mousepad automatically reloads open and unmodified files in case
+        of external modification.
+      </description>
+    </key>
     <key name="session-restore" enum="org.xfce.mousepad.SessionRestore">
       <default>'after-a-crash'</default>
       <summary>Session restore</summary>

@@ -241,7 +241,8 @@ static const GActionEntry dialog_actions[] =
   /* "File" tab */
   { MOUSEPAD_SETTING_ADD_LAST_EOL, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_MAKE_BACKUP, mousepad_application_toggle_activate, NULL, "false", NULL },
-  { MOUSEPAD_SETTING_MONITOR_CHANGES, mousepad_application_toggle_activate, NULL, "false", NULL }
+  { MOUSEPAD_SETTING_MONITOR_CHANGES, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_AUTO_RELOAD, mousepad_application_toggle_activate, NULL, "false", NULL },
 };
 #define N_DIALOG G_N_ELEMENTS (dialog_actions)
 

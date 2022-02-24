@@ -2924,9 +2924,17 @@ mousepad_window_externally_modified (MousepadFile   *file,
                                      MousepadWindow *window)
 {
   MousepadDocument *document = window->active;
+  gboolean modified;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
+
+  modified = gtk_text_buffer_get_modified (document->buffer);
+  if (! modified && document->file == file && MOUSEPAD_SETTING_GET_BOOLEAN (AUTO_RELOAD))
+    {
+      g_action_group_activate_action (G_ACTION_GROUP (window), "file.reload", NULL);
+      return;
+    }
 
   /* disconnect this handler, the time we ask the user what to do or the file is active */
   mousepad_disconnect_by_func (file, mousepad_window_externally_modified, window);
@@ -2939,8 +2947,7 @@ mousepad_window_externally_modified (MousepadFile   *file,
       g_object_ref (document);
 
       /* ask the user what to do */
-      if (mousepad_dialogs_externally_modified (GTK_WINDOW (window), FALSE,
-                                                gtk_text_buffer_get_modified (document->buffer))
+      if (mousepad_dialogs_externally_modified (GTK_WINDOW (window), FALSE, modified)
           == MOUSEPAD_RESPONSE_RELOAD)
         {
           gtk_text_buffer_set_modified (document->buffer, FALSE);

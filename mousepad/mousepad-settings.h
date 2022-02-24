@@ -27,6 +27,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_MAKE_BACKUP                  "preferences.file.make-backup"
 #define MOUSEPAD_SETTING_MONITOR_CHANGES              "preferences.file.monitor-changes"
 #define MOUSEPAD_SETTING_MONITOR_DISABLING_TIMER      "preferences.file.monitor-disabling-timer"
+#define MOUSEPAD_SETTING_AUTO_RELOAD                  "preferences.file.auto-reload"
 #define MOUSEPAD_SETTING_SESSION_RESTORE              "preferences.file.session-restore"
 #define MOUSEPAD_SETTING_AUTOSAVE_TIMER               "preferences.file.autosave-timer"
 
