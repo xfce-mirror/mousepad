@@ -529,9 +529,10 @@
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkCheckButton">
-                    <property name="label" translatable="yes">(Shift-)Tab: (De-)Indent selected text</property>
+                    <property name="label" translatable="yes">Tab: Indent selection (Shift+Tab: Unindent)</property>
                     <property name="visible">True</property>
                     <property name="action-name">app.preferences.view.indent-on-tab</property>
+                    <property name="tooltip-text" translatable="yes">Indent/unindent the currently selected text or the current line</property>
                   </object>
                 </child>
                 <child>
