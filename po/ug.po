@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-21 00:49+0100\n"
-"PO-Revision-Date: 2022-02-20 23:49+0000\n"
+"POT-Creation-Date: 2022-02-25 12:52+0100\n"
+"PO-Revision-Date: 2022-02-25 11:52+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Uyghur (http://www.transifex.com/xfce/xfce-apps/language/ug/)\n"
 "MIME-Version: 1.0\n"
@@ -72,31 +72,31 @@ msgid "[FILES...]"
 msgstr "[FILES...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:386
+#: ../mousepad/mousepad-application.c:387
 #: ../org.xfce.mousepad.desktop.in.in.h:1
 #: ../org.xfce.mousepad.appdata.xml.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:395
+#: ../mousepad/mousepad-application.c:396
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr ""
 
-#: ../mousepad/mousepad-application.c:398
+#: ../mousepad/mousepad-application.c:399
 msgid "MODE"
 msgstr ""
 
-#: ../mousepad/mousepad-application.c:456
+#: ../mousepad/mousepad-application.c:457
 msgid "The Mousepad developers. All rights reserved."
 msgstr ""
 
-#: ../mousepad/mousepad-application.c:457
+#: ../mousepad/mousepad-application.c:458
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "كەمتۈكنى <%s> غا دوكلات قىلىڭ."
 
-#: ../mousepad/mousepad-application.c:1524
+#: ../mousepad/mousepad-application.c:1525
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr ""
@@ -520,7 +520,7 @@ msgstr "سىستېما"
 msgid "History"
 msgstr ""
 
-#: ../mousepad/mousepad-file.c:774
+#: ../mousepad/mousepad-file.c:819
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "ئايلاندۇرۇپ كىرگۈزۈشتە ئىناۋەتسىز بايت قاتارى كۆرۈلدى"
@@ -726,19 +726,19 @@ msgstr "پەقەتلا ئوقۇش"
 msgid "Viewer Mode"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3280
+#: ../mousepad/mousepad-window.c:3287
 #, c-format
 msgid "Use '%s' as template"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3306
+#: ../mousepad/mousepad-window.c:3313
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3371
+#: ../mousepad/mousepad-window.c:3378
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -746,74 +746,74 @@ msgid ""
 msgstr ""
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3423
+#: ../mousepad/mousepad-window.c:3430
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "باشقا(_H) (%d)…"
 
-#: ../mousepad/mousepad-window.c:3433
+#: ../mousepad/mousepad-window.c:3440
 msgid "Ot_her..."
 msgstr "باشقا(_H)…"
 
-#: ../mousepad/mousepad-window.c:3532
+#: ../mousepad/mousepad-window.c:3539
 msgid "Revert to the saved version of the file"
 msgstr "ساقلانغان ھۆججەتكە ئەسلىگە قايتۇر"
 
-#: ../mousepad/mousepad-window.c:3538
+#: ../mousepad/mousepad-window.c:3545
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3544
+#: ../mousepad/mousepad-window.c:3551
 msgid "Leave fullscreen mode"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3549
+#: ../mousepad/mousepad-window.c:3556
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3787
+#: ../mousepad/mousepad-window.c:3794
 #, c-format
 msgid "Open '%s'"
 msgstr "ئېچىۋاتقىنى ‹%s›"
 
-#: ../mousepad/mousepad-window.c:3818
+#: ../mousepad/mousepad-window.c:3825
 msgid "No items found"
 msgstr "بىر نەرسە يوق"
 
-#: ../mousepad/mousepad-window.c:3818
+#: ../mousepad/mousepad-window.c:3825
 msgid "History disabled"
 msgstr ""
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4293
+#: ../mousepad/mousepad-window.c:4300
 msgid "No clipboard data"
 msgstr "چاپلاش تاختىسىدا بىر نەرسە يوق"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4402
+#: ../mousepad/mousepad-window.c:4409
 #, c-format
 msgid "Templates should be %s valid"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4408
+#: ../mousepad/mousepad-window.c:4415
 msgid "Reading the template failed"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4413
+#: ../mousepad/mousepad-window.c:4420
 msgid "Loading the template failed"
 msgstr "قېلىپنى ئوقۇش مەغلۇپ بولدى"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4853
+#: ../mousepad/mousepad-window.c:4860
 msgid "Failed to reload the document"
 msgstr "پۈتۈكنى قايتا يۈكلەش مەغلۇپ بولدى"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4885
+#: ../mousepad/mousepad-window.c:4892
 msgid "Failed to print the document"
 msgstr "پۈتۈكنى بېسىپ چىقىرىش مەغلۇپ بولدى"
 
@@ -1747,18 +1747,22 @@ msgid "File monitoring"
 msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
-msgid "Default encoding:"
+msgid "Automatic reloading"
 msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
+msgid "Default encoding:"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>باشقىلار</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "File"
 msgstr "ھۆججەت"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
 msgid "Plugins"
 msgstr "قىستۇرما"
 
