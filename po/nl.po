@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-25 12:52+0100\n"
-"PO-Revision-Date: 2022-02-25 16:36+0000\n"
-"Last-Translator: Pjotr <pjotrvertaalt@gmail.com>\n"
+"POT-Creation-Date: 2022-02-26 00:50+0100\n"
+"PO-Revision-Date: 2022-02-25 23:50+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/xfce/xfce-apps/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1626,145 +1626,149 @@ msgid "<b>Indentation</b>"
 msgstr "<b>Inspringen</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
-msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr "(Shift-)Tab: laat gekozen tekst inspringen of terugspringen"
+msgid "Tab: Indent selection (Shift+Tab: Unindent)"
+msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
+msgid "Indent/unindent the currently selected text or the current line"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
 msgstr "Backspace: verwijder inspringingsspaties als tabs"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "Home/End: Detect leading/trailing whitespace:"
 msgstr "Home/End: spaties aan begin of einde opsporen:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 msgid "<b>Smart Keys</b>"
 msgstr "<b>Slimme toetsen</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Editor"
 msgstr "Bewerker"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Client-side decorations (restart required)"
 msgstr "Decoraties bij de cliënt (herstart vereist)"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
 msgid "Show full filename in title bar"
 msgstr "Toon volledige bestandnaam in titelbalk"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:53
 msgid "Remember window size"
 msgstr "Onthoud venstergrootte"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:53
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
 msgid "Remember window position"
 msgstr "Vensterpositie onthouden"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
 msgid "Remember window state"
 msgstr "Vensterstatus onthouden"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "<b>General</b>"
 msgstr "<b>Algemeen</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "Show toolbar"
 msgstr "Werkbalk tonen"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
 msgid "Style:"
 msgstr "Stijl:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
 msgid "Icon Size:"
 msgstr "Pictogramgrootte:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:60
 msgid "<b>Toolbar</b>"
 msgstr "<b>Werkbalk</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:60
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
 msgid "Always show tabs even with one file"
 msgstr "Altijd tabs tonen, zelfs bij één bestand"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Expand tabs to fill available space"
 msgstr "Vergroot tabbladen om de beschikbare ruimte te vullen"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "Cycled notebook tab switching"
 msgstr "Cyclische afwisseling van notitieboektabs"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
 msgid "Open files in:"
 msgstr "Open bestanden in:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "<b>Notebook Tabs</b>"
 msgstr "<b>Notitieblok-tabbladen</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Window"
 msgstr "Venster"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "Ensure new line at file end"
 msgstr "Altijd een nieuwe regel op einde van bestand"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "Make a copy with '~' suffix"
 msgstr "Maak een kopie met achtervoegsel '~'"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
 msgstr "<b>Opslaan van bestanden</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Session restore:"
 msgstr "Terugzetten van sessie:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
 msgstr "Wanneer 'niet-opgeslagen documenten' of 'altijd' is gekozen, zal Mousepad niet vragen om gewijzigde documenten op te slaan bij het afsluiten"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "Recent file menu length:"
 msgstr "Menulengte voor recente bestanden:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "'0' disables and wipes recent history"
 msgstr "'0' schakelt recente geschiedenis uit en wist deze"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "<b>History</b>"
 msgstr "<b>Geschiedenis</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "File monitoring"
 msgstr "Bestandbewaking"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "Automatic reloading"
 msgstr "Automatisch herladen"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Default encoding:"
 msgstr "Standaardcodering:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Divers</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
 msgid "File"
 msgstr "Bestand"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:80
 msgid "Plugins"
 msgstr "Invoegsels"
 
