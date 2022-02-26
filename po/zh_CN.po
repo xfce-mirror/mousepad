@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-25 12:52+0100\n"
-"PO-Revision-Date: 2022-02-25 11:52+0000\n"
+"POT-Creation-Date: 2022-02-26 00:50+0100\n"
+"PO-Revision-Date: 2022-02-25 23:50+0000\n"
 "Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/xfce/xfce-apps/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1640,145 +1640,149 @@ msgid "<b>Indentation</b>"
 msgstr "<b>缩进</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
-msgid "(Shift-)Tab: (De-)Indent selected text"
-msgstr "(Shift-)Tab: 取消缩进选择的文字"
+msgid "Tab: Indent selection (Shift+Tab: Unindent)"
+msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
+msgid "Indent/unindent the currently selected text or the current line"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
 msgstr "Backspace 键: 删除以tabs制表符作为缩进的空格"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "Home/End: Detect leading/trailing whitespace:"
 msgstr "Home/End: 检测前导/尾随空格:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 msgid "<b>Smart Keys</b>"
 msgstr "<b>智能键</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Editor"
 msgstr "编辑器"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Client-side decorations (restart required)"
 msgstr "客户端的美化调整 （需要重启）"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
 msgid "Show full filename in title bar"
 msgstr "在标题栏显示完整文件名"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:53
 msgid "Remember window size"
 msgstr "记住窗口大小"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:53
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
 msgid "Remember window position"
 msgstr "记住窗口位置"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:54
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
 msgid "Remember window state"
 msgstr "记住窗口状态"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:55
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "<b>General</b>"
 msgstr "<b>常规</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "Show toolbar"
 msgstr "显示工具栏"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
 msgid "Style:"
 msgstr "样式："
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:58
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
 msgid "Icon Size:"
 msgstr "图标大小："
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:59
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:60
 msgid "<b>Toolbar</b>"
 msgstr "<b>工具栏</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:60
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
 msgid "Always show tabs even with one file"
 msgstr "即使只有一个文件也显示标签"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:61
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Expand tabs to fill available space"
 msgstr "扩展tabs制表符以填充可用的区域"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "Cycled notebook tab switching"
 msgstr "循环切换笔记本标签"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
 msgid "Open files in:"
 msgstr "打开文件于:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "<b>Notebook Tabs</b>"
 msgstr "<b>笔记本标签</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Window"
 msgstr "窗口"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "Ensure new line at file end"
 msgstr "确保在文末添加新一行"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "Make a copy with '~' suffix"
 msgstr "建立带有 '~' 后缀的副本"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
 msgstr "<b>正在保存文件</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Session restore:"
 msgstr "会话恢复："
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
 msgstr "选择“未保存的文档”或“始终”时， Mousepad 退出时不会要求保存修改过的文档"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "Recent file menu length:"
 msgstr "最近文件菜单长度:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "'0' disables and wipes recent history"
 msgstr "“0” 代表禁用并擦除最近的历史记录"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "<b>History</b>"
 msgstr "<b>历史</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "File monitoring"
 msgstr "文件监控"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "Automatic reloading"
 msgstr ""
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Default encoding:"
 msgstr "默认编码:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>杂项</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
 msgid "File"
 msgstr "文件"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:80
 msgid "Plugins"
 msgstr "插件"
 
