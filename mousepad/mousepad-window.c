@@ -4459,10 +4459,7 @@ mousepad_window_action_open (GSimpleAction *action,
 
       /* open all the selected locations in new tabs */
       for (file = files; file != NULL; file = file->next)
-        {
-          mousepad_object_set_data (file->data, "user-set-encoding", GINT_TO_POINTER (TRUE));
-          mousepad_window_open_file (window, file->data, encoding, 0, 0, TRUE);
-        }
+        mousepad_window_open_file (window, file->data, encoding, 0, 0, TRUE);
 
       /* cleanup */
       g_slist_free_full (files, g_object_unref);

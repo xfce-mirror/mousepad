@@ -823,6 +823,9 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
   gboolean             found = FALSE;
   static GtkTreeModel *short_model = NULL;
 
+  /* consider encoding as user-set from now on */
+  mousepad_object_set_data (combo, "user-set-encoding", GINT_TO_POINTER (TRUE));
+
   /* get the model */
   model = gtk_combo_box_get_model (combo);
 
@@ -1077,11 +1080,6 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   gtk_label_set_mnemonic_widget (GTK_LABEL (widget), combo);
   gtk_widget_show (combo);
 
-  /* set combo box handlers */
-  gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (combo),
-                                        mousepad_dialogs_combo_insert_separator, NULL, NULL);
-  g_signal_connect (combo, "changed", G_CALLBACK (mousepad_dialogs_combo_changed), dialog);
-
   /* set combo box cell renderer */
   cell = gtk_cell_renderer_text_new ();
   gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
@@ -1092,6 +1090,11 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
     mousepad_dialogs_combo_set_active (GTK_COMBO_BOX (combo), current_encoding);
   else
     mousepad_dialogs_combo_set_active (GTK_COMBO_BOX (combo), default_encoding);
+
+  /* set combo box handlers */
+  gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (combo),
+                                        mousepad_dialogs_combo_insert_separator, NULL, NULL);
+  g_signal_connect (combo, "changed", G_CALLBACK (mousepad_dialogs_combo_changed), dialog);
 
   return GTK_COMBO_BOX (combo);
 }
@@ -1228,12 +1231,17 @@ mousepad_dialogs_open (GtkWindow         *parent,
   /* run the dialog */
   if ((response = gtk_dialog_run (GTK_DIALOG (dialog))) == GTK_RESPONSE_ACCEPT)
     {
+      gpointer user_set_encoding;
+
       /* get a list of selected locations */
       *files = gtk_file_chooser_get_files (GTK_FILE_CHOOSER (dialog));
 
       /* get the selected encoding */
       gtk_combo_box_get_active_iter (combo, &iter);
       gtk_tree_model_get (gtk_combo_box_get_model (combo), &iter, 1, encoding, -1);
+      user_set_encoding = mousepad_object_get_data (combo, "user-set-encoding");
+      for (GSList *lp = *files; lp != NULL; lp = lp->next)
+        mousepad_object_set_data (lp->data, "user-set-encoding", user_set_encoding);
     }
 
   /* destroy the dialog */
