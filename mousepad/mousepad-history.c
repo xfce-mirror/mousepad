@@ -35,6 +35,7 @@ static guint    mousepad_history_autosave_check_basename    (const gchar  *basen
 static void     mousepad_history_autosave_cleanup_directory (guint         ids);
 static void     mousepad_history_autosave_timer_changed     (void);
 static void     mousepad_history_autosave_init              (void);
+static void     mousepad_history_search_init                (void);
 static void     mousepad_history_search_finalize            (void);
 
 
@@ -73,7 +74,7 @@ static guint session_source_ids[SESSION_N_SIGNALS] = { 0 };
 static guint autosave_ids = 0;
 
 /* search data */
-static GSList *search_history = NULL;
+static GHashTable *search_history = NULL;
 
 
 
@@ -83,6 +84,7 @@ mousepad_history_init (void)
   mousepad_history_recent_init ();
   mousepad_history_session_init ();
   mousepad_history_autosave_init ();
+  mousepad_history_search_init ();
 }
 
 
@@ -929,9 +931,17 @@ mousepad_history_autosave_get_location (void)
 
 
 static void
+mousepad_history_search_init (void)
+{
+  search_history = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+}
+
+
+
+static void
 mousepad_history_search_finalize (void)
 {
-  g_slist_free_full (search_history, g_free);
+  g_hash_table_destroy (search_history);
 }
 
 
@@ -939,11 +949,25 @@ mousepad_history_search_finalize (void)
 void
 mousepad_history_search_fill_box (GtkComboBoxText *box)
 {
+  GHashTableIter iter;
+  gpointer       key, value;
+  guint          idx, size;
+
   g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (box));
 
-  /* append the items from the history to the combobox */
-  for (GSList *li = search_history; li != NULL; li = li->next)
-    gtk_combo_box_text_append_text (box, li->data);
+  /* first give the box its final size */
+  size = g_hash_table_size (search_history);
+  for (idx = 0; idx < size; idx++)
+    gtk_combo_box_text_append_text (box, "");
+
+  /* insert keys in the box in the right order */
+  g_hash_table_iter_init (&iter, search_history);
+  while (g_hash_table_iter_next (&iter, &key, &value))
+  {
+    idx = GPOINTER_TO_UINT (value);
+    gtk_combo_box_text_insert (box, idx, NULL, key);
+    gtk_combo_box_text_remove (box, idx + 1);
+  }
 }
 
 
@@ -951,15 +975,48 @@ mousepad_history_search_fill_box (GtkComboBoxText *box)
 void
 mousepad_history_search_insert_text (const gchar *text)
 {
+  GHashTableIter iter;
+  gpointer       key, value;
+  guint          max_idx, idx;
+  gboolean       contains;
+
   /* quit if the search entry is empty */
   if (text == NULL || *text == '\0')
     return;
 
-  /* check if the string is already in the history */
-  for (GSList *li = search_history; li != NULL; li = li->next)
-    if (strcmp (li->data, text) == 0)
-      return;
+  /* quit if the same pattern is searched several times in a row */
+  contains = g_hash_table_lookup_extended (search_history, text, NULL, &value);
+  if (contains && (max_idx = GPOINTER_TO_UINT (value)) == 0)
+    return;
 
-  /* prepend the string */
-  search_history = g_slist_prepend (search_history, g_strdup (text));
+  /* update history */
+  else
+    {
+      if (contains)
+        {
+          /* put the current key back in first position */
+          g_hash_table_iter_init (&iter, search_history);
+          while (g_hash_table_iter_next (&iter, &key, &value))
+            {
+              idx = GPOINTER_TO_UINT (value);
+              if (idx < max_idx)
+                g_hash_table_iter_replace (&iter, GUINT_TO_POINTER (idx + 1));
+              else if (idx == max_idx)
+                g_hash_table_iter_replace (&iter, GUINT_TO_POINTER (0));
+            }
+        }
+      else
+        {
+          /* increment indexes */
+          g_hash_table_iter_init (&iter, search_history);
+          while (g_hash_table_iter_next (&iter, &key, &value))
+            {
+              idx = GPOINTER_TO_UINT (value);
+              g_hash_table_iter_replace (&iter, GUINT_TO_POINTER (idx + 1));
+            }
+
+          /* insert new key at first position */
+          g_hash_table_insert (search_history, g_strdup (text), GUINT_TO_POINTER (0));
+        }
+    }
 }
