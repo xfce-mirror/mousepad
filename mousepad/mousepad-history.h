@@ -71,9 +71,9 @@ void         mousepad_history_search_fill_search_box           (GtkComboBoxText 
 
 void         mousepad_history_search_fill_replace_box          (GtkComboBoxText            *box);
 
-void         mousepad_history_search_insert_search_text        (const gchar                *text);
+guint        mousepad_history_search_insert_search_text        (const gchar                *text);
 
-void         mousepad_history_search_insert_replace_text       (const gchar                *text);
+guint        mousepad_history_search_insert_replace_text       (const gchar                *text);
 
 G_END_DECLS
 
