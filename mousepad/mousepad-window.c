@@ -4858,7 +4858,7 @@ mousepad_window_action_reload (GSimpleAction *action,
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
   /* reload the file */
-  retval = mousepad_file_open (document->file, line, column, TRUE, FALSE, FALSE, &error);
+  retval = mousepad_file_open (document->file, line, column, TRUE, FALSE, TRUE, &error);
 
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
