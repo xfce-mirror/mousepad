@@ -35,6 +35,7 @@ static guint    mousepad_history_autosave_check_basename    (const gchar  *basen
 static void     mousepad_history_autosave_cleanup_directory (guint         ids);
 static void     mousepad_history_autosave_timer_changed     (void);
 static void     mousepad_history_autosave_init              (void);
+static void     mousepad_history_search_finalize            (void);
 
 
 
@@ -71,6 +72,9 @@ static guint session_source_ids[SESSION_N_SIGNALS] = { 0 };
 
 static guint autosave_ids = 0;
 
+/* search data */
+static GSList *search_history = NULL;
+
 
 
 void
@@ -79,6 +83,14 @@ mousepad_history_init (void)
   mousepad_history_recent_init ();
   mousepad_history_session_init ();
   mousepad_history_autosave_init ();
+}
+
+
+
+void
+mousepad_history_finalize (void)
+{
+  mousepad_history_search_finalize ();
 }
 
 
@@ -912,4 +924,42 @@ mousepad_history_autosave_get_location (void)
   g_free (filename);
 
   return location;
+}
+
+
+
+static void
+mousepad_history_search_finalize (void)
+{
+  g_slist_free_full (search_history, g_free);
+}
+
+
+
+void
+mousepad_history_search_fill_box (GtkComboBoxText *box)
+{
+  g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (box));
+
+  /* append the items from the history to the combobox */
+  for (GSList *li = search_history; li != NULL; li = li->next)
+    gtk_combo_box_text_append_text (box, li->data);
+}
+
+
+
+void
+mousepad_history_search_insert_text (const gchar *text)
+{
+  /* quit if the search entry is empty */
+  if (text == NULL || *text == '\0')
+    return;
+
+  /* check if the string is already in the history */
+  for (GSList *li = search_history; li != NULL; li = li->next)
+    if (strcmp (li->data, text) == 0)
+      return;
+
+  /* prepend the string */
+  search_history = g_slist_prepend (search_history, g_strdup (text));
 }
