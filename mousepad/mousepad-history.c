@@ -992,7 +992,7 @@ mousepad_history_search_fill_replace_box (GtkComboBoxText *box)
 
 
 
-static void
+static guint
 mousepad_history_search_insert_text (const gchar *text,
                                      GHashTable  *history)
 {
@@ -1001,14 +1001,18 @@ mousepad_history_search_insert_text (const gchar *text,
   guint          max_idx, idx;
   gboolean       contains;
 
+  /* history disabled */
+  if (history == NULL)
+    return 0;
+
   /* quit if the search entry is empty */
   if (text == NULL || *text == '\0')
-    return;
+    return 0;
 
   /* quit if the same pattern is searched several times in a row */
   contains = g_hash_table_lookup_extended (history, text, NULL, &value);
   if (contains && (max_idx = GPOINTER_TO_UINT (value)) == 0)
-    return;
+    return 0;
 
   /* update history */
   else
@@ -1025,6 +1029,8 @@ mousepad_history_search_insert_text (const gchar *text,
               else if (idx == max_idx)
                 g_hash_table_iter_replace (&iter, GUINT_TO_POINTER (0));
             }
+
+          max_idx++;
         }
       else
         {
@@ -1038,22 +1044,26 @@ mousepad_history_search_insert_text (const gchar *text,
 
           /* insert new key at first position */
           g_hash_table_insert (history, g_strdup (text), GUINT_TO_POINTER (0));
+
+          max_idx = g_hash_table_size (history);
         }
+
+      return max_idx;
     }
 }
 
 
 
-void
+guint
 mousepad_history_search_insert_search_text (const gchar *text)
 {
-  mousepad_history_search_insert_text (text, search_history);
+  return mousepad_history_search_insert_text (text, search_history);
 }
 
 
 
-void
+guint
 mousepad_history_search_insert_replace_text (const gchar *text)
 {
-  mousepad_history_search_insert_text (text, replace_history);
+  return mousepad_history_search_insert_text (text, replace_history);
 }
