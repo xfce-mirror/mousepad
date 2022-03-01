@@ -1865,7 +1865,7 @@ mousepad_window_open_file (MousepadWindow   *window,
   gchar            *uri;
   const gchar      *autosave_uri;
   gint              npages, result, i;
-  gboolean          make_valid = FALSE, user_set_encoding, user_set_cursor, succeed;
+  gboolean          user_set_encoding, user_set_cursor, succeed;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (file != NULL, FALSE);
@@ -1922,10 +1922,21 @@ mousepad_window_open_file (MousepadWindow   *window,
 
           return FALSE;
         }
+
+      user_set_encoding = TRUE;
     }
   /* try to lookup the encoding from the recent history if not set by the user */
   else if (! user_set_encoding)
-    mousepad_history_recent_get_encoding (file, &encoding);
+    {
+      MousepadEncoding history_encoding = MOUSEPAD_ENCODING_NONE;
+
+      mousepad_history_recent_get_encoding (file, &history_encoding);
+      if (history_encoding != MOUSEPAD_ENCODING_NONE)
+        {
+          encoding = history_encoding;
+          user_set_encoding = TRUE;
+        }
+    }
 
   /* try to lookup the cursor position from the recent history if not set by the user */
   if (! user_set_cursor)
@@ -1940,7 +1951,8 @@ mousepad_window_open_file (MousepadWindow   *window,
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
 
   /* read the content into the buffer */
-  result = mousepad_file_open (document->file, line, column, must_exist, FALSE, make_valid, &error);
+  result = mousepad_file_open (document->file, line, column, must_exist,
+                               FALSE, user_set_encoding, &error);
 
   /* release the lock */
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
@@ -1975,7 +1987,7 @@ mousepad_window_open_file (MousepadWindow   *window,
         if (mousepad_encoding_dialog (GTK_WINDOW (window), document->file, FALSE, &encoding)
             == MOUSEPAD_RESPONSE_OK)
           {
-            make_valid = TRUE;
+            user_set_encoding = TRUE;
             goto retry;
           }
 
