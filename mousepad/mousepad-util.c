@@ -318,6 +318,30 @@ mousepad_util_entry_error (GtkWidget *widget,
 
 
 
+gchar *
+mousepad_util_get_selection (GtkTextBuffer *buffer)
+{
+  GtkTextIter  start, end;
+  gchar       *selection = NULL;
+
+  if (gtk_text_buffer_get_has_selection (buffer))
+    {
+      gtk_text_buffer_get_selection_bounds (buffer, &start, &end);
+      selection = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+
+      /* selection should be one line */
+      if (g_strrstr (selection, "\n") != NULL || g_strrstr (selection, "\r") != NULL)
+        {
+          g_free (selection);
+          selection = NULL;
+        }
+    }
+
+  return selection;
+}
+
+
+
 void
 mousepad_util_dialog_create_header (GtkDialog   *dialog,
                                     const gchar *title,

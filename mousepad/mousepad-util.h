@@ -48,6 +48,8 @@ GtkWidget   *mousepad_util_image_button                     (const gchar        
 void         mousepad_util_entry_error                      (GtkWidget                  *widget,
                                                              gboolean                    error);
 
+gchar       *mousepad_util_get_selection                    (GtkTextBuffer              *buffer);
+
 void         mousepad_util_dialog_create_header             (GtkDialog                  *dialog,
                                                              const gchar                *title,
                                                              const gchar                *subtitle,

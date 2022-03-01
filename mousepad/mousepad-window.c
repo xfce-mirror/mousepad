@@ -5484,7 +5484,6 @@ mousepad_window_action_find (GSimpleAction *action,
                              gpointer       data)
 {
   MousepadWindow *window = data;
-  GtkTextIter     selection_start, selection_end;
   gchar          *selection;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -5505,17 +5504,10 @@ mousepad_window_action_find (GSimpleAction *action,
     }
 
   /* set the search entry text */
-  if (gtk_text_buffer_get_has_selection (window->active->buffer))
+  selection = mousepad_util_get_selection (window->active->buffer);
+  if (selection != NULL)
     {
-      gtk_text_buffer_get_selection_bounds (window->active->buffer,
-                                            &selection_start, &selection_end);
-      selection = gtk_text_buffer_get_text (window->active->buffer,
-                                            &selection_start, &selection_end, 0);
-
-      /* selection should be one line */
-      if (g_strrstr (selection, "\n") == NULL && g_strrstr (selection, "\r") == NULL)
-        mousepad_search_bar_set_text (MOUSEPAD_SEARCH_BAR (window->search_bar), selection);
-
+      mousepad_search_bar_set_text (MOUSEPAD_SEARCH_BAR (window->search_bar), selection);
       g_free (selection);
     }
 
@@ -5618,7 +5610,6 @@ mousepad_window_action_replace (GSimpleAction *action,
                                 gpointer       data)
 {
   MousepadWindow *window = data;
-  GtkTextIter     selection_start, selection_end;
   gchar          *selection;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
@@ -5651,18 +5642,11 @@ mousepad_window_action_replace (GSimpleAction *action,
     }
 
   /* set the search entry text */
-  if (gtk_text_buffer_get_has_selection (window->active->buffer))
+  selection = mousepad_util_get_selection (window->active->buffer);
+  if (selection != NULL)
     {
-      gtk_text_buffer_get_selection_bounds (window->active->buffer,
-                                            &selection_start, &selection_end);
-      selection = gtk_text_buffer_get_text (window->active->buffer,
-                                            &selection_start, &selection_end, 0);
-
-      /* selection should be one line */
-      if (g_strrstr (selection, "\n") == NULL && g_strrstr (selection, "\r") == NULL)
-        mousepad_replace_dialog_set_text (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog),
-                                          selection);
-
+      mousepad_replace_dialog_set_text (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog),
+                                        selection);
       g_free (selection);
     }
 }
