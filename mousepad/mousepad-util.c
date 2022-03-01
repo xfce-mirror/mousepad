@@ -322,18 +322,17 @@ gchar *
 mousepad_util_get_selection (GtkTextBuffer *buffer)
 {
   GtkTextIter  start, end;
-  gchar       *selection = NULL;
+  gchar       *selection = NULL, *escaped;
 
   if (gtk_text_buffer_get_has_selection (buffer))
     {
       gtk_text_buffer_get_selection_bounds (buffer, &start, &end);
       selection = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-
-      /* selection should be one line */
-      if (g_strrstr (selection, "\n") != NULL || g_strrstr (selection, "\r") != NULL)
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_ENABLE_REGEX))
         {
+          escaped = g_regex_escape_string (selection, -1);
           g_free (selection);
-          selection = NULL;
+          selection = escaped;
         }
     }
 
