@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-26 00:50+0100\n"
-"PO-Revision-Date: 2022-02-26 13:23+0000\n"
+"PO-Revision-Date: 2022-03-01 10:15+0000\n"
 "Last-Translator: Ingo Brückl <ib@wupperonline.de>\n"
 "Language-Team: German (http://www.transifex.com/xfce/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1725,7 +1725,7 @@ msgstr "Zeilenumbruch am Dateiende sicherstellen"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "Make a copy with '~' suffix"
-msgstr "Eine Kopie mit der Endung '~' erstellen"
+msgstr "Eine Kopie mit der Endung ~ erstellen"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
@@ -1739,7 +1739,7 @@ msgstr "Sitzungs-Wiederherstellung:"
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr "Bei Auswahl von »ungespeicherte Dokumente« oder »immer« fragt Mousepad beim Beenden nicht, ob geänderte Dokumente gespeichert werden sollen."
+msgstr "Bei Auswahl von »Ungesicherte Dokumente« oder »Immer« fragt Mousepad beim Beenden nicht, ob geänderte Dokumente gespeichert werden sollen."
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "Recent file menu length:"
@@ -1747,7 +1747,7 @@ msgstr "Anzahl der Einträge für kürzlich verwendete Dateien"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "'0' disables and wipes recent history"
-msgstr "'0' deaktiviert und löscht den aktuellen Verlauf"
+msgstr "0 deaktiviert und löscht den aktuellen Verlauf"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "<b>History</b>"
