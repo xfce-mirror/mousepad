@@ -75,6 +75,7 @@ static guint autosave_ids = 0;
 
 /* search data */
 static GHashTable *search_history = NULL;
+static GHashTable *replace_history = NULL;
 
 
 
@@ -934,6 +935,7 @@ static void
 mousepad_history_search_init (void)
 {
   search_history = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+  replace_history = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 }
 
 
@@ -942,12 +944,14 @@ static void
 mousepad_history_search_finalize (void)
 {
   g_hash_table_destroy (search_history);
+  g_hash_table_destroy (replace_history);
 }
 
 
 
-void
-mousepad_history_search_fill_box (GtkComboBoxText *box)
+static void
+mousepad_history_search_fill_box (GtkComboBoxText *box,
+                                  GHashTable      *history)
 {
   GHashTableIter iter;
   gpointer       key, value;
@@ -956,12 +960,12 @@ mousepad_history_search_fill_box (GtkComboBoxText *box)
   g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (box));
 
   /* first give the box its final size */
-  size = g_hash_table_size (search_history);
+  size = g_hash_table_size (history);
   for (idx = 0; idx < size; idx++)
     gtk_combo_box_text_append_text (box, "");
 
   /* insert keys in the box in the right order */
-  g_hash_table_iter_init (&iter, search_history);
+  g_hash_table_iter_init (&iter, history);
   while (g_hash_table_iter_next (&iter, &key, &value))
   {
     idx = GPOINTER_TO_UINT (value);
@@ -973,7 +977,24 @@ mousepad_history_search_fill_box (GtkComboBoxText *box)
 
 
 void
-mousepad_history_search_insert_text (const gchar *text)
+mousepad_history_search_fill_search_box (GtkComboBoxText *box)
+{
+  mousepad_history_search_fill_box (box, search_history);
+}
+
+
+
+void
+mousepad_history_search_fill_replace_box (GtkComboBoxText *box)
+{
+  mousepad_history_search_fill_box (box, replace_history);
+}
+
+
+
+static void
+mousepad_history_search_insert_text (const gchar *text,
+                                     GHashTable  *history)
 {
   GHashTableIter iter;
   gpointer       key, value;
@@ -985,7 +1006,7 @@ mousepad_history_search_insert_text (const gchar *text)
     return;
 
   /* quit if the same pattern is searched several times in a row */
-  contains = g_hash_table_lookup_extended (search_history, text, NULL, &value);
+  contains = g_hash_table_lookup_extended (history, text, NULL, &value);
   if (contains && (max_idx = GPOINTER_TO_UINT (value)) == 0)
     return;
 
@@ -995,7 +1016,7 @@ mousepad_history_search_insert_text (const gchar *text)
       if (contains)
         {
           /* put the current key back in first position */
-          g_hash_table_iter_init (&iter, search_history);
+          g_hash_table_iter_init (&iter, history);
           while (g_hash_table_iter_next (&iter, &key, &value))
             {
               idx = GPOINTER_TO_UINT (value);
@@ -1008,7 +1029,7 @@ mousepad_history_search_insert_text (const gchar *text)
       else
         {
           /* increment indexes */
-          g_hash_table_iter_init (&iter, search_history);
+          g_hash_table_iter_init (&iter, history);
           while (g_hash_table_iter_next (&iter, &key, &value))
             {
               idx = GPOINTER_TO_UINT (value);
@@ -1016,7 +1037,23 @@ mousepad_history_search_insert_text (const gchar *text)
             }
 
           /* insert new key at first position */
-          g_hash_table_insert (search_history, g_strdup (text), GUINT_TO_POINTER (0));
+          g_hash_table_insert (history, g_strdup (text), GUINT_TO_POINTER (0));
         }
     }
+}
+
+
+
+void
+mousepad_history_search_insert_search_text (const gchar *text)
+{
+  mousepad_history_search_insert_text (text, search_history);
+}
+
+
+
+void
+mousepad_history_search_insert_replace_text (const gchar *text)
+{
+  mousepad_history_search_insert_text (text, replace_history);
 }

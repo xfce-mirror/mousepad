@@ -298,7 +298,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
 
   combo = gtk_combo_box_text_new_with_entry ();
-  mousepad_history_search_fill_box (GTK_COMBO_BOX_TEXT (combo));
+  mousepad_history_search_fill_search_box (GTK_COMBO_BOX_TEXT (combo));
   gtk_box_pack_start (GTK_BOX (hbox), combo, TRUE, TRUE, 0);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
 
@@ -332,7 +332,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
 
   combo = gtk_combo_box_text_new_with_entry ();
-  mousepad_history_search_fill_box (GTK_COMBO_BOX_TEXT (combo));
+  mousepad_history_search_fill_replace_box (GTK_COMBO_BOX_TEXT (combo));
   gtk_box_pack_start (GTK_BOX (hbox), combo, TRUE, TRUE, 0);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
 
@@ -443,10 +443,10 @@ mousepad_replace_dialog_unrealize (GtkWidget *widget)
   g_return_if_fail (GTK_IS_ENTRY (dialog->search_entry));
 
   text = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
-  mousepad_history_search_insert_text (text);
+  mousepad_history_search_insert_search_text (text);
 
   text = gtk_entry_get_text (GTK_ENTRY (dialog->replace_entry));
-  mousepad_history_search_insert_text (text);
+  mousepad_history_search_insert_replace_text (text);
 
   (*GTK_WIDGET_CLASS (mousepad_replace_dialog_parent_class)->unrealize) (widget);
 }
