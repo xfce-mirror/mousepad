@@ -580,6 +580,15 @@
         context is only silently updated.
       </description>
     </key>
+    <key name="history-size" type="u">
+      <range min="0" max="100"/>
+      <default>20</default>
+      <summary>Number of entries in the search history</summary>
+      <description>
+        The number of entries in the search history, as well as in the replace history.
+        If set to 0 then Mousepad clears the search history and doesn't add any new entry.
+      </description>
+    </key>
   </schema>
 
   <!-- window state -->
