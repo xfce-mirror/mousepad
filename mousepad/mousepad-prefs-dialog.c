@@ -45,6 +45,7 @@
 
 /* File page */
 #define WID_RECENT_SPIN                     "/prefs/file/history/recent-spin"
+#define WID_SEARCH_SPIN                     "/prefs/file/history/search-spin"
 #define WID_SESSION_COMBO                   "/prefs/file/history/session-combo"
 #define WID_ENCODING_COMBO                  "/prefs/file/history/encoding-combo"
 #define WID_ENCODING_MODEL                  "/prefs/file/history/encoding-model"
@@ -577,6 +578,10 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   g_signal_connect_swapped (gtk_builder_get_object (self->builder, WID_RECENT_SPIN),
                             "value-changed",
                             G_CALLBACK (mousepad_prefs_dialog_recent_spin_changed), self);
+
+  /* bind the search spin button to the setting */
+  MOUSEPAD_SETTING_BIND (SEARCH_HISTORY_SIZE, gtk_builder_get_object (self->builder, WID_SEARCH_SPIN),
+                         "value", G_SETTINGS_BIND_DEFAULT);
 
   /* bind simple spin buttons to the settings */
   MOUSEPAD_SETTING_BIND (RIGHT_MARGIN_POSITION,
