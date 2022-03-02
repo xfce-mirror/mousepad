@@ -932,11 +932,16 @@ mousepad_history_autosave_get_location (void)
 
 
 static void
-mousepad_history_search_resize (GHashTable *history,
-                                guint       size)
+mousepad_history_search_resize (GHashTable  *history,
+                                guint        size,
+                                const gchar *setting)
 {
   GHashTableIter iter;
   gpointer       key, value;
+
+  /* allocated on the stack for simplicity, the maximum size is set to a reasonable
+   * value in org.xfce.mousepad.gschema.xml */
+  const gchar *strv[size + 1];
 
   if (size >= g_hash_table_size (history))
     return;
@@ -945,6 +950,30 @@ mousepad_history_search_resize (GHashTable *history,
   while (g_hash_table_iter_next (&iter, &key, &value))
     if (GPOINTER_TO_UINT (value) >= size)
       g_hash_table_remove (history, key);
+    else
+      strv[GPOINTER_TO_UINT (value)] = key;
+
+  /* update history stored in the settings */
+  strv[size] = NULL;
+  mousepad_setting_set_strv (setting, strv);
+}
+
+
+
+static void
+mousepad_history_search_init_hash_table (GHashTable  **history,
+                                         const gchar  *setting)
+{
+  GStrv strv, p;
+  gint  n;
+
+  /* initialize hash table from the history stored in the settings */
+  *history = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+  strv = mousepad_setting_get_strv (setting);
+  for (p = strv, n = 0; *p != NULL; p++, n++)
+    g_hash_table_insert (*history, g_strdup (*p), GUINT_TO_POINTER (n));
+
+  g_strfreev (strv);
 }
 
 
@@ -957,16 +986,24 @@ mousepad_history_search_size_changed (void)
   size = MOUSEPAD_SETTING_GET_UINT (SEARCH_HISTORY_SIZE);
   if (size > 0 && search_history == NULL)
     {
-      search_history = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-      replace_history = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+      mousepad_history_search_init_hash_table (&search_history,
+                                               MOUSEPAD_SETTING_SEARCH_SEARCH_HISTORY);
+      mousepad_history_search_init_hash_table (&replace_history,
+                                               MOUSEPAD_SETTING_SEARCH_REPLACE_HISTORY);
     }
   else if (size > 0)
     {
-      mousepad_history_search_resize (search_history, size);
-      mousepad_history_search_resize (replace_history, size);
+      mousepad_history_search_resize (search_history, size,
+                                      MOUSEPAD_SETTING_SEARCH_SEARCH_HISTORY);
+      mousepad_history_search_resize (replace_history, size,
+                                      MOUSEPAD_SETTING_SEARCH_REPLACE_HISTORY);
     }
   else
-    mousepad_history_search_finalize ();
+    {
+      MOUSEPAD_SETTING_RESET (SEARCH_SEARCH_HISTORY);
+      MOUSEPAD_SETTING_RESET (SEARCH_REPLACE_HISTORY);
+      mousepad_history_search_finalize ();
+    }
 }
 
 
@@ -1043,7 +1080,8 @@ mousepad_history_search_fill_replace_box (GtkComboBoxText *box)
 
 static guint
 mousepad_history_search_insert_text (const gchar *text,
-                                     GHashTable  *history)
+                                     GHashTable  *history,
+                                     const gchar *setting)
 {
   GHashTableIter iter;
   gpointer       key, value;
@@ -1068,6 +1106,10 @@ mousepad_history_search_insert_text (const gchar *text,
     {
       guint size = MOUSEPAD_SETTING_GET_UINT (SEARCH_HISTORY_SIZE);
 
+      /* allocated on the stack for speed, the maximum size is set to a reasonable
+       * value in org.xfce.mousepad.gschema.xml */
+      const gchar *strv[size + 1];
+
       if (contains)
         {
           /* put the current key back in first position */
@@ -1076,11 +1118,17 @@ mousepad_history_search_insert_text (const gchar *text,
             {
               idx = GPOINTER_TO_UINT (value);
               if (idx < max_idx)
-                g_hash_table_iter_replace (&iter, GUINT_TO_POINTER (idx + 1));
+                {
+                  strv[++idx] = key;
+                  g_hash_table_iter_replace (&iter, GUINT_TO_POINTER (idx));
+                }
               else if (idx == max_idx)
                 g_hash_table_iter_replace (&iter, GUINT_TO_POINTER (0));
+              else
+                strv[idx] = key;
             }
 
+          size = g_hash_table_size (history);
           max_idx++;
         }
       else
@@ -1092,7 +1140,10 @@ mousepad_history_search_insert_text (const gchar *text,
             {
               idx = GPOINTER_TO_UINT (value);
               if (idx != max_idx)
-                g_hash_table_iter_replace (&iter, GUINT_TO_POINTER (idx + 1));
+                {
+                  strv[++idx] = key;
+                  g_hash_table_iter_replace (&iter, GUINT_TO_POINTER (idx));
+                }
               else
                 g_hash_table_iter_remove (&iter);
             }
@@ -1100,8 +1151,13 @@ mousepad_history_search_insert_text (const gchar *text,
           /* insert new key at first position */
           g_hash_table_insert (history, g_strdup (text), GUINT_TO_POINTER (0));
 
-          max_idx = g_hash_table_size (history);
+          size = max_idx = g_hash_table_size (history);
         }
+
+      /* update history stored in the settings */
+      strv[0] = text;
+      strv[size] = NULL;
+      mousepad_setting_set_strv (setting, strv);
 
       return max_idx;
     }
@@ -1112,7 +1168,8 @@ mousepad_history_search_insert_text (const gchar *text,
 guint
 mousepad_history_search_insert_search_text (const gchar *text)
 {
-  return mousepad_history_search_insert_text (text, search_history);
+  return mousepad_history_search_insert_text (text, search_history,
+                                              MOUSEPAD_SETTING_SEARCH_SEARCH_HISTORY);
 }
 
 
@@ -1120,5 +1177,6 @@ mousepad_history_search_insert_search_text (const gchar *text)
 guint
 mousepad_history_search_insert_replace_text (const gchar *text)
 {
-  return mousepad_history_search_insert_text (text, replace_history);
+  return mousepad_history_search_insert_text (text, replace_history,
+                                              MOUSEPAD_SETTING_SEARCH_REPLACE_HISTORY);
 }
