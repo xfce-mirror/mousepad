@@ -589,6 +589,21 @@
         If set to 0 then Mousepad clears the search history and doesn't add any new entry.
       </description>
     </key>
+    <key name="search-history" type="as">
+      <default>[]</default>
+      <summary>Search history</summary>
+      <description>
+        The search history of the patterns that have been explicitly searched (by
+        pressing the enter key or clicking on a search button).
+      </description>
+    </key>
+    <key name="replace-history" type="as">
+      <default>[]</default>
+      <summary>Replace history</summary>
+      <description>
+        The replace history of the patterns actually used for a replacement.
+      </description>
+    </key>
   </schema>
 
   <!-- window state -->
