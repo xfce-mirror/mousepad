@@ -20,6 +20,7 @@
 #include <mousepad/mousepad-search-bar.h>
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-window.h>
+#include <mousepad/mousepad-history.h>
 
 
 
@@ -55,6 +56,7 @@ struct _MousepadSearchBar
   GtkToolbar      __parent__;
 
   /* bar widgets */
+  GtkWidget *box;
   GtkWidget *entry;
   GtkWidget *hits_label;
   GtkWidget *spinner;
@@ -150,6 +152,18 @@ mousepad_search_bar_entry_select_all (GtkEntry *entry)
 
 
 static void
+mousepad_search_bar_hide_box_button (GtkWidget *widget,
+                                     gpointer   data)
+{
+  if (GTK_IS_BOX (widget))
+    gtk_container_forall (GTK_CONTAINER (widget), mousepad_search_bar_hide_box_button, NULL);
+  else if (GTK_IS_BUTTON (widget))
+    gtk_widget_hide (widget);
+}
+
+
+
+static void
 mousepad_search_bar_post_init (MousepadSearchBar *bar)
 {
   GtkApplication   *application;
@@ -208,8 +222,10 @@ mousepad_search_bar_post_init (MousepadSearchBar *bar)
 static void
 mousepad_search_bar_init (MousepadSearchBar *bar)
 {
-  GtkWidget   *widget, *box, *menu_item;
-  GtkToolItem *item;
+  GtkWidget      *widget, *box, *menu_item;
+  GtkToolItem    *item;
+  GtkCssProvider *provider;
+  const gchar    *css_string;
 
   /* we will complete initialization when the bar is anchored */
   g_signal_connect (bar, "hierarchy-changed", G_CALLBACK (mousepad_search_bar_post_init), NULL);
@@ -233,7 +249,11 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
   /* the entry field */
-  bar->entry = gtk_entry_new ();
+  bar->box = gtk_combo_box_text_new_with_entry ();
+  gtk_container_forall (GTK_CONTAINER (bar->box), mousepad_search_bar_hide_box_button, NULL);
+  gtk_box_pack_start (GTK_BOX (box), bar->box, FALSE, FALSE, 0);
+
+  bar->entry = gtk_bin_get_child (GTK_BIN (bar->box));
   g_signal_connect_swapped (bar->entry, "changed",
                             G_CALLBACK (mousepad_search_bar_entry_changed), bar);
   g_signal_connect_swapped (bar->entry, "activate",
@@ -242,7 +262,15 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
                             G_CALLBACK (mousepad_search_bar_entry_activate_backward), bar);
   g_signal_connect (bar->entry, "select-all",
                     G_CALLBACK (mousepad_search_bar_entry_select_all), NULL);
-  gtk_box_pack_start (GTK_BOX (box), bar->entry, FALSE, FALSE, 0);
+
+  /* recover entry shape after hiding the combo box button */
+  provider = gtk_css_provider_new ();
+  css_string = "entry { border-top-right-radius: 0; border-bottom-right-radius: 0; }";
+  gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+  gtk_style_context_add_provider (gtk_widget_get_style_context (bar->entry),
+                                  GTK_STYLE_PROVIDER (provider),
+                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  g_object_unref (provider);
 
   /* previous button */
   widget = gtk_button_new_from_icon_name ("go-up-symbolic", GTK_ICON_SIZE_MENU);
@@ -319,6 +347,11 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   /* show all widgets but the search bar */
   gtk_widget_show_all (GTK_WIDGET (bar));
   gtk_widget_hide (GTK_WIDGET (bar));
+
+  /* reset search box history on show/hide */
+  g_signal_connect_swapped (bar, "show",
+                            G_CALLBACK (mousepad_history_search_fill_search_box), bar->box);
+  g_signal_connect_swapped (bar, "hide", G_CALLBACK (gtk_combo_box_text_remove_all), bar->box);
 }
 
 
@@ -354,6 +387,7 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
                                  MousepadSearchFlags  flags)
 {
   const gchar *string;
+  guint        idx;
 
   /* always true when using the search bar */
   flags |= MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND;
@@ -364,6 +398,23 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
 
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
+
+  /* update search history in case of an explicit search */
+  if (! (flags & MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START)
+      || ! (flags & MOUSEPAD_SEARCH_FLAGS_DIR_FORWARD))
+    {
+      GtkComboBoxText *box = GTK_COMBO_BOX_TEXT (bar->box);
+
+      idx = mousepad_history_search_insert_search_text (string);
+      if (idx > 0)
+        {
+          gtk_combo_box_text_prepend_text (box, string);
+          gtk_combo_box_text_remove (box, idx);
+        }
+
+      /* always be in box: avoid `idx == -1` and `idx == history_size` */
+      gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
+    }
 
   /* reset display widgets */
   mousepad_search_bar_reset_display (bar);
