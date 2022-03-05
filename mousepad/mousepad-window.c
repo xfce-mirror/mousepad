@@ -85,6 +85,8 @@ static gboolean          mousepad_window_scroll_event                 (GtkWidget
                                                                        GdkEventScroll         *event);
 static gboolean          mousepad_window_window_state_event           (GtkWidget              *widget,
                                                                        GdkEventWindowState    *event);
+static gboolean          mousepad_window_key_press_event              (GtkWidget              *widget,
+                                                                       GdkEventKey            *event);
 
 /* statusbar tooltips */
 static void              mousepad_window_menu_set_tooltips            (MousepadWindow         *window,
@@ -220,6 +222,7 @@ static void              mousepad_window_search_completed             (MousepadD
                                                                        const gchar            *string,
                                                                        MousepadSearchFlags     flags,
                                                                        MousepadWindow         *window);
+static void              mousepad_window_hide_search_bar              (MousepadWindow         *window);
 
 /* history clipboard functions */
 static void              mousepad_window_paste_history_add            (MousepadWindow         *window);
@@ -610,6 +613,7 @@ mousepad_window_class_init (MousepadWindowClass *klass)
   gtkwidget_class->delete_event = mousepad_window_delete_event;
   gtkwidget_class->scroll_event = mousepad_window_scroll_event;
   gtkwidget_class->window_state_event = mousepad_window_window_state_event;
+  gtkwidget_class->key_press_event = mousepad_window_key_press_event;
 
   window_signals[NEW_WINDOW] =
     g_signal_new (I_("new-window"),
@@ -1426,6 +1430,29 @@ mousepad_window_window_state_event (GtkWidget           *widget,
 
   /* let gtk+ handle the window state event */
   return GTK_WIDGET_CLASS (mousepad_window_parent_class)->window_state_event (widget, event);
+}
+
+
+
+static gboolean
+mousepad_window_key_press_event (GtkWidget   *widget,
+                                 GdkEventKey *event)
+{
+  MousepadWindow *window = MOUSEPAD_WINDOW (widget);
+
+  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
+
+  /* hide the search bar if Esc key was pressed: this is G_SIGNAL_RUN_LAST, so hiding
+   * the menubar has priority if necessary */
+  if (event->keyval == GDK_KEY_Escape && window->search_bar != NULL
+      && gtk_widget_get_visible (window->search_bar))
+    {
+      mousepad_window_hide_search_bar (window);
+      return TRUE;
+    }
+
+  /* let gtk+ handle the key event */
+  return GTK_WIDGET_CLASS (mousepad_window_parent_class)->key_press_event (widget, event);
 }
 
 
