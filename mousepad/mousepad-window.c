@@ -5808,12 +5808,19 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
   gboolean        visible;
   gint            offset;
 
+  /* we have to pass below at least once at initialization, both in the visible and in the
+   * hidden case, and not pass again afterwards if the action state doesn't change, so we
+   * can't escape an additional test: the action should have a "non-initialized" state */
+  static gboolean init = TRUE;
+
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
-  /* exit if there is actually no change */
+  /* exit if there is actually no change, except at initialization */
   visible = g_variant_get_boolean (state);
-  if (visible == mousepad_action_get_state_boolean (G_ACTION (action)))
+  if (! init && visible == mousepad_action_get_state_boolean (G_ACTION (action)))
     return;
+  else if (init)
+    init = FALSE;
 
   /* set the action state */
   g_simple_action_set_state (action, state);
