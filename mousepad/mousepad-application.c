@@ -1148,10 +1148,8 @@ mousepad_application_shutdown (GApplication *gapplication)
   GList               *windows, *window;
   gchar               *filename;
 
-  /* flush the history items of the replace dialog
-   * this is a bit of an ugly place, but cleaning on a window close
-   * isn't a good option eighter */
-  mousepad_replace_dialog_history_clean ();
+  /* finalize history management */
+  mousepad_history_finalize ();
 
   /* destroy the preferences dialog */
   if (application->prefs_dialog != NULL)
