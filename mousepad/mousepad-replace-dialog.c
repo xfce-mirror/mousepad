@@ -20,10 +20,10 @@
 #include <mousepad/mousepad-dialogs.h>
 #include <mousepad/mousepad-util.h>
 #include <mousepad/mousepad-marshal.h>
+#include <mousepad/mousepad-history.h>
 
 
 
-static void              mousepad_replace_dialog_unrealize              (GtkWidget             *widget);
 static void              mousepad_replace_dialog_finalize               (GObject               *object);
 static void              mousepad_replace_dialog_response               (GtkWidget             *widget,
                                                                          gint                   response_id);
@@ -35,8 +35,6 @@ static void              mousepad_replace_dialog_entry_changed          (Mousepa
 static void              mousepad_replace_dialog_setting_changed        (MousepadReplaceDialog *dialog);
 static void              mousepad_replace_dialog_entry_activate         (MousepadReplaceDialog *dialog);
 static void              mousepad_replace_dialog_entry_reverse_activate (MousepadReplaceDialog *dialog);
-static void              mousepad_replace_dialog_history_combo_box      (GtkComboBoxText       *combo_box);
-static void              mousepad_replace_dialog_history_insert_text    (const gchar           *text);
 
 
 
@@ -50,6 +48,8 @@ struct _MousepadReplaceDialog
   GtkDialog __parent__;
 
   /* dialog widgets */
+  GtkWidget *search_box;
+  GtkWidget *replace_box;
   GtkWidget *search_entry;
   GtkWidget *replace_entry;
   GtkWidget *find_button;
@@ -80,7 +80,6 @@ enum
 
 
 
-static GSList *history_list = NULL;
 static guint   dialog_signals[LAST_SIGNAL];
 
 
@@ -92,14 +91,10 @@ static void
 mousepad_replace_dialog_class_init (MousepadReplaceDialogClass *klass)
 {
   GObjectClass   *gobject_class, *entry_class;
-  GtkWidgetClass *gtkwidget_class;
   GtkBindingSet  *binding_set;
 
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_replace_dialog_finalize;
-
-  gtkwidget_class = GTK_WIDGET_CLASS (klass);
-  gtkwidget_class->unrealize = mousepad_replace_dialog_unrealize;
 
   dialog_signals[SEARCH] =
     g_signal_new (I_("search"),
@@ -299,8 +294,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
 
-  combo = gtk_combo_box_text_new_with_entry ();
-  mousepad_replace_dialog_history_combo_box (GTK_COMBO_BOX_TEXT (combo));
+  combo = dialog->search_box = gtk_combo_box_text_new_with_entry ();
+  mousepad_history_search_fill_search_box (GTK_COMBO_BOX_TEXT (combo));
   gtk_box_pack_start (GTK_BOX (hbox), combo, TRUE, TRUE, 0);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
 
@@ -333,8 +328,8 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
 
-  combo = gtk_combo_box_text_new_with_entry ();
-  mousepad_replace_dialog_history_combo_box (GTK_COMBO_BOX_TEXT (combo));
+  combo = dialog->replace_box = gtk_combo_box_text_new_with_entry ();
+  mousepad_history_search_fill_replace_box (GTK_COMBO_BOX_TEXT (combo));
   gtk_box_pack_start (GTK_BOX (hbox), combo, TRUE, TRUE, 0);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
 
@@ -436,26 +431,6 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
 
 static void
-mousepad_replace_dialog_unrealize (GtkWidget *widget)
-{
-  MousepadReplaceDialog *dialog = MOUSEPAD_REPLACE_DIALOG (widget);
-  const gchar           *text;
-
-  g_return_if_fail (GTK_IS_ENTRY (dialog->replace_entry));
-  g_return_if_fail (GTK_IS_ENTRY (dialog->search_entry));
-
-  text = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
-  mousepad_replace_dialog_history_insert_text (text);
-
-  text = gtk_entry_get_text (GTK_ENTRY (dialog->replace_entry));
-  mousepad_replace_dialog_history_insert_text (text);
-
-  (*GTK_WIDGET_CLASS (mousepad_replace_dialog_parent_class)->unrealize) (widget);
-}
-
-
-
-static void
 mousepad_replace_dialog_finalize (GObject *object)
 {
   (*G_OBJECT_CLASS (mousepad_replace_dialog_parent_class)->finalize) (object);
@@ -487,8 +462,10 @@ mousepad_replace_dialog_response (GtkWidget *widget,
 {
   MousepadReplaceDialog *dialog = MOUSEPAD_REPLACE_DIALOG (widget);
   MousepadSearchFlags    flags;
+  GtkComboBoxText       *box;
   const gchar           *search_str, *replace_str;
   gint                   search_direction, replace_all_location;
+  guint                  idx;
 
   /* close dialog */
   if (response_id == MOUSEPAD_RESPONSE_CLOSE || response_id < 0)
@@ -496,6 +473,10 @@ mousepad_replace_dialog_response (GtkWidget *widget,
       gtk_widget_destroy (widget);
       return;
     }
+
+  /* get strings */
+  search_str = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
+  replace_str = gtk_entry_get_text (GTK_ENTRY (dialog->replace_entry));
 
   /* search direction */
   search_direction = MOUSEPAD_SETTING_GET_UINT (SEARCH_DIRECTION);
@@ -519,6 +500,18 @@ mousepad_replace_dialog_response (GtkWidget *widget,
   /* start position */
   if (response_id == MOUSEPAD_RESPONSE_FIND || response_id == MOUSEPAD_RESPONSE_REVERSE_FIND)
     {
+      /* update search history */
+      box = GTK_COMBO_BOX_TEXT (dialog->search_box);
+      idx = mousepad_history_search_insert_search_text (search_str);
+      if (idx > 0)
+        {
+          gtk_combo_box_text_prepend_text (box, search_str);
+          gtk_combo_box_text_remove (box, idx);
+        }
+
+      /* always be in box: avoid `idx == -1` and `idx == history_size` */
+      gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
+
       /* select the first match */
       flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
 
@@ -544,6 +537,28 @@ mousepad_replace_dialog_response (GtkWidget *widget,
     }
   else if (response_id == MOUSEPAD_RESPONSE_REPLACE)
     {
+      /* update search and replace histories: even an implicit search must be added
+       * to the history in this case */
+      box = GTK_COMBO_BOX_TEXT (dialog->search_box);
+      idx = mousepad_history_search_insert_search_text (search_str);
+      if (idx > 0)
+        {
+          gtk_combo_box_text_prepend_text (box, search_str);
+          gtk_combo_box_text_remove (box, idx);
+        }
+
+      gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
+
+      box = GTK_COMBO_BOX_TEXT (dialog->replace_box);
+      idx = mousepad_history_search_insert_replace_text (replace_str);
+      if (idx > 0)
+        {
+          gtk_combo_box_text_prepend_text (box, replace_str);
+          gtk_combo_box_text_remove (box, idx);
+        }
+
+      gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
+
       /* replace matches */
       flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE;
 
@@ -553,10 +568,6 @@ mousepad_replace_dialog_response (GtkWidget *widget,
       else
         flags |= MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START;
     }
-
-  /* get strings */
-  search_str = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
-  replace_str = gtk_entry_get_text (GTK_ENTRY (dialog->replace_entry));
 
   /* reset display widgets */
   mousepad_replace_dialog_reset_display (dialog);
@@ -653,51 +664,6 @@ static void
 mousepad_replace_dialog_entry_reverse_activate (MousepadReplaceDialog *dialog)
 {
   gtk_dialog_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_REVERSE_FIND);
-}
-
-
-
-/**
- * History functions
- **/
-static void
-mousepad_replace_dialog_history_combo_box (GtkComboBoxText *combo_box)
-{
-  GSList *li;
-
-  g_return_if_fail (GTK_IS_COMBO_BOX (combo_box));
-
-  /* append the items from the history to the combobox */
-  for (li = history_list; li != NULL; li = li->next)
-    gtk_combo_box_text_append_text (combo_box, li->data);
-}
-
-
-
-static void
-mousepad_replace_dialog_history_insert_text (const gchar *text)
-{
-  GSList *li;
-
-  /* quit if the box is empty */
-  if (text == NULL || *text == '\0')
-    return;
-
-  /* check if the string is already in the history */
-  for (li = history_list; li != NULL; li = li->next)
-    if (strcmp (li->data, text) == 0)
-      return;
-
-  /* prepend the string */
-  history_list = g_slist_prepend (history_list, g_strdup (text));
-}
-
-
-
-void
-mousepad_replace_dialog_history_clean (void)
-{
-  g_slist_free_full (history_list, g_free);
 }
 
 

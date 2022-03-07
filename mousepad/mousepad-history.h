@@ -41,6 +41,8 @@ enum
 
 void         mousepad_history_init                             (void);
 
+void         mousepad_history_finalize                         (void);
+
 void         mousepad_history_recent_add                       (MousepadFile               *file);
 
 void         mousepad_history_recent_get_language              (GFile                      *file,
@@ -64,6 +66,14 @@ void         mousepad_history_session_save                     (void);
 gboolean     mousepad_history_session_restore                  (MousepadApplication        *application);
 
 GFile       *mousepad_history_autosave_get_location            (void);
+
+void         mousepad_history_search_fill_search_box           (GtkComboBoxText            *box);
+
+void         mousepad_history_search_fill_replace_box          (GtkComboBoxText            *box);
+
+guint        mousepad_history_search_insert_search_text        (const gchar                *text);
+
+guint        mousepad_history_search_insert_replace_text       (const gchar                *text);
 
 G_END_DECLS
 
