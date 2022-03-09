@@ -1178,11 +1178,6 @@ mousepad_application_shutdown (GApplication *gapplication)
       g_free (filename);
     }
 
-  /* we're about to quit, the user uses session restore only on crash and everything
-   * went well: clear session array */
-  if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) == MOUSEPAD_SESSION_RESTORE_CRASH)
-    MOUSEPAD_SETTING_RESET (SESSION);
-
   /* finalize mousepad settings */
   mousepad_settings_finalize ();
 
