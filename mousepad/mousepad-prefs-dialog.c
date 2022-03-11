@@ -153,9 +153,9 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
   box = mousepad_plugin_provider_get_setting_box (provider);
   visible = gtk_widget_get_visible (button);
 
-  /* the plugin has a setting box and the prefs button is hidden: it is time to show
-   * it with its popover */
-  if (box != NULL && ! visible)
+  /* the plugin has a setting box which is not already packed (e.g. in a dialog)
+   * and the prefs button is hidden: it is time to show it with its popover */
+  if (box != NULL && ! visible && gtk_widget_get_parent (box) == NULL)
     {
       popover = gtk_popover_new (button);
       gtk_container_add (GTK_CONTAINER (popover), box);
