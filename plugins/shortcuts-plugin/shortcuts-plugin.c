@@ -17,6 +17,7 @@
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-plugin.h>
 #include <mousepad/mousepad-application.h>
+#include <mousepad/mousepad-prefs-dialog.h>
 
 #include <shortcuts-plugin/shortcuts-plugin.h>
 
@@ -51,7 +52,8 @@ struct _ShortcutsPlugin
 {
   MousepadPlugin __parent__;
 
-  GList *menubar_entries, *menubar_sections;
+  GList *menubar_entries, *prefs_dialog_entries,
+        *menubar_sections, *prefs_dialog_sections;
 };
 
 
@@ -94,7 +96,9 @@ shortcuts_plugin_init (ShortcutsPlugin *plugin)
 {
   /* initialization */
   plugin->menubar_entries = NULL;
+  plugin->prefs_dialog_entries = NULL;
   plugin->menubar_sections = NULL;
+  plugin->prefs_dialog_sections = NULL;
 
   shortcuts_plugin_enable (MOUSEPAD_PLUGIN (plugin));
 }
@@ -206,6 +210,7 @@ shortcuts_plugin_set_setting_box (ShortcutsPlugin *plugin)
 
   /* pack frames */
   shortcuts_plugin_pack_frame (plugin->menubar_sections, sbox, _("Menubar"));
+  shortcuts_plugin_pack_frame (plugin->prefs_dialog_sections, sbox, _("Preferences Dialog"));
 
   /* show all widgets in the setting box */
   gtk_widget_show_all (vbox);
@@ -216,6 +221,77 @@ shortcuts_plugin_set_setting_box (ShortcutsPlugin *plugin)
 static void
 shortcuts_plugin_fake_callback (void)
 {
+}
+
+
+
+static const gchar *
+shortcuts_plugin_search_child_label (GtkWidget *widget)
+{
+  GList       *list, *lp;
+  const gchar *label = NULL;
+
+  if (GTK_IS_LABEL (widget))
+    label = gtk_label_get_label (GTK_LABEL (widget));
+  else if (GTK_IS_CONTAINER (widget))
+    {
+      list = gtk_container_get_children (GTK_CONTAINER (widget));
+      for (lp = list; lp != NULL; lp = lp->next)
+        {
+          label = shortcuts_plugin_search_child_label (lp->data);
+          if (label != NULL)
+            break;
+        }
+
+      g_list_free (list);
+    }
+
+  return label;
+}
+
+
+
+static void
+shortcuts_plugin_get_tab_entries (GtkAccelMap        *map,
+                                  GtkWidget          *widget,
+                                  XfceGtkActionEntry *entries,
+                                  guint              *size)
+{
+  GList       *list, *lp;
+  gchar       *path;
+  const gchar *action, *label;
+
+  if (GTK_IS_CHECK_BUTTON (widget))
+    {
+      action = gtk_actionable_get_action_name (GTK_ACTIONABLE (widget));
+      path = g_strconcat ("<Actions>/", action, NULL);
+      if (! gtk_accel_map_lookup_entry (path, NULL))
+        {
+          g_free (path);
+          return;
+        }
+
+      /* try to look into the check button if no native label is set */
+      label = gtk_button_get_label (GTK_BUTTON (widget));
+      if (label == NULL)
+        label = shortcuts_plugin_search_child_label (widget);
+
+      mousepad_object_set_data (map, g_intern_string (path), GINT_TO_POINTER (TRUE));
+      entries[*size].menu_item_label_text = g_strdup (label != NULL ? label : action);
+      entries[*size].accel_path = path;
+      entries[*size].default_accelerator = g_strdup (mousepad_object_get_data (map, path + 10));
+      entries[*size].callback = shortcuts_plugin_fake_callback;
+
+      (*size)++;
+    }
+  else if (GTK_IS_CONTAINER (widget))
+    {
+      list = gtk_container_get_children (GTK_CONTAINER (widget));
+      for (lp = list; lp != NULL; lp = lp->next)
+        shortcuts_plugin_get_tab_entries (map, lp->data, entries, size);
+
+      g_list_free (list);
+    }
 }
 
 
@@ -296,7 +372,9 @@ shortcuts_plugin_accel_map_ready (ShortcutsPlugin *plugin)
   XfceGtkActionEntry     *entries;
   GtkAccelMap            *map;
   GtkApplication         *application;
-  GtkWidget              *section;
+  GtkNotebook            *notebook;
+  GtkWidget              *section, *dialog, *widget;
+  GList                  *list;
   GMenuModel             *menubar, *menu;
   GVariant               *label;
   GStrv                   strv;
@@ -345,6 +423,45 @@ shortcuts_plugin_accel_map_ready (ShortcutsPlugin *plugin)
     }
 
   plugin->menubar_sections = g_list_reverse (plugin->menubar_sections);
+
+  /* get the prefs dialog */
+  dialog = mousepad_application_get_prefs_dialog (MOUSEPAD_APPLICATION (application));
+  if (dialog == NULL)
+    dialog = mousepad_prefs_dialog_new ();
+
+  /* get the notebook (switch to the plugin tab to trigger its filling if needed) */
+  widget = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  list = gtk_container_get_children (GTK_CONTAINER (widget));
+  notebook = list->data;
+  g_list_free (list);
+  n_sections = gtk_notebook_get_n_pages (notebook);
+  if (! gtk_widget_get_visible (dialog))
+    gtk_notebook_set_current_page (notebook, n_sections - 1);
+
+  /* walk the prefs dialog */
+  for (n = 0; n < n_sections; n++)
+    {
+      /* allocate a sufficiently large XfceGtkActionEntry array */
+      entries = g_new0 (XfceGtkActionEntry, n_accels);
+
+      /* get action entries for this tab */
+      widget = gtk_notebook_get_nth_page (notebook, n);
+      size = 0;
+      shortcuts_plugin_get_tab_entries (map, widget, entries, &size);
+
+      /* get shortcuts editor section for this tab */
+      section = xfce_shortcuts_editor_new (4, gtk_notebook_get_tab_label_text (notebook, widget),
+                                           entries, size);
+      plugin->prefs_dialog_sections = g_list_prepend (plugin->prefs_dialog_sections, section);
+
+      /* resize and prepend the XfceGtkActionEntry array to the list */
+      entries = g_renew (XfceGtkActionEntry, entries, size + 1);
+      plugin->prefs_dialog_entries = g_list_prepend (plugin->prefs_dialog_entries, entries);
+    }
+
+  plugin->prefs_dialog_sections = g_list_reverse (plugin->prefs_dialog_sections);
+  if (! gtk_widget_get_visible (dialog))
+    gtk_widget_destroy (dialog);
 
   /* we can't always do that in constructed() since the above might not have been done yet */
   g_object_get (plugin, "provider", &provider, NULL);
@@ -398,5 +515,8 @@ shortcuts_plugin_disable (MousepadPlugin *mplugin)
   ShortcutsPlugin *plugin = SHORTCUTS_PLUGIN (mplugin);
 
   g_list_free_full (plugin->menubar_entries, shortcuts_plugin_free_entry_array);
+  g_list_free_full (plugin->prefs_dialog_entries, shortcuts_plugin_free_entry_array);
+
   g_list_free_full (plugin->menubar_sections, (GDestroyNotify) gtk_widget_destroy);
+  g_list_free_full (plugin->prefs_dialog_sections, (GDestroyNotify) gtk_widget_destroy);
 }
