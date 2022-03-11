@@ -41,7 +41,7 @@ typedef struct _MousepadPluginData
   gboolean destroyable;
 
   /* for the plugin checkbox in the prefs dialog */
-  const gchar *label, *category;
+  const gchar *label, *tooltip, *category;
 
   /* keybinding for enabling the plugin, also shown in the prefs dialog */
   const gchar *accel;
@@ -60,6 +60,8 @@ gboolean                mousepad_plugin_provider_is_destroyable     (MousepadPlu
 gboolean                mousepad_plugin_provider_is_instantiated    (MousepadPluginProvider  *provider);
 
 const gchar            *mousepad_plugin_provider_get_label          (MousepadPluginProvider  *provider);
+
+const gchar            *mousepad_plugin_provider_get_tooltip        (MousepadPluginProvider  *provider);
 
 const gchar            *mousepad_plugin_provider_get_category       (MousepadPluginProvider  *provider);
 
