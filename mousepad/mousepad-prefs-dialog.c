@@ -335,7 +335,7 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
       module = provider->data;
       str = g_strconcat ("app.", module->name, NULL);
 
-      /* add an accel label to the provider checkbox */
+      /* add an accel label and a tooltip to the provider checkbox */
       child = gtk_accel_label_new (mousepad_plugin_provider_get_label (provider->data));
       gtk_widget_set_hexpand (child, TRUE);
       accels = gtk_application_get_accels_for_action (GTK_APPLICATION (application), str);
@@ -346,6 +346,7 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
       gtk_accel_label_set_accel (GTK_ACCEL_LABEL (child), key, mods);
       g_strfreev (accels);
       gtk_container_add (GTK_CONTAINER (widget), child);
+      gtk_widget_set_tooltip_text (widget, mousepad_plugin_provider_get_tooltip (provider->data));
 
       /* add a prefs button to the grid */
       child = gtk_button_new_from_icon_name ("preferences-system", GTK_ICON_SIZE_BUTTON);
