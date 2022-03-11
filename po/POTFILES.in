@@ -28,6 +28,8 @@ mousepad/mousepad-window.c
 
 plugins/gspell-plugin/mousepad-plugin-gspell.c
 plugins/gspell-plugin/gspell-plugin.c
+plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c
+plugins/shortcuts-plugin/shortcuts-plugin.c
 
 
 
