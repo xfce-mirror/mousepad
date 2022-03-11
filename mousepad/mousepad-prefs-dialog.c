@@ -142,6 +142,80 @@ mousepad_prefs_dialog_remove_setting_box (gpointer popover)
 
 
 
+#if defined (GDK_WINDOWING_X11) && ! GTK_CHECK_VERSION (4, 0, 0)
+/*
+ * Popovers suffer from a limitation in GTK 3 on X11: they cannot extend outside their
+ * toplevel window. So we have to resize the dialog before showing the popover in this case.
+ * See https://gitlab.gnome.org/GNOME/gtk/-/issues/543
+ */
+static gboolean
+mousepad_prefs_dialog_drawn (GtkWidget *dialog,
+                             cairo_t   *cr,
+                             gpointer   popover)
+{
+  /* disconnect this handler */
+  mousepad_disconnect_by_func (dialog, mousepad_prefs_dialog_drawn, popover);
+
+  /* it's finally time to show the popover */
+  gtk_widget_show (popover);
+
+  return FALSE;
+}
+
+
+
+static gboolean
+mousepad_prefs_dialog_popover_allocate_finish (gpointer popover)
+{
+  GtkWidget    *dialog, *button;
+  GtkAllocation balloc, dalloc, palloc;
+
+  /* get widget allocations */
+  button = gtk_popover_get_relative_to (popover);
+  dialog = gtk_widget_get_ancestor (button, MOUSEPAD_TYPE_PREFS_DIALOG);
+  gtk_widget_get_allocation (button, &balloc);
+  gtk_widget_get_allocation (dialog, &dalloc);
+  gtk_widget_get_allocation (popover, &palloc);
+
+  /* resize the dialog so it contains the popover */
+  gtk_window_resize (GTK_WINDOW (dialog),
+                     MAX (dalloc.width, palloc.width + dalloc.width - balloc.x),
+                     MAX (dalloc.height, palloc.height));
+
+  /* we will show the popover when the dialog is effectively resized */
+  g_signal_connect_after (dialog, "draw", G_CALLBACK (mousepad_prefs_dialog_drawn), popover);
+
+  return FALSE;
+}
+
+
+
+static void
+mousepad_prefs_dialog_popover_allocate (GtkWidget    *popover,
+                                        GdkRectangle *palloc,
+                                        GtkWidget    *dialog)
+{
+  GtkAllocation dalloc, balloc;
+
+  /* disconnect this handler */
+  mousepad_disconnect_by_func (popover, mousepad_prefs_dialog_popover_allocate, dialog);
+
+  /* do nothing if the dialog already contains the popover */
+  gtk_widget_get_allocation (dialog, &dalloc);
+  gtk_widget_get_allocation (gtk_popover_get_relative_to (GTK_POPOVER (popover)), &balloc);
+  if (palloc->width <= balloc.x && palloc->height <= dalloc.height)
+    return;
+
+  /* we will show the popover when the dialog is resized */
+  gtk_widget_hide (popover);
+
+  /* we need first to exit this handler */
+  g_idle_add_full (G_PRIORITY_HIGH, mousepad_prefs_dialog_popover_allocate_finish, popover, NULL);
+}
+#endif
+
+
+
 static gboolean
 mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
 {
@@ -158,11 +232,18 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
   if (box != NULL && ! visible && gtk_widget_get_parent (box) == NULL)
     {
       popover = gtk_popover_new (button);
+      gtk_popover_set_position (GTK_POPOVER (popover), GTK_POS_LEFT);
       gtk_container_add (GTK_CONTAINER (popover), box);
       g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_show), popover);
       g_signal_connect_swapped (button, "destroy",
                                 G_CALLBACK (mousepad_prefs_dialog_remove_setting_box),
                                 popover);
+#if defined (GDK_WINDOWING_X11) && ! GTK_CHECK_VERSION (4, 0, 0)
+      /* see comment at the beginning of the corresponding code section above */
+      g_signal_connect (popover, "size-allocate",
+                        G_CALLBACK (mousepad_prefs_dialog_popover_allocate),
+                        gtk_widget_get_ancestor (button, MOUSEPAD_TYPE_PREFS_DIALOG));
+#endif
       gtk_widget_show (button);
     }
   /* the setting box was destroyed (normally with its plugin): hide the prefs button */
