@@ -524,7 +524,7 @@ mousepad_application_update_accels (GtkApplication  *application,
   /* make sure to not crash because of corrupted data */
   if (g_str_has_prefix (accel_path, "<Actions>/")
       && g_action_parse_detailed_name (accel_path + 10, &action, &target, NULL)
-      && g_action_name_is_valid (accel_path + 10))
+      && g_action_name_is_valid (action))
     {
       accel = gtk_accelerator_name (accel_key, accel_mods);
       if (*accel != '\0')
