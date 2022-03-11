@@ -43,6 +43,7 @@ mousepad_plugin_initialize (MousepadPluginProvider *provider)
   plugin_data.types = types;
   plugin_data.destroyable = TRUE;
   plugin_data.label = "Mousepad Test";
+  plugin_data.tooltip = NULL;
   plugin_data.category = "Technical";
   plugin_data.accel = NULL;
 }
