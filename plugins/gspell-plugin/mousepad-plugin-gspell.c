@@ -43,6 +43,10 @@ mousepad_plugin_initialize (MousepadPluginProvider *provider)
   plugin_data.types = types;
   plugin_data.destroyable = FALSE;
   plugin_data.label = _("Spell Checking");
+  plugin_data.tooltip =
+    _("The default language for new documents is set here. It can then be changed per"
+      " document via the context menu, where there are also spelling correction suggestions"
+      " for underlined words.");
   plugin_data.category = _("Editor");
   plugin_data.accel = "<Control>K";
 }
