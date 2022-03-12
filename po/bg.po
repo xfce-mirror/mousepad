@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-26 00:50+0100\n"
-"PO-Revision-Date: 2022-02-26 15:12+0000\n"
+"POT-Creation-Date: 2022-03-12 00:50+0100\n"
+"PO-Revision-Date: 2022-03-12 11:32+0000\n"
 "Last-Translator: Kiril Kirilov <cybercop_montana@abv.bg>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/xfce/xfce-apps/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -101,7 +101,7 @@ msgstr "Разработчиците на Mousepad. Всички права са
 msgid "Please report bugs to <%s>."
 msgstr "Моля, докладвайте грешки на <%s>."
 
-#: ../mousepad/mousepad-application.c:1525
+#: ../mousepad/mousepad-application.c:1518
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s| Автори: %s | Име на файл:  %s"
@@ -241,60 +241,60 @@ msgstr "Изглежда, че предишната сесия не завърш
 msgid "If not, all this data will be lost."
 msgstr "Ако не, всички тези данни ще бъдат загубени."
 
-#: ../mousepad/mousepad-dialogs.c:858
+#: ../mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
 msgstr "Моля, изберете файл"
 
-#: ../mousepad/mousepad-dialogs.c:890
+#: ../mousepad/mousepad-dialogs.c:893
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "Неуспешно подготвяне на временния файл за тестове за кодиране"
 
-#: ../mousepad/mousepad-dialogs.c:953 ../mousepad/mousepad-dialogs.c:1026
+#: ../mousepad/mousepad-dialogs.c:956 ../mousepad/mousepad-dialogs.c:1029
 msgid "Open encoding dialog"
 msgstr "Отваряне на диалога за кодиране"
 
-#: ../mousepad/mousepad-dialogs.c:955
+#: ../mousepad/mousepad-dialogs.c:958
 msgid "Go back to shorten list"
 msgstr "Връщане към съкратения списък"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:1019
+#: ../mousepad/mousepad-dialogs.c:1022
 msgid "_Encoding:"
 msgstr "Кодировка:"
 
-#: ../mousepad/mousepad-dialogs.c:1054
+#: ../mousepad/mousepad-dialogs.c:1057
 msgid "Current"
 msgstr "Текущ"
 
-#: ../mousepad/mousepad-dialogs.c:1072
+#: ../mousepad/mousepad-dialogs.c:1075
 msgid "Show all encodings"
 msgstr "Покажи всички кодировки"
 
-#: ../mousepad/mousepad-dialogs.c:1109
+#: ../mousepad/mousepad-dialogs.c:1112
 msgid "Text Files"
 msgstr "Текстови файлове"
 
-#: ../mousepad/mousepad-dialogs.c:1115
+#: ../mousepad/mousepad-dialogs.c:1118
 msgid "All Files"
 msgstr "Всички файлове"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:1134
+#: ../mousepad/mousepad-dialogs.c:1137
 msgid "Save As"
 msgstr "Запазване като"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1197
+#: ../mousepad/mousepad-dialogs.c:1200
 msgid "Open File"
 msgstr "Отваряне на файл"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:1205
+#: ../mousepad/mousepad-dialogs.c:1208
 msgid "_Open"
 msgstr "_Отвори"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1254
+#: ../mousepad/mousepad-dialogs.c:1262
 msgid "Choose Mousepad Font"
 msgstr "Изберете шрифт"
 
@@ -530,12 +530,12 @@ msgstr "История"
 msgid "Invalid byte sequence in conversion input"
 msgstr "Невалидна последователност на байтовете във входния низ за конвертиране"
 
-#: ../mousepad/mousepad-history.c:310
+#: ../mousepad/mousepad-history.c:325
 msgid "Failed to clear the recent history"
 msgstr "Не може да бъде изчистена историята на последно използваните"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:553
+#: ../mousepad/mousepad-prefs-dialog.c:554
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Настройки на Mousepad"
@@ -592,93 +592,93 @@ msgstr "Тяло:"
 msgid "Line numbers:"
 msgstr "Номериране:"
 
-#: ../mousepad/mousepad-replace-dialog.c:174
+#: ../mousepad/mousepad-replace-dialog.c:169
 msgid "_Replace All"
 msgstr "Замяна на всички"
 
-#: ../mousepad/mousepad-replace-dialog.c:174
-#: ../mousepad/mousepad-replace-dialog.c:274
+#: ../mousepad/mousepad-replace-dialog.c:169
+#: ../mousepad/mousepad-replace-dialog.c:269
 msgid "_Replace"
 msgstr "Замяна"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:263
+#: ../mousepad/mousepad-replace-dialog.c:258
 msgid "Find and Replace"
 msgstr "Търсене и замяна"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:269
+#: ../mousepad/mousepad-replace-dialog.c:264
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "_Намери"
 
-#: ../mousepad/mousepad-replace-dialog.c:278
+#: ../mousepad/mousepad-replace-dialog.c:273
 msgid "_Close"
 msgstr "_Затваряне"
 
-#: ../mousepad/mousepad-replace-dialog.c:296
+#: ../mousepad/mousepad-replace-dialog.c:291
 msgid "_Search for:"
 msgstr "Търсене за:"
 
-#: ../mousepad/mousepad-replace-dialog.c:330
+#: ../mousepad/mousepad-replace-dialog.c:325
 msgid "Replace _with:"
 msgstr "Замяна с:"
 
-#: ../mousepad/mousepad-replace-dialog.c:352
+#: ../mousepad/mousepad-replace-dialog.c:347
 msgid "Search _direction:"
 msgstr "Направление на търсенето:"
 
-#: ../mousepad/mousepad-replace-dialog.c:361
+#: ../mousepad/mousepad-replace-dialog.c:356
 msgid "Up"
 msgstr "Нагоре"
 
-#: ../mousepad/mousepad-replace-dialog.c:362
+#: ../mousepad/mousepad-replace-dialog.c:357
 msgid "Down"
 msgstr "Надолу"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:371
+#: ../mousepad/mousepad-replace-dialog.c:366
 msgid "_Wrap around"
 msgstr "Ограждане"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:378
-#: ../mousepad/mousepad-search-bar.c:260 ../mousepad/mousepad-search-bar.c:268
+#: ../mousepad/mousepad-replace-dialog.c:373
+#: ../mousepad/mousepad-search-bar.c:288 ../mousepad/mousepad-search-bar.c:296
 msgid "Match _case"
 msgstr "Случай на съвпадение"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:387
+#: ../mousepad/mousepad-replace-dialog.c:382
 msgid "_Match whole word"
 msgstr "Съответствие с цели думи"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:396
-#: ../mousepad/mousepad-search-bar.c:274 ../mousepad/mousepad-search-bar.c:282
+#: ../mousepad/mousepad-replace-dialog.c:391
+#: ../mousepad/mousepad-search-bar.c:302 ../mousepad/mousepad-search-bar.c:310
 msgid "Regular e_xpression"
 msgstr "Регулярен израз"
 
-#: ../mousepad/mousepad-replace-dialog.c:410
+#: ../mousepad/mousepad-replace-dialog.c:405
 msgid "Replace _all in:"
 msgstr "Замяна на всички в:"
 
-#: ../mousepad/mousepad-replace-dialog.c:415
+#: ../mousepad/mousepad-replace-dialog.c:410
 msgid "Selection"
 msgstr "Селекция"
 
-#: ../mousepad/mousepad-replace-dialog.c:416
+#: ../mousepad/mousepad-replace-dialog.c:411
 msgid "Document"
 msgstr "Документ"
 
-#: ../mousepad/mousepad-replace-dialog.c:417
+#: ../mousepad/mousepad-replace-dialog.c:412
 msgid "All Documents"
 msgstr "Всички документи"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:607
-#: ../mousepad/mousepad-search-bar.c:405
+#: ../mousepad/mousepad-replace-dialog.c:618
+#: ../mousepad/mousepad-search-bar.c:456
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -719,31 +719,31 @@ msgid "Filetype: %s"
 msgstr "Файлов тип: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1072
+#: ../mousepad/mousepad-window.c:1076
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Внимание: Вие използвате администраторски акаунт. Това може да застраши вашата система."
 
-#: ../mousepad/mousepad-window.c:2250
+#: ../mousepad/mousepad-window.c:2289
 msgid "Read Only"
 msgstr "Само за четене"
 
-#: ../mousepad/mousepad-window.c:2254
+#: ../mousepad/mousepad-window.c:2293
 msgid "Viewer Mode"
 msgstr "Режим на Преглед"
 
-#: ../mousepad/mousepad-window.c:3287
+#: ../mousepad/mousepad-window.c:3326
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Използване на \"%s\" като шаблон"
 
-#: ../mousepad/mousepad-window.c:3313
+#: ../mousepad/mousepad-window.c:3352
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Няма шаблонни файлове в\n„%s“"
 
-#: ../mousepad/mousepad-window.c:3378
+#: ../mousepad/mousepad-window.c:3417
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -751,74 +751,74 @@ msgid ""
 msgstr "Липсваща директория с шаблони\n\"%s\""
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3430
+#: ../mousepad/mousepad-window.c:3469
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Друг (%d)..."
 
-#: ../mousepad/mousepad-window.c:3440
+#: ../mousepad/mousepad-window.c:3479
 msgid "Ot_her..."
 msgstr "Друг..."
 
-#: ../mousepad/mousepad-window.c:3539
+#: ../mousepad/mousepad-window.c:3578
 msgid "Revert to the saved version of the file"
 msgstr "Възстановяване от запазена версия на файла"
 
-#: ../mousepad/mousepad-window.c:3545
+#: ../mousepad/mousepad-window.c:3584
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Презареждане на файл от диск"
 
-#: ../mousepad/mousepad-window.c:3551
+#: ../mousepad/mousepad-window.c:3590
 msgid "Leave fullscreen mode"
 msgstr "Напусни режима на цял екран"
 
-#: ../mousepad/mousepad-window.c:3556
+#: ../mousepad/mousepad-window.c:3595
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Направи прозореца в режим на цял екран"
 
-#: ../mousepad/mousepad-window.c:3794
+#: ../mousepad/mousepad-window.c:3833
 #, c-format
 msgid "Open '%s'"
 msgstr "Отваряне на „%s“"
 
-#: ../mousepad/mousepad-window.c:3825
+#: ../mousepad/mousepad-window.c:3864
 msgid "No items found"
 msgstr "Няма намерени елементи"
 
-#: ../mousepad/mousepad-window.c:3825
+#: ../mousepad/mousepad-window.c:3864
 msgid "History disabled"
 msgstr "Историята е изключена"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4300
+#: ../mousepad/mousepad-window.c:4339
 msgid "No clipboard data"
 msgstr "Системният буфер е празен"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4409
+#: ../mousepad/mousepad-window.c:4448
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Шаблонът трябва да бъде %s валиден"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4415
+#: ../mousepad/mousepad-window.c:4454
 msgid "Reading the template failed"
 msgstr "Четенето на шаблона е неуспешно"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4420
+#: ../mousepad/mousepad-window.c:4459
 msgid "Loading the template failed"
 msgstr "Зареждането на шаблона е неуспешно"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4860
+#: ../mousepad/mousepad-window.c:4896
 msgid "Failed to reload the document"
 msgstr "Неуспех при обновяване на документ"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4892
+#: ../mousepad/mousepad-window.c:4928
 msgid "Failed to print the document"
 msgstr "Неуспех при отпечатване на документ"
 
@@ -1748,30 +1748,34 @@ msgid "'0' disables and wipes recent history"
 msgstr "'0' деактивира и изтрива историята на последно използваните"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
+msgid "Search history size:"
+msgstr "Размер на историята на търсенето:"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
 msgstr "<b>История</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "File monitoring"
 msgstr "Наблюдение на файл"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
 msgstr "Автоматично презареждане"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
 msgstr "Кодировка по подразбиране:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Разни</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:80
 msgid "File"
 msgstr "Файл"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:80
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:81
 msgid "Plugins"
 msgstr "Добавки"
 
