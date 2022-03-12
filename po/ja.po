@@ -7,14 +7,14 @@
 # Masato HASHIMOTO <cabezon.hashimoto@gmail.com>, 2012
 # Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2008,2018-2022
 # Tarot Osuji <tarot@sdf.lonestar.org>, 2004
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2019-2021
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2019-2022
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-12 00:50+0100\n"
-"PO-Revision-Date: 2022-03-11 23:50+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"PO-Revision-Date: 2022-03-12 14:35+0000\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese (http://www.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1748,7 +1748,7 @@ msgstr "「0」は最近の履歴を無効にし、消去します "
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "検索履歴のサイズ:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
