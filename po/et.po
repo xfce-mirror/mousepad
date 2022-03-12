@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-26 00:50+0100\n"
-"PO-Revision-Date: 2022-03-06 13:05+0000\n"
-"Last-Translator: Priit Jõerüüt <transifex@joeruut.com>\n"
+"POT-Creation-Date: 2022-03-12 00:50+0100\n"
+"PO-Revision-Date: 2022-03-11 23:50+0000\n"
+"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
 "Language-Team: Estonian (http://www.transifex.com/xfce/xfce-apps/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,7 +97,7 @@ msgstr "Mousepad'i arendusmeeskond. Kõik õigused kaitstud."
 msgid "Please report bugs to <%s>."
 msgstr "Palun teata vigadest <%s>."
 
-#: ../mousepad/mousepad-application.c:1525
+#: ../mousepad/mousepad-application.c:1518
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autorid: %s | Faili nimi: %s"
@@ -237,60 +237,60 @@ msgstr "Tundub, et eelmine sessioon ei lõppenud tavapäraselt. Kas sa soovid ta
 msgid "If not, all this data will be lost."
 msgstr "Vastasel juhul lähevad salvestamata andmed kaotsi."
 
-#: ../mousepad/mousepad-dialogs.c:858
+#: ../mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
 msgstr "Palun vali fail"
 
-#: ../mousepad/mousepad-dialogs.c:890
+#: ../mousepad/mousepad-dialogs.c:893
 msgid "Failed to prepare the temporary file for encoding tests"
 msgstr "Ajutise faili ettevalmistamine märgistiku muutmise katseks ei õnnestunud"
 
-#: ../mousepad/mousepad-dialogs.c:953 ../mousepad/mousepad-dialogs.c:1026
+#: ../mousepad/mousepad-dialogs.c:956 ../mousepad/mousepad-dialogs.c:1029
 msgid "Open encoding dialog"
 msgstr "Ava märgistiku muutmise dialoog"
 
-#: ../mousepad/mousepad-dialogs.c:955
+#: ../mousepad/mousepad-dialogs.c:958
 msgid "Go back to shorten list"
 msgstr "Tagasi lühiloendi juurde"
 
 #. combo box label
-#: ../mousepad/mousepad-dialogs.c:1019
+#: ../mousepad/mousepad-dialogs.c:1022
 msgid "_Encoding:"
 msgstr "Märg_istik:"
 
-#: ../mousepad/mousepad-dialogs.c:1054
+#: ../mousepad/mousepad-dialogs.c:1057
 msgid "Current"
 msgstr "Praegune"
 
-#: ../mousepad/mousepad-dialogs.c:1072
+#: ../mousepad/mousepad-dialogs.c:1075
 msgid "Show all encodings"
 msgstr "Näita kõiki märgistikke"
 
-#: ../mousepad/mousepad-dialogs.c:1109
+#: ../mousepad/mousepad-dialogs.c:1112
 msgid "Text Files"
 msgstr "Tekstifailid"
 
-#: ../mousepad/mousepad-dialogs.c:1115
+#: ../mousepad/mousepad-dialogs.c:1118
 msgid "All Files"
 msgstr "Kõik failid"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:1134
+#: ../mousepad/mousepad-dialogs.c:1137
 msgid "Save As"
 msgstr "Salvesta kui"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1197
+#: ../mousepad/mousepad-dialogs.c:1200
 msgid "Open File"
 msgstr "Ava fail"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:1205
+#: ../mousepad/mousepad-dialogs.c:1208
 msgid "_Open"
 msgstr "_Ava"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1254
+#: ../mousepad/mousepad-dialogs.c:1262
 msgid "Choose Mousepad Font"
 msgstr "Vali Mousepad'i font"
 
@@ -526,12 +526,12 @@ msgstr "Ajalugu"
 msgid "Invalid byte sequence in conversion input"
 msgstr "Teisenduse sisendi vigane baidijärjestus"
 
-#: ../mousepad/mousepad-history.c:310
+#: ../mousepad/mousepad-history.c:325
 msgid "Failed to clear the recent history"
 msgstr "Viimati avatud failide ajaloo kustutamine ei õnnestunud"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:553
+#: ../mousepad/mousepad-prefs-dialog.c:554
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Mousepad'i eelistused"
@@ -588,93 +588,93 @@ msgstr "Põhitekst:"
 msgid "Line numbers:"
 msgstr "Reanumbrid:"
 
-#: ../mousepad/mousepad-replace-dialog.c:174
+#: ../mousepad/mousepad-replace-dialog.c:169
 msgid "_Replace All"
 msgstr "_Asenda kõik"
 
-#: ../mousepad/mousepad-replace-dialog.c:174
-#: ../mousepad/mousepad-replace-dialog.c:274
+#: ../mousepad/mousepad-replace-dialog.c:169
+#: ../mousepad/mousepad-replace-dialog.c:269
 msgid "_Replace"
 msgstr "_Asenda"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:263
+#: ../mousepad/mousepad-replace-dialog.c:258
 msgid "Find and Replace"
 msgstr "Otsi ja asenda"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:269
+#: ../mousepad/mousepad-replace-dialog.c:264
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "_Otsi"
 
-#: ../mousepad/mousepad-replace-dialog.c:278
+#: ../mousepad/mousepad-replace-dialog.c:273
 msgid "_Close"
 msgstr "_Sulge"
 
-#: ../mousepad/mousepad-replace-dialog.c:296
+#: ../mousepad/mousepad-replace-dialog.c:291
 msgid "_Search for:"
 msgstr "_Otsingusõna"
 
-#: ../mousepad/mousepad-replace-dialog.c:330
+#: ../mousepad/mousepad-replace-dialog.c:325
 msgid "Replace _with:"
 msgstr "Asen_dus:"
 
-#: ../mousepad/mousepad-replace-dialog.c:352
+#: ../mousepad/mousepad-replace-dialog.c:347
 msgid "Search _direction:"
 msgstr "Otsin_gusuund:"
 
-#: ../mousepad/mousepad-replace-dialog.c:361
+#: ../mousepad/mousepad-replace-dialog.c:356
 msgid "Up"
 msgstr "Üles"
 
-#: ../mousepad/mousepad-replace-dialog.c:362
+#: ../mousepad/mousepad-replace-dialog.c:357
 msgid "Down"
 msgstr "Alla"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:371
+#: ../mousepad/mousepad-replace-dialog.c:366
 msgid "_Wrap around"
 msgstr "_Mähi ümber"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:378
-#: ../mousepad/mousepad-search-bar.c:260 ../mousepad/mousepad-search-bar.c:268
+#: ../mousepad/mousepad-replace-dialog.c:373
+#: ../mousepad/mousepad-search-bar.c:288 ../mousepad/mousepad-search-bar.c:296
 msgid "Match _case"
 msgstr "Tõstutundlik _sobivus"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:387
+#: ../mousepad/mousepad-replace-dialog.c:382
 msgid "_Match whole word"
 msgstr "Ainult terved sõnad"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:396
-#: ../mousepad/mousepad-search-bar.c:274 ../mousepad/mousepad-search-bar.c:282
+#: ../mousepad/mousepad-replace-dialog.c:391
+#: ../mousepad/mousepad-search-bar.c:302 ../mousepad/mousepad-search-bar.c:310
 msgid "Regular e_xpression"
 msgstr "Regulaaravaldis"
 
-#: ../mousepad/mousepad-replace-dialog.c:410
+#: ../mousepad/mousepad-replace-dialog.c:405
 msgid "Replace _all in:"
 msgstr "Kus _asendame:"
 
-#: ../mousepad/mousepad-replace-dialog.c:415
+#: ../mousepad/mousepad-replace-dialog.c:410
 msgid "Selection"
 msgstr "Valik"
 
-#: ../mousepad/mousepad-replace-dialog.c:416
+#: ../mousepad/mousepad-replace-dialog.c:411
 msgid "Document"
 msgstr "Dokument"
 
-#: ../mousepad/mousepad-replace-dialog.c:417
+#: ../mousepad/mousepad-replace-dialog.c:412
 msgid "All Documents"
 msgstr "Kõik dokumendid"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:607
-#: ../mousepad/mousepad-search-bar.c:405
+#: ../mousepad/mousepad-replace-dialog.c:618
+#: ../mousepad/mousepad-search-bar.c:456
 #, c-format
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
@@ -715,31 +715,31 @@ msgid "Filetype: %s"
 msgstr "Faili tüüp: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1072
+#: ../mousepad/mousepad-window.c:1076
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Ettevaatust, sa töötad juurkasutaja õigustes ja võid vigu tehes kahjustada seda arvutisüsteemi."
 
-#: ../mousepad/mousepad-window.c:2250
+#: ../mousepad/mousepad-window.c:2289
 msgid "Read Only"
 msgstr "Kirjutuskaitstud"
 
-#: ../mousepad/mousepad-window.c:2254
+#: ../mousepad/mousepad-window.c:2293
 msgid "Viewer Mode"
 msgstr "Vaid lugemisrežiim"
 
-#: ../mousepad/mousepad-window.c:3287
+#: ../mousepad/mousepad-window.c:3326
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Kasuta %s mallina"
 
-#: ../mousepad/mousepad-window.c:3313
+#: ../mousepad/mousepad-window.c:3352
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Ei leidnud malli asukohast\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3378
+#: ../mousepad/mousepad-window.c:3417
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -747,74 +747,74 @@ msgid ""
 msgstr "Puudub mallide kaust\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3430
+#: ../mousepad/mousepad-window.c:3469
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "M_uu (%d)..."
 
-#: ../mousepad/mousepad-window.c:3440
+#: ../mousepad/mousepad-window.c:3479
 msgid "Ot_her..."
 msgstr "M_uu..."
 
-#: ../mousepad/mousepad-window.c:3539
+#: ../mousepad/mousepad-window.c:3578
 msgid "Revert to the saved version of the file"
 msgstr "Ennista fail viimati salvestatud olekusse"
 
-#: ../mousepad/mousepad-window.c:3545
+#: ../mousepad/mousepad-window.c:3584
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Lae fail andmekandjalt uuesti"
 
-#: ../mousepad/mousepad-window.c:3551
+#: ../mousepad/mousepad-window.c:3590
 msgid "Leave fullscreen mode"
 msgstr "Lülita täisekraanirežiim välja"
 
-#: ../mousepad/mousepad-window.c:3556
+#: ../mousepad/mousepad-window.c:3595
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Määra see aken täisekraanirežiimi"
 
-#: ../mousepad/mousepad-window.c:3794
+#: ../mousepad/mousepad-window.c:3833
 #, c-format
 msgid "Open '%s'"
 msgstr "Ava '%s'"
 
-#: ../mousepad/mousepad-window.c:3825
+#: ../mousepad/mousepad-window.c:3864
 msgid "No items found"
 msgstr "Ühtegi kirjet ei leitud"
 
-#: ../mousepad/mousepad-window.c:3825
+#: ../mousepad/mousepad-window.c:3864
 msgid "History disabled"
 msgstr "Ajaloo salvestamine ei ole kasutusel"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4300
+#: ../mousepad/mousepad-window.c:4339
 msgid "No clipboard data"
 msgstr "Lõikepuhver on tühi"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4409
+#: ../mousepad/mousepad-window.c:4448
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Mallid peavad olema koostatud korrektses %s märgistikus"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4415
+#: ../mousepad/mousepad-window.c:4454
 msgid "Reading the template failed"
 msgstr "Malli lugemine ebaõnnestus"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4420
+#: ../mousepad/mousepad-window.c:4459
 msgid "Loading the template failed"
 msgstr "Malli laadimine ebaõnnestus"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4860
+#: ../mousepad/mousepad-window.c:4896
 msgid "Failed to reload the document"
 msgstr "Dokumendi uuesti laadimine ebaõnnestus"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4892
+#: ../mousepad/mousepad-window.c:4928
 msgid "Failed to print the document"
 msgstr "Dokumendi trükkimine ebaõnnestus"
 
@@ -1744,30 +1744,34 @@ msgid "'0' disables and wipes recent history"
 msgstr "0 ei salvesta kasutatud failide nimesid ning kustutab seni kasutatud failide ajaloo"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
+msgid "Search history size:"
+msgstr ""
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
 msgstr "<b>Ajalugu</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "File monitoring"
 msgstr "Failide jälgimine"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
 msgstr "Muudetud faili automaatne laadimine"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
 msgstr "Vaikimisi märgistik:"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Mitmesugust</b>"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:80
 msgid "File"
 msgstr "Fail"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:80
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:81
 msgid "Plugins"
 msgstr "Pistikprogrammid"
 
