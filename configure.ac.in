@@ -73,7 +73,7 @@ dnl ************************************
 AC_SEARCH_LIBS([round], [m], [], [
   AC_MSG_ERROR([unable to find the round() function in math library])
 ])
-AC_CHECK_FUNCS(realpath)
+AC_CHECK_FUNCS([realpath bind_textdomain_codeset])
 
 dnl **********************************
 dnl *** Check for standard headers ***
