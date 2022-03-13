@@ -34,13 +34,15 @@
 
 
 /* GObject virtual functions */
-static void shortcuts_plugin_finalize (GObject        *object);
+static void shortcuts_plugin_constructed  (GObject        *object);
+static void shortcuts_plugin_finalize     (GObject        *object);
 
 /* MousepadPlugin virtual functions */
-static void shortcuts_plugin_enable   (MousepadPlugin *mplugin);
-static void shortcuts_plugin_disable  (MousepadPlugin *mplugin);
+static void shortcuts_plugin_enable       (MousepadPlugin *mplugin);
+static void shortcuts_plugin_disable      (MousepadPlugin *mplugin);
 
 /* ShortcutsPlugin own functions */
+static void shortcuts_plugin_build_editor (ShortcutsPlugin *plugin);
 
 
 
@@ -81,6 +83,7 @@ shortcuts_plugin_class_init (ShortcutsPluginClass *klass)
   GObjectClass        *gobject_class = G_OBJECT_CLASS (klass);
   MousepadPluginClass *mplugin_class = MOUSEPAD_PLUGIN_CLASS (klass);
 
+  gobject_class->constructed = shortcuts_plugin_constructed;
   gobject_class->finalize = shortcuts_plugin_finalize;
 
   mplugin_class->enable = shortcuts_plugin_enable;
@@ -109,6 +112,46 @@ shortcuts_plugin_init (ShortcutsPlugin *plugin)
   plugin->dialog = NULL;
 
   shortcuts_plugin_enable (MOUSEPAD_PLUGIN (plugin));
+}
+
+
+
+static void
+shortcuts_plugin_setting_box_packed (GObject         *object,
+                                     GParamSpec      *pspec,
+                                     ShortcutsPlugin *plugin)
+{
+  GtkWidget *parent;
+
+  g_object_get (object, "parent", &parent, NULL);
+  if (! GTK_IS_POPOVER (parent))
+    return;
+
+  /* do the main work now if not already done */
+  if (plugin->menubar_entries == NULL)
+    shortcuts_plugin_build_editor (plugin);
+
+  /* we need to make the parent popover expand in that case */
+  gtk_widget_set_hexpand (parent, TRUE);
+  gtk_widget_set_vexpand (parent, TRUE);
+}
+
+
+
+static void
+shortcuts_plugin_constructed (GObject *object)
+{
+  MousepadPluginProvider *provider;
+  GtkWidget              *vbox;
+
+  /* request the creation of the plugin setting box */
+  g_object_get (object, "provider", &provider, NULL);
+  vbox = mousepad_plugin_provider_create_setting_box (provider);
+  g_signal_connect (vbox, "notify::parent",
+                    G_CALLBACK (shortcuts_plugin_setting_box_packed), object);
+
+  /* chain-up to MousepadPlugin */
+  G_OBJECT_CLASS (shortcuts_plugin_parent_class)->constructed (object);
 }
 
 
@@ -190,21 +233,6 @@ shortcuts_plugin_enable_action (GObject       *object,
 
 
 static void
-shortcuts_plugin_setting_box_packed (GObject *object)
-{
-  GtkWidget *parent;
-
-  g_object_get (object, "parent", &parent, NULL);
-  if (! GTK_IS_POPOVER (parent))
-    return;
-
-  gtk_widget_set_hexpand (parent, TRUE);
-  gtk_widget_set_vexpand (parent, TRUE);
-}
-
-
-
-static void
 shortcuts_plugin_set_setting_box (ShortcutsPlugin *plugin)
 {
   MousepadPluginProvider *provider;
@@ -212,13 +240,9 @@ shortcuts_plugin_set_setting_box (ShortcutsPlugin *plugin)
   GAction                *action;
   GList                  *list = NULL;
 
-  /* request the creation of the plugin setting box */
+  /* get the plugin setting box */
   g_object_get (plugin, "provider", &provider, NULL);
-  vbox = mousepad_plugin_provider_create_setting_box (provider);
-
-  /* we need to make the parent popover expand in that case */
-  g_signal_connect (vbox, "notify::parent",
-                    G_CALLBACK (shortcuts_plugin_setting_box_packed), NULL);
+  vbox = mousepad_plugin_provider_get_setting_box (provider);
 
   /* disable action when the setting box is already packed in the prefs dialog popover */
   action = g_action_map_lookup_action (G_ACTION_MAP (g_application_get_default ()), "shortcuts");
@@ -415,26 +439,22 @@ shortcuts_plugin_count_accels (gpointer data,
 
 
 static void
-shortcuts_plugin_accel_map_ready (ShortcutsPlugin *plugin)
+shortcuts_plugin_build_editor (ShortcutsPlugin *plugin)
 {
-  MousepadPluginProvider *provider;
-  XfceGtkActionEntry     *entries;
-  GtkAccelMap            *map;
-  GtkApplication         *application;
-  GtkNotebook            *notebook;
-  GtkWidget              *section, *dialog, *widget;
-  GList                  *list, *lp;
-  GMenuModel             *menubar, *menu;
-  GVariant               *label;
-  GStrv                   strv;
-  gchar                  *escaped;
-  guint                   n_accels = 0, size, n, n_sections;
+  XfceGtkActionEntry *entries;
+  GtkAccelMap        *map;
+  GtkApplication     *application;
+  GtkNotebook        *notebook;
+  GtkWidget          *section, *dialog, *widget;
+  GList              *list, *lp;
+  GMenuModel         *menubar, *menu;
+  GVariant           *label;
+  GStrv               strv;
+  gchar              *escaped;
+  guint               n_accels = 0, size, n, n_sections;
 
   /* get the mousepad application */
   application = GTK_APPLICATION (g_application_get_default ());
-
-  /* disconnect this handler */
-  mousepad_disconnect_by_func (application, shortcuts_plugin_accel_map_ready, plugin);
 
   /* get the accel map size */
   map = gtk_accel_map_get ();
@@ -532,13 +552,7 @@ shortcuts_plugin_accel_map_ready (ShortcutsPlugin *plugin)
   plugin->misc_section = xfce_shortcuts_editor_new (4, "", plugin->misc_entries, size);
   g_list_free (list);
 
-  /* we can't always do that in constructed() since the above might not have been done yet */
-  g_object_get (plugin, "provider", &provider, NULL);
-  if (provider == NULL)
-    g_signal_connect (plugin, "notify::provider",
-                      G_CALLBACK (shortcuts_plugin_set_setting_box), NULL);
-  else
-    shortcuts_plugin_set_setting_box (plugin);
+  shortcuts_plugin_set_setting_box (plugin);
 }
 
 
@@ -577,6 +591,10 @@ shortcuts_plugin_show_dialog (GSimpleAction   *action,
   gtk_window_set_title (dialog, _("Mousepad Shortcuts"));
   mousepad_util_set_titlebar (dialog);
   gtk_window_set_default_size (dialog, 500, -1);
+
+  /* do the main work now if not already done */
+  if (plugin->menubar_entries == NULL)
+    shortcuts_plugin_build_editor (plugin);
 
   /* pack the plugin setting box into the dialog */
   dbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -634,21 +652,13 @@ static void
 shortcuts_plugin_enable (MousepadPlugin *mplugin)
 {
   ShortcutsPlugin *plugin = SHORTCUTS_PLUGIN (mplugin);
-  GtkApplication  *application;
 
-  /* get the mousepad application */
-  application = GTK_APPLICATION (g_application_get_default ());
-
-  /* first add the menubar entry so it is parsed by the plugin afterwards */
+  /*
+   * First add the menubar entry so it is parsed by the plugin afterwards.
+   * Also, in order not to slow down Mousepad unnecessarily at startup, the main work will
+   * be done later, when the user actually requests the display of the shortcuts editor.
+   */
   shortcuts_plugin_set_menubar_entry (plugin);
-
-  /* the accel map is completed when the first window is set so we have to connect after */
-  if (gtk_application_get_windows (application) == NULL)
-    g_signal_connect_object (application, "notify::active-window",
-                             G_CALLBACK (shortcuts_plugin_accel_map_ready), plugin,
-                             G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-  else
-    shortcuts_plugin_accel_map_ready (plugin);
 }
 
 
@@ -687,9 +697,11 @@ shortcuts_plugin_disable (MousepadPlugin *mplugin)
   /* main cleanup */
   g_list_free_full (plugin->menubar_entries, shortcuts_plugin_free_entry_array);
   g_list_free_full (plugin->prefs_dialog_entries, shortcuts_plugin_free_entry_array);
-  shortcuts_plugin_free_entry_array (plugin->misc_entries);
+  if (plugin->misc_entries != NULL)
+    shortcuts_plugin_free_entry_array (plugin->misc_entries);
 
   g_list_free_full (plugin->menubar_sections, (GDestroyNotify) gtk_widget_destroy);
   g_list_free_full (plugin->prefs_dialog_sections, (GDestroyNotify) gtk_widget_destroy);
-  gtk_widget_destroy (plugin->misc_section);
+  if (plugin->misc_section != NULL)
+    gtk_widget_destroy (plugin->misc_section);
 }
