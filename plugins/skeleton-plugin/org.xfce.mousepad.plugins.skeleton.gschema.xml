@@ -1,0 +1,16 @@
+<schemalist gettext-domain="mousepad">
+
+  <schema id="org.xfce.mousepad.plugins.skeleton" path="/org/xfce/mousepad/plugins/skeleton/">
+    <child name="preferences" schema="org.xfce.mousepad.plugins.skeleton.preferences"/>
+  </schema>
+
+  <schema id="org.xfce.mousepad.plugins.skeleton.preferences" path="/org/xfce/mousepad/plugins/skeleton/preferences/">
+    <key name="string-setting" type="s">
+      <default>''</default>
+      <summary></summary>
+      <description>
+      </description>
+    </key>
+  </schema>
+
+</schemalist>
