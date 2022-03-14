@@ -70,8 +70,8 @@ G_BEGIN_DECLS
 #define TIMER_STOP      TIMER_SPLIT g_timer_destroy (__FUNCTION__timer);
 
 #define PRINT_LOCATION  g_printerr ("%s\n", G_STRLOC);
-#define TRACE(fmt, var) G_STMT_START{ g_printerr ("%s:%s: ", G_STRLOC, #var); \
-                                      g_printerr (fmt, var); g_printerr ("\n"); }G_STMT_END
+#define RTRACE(fmt, var) G_STMT_START{ g_printerr ("%s:%s: ", G_STRLOC, #var); \
+                                       g_printerr (fmt, var); g_printerr ("\n"); }G_STMT_END
 
 /* optimize the properties */
 #define MOUSEPAD_PARAM_READWRITE (G_PARAM_READWRITE | G_PARAM_STATIC_NAME \
