@@ -204,6 +204,14 @@ mousepad_plugin_provider_get_label (MousepadPluginProvider *provider)
 
 
 const gchar *
+mousepad_plugin_provider_get_tooltip (MousepadPluginProvider *provider)
+{
+  return provider->plugin_data->tooltip;
+}
+
+
+
+const gchar *
 mousepad_plugin_provider_get_category (MousepadPluginProvider *provider)
 {
   return provider->plugin_data->category;

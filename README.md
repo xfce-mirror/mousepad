@@ -35,6 +35,7 @@ Mousepad depends on the following packages:
 Mousepad optionally depends on the following packages:
 
 * [gspell](https://wiki.gnome.org/Projects/gspell) >= 1.6.0
+* [libxfce4ui](https://gitlab.xfce.org/xfce/libxfce4ui) >= 4.17.4
 
 ### Source Code Repository
 
