@@ -599,6 +599,7 @@ mousepad_application_complete_accel_map (GtkApplication *application)
 static void
 mousepad_application_set_accels (MousepadApplication *application)
 {
+  GtkAccelMap      *accel_map;
   GdkModifierType   accel_mods;
   GTypeModule      *provider;
   GList            *item;
@@ -654,6 +655,7 @@ mousepad_application_set_accels (MousepadApplication *application)
   };
 
   /* actions that have a default accel */
+  accel_map = gtk_accel_map_get ();
   for (n = 0; n < G_N_ELEMENTS (accel_maps); n++)
     {
       /* add accel map entry to fill the accels file at shutdown */
@@ -666,6 +668,10 @@ mousepad_application_set_accels (MousepadApplication *application)
       accels[0] = accel_maps[n][1];
       gtk_application_set_accels_for_action (GTK_APPLICATION (application),
                                              accel_maps[n][0], accels);
+
+      /* store default accel for future reference */
+      mousepad_object_set_data_full (accel_map, g_intern_string (accel_maps[n][0]),
+                                     g_strdup (accel_maps[n][1]), g_free);
     }
 
   /* plugin enabling actions */
@@ -1796,4 +1802,12 @@ GList *
 mousepad_application_get_providers (MousepadApplication *application)
 {
   return application->providers;
+}
+
+
+
+GtkWidget *
+mousepad_application_get_prefs_dialog (MousepadApplication *application)
+{
+  return application->prefs_dialog;
 }
