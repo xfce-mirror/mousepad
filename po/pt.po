@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-12 00:50+0100\n"
-"PO-Revision-Date: 2022-03-15 13:42+0000\n"
-"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
+"POT-Creation-Date: 2022-03-16 12:50+0100\n"
+"PO-Revision-Date: 2013-07-03 18:24+0000\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2019-2022\n"
 "Language-Team: Portuguese (http://www.transifex.com/xfce/xfce-apps/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,7 +101,7 @@ msgstr "Os programadores do Mousepad. Todos os direitos reservados."
 msgid "Please report bugs to <%s>."
 msgstr "Por favor, reporte os erros em <%s>."
 
-#: ../mousepad/mousepad-application.c:1518
+#: ../mousepad/mousepad-application.c:1524
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autores: %s | Nome de ficheiro: %s"
@@ -535,7 +535,7 @@ msgid "Failed to clear the recent history"
 msgstr "Ocorreu um erro ao apagar o histórico"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:554
+#: ../mousepad/mousepad-prefs-dialog.c:639
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Preferências do Mousepad"
@@ -1649,7 +1649,7 @@ msgid "<b>Smart Keys</b>"
 msgstr "<b>Teclas inteligentes</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
-#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:50
 msgid "Editor"
 msgstr "Editor"
 
@@ -1783,10 +1783,57 @@ msgstr "Plugins"
 msgid "Spell Checking"
 msgstr "Verificação Ortográfica"
 
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:47
+msgid ""
+"The default language for new documents is set here. It can then be changed "
+"per document via the context menu, where there are also spelling correction "
+"suggestions for underlined words."
+msgstr "O idioma predefinido para novos documentos é configurado aqui. Pode então ser alterado por documento através do menu de contexto, onde também existem sugestões de correção ortográfica para palavras sublinhadas."
+
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
 msgid "Default language:"
 msgstr "Idioma predefinido:"
+
+#: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
+msgid "Shortcuts Editor"
+msgstr "Editor de atalhos"
+
+#: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
+msgid ""
+"The shortcuts editor is available here as a popover or as a dialog below the"
+" preferences in the menu bar."
+msgstr "O editor de atalhos está disponível aqui como uma janela emergente ou como uma caixa de diálogo abaixo das preferências na barra de menu."
+
+#: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
+msgid "Application"
+msgstr "Aplicação"
+
+#. pack frames
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
+msgid "Menubar"
+msgstr "Barra de menus"
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
+msgid "Preferences Dialog"
+msgstr "Janela de preferências"
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
+msgid "Miscellaneous"
+msgstr "Diversos"
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
+msgid "Mousepad Shortcuts"
+msgstr "Atalhos do Mousepad"
+
+#. add the shortcuts menu entry
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
+msgid "Shortcuts..."
+msgstr "Atalhos..."
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
+msgid "Show the shortcuts dialog"
+msgstr "Mostrar a janela dos atalhos"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
