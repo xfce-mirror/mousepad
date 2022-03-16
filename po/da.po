@@ -9,14 +9,14 @@
 # Chris Darnell <chris@cedeel.com>, 2013,2016
 # Per Kongstad <pko@xfce.org>, 2012
 # scootergrisen, 2016
-# scootergrisen, 2016-2021
+# scootergrisen, 2016-2022
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-12 00:50+0100\n"
-"PO-Revision-Date: 2022-03-11 23:50+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2022-03-16 12:50+0100\n"
+"PO-Revision-Date: 2013-07-03 18:24+0000\n"
+"Last-Translator: scootergrisen, 2016-2022\n"
 "Language-Team: Danish (http://www.transifex.com/xfce/xfce-apps/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -103,7 +103,7 @@ msgstr "Mousepad's udviklere. Alle rettigheder forbeholdes."
 msgid "Please report bugs to <%s>."
 msgstr "Rapportér venligst fejl til <%s>."
 
-#: ../mousepad/mousepad-application.c:1518
+#: ../mousepad/mousepad-application.c:1524
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Forfattere: %s | Filnavn: %s"
@@ -525,7 +525,7 @@ msgstr "System"
 
 #: ../mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "Historik"
 
 #: ../mousepad/mousepad-file.c:819
 #, c-format
@@ -537,7 +537,7 @@ msgid "Failed to clear the recent history"
 msgstr "Kunne ikke rydde seneste-historikken"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:554
+#: ../mousepad/mousepad-prefs-dialog.c:639
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Præferencer for Mousepad"
@@ -906,7 +906,7 @@ msgstr "Redigermenu"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences..."
-msgstr ""
+msgstr "Præferencer ..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -1608,7 +1608,7 @@ msgstr "<b>Skrifttype</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Farveskema</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1651,7 +1651,7 @@ msgid "<b>Smart Keys</b>"
 msgstr "<b>Smarttaster</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
-#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:50
 msgid "Editor"
 msgstr "Redigering"
 
@@ -1751,7 +1751,7 @@ msgstr "'0' deaktiverer og rydder seneste historik"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "Størrelse for søgehistorik:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
@@ -1763,7 +1763,7 @@ msgstr "Overvågning af filer"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Automatisk genindlæsning"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
@@ -1785,10 +1785,57 @@ msgstr "Plugins"
 msgid "Spell Checking"
 msgstr "Stavekontrol"
 
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:47
+msgid ""
+"The default language for new documents is set here. It can then be changed "
+"per document via the context menu, where there are also spelling correction "
+"suggestions for underlined words."
+msgstr ""
+
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
 msgid "Default language:"
 msgstr "Standardsprog:"
+
+#: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
+msgid "Shortcuts Editor"
+msgstr "Genvejsredigering"
+
+#: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
+msgid ""
+"The shortcuts editor is available here as a popover or as a dialog below the"
+" preferences in the menu bar."
+msgstr ""
+
+#: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
+msgid "Application"
+msgstr "Program"
+
+#. pack frames
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
+msgid "Menubar"
+msgstr "Menulinje"
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
+msgid "Preferences Dialog"
+msgstr "Præferencer-dialog"
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
+msgid "Miscellaneous"
+msgstr "Diverse"
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
+msgid "Mousepad Shortcuts"
+msgstr "Genveje for Mousepad"
+
+#. add the shortcuts menu entry
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
+msgid "Shortcuts..."
+msgstr "Genveje ..."
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
+msgid "Show the shortcuts dialog"
+msgstr "Vis genvejsdialogen"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
