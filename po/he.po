@@ -5,7 +5,7 @@
 # Translators:
 # Elishai Eliyahu <elishai@mailfence.com>, 2016,2018-2020
 # Elishai Eliyahu <elishai@mailfence.com>, 2020-2021
-# GenghisKhan <genghiskhan@gmx.ca>, 2016
+# gk <genghiskhan@gmx.ca>, 2016
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2021
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2020
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2020
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-12 00:50+0100\n"
-"PO-Revision-Date: 2022-03-11 23:50+0000\n"
-"Last-Translator: Xfce Bot <transifex@xfce.org>\n"
+"POT-Creation-Date: 2022-03-16 12:50+0100\n"
+"PO-Revision-Date: 2013-07-03 18:24+0000\n"
+"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2021\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -102,7 +102,7 @@ msgstr "המפתחים של Mousepad. כל הזכויות שמורות."
 msgid "Please report bugs to <%s>."
 msgstr "אנא דווח על בעיות אל <%s>."
 
-#: ../mousepad/mousepad-application.c:1518
+#: ../mousepad/mousepad-application.c:1524
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | יוצרים:%s | שם קובץ:%s"
@@ -536,7 +536,7 @@ msgid "Failed to clear the recent history"
 msgstr "נכשל לנקות את ההיסטוריה האחרונה"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:554
+#: ../mousepad/mousepad-prefs-dialog.c:639
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "הגדרות Mousepad"
@@ -1652,7 +1652,7 @@ msgid "<b>Smart Keys</b>"
 msgstr "<b>מקשים חכמים</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
-#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:46
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:50
 msgid "Editor"
 msgstr "עורך"
 
@@ -1786,10 +1786,57 @@ msgstr "תוספים"
 msgid "Spell Checking"
 msgstr "בדיקת איות"
 
+#: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:47
+msgid ""
+"The default language for new documents is set here. It can then be changed "
+"per document via the context menu, where there are also spelling correction "
+"suggestions for underlined words."
+msgstr ""
+
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
 msgid "Default language:"
 msgstr "שפת ברירת מחדל:"
+
+#: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
+msgid "Shortcuts Editor"
+msgstr ""
+
+#: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
+msgid ""
+"The shortcuts editor is available here as a popover or as a dialog below the"
+" preferences in the menu bar."
+msgstr ""
+
+#: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
+msgid "Application"
+msgstr ""
+
+#. pack frames
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
+msgid "Menubar"
+msgstr ""
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
+msgid "Preferences Dialog"
+msgstr ""
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
+msgid "Miscellaneous"
+msgstr "שונות"
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
+msgid "Mousepad Shortcuts"
+msgstr ""
+
+#. add the shortcuts menu entry
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
+msgid "Shortcuts..."
+msgstr ""
+
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
+msgid "Show the shortcuts dialog"
+msgstr ""
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
