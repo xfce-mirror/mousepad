@@ -64,6 +64,8 @@ GType                mousepad_application_get_type                   (void) G_GN
 
 GList               *mousepad_application_get_providers              (MousepadApplication  *application);
 
+GtkWidget           *mousepad_application_get_prefs_dialog           (MousepadApplication  *application);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_APPLICATION_H__ */
