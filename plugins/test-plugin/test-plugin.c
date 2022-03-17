@@ -19,6 +19,7 @@
 #include <mousepad/mousepad-dialogs.h>
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-history.h>
+#include <mousepad/mousepad-util.h>
 
 #include <test-plugin/test-plugin.h>
 
@@ -182,7 +183,7 @@ test_plugin_dialog_shown (gpointer instance)
 static void
 test_plugin_dialog_shown_timeout (gpointer instance)
 {
-  g_timeout_add_seconds (2, test_plugin_dialog_shown, instance);
+  g_timeout_add_seconds (2, test_plugin_dialog_shown, mousepad_util_source_autoremove (instance));
 }
 
 
@@ -265,7 +266,7 @@ test_plugin_window_shown (TestPlugin *plugin)
       if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) != MOUSEPAD_SESSION_RESTORE_NEVER)
         {
           test_plugin_disable_monitoring (plugin);
-          g_idle_add (test_plugin_window_shown_idle, plugin);
+          g_idle_add (test_plugin_window_shown_idle, mousepad_util_source_autoremove (plugin));
         }
       else
         test_plugin_window_shown_idle (plugin);
