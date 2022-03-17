@@ -1787,7 +1787,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "此處可以設定新文件的預設語言。然後可以在每個文件的情境選單中變更，其中還有被畫底線單字的拼字修正建議。"
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
@@ -1796,26 +1796,26 @@ msgstr "預設語言"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "快捷鍵編輯程式"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "快捷鍵編輯程式在此處作為彈出式視窗或是選單列中偏好設定下方的對話方塊提供。"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "應用程式"
 
 #. pack frames
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Menubar"
-msgstr ""
+msgstr "選單列"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "偏好設定對話方塊"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
@@ -1823,16 +1823,16 @@ msgstr "雜項"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Mousepad 快捷鍵"
 
 #. add the shortcuts menu entry
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Shortcuts..."
-msgstr ""
+msgstr "快捷鍵……"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "顯示快捷鍵對話方塊"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
