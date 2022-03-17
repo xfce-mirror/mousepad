@@ -1751,7 +1751,7 @@ msgstr "«0» slår av og fjerner historikk over nylig brukte filer"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "Størrelse på søkehistorikk:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
@@ -1790,7 +1790,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Standardspråket til nye dokumenter velges her. Det kan endres per dokument via sprettoppmenyen. Der finnes også korrekturforslag til understrekede ord."
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
@@ -1799,26 +1799,26 @@ msgstr "Forvalgt språk:"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Redigere hurtigtaster"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "Redigering av hurtigtaster er tilgjengelig som sprettoppvindu eller som dialogvindu under innstillingene i menylinja."
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Program"
 
 #. pack frames
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Menubar"
-msgstr ""
+msgstr "Menylinje"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Innstillingsvindu"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
@@ -1826,16 +1826,16 @@ msgstr "Ymse"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Hurtigtaster i Mousepad"
 
 #. add the shortcuts menu entry
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Hurtigtaster …"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Vis dialogvindu for hurtigtaster"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
