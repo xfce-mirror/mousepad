@@ -511,7 +511,8 @@ mousepad_util_set_titlebar (GtkWindow *window)
 
   /* exit if the user doesn't want client-side decorations, ensuring we have at least
    * one close button or similar in the title bar for all dialogs */
-  if (! MOUSEPAD_SETTING_GET_BOOLEAN (CLIENT_SIDE_DECORATIONS))
+  if (! MOUSEPAD_SETTING_GET_BOOLEAN (CLIENT_SIDE_DECORATIONS)
+      && g_strcmp0 (g_getenv ("GTK_CSD"), "1") != 0)
     {
       if (! GTK_IS_HEADER_BAR (gtk_window_get_titlebar (window)))
         gtk_window_set_titlebar (window, NULL);
