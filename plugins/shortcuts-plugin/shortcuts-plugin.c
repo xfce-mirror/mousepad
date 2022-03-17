@@ -547,7 +547,7 @@ shortcuts_plugin_build_editor (ShortcutsPlugin *plugin)
 
   plugin->misc_entries = g_renew (XfceGtkActionEntry, entries, size);
   plugin->n_misc_entries = size;
-  plugin->misc_editor = xfce_shortcuts_editor_new (4, "", plugin->misc_entries, size);
+  plugin->misc_editor = xfce_shortcuts_editor_new (4, NULL, plugin->misc_entries, size);
   g_list_free (list);
 
   shortcuts_plugin_set_setting_box (plugin);
