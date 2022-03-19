@@ -1632,11 +1632,11 @@ msgstr "<b>Indrykning</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tabulator: Indryk markering (Skift+Tabulator: Udryk)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Indryk/udryk den nuværende markerede tekst eller den nuværende linje"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
@@ -1713,7 +1713,7 @@ msgstr "Åbn filer i:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>Faneblade for notebog</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Window"
@@ -1729,7 +1729,7 @@ msgstr "Lav en kopi med '~'-suffiks"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>Filgemning</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Session restore:"
@@ -1790,7 +1790,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Her indstilles standardsproget for nye dokumenter. Det kan så ændres pr. dokument via genvejsmenuen hvor der også er forslag til stavefejl til ord med streg under."
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
@@ -1805,7 +1805,7 @@ msgstr "Genvejsredigering"
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "Genvejsredigeringen er tilgængelig her som en popover eller som en dialog under præferencerne i menulinjen."
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
