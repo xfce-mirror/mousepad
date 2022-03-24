@@ -1750,7 +1750,7 @@ msgstr "'0' inaktiverar och rensar senaste historik"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "Sökhistorikstorlek:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
@@ -1798,7 +1798,7 @@ msgstr "Standardspråk: "
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Genvägsredigerare"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
@@ -1813,11 +1813,11 @@ msgstr "Program"
 #. pack frames
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Menubar"
-msgstr ""
+msgstr "Menyfält"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Inställningar Dialog"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
