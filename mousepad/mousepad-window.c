@@ -1210,6 +1210,9 @@ mousepad_window_init (MousepadWindow *window)
   /* increase last save location ref count */
   last_save_location_ref_count++;
 
+  /* add mousepad style class for easier theming */
+  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (window)), "mousepad");
+
   /* add window actions */
   g_action_map_add_action_entries (G_ACTION_MAP (window), action_entries,
                                    G_N_ELEMENTS (action_entries), window);
