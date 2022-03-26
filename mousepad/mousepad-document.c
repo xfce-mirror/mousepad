@@ -547,7 +547,7 @@ mousepad_document_get_tab_label (MousepadDocument *document)
   mousepad_document_style_label (document);
 
   /* create the button */
-  button = mousepad_close_button_new ();
+  button = mousepad_close_button_new (document->buffer);
   gtk_widget_show (button);
 
   /* pack button, add signal and tooltip */

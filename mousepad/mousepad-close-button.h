@@ -32,7 +32,7 @@ typedef struct MousepadCloseButton_      MousepadCloseButton;
 typedef struct MousepadCloseButtonClass_ MousepadCloseButtonClass;
 
 GType      mousepad_close_button_get_type (void);
-GtkWidget *mousepad_close_button_new      (void);
+GtkWidget *mousepad_close_button_new      (GtkTextBuffer *buffer);
 
 G_END_DECLS
 
