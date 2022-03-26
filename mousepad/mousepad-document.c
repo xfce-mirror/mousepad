@@ -80,10 +80,9 @@ struct _MousepadDocumentPrivate
 {
   GtkScrolledWindow      __parent__;
 
-  /* the tab label, ebox and CSS provider */
+  /* the tab label and its tooltip ebox */
   GtkWidget              *ebox;
   GtkWidget              *label;
-  GtkCssProvider         *css_provider;
 
   /* utf-8 valid document names */
   gchar                  *utf8_filename;
@@ -218,7 +217,6 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->utf8_filename = NULL;
   document->priv->utf8_basename = NULL;
   document->priv->label = NULL;
-  document->priv->css_provider = gtk_css_provider_new ();
   document->priv->selection_context = NULL;
   document->priv->selection_buffer = NULL;
   document->priv->prev_search_state = INIT;
@@ -266,8 +264,6 @@ mousepad_document_init (MousepadDocument *document)
   gtk_target_list_add_table (target_list, drop_targets, G_N_ELEMENTS (drop_targets));
 
   /* connect handlers to the document attribute signals */
-  g_signal_connect_swapped (document->buffer, "modified-changed",
-                            G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->file, "readonly-changed",
                             G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->textview, "notify::editable",
@@ -296,7 +292,6 @@ mousepad_document_finalize (GObject *object)
   /* cleanup */
   g_free (document->priv->utf8_filename);
   g_free (document->priv->utf8_basename);
-  g_object_unref (document->priv->css_provider);
 
   /* release the file */
   g_object_unref (document->file);
@@ -483,17 +478,6 @@ mousepad_document_label_color (MousepadDocument *document)
         gtk_style_context_add_class (context, GTK_STYLE_CLASS_DIM_LABEL);
       else
         gtk_style_context_remove_class (context, GTK_STYLE_CLASS_DIM_LABEL);
-
-      /* change the label text color */
-      if (gtk_text_buffer_get_modified (document->buffer))
-        {
-          gtk_css_provider_load_from_data (document->priv->css_provider,
-                                           "label { color: red; }", -1, NULL);
-          gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (document->priv->css_provider),
-                                          GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-        }
-      else
-        gtk_style_context_remove_provider (context, GTK_STYLE_PROVIDER (document->priv->css_provider));
     }
 }
 
