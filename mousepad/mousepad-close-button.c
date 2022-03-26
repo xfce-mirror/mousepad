@@ -29,6 +29,12 @@
 /* GObject virtual functions */
 static void     mousepad_close_button_finalize           (GObject          *object);
 
+/* GtkWidget virtual functions */
+static gboolean mousepad_close_button_enter_notify_event (GtkWidget        *widget,
+                                                          GdkEventCrossing *event);
+static gboolean mousepad_close_button_leave_notify_event (GtkWidget        *widget,
+                                                          GdkEventCrossing *event);
+
 
 
 struct MousepadCloseButton_
@@ -53,8 +59,12 @@ static void
 mousepad_close_button_class_init (MousepadCloseButtonClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->finalize = mousepad_close_button_finalize;
+
+  widget_class->enter_notify_event = mousepad_close_button_enter_notify_event;
+  widget_class->leave_notify_event = mousepad_close_button_leave_notify_event;
 }
 
 
@@ -97,6 +107,34 @@ mousepad_close_button_finalize (GObject *object)
   g_object_unref (button->buffer);
 
   G_OBJECT_CLASS (mousepad_close_button_parent_class)->finalize (object);
+}
+
+
+
+static gboolean
+mousepad_close_button_enter_notify_event (GtkWidget        *widget,
+                                          GdkEventCrossing *event)
+{
+  MousepadCloseButton *button = MOUSEPAD_CLOSE_BUTTON (widget);
+
+  if (gtk_text_buffer_get_modified (button->buffer))
+    mousepad_close_button_set_icon_name (button, ICON_NAME_UNMODIFIED);
+
+  return GTK_WIDGET_CLASS (mousepad_close_button_parent_class)->enter_notify_event (widget, event);
+}
+
+
+
+static gboolean
+mousepad_close_button_leave_notify_event (GtkWidget        *widget,
+                                          GdkEventCrossing *event)
+{
+  MousepadCloseButton *button = MOUSEPAD_CLOSE_BUTTON (widget);
+
+  if (gtk_text_buffer_get_modified (button->buffer))
+    mousepad_close_button_set_icon_name (button, ICON_NAME_MODIFIED);
+
+  return GTK_WIDGET_CLASS (mousepad_close_button_parent_class)->leave_notify_event (widget, event);
 }
 
 
