@@ -38,7 +38,7 @@ static void      mousepad_document_notify_overwrite        (GtkTextView         
                                                             MousepadDocument       *document);
 static void      mousepad_document_location_changed        (MousepadDocument       *document,
                                                             GFile                  *file);
-static void      mousepad_document_label_color             (MousepadDocument       *document);
+static void      mousepad_document_style_label             (MousepadDocument       *document);
 static void      mousepad_document_tab_button_clicked      (GtkWidget              *widget,
                                                             MousepadDocument       *document);
 static void      mousepad_document_search_completed        (GObject                *object,
@@ -80,10 +80,9 @@ struct _MousepadDocumentPrivate
 {
   GtkScrolledWindow      __parent__;
 
-  /* the tab label, ebox and CSS provider */
+  /* the tab label and its tooltip ebox */
   GtkWidget              *ebox;
   GtkWidget              *label;
-  GtkCssProvider         *css_provider;
 
   /* utf-8 valid document names */
   gchar                  *utf8_filename;
@@ -218,7 +217,6 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->utf8_filename = NULL;
   document->priv->utf8_basename = NULL;
   document->priv->label = NULL;
-  document->priv->css_provider = gtk_css_provider_new ();
   document->priv->selection_context = NULL;
   document->priv->selection_buffer = NULL;
   document->priv->prev_search_state = INIT;
@@ -266,12 +264,10 @@ mousepad_document_init (MousepadDocument *document)
   gtk_target_list_add_table (target_list, drop_targets, G_N_ELEMENTS (drop_targets));
 
   /* connect handlers to the document attribute signals */
-  g_signal_connect_swapped (document->buffer, "modified-changed",
-                            G_CALLBACK (mousepad_document_label_color), document);
   g_signal_connect_swapped (document->file, "readonly-changed",
-                            G_CALLBACK (mousepad_document_label_color), document);
+                            G_CALLBACK (mousepad_document_style_label), document);
   g_signal_connect_swapped (document->textview, "notify::editable",
-                            G_CALLBACK (mousepad_document_label_color), document);
+                            G_CALLBACK (mousepad_document_style_label), document);
 
   /* forward some document attribute signals more or less directly */
   g_signal_connect_swapped (document->buffer, "notify::cursor-position",
@@ -296,7 +292,6 @@ mousepad_document_finalize (GObject *object)
   /* cleanup */
   g_free (document->priv->utf8_filename);
   g_free (document->priv->utf8_basename);
-  g_object_unref (document->priv->css_provider);
 
   /* release the file */
   g_object_unref (document->file);
@@ -457,15 +452,15 @@ mousepad_document_location_changed (MousepadDocument *document,
       /* set the tab tooltip */
       gtk_widget_set_tooltip_text (document->priv->ebox, utf8_filename);
 
-      /* update label color */
-      mousepad_document_label_color (document);
+      /* update label style */
+      mousepad_document_style_label (document);
     }
 }
 
 
 
 static void
-mousepad_document_label_color (MousepadDocument *document)
+mousepad_document_style_label (MousepadDocument *document)
 {
   GtkStyleContext *context;
 
@@ -483,17 +478,6 @@ mousepad_document_label_color (MousepadDocument *document)
         gtk_style_context_add_class (context, GTK_STYLE_CLASS_DIM_LABEL);
       else
         gtk_style_context_remove_class (context, GTK_STYLE_CLASS_DIM_LABEL);
-
-      /* change the label text color */
-      if (gtk_text_buffer_get_modified (document->buffer))
-        {
-          gtk_css_provider_load_from_data (document->priv->css_provider,
-                                           "label { color: red; }", -1, NULL);
-          gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (document->priv->css_provider),
-                                          GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-        }
-      else
-        gtk_style_context_remove_provider (context, GTK_STYLE_PROVIDER (document->priv->css_provider));
     }
 }
 
@@ -559,11 +543,11 @@ mousepad_document_get_tab_label (MousepadDocument *document)
   gtk_container_add (GTK_CONTAINER (document->priv->ebox), document->priv->label);
   gtk_widget_show (document->priv->label);
 
-  /* set label color */
-  mousepad_document_label_color (document);
+  /* set label style */
+  mousepad_document_style_label (document);
 
   /* create the button */
-  button = mousepad_close_button_new ();
+  button = mousepad_close_button_new (document->buffer);
   gtk_widget_show (button);
 
   /* pack button, add signal and tooltip */
