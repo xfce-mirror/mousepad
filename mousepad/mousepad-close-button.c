@@ -19,9 +19,26 @@
 
 
 
+#define mousepad_close_button_set_icon_name(button, icon_name) \
+  gtk_image_set_from_icon_name (GTK_IMAGE (gtk_button_get_image (GTK_BUTTON (button))), \
+                                icon_name, GTK_ICON_SIZE_MENU);
+
+/* GObject virtual functions */
+static void     mousepad_close_button_finalize           (GObject          *object);
+
+/* GtkWidget virtual functions */
+static gboolean mousepad_close_button_enter_notify_event (GtkWidget        *widget,
+                                                          GdkEventCrossing *event);
+static gboolean mousepad_close_button_leave_notify_event (GtkWidget        *widget,
+                                                          GdkEventCrossing *event);
+
+
+
 struct MousepadCloseButton_
 {
   GtkButton parent;
+
+  GtkTextBuffer *buffer;
 };
 
 struct MousepadCloseButtonClass_
@@ -38,6 +55,13 @@ G_DEFINE_TYPE (MousepadCloseButton, mousepad_close_button, GTK_TYPE_BUTTON)
 static void
 mousepad_close_button_class_init (MousepadCloseButtonClass *klass)
 {
+  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+
+  object_class->finalize = mousepad_close_button_finalize;
+
+  widget_class->enter_notify_event = mousepad_close_button_enter_notify_event;
+  widget_class->leave_notify_event = mousepad_close_button_leave_notify_event;
 }
 
 
@@ -65,17 +89,75 @@ mousepad_close_button_init (MousepadCloseButton *button)
                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   g_object_unref (css_provider);
 
-  image = gtk_image_new_from_icon_name ("window-close", GTK_ICON_SIZE_MENU);
-  gtk_container_add (GTK_CONTAINER (button), image);
-  gtk_widget_show (image);
+  image = gtk_image_new_from_icon_name (NULL, GTK_ICON_SIZE_MENU);
+  g_object_set (button, "relief", GTK_RELIEF_NONE, "focus-on-click", FALSE,
+                "always-show-image", TRUE, "image", image, NULL);
+}
 
-  g_object_set (button, "relief", GTK_RELIEF_NONE, "focus-on-click", FALSE, NULL);
+
+
+static void
+mousepad_close_button_finalize (GObject *object)
+{
+  MousepadCloseButton *button = MOUSEPAD_CLOSE_BUTTON (object);
+
+  g_object_unref (button->buffer);
+
+  G_OBJECT_CLASS (mousepad_close_button_parent_class)->finalize (object);
+}
+
+
+
+static gboolean
+mousepad_close_button_enter_notify_event (GtkWidget        *widget,
+                                          GdkEventCrossing *event)
+{
+  MousepadCloseButton *button = MOUSEPAD_CLOSE_BUTTON (widget);
+
+  if (gtk_text_buffer_get_modified (button->buffer))
+    mousepad_close_button_set_icon_name (button, "window-close");
+
+  return GTK_WIDGET_CLASS (mousepad_close_button_parent_class)->enter_notify_event (widget, event);
+}
+
+
+
+static gboolean
+mousepad_close_button_leave_notify_event (GtkWidget        *widget,
+                                          GdkEventCrossing *event)
+{
+  MousepadCloseButton *button = MOUSEPAD_CLOSE_BUTTON (widget);
+
+  if (gtk_text_buffer_get_modified (button->buffer))
+    mousepad_close_button_set_icon_name (button, "media-record-symbolic");
+
+  return GTK_WIDGET_CLASS (mousepad_close_button_parent_class)->leave_notify_event (widget, event);
+}
+
+
+
+static void
+mousepad_close_button_modified_changed (GtkTextBuffer       *buffer,
+                                        MousepadCloseButton *button)
+{
+  const gchar *icon_name;
+
+  icon_name = gtk_text_buffer_get_modified (buffer) ? "media-record-symbolic" : "window-close";
+  mousepad_close_button_set_icon_name (button, icon_name);
 }
 
 
 
 GtkWidget *
-mousepad_close_button_new (void)
+mousepad_close_button_new (GtkTextBuffer *buffer)
 {
-  return g_object_new (MOUSEPAD_TYPE_CLOSE_BUTTON, NULL);
+  MousepadCloseButton *button;
+
+  button = g_object_new (MOUSEPAD_TYPE_CLOSE_BUTTON, NULL);
+  button->buffer = g_object_ref (buffer);
+  mousepad_close_button_modified_changed (buffer, button);
+  g_signal_connect_object (buffer, "modified-changed",
+                           G_CALLBACK (mousepad_close_button_modified_changed), button, 0);
+
+  return GTK_WIDGET (button);
 }
