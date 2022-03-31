@@ -6,7 +6,7 @@
 # Elishai Eliyahu <elishai@mailfence.com>, 2016,2018-2020
 # Elishai Eliyahu <elishai@mailfence.com>, 2020-2021
 # gk <genghiskhan@gmx.ca>, 2016
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2021
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2021-2022
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2020
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2020
 msgid ""
@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 12:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2021\n"
+"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2021-2022\n"
 "Language-Team: Hebrew (http://www.transifex.com/xfce/xfce-apps/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -907,7 +907,7 @@ msgstr "תפריט עריכה"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences..."
-msgstr ""
+msgstr "העדפות..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -971,11 +971,11 @@ msgstr "שנה את גופן העורך"
 
 #: ../mousepad/resources/gtk/menus.ui.h:37
 msgid "_Color Scheme"
-msgstr "ערכת נושא צבע"
+msgstr "ערכת צבעים"
 
 #: ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Color scheme to use for the text view"
-msgstr "תוכנית צבעים לשימוש עבור תצוגת הטקסט"
+msgstr "ערכת צבעים לשימוש בתצוגת הטקסט"
 
 #: ../mousepad/resources/gtk/menus.ui.h:39
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
@@ -1609,7 +1609,7 @@ msgstr "<b>גופן</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>ערכת צבעים</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1730,7 +1730,7 @@ msgstr "עשה עותק עם סיומת '~'"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>שמירת קבצים</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Session restore:"
@@ -1752,7 +1752,7 @@ msgstr "'0' מכבה ומוחק היסטוריה אחרונה"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "גודל היסטוריית החיפוש:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
@@ -1764,7 +1764,7 @@ msgstr "מעקב קובץ"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
-msgstr ""
+msgstr "ריענון אוטומטי"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
@@ -1800,7 +1800,7 @@ msgstr "שפת ברירת מחדל:"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "עורך הקיצורים"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
@@ -1810,7 +1810,7 @@ msgstr ""
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "יישום"
 
 #. pack frames
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
@@ -1819,7 +1819,7 @@ msgstr ""
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "דו־שיח העדפות"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
@@ -1832,11 +1832,11 @@ msgstr ""
 #. add the shortcuts menu entry
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Shortcuts..."
-msgstr ""
+msgstr "קיצורים..."
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "הצג דו־שיח קיצורים"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
