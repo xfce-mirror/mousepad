@@ -6,7 +6,7 @@
 # Adem Kürşat Uzun <ademkursatuzun@gmail.com>, 2021
 # Demiray Muhterem <mdemiray@msn.com>, 2019-2022
 # Demiray Muhterem <mdemiray@msn.com>, 2018
-# Emin Tufan Çetin <etcetin@gmail.com>, 2020-2021
+# Emin Tufan Çetin <etcetin@gmail.com>, 2020-2022
 # Emin Tufan Çetin <etcetin@gmail.com>, 2018,2020
 # Hüseyin Fahri Uzun <mail@fahriuzun.com>, 2019
 # efa1997c46de3f3ae3660d9ff15ebb10_d43e846 <59fbee64543f2ea2aa5bccfc0fc9e4a4_119162>, 2013
@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 12:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Demiray Muhterem <mdemiray@msn.com>, 2019-2022\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>, 2020-2022\n"
 "Language-Team: Turkish (http://www.transifex.com/xfce/xfce-apps/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,7 +246,7 @@ msgstr "Görünüşe göre önceki seans normal bir şekilde bitmedi. Mevcut ver
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr "Aksi takdirde, tüm bu veriler kaybolacaktır."
+msgstr "Yoksa tüm bu veri yitecektir."
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
@@ -1662,7 +1662,7 @@ msgstr "Düzenleyici"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Client-side decorations (restart required)"
-msgstr "İstemci arayüz dekorasyonu (yeniden başlatma gerekli)"
+msgstr "İstemci tarafı süslemesi (yeniden başlatma gerekli)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
 msgid "Show full filename in title bar"
@@ -1706,7 +1706,7 @@ msgstr "Tek dosya da olsa sekmeleri her zaman göster"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Expand tabs to fill available space"
-msgstr "Kullanılabilir alanı doldurmak için sekmeleri genişletin"
+msgstr "Kullanılabilir alanı doldurmak için sekmeleri genişlet"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "Cycled notebook tab switching"
@@ -1726,11 +1726,11 @@ msgstr "Pencere"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "Ensure new line at file end"
-msgstr "Dosya sonunda yeni satır sağlayın"
+msgstr "Dosya sonuna yeni satır koy"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "Make a copy with '~' suffix"
-msgstr "'~' son ekiyle bir kopya oluşturun"
+msgstr "'~' son ekiyle kopya oluştur"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
@@ -1756,7 +1756,7 @@ msgstr "'0' yakın geçmişi devre dışı bırakır ve siler"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "Arama geçmişi boyutu:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
@@ -1772,7 +1772,7 @@ msgstr "Otomatik yeniden yükleme"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
-msgstr "Varsayılan kodlama:"
+msgstr "Öntanımlı kodlama:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
 msgid "<b>Miscellaneous</b>"
@@ -1795,7 +1795,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Yeni belgeler için öntanımlı dil burada belirlenir. Bu ayar, altı çizili sözcükler için yazım düzeltme önerilerinin de bulunduğu bağlam menüsü aracılığıyla her belge için ayrıca belirlenebilir."
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
@@ -1804,26 +1804,26 @@ msgstr "Öntanımlı dil:"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Kısayol Düzenleyici"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "Kısayol düzenleyici, burada açılır pencere veya menü çubuğundaki tercihlerin içinde iletişim kutusu olarak bulunabilir."
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Uygulama"
 
 #. pack frames
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Menubar"
-msgstr ""
+msgstr "Menü Çubuğu"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Tercihler İletişim Kutusu"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
@@ -1831,16 +1831,16 @@ msgstr "Türlü"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Mousepad Kısayolları"
 
 #. add the shortcuts menu entry
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Kısayollar..."
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Kısayollar iletişim kutusunu göster"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
@@ -1871,7 +1871,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "Öte yandan, mevcut en yeni GTK özelliklerini kullanmaya çalışıyoruz; bu, GTK'nın ana sürüme düzenleyici için yararlı olan yeni bir şey eklemesi durumunda, GTK bağımlılığını büyük olasılıkla artıracağımız ve bu yeni özelliği Mousepad'e entegre edeceğimiz anlamına geliyor."
+msgstr "Bunun yanında son GTK yeniliklerini kullanmaya çalışıyoruz; yani, GTK büyük güncellemelerle bizim için de yararlı yenilik eklerse, bu yeni özellikleri Mousepad'e eklemek için GTK gereksinim sürümünü artırabiliriz."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
