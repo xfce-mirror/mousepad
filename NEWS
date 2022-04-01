@@ -1,3 +1,52 @@
+0.5.9 (2022-04-01)
+=====
+- New Features:
+  - Add shortcuts plugin (#70, !121)
+    Depends on Libxfce4ui 4.17.5 which is a dev version, so will be excluded
+    at configure time on most systems until Xfce 4.18 is released.
+  - Add search history (!119)
+  - File monitoring: Add an automatic reloading option
+
+- Appearance Changes / Minor Improvements:
+  - Move the document modification mark to the close button (#63, !122)
+  - Add mousepad styleclass for easier theming (#33)
+  - Hide search bar by pressing Esc key even when not focused
+  - Search: Escape selection when regex search is enabled
+
+- Code Refactoring:
+  - Plugins: Add a skeleton plugin to ease writing of new plugins
+
+- Bug Fixes:
+  - Test plugin: Sanitize memory management of sources
+  - Honor GTK_CSD
+  - Filter entries from `accels.scm` on non-detailed action name
+  - i18n: Check for `bind_textdomain_codeset()`
+  - Update Copying (#160, !120)
+  - Session history: Never clear session array on exit (#162)
+  - Fix broken feature "Show menubar temporarily when hidden"
+  - Force encoding when reloading
+  - Force encoding when it has been explicitly set by the user
+  - Do not consider encoding as always user-set in the "Open" dialog
+  - Fix antonym of the word "indent" in preferences dialog (!118)
+  - File monitoring: Try to filter out fake deletions
+  - Add ellipsis to preferences menu entry (!117)
+  - Switch all labels to title case in prefs dialog (!116)
+  - Correctly restore font size after zooming when using system font (#158)
+  - Printing: Enable line wrapping by default (#156)
+  - Fix a warning from GCC static analyzer
+  - Search: Do not delay the search when the text changes
+
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Persian (Iran), Polish, Portuguese, Portuguese (Brazil),
+  Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish,
+  Thai, Turkish, Ukrainian, Uyghur
+
 0.5.8 (2021-11-26)
 =====
 - Bug Fixes:
