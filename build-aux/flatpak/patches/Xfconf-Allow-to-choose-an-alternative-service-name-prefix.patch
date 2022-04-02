@@ -1,0 +1,361 @@
+From d70053dd9e794476cb11b2d54d9780f4d56d4cc3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABl=20Bonithon?= <gael@xfce.org>
+Date: Sun, 9 Jan 2022 18:35:45 +0100
+Subject: [PATCH] Allow to choose an alternative service name prefix
+
+This is primarily for Flatpak packaging, where a "private service" is
+desirable, although one could imagine using it in other contexts. The
+prefix must be specified via the environment variable
+`XFCONF_SERVICE_NAME_PREFIX`.
+
+Closes #27, related to tumbler!21, see !18 for more details.
+---
+ .gitignore                                    |  3 ++-
+ common/Makefile.am                            | 13 +++++++----
+ .../{xfconf-dbus.xml => xfconf-dbus.xml.in}   | 22 +++++++++----------
+ common/xfconf-errors.c                        | 20 ++++++++---------
+ configure.ac.in                               | 15 +++++++++++++
+ tests/tests-common.h                          |  4 ++--
+ xfconf/xfconf-cache.c                         |  4 ++--
+ xfconf/xfconf.c                               |  8 +++----
+ xfconfd/Makefile.am                           |  7 +++---
+ xfconfd/main.c                                |  4 ++--
+ xfconfd/org.xfce.Xfconf.service.in            |  2 +-
+ xfconfd/xfconf-daemon.c                       |  2 +-
+ 12 files changed, 63 insertions(+), 41 deletions(-)
+ rename common/{xfconf-dbus.xml => xfconf-dbus.xml.in} (87%)
+
+diff --git a/.gitignore b/.gitignore
+index e2df328..841491e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -39,6 +39,7 @@ common/xfconf-marshal.c
+ common/xfconf-marshal.h
+ common/xfconf-alias.h
+ common/xfconf-aliasdef.c
++common/xfconf-dbus.xml
+ common/xfconf-gdbus-bindings.c
+ common/xfconf-gdbus-bindings.h
+ docs/reference/xfconf-decl-list.txt
+@@ -111,4 +112,4 @@ xfconf/libxfconf-0.vapi
+ xfconf-query/xfconf-query
+ xfconfd/xfconfd
+ xfconfd/xfconf-dbus-server.h
+-xfconfd/org.xfce.Xfconf.service
++xfconfd/*.Xfconf.service
+diff --git a/common/Makefile.am b/common/Makefile.am
+index 95cfbfb..dff56f8 100644
+--- a/common/Makefile.am
++++ b/common/Makefile.am
+@@ -61,6 +61,10 @@ BUILT_SOURCES = \
+ 	xfconf-gdbus-bindings.c \
+ 	xfconf-gdbus-bindings.h
+ 
++xfconf-dbus.xml: xfconf-dbus.xml.in
++	$(SED) -e "s,\@XFCONF_SERVICE_NAME_PREFIX\@,$(XFCONF_SERVICE_NAME_PREFIX),g" \
++	       -e "s,\@XFCONF_SERVICE_PATH_PREFIX\@,$(XFCONF_SERVICE_PATH_PREFIX),g" < $< > $@
++
+ xfconf-marshal.h: $(srcdir)/xfconf-marshal.list Makefile
+ 	$(AM_V_GEN) glib-genmarshal --prefix=_xfconf_marshal $(srcdir)/xfconf-marshal.list --header > xfconf-marshal.h
+ xfconf-marshal.c: $(srcdir)/xfconf-marshal.list Makefile
+@@ -70,8 +74,8 @@ xfconf-marshal.c: $(srcdir)/xfconf-marshal.list Makefile
+ xfconf-gdbus-bindings.h:
+ xfconf-gdbus-bindings.c: xfconf-dbus.xml Makefile
+ 	$(AM_V_GEN) $(GDBUS_CODEGEN) \
+-	--interface-prefix org.xfce.Xfconf \
+-	--annotate "org.xfce.Xfconf" "org.gtk.GDBus.C.Name" Exported \
++	--interface-prefix @XFCONF_SERVICE_NAME_PREFIX@.Xfconf \
++	--annotate "@XFCONF_SERVICE_NAME_PREFIX@.Xfconf" "org.gtk.GDBus.C.Name" Exported \
+ 	--c-namespace Xfconf   \
+ 	--generate-c-code xfconf-gdbus-bindings \
+ 	$<
+@@ -82,7 +86,8 @@ CLEANFILES = \
+ 
+ DISTCLEANFILES = \
+ 	$(libxfconf_built_sources) \
+-	$(BUILT_SOURCES)
++	$(BUILT_SOURCES) \
++	xfconf-dbus.xml
+ 
+ BUILT_SOURCES += \
+ 	$(libxfconf_built_sources)
+@@ -99,7 +104,7 @@ EXTRA_DIST = \
+ 	xfconf-alias.h \
+ 	xfconf-aliasdef.c \
+ 	xfconf-common-private.h \
+-	xfconf-dbus.xml \
++	xfconf-dbus.xml.in \
+ 	xfconf-marshal.list \
+ 	xfconf-types.c
+ 
+diff --git a/common/xfconf-dbus.xml b/common/xfconf-dbus.xml.in
+similarity index 87%
+rename from common/xfconf-dbus.xml
+rename to common/xfconf-dbus.xml.in
+index 3430392..ead9be9 100644
+--- a/common/xfconf-dbus.xml
++++ b/common/xfconf-dbus.xml.in
+@@ -1,9 +1,9 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+-<node name="/org/xfce/Xfconf">
+-    <interface name="org.xfce.Xfconf">   
++<node name="@XFCONF_SERVICE_PATH_PREFIX@/Xfconf">
++    <interface name="@XFCONF_SERVICE_NAME_PREFIX@.Xfconf">   
+         <!--
+-             void org.xfce.Xfconf.SetProperty(String channel,
++             void @XFCONF_SERVICE_NAME_PREFIX@.Xfconf.SetProperty(String channel,
+                                               String property,
+                                               Variant value)
+              
+@@ -21,7 +21,7 @@
+         </method>
+         
+         <!--
+-             Variant org.xfce.Xfconf.GetProperty(String channel,
++             Variant @XFCONF_SERVICE_NAME_PREFIX@.Xfconf.GetProperty(String channel,
+                                                  String property)
+              
+              @channel: A channel/application/namespace name.
+@@ -36,7 +36,7 @@
+         </method>
+         
+         <!--
+-             Array{String,Variant} org.xfce.Xfconf.GetAllProperties(String channel,
++             Array{String,Variant} @XFCONF_SERVICE_NAME_PREFIX@.Xfconf.GetAllProperties(String channel,
+                                                                     String property_base)
+              
+              @channel: A channel/application/namespace name.
+@@ -58,7 +58,7 @@
+         </method>
+         
+         <!--
+-             Boolean org.xfce.Xfconf.PropertyExists(String channel,
++             Boolean @XFCONF_SERVICE_NAME_PREFIX@.Xfconf.PropertyExists(String channel,
+                                                     String property)
+              
+              @channel: A channel/application/namespace name.
+@@ -75,7 +75,7 @@
+         </method>
+         
+         <!--
+-             void org.xfce.Xfconf.ResetProperty(String channel,
++             void @XFCONF_SERVICE_NAME_PREFIX@.Xfconf.ResetProperty(String channel,
+                                                 String property,
+                                                 Boolean recursive)
+              
+@@ -105,7 +105,7 @@
+         </method>
+ 
+         <!--
+-             Array{String} org.xfce.Xfconf.ListChannels()
++             Array{String} @XFCONF_SERVICE_NAME_PREFIX@.Xfconf.ListChannels()
+ 
+              Returns a list of all known channels as an array of
+              strings.
+@@ -115,7 +115,7 @@
+         </method>
+         
+         <!--
+-             Boolean org.xfce.Xfconf.IsPropertyLocked(String channel,
++             Boolean @XFCONF_SERVICE_NAME_PREFIX@.Xfconf.IsPropertyLocked(String channel,
+                                                       String property)
+ 
+              @channel: A channel/application/namespace name.
+@@ -134,7 +134,7 @@
+         </method>
+ 
+         <!--
+-             void org.xfce.Xfconf.PropertyChanged(String channel,
++             void @XFCONF_SERVICE_NAME_PREFIX@.Xfconf.PropertyChanged(String channel,
+                                                   String property.
+                                                   Variant value)
+              
+@@ -151,7 +151,7 @@
+         </signal>
+ 
+         <!--
+-             void org.xfce.Xfconf.PropertyRemoved(String channel,
++             void @XFCONF_SERVICE_NAME_PREFIX@.Xfconf.PropertyRemoved(String channel,
+                                                   String property)
+ 
+              @channel: A channel/application/namespace name.
+diff --git a/common/xfconf-errors.c b/common/xfconf-errors.c
+index 8f261e6..d05de53 100644
+--- a/common/xfconf-errors.c
++++ b/common/xfconf-errors.c
+@@ -38,16 +38,16 @@
+ 
+ static const GDBusErrorEntry xfconf_daemon_dbus_error_entries[] = 
+ {
+-    { XFCONF_ERROR_UNKNOWN, "org.xfce.Xfconf.Error.Unknown" },
+-    { XFCONF_ERROR_CHANNEL_NOT_FOUND, "org.xfce.Xfconf.Error.ChannelNotFound" },
+-    { XFCONF_ERROR_PROPERTY_NOT_FOUND, "org.xfce.Xfconf.Error.PropertyNotFound" },
+-    { XFCONF_ERROR_READ_FAILURE, "org.xfce.Xfconf.Error.ReadFailure" },
+-    { XFCONF_ERROR_WRITE_FAILURE, "org.xfce.Xfconf.Error.WriteFailure" },
+-    { XFCONF_ERROR_PERMISSION_DENIED, "org.xfce.Xfconf.Error.PermissionDenied" },
+-    { XFCONF_ERROR_INTERNAL_ERROR, "org.xfce.Xfconf.Error.InternalError" },
+-    { XFCONF_ERROR_NO_BACKEND, "org.xfce.Xfconf.Error.NoBackend" },
+-    { XFCONF_ERROR_INVALID_PROPERTY, "org.xfce.Xfconf.Error.InvalidProperty" },
+-    { XFCONF_ERROR_INVALID_CHANNEL, "org.xfce.Xfconf.Error.InvalidChannel" },
++    { XFCONF_ERROR_UNKNOWN, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.Unknown" },
++    { XFCONF_ERROR_CHANNEL_NOT_FOUND, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.ChannelNotFound" },
++    { XFCONF_ERROR_PROPERTY_NOT_FOUND, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.PropertyNotFound" },
++    { XFCONF_ERROR_READ_FAILURE, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.ReadFailure" },
++    { XFCONF_ERROR_WRITE_FAILURE, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.WriteFailure" },
++    { XFCONF_ERROR_PERMISSION_DENIED, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.PermissionDenied" },
++    { XFCONF_ERROR_INTERNAL_ERROR, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.InternalError" },
++    { XFCONF_ERROR_NO_BACKEND, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.NoBackend" },
++    { XFCONF_ERROR_INVALID_PROPERTY, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.InvalidProperty" },
++    { XFCONF_ERROR_INVALID_CHANNEL, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.InvalidChannel" },
+ };
+ 
+ /**
+diff --git a/configure.ac.in b/configure.ac.in
+index 299f2ab..74da2f8 100644
+--- a/configure.ac.in
++++ b/configure.ac.in
+@@ -45,6 +45,7 @@ AM_PROG_CC_C_O
+ AC_PROG_INSTALL
+ AC_PROG_MAKE_SET
+ AC_PROG_LN_S
++AC_PROG_SED
+ 
+ IT_PROG_INTLTOOL([0.35.0])
+ 
+@@ -79,6 +80,20 @@ if test x"$GDBUS_CODEGEN" = x"no"; then
+   a custom location for it.])
+ fi
+ 
++dnl ******************************************************************
++dnl *** Alternative service name prefix for e.g. Flatpak packaging ***
++dnl ******************************************************************
++AC_ARG_VAR([XFCONF_SERVICE_NAME_PREFIX],
++           [Alternative prefix to org.xfce for the Xfconf service])
++test -n "$XFCONF_SERVICE_NAME_PREFIX" || XFCONF_SERVICE_NAME_PREFIX='org.xfce'
++
++AC_SUBST([XFCONF_SERVICE_PATH_PREFIX],
++         [$(printf '%s' $XFCONF_SERVICE_NAME_PREFIX | $SED -E 's%(^|\.)%/%g')])
++AC_DEFINE_UNQUOTED(XFCONF_SERVICE_NAME_PREFIX, "$XFCONF_SERVICE_NAME_PREFIX",
++                   Name prefix for the Xfconf service)
++AC_DEFINE_UNQUOTED(XFCONF_SERVICE_PATH_PREFIX, "$XFCONF_SERVICE_PATH_PREFIX",
++                   Path prefix for the Xfconf service)
++
+ dnl Check for X11 installed
+ dnl XDT_CHECK_LIBX11_REQUIRE
+ 
+diff --git a/tests/tests-common.h b/tests/tests-common.h
+index 28eb3d6..cdd7e78 100644
+--- a/tests/tests-common.h
++++ b/tests/tests-common.h
+@@ -89,8 +89,8 @@ xfconf_tests_start(void)
+         xfconf_tests_end();
+         return FALSE;
+     }
+-    msg = g_dbus_message_new_method_call("org.xfce.XfconfTest",
+-                                         "/org/xfce/Xfconf",
++    msg = g_dbus_message_new_method_call(XFCONF_SERVICE_NAME_PREFIX ".XfconfTest",
++                                         XFCONF_SERVICE_PATH_PREFIX "/Xfconf",
+                                          "org.freedesktop.DBus.Peer",
+                                          "Ping");
+     g_get_current_time(&start);
+diff --git a/xfconf/xfconf-cache.c b/xfconf/xfconf-cache.c
+index 1a0d536..4baf088 100644
+--- a/xfconf/xfconf-cache.c
++++ b/xfconf/xfconf-cache.c
+@@ -841,8 +841,8 @@ xfconf_cache_set(XfconfCache *cache,
+             if(G_LIKELY(g_dbus_error_is_remote_error (tmp_error)))
+                 dbus_error_name = g_dbus_error_get_remote_error (tmp_error);
+ 
+-            if(g_strcmp0(dbus_error_name, "org.xfce.Xfconf.Error.PropertyNotFound") != 0
+-               && g_strcmp0(dbus_error_name, "org.xfce.Xfconf.Error.ChannelNotFound") != 0)
++            if(g_strcmp0(dbus_error_name, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.PropertyNotFound") != 0
++               && g_strcmp0(dbus_error_name, XFCONF_SERVICE_NAME_PREFIX ".Xfconf.Error.ChannelNotFound") != 0)
+             {
+                 /* this is bad... */
+                 g_propagate_error(error, tmp_error);
+diff --git a/xfconf/xfconf.c b/xfconf/xfconf.c
+index 3291a8b..a388f9a 100644
+--- a/xfconf/xfconf.c
++++ b/xfconf/xfconf.c
+@@ -41,8 +41,8 @@ static GDBusConnection *gdbus = NULL;
+ static GDBusProxy *gproxy = NULL;
+ static GHashTable *named_structs = NULL;
+ 
+-#define XFCONF_DBUS_NAME "org.xfce.Xfconf"
+-#define XFCONF_DBUS_NAME_TEST "org.xfce.XfconfTest"
++#define XFCONF_DBUS_NAME XFCONF_SERVICE_NAME_PREFIX ".Xfconf"
++#define XFCONF_DBUS_NAME_TEST XFCONF_SERVICE_NAME_PREFIX ".XfconfTest"
+ 
+ 
+ /* private api */
+@@ -128,8 +128,8 @@ xfconf_init(GError **error)
+                                    G_DBUS_PROXY_FLAGS_NONE,
+                                    NULL,
+                                    is_test_mode == NULL ? XFCONF_DBUS_NAME : XFCONF_DBUS_NAME_TEST,
+-                                   "/org/xfce/Xfconf",
+-                                   "org.xfce.Xfconf",
++                                   XFCONF_SERVICE_PATH_PREFIX "/Xfconf",
++                                   XFCONF_SERVICE_NAME_PREFIX ".Xfconf",
+                                    NULL,
+                                    NULL);
+ 
+diff --git a/xfconfd/Makefile.am b/xfconfd/Makefile.am
+index d7fdfcb..f33c0fc 100644
+--- a/xfconfd/Makefile.am
++++ b/xfconfd/Makefile.am
+@@ -56,10 +56,11 @@ xfconfd_LDADD = \
+ 
+ servicedir = $(datadir)/dbus-1/services
+ service_in_files = org.xfce.Xfconf.service.in
+-service_DATA = $(service_in_files:.service.in=.service)
++service_DATA = $(service_in_files:org.xfce.%.service.in=@XFCONF_SERVICE_NAME_PREFIX@.%.service)
+ 
+-%.service: %.service.in
+-	$(AM_V_GEN) sed -e "s,\@HELPERDIR\@,$(HELPER_PATH_PREFIX),g" < $< > $@
++@XFCONF_SERVICE_NAME_PREFIX@.%.service: org.xfce.%.service.in
++	$(AM_V_GEN) $(SED) -e "s,\@HELPERDIR\@,$(HELPER_PATH_PREFIX),g" \
++	                   -e "s,\@XFCONF_SERVICE_NAME_PREFIX\@,$(XFCONF_SERVICE_NAME_PREFIX),g" < $< > $@
+ 
+ CLEANFILES = \
+ 	$(service_DATA)
+diff --git a/xfconfd/main.c b/xfconfd/main.c
+index 1965210..4c8faae 100644
+--- a/xfconfd/main.c
++++ b/xfconfd/main.c
+@@ -55,8 +55,8 @@
+ #include "xfconf-backend-factory.h"
+ 
+ #define DEFAULT_BACKEND  "xfce-perchannel-xml"
+-#define XFCONF_DBUS_NAME "org.xfce.Xfconf"
+-#define XFCONF_DBUS_NAME_TEST "org.xfce.XfconfTest"
++#define XFCONF_DBUS_NAME XFCONF_SERVICE_NAME_PREFIX ".Xfconf"
++#define XFCONF_DBUS_NAME_TEST XFCONF_SERVICE_NAME_PREFIX ".XfconfTest"
+ 
+ enum
+ {
+diff --git a/xfconfd/org.xfce.Xfconf.service.in b/xfconfd/org.xfce.Xfconf.service.in
+index 58f6680..288394e 100644
+--- a/xfconfd/org.xfce.Xfconf.service.in
++++ b/xfconfd/org.xfce.Xfconf.service.in
+@@ -1,3 +1,3 @@
+ [D-BUS Service]
+-Name=org.xfce.Xfconf
++Name=@XFCONF_SERVICE_NAME_PREFIX@.Xfconf
+ Exec=@HELPERDIR@/xfce4/xfconf/xfconfd
+diff --git a/xfconfd/xfconf-daemon.c b/xfconfd/xfconf-daemon.c
+index fbe5da3..ddc1d7b 100644
+--- a/xfconfd/xfconf-daemon.c
++++ b/xfconfd/xfconf-daemon.c
+@@ -441,7 +441,7 @@ xfconf_daemon_start(XfconfDaemon *xfconfd,
+     ret = 
+     g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON(xfconfd),
+                                       xfconfd->conn,
+-                                      "/org/xfce/Xfconf",
++                                      XFCONF_SERVICE_PATH_PREFIX "/Xfconf",
+                                       error);
+     
+     if (ret == FALSE)
+-- 
+2.34.1
+

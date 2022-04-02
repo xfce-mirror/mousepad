@@ -80,6 +80,72 @@ modules:
           type: gnome
           name: gspell
 
+  - name: libxfce4ui
+    modules:
+      - name: libxfce4util
+        cleanup:
+          - /sbin
+        config-opts:
+          - --disable-debug
+        sources:
+          - type: archive
+            url: https://archive.xfce.org/src/xfce/libxfce4util/4.17/libxfce4util-4.17.2.tar.bz2
+            sha256: cf5f4095ffa8ebe3d819ac779768cb75c567a85d5a508a4c4713258c1bd0fab7
+            x-checker-data:
+              type: anitya
+              project-id: 232001
+              url-template: https://archive.xfce.org/src/xfce/libxfce4util/$major.$minor/libxfce4util-$version.tar.bz2
+      - name: xfconf
+        modules:
+          - name: xfce4-dev-tools
+            cleanup:
+              - '*'
+            sources:
+              - type: archive
+                url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.16/xfce4-dev-tools-4.16.0.tar.bz2
+                sha256: f50b3070e66f3ebdf331744dd1ec5e1af5de333965d491e15ce05545e8eb4f04
+                x-checker-data:
+                  type: anitya
+                  project-id: 15888
+                  stable-only: true
+                  url-template: https://archive.xfce.org/src/xfce/xfce4-dev-tools/$major.$minor/xfce4-dev-tools-$version.tar.bz2
+        cleanup:
+          - /bin
+          - /share/bash-completion
+        config-opts:
+          - --enable-maintainer-mode
+          - --disable-debug
+          - XFCONF_SERVICE_NAME_PREFIX=org.xfce.mousepad
+        sources:
+          - type: git
+            url: https://gitlab.xfce.org/xfce/xfconf.git
+            tag: xfconf-4.16.0
+            commit: f05f028b840b465a41deef0fae6f50a885222e62
+            x-checker-data:
+              type: anitya
+              project-id: 14854
+              stable-only: true
+              tag-template: xfconf-$version
+          - type: patch
+            path: patches/Xfconf-Allow-to-choose-an-alternative-service-name-prefix.patch
+          - type: patch
+            path: patches/Add-a-lifecycle-manager-to-xfconfd.patch
+    cleanup:
+      - /bin
+      - /etc
+      - /share/icons
+      - /share/applications
+    config-opts:
+      - --disable-debug
+    sources:
+      - type: archive
+        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.17/libxfce4ui-4.17.6.tar.bz2
+        sha256: 185f18c562d2b25cc151ac141a4defeeadfd7e2484915da540ff94c073ca4b98
+        x-checker-data:
+          type: anitya
+          project-id: 232000
+          url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.bz2
+
   - name: mousepad
     modules:
       - name: xfce4-dev-tools
