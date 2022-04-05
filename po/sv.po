@@ -1789,7 +1789,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Standardspråket för nya dokument ställs in här. Det kan sedan ändras per dokument via snabbmenyn, där det även finns stavningsförslag för understrukna ord."
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
