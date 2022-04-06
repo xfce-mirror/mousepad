@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ammuu5, 2017-2021
+# Ammuu5, 2017-2022
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2013,2019-2021
 # Juhani Numminen <juhaninumminen0@gmail.com>, 2013-2014
 # Markus Mikkonen <markus.mikkonen@outlook.com>, 2021
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 12:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Ammuu5, 2017-2021\n"
+"Last-Translator: Ammuu5, 2017-2022\n"
 "Language-Team: Finnish (http://www.transifex.com/xfce/xfce-apps/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "Tiedostojen avaamisessa käytettävä merkistö (jätä tyhjäksi avataksesi tiedostot merkistö ikkunassa)"
 
 #: ../mousepad/mousepad-application.c:142
 msgid "ENCODING"
@@ -34,7 +34,7 @@ msgstr "MERKISTÖ"
 
 #: ../mousepad/mousepad-application.c:147
 msgid "Display a list of possible encodings to open files"
-msgstr ""
+msgstr "Näytä luettelo mahdollisista merkistöistä tiedostoja avatessa"
 
 #: ../mousepad/mousepad-application.c:152
 msgid ""
@@ -66,7 +66,7 @@ msgstr "Älä rekisteröi D-Bus-istunnon viestiväylän kanssa"
 
 #: ../mousepad/mousepad-application.c:174
 msgid "Quit a running Mousepad primary instance"
-msgstr ""
+msgstr "Lopeta käynnissä oleva ensisijainen Mousepad esiintymä"
 
 #: ../mousepad/mousepad-application.c:179
 msgid "Print version information and exit"
@@ -90,11 +90,11 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:399
 msgid "MODE"
-msgstr ""
+msgstr "TILA"
 
 #: ../mousepad/mousepad-application.c:457
 msgid "The Mousepad developers. All rights reserved."
-msgstr ""
+msgstr "Mousepadin kehittäjät. Kaikki oikeudet pidätetään."
 
 #: ../mousepad/mousepad-application.c:458
 #, c-format
@@ -108,7 +108,7 @@ msgstr "%s | Tekijät: %s | Tiedostonimi: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad on yksinkertainen tekstieditori Xfce-työpöytäympäristölle"
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -159,7 +159,7 @@ msgstr "Asiakirjahistorian tyhjentäminen poistaa kaikki listatut kohteet listal
 
 #: ../mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
-msgstr ""
+msgstr "_Tyhjennä"
 
 #: ../mousepad/mousepad-dialogs.c:382
 msgid "Do you want to save the changes before closing?"
@@ -167,7 +167,7 @@ msgstr "Haluatko tallentaa muutokset ennen lopettamista?"
 
 #: ../mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "Asiakirja on vain luku -tilassa, haluatko tallentaa sen toisena tiedostona?"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:392 ../mousepad/mousepad-dialogs.c:532
@@ -182,7 +182,7 @@ msgstr "_Älä tallenna"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Jos et tallenna tätä vain luku -asiakirjaa toisena tiedostona, kaikki muutokset menetetään."
 
 #: ../mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -205,7 +205,7 @@ msgstr "Tätä asiakirjaa on muokattu jostain muualta. Haluatko ladata sen uudel
 
 #: ../mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr ""
+msgstr "Sinulla on tallentamattomia muutoksia. Jos palautat tiedoston, ne menetetään."
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:487
@@ -225,21 +225,21 @@ msgstr "Jos palautat tiedoston, kaikki tallentamattomat muutokset menetetään."
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "Tiedosto näyttää käyttävän %s merkistöä, mutta olet valinnut %s merkistön. Vahvistetaanko tämä valinta?"
 
 #: ../mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "Jos ei, käytetään arvattua merkistöä."
 
 #: ../mousepad/mousepad-dialogs.c:640
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "Näyttää siltä, ​​että edellinen istunto ei päättynyt normaalisti. Haluatko palauttaa käytettävissä olevat tiedot?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "Jos ei, kaikki nämä tiedot menetetään."
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
@@ -247,11 +247,11 @@ msgstr "Valitse tiedosto"
 
 #: ../mousepad/mousepad-dialogs.c:893
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "Väliaikaisen tiedoston valmistaminen merkistötestejä varten epäonnistui"
 
 #: ../mousepad/mousepad-dialogs.c:956 ../mousepad/mousepad-dialogs.c:1029
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Avaa merkistö ikkuna"
 
 #: ../mousepad/mousepad-dialogs.c:958
 msgid "Go back to shorten list"
@@ -264,11 +264,11 @@ msgstr "_Merkistö:"
 
 #: ../mousepad/mousepad-dialogs.c:1057
 msgid "Current"
-msgstr ""
+msgstr "Nykyinen"
 
 #: ../mousepad/mousepad-dialogs.c:1075
 msgid "Show all encodings"
-msgstr ""
+msgstr "Näytä kaikki merkistöt"
 
 #: ../mousepad/mousepad-dialogs.c:1112
 msgid "Text Files"
@@ -309,7 +309,7 @@ msgstr "Asiakirjan tallentaminen epäonnistui"
 
 #: ../mousepad/mousepad-dialogs.h:30
 msgid "Unsupported character set"
-msgstr ""
+msgstr "Merkistöä ei tueta"
 
 #. button labels
 #: ../mousepad/mousepad-dialogs.h:33
@@ -359,29 +359,29 @@ msgstr "Tarkistetaan merkistökoodaukset…"
 #: ../mousepad/mousepad-encoding-dialog.c:292
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s(%s, epäonnistui)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:294
 #: ../mousepad/mousepad-encoding-dialog.c:349
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s(%s, osittainen)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:423
 msgid "Other (partial):"
-msgstr ""
+msgstr "Muu (osittainen):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:434
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "Muita kelvollisia merkistöjä löydettiin, valitse sellainen alapuolelta."
 
 #: ../mousepad/mousepad-encoding-dialog.c:436
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "Muita osittain kelvollisia merkistöjä löydettiin, valitse sellainen alapuolelta."
 
 #: ../mousepad/mousepad-encoding-dialog.c:472
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "Muita kelvollisia merkistöjä ei löytynyt."
 
 #. dialog title
 #: ../mousepad/mousepad-encoding-dialog.c:679
@@ -523,7 +523,7 @@ msgstr "Järjestelmä"
 
 #: ../mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "Historia"
 
 #: ../mousepad/mousepad-file.c:819
 #, c-format
@@ -538,7 +538,7 @@ msgstr "Viimesien kohteiden historian tyhjennys epäonnistui."
 #: ../mousepad/mousepad-prefs-dialog.c:639
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
-msgstr ""
+msgstr "Mousepadin asetukset"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:117
@@ -658,7 +658,7 @@ msgstr "_Täsmää kokonaiseen sanaan"
 #: ../mousepad/mousepad-replace-dialog.c:391
 #: ../mousepad/mousepad-search-bar.c:302 ../mousepad/mousepad-search-bar.c:310
 msgid "Regular e_xpression"
-msgstr ""
+msgstr "Säännöllinen l_auseke"
 
 #: ../mousepad/mousepad-replace-dialog.c:405
 msgid "Replace _all in:"
@@ -729,12 +729,12 @@ msgstr "Vain luku"
 
 #: ../mousepad/mousepad-window.c:2293
 msgid "Viewer Mode"
-msgstr ""
+msgstr "Katselutila"
 
 #: ../mousepad/mousepad-window.c:3326
 #, c-format
 msgid "Use '%s' as template"
-msgstr ""
+msgstr "Käytä '%s' mallina"
 
 #: ../mousepad/mousepad-window.c:3352
 #, c-format
@@ -748,7 +748,7 @@ msgstr "Mallitiedostoja ei löytynyt kohteesta\n'%s'"
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr ""
+msgstr "Puuttuva Mallit-hakemisto\n'%s'"
 
 #. create suitable text label for the "Other" menu
 #: ../mousepad/mousepad-window.c:3469
@@ -789,7 +789,7 @@ msgstr "Kohteita ei löytynyt"
 
 #: ../mousepad/mousepad-window.c:3864
 msgid "History disabled"
-msgstr ""
+msgstr "Historia poistettu käytöstä"
 
 #. create an item to inform the user
 #: ../mousepad/mousepad-window.c:4339
@@ -805,7 +805,7 @@ msgstr ""
 #. set error message
 #: ../mousepad/mousepad-window.c:4454
 msgid "Reading the template failed"
-msgstr ""
+msgstr "Mallin lukeminen epäonnistui"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:4459
@@ -828,7 +828,7 @@ msgstr "_Tiedosto"
 
 #: ../mousepad/resources/gtk/menus.ui.h:2
 msgid "File menu"
-msgstr "Tiedostovalikko"
+msgstr "Tiedosto-valikko"
 
 #: ../mousepad/resources/gtk/menus.ui.h:3
 msgid "New _Window"
@@ -844,7 +844,7 @@ msgstr "Uusi _mallista"
 
 #: ../mousepad/resources/gtk/menus.ui.h:6
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "Luo uusi asiakirja mallista"
 
 #: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "Op_en Recent"
@@ -852,7 +852,7 @@ msgstr "Avaa _viimeaikainen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "Open a recently used file"
-msgstr ""
+msgstr "Avaa viimeksi käytetty tiedosto"
 
 #: ../mousepad/resources/gtk/menus.ui.h:9
 msgid "Clear _History"
@@ -892,7 +892,7 @@ msgstr "_Lopeta"
 
 #: ../mousepad/resources/gtk/menus.ui.h:18
 msgid "Quit Mousepad"
-msgstr ""
+msgstr "Lopeta Mousepad"
 
 #: ../mousepad/resources/gtk/menus.ui.h:19
 msgid "_Edit"
@@ -900,11 +900,11 @@ msgstr "_Muokkaa"
 
 #: ../mousepad/resources/gtk/menus.ui.h:20
 msgid "Edit menu"
-msgstr ""
+msgstr "Muokkaa-valikko"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences..."
-msgstr ""
+msgstr "Asetukset..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -916,7 +916,7 @@ msgstr "_Etsi"
 
 #: ../mousepad/resources/gtk/menus.ui.h:24
 msgid "Search menu"
-msgstr ""
+msgstr "Etsi-valikko"
 
 #: ../mousepad/resources/gtk/menus.ui.h:25
 msgid "Find _Next"
@@ -936,11 +936,11 @@ msgstr "Etsi samaa tekstiä edempänä"
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_Incremental Search"
-msgstr ""
+msgstr "_Lisäävä haku"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Valitse hakutulos automaattisesti ja vieritä näkymää"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -948,7 +948,7 @@ msgstr "Korosta _kaikki"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search occurrences"
-msgstr ""
+msgstr "Korosta kaikki haun esiintymät"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -956,7 +956,7 @@ msgstr "_Näytä"
 
 #: ../mousepad/resources/gtk/menus.ui.h:34
 msgid "View menu"
-msgstr ""
+msgstr "Näytä-valikko"
 
 #: ../mousepad/resources/gtk/menus.ui.h:35
 msgid "Select F_ont..."
@@ -972,7 +972,7 @@ msgstr "V_äriteema"
 
 #: ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Tekstinäkymässä käytettävä väriteema"
 
 #: ../mousepad/resources/gtk/menus.ui.h:39
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
@@ -1022,7 +1022,7 @@ msgstr "_Asiakirja"
 
 #: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Document menu"
-msgstr ""
+msgstr "Asiakirja-valikko"
 
 #: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "_Word Wrap"
@@ -1046,23 +1046,23 @@ msgstr "_Sarkaimen leveys"
 
 #: ../mousepad/resources/gtk/menus.ui.h:56
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "Sarkaimen käyttämä välilyöntien määrä"
 
 #: ../mousepad/resources/gtk/menus.ui.h:57
 msgid "Two spaces"
-msgstr ""
+msgstr "Kaksi välilyöntiä"
 
 #: ../mousepad/resources/gtk/menus.ui.h:58
 msgid "Three spaces"
-msgstr ""
+msgstr "Kolme välilyöntiä"
 
 #: ../mousepad/resources/gtk/menus.ui.h:59
 msgid "Four spaces"
-msgstr ""
+msgstr "Neljä välilyöntiä"
 
 #: ../mousepad/resources/gtk/menus.ui.h:60
 msgid "Eight spaces"
-msgstr ""
+msgstr "Kahdeksan välilyöntiä"
 
 #: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "Other..."
@@ -1086,7 +1086,7 @@ msgstr "_Tiedostotyyppi"
 
 #: ../mousepad/resources/gtk/menus.ui.h:66
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "Syntaksin korostamisessa käytettä kieli"
 
 #: ../mousepad/resources/gtk/menus.ui.h:67
 msgid "Plain Text"
@@ -1126,11 +1126,11 @@ msgstr "Säilytä bittijärjestysmerkintä (BOM) tiedostossa"
 
 #: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "_Katselutila"
 
 #: ../mousepad/resources/gtk/menus.ui.h:77
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Estä näppäimistöllä/hiirellä tehdyt muutokset"
 
 #: ../mousepad/resources/gtk/menus.ui.h:78
 msgid "_Previous Tab"
@@ -1154,7 +1154,7 @@ msgstr "_Ohje"
 
 #: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Help menu"
-msgstr "Ohjevalikko"
+msgstr "Ohje-valikko"
 
 #: ../mousepad/resources/gtk/menus.ui.h:84
 msgid "_Contents"
@@ -1294,7 +1294,7 @@ msgstr "Liitä _erityisesti"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:36
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "Liitä leikepöydältä erityisellä tavalla"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:37
 msgid "Paste from _History"
@@ -1334,7 +1334,7 @@ msgstr "_Muuta"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Muunna tekstiä eri tavoilla"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
@@ -1378,7 +1378,7 @@ msgstr "Korvaa valitun alueen tai asiakirjan sarkaimet välilyönneillä"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "_Rivin alun välilyönnit sarkaimiksi"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
@@ -1403,11 +1403,11 @@ msgstr "Muuta jonkin järjestys päinvastaiseksi"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move"
-msgstr ""
+msgstr "_Siirrä"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Siirrä sisältöä eri tavoilla"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1415,7 +1415,7 @@ msgstr "Rivi _ylöspäin"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Siirrä rivejä yksi rivi ylöspäin"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
@@ -1423,23 +1423,23 @@ msgstr "Rivi _alaspäin"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Siirrä rivejä yksi rivi alaspäin"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
-msgstr ""
+msgstr "Sana _vasemmalle"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr ""
+msgstr "Siirrä sanoja yksi sana vasemmalle"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
-msgstr ""
+msgstr "Sana _oikealle"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr ""
+msgstr "Siirrä sanoja yksi sana oikealle"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1483,11 +1483,11 @@ msgstr "Ei koskaan"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
 msgid "First key press"
-msgstr ""
+msgstr "Ensimmäisellä painalluksella"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "Second key press"
-msgstr ""
+msgstr "Toisella painalluksella"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "Always"
@@ -1536,33 +1536,33 @@ msgstr "Ikkuna"
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
 msgid "new tabs"
-msgstr ""
+msgstr "uusissa välilehdissä"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:21
 msgid "new windows"
-msgstr ""
+msgstr "uusissa ikkunoissa"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:23
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "uusissa välilehdissä uusissa ikkunoissa"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "never"
-msgstr ""
+msgstr "ei koskaan"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "after a crash"
-msgstr ""
+msgstr "kaatumisen jälkeen"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "unsaved documents"
-msgstr ""
+msgstr "tallentamattomissa asiakirjoissa"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
 msgid "saved documents"
-msgstr ""
+msgstr "tallennetuissa asiakirjoissa"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
 msgid "always"
@@ -1606,7 +1606,7 @@ msgstr "<b>Fontti</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Väriteema</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1630,23 +1630,23 @@ msgstr "<b>Sisennys</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Sarkain: Sisennysvalinta (Vaihto+Sarkain: Vähennä sisennystä)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Lisää/vähennä nykyisen valitun tekstin tai rivin sisennystä "
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Askelpalautin: Poista sisennysvälilyönnit sarkaimina"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: Tunnista rivin alun/lopun välilyönnit:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>Älynäppäimet</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:50
@@ -1655,7 +1655,7 @@ msgstr "Muokkain"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Asiakaspuolen koristeet (uudelleenkäynnistys vaaditaan)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
 msgid "Show full filename in title bar"
@@ -1699,19 +1699,19 @@ msgstr "Näytä aina välilehdet, vaikka vain yksi tiedosto olisi auki"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Laajenna välilehdet täyttämään käytettävissä oleva tila"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "Cycled notebook tab switching"
-msgstr "Kiertävä pystyvälilehtien vaihto"
+msgstr "Kiertävä muistikirjan välilehtien vaihto"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
 msgid "Open files in:"
-msgstr ""
+msgstr "Avaa tiedostot:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>Välilehdet</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Window"
@@ -1719,37 +1719,37 @@ msgstr "Ikkuna"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "Varmista uusi rivi tiedoston lopussa"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Tee kopio '~' -jälkiliitteellä"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>Tiedoston tallennus</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Session restore:"
-msgstr ""
+msgstr "Palauta istunto:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Kun \"tallentamattomissa asiakirjoissa\" tai \"aina\" on valittuna, Mousepad ei kysy muokattujen asiakirjojen tallentamista lopettaessa"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "Recent file menu length:"
-msgstr ""
+msgstr "Viimeaikaisten tiedostojen valikon pituus:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "'0' poistaa käytöstä ja pyyhkii viimeisimpien kohteiden historian"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "Hakuhistorian koko:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
@@ -1757,15 +1757,15 @@ msgstr "<b>Historia</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "File monitoring"
-msgstr ""
+msgstr "Tiedostojen valvonta"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Automaattinen uudelleenlataus"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
-msgstr ""
+msgstr "Oletusmerkistö:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
 msgid "<b>Miscellaneous</b>"
@@ -1777,11 +1777,11 @@ msgstr "Tiedosto"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:81
 msgid "Plugins"
-msgstr ""
+msgstr "Liitännäiset"
 
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:45
 msgid "Spell Checking"
-msgstr ""
+msgstr "Oikeinkirjoituksen tarkistus"
 
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:47
 msgid ""
@@ -1793,7 +1793,7 @@ msgstr ""
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
 msgid "Default language:"
-msgstr ""
+msgstr "Oletuskieli:"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
@@ -1807,16 +1807,16 @@ msgstr ""
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Sovellus"
 
 #. pack frames
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Menubar"
-msgstr ""
+msgstr "Valikkopalkki"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Asetusikkuna"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
@@ -1845,7 +1845,7 @@ msgstr "Tekstimuokkain"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "Tekstieditorin asetukset"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
@@ -1856,7 +1856,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr ""
+msgstr "Mousepad pyrkii olemaan helppokäyttöinen ja nopea editori. Tavoitteenamme on editori tekstitiedostojen nopeaan muokkaamiseen, ei kehitysympäristö tai editori, jossa on valtava joukko liitännäisiä."
 
 #: ../org.xfce.mousepad.appdata.xml.in.h:4
 msgid ""
