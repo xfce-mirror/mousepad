@@ -13,6 +13,7 @@
 # Igor <f2404@yandex.ru>, 2018-2020
 # ivmazurenko <ivmazurenko@yandex.ru>, 2021
 # ivmazurenko <ivmazurenko@yandex.ru>, 2021
+# Olesya Gerasimenko <gammaray@basealt.ru>, 2022
 # Olesya Gerasimenko <translation-team@basealt.ru>, 2021
 # Sergey Alyoshin <alyoshin.s@gmail.com>, 2014,2020
 # Sergey Fedoseev <fedoseev.sergey@gmail.com>, 2006
@@ -22,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 12:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Andrei Stepanov, 2022\n"
+"Last-Translator: Olesya Gerasimenko <gammaray@basealt.ru>, 2022\n"
 "Language-Team: Russian (http://www.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1640,11 +1641,11 @@ msgstr "<b>Отступы</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tab: добавить отступ для выделенного фрагмента (Shift+Tab: убрать отступ)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Добавить или убрать отступ для текущего выбранного текста или текущей строки"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
@@ -1798,7 +1799,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Здесь указывается язык по умолчанию для новых документов. Затем его будет можно изменить для каждого отдельного документа с помощью контекстного меню, в котором также предлагаются варианты исправления орфографических ошибок для подчёркнутых слов."
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
@@ -1807,13 +1808,13 @@ msgstr "Язык по умолчанию:"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Редактор комбинаций клавиш"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "Редактор комбинаций клавиш доступен в виде всплывающего окна или диалога (при переходе к настройке параметров из строки меню)."
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
@@ -1834,7 +1835,7 @@ msgstr "Разное"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Комбинации клавиш Mousepad"
 
 #. add the shortcuts menu entry
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
@@ -1843,7 +1844,7 @@ msgstr "Горячие клавиши…"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Показать диалоговое окно настройки комбинаций клавиш"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
