@@ -52,7 +52,6 @@ enum
 enum
 {
   NEW_WINDOW,
-  NEW_WINDOW_WITH_DOCUMENT,
   SEARCH_COMPLETED,
   LAST_SIGNAL
 };
@@ -66,359 +65,368 @@ enum
 
 
 
-/* overridden parent classes methods */
-static void              mousepad_window_set_property                 (GObject                *object,
-                                                                       guint                   prop_id,
-                                                                       const GValue           *value,
-                                                                       GParamSpec             *pspec);
-static void              mousepad_window_get_property                 (GObject                *object,
-                                                                       guint                   prop_id,
-                                                                       GValue                 *value,
-                                                                       GParamSpec             *pspec);
-static void              mousepad_window_finalize                     (GObject                *object);
+/* GObject virtual functions */
+static void              mousepad_window_set_property                 (GObject                  *object,
+                                                                       guint                     prop_id,
+                                                                       const GValue             *value,
+                                                                       GParamSpec               *pspec);
+static void              mousepad_window_get_property                 (GObject                  *object,
+                                                                       guint                     prop_id,
+                                                                       GValue                   *value,
+                                                                       GParamSpec               *pspec);
+static void              mousepad_window_dispose                      (GObject                  *object);
+static void              mousepad_window_finalize                     (GObject                  *object);
 
-static gboolean          mousepad_window_configure_event              (GtkWidget              *widget,
-                                                                       GdkEventConfigure      *event);
-static gboolean          mousepad_window_delete_event                 (GtkWidget              *widget,
-                                                                       GdkEventAny            *event);
-static gboolean          mousepad_window_scroll_event                 (GtkWidget              *widget,
-                                                                       GdkEventScroll         *event);
-static gboolean          mousepad_window_window_state_event           (GtkWidget              *widget,
-                                                                       GdkEventWindowState    *event);
-static gboolean          mousepad_window_key_press_event              (GtkWidget              *widget,
-                                                                       GdkEventKey            *event);
+/* GtkWindow virtual functions or property change handlers */
+static gboolean          mousepad_window_close_request                (GtkWindow                *window);
+static void              mousepad_window_fullscreened                 (MousepadWindow           *window);
+static void              mousepad_window_save_geometry                (GtkWindow                *window);
+
+/* event handlers */
+static gboolean          mousepad_window_scroll                       (GtkEventControllerScroll *scroll,
+                                                                       double                    dx,
+                                                                       double                    dy,
+                                                                       MousepadWindow           *window);
 
 /* statusbar tooltips */
-static void              mousepad_window_menu_set_tooltips            (MousepadWindow         *window,
-                                                                       GtkWidget              *menu,
-                                                                       GMenuModel             *model,
-                                                                       gint                   *offset);
-static void              mousepad_window_menu_item_selected           (GtkWidget              *menu_item,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_menu_item_deselected         (GtkWidget              *menu_item,
-                                                                       MousepadWindow         *window);
-static gboolean          mousepad_window_tool_item_enter_event        (GtkWidget              *tool_item,
-                                                                       GdkEvent               *event,
-                                                                       MousepadWindow         *window);
-static gboolean          mousepad_window_tool_item_leave_event        (GtkWidget              *tool_item,
-                                                                       GdkEvent               *event,
-                                                                       MousepadWindow         *window);
+static void              mousepad_window_menu_set_tooltips            (MousepadWindow           *window,
+                                                                       GtkWidget                *menu,
+                                                                       GMenuModel               *model,
+                                                                       gint                     *offset);
+/* TODO Menubar */
+#if 0
+static void              mousepad_window_menu_item_selected           (GtkWidget                *menu_item,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_menu_item_deselected         (GtkWidget                *menu_item,
+                                                                       MousepadWindow           *window);
+#endif
+static void              mousepad_window_toolbar_item_enter           (GtkEventControllerMotion *controller,
+                                                                       double                    x,
+                                                                       double                    y,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_toolbar_item_leave           (GtkEventControllerMotion *controller,
+                                                                       double                    x,
+                                                                       double                    y,
+                                                                       MousepadWindow           *window);
 
 /* window functions */
-static gboolean          mousepad_window_open_file                    (MousepadWindow         *window,
-                                                                       GFile                  *file,
-                                                                       MousepadEncoding        encoding,
-                                                                       gint                    line,
-                                                                       gint                    column,
-                                                                       gboolean                must_exist);
-static gboolean          mousepad_window_close_document               (MousepadWindow         *window,
-                                                                       MousepadDocument       *document);
-static void              mousepad_window_button_close_tab             (MousepadDocument       *document,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_set_title                    (MousepadWindow         *window);
-static gboolean          mousepad_window_get_in_fullscreen            (MousepadWindow         *window);
-static void              mousepad_window_update_bar_visibility        (MousepadWindow         *window,
-                                                                       const gchar            *key);
-static void              mousepad_window_update_tabs_visibility       (MousepadWindow         *window,
-                                                                       gchar                  *key,
-                                                                       GSettings              *settings);
+static gboolean          mousepad_window_open_file                    (MousepadWindow           *window,
+                                                                       GFile                    *file,
+                                                                       MousepadEncoding          encoding,
+                                                                       gint                      line,
+                                                                       gint                      column,
+                                                                       gboolean                  must_exist);
+static gboolean          mousepad_window_close_document               (MousepadWindow           *window,
+                                                                       MousepadDocument         *document);
+static void              mousepad_window_button_close_tab             (MousepadDocument         *document,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_set_title                    (MousepadWindow           *window);
+static void              mousepad_window_update_bar_visibility        (MousepadWindow           *window,
+                                                                       const gchar              *key);
+static void              mousepad_window_update_tabs_visibility       (MousepadWindow           *window,
+                                                                       gchar                    *key,
+                                                                       GSettings                *settings);
 
 /* notebook signals */
-static void              mousepad_window_notebook_switch_page         (GtkNotebook            *notebook,
-                                                                       GtkWidget              *page,
-                                                                       guint                   page_num,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_notebook_added               (GtkNotebook            *notebook,
-                                                                       GtkWidget              *page,
-                                                                       guint                   page_num,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_notebook_removed             (GtkNotebook            *notebook,
-                                                                       GtkWidget              *page,
-                                                                       guint                   page_num,
-                                                                       MousepadWindow         *window);
-static gboolean          mousepad_window_notebook_button_release_event (GtkNotebook           *notebook,
-                                                                        GdkEventButton        *event,
-                                                                        MousepadWindow        *window);
-static gboolean          mousepad_window_notebook_button_press_event  (GtkNotebook            *notebook,
-                                                                       GdkEventButton         *event,
-                                                                       MousepadWindow         *window);
-static GtkNotebook      *mousepad_window_notebook_create_window       (GtkNotebook            *notebook,
-                                                                       GtkWidget              *page,
-                                                                       gint                    x,
-                                                                       gint                    y,
-                                                                       MousepadWindow         *window);
+static void              mousepad_window_notebook_switch_page         (GtkNotebook              *notebook,
+                                                                       GtkWidget                *page,
+                                                                       guint                     page_num,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_notebook_added               (GtkNotebook              *notebook,
+                                                                       GtkWidget                *page,
+                                                                       guint                     page_num,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_notebook_removed             (GtkNotebook              *notebook,
+                                                                       GtkWidget                *page,
+                                                                       guint                     page_num,
+                                                                       MousepadWindow           *window);
+static GtkNotebook      *mousepad_window_notebook_create_window       (GtkNotebook              *notebook,
+                                                                       GtkWidget                *page,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_notebook_button_pressed      (GtkGestureClick          *gesture_click,
+                                                                       int                       n_press,
+                                                                       double                    x,
+                                                                       double                    y,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_notebook_button_released     (GtkGestureClick          *gesture_click,
+                                                                       int                       n_press,
+                                                                       double                    x,
+                                                                       double                    y,
+                                                                       MousepadWindow           *window);
 
 /* document signals */
-static void              mousepad_window_externally_modified          (MousepadFile           *file,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_location_changed             (MousepadFile           *file,
-                                                                       GFile                  *location,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_readonly_changed             (MousepadFile           *file,
-                                                                       gboolean                readonly,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_modified_changed             (GtkTextBuffer          *buffer,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_enable_edit_actions          (GObject                *object,
-                                                                       GParamSpec             *pspec,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_cursor_changed               (MousepadDocument       *document,
-                                                                       gint                    line,
-                                                                       gint                    column,
-                                                                       gint                    selection,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_encoding_changed             (MousepadDocument       *document,
-                                                                       MousepadEncoding        encoding,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_language_changed             (MousepadDocument       *document,
-                                                                       GtkSourceLanguage      *language,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_overwrite_changed            (MousepadDocument       *document,
-                                                                       gboolean                overwrite,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_can_undo                     (GtkSourceBuffer        *buffer,
-                                                                       GParamSpec             *unused,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_can_redo                     (GtkSourceBuffer        *buffer,
-                                                                       GParamSpec             *unused,
-                                                                       MousepadWindow         *window);
+static void              mousepad_window_textview_menu_popup          (GtkGestureClick          *gesture,
+                                                                       int                       n_press,
+                                                                       double                    x,
+                                                                       double                    y,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_externally_modified          (MousepadFile             *file,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_location_changed             (MousepadFile             *file,
+                                                                       GFile                    *location,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_readonly_changed             (MousepadFile             *file,
+                                                                       gboolean                  readonly,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_modified_changed             (GtkTextBuffer            *buffer,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_enable_edit_actions          (GObject                  *object,
+                                                                       GParamSpec               *pspec,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_cursor_changed               (MousepadDocument         *document,
+                                                                       gint                      line,
+                                                                       gint                      column,
+                                                                       gint                      selection,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_encoding_changed             (MousepadDocument         *document,
+                                                                       MousepadEncoding          encoding,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_language_changed             (MousepadDocument         *document,
+                                                                       GtkSourceLanguage        *language,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_overwrite_changed            (MousepadDocument         *document,
+                                                                       gboolean                  overwrite,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_can_undo                     (GtkTextBuffer            *buffer,
+                                                                       GParamSpec               *unused,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_can_redo                     (GtkTextBuffer            *buffer,
+                                                                       GParamSpec               *unused,
+                                                                       MousepadWindow           *window);
 
 /* menu functions */
-static void              mousepad_window_menu_templates               (GSimpleAction          *action,
-                                                                       GVariant               *state,
-                                                                       gpointer                data);
-static void              mousepad_window_menu_tab_sizes_update        (MousepadWindow         *window);
-static void              mousepad_window_menu_textview_popup          (GtkTextView            *textview,
-                                                                       GtkMenu                *old_menu,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_update_menu_item             (MousepadWindow         *window,
-                                                                       const gchar            *menu_id,
-                                                                       gint                    index,
-                                                                       gpointer                data);
-static void              mousepad_window_update_gomenu                (GSimpleAction          *action,
-                                                                       GVariant               *state,
-                                                                       gpointer                data);
-static void              mousepad_window_recent_menu                  (GSimpleAction          *action,
-                                                                       GVariant               *state,
-                                                                       gpointer                data);
+static void              mousepad_window_menu_templates               (GSimpleAction            *action,
+                                                                       GVariant                 *state,
+                                                                       gpointer                  data);
+static void              mousepad_window_menu_tab_sizes_update        (MousepadWindow           *window);
+static void              mousepad_window_update_menu_item             (MousepadWindow           *window,
+                                                                       const gchar              *menu_id,
+                                                                       gint                      index,
+                                                                       gpointer                  data);
+static void              mousepad_window_update_gomenu                (GSimpleAction            *action,
+                                                                       GVariant                 *state,
+                                                                       gpointer                  data);
+static void              mousepad_window_recent_menu                  (GSimpleAction            *action,
+                                                                       GVariant                 *state,
+                                                                       gpointer                  data);
 
 /* dnd */
-static void              mousepad_window_drag_data_received           (GtkWidget              *widget,
-                                                                       GdkDragContext         *context,
-                                                                       gint                    x,
-                                                                       gint                    y,
-                                                                       GtkSelectionData       *selection_data,
-                                                                       guint                   info,
-                                                                       guint                   drag_time,
-                                                                       MousepadWindow         *window);
+static gboolean          mousepad_window_drag_data_received           (GtkDropTarget            *target,
+                                                                       GValue                   *value,
+                                                                       double                    x,
+                                                                       double                    y,
+                                                                       MousepadWindow           *window);
 
 /* find and replace */
-static void              mousepad_window_search                       (MousepadWindow         *window,
-                                                                       MousepadSearchFlags     flags,
-                                                                       const gchar            *string,
-                                                                       const gchar            *replacement);
-static void              mousepad_window_search_completed             (MousepadDocument       *document,
-                                                                       gint                    n_matches_doc,
-                                                                       const gchar            *string,
-                                                                       MousepadSearchFlags     flags,
-                                                                       MousepadWindow         *window);
-static void              mousepad_window_hide_search_bar              (MousepadWindow         *window);
+static void              mousepad_window_search                       (MousepadWindow           *window,
+                                                                       MousepadSearchFlags       flags,
+                                                                       const gchar              *string,
+                                                                       const gchar              *replacement);
+static void              mousepad_window_search_completed             (MousepadDocument         *document,
+                                                                       gint                      n_matches_doc,
+                                                                       const gchar              *string,
+                                                                       MousepadSearchFlags       flags,
+                                                                       MousepadWindow           *window);
+static void              mousepad_window_hide_search_bar              (MousepadWindow           *window);
 
 /* history clipboard functions */
-static void              mousepad_window_paste_history_add            (MousepadWindow         *window);
-static void              mousepad_window_paste_history_activate       (GtkMenuItem            *item,
-                                                                       MousepadWindow         *window);
-static GtkWidget        *mousepad_window_paste_history_menu_item      (const gchar            *text,
-                                                                       const gchar            *mnemonic);
-static GtkWidget        *mousepad_window_paste_history_menu           (MousepadWindow         *window);
+static void              mousepad_window_paste_history_add            (MousepadWindow           *window);
+/* TODO Paste History */
+#if 0
+static void              mousepad_window_paste_history_activate       (GtkMenuItem              *item,
+                                                                       MousepadWindow           *window);
+static GtkWidget        *mousepad_window_paste_history_menu_item      (const gchar              *text,
+                                                                       const gchar              *mnemonic);
+static GtkWidget        *mousepad_window_paste_history_menu           (MousepadWindow           *window);
+#endif
 
 /* actions */
-static void              mousepad_window_action_new                   (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_new_window            (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_new_from_template     (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_open                  (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_open_recent           (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_clear_recent          (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_save                  (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_save_as               (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_save_all              (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_reload                (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_print                 (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_detach                (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_close                 (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_close_window          (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_undo                  (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_redo                  (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_cut                   (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_copy                  (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_paste                 (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_paste_history         (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_paste_column          (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_delete_selection      (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_delete_line           (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_select_all            (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_lowercase             (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_uppercase             (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_titlecase             (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_opposite_case         (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_tabs_to_spaces        (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_spaces_to_tabs        (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_strip_trailing_spaces (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_transpose             (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_move_line_up          (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_move_line_down        (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_move_word_left        (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_move_word_right       (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_duplicate             (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_increase_indent       (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_decrease_indent       (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_find                  (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_find_next             (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_find_previous         (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_replace               (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_go_to_position        (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_select_font           (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_increase_font_size    (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_decrease_font_size    (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_reset_font_size       (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_bar_activate          (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_textview              (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_menubar_state         (GSimpleAction          *action,
-                                                                       GVariant               *state,
-                                                                       gpointer                data);
-static void              mousepad_window_action_fullscreen            (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_line_ending           (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_tab_size              (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_language              (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_write_bom             (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_viewer_mode           (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_prev_tab              (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_next_tab              (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_go_to_tab             (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_contents              (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
-static void              mousepad_window_action_about                 (GSimpleAction          *action,
-                                                                       GVariant               *value,
-                                                                       gpointer                data);
+static void              mousepad_window_action_new                   (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_new_window            (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_new_from_template     (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_open                  (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_open_recent           (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_clear_recent          (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_save                  (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_save_as               (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_save_all              (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_reload                (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_print                 (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_detach                (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_close                 (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_close_window          (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_undo                  (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_redo                  (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_cut                   (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_copy                  (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_paste                 (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_paste_history         (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_paste_column          (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_delete_selection      (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_delete_line           (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_select_all            (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_lowercase             (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_uppercase             (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_titlecase             (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_opposite_case         (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_tabs_to_spaces        (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_spaces_to_tabs        (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_strip_trailing_spaces (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_transpose             (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_move_line_up          (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_move_line_down        (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_move_word_left        (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_move_word_right       (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_duplicate             (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_increase_indent       (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_decrease_indent       (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_find                  (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_find_next             (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_find_previous         (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_replace               (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_go_to_position        (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_select_font           (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_increase_font_size    (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_decrease_font_size    (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_reset_font_size       (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_bar_activate          (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_textview              (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_menubar_state         (GSimpleAction            *action,
+                                                                       GVariant                 *state,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_fullscreen            (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_line_ending           (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_tab_size              (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_language              (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_write_bom             (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_viewer_mode           (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_prev_tab              (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_next_tab              (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_go_to_tab             (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_contents              (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
+static void              mousepad_window_action_about                 (GSimpleAction            *action,
+                                                                       GVariant                 *value,
+                                                                       gpointer                  data);
 
 
 
@@ -432,24 +440,14 @@ struct _MousepadWindow
   GtkApplicationWindow __parent__;
 
   /* the current and previous active documents */
-  MousepadDocument    *active;
-  MousepadDocument    *previous;
+  MousepadDocument    *active, *previous;
 
   /* main window widgets */
-  GtkWidget           *box;
-  GtkWidget           *menubar_box;
-  GtkWidget           *toolbar_box;
-  GtkWidget           *menubar;
-  GtkWidget           *toolbar;
-  GtkWidget           *notebook;
-  GtkWidget           *search_bar;
-  GtkWidget           *statusbar;
-  GtkWidget           *replace_dialog;
+  GtkWidget           *box, *menubar_box, *menubar, *toolbar_box, *toolbar, *notebook,
+                      *search_bar_box, *search_bar, *statusbar, *replace_dialog;
 
-  /* contextual gtkmenus created from the application resources */
-  GtkWidget           *textview_menu;
-  GtkWidget           *tab_menu;
-  GtkWidget           *languages_menu;
+  /* context menus */
+  GtkWidget           *textview_menu, *tab_menu, *languages_menu;
 
   /* menubar related */
   const gchar         *gtkmenu_key, *offset_key;
@@ -457,6 +455,9 @@ struct _MousepadWindow
 
   /* search widgets related */
   gboolean             search_widget_visible;
+
+  /* event handling */
+  GtkEventController  *controller_click, *controller_key, *controller_scroll;
 };
 
 
@@ -471,9 +472,9 @@ static const GActionEntry action_entries[] =
   { "textview.menubar", mousepad_window_action_textview, NULL, "false", NULL },
 
   /* increase/decrease font size from keyboard/mouse */
-  { "increase-font-size", mousepad_window_action_increase_font_size, NULL, NULL, NULL },
-  { "decrease-font-size", mousepad_window_action_decrease_font_size, NULL, NULL, NULL },
-  { "reset-font-size", mousepad_window_action_reset_font_size, NULL, NULL, NULL },
+  { "font-size-increase", mousepad_window_action_increase_font_size, NULL, NULL, NULL },
+  { "font-size-decrease", mousepad_window_action_decrease_font_size, NULL, NULL, NULL },
+  { "font-size-reset", mousepad_window_action_reset_font_size, NULL, NULL, NULL },
 
   /* "File" menu */
   { "file.new", mousepad_window_action_new, NULL, NULL, NULL },
@@ -600,47 +601,24 @@ mousepad_window_new (MousepadApplication *application)
 static void
 mousepad_window_class_init (MousepadWindowClass *klass)
 {
-  GObjectClass   *gobject_class;
-  GtkWidgetClass *gtkwidget_class;
+  GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+  GtkWindowClass *gtkwindow_class = GTK_WINDOW_CLASS (klass);
 
-  gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->set_property = mousepad_window_set_property;
   gobject_class->get_property = mousepad_window_get_property;
+  gobject_class->dispose = mousepad_window_dispose;
   gobject_class->finalize = mousepad_window_finalize;
 
-  gtkwidget_class = GTK_WIDGET_CLASS (klass);
-  gtkwidget_class->configure_event = mousepad_window_configure_event;
-  gtkwidget_class->delete_event = mousepad_window_delete_event;
-  gtkwidget_class->scroll_event = mousepad_window_scroll_event;
-  gtkwidget_class->window_state_event = mousepad_window_window_state_event;
-  gtkwidget_class->key_press_event = mousepad_window_key_press_event;
+  gtkwindow_class->close_request = mousepad_window_close_request;
 
   window_signals[NEW_WINDOW] =
-    g_signal_new (I_("new-window"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE, 0);
-
-  window_signals[NEW_WINDOW_WITH_DOCUMENT] =
-    g_signal_new (I_("new-window-with-document"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  _mousepad_marshal_VOID__OBJECT_INT_INT,
-                  G_TYPE_NONE, 3,
-                  G_TYPE_OBJECT,
-                  G_TYPE_INT, G_TYPE_INT);
+    g_signal_new (I_("new-window"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1, G_TYPE_OBJECT);
 
   window_signals[SEARCH_COMPLETED] =
-    g_signal_new (I_("search-completed"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  _mousepad_marshal_VOID__INT_STRING_FLAGS,
-                  G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_STRING,
-                  MOUSEPAD_TYPE_SEARCH_FLAGS);
+    g_signal_new (I_("search-completed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, _mousepad_marshal_VOID__INT_STRING_FLAGS,
+                  G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_STRING, MOUSEPAD_TYPE_SEARCH_FLAGS);
 
   g_object_class_install_property (gobject_class, PROP_SEARCH_WIDGET_VISIBLE,
     g_param_spec_boolean ("search-widget-visible", "SearchWidgetVisible",
@@ -660,12 +638,12 @@ mousepad_window_set_property (GObject      *object,
 
   switch (prop_id)
     {
-    case PROP_SEARCH_WIDGET_VISIBLE:
-      window->search_widget_visible = g_value_get_boolean (value);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-      break;
+      case PROP_SEARCH_WIDGET_VISIBLE:
+        window->search_widget_visible = g_value_get_boolean (value);
+        break;
+      default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+        break;
     }
 }
 
@@ -681,13 +659,27 @@ mousepad_window_get_property (GObject    *object,
 
   switch (prop_id)
     {
-    case PROP_SEARCH_WIDGET_VISIBLE:
-      g_value_set_boolean (value, window->search_widget_visible);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-      break;
+      case PROP_SEARCH_WIDGET_VISIBLE:
+        g_value_set_boolean (value, window->search_widget_visible);
+        break;
+      default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+        break;
     }
+}
+
+
+
+static void
+mousepad_window_dispose (GObject *object)
+{
+  MousepadWindow *window = MOUSEPAD_WINDOW (object);
+
+  gtk_widget_unparent (window->textview_menu);
+  gtk_widget_unparent (window->tab_menu);
+  gtk_widget_unparent (window->languages_menu);
+
+  G_OBJECT_CLASS (mousepad_window_parent_class)->dispose (object);
 }
 
 
@@ -712,7 +704,80 @@ mousepad_window_finalize (GObject *object)
       last_save_location = NULL;
     }
 
-  (*G_OBJECT_CLASS (mousepad_window_parent_class)->finalize) (object);
+  G_OBJECT_CLASS (mousepad_window_parent_class)->finalize (object);
+}
+
+
+
+static void
+mousepad_window_restore_geometry (MousepadWindow *window)
+{
+  /* first restore size */
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SIZE))
+    gtk_window_set_default_size (GTK_WINDOW (window),
+                                 MOUSEPAD_SETTING_GET_UINT (WINDOW_WIDTH),
+                                 MOUSEPAD_SETTING_GET_UINT (WINDOW_HEIGHT));
+
+/* TODO: see mousepad_window_save_geometry() */
+#if 0
+  /* then restore position */
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_POSITION))
+    gtk_window_move (GTK_WINDOW (window),
+                     MOUSEPAD_SETTING_GET_UINT (WINDOW_LEFT),
+                     MOUSEPAD_SETTING_GET_UINT (WINDOW_TOP));
+#endif
+
+  /* finally restore window state */
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_STATE))
+    {
+      /* first restore if it was maximized */
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_MAXIMIZED))
+        gtk_window_maximize (GTK_WINDOW (window));
+
+      /* then restore if it was fullscreen and update action state accordingly */
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN))
+        g_action_group_activate_action (G_ACTION_GROUP (window), "view.fullscreen", NULL);
+    }
+}
+
+
+
+static void
+mousepad_window_action_statusbar_overwrite (MousepadWindow *window,
+                                            gboolean        overwrite)
+{
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+  /* set the new overwrite mode */
+  mousepad_document_set_overwrite (window->active, overwrite);
+}
+
+
+
+static void
+mousepad_window_create_statusbar (MousepadWindow *window)
+{
+  /* setup a new statusbar */
+  window->statusbar = mousepad_statusbar_new ();
+
+  /* update the statusbar visibility and related actions state */
+  mousepad_window_update_bar_visibility (window, STATUSBAR);
+
+  /* pack the statusbar into the window UI */
+  gtk_box_append (GTK_BOX (window->box), window->statusbar);
+
+  /* overwrite toggle signal */
+  g_signal_connect_swapped (window->statusbar, "enable-overwrite",
+                            G_CALLBACK (mousepad_window_action_statusbar_overwrite), window);
+
+  /* connect to some signals to keep in sync */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE, mousepad_window_update_bar_visibility,
+                                   window, G_CONNECT_SWAPPED);
+
+  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE_FULLSCREEN,
+                                   mousepad_window_update_bar_visibility,
+                                   window, G_CONNECT_SWAPPED);
 }
 
 
@@ -722,6 +787,8 @@ mousepad_window_update_toolbar_properties (MousepadWindow *window,
                                            gchar          *key,
                                            GSettings      *settings)
 {
+/* TODO Toolbar */
+#if 0
   GtkToolbarStyle style;
   GtkIconSize     size;
 
@@ -730,57 +797,7 @@ mousepad_window_update_toolbar_properties (MousepadWindow *window,
 
   gtk_toolbar_set_style (GTK_TOOLBAR (window->toolbar), style);
   gtk_toolbar_set_icon_size (GTK_TOOLBAR (window->toolbar), size);
-}
-
-
-
-static void
-mousepad_window_restore_geometry (MousepadWindow *window)
-{
-  gboolean remember_size, remember_position, remember_state;
-
-  remember_size = MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SIZE);
-  remember_position = MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_POSITION);
-  remember_state = MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_STATE);
-
-  /* first restore size */
-  if (remember_size)
-    {
-      gint width, height;
-
-      width = MOUSEPAD_SETTING_GET_UINT (WINDOW_WIDTH);
-      height = MOUSEPAD_SETTING_GET_UINT (WINDOW_HEIGHT);
-
-      gtk_window_set_default_size (GTK_WINDOW (window), width, height);
-    }
-
-  /* then restore position */
-  if (remember_position)
-    {
-      gint left, top;
-
-      left = MOUSEPAD_SETTING_GET_UINT (WINDOW_LEFT);
-      top = MOUSEPAD_SETTING_GET_UINT (WINDOW_TOP);
-
-      gtk_window_move (GTK_WINDOW (window), left, top);
-    }
-
-  /* finally restore window state */
-  if (remember_state)
-    {
-      gboolean maximized, fullscreen;
-
-      maximized = MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_MAXIMIZED);
-      fullscreen = MOUSEPAD_SETTING_GET_BOOLEAN (WINDOW_FULLSCREEN);
-
-      /* first restore if it was maximized */
-      if (maximized)
-        gtk_window_maximize (GTK_WINDOW (window));
-
-      /* then restore if it was fullscreen and update action state accordingly */
-      if (fullscreen)
-        g_action_group_activate_action (G_ACTION_GROUP (window), "view.fullscreen", NULL);
-    }
+#endif
 }
 
 
@@ -790,7 +807,7 @@ mousepad_window_update_toolbar_item (GMenuModel  *model,
                                      gint         position,
                                      gint         removed,
                                      gint         added,
-                                     GtkToolItem *item)
+                                     GtkWidget   *item)
 {
   GtkApplication *application;
   GtkWidget      *window;
@@ -810,7 +827,7 @@ mousepad_window_update_toolbar_item (GMenuModel  *model,
       /* every menu item should have at least a label, so we can suppose it exists */
       value = g_menu_model_get_item_attribute_value (model, position, "label",
                                                      G_VARIANT_TYPE_STRING);
-      gtk_tool_button_set_label (GTK_TOOL_BUTTON (item), g_variant_get_string (value, NULL));
+      gtk_button_set_label (GTK_BUTTON (item), g_variant_get_string (value, NULL));
       g_variant_unref (value);
 
       /* all the following item attributes should normally be filled to build a toolbar item,
@@ -818,15 +835,14 @@ mousepad_window_update_toolbar_item (GMenuModel  *model,
       if ((value = g_menu_model_get_item_attribute_value (model, position, "icon",
                                                           G_VARIANT_TYPE_STRING)))
         {
-          gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (item),
-                                         g_variant_get_string (value, NULL));
+          gtk_button_set_icon_name (GTK_BUTTON (item), g_variant_get_string (value, NULL));
           g_variant_unref (value);
         }
 
       if ((value = g_menu_model_get_item_attribute_value (model, position, "tooltip",
                                                           G_VARIANT_TYPE_STRING)))
         {
-          gtk_tool_item_set_tooltip_text (item, g_variant_get_string (value, NULL));
+          gtk_widget_set_tooltip_text (item, g_variant_get_string (value, NULL));
           g_variant_unref (value);
         }
 
@@ -848,45 +864,34 @@ mousepad_window_toolbar_insert (MousepadWindow *window,
                                 GMenuModel     *model,
                                 gint            index)
 {
-  GtkToolItem *item;
-  GtkWidget   *child;
+  GtkEventController *controller;
+  GtkWidget          *item;
+  gchar              *tooltip;
 
   /* create an empty toolbar item */
-  item = gtk_tool_button_new (NULL, NULL);
+  item = gtk_button_new ();
 
   /* initialize the toolbar item properties from the menu item attributes */
   mousepad_object_set_data (item, "index", GINT_TO_POINTER (index));
   mousepad_window_update_toolbar_item (model, index, 0, 1, item);
-  gtk_tool_button_set_use_underline (GTK_TOOL_BUTTON (item), TRUE);
+  gtk_button_set_use_underline (GTK_BUTTON (item), TRUE);
 
   /* a kind of binding between the menu item attributes and the toolbar item properties */
   g_signal_connect_object (model, "items-changed",
                            G_CALLBACK (mousepad_window_update_toolbar_item), item, 0);
 
-  /* tool items will have GtkButton or other widgets in them, we want the child */
-  child = gtk_bin_get_child (GTK_BIN (item));
-
-  /* get events for mouse enter/leave and focus in/out */
-  gtk_widget_add_events (child,
-                         GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK
-                         | GDK_FOCUS_CHANGE_MASK);
-
-  /* connect to signals for the events to show the tooltip in the status bar */
-  g_signal_connect_object (child, "enter-notify-event",
-                           G_CALLBACK (mousepad_window_tool_item_enter_event),
-                           window, 0);
-  g_signal_connect_object (child, "leave-notify-event",
-                           G_CALLBACK (mousepad_window_tool_item_leave_event),
-                           window, 0);
-  g_signal_connect_object (child, "focus-in-event",
-                           G_CALLBACK (mousepad_window_tool_item_enter_event),
-                           window, 0);
-  g_signal_connect_object (child, "focus-out-event",
-                           G_CALLBACK (mousepad_window_tool_item_leave_event),
-                           window, 0);
+  /* connect to signals to show the tooltip in the status bar */
+  tooltip = g_strdup (gtk_widget_get_tooltip_text (GTK_WIDGET (item)));
+  controller = gtk_event_controller_motion_new ();
+  mousepad_object_set_data_full (controller, "tooltip", tooltip, g_free);
+  g_signal_connect (controller, "enter",
+                    G_CALLBACK (mousepad_window_toolbar_item_enter), window);
+  g_signal_connect (controller, "leave",
+                    G_CALLBACK (mousepad_window_toolbar_item_leave), window);
+  gtk_widget_add_controller (item, controller);
 
   /* append the item to the end of the toolbar */
-  gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
+  gtk_box_append (GTK_BOX (toolbar), item);
 }
 
 
@@ -895,15 +900,19 @@ static GtkWidget *
 mousepad_window_toolbar_new_from_model (MousepadWindow *window,
                                         GMenuModel     *model)
 {
-  GtkWidget   *toolbar;
-  GtkToolItem *item = NULL;
-  GMenuModel  *section;
-  gint         m, n, n_items;
+  GtkWidget  *toolbar, *item = NULL;
+  GMenuModel *section;
+  gint        m, n, n_items;
 
   /* create the toolbar and set the main properties */
-  toolbar = gtk_toolbar_new ();
+  toolbar = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_add_css_class (toolbar, "toolbar");
+
+/* TODO Toolbar */
+#if 0
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_ICONS);
   gtk_toolbar_set_icon_size (GTK_TOOLBAR (toolbar), GTK_ICON_SIZE_SMALL_TOOLBAR);
+#endif
 
   /* insert items */
   for (m = 0; m < g_menu_model_get_n_items (model); m++)
@@ -915,8 +924,8 @@ mousepad_window_toolbar_new_from_model (MousepadWindow *window,
           /* append a toolbar separator when needed */
           if (m > 0)
             {
-              item = gtk_separator_tool_item_new ();
-              gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
+              item = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+              gtk_box_append (GTK_BOX (toolbar), item);
             }
 
           /* walk through the section */
@@ -928,15 +937,9 @@ mousepad_window_toolbar_new_from_model (MousepadWindow *window,
         mousepad_window_toolbar_insert (window, toolbar, model, m);
     }
 
-  /* make the last toolbar separator so it expands properly */
-  if (item != NULL)
-    {
-      gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (item), FALSE);
-      gtk_tool_item_set_expand (item, TRUE);
-    }
-
-  /* show all widgets */
-  gtk_widget_show_all (toolbar);
+  /* align the last item (fullscreen) on the right */
+  gtk_widget_set_halign (gtk_widget_get_last_child (toolbar), GTK_ALIGN_END);
+  gtk_widget_set_hexpand (gtk_widget_get_last_child (toolbar), TRUE);
 
   return toolbar;
 }
@@ -969,23 +972,19 @@ mousepad_window_post_init (MousepadWindow *window)
   /* create text view menu and set tooltips (must be done before setting the menubar visibility) */
   application = gtk_window_get_application (GTK_WINDOW (window));
   model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "textview-menu"));
-  window->textview_menu = gtk_menu_new_from_model (model);
-  gtk_menu_attach_to_widget (GTK_MENU (window->textview_menu),
-                             GTK_WIDGET (window), NULL);
+  window->textview_menu = gtk_popover_menu_new_from_model_full (model, GTK_POPOVER_MENU_NESTED);
+  gtk_widget_set_parent (window->textview_menu, GTK_WIDGET (window));
   mousepad_window_menu_set_tooltips (window, window->textview_menu, model, NULL);
 
   /* create tab menu and set tooltips */
   model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "tab-menu"));
-  window->tab_menu = gtk_menu_new_from_model (model);
-  gtk_menu_attach_to_widget (GTK_MENU (window->tab_menu),
-                             GTK_WIDGET (window), NULL);
+  window->tab_menu = gtk_popover_menu_new_from_model_full (model, GTK_POPOVER_MENU_NESTED);
+  gtk_widget_set_parent (window->tab_menu, window->notebook);
   mousepad_window_menu_set_tooltips (window, window->tab_menu, model, NULL);
 
   /* create languages menu and set tooltips */
   model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "document.filetype"));
-  window->languages_menu = gtk_menu_new_from_model (model);
-  gtk_menu_attach_to_widget (GTK_MENU (window->languages_menu),
-                             GTK_WIDGET (window), NULL);
+  window->languages_menu = gtk_popover_menu_new_from_model_full (model, GTK_POPOVER_MENU_NESTED);
   mousepad_window_menu_set_tooltips (window, window->languages_menu, model, NULL);
 
   /* hide the default menubar */
@@ -995,14 +994,13 @@ mousepad_window_post_init (MousepadWindow *window)
    * Outsource the creation of the menubar from
    * gtk/gtk/gtkapplicationwindow.c:gtk_application_window_update_menubar(), to make the menubar
    * a window attribute, and be able to access its items to show their tooltips in the statusbar.
-   * With GTK+ 3, this leads to use gtk_menu_bar_new_from_model()
-   * With GTK+ 4, this will lead to use gtk_popover_menu_bar_new_from_model()
    */
   model = gtk_application_get_menubar (application);
-  window->menubar = gtk_menu_bar_new_from_model (model);
+  window->menubar = gtk_popover_menu_bar_new_from_model (model);
 
   /* insert the menubar in its previously reserved space */
-  gtk_box_pack_start (GTK_BOX (window->menubar_box), window->menubar, TRUE, TRUE, 0);
+  gtk_widget_set_hexpand (window->menubar, TRUE);
+  gtk_box_append (GTK_BOX (window->menubar_box), window->menubar);
 
   /* set tooltips and connect handlers to the menubar items signals */
   mousepad_window_menu_set_tooltips (window, window->menubar, model, NULL);
@@ -1023,7 +1021,8 @@ mousepad_window_post_init (MousepadWindow *window)
   window->toolbar = mousepad_window_toolbar_new_from_model (window, model);
 
   /* insert the toolbar in its previously reserved space */
-  gtk_box_pack_start (GTK_BOX (window->toolbar_box), window->toolbar, TRUE, TRUE, 0);
+  gtk_widget_set_hexpand (window->toolbar, TRUE);
+  gtk_box_append (GTK_BOX (window->toolbar_box), window->toolbar);
 
   /* update the toolbar visibility and related actions state */
   mousepad_window_update_bar_visibility (window, TOOLBAR);
@@ -1050,6 +1049,9 @@ mousepad_window_post_init (MousepadWindow *window)
   MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH, mousepad_window_menu_tab_sizes_update,
                                    window, G_CONNECT_SWAPPED);
 
+  /* create the statusbar */
+  mousepad_window_create_statusbar (window);
+
   /* restore window geometry settings */
   mousepad_window_restore_geometry (window);
 }
@@ -1062,15 +1064,14 @@ mousepad_window_create_root_warning (MousepadWindow *window)
   /* check if we need to add the root warning */
   if (G_UNLIKELY (geteuid () == 0))
     {
-      GtkWidget       *ebox, *label, *separator;
+      GtkWidget       *hbox, *label, *separator;
       GtkCssProvider  *provider;
       GtkStyleContext *context;
       const gchar     *css_string;
 
       /* add the box for the root warning */
-      ebox = gtk_event_box_new ();
-      gtk_box_pack_start (GTK_BOX (window->box), ebox, FALSE, FALSE, 0);
-      gtk_widget_show (ebox);
+      hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+      gtk_box_append (GTK_BOX (window->box), hbox);
 
       /* add the label with the root warning */
       label = gtk_label_new (_("Warning: you are using the root account. You may harm your system."));
@@ -1078,18 +1079,17 @@ mousepad_window_create_root_warning (MousepadWindow *window)
       gtk_widget_set_margin_end (label, 6);
       gtk_widget_set_margin_top (label, 3);
       gtk_widget_set_margin_bottom (label, 3);
-      gtk_container_add (GTK_CONTAINER (ebox), label);
-      gtk_widget_show (label);
+      gtk_widget_set_hexpand (label, TRUE);
+      gtk_box_append (GTK_BOX (hbox), label);
 
       separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-      gtk_box_pack_start (GTK_BOX (window->box), separator, FALSE, FALSE, 0);
-      gtk_widget_show (separator);
+      gtk_box_append (GTK_BOX (window->box), separator);
 
       /* apply a CSS style to capture the user's attention */
       provider = gtk_css_provider_new ();
-      css_string = "label { background-color: #b4254b; color: #fefefe; }";
-      context = gtk_widget_get_style_context (label);
-      gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+      css_string = "box { background-color: #b4254b; color: #fefefe; }";
+      context = gtk_widget_get_style_context (hbox);
+      gtk_css_provider_load_from_data (provider, css_string, -1);
       gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
                                       GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
       g_object_unref (provider);
@@ -1101,84 +1101,68 @@ mousepad_window_create_root_warning (MousepadWindow *window)
 static void
 mousepad_window_create_notebook (MousepadWindow *window)
 {
-  window->notebook = g_object_new (GTK_TYPE_NOTEBOOK,
-                                   "scrollable", TRUE,
-                                   "show-border", FALSE,
-                                   "show-tabs", FALSE,
-                                   NULL);
+  GtkEventController *controller;
+
+  window->notebook = g_object_new (GTK_TYPE_NOTEBOOK, "scrollable", TRUE, "show-border", FALSE,
+                                   "show-tabs", FALSE, NULL);
 
   /* set the group id */
   gtk_notebook_set_group_name (GTK_NOTEBOOK (window->notebook), NOTEBOOK_GROUP);
 
-  /* connect signals to the notebooks */
+  /* connect to the notebook signals */
   g_signal_connect (window->notebook, "switch-page",
                     G_CALLBACK (mousepad_window_notebook_switch_page), window);
   g_signal_connect (window->notebook, "page-added",
                     G_CALLBACK (mousepad_window_notebook_added), window);
   g_signal_connect (window->notebook, "page-removed",
                     G_CALLBACK (mousepad_window_notebook_removed), window);
-  g_signal_connect (window->notebook, "button-press-event",
-                    G_CALLBACK (mousepad_window_notebook_button_press_event), window);
-  g_signal_connect (window->notebook, "button-release-event",
-                    G_CALLBACK (mousepad_window_notebook_button_release_event), window);
   g_signal_connect (window->notebook, "create-window",
                     G_CALLBACK (mousepad_window_notebook_create_window), window);
 
+  /* catch events */
+  controller = GTK_EVENT_CONTROLLER (gtk_gesture_click_new ());
+  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (controller), 0);
+  g_signal_connect (controller, "pressed",
+                    G_CALLBACK (mousepad_window_notebook_button_pressed), window);
+  g_signal_connect (controller, "released",
+                    G_CALLBACK (mousepad_window_notebook_button_released), window);
+  gtk_widget_add_controller (window->notebook, controller);
+
   /* append and show the notebook */
-  gtk_box_pack_start (GTK_BOX (window->box), window->notebook, TRUE, TRUE, PADDING);
-  gtk_widget_show (window->notebook);
+  gtk_widget_set_margin_top (window->notebook, PADDING);
+  gtk_widget_set_margin_bottom (window->notebook, PADDING);
+  gtk_widget_set_vexpand (window->notebook, TRUE);
+  gtk_box_append (GTK_BOX (window->box), window->notebook);
 }
 
 
 
-static void
-mousepad_window_action_statusbar_overwrite (MousepadWindow *window,
-                                            gboolean        overwrite)
+static gboolean
+mousepad_window_key_press_event (GtkEventControllerKey *controller,
+                                 guint                  keyval,
+                                 guint                  keycode,
+                                 GdkModifierType        state,
+                                 MousepadWindow        *window)
 {
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+  GdkEvent     *event;
+  GdkEventType  type;
 
-  /* set the new overwrite mode */
-  mousepad_document_set_overwrite (window->active, overwrite);
-}
+  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
 
+  /* retrieve event type */
+  event = gtk_event_controller_get_current_event (GTK_EVENT_CONTROLLER (controller));
+  type = gdk_event_get_event_type (event);
 
+  /* hide the search bar if Esc key was pressed: this is G_SIGNAL_RUN_LAST, so hiding
+   * the menubar has priority if necessary */
+  if (keyval == GDK_KEY_Escape && type == GDK_KEY_PRESS && window->search_bar != NULL
+      && gtk_widget_get_visible (window->search_bar))
+    {
+      mousepad_window_hide_search_bar (window);
+      return TRUE;
+    }
 
-static void
-mousepad_window_create_statusbar (MousepadWindow *window)
-{
-  /* setup a new statusbar */
-  window->statusbar = mousepad_statusbar_new ();
-
-  /* update the statusbar visibility and related actions state */
-  mousepad_window_update_bar_visibility (window, STATUSBAR);
-
-#if !GTK_CHECK_VERSION (4, 0, 0)
-  /* make the statusbar smaller */
-  /*
-   * To fix hard-coded, oversized GTK+3 status bar padding, see:
-   * https://gitlab.gnome.org/GNOME/gtk/-/commit/94ebe2106817f6bc7aaf868bd00d0fc381d33e7e
-   * Fixed in GTK+4:
-   * https://gitlab.gnome.org/GNOME/gtk/-/commit/1a7cbddbd4e98e4641e690035013abbfaec130b0
-   */
-  gtk_widget_set_margin_top (window->statusbar, 0);
-  gtk_widget_set_margin_bottom (window->statusbar, 0);
-#endif
-
-  /* pack the statusbar into the window UI */
-  gtk_box_pack_end (GTK_BOX (window->box), window->statusbar, FALSE, FALSE, 0);
-
-  /* overwrite toggle signal */
-  g_signal_connect_swapped (window->statusbar, "enable-overwrite",
-                            G_CALLBACK (mousepad_window_action_statusbar_overwrite), window);
-
-  /* connect to some signals to keep in sync */
-  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE, mousepad_window_update_bar_visibility,
-                                   window, G_CONNECT_SWAPPED);
-
-  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE_FULLSCREEN,
-                                   mousepad_window_update_bar_visibility,
-                                   window, G_CONNECT_SWAPPED);
+  return FALSE;
 }
 
 
@@ -1186,7 +1170,8 @@ mousepad_window_create_statusbar (MousepadWindow *window)
 static void
 mousepad_window_init (MousepadWindow *window)
 {
-  GAction *action;
+  GtkDropTarget *drop_target;
+  GAction       *action;
 
   /* initialize stuff */
   window->active = NULL;
@@ -1203,6 +1188,8 @@ mousepad_window_init (MousepadWindow *window)
   window->gtkmenu_key = NULL;
   window->offset_key = NULL;
   window->old_style_menu = MOUSEPAD_SETTING_GET_BOOLEAN (OLD_STYLE_MENU);
+  window->controller_click = NULL;
+  window->controller_key = NULL;
 
   /* increase clipboard history ref count */
   clipboard_history_ref_count++;
@@ -1223,17 +1210,14 @@ mousepad_window_init (MousepadWindow *window)
 
   /* create the main table */
   window->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-  gtk_container_add (GTK_CONTAINER (window), window->box);
-  gtk_widget_show (window->box);
+  gtk_window_set_child (GTK_WINDOW (window), window->box);
 
-  /* keep a place for the menubar and the toolbar, created later from the application resources */
+  /* keep a place for the menubar and the toolbar created later */
   window->menubar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_box_pack_start (GTK_BOX (window->box), window->menubar_box, FALSE, FALSE, 0);
-  gtk_widget_show (window->menubar_box);
+  gtk_box_append (GTK_BOX (window->box), window->menubar_box);
 
   window->toolbar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_box_pack_start (GTK_BOX (window->box), window->toolbar_box, FALSE, FALSE, 0);
-  gtk_widget_show (window->toolbar_box);
+  gtk_box_append (GTK_BOX (window->box), window->toolbar_box);
 
   /* create the root-warning bar (if needed) */
   mousepad_window_create_root_warning (window);
@@ -1241,20 +1225,53 @@ mousepad_window_init (MousepadWindow *window)
   /* create the notebook */
   mousepad_window_create_notebook (window);
 
-  /* create the statusbar */
-  mousepad_window_create_statusbar (window);
+  /* keep a place for the search bar created later */
+  window->search_bar_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_box_append (GTK_BOX (window->box), window->search_bar_box);
 
   /* defer actions that require the application to be set */
   g_signal_connect (window, "notify::application",
                     G_CALLBACK (mousepad_window_post_init), NULL);
 
+  /* listen to some property changes */
+  g_signal_connect (window, "notify::fullscreened",
+                    G_CALLBACK (mousepad_window_fullscreened), NULL);
+  g_signal_connect (window, "notify::fullscreened",
+                    G_CALLBACK (mousepad_window_save_geometry), NULL);
+  g_signal_connect (window, "notify::maximized",
+                    G_CALLBACK (mousepad_window_save_geometry), NULL);
+  g_signal_connect (window, "notify::default-height",
+                    G_CALLBACK (mousepad_window_save_geometry), NULL);
+  g_signal_connect (window, "notify::default-width",
+                    G_CALLBACK (mousepad_window_save_geometry), NULL);
+
+  /* catch some events */
+  window->controller_scroll =
+    gtk_event_controller_scroll_new (GTK_EVENT_CONTROLLER_SCROLL_DISCRETE
+                                     | GTK_EVENT_CONTROLLER_SCROLL_BOTH_AXES);
+  gtk_event_controller_set_propagation_phase (window->controller_scroll, GTK_PHASE_CAPTURE);
+  g_signal_connect (window->controller_scroll, "scroll",
+                    G_CALLBACK (mousepad_window_scroll), window);
+  gtk_widget_add_controller (GTK_WIDGET (window), window->controller_scroll);
+
+  window->controller_click = GTK_EVENT_CONTROLLER (gtk_gesture_click_new ());
+  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (window->controller_click), 0);
+  gtk_event_controller_set_propagation_phase (window->controller_click, GTK_PHASE_CAPTURE);
+  gtk_widget_add_controller (GTK_WIDGET (window), window->controller_click);
+
+  window->controller_key = gtk_event_controller_key_new ();
+  gtk_widget_add_controller (GTK_WIDGET (window), window->controller_key);
+  g_signal_connect_after (window->controller_key, "key-pressed",
+                          G_CALLBACK (mousepad_window_key_press_event), window);
+
   /* allow drops in the window */
-  gtk_drag_dest_set (GTK_WIDGET (window),
-                     GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_DROP,
-                     drop_targets,
-                     G_N_ELEMENTS (drop_targets), GDK_ACTION_COPY | GDK_ACTION_MOVE);
-  g_signal_connect (window, "drag-data-received",
+  drop_target = gtk_drop_target_new (G_TYPE_INVALID,
+                                     GDK_ACTION_COPY | GDK_ACTION_MOVE);
+  gtk_drop_target_set_gtypes (drop_target,
+                              (GType [2]) { G_TYPE_FILE, GTK_TYPE_NOTEBOOK_PAGE }, 2);
+  g_signal_connect (drop_target, "drop",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
+  gtk_widget_add_controller (GTK_WIDGET (window), GTK_EVENT_CONTROLLER (drop_target));
 
   /* update the window title when 'path-in-title' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE, mousepad_window_set_title,
@@ -1268,122 +1285,12 @@ mousepad_window_init (MousepadWindow *window)
 
 
 static gboolean
-mousepad_window_save_geometry (gpointer data)
+mousepad_window_close_request (GtkWindow *window)
 {
-  GdkWindowState state;
-  gboolean       remember_size, remember_position, remember_state;
-
-  /* check if we should remember the window geometry */
-  remember_size = MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SIZE);
-  remember_position = MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_POSITION);
-  remember_state = MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_STATE);
-
-  if (remember_size || remember_position || remember_state)
-    {
-      /* check if the window is still visible */
-      if (gtk_widget_get_visible (data))
-        {
-          /* determine the current state of the window */
-          state = gdk_window_get_state (gtk_widget_get_window (data));
-
-          /* don't save geometry for maximized or fullscreen windows */
-          if ((state & (GDK_WINDOW_STATE_MAXIMIZED | GDK_WINDOW_STATE_FULLSCREEN)) == 0)
-            {
-              if (remember_size)
-                {
-                  gint width, height;
-
-                  /* determine the current width/height of the window... */
-                  gtk_window_get_size (data, &width, &height);
-
-                  /* ...and remember them as default for new windows */
-                  MOUSEPAD_SETTING_SET_UINT (WINDOW_WIDTH, width);
-                  MOUSEPAD_SETTING_SET_UINT (WINDOW_HEIGHT, height);
-                }
-
-              if (remember_position)
-                {
-                  gint left, top;
-
-                  /* determine the current left/top position of the window */
-                  gtk_window_get_position (data, &left, &top);
-
-                  /* and then remember it for next startup */
-                  MOUSEPAD_SETTING_SET_UINT (WINDOW_LEFT, left);
-                  MOUSEPAD_SETTING_SET_UINT (WINDOW_TOP, top);
-                }
-            }
-
-          if (remember_state)
-            {
-              /* remember whether the window is maximized or full screen or not */
-              MOUSEPAD_SETTING_SET_BOOLEAN (WINDOW_MAXIMIZED, (state & GDK_WINDOW_STATE_MAXIMIZED));
-              MOUSEPAD_SETTING_SET_BOOLEAN (WINDOW_FULLSCREEN, (state & GDK_WINDOW_STATE_FULLSCREEN));
-            }
-        }
-    }
-
-  return FALSE;
-}
-
-
-
-static gboolean
-mousepad_window_configure_event (GtkWidget         *widget,
-                                 GdkEventConfigure *event)
-{
-  MousepadWindow *window = MOUSEPAD_WINDOW (widget);
-  static GSource *source = NULL;
-  guint           source_id;
-
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
 
-  /*
-   * As long as the window geometry changes, new configure events arrive and
-   * the three actions below run as a loop.
-   * The window geometry backup only takes place once, one second after the
-   * last configure event.
-   * "event == NULL" is a special case, corresponding to "save on close".
-   */
-
-  /* drop the previous timer source */
-  if (source != NULL)
-    {
-      if (! g_source_is_destroyed (source))
-        g_source_destroy (source);
-
-      g_source_unref (source);
-      source = NULL;
-    }
-
-  /* real event */
-  if (event != NULL)
-    {
-      /* schedule a new backup of the window geometry */
-      source_id = g_timeout_add_seconds (1, mousepad_window_save_geometry, window);
-
-      /* retrieve the timer source and increase its ref count to test its destruction next time */
-      source = g_main_context_find_source_by_id (NULL, source_id);
-      g_source_ref (source);
-
-      /* let gtk+ handle the configure event */
-      return GTK_WIDGET_CLASS (mousepad_window_parent_class)->configure_event (widget, event);
-    }
-  /* save on close */
-  else
-    return mousepad_window_save_geometry (window);
-}
-
-
-
-static gboolean
-mousepad_window_delete_event (GtkWidget   *widget,
-                              GdkEventAny *event)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (widget), FALSE);
-
   /* try to close the window */
-  g_action_group_activate_action (G_ACTION_GROUP (widget), "file.close-window", NULL);
+  g_action_group_activate_action (G_ACTION_GROUP (window), "file.close-window", NULL);
 
   /* we will close the window when all the tabs are closed */
   return TRUE;
@@ -1391,71 +1298,97 @@ mousepad_window_delete_event (GtkWidget   *widget,
 
 
 
-static gboolean
-mousepad_window_scroll_event (GtkWidget      *widget,
-                              GdkEventScroll *event)
+static void
+mousepad_window_fullscreened (MousepadWindow *window)
 {
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (widget), FALSE);
-
-  if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_UP)
-    {
-      g_action_group_activate_action (G_ACTION_GROUP (widget), "increase-font-size", NULL);
-      return TRUE;
-    }
-  else if (event->state & GDK_CONTROL_MASK && event->direction == GDK_SCROLL_DOWN)
-    {
-      g_action_group_activate_action (G_ACTION_GROUP (widget), "decrease-font-size", NULL);
-      return TRUE;
-    }
-
-  /* don't chain-up to parent here: it is not necessary and the parent class method
-   * is defined only from GTK 3.24.13 */
-  return FALSE;
-}
-
-
-
-static gboolean
-mousepad_window_window_state_event (GtkWidget           *widget,
-                                    GdkEventWindowState *event)
-{
-  MousepadWindow *window = MOUSEPAD_WINDOW (widget);
-
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* update bars visibility when entering/leaving fullscreen mode */
-  if (event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN)
+  mousepad_window_update_bar_visibility (window, MENUBAR);
+  mousepad_window_update_bar_visibility (window, TOOLBAR);
+  mousepad_window_update_bar_visibility (window, STATUSBAR);
+}
+
+
+
+static void
+mousepad_window_save_geometry (GtkWindow *window)
+{
+  gboolean maximized, fullscreen;
+
+  /* determine the current state of the window */
+  maximized = gtk_window_is_maximized (window);
+  fullscreen = gtk_window_is_fullscreen (window);
+
+  /* don't save geometry for maximized or fullscreen windows */
+  if (! maximized && ! fullscreen)
     {
-      mousepad_window_update_bar_visibility (window, MENUBAR);
-      mousepad_window_update_bar_visibility (window, TOOLBAR);
-      mousepad_window_update_bar_visibility (window, STATUSBAR);
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_SIZE))
+        {
+          gint width, height;
+
+          /* determine the current width/height of the window... */
+          gtk_window_get_default_size (window, &width, &height);
+
+          /* ...and remember them as default for new windows */
+          MOUSEPAD_SETTING_SET_UINT (WINDOW_WIDTH, width);
+          MOUSEPAD_SETTING_SET_UINT (WINDOW_HEIGHT, height);
+        }
+
+/*
+ * TODO: Should this be maintained after the switch to GTK 4?
+ *       See e.g. https://developer.gnome.org/gtk4/stable/ch41s02.html#id-1.7.4.4.8
+ *       It was also already discouraged in GTK 3 documentation, see
+ *       https://developer.gnome.org/gtk3/stable/GtkWindow.html#gtk-window-get-position
+ */
+#if 0
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_POSITION))
+        {
+          gint left, top;
+
+          /* determine the current left/top position of the window */
+          gtk_window_get_position (window, &left, &top);
+
+          /* and then remember it for next startup */
+          MOUSEPAD_SETTING_SET_UINT (WINDOW_LEFT, left);
+          MOUSEPAD_SETTING_SET_UINT (WINDOW_TOP, top);
+        }
+#endif
     }
 
-  /* let gtk+ handle the window state event */
-  return GTK_WIDGET_CLASS (mousepad_window_parent_class)->window_state_event (widget, event);
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (REMEMBER_STATE))
+    {
+      /* remember whether the window is maximized or fullscreen or not */
+      MOUSEPAD_SETTING_SET_BOOLEAN (WINDOW_MAXIMIZED, maximized);
+      MOUSEPAD_SETTING_SET_BOOLEAN (WINDOW_FULLSCREEN, fullscreen);
+    }
 }
 
 
 
 static gboolean
-mousepad_window_key_press_event (GtkWidget   *widget,
-                                 GdkEventKey *event)
+mousepad_window_scroll (GtkEventControllerScroll *scroll,
+                        double                    dx,
+                        double                    dy,
+                        MousepadWindow           *window)
 {
-  MousepadWindow *window = MOUSEPAD_WINDOW (widget);
+  GtkEventController *controller = GTK_EVENT_CONTROLLER (scroll);
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
 
-  /* hide the search bar if Esc key was pressed: this is G_SIGNAL_RUN_LAST, so hiding
-   * the menubar has priority if necessary */
-  if (event->keyval == GDK_KEY_Escape && window->search_bar != NULL
-      && gtk_widget_get_visible (window->search_bar))
+  if (gtk_event_controller_get_current_event_state (controller) & GDK_CONTROL_MASK)
     {
-      mousepad_window_hide_search_bar (window);
+      if (dy < 0)
+        g_action_group_activate_action (G_ACTION_GROUP (window), "font-size-increase", NULL);
+      else if (dy > 0)
+        g_action_group_activate_action (G_ACTION_GROUP (window), "font-size-decrease", NULL);
+      else
+        return FALSE;
+
       return TRUE;
     }
 
-  /* let gtk+ handle the key event */
-  return GTK_WIDGET_CLASS (mousepad_window_parent_class)->key_press_event (widget, event);
+  return FALSE;
 }
 
 
@@ -1463,6 +1396,8 @@ mousepad_window_key_press_event (GtkWidget   *widget,
 /**
  * Statusbar Tooltip Functions
  **/
+/* TODO Menubar */
+#if 0
 static void
 mousepad_window_menu_item_selected (GtkWidget      *menu_item,
                                     MousepadWindow *window)
@@ -1482,33 +1417,29 @@ mousepad_window_menu_item_deselected (GtkWidget      *menu_item,
 {
   mousepad_statusbar_pop_tooltip (MOUSEPAD_STATUSBAR (window->statusbar));
 }
+#endif
 
 
 
-static gboolean
-mousepad_window_tool_item_enter_event (GtkWidget      *tool_item,
-                                       GdkEvent       *event,
-                                       MousepadWindow *window)
+static void
+mousepad_window_toolbar_item_enter (GtkEventControllerMotion *controller,
+                                    double                    x,
+                                    double                    y,
+                                    MousepadWindow           *window)
 {
-  gchar *tooltip;
-
-  tooltip = gtk_widget_get_tooltip_text (tool_item);
-  mousepad_statusbar_push_tooltip (MOUSEPAD_STATUSBAR (window->statusbar), tooltip);
-  g_free (tooltip);
-
-  return FALSE;
+  mousepad_statusbar_push_tooltip (MOUSEPAD_STATUSBAR (window->statusbar),
+                                   mousepad_object_get_data (controller, "tooltip"));
 }
 
 
 
-static gboolean
-mousepad_window_tool_item_leave_event (GtkWidget      *tool_item,
-                                       GdkEvent       *event,
-                                       MousepadWindow *window)
+static void
+mousepad_window_toolbar_item_leave (GtkEventControllerMotion *controller,
+                                    double                    x,
+                                    double                    y,
+                                    MousepadWindow           *window)
 {
   mousepad_statusbar_pop_tooltip (MOUSEPAD_STATUSBAR (window->statusbar));
-
-  return FALSE;
 }
 
 
@@ -1520,6 +1451,8 @@ mousepad_window_menu_update_tooltips (GMenuModel     *model,
                                       gint            added,
                                       MousepadWindow *window)
 {
+/* TODO Menubar */
+#if 0
   GtkWidget *menu;
   gint       offset;
 
@@ -1530,10 +1463,13 @@ mousepad_window_menu_update_tooltips (GMenuModel     *model,
   menu = mousepad_object_get_data (model, window->gtkmenu_key);
   offset = GPOINTER_TO_INT (mousepad_object_get_data (model, window->offset_key));
   mousepad_window_menu_set_tooltips (window, menu, model, &offset);
+#endif
 }
 
 
 
+/* TODO Menubar */
+#if 0
 static void
 mousepad_window_menu_item_activate (GtkMenuItem *new_item,
                                     gpointer     item)
@@ -1611,13 +1547,11 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
               provider = gtk_css_provider_new ();
               gtk_css_provider_load_from_data (provider,
                                                "menuitem { min-width: 0px; min-height: 0px; }",
-                                               -1, NULL);
+                                               -1);
               gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
                                               GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
               g_object_unref (provider);
             }
-
-          gtk_widget_show (button);
 
           /* bind the "active" property of the hidden and visible checkboxes/radios */
           g_object_bind_property (item, "active", button, "active", G_BINDING_SYNC_CREATE);
@@ -1637,25 +1571,24 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
 
       box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
       g_object_ref (box);
-      gtk_widget_show (box);
 
       /* either a button or an icon, not both, with an end margin when needed */
       if (button != NULL)
         {
-          gtk_box_pack_start (GTK_BOX (box), button, FALSE, FALSE, 0);
+          gtk_box_append (GTK_BOX (box), button);
           if (! toggle)
             gtk_widget_set_margin_end (button, 6);
         }
       else
         {
-          icon = gtk_image_new_from_icon_name ("", GTK_ICON_SIZE_BUTTON);
+          icon = gtk_image_new_from_icon_name ("");
           gtk_widget_set_margin_end (icon, 6);
-          gtk_widget_show (icon);
-          gtk_box_pack_start (GTK_BOX (box), icon, FALSE, FALSE, 0);
+          gtk_box_append (GTK_BOX (box), icon);
         }
 
       /* put the packed label back in place */
-      gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
+      gtk_widget_set_hexpand (label, TRUE);
+      gtk_box_append (GTK_BOX (box), label);
       g_object_unref (label);
     }
   else
@@ -1674,7 +1607,7 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
       /* hide icon if there is a button, no extra margin here */
       if (button != NULL)
         {
-          gtk_box_pack_start (GTK_BOX (box), button, FALSE, FALSE, 0);
+          gtk_box_append (GTK_BOX (box), button);
           gtk_widget_hide (icon);
           if (toggle)
             gtk_box_set_spacing (GTK_BOX (box), 0);
@@ -1692,7 +1625,6 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
     {
       /* create a new non-check menu item and add it to the menu */
       new_item = gtk_menu_item_new ();
-      gtk_widget_show (new_item);
       gtk_container_add (GTK_CONTAINER (new_item), box);
       gtk_menu_shell_insert (GTK_MENU_SHELL (menu), new_item, index);
 
@@ -1718,6 +1650,7 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
 
   return new_item;
 }
+#endif
 
 
 
@@ -1727,6 +1660,8 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
                                    GMenuModel     *model,
                                    gint           *offset)
 {
+/* TODO Menubar */
+#if 0
   GMenuModel   *section, *submodel;
   GtkWidget    *submenu;
   GVariant     *hidden_when, *action, *tooltip;
@@ -1872,6 +1807,7 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
 
   /* cleanup */
   g_list_free (children);
+#endif
 }
 
 
@@ -1978,14 +1914,14 @@ mousepad_window_open_file (MousepadWindow   *window,
   mousepad_file_set_encoding (document->file, encoding);
 
   /* lock the undo manager */
-  gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+  gtk_text_buffer_begin_irreversible_action (document->buffer);
 
   /* read the content into the buffer */
   result = mousepad_file_open (document->file, line, column, must_exist,
                                FALSE, user_set_encoding, &error);
 
   /* release the lock */
-  gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+  gtk_text_buffer_end_irreversible_action (document->buffer);
 
   switch (result)
     {
@@ -2113,7 +2049,7 @@ mousepad_window_add (MousepadWindow   *window,
   MousepadDocument *prev_active = window->active;
   GtkNotebook      *notebook = GTK_NOTEBOOK (window->notebook);
   GtkWidget        *label, *widget = GTK_WIDGET (document);
-  gint              page;
+  gint              prev_page, page;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
@@ -2123,17 +2059,14 @@ mousepad_window_add (MousepadWindow   *window,
   label = mousepad_document_get_tab_label (document);
 
   /* get active page */
-  page = gtk_notebook_get_current_page (notebook);
+  prev_page = gtk_notebook_get_current_page (notebook);
 
   /* insert the page right of the active tab */
-  page = gtk_notebook_insert_page (notebook, widget, label, page + 1);
+  page = gtk_notebook_insert_page (notebook, widget, label, prev_page + 1);
 
-  /* set tab child properties */
-  gtk_notebook_set_tab_reorderable (notebook, widget, TRUE);
-  gtk_notebook_set_tab_detachable (notebook, widget, TRUE);
-
-  /* show the document */
-  gtk_widget_show (widget);
+  /* set notebook page properties */
+  g_object_set (gtk_notebook_get_page (notebook, widget),
+                "reorderable", TRUE, "detachable", TRUE, NULL);
 
   /* don't bother about this when there was no previous active page (startup) */
   if (G_LIKELY (prev_active != NULL))
@@ -2142,11 +2075,10 @@ mousepad_window_add (MousepadWindow   *window,
       gtk_notebook_set_current_page (notebook, page);
 
       /* remove the previous tab if it was not modified, untitled and the new tab is not untitled */
-      page = gtk_notebook_page_num (notebook, GTK_WIDGET (prev_active));
       if (! gtk_text_buffer_get_modified (prev_active->buffer)
           && ! mousepad_file_location_is_set (prev_active->file)
           && mousepad_file_location_is_set (document->file))
-        gtk_notebook_remove_page (notebook, page);
+        gtk_notebook_remove_page (notebook, prev_page);
     }
 
   /* make sure the textview is focused in the new document */
@@ -2319,104 +2251,6 @@ mousepad_window_get_languages_menu (MousepadWindow *window)
 
 
 
-static gboolean
-mousepad_window_get_in_fullscreen (MousepadWindow *window)
-{
-  if (gtk_widget_get_visible (GTK_WIDGET (window)))
-    {
-      GdkWindow     *win = gtk_widget_get_window (GTK_WIDGET (window));
-      GdkWindowState state = gdk_window_get_state (win);
-      return (state & GDK_WINDOW_STATE_FULLSCREEN);
-    }
-
-  return FALSE;
-}
-
-
-
-static gboolean
-mousepad_window_hide_menubar_event (MousepadWindow *window)
-{
-  /* disconnect signals and hide the menubar */
-  mousepad_disconnect_by_func (window, mousepad_window_hide_menubar_event, NULL);
-  mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar_event, window);
-  mousepad_disconnect_by_func (window->notebook, mousepad_window_hide_menubar_event, window);
-  gtk_widget_hide (window->menubar);
-
-  return FALSE;
-}
-
-
-
-static gboolean
-mousepad_window_menubar_key_event (MousepadWindow *window,
-                                   GdkEventKey    *event,
-                                   GList          *mnemonics)
-{
-  GdkEvent *event_bis;
-  static gboolean hidden_last_time = FALSE;
-
-  /* Alt key was pressed (alone or as a GdkModifierType) or released, or Esc key was pressed */
-  if (event->state & GDK_MOD1_MASK || event->keyval == GDK_KEY_Alt_L
-      || (event->keyval == GDK_KEY_Escape && event->type == GDK_KEY_PRESS))
-    {
-      /* hide the menubar if Alt/Esc key was pressed */
-      if (event->type == GDK_KEY_PRESS
-          && (event->keyval == GDK_KEY_Alt_L || event->keyval == GDK_KEY_Escape)
-          && gtk_widget_get_visible (window->menubar))
-        {
-          /* disconnect signals and hide the menubar */
-          mousepad_disconnect_by_func (window, mousepad_window_hide_menubar_event, NULL);
-          mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar_event, window);
-          mousepad_disconnect_by_func (window->notebook, mousepad_window_hide_menubar_event, window);
-          gtk_widget_hide (window->menubar);
-
-          /* don't show the menubar when the Alt key is released this time */
-          hidden_last_time = TRUE;
-
-          return TRUE;
-        }
-      /* show the menubar if Alt key was released or if one of its mnemonic keys matched */
-      else if (! hidden_last_time && ! gtk_widget_get_visible (window->menubar)
-               && ((event->keyval == GDK_KEY_Alt_L && event->type == GDK_KEY_RELEASE)
-                   || (event->type == GDK_KEY_PRESS && event->state & GDK_MOD1_MASK
-                       && g_list_find (mnemonics, GUINT_TO_POINTER (event->keyval)))))
-        {
-          /* show the menubar and connect signals to hide it afterwards on user actions */
-          gtk_widget_show (window->menubar);
-          g_signal_connect (window, "button-press-event",
-                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
-          g_signal_connect (window, "button-release-event",
-                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
-          g_signal_connect (window, "focus-out-event",
-                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
-          g_signal_connect (window, "scroll-event",
-                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
-          g_signal_connect_swapped (window->menubar, "deactivate",
-                                    G_CALLBACK (mousepad_window_hide_menubar_event), window);
-          g_signal_connect_swapped (window->notebook, "button-press-event",
-                                    G_CALLBACK (mousepad_window_hide_menubar_event), window);
-
-          /* in case of a mnemonic key, repeat the same event to make its menu popup */
-          if (event->keyval != GDK_KEY_Alt_L)
-            {
-              event_bis = gdk_event_copy ((GdkEvent *) event);
-              gtk_main_do_event (event_bis);
-              gdk_event_free (event_bis);
-            }
-
-          return TRUE;
-        }
-    }
-
-  /* show the menubar the next time the Alt key is released */
-  hidden_last_time = FALSE;
-
-  return FALSE;
-}
-
-
-
 static void
 mousepad_window_update_bar_visibility (MousepadWindow *window,
                                        const gchar    *hint)
@@ -2454,7 +2288,7 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
   visible = mousepad_setting_get_boolean (setting);
 
   /* deduce the visibility setting if we are in fullscreen mode */
-  if (mousepad_window_get_in_fullscreen (window))
+  if (gtk_window_is_fullscreen (GTK_WINDOW (window)))
     {
       visible_fs = mousepad_setting_get_enum (setting_fs);
       visible = (visible_fs == AUTO) ? visible : (visible_fs == YES);
@@ -2559,8 +2393,8 @@ mousepad_window_update_actions (MousepadWindow *window)
                                    mousepad_file_location_is_set (document->file));
 
       /* set the sensitivity of the undo and redo actions */
-      mousepad_window_can_undo (GTK_SOURCE_BUFFER (document->buffer), NULL, window);
-      mousepad_window_can_redo (GTK_SOURCE_BUFFER (document->buffer), NULL, window);
+      mousepad_window_can_undo (document->buffer, NULL, window);
+      mousepad_window_can_redo (document->buffer, NULL, window);
 
       /* set the current line ending type */
       line_ending = mousepad_file_get_line_ending (document->file);
@@ -2666,12 +2500,10 @@ mousepad_window_notebook_added (GtkNotebook     *notebook,
                     G_CALLBACK (mousepad_window_location_changed), window);
   g_signal_connect (document->file, "readonly-changed",
                     G_CALLBACK (mousepad_window_readonly_changed), window);
-  g_signal_connect (document->textview, "drag-data-received",
-                    G_CALLBACK (mousepad_window_drag_data_received), window);
-  g_signal_connect (document->textview, "populate-popup",
-                    G_CALLBACK (mousepad_window_menu_textview_popup), window);
   g_signal_connect (document->textview, "notify::has-focus",
                     G_CALLBACK (mousepad_window_enable_edit_actions), window);
+  g_signal_connect (document->controller, "pressed",
+                    G_CALLBACK (mousepad_window_textview_menu_popup), window);
 
   /* change the visibility of the tabs accordingly */
   mousepad_window_update_tabs_visibility (window, NULL, NULL);
@@ -2705,9 +2537,8 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   mousepad_disconnect_by_func (document->file, mousepad_window_externally_modified, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_location_changed, window);
   mousepad_disconnect_by_func (document->file, mousepad_window_readonly_changed, window);
-  mousepad_disconnect_by_func (document->textview, mousepad_window_drag_data_received, window);
-  mousepad_disconnect_by_func (document->textview, mousepad_window_menu_textview_popup, window);
   mousepad_disconnect_by_func (document->textview, mousepad_window_enable_edit_actions, window);
+  mousepad_disconnect_by_func (document->controller, mousepad_window_textview_menu_popup, window);
 
   /* reset the reference to NULL to avoid illegal memory access */
   if (window->previous == document)
@@ -2716,8 +2547,8 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
   /* window contains no tabs: save geometry and destroy it */
   if (gtk_notebook_get_n_pages (notebook) == 0)
     {
-      mousepad_window_configure_event (GTK_WIDGET (window), NULL);
-      gtk_widget_destroy (GTK_WIDGET (window));
+      mousepad_window_save_geometry (GTK_WINDOW (window));
+      gtk_window_destroy (GTK_WINDOW (window));
     }
   /* change the visibility of the tabs accordingly */
   else
@@ -2726,181 +2557,33 @@ mousepad_window_notebook_removed (GtkNotebook     *notebook,
 
 
 
-/* stolen from Geany notebook.c */
-static gboolean
-mousepad_window_is_position_on_tab_bar (GtkNotebook *notebook, GdkEventButton *event)
-{
-  GtkWidget      *page, *tab, *nb;
-  GtkPositionType tab_pos;
-  gint            scroll_arrow_hlength, scroll_arrow_vlength;
-  gdouble         x, y;
-
-  page = gtk_notebook_get_nth_page (notebook, 0);
-  g_return_val_if_fail (page != NULL, FALSE);
-
-  tab = gtk_notebook_get_tab_label (notebook, page);
-  g_return_val_if_fail (tab != NULL, FALSE);
-
-  tab_pos = gtk_notebook_get_tab_pos (notebook);
-  nb = GTK_WIDGET (notebook);
-
-  gtk_widget_style_get (GTK_WIDGET (notebook),
-                        "scroll-arrow-hlength", &scroll_arrow_hlength,
-                        "scroll-arrow-vlength", &scroll_arrow_vlength,
-                        NULL);
-
-  if (! gdk_event_get_coords ((GdkEvent *) event, &x, &y))
-    {
-      x = event->x;
-      y = event->y;
-    }
-
-  switch (tab_pos)
-    {
-    case GTK_POS_TOP:
-    case GTK_POS_BOTTOM:
-      if (event->y >= 0 && event->y <= gtk_widget_get_allocated_height (tab))
-        {
-          if (! gtk_notebook_get_scrollable (notebook) || (
-            x > scroll_arrow_hlength &&
-            x < gtk_widget_get_allocated_width (nb) - scroll_arrow_hlength))
-          {
-            return TRUE;
-          }
-        }
-      break;
-    case GTK_POS_LEFT:
-    case GTK_POS_RIGHT:
-        if (event->x >= 0 && event->x <= gtk_widget_get_allocated_width (tab))
-          {
-            if (! gtk_notebook_get_scrollable (notebook) || (
-                y > scroll_arrow_vlength &&
-                y < gtk_widget_get_allocated_height (nb) - scroll_arrow_vlength))
-              {
-                return TRUE;
-              }
-          }
-    }
-
-  return FALSE;
-}
-
-
-
-static gboolean
-mousepad_window_notebook_button_press_event (GtkNotebook    *notebook,
-                                             GdkEventButton *event,
-                                             MousepadWindow *window)
-{
-  GtkWidget *page, *label;
-  guint      page_num = 0;
-  gint       x_root, y_root;
-
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
-
-  if (event->type == GDK_BUTTON_PRESS && (event->button == 3 || event->button == 2))
-    {
-      /* walk through the tabs and look for the tab under the cursor */
-      while ((page = gtk_notebook_get_nth_page (notebook, page_num)) != NULL)
-        {
-          GtkAllocation alloc = { 0, 0, 0, 0 };
-
-          label = gtk_notebook_get_tab_label (notebook, page);
-
-          /* get the origin of the label */
-          gdk_window_get_origin (gtk_widget_get_window (label), &x_root, &y_root);
-          gtk_widget_get_allocation (label, &alloc);
-          x_root += alloc.x;
-          y_root += alloc.y;
-
-          /* check if the cursor is inside this label */
-          if (event->x_root >= x_root && event->x_root <= (x_root + alloc.width)
-              && event->y_root >= y_root && event->y_root <= (y_root + alloc.height))
-            {
-              /* switch to this tab */
-              gtk_notebook_set_current_page (notebook, page_num);
-
-              /* show the menu */
-              if (event->button == 3)
-                gtk_menu_popup_at_pointer (GTK_MENU (window->tab_menu), (GdkEvent *) event);
-              /* close the document */
-              else if (event->button == 2)
-                g_action_group_activate_action (G_ACTION_GROUP (window), "file.close-tab", NULL);
-
-              /* we succeed */
-              return TRUE;
-            }
-
-          /* try the next tab */
-          ++page_num;
-        }
-    }
-  else if (event->type == GDK_2BUTTON_PRESS && event->button == 1)
-    {
-      GtkWidget *ev_widget, *nb_child;
-
-      ev_widget = gtk_get_event_widget ((GdkEvent *) event);
-      nb_child = gtk_notebook_get_nth_page (notebook,
-                                            gtk_notebook_get_current_page (notebook));
-      if (ev_widget == NULL || ev_widget == nb_child || gtk_widget_is_ancestor (ev_widget, nb_child))
-        return FALSE;
-
-      /* check if the event window is the notebook event window (not a tab) */
-      if (mousepad_window_is_position_on_tab_bar (notebook, event))
-        {
-          /* create new document */
-          g_action_group_activate_action (G_ACTION_GROUP (window), "file.new", NULL);
-
-          /* we succeed */
-          return TRUE;
-        }
-    }
-
-  return FALSE;
-}
-
-
-
-static gboolean
-mousepad_window_notebook_button_release_event (GtkNotebook    *notebook,
-                                               GdkEventButton *event,
-                                               MousepadWindow *window)
-{
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
-  g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (window->active), FALSE);
-
-  /* focus the active textview */
-  mousepad_document_focus_textview (window->active);
-
-  return FALSE;
-}
-
-
-
 static GtkNotebook *
 mousepad_window_notebook_create_window (GtkNotebook    *notebook,
                                         GtkWidget      *page,
-                                        gint            x,
-                                        gint            y,
                                         MousepadWindow *window)
 {
+  MousepadDocument *document;
+
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), NULL);
   g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (page), NULL);
 
   /* only create new window when there are more than 2 tabs */
   if (gtk_notebook_get_n_pages (notebook) >= 2)
     {
+      /* get the document */
+      document = MOUSEPAD_DOCUMENT (page);
+
       /* take a reference */
-      g_object_ref (page);
+      g_object_ref (document);
 
       /* remove the document from the active window */
-      gtk_notebook_detach_tab (GTK_NOTEBOOK (window->notebook), page);
+      gtk_notebook_detach_tab (notebook, page);
 
       /* emit the new window with document signal */
-      g_signal_emit (window, window_signals[NEW_WINDOW_WITH_DOCUMENT], 0, page, x, y);
+      g_signal_emit (window, window_signals[NEW_WINDOW], 0, document);
 
       /* release our reference */
-      g_object_unref (page);
+      g_object_unref (document);
     }
 
   return NULL;
@@ -2908,9 +2591,120 @@ mousepad_window_notebook_create_window (GtkNotebook    *notebook,
 
 
 
+static void
+mousepad_window_notebook_button_pressed (GtkGestureClick *gesture_click,
+                                         int              n_press,
+                                         double           x,
+                                         double           y,
+                                         MousepadWindow  *window)
+{
+  GtkNotebook  *notebook = GTK_NOTEBOOK (window->notebook);
+  GtkGesture   *gesture = GTK_GESTURE (gesture_click);
+  GtkWidget    *page, *label, *view = GTK_WIDGET (window->active->textview);
+  GdkRectangle  rect = { x, y, 0, 0 };
+  gdouble       tx, ty;
+  guint         page_num = 0, button = 0;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
+  if (button == 3 || button == 2)
+    {
+      /* walk through the tabs and look for the tab under the cursor */
+      while ((page = gtk_notebook_get_nth_page (notebook, page_num)) != NULL)
+        {
+          /* check if the cursor is inside this tab label */
+          label = gtk_notebook_get_tab_label (notebook, page);
+          if (gtk_widget_translate_coordinates (window->notebook, label, x, y, &tx, &ty)
+              && gtk_widget_contains (label, tx, ty))
+            {
+              /* switch to this tab */
+              gtk_notebook_set_current_page (notebook, page_num);
+
+              /* show the menu */
+              if (button == 3)
+                {
+                  gtk_popover_set_pointing_to (GTK_POPOVER (window->tab_menu), &rect);
+                  gtk_widget_show (window->tab_menu);
+                }
+              /* close the document */
+              else if (button == 2)
+                g_action_group_activate_action (G_ACTION_GROUP (window), "file.close-tab", NULL);
+
+              /* we succeed */
+              gtk_gesture_set_state (gesture, GTK_EVENT_SEQUENCE_CLAIMED);
+
+              return;
+            }
+
+          /* try the next tab */
+          page_num++;
+        }
+    }
+  else if (button == 1 && n_press == 2
+           && gtk_widget_translate_coordinates (window->notebook, view, x, y, &tx, &ty)
+           && ! gtk_widget_contains (view, tx, ty))
+    {
+      /* create new document */
+      g_action_group_activate_action (G_ACTION_GROUP (window), "file.new", NULL);
+
+      /* we succeed */
+      gtk_gesture_set_state (gesture, GTK_EVENT_SEQUENCE_CLAIMED);
+
+      return;
+    }
+
+  gtk_gesture_set_state (gesture, GTK_EVENT_SEQUENCE_NONE);
+}
+
+
+
+static void
+mousepad_window_notebook_button_released (GtkGestureClick *gesture_click,
+                                          int              n_press,
+                                          double           x,
+                                          double           y,
+                                          MousepadWindow  *window)
+{
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+
+  /* focus the active textview */
+  mousepad_document_focus_textview (window->active);
+
+  /* not a real use: propagate event */
+  gtk_gesture_set_state (GTK_GESTURE (gesture_click), GTK_EVENT_SEQUENCE_NONE);
+}
+
+
+
 /**
  * Document Signals Functions
  **/
+static void
+mousepad_window_textview_menu_popup (GtkGestureClick *gesture,
+                                     int              n_press,
+                                     double           x,
+                                     double           y,
+                                     MousepadWindow  *window)
+{
+  GdkRectangle rect = { 0, 0, 0, 0 };
+  gdouble      tx, ty;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  gtk_widget_translate_coordinates (GTK_WIDGET (window->active->textview),
+                                    GTK_WIDGET (window), x, y, &tx, &ty);
+  rect.x = tx;
+  rect.y = ty;
+  gtk_popover_set_pointing_to (GTK_POPOVER (window->textview_menu), &rect);
+  gtk_widget_show (window->textview_menu);
+
+  gtk_gesture_set_state (GTK_GESTURE (gesture), GTK_EVENT_SEQUENCE_CLAIMED);
+}
+
+
+
 static gboolean
 mousepad_window_pending_widget_idle (gpointer data)
 {
@@ -3091,7 +2885,6 @@ mousepad_window_enable_edit_actions (GObject        *object,
                                      MousepadWindow *window)
 {
   MousepadDocument *document = window->active;
-  GList            *items;
   GAction          *action;
   guint             n;
   gboolean          enabled;
@@ -3102,9 +2895,8 @@ mousepad_window_enable_edit_actions (GObject        *object,
     {
       /* actions enabled only in a focused text view or in the text view menu,
        * to prevent conflicts with GtkEntry keybindings */
-      items = gtk_container_get_children (GTK_CONTAINER (window->textview_menu));
-      enabled = gtk_widget_has_focus (GTK_WIDGET (document->textview)) || items == NULL;
-      g_list_free (items);
+      enabled = gtk_widget_has_focus (GTK_WIDGET (document->textview))
+                || gtk_widget_get_visible (window->textview_menu);
       for (n = 0; n < G_N_ELEMENTS (focus_actions); n++)
         {
           action = g_action_map_lookup_action (G_ACTION_MAP (window), focus_actions[n]);
@@ -3187,16 +2979,16 @@ mousepad_window_overwrite_changed (MousepadDocument *document,
 
 
 static void
-mousepad_window_can_undo (GtkSourceBuffer *buffer,
-                          GParamSpec      *unused,
-                          MousepadWindow  *window)
+mousepad_window_can_undo (GtkTextBuffer  *buffer,
+                          GParamSpec     *unused,
+                          MousepadWindow *window)
 {
   GAction  *action;
   gboolean  can_undo;
 
-  if (window->active->buffer == GTK_TEXT_BUFFER (buffer))
+  if (window->active->buffer == buffer)
     {
-      can_undo = gtk_source_buffer_can_undo (buffer);
+      can_undo = gtk_text_buffer_get_can_undo (buffer);
 
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "edit.undo");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), can_undo);
@@ -3206,16 +2998,16 @@ mousepad_window_can_undo (GtkSourceBuffer *buffer,
 
 
 static void
-mousepad_window_can_redo (GtkSourceBuffer *buffer,
-                          GParamSpec      *unused,
-                          MousepadWindow  *window)
+mousepad_window_can_redo (GtkTextBuffer  *buffer,
+                          GParamSpec     *unused,
+                          MousepadWindow *window)
 {
   GAction  *action;
   gboolean  can_redo;
 
-  if (window->active->buffer == GTK_TEXT_BUFFER (buffer))
+  if (window->active->buffer == buffer)
     {
-      can_redo = gtk_source_buffer_can_redo (buffer);
+      can_redo = gtk_text_buffer_get_can_redo (buffer);
 
       action = g_action_map_lookup_action (G_ACTION_MAP (window), "edit.redo");
       g_simple_action_set_enabled (G_SIMPLE_ACTION (action), can_redo);
@@ -3227,6 +3019,8 @@ mousepad_window_can_redo (GtkSourceBuffer *buffer,
 /**
  * Menu Functions
  **/
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
 static void
 mousepad_window_menu_templates_fill (MousepadWindow *window,
                                      GMenu          *menu,
@@ -3294,7 +3088,7 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
           g_free (label);
 
           /* set submenu icon */
-          /* TODO: is there a way to apply an icon to a submenu?
+          /* TODO (GTK 3 legacy): is there a way to apply an icon to a submenu?
            * (the documentation says yes, the "folder" icon name is valid, but…) */
           g_menu_item_set_attribute_value (item, "icon", g_variant_new_string ("folder"));
 
@@ -3359,7 +3153,7 @@ mousepad_window_menu_templates_fill (MousepadWindow *window,
       g_object_unref (item);
     }
 }
-
+#endif
 
 
 static void
@@ -3367,6 +3161,8 @@ mousepad_window_menu_templates (GSimpleAction *action,
                                 GVariant      *state,
                                 gpointer       data)
 {
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
   GtkApplication *application;
   GMenu          *menu;
   GMenuItem      *item;
@@ -3430,6 +3226,7 @@ mousepad_window_menu_templates (GSimpleAction *action,
       /* unlock */
       lock_menu_updates--;
     }
+#endif
 }
 
 
@@ -3489,64 +3286,6 @@ mousepad_window_menu_tab_sizes_update (MousepadWindow *window)
 
   /* allow menu actions again */
   lock_menu_updates--;
-}
-
-
-
-static void
-mousepad_window_menu_textview_shown (GtkWidget      *menu,
-                                     MousepadWindow *window)
-{
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  /* disconnect this handler */
-  mousepad_disconnect_by_func (menu, mousepad_window_menu_textview_shown, window);
-
-  /* empty the original menu */
-  mousepad_util_container_clear (GTK_CONTAINER (menu));
-
-  /* realign menu items */
-  if (window->old_style_menu)
-    gtk_menu_set_reserve_toggle_size (GTK_MENU (menu), FALSE);
-
-  /* move the textview menu children into the other menu */
-  mousepad_util_container_move_children (GTK_CONTAINER (window->textview_menu),
-                                         GTK_CONTAINER (menu));
-}
-
-
-
-static void
-mousepad_window_menu_textview_deactivate (GtkMenuShell   *menu,
-                                          MousepadWindow *window)
-{
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  /* disconnect this handler */
-  mousepad_disconnect_by_func (menu, mousepad_window_menu_textview_deactivate, window);
-
-  /* copy the menu children back into the textview menu */
-  mousepad_util_container_move_children (GTK_CONTAINER (menu),
-                                         GTK_CONTAINER (window->textview_menu));
-}
-
-
-
-static void
-mousepad_window_menu_textview_popup (GtkTextView    *textview,
-                                     GtkMenu        *menu,
-                                     MousepadWindow *window)
-{
-  g_return_if_fail (GTK_IS_TEXT_VIEW (textview));
-  g_return_if_fail (GTK_IS_MENU (menu));
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
-
-  /* connect signal */
-  g_signal_connect (menu, "show",
-                    G_CALLBACK (mousepad_window_menu_textview_shown), window);
-  g_signal_connect (menu, "deactivate",
-                    G_CALLBACK (mousepad_window_menu_textview_deactivate), window);
 }
 
 
@@ -3640,7 +3379,7 @@ mousepad_window_update_window_menu_items (MousepadWindow *window)
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* update the "Fullscreen" menu item */
-  data = GINT_TO_POINTER (mousepad_window_get_in_fullscreen (window));
+  data = GINT_TO_POINTER (gtk_window_is_fullscreen (GTK_WINDOW (window)));
   mousepad_window_update_menu_item (window, "item.view.fullscreen", 0, data);
 }
 
@@ -3730,24 +3469,17 @@ mousepad_window_update_gomenu (GSimpleAction *action,
 
 
 
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
 /* sort list in descending order */
 static gint
 mousepad_window_recent_sort (gconstpointer ga,
                              gconstpointer gb)
 {
-  time_t ta, tb;
-
-  ta = gtk_recent_info_get_modified ((GtkRecentInfo *) ga);
-  tb = gtk_recent_info_get_modified ((GtkRecentInfo *) gb);
-
-  if (ta < tb)
-    return 1;
-  else if (ta > tb)
-    return -1;
-  else
-    return 0;
+  return g_date_time_compare (gtk_recent_info_get_modified ((GtkRecentInfo *) ga),
+                              gtk_recent_info_get_modified ((GtkRecentInfo *) gb));
 }
-
+#endif
 
 
 static void
@@ -3755,6 +3487,8 @@ mousepad_window_recent_menu (GSimpleAction *action,
                              GVariant      *state,
                              gpointer       data)
 {
+/* TODO: same bug as for mousepad_application_create_languages_menu() */
+#if 0
   GtkApplication   *application;
   GtkRecentManager *manager;
   GtkRecentInfo    *info;
@@ -3884,6 +3618,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
       mousepad_window_menu_update_tooltips (G_MENU_MODEL (menu), 0, 0, 0, data);
       lock_menu_updates--;
     }
+#endif
 }
 
 
@@ -3891,68 +3626,42 @@ mousepad_window_recent_menu (GSimpleAction *action,
 /**
  * Drag and drop functions
  **/
-static void
-mousepad_window_drag_data_received (GtkWidget        *widget,
-                                    GdkDragContext   *context,
-                                    gint              x,
-                                    gint              y,
-                                    GtkSelectionData *selection_data,
-                                    guint             info,
-                                    guint             drag_time,
-                                    MousepadWindow   *window)
+static gboolean
+mousepad_window_drag_data_received (GtkDropTarget  *target,
+                                    GValue         *value,
+                                    double          x,
+                                    double          y,
+                                    MousepadWindow *window)
 {
-  GtkWidget  *notebook, **document;
-  GtkWidget  *child, *label;
-  GFile     **files;
-  gchar     **uris;
-  gint        i, n_pages;
+  GtkWidget     *notebook, *document, *page, *label;
+  GtkAllocation  alloc;
+  GFile         *file;
+  gint           i, n_pages;
 
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
 
-  /* we only accept text/uri-list drops with format 8 and atleast one byte of data */
-  if (info == TARGET_TEXT_URI_LIST
-      && gtk_selection_data_get_format (selection_data) == 8
-      && gtk_selection_data_get_length (selection_data) > 0
-      && (uris = gtk_selection_data_get_uris (selection_data)) != NULL)
+  /* TODO: How to handle multiple files? + Gdk-CRITICAL on second drop */
+  if (G_VALUE_HOLDS (value, G_TYPE_FILE) && (file = g_value_get_object (value)) != NULL)
     {
-      /* prepare the GFile array */
-      n_pages = g_strv_length (uris);
-      files = g_new (GFile *, n_pages);
-      for (i = 0; i < n_pages; i++)
-        files[i] = g_file_new_for_uri (uris[i]);
-
       /* open the files */
-      mousepad_window_open_files (window, files, n_pages,
-                                  mousepad_encoding_get_default (),
-                                  0, 0, FALSE);
-
-      /* cleanup */
-      g_strfreev (uris);
-      for (i = 0; i < n_pages; i++)
-        g_object_unref (files[i]);
-
-      g_free (files);
+      mousepad_window_open_files (window, &file, 1, mousepad_encoding_get_default (), 0, 0, FALSE);
 
       /* finish the drag (copy) */
-      gtk_drag_finish (context, TRUE, FALSE, drag_time);
+      return TRUE;
     }
-  else if (info == TARGET_GTK_NOTEBOOK_TAB)
+  else if (G_VALUE_HOLDS (value, GTK_TYPE_NOTEBOOK_PAGE))
     {
-      /* get the source notebook */
-      notebook = gtk_drag_get_source_widget (context);
-
       /* get the document that has been dragged */
-      document = (GtkWidget **) (gconstpointer) gtk_selection_data_get_data (selection_data);
+      document = gtk_notebook_page_get_child (g_value_get_object (value));
 
-      /* check */
-      g_return_if_fail (MOUSEPAD_IS_DOCUMENT (*document));
+      /* get the source notebook */
+      notebook = gtk_widget_get_ancestor (document, GTK_TYPE_NOTEBOOK);
 
       /* take a reference on the document before we remove it */
-      g_object_ref (*document);
+      g_object_ref (document);
 
       /* remove the document from the source window */
-      gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), *document);
+      gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), document);
 
       /* get the number of pages in the notebook */
       n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
@@ -3960,12 +3669,9 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
       /* figure out where to insert the tab in the notebook */
       for (i = 0; i < n_pages; i++)
         {
-          GtkAllocation alloc = { 0, 0, 0, 0 };
-
-          /* get the child label */
-          child = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i);
-          label = gtk_notebook_get_tab_label (GTK_NOTEBOOK (window->notebook), child);
-
+          /* get the child label allocation */
+          page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i);
+          label = gtk_notebook_get_tab_label (GTK_NOTEBOOK (window->notebook), page);
           gtk_widget_get_allocation (label, &alloc);
 
           /* break if we have a matching drop position */
@@ -3974,17 +3680,19 @@ mousepad_window_drag_data_received (GtkWidget        *widget,
         }
 
       /* add the document to the new window */
-      mousepad_window_add (window, MOUSEPAD_DOCUMENT (*document));
+      mousepad_window_add (window, MOUSEPAD_DOCUMENT (document));
 
       /* move the tab to the correct position */
-      gtk_notebook_reorder_child (GTK_NOTEBOOK (window->notebook), *document, i);
+      gtk_notebook_reorder_child (GTK_NOTEBOOK (window->notebook), document, i);
 
       /* release our reference on the document */
-      g_object_unref (*document);
+      g_object_unref (document);
 
       /* finish the drag (move) */
-      gtk_drag_finish (context, TRUE, TRUE, drag_time);
+      return TRUE;
     }
+
+  return FALSE;
 }
 
 
@@ -4137,49 +3845,50 @@ mousepad_window_search_completed (MousepadDocument    *document,
 static void
 mousepad_window_paste_history_add (MousepadWindow *window)
 {
-  GtkClipboard *clipboard;
-  gchar        *text;
-  GSList       *li;
+  GdkClipboard       *clipboard;
+  GdkContentProvider *provider;
+  GSList             *li;
+  GValue              value = G_VALUE_INIT;
+  gchar              *text;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* get the current clipboard text */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window), GDK_SELECTION_CLIPBOARD);
-  text = gtk_clipboard_wait_for_text (clipboard);
+  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window));
+  provider = gdk_clipboard_get_content (clipboard);
+  g_value_init (&value, G_TYPE_STRING);
 
   /* leave when there is no text */
-  if (G_UNLIKELY (text == NULL))
+  if (G_UNLIKELY (! gdk_content_provider_get_value (provider, &value, NULL)))
     return;
+
+  text = (gchar *) g_value_get_string (&value);
+  g_value_unset (&value);
 
   /* check if the item is already in the history */
   for (li = clipboard_history; li != NULL; li = li->next)
-    if (strcmp (li->data, text) == 0)
+    if (g_strcmp0 (li->data, text) == 0)
       break;
 
-  /* append the item or remove it */
+  /* append the item if new */
   if (G_LIKELY (li == NULL))
     {
       /* add to the list */
-      clipboard_history = g_slist_prepend (clipboard_history, text);
+      clipboard_history = g_slist_prepend (clipboard_history, g_strdup (text));
 
-      /* get the 10th item from the list and remove it if it exists */
-      li = g_slist_nth (clipboard_history, 10);
-      if (li != NULL)
+      /* get the 11th item from the list and remove it if it exists */
+      if ((li = g_slist_nth (clipboard_history, 10)) != NULL)
         {
-          /* cleanup */
           g_free (li->data);
           clipboard_history = g_slist_delete_link (clipboard_history, li);
         }
-    }
-  else
-    {
-      /* already in the history, remove it */
-      g_free (text);
     }
 }
 
 
 
+/* TODO Paste History */
+#if 0
 static void
 mousepad_window_paste_history_activate (GtkMenuItem    *item,
                                         MousepadWindow *window)
@@ -4243,22 +3952,20 @@ mousepad_window_paste_history_menu_item (const gchar *text,
   /* create a hbox */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 14);
   gtk_container_add (GTK_CONTAINER (item), hbox);
-  gtk_widget_show (hbox);
 
   /* create the clipboard label */
   label = gtk_label_new (label_str);
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+  gtk_widget_set_hexpand (label, TRUE);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_widget_show (label);
 
   /* create the mnemonic label */
   label = gtk_label_new_with_mnemonic (mnemonic);
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_label_set_xalign (GTK_LABEL (label), 1.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), item);
-  gtk_widget_show (label);
 
   /* cleanup */
   g_free (label_str);
@@ -4271,14 +3978,15 @@ mousepad_window_paste_history_menu_item (const gchar *text,
 static GtkWidget *
 mousepad_window_paste_history_menu (MousepadWindow *window)
 {
-  GSList       *li;
-  gchar        *text;
-  gpointer      list_data = NULL;
-  GtkWidget    *item;
-  GtkWidget    *menu;
-  GtkClipboard *clipboard;
-  gchar         mnemonic[4];
-  gint          n;
+  GtkWidget          *item, *menu;
+  GdkClipboard       *clipboard;
+  GdkContentProvider *provider;
+  GSList             *li;
+  GValue              value = G_VALUE_INIT;
+  gpointer            list_data = NULL;
+  gchar               mnemonic[4];
+  const gchar        *text = NULL;
+  gint                n;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), NULL);
 
@@ -4289,14 +3997,19 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
   gtk_menu_set_screen (GTK_MENU (menu), gtk_widget_get_screen (GTK_WIDGET (window)));
 
   /* get the current clipboard text */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window), GDK_SELECTION_CLIPBOARD);
-  text = gtk_clipboard_wait_for_text (clipboard);
+  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window));
+  provider = gdk_clipboard_get_content (clipboard);
+  if (gdk_content_provider_get_value (provider, &value, NULL))
+    {
+      text = g_value_get_string (&value);
+      g_value_unset (&value);
+    }
 
   /* append the history items */
   for (li = clipboard_history, n = 1; li != NULL; li = li->next)
     {
       /* skip the active clipboard item */
-      if (G_UNLIKELY (list_data == NULL && text && strcmp (li->data, text) == 0))
+      if (G_UNLIKELY (list_data == NULL && text != NULL && g_strcmp0 (li->data, text) == 0))
         {
           /* store the pointer so we can attach it at the end of the menu */
           list_data = li->data;
@@ -4311,12 +4024,8 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
           mousepad_object_set_data (item, "history-pointer", li->data);
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
           g_signal_connect (item, "activate", G_CALLBACK (mousepad_window_paste_history_activate), window);
-          gtk_widget_show (item);
         }
     }
-
-  /* cleanup */
-  g_free (text);
 
   if (list_data != NULL)
     {
@@ -4325,7 +4034,6 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
         {
           item = gtk_separator_menu_item_new ();
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-          gtk_widget_show (item);
         }
 
       /* create menu item for current clipboard text */
@@ -4334,7 +4042,6 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (item, "activate",
                         G_CALLBACK (mousepad_window_paste_history_activate), window);
-      gtk_widget_show (item);
     }
   else if (! mousepad_util_container_has_children (GTK_CONTAINER (menu)))
     {
@@ -4342,11 +4049,11 @@ mousepad_window_paste_history_menu (MousepadWindow *window)
       item = gtk_menu_item_new_with_label (_("No clipboard data"));
       gtk_widget_set_sensitive (item, FALSE);
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      gtk_widget_show (item);
     }
 
   return menu;
 }
+#endif
 
 
 
@@ -4383,7 +4090,7 @@ mousepad_window_action_new_window (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* emit the new window signal */
-  g_signal_emit (data, window_signals[NEW_WINDOW], 0);
+  g_signal_emit (data, window_signals[NEW_WINDOW], 0, NULL);
 }
 
 
@@ -4417,7 +4124,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       g_object_ref_sink (document);
 
       /* lock the undo manager */
-      gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+      gtk_text_buffer_begin_irreversible_action (document->buffer);
 
       /* virtually set the file location */
       file = g_file_new_for_path (filename);
@@ -4435,7 +4142,7 @@ mousepad_window_action_new_from_template (GSimpleAction *action,
       mousepad_file_set_location (document->file, NULL, MOUSEPAD_LOCATION_REVERT);
 
       /* release the lock */
-      gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+      gtk_text_buffer_end_irreversible_action (document->buffer);
 
       /* no errors, insert the document */
       if (G_LIKELY (result == 0))
@@ -4485,7 +4192,9 @@ mousepad_window_action_open (GSimpleAction *action,
 {
   MousepadWindow   *window = data;
   MousepadEncoding  encoding;
-  GSList           *files, *file;
+  GListModel       *files;
+  GFile            *file;
+  guint             n = 0;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -4500,11 +4209,14 @@ mousepad_window_action_open (GSimpleAction *action,
       lock_menu_updates++;
 
       /* open all the selected locations in new tabs */
-      for (file = files; file != NULL; file = file->next)
-        mousepad_window_open_file (window, file->data, encoding, 0, 0, TRUE);
+      while ((file = g_list_model_get_item (files, n++)) != NULL)
+        {
+          mousepad_window_open_file (window, file, encoding, 0, 0, TRUE);
+          g_object_unref (file);
+        }
 
       /* cleanup */
-      g_slist_free_full (files, g_object_unref);
+      g_object_unref (files);
 
       /* allow menu updates again */
       lock_menu_updates--;
@@ -4885,13 +4597,13 @@ mousepad_window_action_reload (GSimpleAction *action,
   column = mousepad_util_get_real_line_offset (&cursor);
 
   /* lock the undo manager */
-  gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+  gtk_text_buffer_begin_irreversible_action (document->buffer);
 
   /* reload the file */
   retval = mousepad_file_open (document->file, line, column, TRUE, FALSE, TRUE, &error);
 
   /* release the lock */
-  gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (document->buffer));
+  gtk_text_buffer_end_irreversible_action (document->buffer);
 
   if (G_UNLIKELY (retval != 0))
     {
@@ -4948,10 +4660,9 @@ mousepad_window_action_detach (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
-  /* invoke function without cooridinates */
+  /* invoke function without coordinates */
   mousepad_window_notebook_create_window (GTK_NOTEBOOK (window->notebook),
-                                          GTK_WIDGET (window->active),
-                                          -1, -1, window);
+                                          GTK_WIDGET (window->active), window);
 }
 
 
@@ -4990,7 +4701,7 @@ mousepad_window_action_close_window (GSimpleAction *action,
    * dialog at startup */
   if ((npages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook))) == 0)
     {
-      gtk_widget_destroy (GTK_WIDGET (window));
+      gtk_window_destroy (GTK_WINDOW (window));
       return;
     }
 
@@ -5037,6 +4748,8 @@ mousepad_window_action_close_window (GSimpleAction *action,
 
 
 
+/* TODO GSV: disable undo/redo keybindings
+ * (e.g. Shift + Ctrl + Z that doesn't even scroll to cursor) */
 static void
 mousepad_window_action_undo (GSimpleAction *action,
                              GVariant      *value,
@@ -5048,7 +4761,10 @@ mousepad_window_action_undo (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* undo */
-  g_signal_emit_by_name (window->active->textview, "undo");
+  gtk_text_buffer_undo (window->active->buffer);
+
+  /* scroll to visible area */
+  mousepad_view_scroll_to_cursor (window->active->textview);
 }
 
 
@@ -5064,7 +4780,10 @@ mousepad_window_action_redo (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* redo */
-  g_signal_emit_by_name (window->active->textview, "redo");
+  gtk_text_buffer_redo (window->active->buffer);
+
+  /* scroll to visible area */
+  mousepad_view_scroll_to_cursor (window->active->textview);
 }
 
 
@@ -5128,6 +4847,8 @@ mousepad_window_action_paste_history (GSimpleAction *action,
                                       GVariant      *value,
                                       gpointer       data)
 {
+/* TODO Paste History */
+#if 0
   MousepadWindow *window = data;
   GtkWidget      *menu;
   GdkRectangle    location;
@@ -5152,6 +4873,7 @@ mousepad_window_action_paste_history (GSimpleAction *action,
   gtk_menu_popup_at_rect (GTK_MENU (menu),
                           gtk_widget_get_parent_window (GTK_WIDGET (window->active->textview)),
                           &location, GDK_GRAVITY_SOUTH_WEST, GDK_GRAVITY_NORTH_WEST, NULL);
+#endif
 }
 
 
@@ -5524,13 +5246,19 @@ mousepad_window_action_find (GSimpleAction *action,
     {
       /* create a new toolbar and pack it into the box */
       window->search_bar = mousepad_search_bar_new ();
-      gtk_box_pack_start (GTK_BOX (window->box), window->search_bar, FALSE, FALSE, PADDING);
+      gtk_widget_set_margin_top (window->search_bar, PADDING);
+      gtk_widget_set_margin_bottom (window->search_bar, PADDING);
+      gtk_box_append (GTK_BOX (window->search_bar_box), window->search_bar);
 
       /* connect signals */
       g_signal_connect_swapped (window->search_bar, "hide-bar",
                                 G_CALLBACK (mousepad_window_hide_search_bar), window);
       g_signal_connect_swapped (window->search_bar, "search",
                                 G_CALLBACK (mousepad_window_search), window);
+
+      /* reset pointer when the window is destroyed to avoid any problem */
+      g_signal_connect (window, "destroy", G_CALLBACK (mousepad_util_widget_destroyed),
+                        &(window->search_bar));
     }
 
   /* set the search entry text */
@@ -5621,8 +5349,9 @@ mousepad_window_replace_dialog_destroy (MousepadWindow *window)
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
   /* disconnect tab switch signal */
-  mousepad_disconnect_by_func (window->notebook,
-                               mousepad_window_replace_dialog_switch_page, window);
+  if (! gtk_widget_in_destruction (GTK_WIDGET (window)))
+    mousepad_disconnect_by_func (window->notebook,
+                                 mousepad_window_replace_dialog_switch_page, window);
 
   /* reset the dialog variable */
   window->replace_dialog = NULL;
@@ -5721,11 +5450,12 @@ static void
 mousepad_window_change_font_size (MousepadWindow *window,
                                   gint            change)
 {
-  PangoFontDescription *font_desc;
-  GtkStyleContext      *context;
-  GValue                font = G_VALUE_INIT;
+  PangoContext         *context;
+  PangoFontDescription *font_desc, *font_desc_pt;
   gchar                *font_string;
-  gint                  font_size;
+  gint                  font_size, font_size_pt;
+
+  static gdouble scale_factor = 1.0;
 
   /* reset case */
   if (change == 0)
@@ -5737,23 +5467,35 @@ mousepad_window_change_font_size (MousepadWindow *window,
     }
   else
     {
-      /* retrieve current font size and add it the change */
-      context = gtk_widget_get_style_context (GTK_WIDGET (window->active->textview));
-      gtk_style_context_get_property (context, "font", gtk_style_context_get_state (context), &font);
-      font_desc = g_value_get_boxed (&font);
-      font_size = pango_font_description_get_size (font_desc) / PANGO_SCALE + change;
+      /* retrieve the current font size */
+      context = gtk_widget_get_pango_context (GTK_WIDGET (window->active->textview));
+      font_desc = pango_context_get_font_description (context);
+      font_size = pango_font_description_get_size (font_desc);
+
+      /* compute scale factor for conversion from px to pt if needed */
+      if (scale_factor == 1.0 && pango_font_description_get_size_is_absolute (font_desc))
+        {
+          font_string = MOUSEPAD_SETTING_GET_STRING (FONT);
+          font_desc_pt = pango_font_description_from_string (font_string);
+          font_size_pt = pango_font_description_get_size (font_desc_pt);
+          scale_factor = (gdouble) font_size / (gdouble) font_size_pt;
+
+          g_free (font_string);
+          pango_font_description_free (font_desc_pt);
+        }
+
+      /* the font size we're going to set, converted to pt without pango scaling */
+      font_size = round (font_size / (scale_factor * PANGO_SCALE)) + change;
 
       /* exit silently if the new font size is outside [MIN_FONT_SIZE, MAX_FONT_SIZE] */
       if (font_size < MIN_FONT_SIZE || font_size > MAX_FONT_SIZE)
-        {
-          g_value_unset (&font);
-          return;
-        }
+        return;
 
       /* generate new font string */
-      pango_font_description_set_size (font_desc, font_size * PANGO_SCALE);
-      font_string = pango_font_description_to_string (font_desc);
-      g_value_unset (&font);
+      font_desc_pt = pango_font_description_copy (font_desc);
+      pango_font_description_set_size (font_desc_pt, font_size * PANGO_SCALE);
+      font_string = pango_font_description_to_string (font_desc_pt);
+      pango_font_description_free (font_desc_pt);
     }
 
   /* change font size */
@@ -5822,6 +5564,108 @@ mousepad_window_action_textview (GSimpleAction *action,
 
 
 
+static gboolean
+mousepad_window_hide_menubar (MousepadWindow  *window,
+                              int              n_press,
+                              double           x,
+                              double           y,
+                              GtkGestureClick *gesture)
+{
+  gdouble tx, ty;
+
+  /* do not hide the menubar when interacting with it */
+  if (GTK_IS_GESTURE_CLICK (gesture)
+      && gtk_widget_translate_coordinates (GTK_WIDGET (window), window->menubar, x, y, &tx, &ty)
+      && gtk_widget_contains (window->menubar, tx, ty))
+    return FALSE;
+
+  /* disconnect signals and hide the menubar */
+  mousepad_disconnect_by_func (window->controller_click, mousepad_window_hide_menubar, window);
+  mousepad_disconnect_by_func (window->controller_scroll, mousepad_window_hide_menubar, window);
+  mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar, window);
+  gtk_widget_hide (window->menubar);
+
+  /* not a real use: propagate event */
+  return FALSE;
+}
+
+
+
+static gboolean
+mousepad_window_menubar_key (GtkEventControllerKey *controller,
+                             guint                  keyval,
+                             guint                  keycode,
+                             GdkModifierType        state,
+                             MousepadWindow        *window)
+{
+  GdkEvent     *event;
+  GdkEventType  type;
+  GList        *mnemonics;
+
+  static gboolean hidden_last_time = FALSE;
+
+  /* retrieve event type */
+  event = gtk_event_controller_get_current_event (GTK_EVENT_CONTROLLER (controller));
+  type = gdk_event_get_event_type (event);
+
+  /* Alt key was pressed (alone or as a GdkModifierType) or released, or Esc key was pressed */
+  if (state & GDK_ALT_MASK || keyval == GDK_KEY_Alt_L
+      || (keyval == GDK_KEY_Escape && type == GDK_KEY_PRESS))
+    {
+      mnemonics = mousepad_object_get_data (controller, "mnemonics");
+
+      /* hide the menubar if Alt/Esc key was pressed */
+      if (type == GDK_KEY_PRESS && (keyval == GDK_KEY_Alt_L || keyval == GDK_KEY_Escape)
+          && gtk_widget_get_visible (window->menubar))
+        {
+          /* disconnect signals and hide the menubar */
+          mousepad_disconnect_by_func (window->controller_click,
+                                       mousepad_window_hide_menubar, window);
+          mousepad_disconnect_by_func (window->controller_scroll,
+                                       mousepad_window_hide_menubar, window);
+          mousepad_disconnect_by_func (window->menubar,
+                                       mousepad_window_hide_menubar, window);
+          gtk_widget_hide (window->menubar);
+
+          /* don't show the menubar when the Alt key is released this time */
+          hidden_last_time = TRUE;
+
+          return TRUE;
+        }
+      /* show the menubar if Alt key was released or if one of its mnemonic keys matched */
+      else if (! hidden_last_time && ! gtk_widget_get_visible (window->menubar)
+               && ((keyval == GDK_KEY_Alt_L && type == GDK_KEY_RELEASE)
+                   || (type == GDK_KEY_PRESS && state & GDK_ALT_MASK
+                       && g_list_find (mnemonics, GUINT_TO_POINTER (keyval)))))
+        {
+          /* show the menubar and connect signals to hide it afterwards on user actions */
+          gtk_widget_show (window->menubar);
+          g_signal_connect_swapped (window->controller_click, "pressed",
+                                    G_CALLBACK (mousepad_window_hide_menubar), window);
+          g_signal_connect_swapped (window->controller_scroll, "scroll",
+                                    G_CALLBACK (mousepad_window_hide_menubar), window);
+/* TODO Menubar */
+#if 0
+          g_signal_connect_swapped (window->menubar, "deactivate",
+                                    G_CALLBACK (mousepad_window_hide_menubar), window);
+#endif
+
+          /* in case of a mnemonic key, repeat the same event to make its menu popup */
+          if (keyval != GDK_KEY_Alt_L)
+            gdk_display_put_event (gtk_widget_get_display (GTK_WIDGET (window)), event);
+
+          return TRUE;
+        }
+    }
+
+  /* show the menubar the next time the Alt key is released */
+  hidden_last_time = FALSE;
+
+  return FALSE;
+}
+
+
+
 static void
 mousepad_window_action_menubar_state (GSimpleAction *action,
                                       GVariant      *state,
@@ -5829,14 +5673,18 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
 {
   MousepadWindow *window = data;
   GtkApplication *application;
-  GtkWidget      *label;
   GAction        *textview_action;
   GMenuModel     *model;
+/* TODO Menubar */
+#if 0
+  GtkWidget      *label;
   GList          *children, *child;
-  static GList   *mnemonics = NULL;
   gpointer        mnemonic;
+#endif
   gboolean        visible;
   gint            offset;
+
+  static GList   *mnemonics = NULL;
 
   /* we have to pass below at least once at initialization, both in the visible and in the
    * hidden case, and not pass again afterwards if the action state doesn't change, so we
@@ -5867,6 +5715,8 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
       offset = GPOINTER_TO_INT (mousepad_object_get_data (model, window->offset_key));
       mousepad_window_menu_set_tooltips (window, window->textview_menu, model, &offset);
 
+/* TODO Menubar */
+#if 0
       /* get the main menubar mnemonic keys */
       children = gtk_container_get_children (GTK_CONTAINER (window->menubar));
       for (child = children; child != NULL; child = child->next)
@@ -5876,20 +5726,21 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
           mnemonics = g_list_prepend (mnemonics, mnemonic);
         }
       g_list_free (children);
+#endif
 
-      /* handle key events to show the menubar temporarily when hidden */
-      g_signal_connect (window, "key-press-event",
-                        G_CALLBACK (mousepad_window_menubar_key_event), mnemonics);
-      g_signal_connect (window, "key-release-event",
-                        G_CALLBACK (mousepad_window_menubar_key_event), mnemonics);
+      mousepad_object_set_data (window->controller_key, "mnemonics", mnemonics);
+      g_signal_connect (window->controller_key, "key-pressed",
+                        G_CALLBACK (mousepad_window_menubar_key), window);
+      g_signal_connect (window->controller_key, "key-released",
+                        G_CALLBACK (mousepad_window_menubar_key), window);
     }
   /* disconnect handlers that show the menubar temporarily when hidden */
   else
     {
-      mousepad_disconnect_by_func (window, mousepad_window_menubar_key_event, mnemonics);
-      mousepad_disconnect_by_func (window, mousepad_window_hide_menubar_event, NULL);
-      mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar_event, window);
-      mousepad_disconnect_by_func (window->notebook, mousepad_window_hide_menubar_event, window);
+      mousepad_disconnect_by_func (window->controller_key, mousepad_window_menubar_key, window);
+      mousepad_disconnect_by_func (window->controller_click, mousepad_window_hide_menubar, window);
+      mousepad_disconnect_by_func (window->controller_scroll, mousepad_window_hide_menubar, window);
+      mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar, window);
     }
 }
 
@@ -6144,7 +5995,7 @@ mousepad_window_action_contents (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (data));
 
   /* show help */
-  mousepad_dialogs_show_help (GTK_WINDOW (data), NULL, NULL);
+  gtk_show_uri (GTK_WINDOW (data), "https://docs.xfce.org/apps/mousepad/start", GDK_CURRENT_TIME);
 }
 
 
