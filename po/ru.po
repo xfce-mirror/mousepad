@@ -1722,7 +1722,7 @@ msgstr "Для открытия файлов использовать:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "<b>Notebook Tabs</b>"
-msgstr "<b>Вкладки ноутбука</b>"
+msgstr "<b>Вкладки блокнота</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Window"
