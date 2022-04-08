@@ -34,18 +34,6 @@ G_BEGIN_DECLS
   (g_list_find (gtk_application_get_windows (GTK_APPLICATION (g_application_get_default ())), \
                 window) != NULL)
 
-enum
-{
-  TARGET_TEXT_URI_LIST,
-  TARGET_GTK_NOTEBOOK_TAB
-};
-
-static const GtkTargetEntry drop_targets[] =
-{
-  { "text/uri-list", 0, TARGET_TEXT_URI_LIST },
-  { "GTK_NOTEBOOK_TAB", GTK_TARGET_SAME_APP, TARGET_GTK_NOTEBOOK_TAB }
-};
-
 typedef struct _MousepadWindowClass MousepadWindowClass;
 typedef struct _MousepadWindow      MousepadWindow;
 
