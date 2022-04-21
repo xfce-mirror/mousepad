@@ -1702,7 +1702,7 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
       gtk_container_remove (GTK_CONTAINER (menu), item);
 
       /* forward "destroy" and "activate" signals from the new item to the old one */
-      g_signal_connect (new_item, "destroy", G_CALLBACK (gtk_widget_destroy), item);
+      g_signal_connect_swapped (new_item, "destroy", G_CALLBACK (g_object_unref), item);
       g_signal_connect (new_item, "activate", G_CALLBACK (mousepad_window_menu_item_activate), item);
     }
 
