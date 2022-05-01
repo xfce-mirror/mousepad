@@ -8,6 +8,7 @@
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013,2015
 # Georgios Zarkadas <georgios.zarkadas@gmail.com>, 2018
 # Ioannis LM, 2019-2020,2022
+# nonviotale <nonviotale@gmail.com>, 2013
 # Στέργιος Γέμελας <sgemelas@protonmail.com>, 2021
 # Vangelis Skarmoutsos <skarmoutsosv@gmail.com>, 2020
 # nonviotale <nonviotale@gmail.com>, 2013
@@ -19,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 12:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Ioannis LM, 2019-2020,2022\n"
+"Last-Translator: nonviotale <nonviotale@gmail.com>, 2013\n"
 "Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -739,7 +740,7 @@ msgstr "Κατάσταση θέασης"
 #: ../mousepad/mousepad-window.c:3326
 #, c-format
 msgid "Use '%s' as template"
-msgstr "Χρήση του '%s' ως πρότυπο"
+msgstr "Χρήση ως πρότυπο του '%s'"
 
 #: ../mousepad/mousepad-window.c:3352
 #, c-format
@@ -772,7 +773,7 @@ msgstr "Επαναφορά σε μια αποθηκευμένη έκδοση τ�
 #: ../mousepad/mousepad-window.c:3584
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
-msgstr "Επαναφόρτωση αρχείου από τον δίσκο"
+msgstr "Επαναφόρτωση του αρχείου από τον δίσκο"
 
 #: ../mousepad/mousepad-window.c:3590
 msgid "Leave fullscreen mode"
@@ -1319,7 +1320,7 @@ msgstr "Επικόλληση κειμένου από το πρόχειρο σε 
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
 msgid "_Delete Selection"
-msgstr "_Διαγραφή επιλογής"
+msgstr "_Διαγραφή της επιλογής"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:42
 msgid "Delete the current selection"
@@ -1347,7 +1348,7 @@ msgstr "Σε _πεζά"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:48
 msgid "Change the case of the selection to lowercase"
-msgstr "Αλλαγή της επιλογής σε πεζά"
+msgstr "Αλλαγή όλων σε πεζά στην επιλογή"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:49
 msgid "To _Uppercase"
@@ -1355,7 +1356,7 @@ msgstr "Σε _κεφαλαία"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:50
 msgid "Change the case of the selection to uppercase"
-msgstr "Αλλαγή της επιλογής σε κεφαλαία"
+msgstr "Αλλαγή όλων σε κεφαλαία στην επιλογή"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:51
 msgid "To _Title Case"
@@ -1363,7 +1364,7 @@ msgstr "Π_ρώτο γράμμα κεφαλαίο"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:52
 msgid "Change the case of the selection to title case"
-msgstr "Αλλαγή του πρώτου γράμματος σε κεφαλαίο στο επιλεγμένο κείμενο"
+msgstr "Αλλαγή του πρώτου γράμματος σε κεφαλαίο στην επιλογή"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:53
 msgid "To _Opposite Case"
@@ -1371,7 +1372,7 @@ msgstr "Αντί_θετη μορφή"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:54
 msgid "Change the case of the selection opposite case"
-msgstr "Αλλαγή από κεφαλαία σε πεζά και το αντίστροφο στο επιλεγμένο κείμενο"
+msgstr "Αλλαγή όλων από κεφαλαία σε πεζά και το αντίστροφο στην επιλογή"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:55
 msgid "_Tabs to Spaces"
@@ -1379,7 +1380,7 @@ msgstr "Από ε_σοχές σε κενά διαστήματα"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:56
 msgid "Convert all tabs to spaces in the selection or document"
-msgstr "Μετατροπή όλων των εσοχών σε κενά διαστήματα στο επιλεγμένο κείμενο ή το έγγραφο"
+msgstr "Μετατροπή όλων των εσοχών σε κενά διαστήματα στην επιλογή ή το έγγραφο"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Leading Spaces to Tabs"
@@ -1420,7 +1421,7 @@ msgstr "Γραμμή ε_πάνω"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
-msgstr "Μετακίνηση γραμμών προς τα πάνω κατά μία γραμμή"
+msgstr "Μετακίνηση γραμμών προς τα επάνω κατά μία γραμμή"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
@@ -1635,7 +1636,7 @@ msgstr "<b>Εσοχές</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr "Tab: Εσοχή (Shift+Tab: Αναίρεση)"
+msgstr "Tab: Δημιουργία εσοχής (Shift+Tab: Αναίρεση)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Indent/unindent the currently selected text or the current line"
@@ -1854,7 +1855,7 @@ msgstr "Προτιμήσεις του επεξεργαστή κειμένου"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
-msgstr "Ρυθμίσεις του επεξεργαστή κειμένου Mousepad"
+msgstr "Ρυθμίσεις επεξεργαστή κειμένου Mousepad"
 
 #: ../org.xfce.mousepad.appdata.xml.in.h:3
 msgid ""
