@@ -62,6 +62,7 @@ DISTCLEANFILES =								\
 	intltool-extract							\
 	intltool-merge								\
 	intltool-update								\
+	po/.intltool-merge-cache.lock \
 	$(desktop_in_files)							\
 	$(desktop_DATA)								\
 	$(appdata_DATA)								\
