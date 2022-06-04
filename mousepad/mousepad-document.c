@@ -27,6 +27,10 @@
 
 static void      mousepad_document_finalize                (GObject                *object);
 static void      mousepad_document_notify_cursor_position  (MousepadDocument       *document);
+static void      mousepad_document_notify_delete_range     (GtkTextBuffer          *self,
+                                                            const GtkTextIter      *start,
+                                                            const GtkTextIter      *end,
+                                                            MousepadDocument       *document);
 static void      mousepad_document_notify_encoding         (MousepadFile           *file,
                                                             MousepadEncoding        encoding,
                                                             MousepadDocument       *document);
@@ -274,6 +278,8 @@ mousepad_document_init (MousepadDocument *document)
                             G_CALLBACK (mousepad_document_notify_cursor_position), document);
   MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH, mousepad_document_notify_cursor_position,
                                    document, G_CONNECT_SWAPPED);
+  g_signal_connect_after (document->buffer, "delete-range",
+                          G_CALLBACK (mousepad_document_notify_delete_range), document);
   g_signal_connect (document->file, "encoding-changed",
                     G_CALLBACK (mousepad_document_notify_encoding), document);
   g_signal_connect (document->buffer, "notify::language",
@@ -333,6 +339,21 @@ mousepad_document_notify_cursor_position (MousepadDocument *document)
 
   /* emit the signal */
   g_signal_emit (document, document_signals[CURSOR_CHANGED], 0, line, column, selection);
+}
+
+
+
+static void
+mousepad_document_notify_delete_range (GtkTextBuffer     *self,
+                                       const GtkTextIter *start,
+                                       const GtkTextIter *end,
+                                       MousepadDocument  *document)
+{
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
+
+  if (gtk_text_buffer_get_char_count (self) == 0
+      && ! mousepad_file_location_is_set (document->file))
+    gtk_text_buffer_set_modified (self, FALSE);
 }
 
 
