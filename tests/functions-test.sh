@@ -94,6 +94,8 @@ test_gsettings ()
   bak="$logdir/$script_name.gsettings.bak"
   : >"$bak" || abort 'file'
   gsettings list-recursively org.xfce.mousepad | sort >"$bak"
+  gsettings list-schemas | grep -xE 'org\.xfce\.mousepad\.plugins\.[^.]+' | sort \
+    | xargs gsettings list-recursively | sort >>"$bak"
 
   while read schema key value; do
     schemas+=("$schema")
