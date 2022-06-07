@@ -28,7 +28,7 @@
 static void      mousepad_document_finalize                (GObject                *object);
 static void      mousepad_document_notify_cursor_position  (MousepadDocument       *document);
 static void      mousepad_document_delete_range            (MousepadDocument       *document);
-static void      mousepad_document_notify_encoding         (MousepadFile           *file,
+static void      mousepad_document_encoding_changed        (MousepadFile           *file,
                                                             MousepadEncoding        encoding,
                                                             MousepadDocument       *document);
 static void      mousepad_document_notify_language         (GtkSourceBuffer        *buffer,
@@ -279,7 +279,7 @@ mousepad_document_init (MousepadDocument *document)
                            G_CALLBACK (mousepad_document_delete_range), document,
                            G_CONNECT_SWAPPED | G_CONNECT_AFTER);
   g_signal_connect (document->file, "encoding-changed",
-                    G_CALLBACK (mousepad_document_notify_encoding), document);
+                    G_CALLBACK (mousepad_document_encoding_changed), document);
   g_signal_connect (document->buffer, "notify::language",
                     G_CALLBACK (mousepad_document_notify_language), document);
   g_signal_connect (document->textview, "notify::overwrite",
@@ -353,9 +353,9 @@ mousepad_document_delete_range (MousepadDocument *document)
 
 
 static void
-mousepad_document_notify_encoding (MousepadFile     *file,
-                                   MousepadEncoding  encoding,
-                                   MousepadDocument *document)
+mousepad_document_encoding_changed (MousepadFile     *file,
+                                    MousepadEncoding  encoding,
+                                    MousepadDocument *document)
 {
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
@@ -412,8 +412,8 @@ mousepad_document_send_signals (MousepadDocument *document)
   mousepad_document_notify_cursor_position (document);
 
   /* re-send the encoding signal */
-  mousepad_document_notify_encoding (document->file,
-                                     mousepad_file_get_encoding (document->file), document);
+  mousepad_document_encoding_changed (document->file,
+                                      mousepad_file_get_encoding (document->file), document);
 
   /* re-send the language signal */
   mousepad_document_notify_language (GTK_SOURCE_BUFFER (document->buffer), NULL, document);
