@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 12:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: nonviotale <nonviotale@gmail.com>, 2013\n"
+"Last-Translator: Ioannis LM, 2019-2020,2022\n"
 "Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -754,7 +754,7 @@ msgstr "Δεν βρέθηκαν πρότυπα στο\n'%s'"
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr "Λείπει ο φάκελος των προτύπων\n'%s'"
+msgstr "Λείπει ο κατάλογος των προτύπων\n'%s'"
 
 #. create suitable text label for the "Other" menu
 #: ../mousepad/mousepad-window.c:3469
