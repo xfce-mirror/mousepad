@@ -772,11 +772,12 @@ mousepad_file_open (MousepadFile  *file,
                       /* we've found a valid bom at the start of the contents */
                       file->write_bom = TRUE;
 
-                      /* advance the contents offset and decrease size */
-                      temp = g_strdup (contents + bom_length);
+                      /* advance the contents offset and decrease size: don't use GLib string
+                       * functions here, there may be null bytes */
+                      file_size -= bom_length;
+                      temp = g_memdup (contents + bom_length, file_size);
                       g_free (contents);
                       contents = temp;
-                      file_size -= bom_length;
 
                       /* set the detected encoding */
                       file->encoding = bom_encoding;
