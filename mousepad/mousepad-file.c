@@ -780,6 +780,7 @@ mousepad_file_open (MousepadFile  *file,
 
                       /* set the detected encoding */
                       file->encoding = bom_encoding;
+                      charset = bom_charset;
                     }
                 }
             }
