@@ -1011,36 +1011,6 @@ mousepad_file_prepare_save_contents (MousepadFile  *file,
   contents = gtk_text_buffer_get_slice (file->buffer, &start, &end, TRUE);
   length = strlen (contents);
 
-  /* convert to the encoding if different from UTF-8 */
-  if (file->encoding != MOUSEPAD_ENCODING_UTF_8)
-    {
-      /* get the charset */
-      charset = mousepad_encoding_get_charset (file->encoding);
-      if (G_UNLIKELY (charset == NULL))
-        {
-          g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_NO_CONVERSION,
-                       MOUSEPAD_MESSAGE_UNSUPPORTED_ENCODING);
-          g_free (contents);
-
-          return FALSE;
-        }
-
-      /* convert the content to the user encoding */
-      encoded = g_convert (contents, length, charset, "UTF-8", NULL, &written, error);
-
-      /* return if nothing was encoded */
-      if (G_UNLIKELY (encoded == NULL))
-        {
-          g_free (contents);
-          return FALSE;
-        }
-
-      /* set the new contents */
-      g_free (contents);
-      contents = encoded;
-      length = written;
-    }
-
   /* handle line endings */
   if (file->line_ending == MOUSEPAD_EOL_MAC)
     {
@@ -1101,6 +1071,36 @@ mousepad_file_prepare_save_contents (MousepadFile  *file,
         }
 
       contents[length] = '\0';
+    }
+
+  /* convert to the encoding if different from UTF-8: must be done after the above */
+  if (file->encoding != MOUSEPAD_ENCODING_UTF_8)
+    {
+      /* get the charset */
+      charset = mousepad_encoding_get_charset (file->encoding);
+      if (G_UNLIKELY (charset == NULL))
+        {
+          g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_NO_CONVERSION,
+                       MOUSEPAD_MESSAGE_UNSUPPORTED_ENCODING);
+          g_free (contents);
+
+          return FALSE;
+        }
+
+      /* convert the content to the user encoding */
+      encoded = g_convert (contents, length, charset, "UTF-8", NULL, &written, error);
+
+      /* return if nothing was encoded */
+      if (G_UNLIKELY (encoded == NULL))
+        {
+          g_free (contents);
+          return FALSE;
+        }
+
+      /* set the new contents */
+      g_free (contents);
+      contents = encoded;
+      length = written;
     }
 
   /* add a bom at the start of the contents if needed */
