@@ -410,10 +410,10 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
         {
           gtk_combo_box_text_prepend_text (box, string);
           gtk_combo_box_text_remove (box, idx);
-        }
 
-      /* always be in box: avoid `idx == -1` and `idx == history_size` */
-      gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
+          /* always be in box: avoid `idx == -1` and `idx == history_size` */
+          gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
+        }
     }
 
   /* reset display widgets */

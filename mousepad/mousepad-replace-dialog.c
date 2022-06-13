@@ -507,10 +507,10 @@ mousepad_replace_dialog_response (GtkWidget *widget,
         {
           gtk_combo_box_text_prepend_text (box, search_str);
           gtk_combo_box_text_remove (box, idx);
-        }
 
-      /* always be in box: avoid `idx == -1` and `idx == history_size` */
-      gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
+          /* always be in box: avoid `idx == -1` and `idx == history_size` */
+          gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
+        }
 
       /* select the first match */
       flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
@@ -545,9 +545,8 @@ mousepad_replace_dialog_response (GtkWidget *widget,
         {
           gtk_combo_box_text_prepend_text (box, search_str);
           gtk_combo_box_text_remove (box, idx);
+          gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
         }
-
-      gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
 
       box = GTK_COMBO_BOX_TEXT (dialog->replace_box);
       idx = mousepad_history_search_insert_replace_text (replace_str);
@@ -555,9 +554,8 @@ mousepad_replace_dialog_response (GtkWidget *widget,
         {
           gtk_combo_box_text_prepend_text (box, replace_str);
           gtk_combo_box_text_remove (box, idx);
+          gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
         }
-
-      gtk_combo_box_set_active (GTK_COMBO_BOX (box), 0);
 
       /* replace matches */
       flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE;
