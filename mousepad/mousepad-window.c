@@ -1543,6 +1543,32 @@ mousepad_window_menu_item_activate (GtkMenuItem *new_item,
 
 
 
+static void
+mousepad_window_menu_item_show_icon (GObject    *settings,
+                                     GParamSpec *pspec,
+                                     gpointer    icon)
+{
+  GIcon    *gicon, *replace_gicon;
+  gboolean  show_icon;
+
+  g_object_get (settings, "gtk-menu-images", &show_icon, NULL);
+  replace_gicon = mousepad_object_get_data (icon, "replace-gicon");
+
+  if (show_icon && replace_gicon != NULL)
+    {
+      g_object_set (icon, "gicon", replace_gicon, NULL);
+      mousepad_object_set_data (icon, "replace-gicon", NULL);
+    }
+  else if (! show_icon && replace_gicon == NULL)
+    {
+      g_object_get (icon, "gicon", &gicon, NULL);
+      g_object_set (icon, "icon-name", "", NULL);
+      mousepad_object_set_data (icon, "replace-gicon", gicon);
+    }
+}
+
+
+
 GtkWidget *
 mousepad_window_menu_item_realign (MousepadWindow *window,
                                    GtkWidget      *item,
@@ -1660,6 +1686,10 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
     }
   else
     {
+      static GtkSettings *settings = NULL;
+      if (settings == NULL)
+        settings = gtk_settings_get_default ();
+
       /* remove the box from the item to operate on its child widgets */
       box = gtk_bin_get_child (GTK_BIN (item));
       g_object_ref (box);
@@ -1670,6 +1700,14 @@ mousepad_window_menu_item_realign (MousepadWindow *window,
       label = g_list_last (widgets)->data;
       label_text = gtk_label_get_label (GTK_LABEL (label));
       g_list_free (widgets);
+
+      /* honor global setting for icon visibility */
+      if (settings != NULL)
+        {
+          mousepad_window_menu_item_show_icon (G_OBJECT (settings), NULL, icon);
+          g_signal_connect_object (settings, "notify::gtk-menu-images",
+                                   G_CALLBACK (mousepad_window_menu_item_show_icon), icon, 0);
+        }
 
       /* hide icon if there is a button, no extra margin here */
       if (button != NULL)
