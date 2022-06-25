@@ -100,7 +100,7 @@ msgstr "ΚΑΤΑΣΤΑΣΗ"
 
 #: ../mousepad/mousepad-application.c:457
 msgid "The Mousepad developers. All rights reserved."
-msgstr "Προγραμματιστές του Mousepad. Mε την επιφύλαξη παντός δικαιώματος"
+msgstr "Η ομάδα ανάπτυξης του Mousepad. Με την επιφύλαξη παντός νόμιμου δικαιώματος."
 
 #: ../mousepad/mousepad-application.c:458
 #, c-format
