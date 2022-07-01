@@ -242,7 +242,7 @@ msgstr "Değilse, öngörülen kodlama kullanılacaktır."
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr "Görünüşe göre önceki seans normal bir şekilde bitmedi. Mevcut verileri geri yüklemek istiyor musunuz?"
+msgstr "Görünüyor ki önceki oturum olağan sonlanmadı. Uygun veriyi geri yüklemek ister misiniz?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
@@ -1768,7 +1768,7 @@ msgstr "Dosya izleme"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
-msgstr "Otomatik yeniden yükleme"
+msgstr "Kendiliğinden yeniden yükleyiş"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
