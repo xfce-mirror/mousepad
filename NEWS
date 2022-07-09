@@ -1,3 +1,23 @@
+0.5.10 (2022-07-09)
+======
+- New Features:
+  - Consider unnamed files unchanged when empty (#170, !123)
+
+- Bug Fixes:
+  - session-restore: Manage autosave ids through a GList (#165)
+  - Honor global "gtk-menu-images" setting for icon visibility
+  - search: Do not select first combo box entry when list does not change
+  - Fix encoding conversion when saving
+  - Fix encoding conversion when opening (#172)
+  - Update charset when a byte order mark is detected (#172)
+  - tests: Add plugin settings to the list
+  - build: Fix intltool lock file problem during make distcheck
+  - Fix a memory leak in menu item realignment (#164)
+
+- Translation Updates:
+  Finnish, Greek, Hebrew, Hungarian, Russian, Serbian, Swedish,
+  Turkish, Ukrainian
+
 0.5.9 (2022-04-01)
 =====
 - New Features:
