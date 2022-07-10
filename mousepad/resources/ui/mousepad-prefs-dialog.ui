@@ -951,20 +951,24 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkGrid">
                     <property name="visible">True</property>
-                    <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                     <property name="margin-top">2</property>
                     <property name="margin-bottom">0</property>
                     <property name="margin-start">0</property>
                     <property name="margin-end">0</property>
-                    <property name="spacing">6</property>
+                    <property name="column-spacing">6</property>
+                    <property name="row-spacing">4</property>
                     <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Recent file menu length:</property>
                       </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">0</property>
+                      </packing>
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="/prefs/file/history/recent-spin">
@@ -979,24 +983,21 @@
                         <property name="numeric">True</property>
                         <property name="tooltip-text" translatable="yes">'0' disables and wipes recent history</property>
                       </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">0</property>
+                      </packing>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
-                    <property name="margin-top">2</property>
-                    <property name="margin-bottom">0</property>
-                    <property name="margin-start">0</property>
-                    <property name="margin-end">0</property>
-                    <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Search history size:</property>
                       </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
+                      </packing>
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="/prefs/file/history/search-spin">
@@ -1010,6 +1011,10 @@
                         <property name="adjustment">/prefs/file/history/search-adjustment</property>
                         <property name="numeric">True</property>
                       </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">1</property>
+                      </packing>
                     </child>
                   </object>
                 </child>
