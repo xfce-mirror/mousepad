@@ -164,7 +164,7 @@ msgstr "닫기 전에 바뀐 내용을 저장하시렵니까?"
 
 #: ../mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "읽기 전용 문서입니다. 다른 파일로 저장하시렵니까?"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:392 ../mousepad/mousepad-dialogs.c:532
@@ -932,11 +932,11 @@ msgstr "동일한 텍스트를 뒷 방향으로 검색합니다"
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_Incremental Search"
-msgstr ""
+msgstr "증분 검색(_I)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "자동으로 검색 결과를 선택하고 보기 화면을 스크롤합니다"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -1634,11 +1634,11 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: 탭 같은 들여쓰기 공백 삭제"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: 앞 뒤 부분 공백 문자 확인:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 msgid "<b>Smart Keys</b>"
