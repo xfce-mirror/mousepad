@@ -987,7 +987,7 @@ msgstr "Regelnummers"
 #: ../mousepad/resources/gtk/menus.ui.h:42
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:29
 msgid "Show line numbers"
-msgstr "Toon regelnummers"
+msgstr "Regelnummers tonen"
 
 #: ../mousepad/resources/gtk/menus.ui.h:43
 msgid "_Menubar"
