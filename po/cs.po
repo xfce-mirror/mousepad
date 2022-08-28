@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Alois Nešpor <info@aloisnespor.info>, 2014
+# kEdAR, 2022
 # Michal Várady <miko.vaji@gmail.com>, 2014,2018-2021
 # Pavel Borecki <pavel.borecki@gmail.com>, 2018-2019
 # Pavel Pernička <pernicka.pa@gmail.com>, 2019
@@ -14,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-16 12:50+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Stanislav Horáček <stanislav.horacek@gmail.com>, 2021\n"
+"Last-Translator: kEdAR, 2022\n"
 "Language-Team: Czech (http://www.transifex.com/xfce/xfce-apps/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,7 +109,7 @@ msgstr "%s | Autoři: %s | Název souboru: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad je jednoduchý textový editor pro desktopové prostředí Xfce"
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -235,11 +236,11 @@ msgstr "Pokud ne, bude použito odhadnuté kódování."
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "Zdá se, že předchozí relace neskončila normálně. Chcete obnovit dostupná data?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "Pokud ne, všechna tato data budou ztracena."
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
@@ -850,7 +851,7 @@ msgstr "Vytvoří nový dokument ze šablony"
 
 #: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "Op_en Recent"
-msgstr "Otevřít n_edávnou položku"
+msgstr "Otevřít n_edávný"
 
 #: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "Open a recently used file"
@@ -906,7 +907,7 @@ msgstr "Nabídka úpravy"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences..."
-msgstr ""
+msgstr "Nastavení..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -1176,7 +1177,7 @@ msgstr "O aplikaci"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:1
 msgid "_New"
-msgstr "_nový"
+msgstr "_Nový"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:2
 msgid "Create a new document"
@@ -1552,19 +1553,19 @@ msgstr "nové karty v novém okně"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "never"
-msgstr ""
+msgstr "nikdy"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "after a crash"
-msgstr ""
+msgstr "po havárii"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "unsaved documents"
-msgstr ""
+msgstr "neuložené dokumenty"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
 msgid "saved documents"
-msgstr ""
+msgstr "uložené dokumenty"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
 msgid "always"
@@ -1608,7 +1609,7 @@ msgstr "<b>Font</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Barevné schéma</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1632,11 +1633,11 @@ msgstr "<b>Odsazování</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tab: Odsadí výběr (Shift+Tab: Předsadí)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Odsadí/Předsadí aktuálně vybraný text nebo aktuální řádek"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
@@ -1657,7 +1658,7 @@ msgstr "Editor"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Dekorace na straně klienta (vyžaduje restart)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
 msgid "Show full filename in title bar"
@@ -1701,11 +1702,11 @@ msgstr "Vždy zobrazovat karty i při jednom souboru"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Rozšířit karty k vyplňění dostupného místa"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "Cycled notebook tab switching"
-msgstr "Přejít na první kartu po dosažení poslední karty při přepínání karet poznámkových bloků"
+msgstr "Přepínat karty zápisníku dokola"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
 msgid "Open files in:"
@@ -1713,7 +1714,7 @@ msgstr "Otevřít soubory v:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "Karty zápisníku"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Window"
@@ -1721,53 +1722,53 @@ msgstr "Okno"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "Zajistit nový řádek na konci souboru"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Vytvořit kopii s koncovkou '~'"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>Ukládání souboru</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Session restore:"
-msgstr ""
+msgstr "Obnovení relace:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Pokud je vybráno \"neuložené dokumenty\" nebo \"vždy\", Mousepad se při ukončení nebude ptát na uložení upravených dokumentů"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "Recent file menu length:"
-msgstr ""
+msgstr "Počet nedávných souborů:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "'0' zakáže a vymaže historii nedávných"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "Velikost historie hledání:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>Historie</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "File monitoring"
-msgstr ""
+msgstr "Sledovat změny souborů"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Automaticky znovu načíst"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
-msgstr ""
+msgstr "Výchozí kódování:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
 msgid "<b>Miscellaneous</b>"
@@ -1799,7 +1800,7 @@ msgstr "Výchozí jazyk:"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Editor zkratek"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
@@ -1831,7 +1832,7 @@ msgstr ""
 #. add the shortcuts menu entry
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Klávesové zkratky..."
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
 msgid "Show the shortcuts dialog"
