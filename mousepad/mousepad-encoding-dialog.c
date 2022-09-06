@@ -106,7 +106,7 @@ mousepad_encoding_dialog_class_init (MousepadEncodingDialogClass *klass)
 static void
 mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 {
-  GtkWidget       *area, *vbox, *hbox, *icon;
+  GtkWidget       *area, *hbox, *icon;
   GtkCellRenderer *cell;
 
   /* set some dialog properties */
@@ -121,49 +121,53 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   dialog->title = NULL;
   mousepad_util_dialog_create_header (GTK_DIALOG (dialog), dialog->title, NULL, NULL);
 
-  /* dialog vbox */
+  /* dialog area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-  gtk_box_pack_start (GTK_BOX (area), vbox, TRUE, TRUE, 0);
-  gtk_widget_show (vbox);
-
-  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-  gtk_widget_show (hbox);
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (area), GTK_ORIENTATION_VERTICAL);
+  gtk_box_set_spacing (GTK_BOX (area), 6);
 
   /* encoding radio buttons */
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+  gtk_box_append (GTK_BOX (area), hbox);
 
   /* default encoding */
-  dialog->radio_default = gtk_radio_button_new_with_label (NULL, NULL);
+  dialog->radio_default = gtk_check_button_new_with_label (NULL);
   g_signal_connect (dialog->radio_default, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_default, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), dialog->radio_default);
+  gtk_widget_hide (dialog->radio_default);
 
   /* system charset: added only if different from default */
   if (mousepad_encoding_get_default () != mousepad_encoding_get_system ())
     {
-      dialog->radio_system = gtk_radio_button_new_with_label_from_widget (
-                               GTK_RADIO_BUTTON (dialog->radio_default), NULL);
+      dialog->radio_system = gtk_check_button_new_with_label (NULL);
+      gtk_check_button_set_group (GTK_CHECK_BUTTON (dialog->radio_system),
+                                  GTK_CHECK_BUTTON (dialog->radio_default));
       g_signal_connect (dialog->radio_system, "toggled",
                         G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-      gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_system, FALSE, FALSE, 0);
+      gtk_box_append (GTK_BOX (hbox), dialog->radio_system);
+      gtk_widget_hide (dialog->radio_system);
     }
   else
     dialog->radio_system = NULL;
 
   /* history charset: shown only if different from default and system */
-  dialog->radio_history = gtk_radio_button_new_with_label_from_widget (
-                            GTK_RADIO_BUTTON (dialog->radio_default), NULL);
+  dialog->radio_history = gtk_check_button_new_with_label (NULL);
+  gtk_check_button_set_group (GTK_CHECK_BUTTON (dialog->radio_history),
+                              GTK_CHECK_BUTTON (dialog->radio_default));
   g_signal_connect (dialog->radio_history, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_history, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), dialog->radio_history);
+  gtk_widget_hide (dialog->radio_history);
 
   /* valid conversions to UTF-8 if there are any, else partially valid conversions, else hidden */
-  dialog->radio_other = gtk_radio_button_new_with_label_from_widget (
-                          GTK_RADIO_BUTTON (dialog->radio_default), _("Other:"));
+  dialog->radio_other = gtk_check_button_new_with_label (_("Other:"));
+  gtk_check_button_set_group (GTK_CHECK_BUTTON (dialog->radio_other),
+                              GTK_CHECK_BUTTON (dialog->radio_default));
   g_signal_connect (dialog->radio_other, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_other, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), dialog->radio_other);
+  gtk_widget_hide (dialog->radio_other);
 
   /* create stores */
   dialog->store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_INT);
@@ -171,9 +175,10 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 
   /* combobox with other charsets */
   dialog->combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (dialog->store));
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->combo, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), dialog->combo);
   g_signal_connect (dialog->combo, "changed",
                     G_CALLBACK (mousepad_encoding_dialog_combo_changed), dialog);
+  gtk_widget_hide (dialog->combo);
 
   /* text renderer for 1st column */
   cell = gtk_cell_renderer_text_new ();
@@ -183,43 +188,41 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 
   /* progress bar */
   dialog->progress_bar = gtk_progress_bar_new ();
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->progress_bar, TRUE, TRUE, 0);
+  gtk_widget_set_hexpand (dialog->progress_bar, TRUE);
+  gtk_box_append (GTK_BOX (hbox), dialog->progress_bar);
   gtk_progress_bar_set_text (GTK_PROGRESS_BAR (dialog->progress_bar),
                              _("Checking encodings..."));
   gtk_progress_bar_set_show_text (GTK_PROGRESS_BAR (dialog->progress_bar), TRUE);
-  gtk_widget_show (dialog->progress_bar);
 
   /* cancel button */
   dialog->button_cancel = gtk_button_new_with_mnemonic (MOUSEPAD_LABEL_CANCEL);
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->button_cancel, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), dialog->button_cancel);
   g_signal_connect (dialog->button_cancel, "clicked",
                     G_CALLBACK (mousepad_encoding_dialog_cancel_encoding_test), dialog);
-  gtk_widget_show (dialog->button_cancel);
 
   /* error box */
   dialog->error_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), dialog->error_box, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (area), dialog->error_box);
+  gtk_widget_hide (dialog->error_box);
 
   /* error icon */
-  icon = gtk_image_new_from_icon_name ("dialog-error", GTK_ICON_SIZE_BUTTON);
-  gtk_box_pack_start (GTK_BOX (dialog->error_box), icon, FALSE, FALSE, 0);
-  gtk_widget_show (icon);
+  icon = gtk_image_new_from_icon_name ("dialog-error");
+  gtk_box_append (GTK_BOX (dialog->error_box), icon);
 
   /* error label */
   dialog->error_label = gtk_label_new (NULL);
-  gtk_box_pack_start (GTK_BOX (dialog->error_box), dialog->error_label, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (dialog->error_box), dialog->error_label);
   gtk_label_set_use_markup (GTK_LABEL (dialog->error_label), TRUE);
-  gtk_widget_show (dialog->error_label);
 
   /* create text view */
   dialog->document = mousepad_document_new ();
-  gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (dialog->document), TRUE, TRUE, 0);
+  gtk_widget_set_vexpand (GTK_WIDGET (dialog->document), TRUE);
+  gtk_box_append (GTK_BOX (area), GTK_WIDGET (dialog->document));
   gtk_text_view_set_editable (GTK_TEXT_VIEW (dialog->document->textview), FALSE);
   gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (dialog->document->textview), FALSE);
   g_settings_unbind (dialog->document->textview, "show-line-numbers");
   gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (dialog->document->textview), FALSE);
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (dialog->document->textview), GTK_WRAP_NONE);
-  gtk_widget_show (GTK_WIDGET (dialog->document));
 }
 
 
@@ -298,7 +301,7 @@ mousepad_encoding_dialog_set_radio (GtkWidget        *radio,
       label = g_strdup_printf ("%s (%s)", name, charset);
     }
 
-  gtk_button_set_label (GTK_BUTTON (radio), label);
+  gtk_check_button_set_label (GTK_CHECK_BUTTON (radio), label);
 
   /* cleanup */
   g_free (encoded);
@@ -348,7 +351,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
   else
     label = g_strdup_printf (_("%s (%s, partial)"), MOUSEPAD_ENCODING_LABEL_DEFAULT, charset);
 
-  gtk_button_set_label (GTK_BUTTON (dialog->radio_default), label);
+  gtk_check_button_set_label (GTK_CHECK_BUTTON (dialog->radio_default), label);
   mousepad_object_set_data (dialog->radio_default, "encoding", GINT_TO_POINTER (default_encoding));
   g_free (label);
 
@@ -400,8 +403,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
         }
 
       /* iterate the main loop to update the gui */
-      while (gtk_events_pending ())
-        gtk_main_iteration ();
+      while (g_main_context_iteration (NULL, FALSE));
     }
 
   /* cleanup */
@@ -420,7 +422,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
           result = 1 - (default_valid || system_valid || history_valid);
           gtk_combo_box_set_model (GTK_COMBO_BOX (dialog->combo),
                                    GTK_TREE_MODEL (dialog->fallback_store));
-          gtk_button_set_label (GTK_BUTTON (dialog->radio_other), _("Other (partial):"));
+          gtk_check_button_set_label (GTK_CHECK_BUTTON (dialog->radio_other), _("Other (partial):"));
         }
       else
         result = 2 * (1 - (default_valid || system_valid || history_valid));
@@ -452,18 +454,21 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
       /* select the first item in the combo box*/
       gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->combo), 0);
 
+/* TODO ComboBox */
+#if 0
       /* spread the encoding list over several columns */
       gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (dialog->combo), n / 10 + (n % 10 != 0));
+#endif
 
       /* activate history encoding if possible, or the first valid encoding */
       if (history_valid)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->radio_history), TRUE);
+        gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_history), TRUE);
       else if (default_valid)
-        gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (dialog->radio_default));
+        gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_default), TRUE);
       else if (system_valid)
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->radio_system), TRUE);
+        gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_system), TRUE);
       else
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->radio_other), TRUE);
+        gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_other), TRUE);
     }
   else
     {
@@ -487,7 +492,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
         }
 
       /* activate the radio button (maybe hidden) */
-      gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (dialog->radio_default));
+      gtk_check_button_set_active (GTK_CHECK_BUTTON (dialog->radio_default), TRUE);
     }
 
   return FALSE;
@@ -595,7 +600,7 @@ mousepad_encoding_dialog_button_toggled (GtkWidget              *button,
   MousepadEncoding encoding;
 
   /* ignore inactive buttons */
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
+  if (gtk_check_button_get_active (GTK_CHECK_BUTTON (button)))
     {
       if (button == dialog->radio_other)
         {
@@ -650,7 +655,6 @@ mousepad_encoding_dialog (GtkWindow        *parent,
   /* create the dialog */
   dialog = g_object_new (MOUSEPAD_TYPE_ENCODING_DIALOG, "transient-for", parent,
                          "modal", TRUE, NULL);
-  mousepad_dialogs_destroy_with_parent (GTK_WIDGET (dialog), parent);
 
   /* try first to read the file with the history or the default encoding if needed */
   if (mousepad_file_get_encoding (file) == MOUSEPAD_ENCODING_NONE)
@@ -691,11 +695,11 @@ mousepad_encoding_dialog (GtkWindow        *parent,
   mousepad_encoding_dialog_test_encodings (dialog);
 
   /* run the dialog, get the new encoding */
-  if ((response = gtk_dialog_run (GTK_DIALOG (dialog))) == MOUSEPAD_RESPONSE_OK)
+  if ((response = mousepad_dialogs_run (GTK_WIDGET (dialog), parent)) == MOUSEPAD_RESPONSE_OK)
     *encoding = mousepad_file_get_encoding (dialog->document->file);
 
   /* destroy the dialog */
-  gtk_widget_destroy (GTK_WIDGET (dialog));
+  gtk_window_destroy (GTK_WINDOW (dialog));
 
   return response;
 }
