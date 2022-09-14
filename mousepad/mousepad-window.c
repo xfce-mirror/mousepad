@@ -5906,14 +5906,17 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
       mousepad_window_menu_set_tooltips (window, window->textview_menu, model, &offset);
 
       /* get the main menubar mnemonic keys */
-      children = gtk_container_get_children (GTK_CONTAINER (window->menubar));
-      for (child = children; child != NULL; child = child->next)
+      if (mnemonics == NULL)
         {
-          label = gtk_bin_get_child (GTK_BIN (child->data));
-          mnemonic = GUINT_TO_POINTER (gtk_label_get_mnemonic_keyval (GTK_LABEL (label)));
-          mnemonics = g_list_prepend (mnemonics, mnemonic);
+          children = gtk_container_get_children (GTK_CONTAINER (window->menubar));
+          for (child = children; child != NULL; child = child->next)
+            {
+              label = gtk_bin_get_child (GTK_BIN (child->data));
+              mnemonic = GUINT_TO_POINTER (gtk_label_get_mnemonic_keyval (GTK_LABEL (label)));
+              mnemonics = g_list_prepend (mnemonics, mnemonic);
+            }
+          g_list_free (children);
         }
-      g_list_free (children);
 
       /* handle key events to show the menubar temporarily when hidden */
       g_signal_connect (window, "key-press-event",
