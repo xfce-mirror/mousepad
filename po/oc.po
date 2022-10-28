@@ -1152,7 +1152,7 @@ msgstr "_Ajuda"
 
 #: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Help menu"
-msgstr ""
+msgstr "Menut d’ajuda"
 
 #: ../mousepad/resources/gtk/menus.ui.h:84
 msgid "_Contents"
@@ -1608,7 +1608,7 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
-msgstr ""
+msgstr "Afichatge"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Tab width:"
@@ -1673,7 +1673,7 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:56
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>General</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:57
 msgid "Show toolbar"
