@@ -318,7 +318,7 @@ mousepad_file_set_monitor (gpointer data)
       if ((file->symlink = mousepad_util_is_symlink (file->location)))
         {
           /* try to get the final target */
-          path = realpath (mousepad_util_get_path (file->location), NULL);
+          path = realpath (g_file_peek_path (file->location), NULL);
 
           /* this is a broken link: we have to use readlink() to get the final target */
           if (path == NULL && g_file_error_from_errno (errno) == G_FILE_ERROR_NOENT)
@@ -363,10 +363,8 @@ mousepad_file_set_monitor (gpointer data)
         file->monitor_location = g_object_ref (file->location);
 
       file->monitor = g_file_monitor_file (file->monitor_location,
-#if GLIB_CHECK_VERSION (2, 56, 2)
-                                           G_FILE_MONITOR_WATCH_HARD_LINKS |
-#endif
-                                           G_FILE_MONITOR_WATCH_MOVES,
+                                           G_FILE_MONITOR_WATCH_HARD_LINKS
+                                           | G_FILE_MONITOR_WATCH_MOVES,
                                            NULL, &error);
 
       /* inform the user */
@@ -436,7 +434,7 @@ mousepad_file_set_location (MousepadFile *file,
             ! g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
           g_object_unref (fileinfo);
         }
-      else if (mousepad_util_get_path (location) == NULL)
+      else if (g_file_peek_path (location) == NULL)
         mousepad_file_set_read_only (file, TRUE);
       else
         mousepad_file_set_read_only (file, FALSE);
@@ -478,7 +476,7 @@ mousepad_file_get_path (MousepadFile *file)
 {
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), NULL);
 
-  return mousepad_util_get_path (file->location);
+  return g_file_peek_path (file->location);
 }
 
 
