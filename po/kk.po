@@ -26,11 +26,11 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:142
 msgid "ENCODING"
-msgstr ""
+msgstr "КОДТАЛУЫ"
 
 #: ../mousepad/mousepad-application.c:147
 msgid "Display a list of possible encodings to open files"
-msgstr ""
+msgstr "Файлды ашу үшін мүмкін кодтаулар тізімін көрсету"
 
 #: ../mousepad/mousepad-application.c:152
 msgid ""
@@ -40,7 +40,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:153
 msgid "LINE"
-msgstr ""
+msgstr "ЖОЛ"
 
 #: ../mousepad/mousepad-application.c:158
 msgid ""
@@ -50,7 +50,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:159
 msgid "COLUMN"
-msgstr ""
+msgstr "БАҒАН"
 
 #: ../mousepad/mousepad-application.c:164
 msgid "Open the preferences dialog"
@@ -86,7 +86,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:399
 msgid "MODE"
-msgstr ""
+msgstr "РЕЖИМІ"
 
 #: ../mousepad/mousepad-application.c:457
 msgid "The Mousepad developers. All rights reserved."
@@ -239,7 +239,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
-msgstr ""
+msgstr "Файлды таңдаңыз"
 
 #: ../mousepad/mousepad-dialogs.c:893
 msgid "Failed to prepare the temporary file for encoding tests"
@@ -519,7 +519,7 @@ msgstr "Жүйелік"
 
 #: ../mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "Тарихы"
 
 #: ../mousepad/mousepad-file.c:819
 #, c-format
@@ -534,7 +534,7 @@ msgstr "Жуырдағы тарихты тазарту сәтсіз аяқтал
 #: ../mousepad/mousepad-prefs-dialog.c:639
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
-msgstr ""
+msgstr "Mousepad баптаулары"
 
 #. set a custom tab label
 #: ../mousepad/mousepad-print.c:117
@@ -785,7 +785,7 @@ msgstr "Ешнәрсе табылмады"
 
 #: ../mousepad/mousepad-window.c:3864
 msgid "History disabled"
-msgstr ""
+msgstr "Тарихы сөндірілген"
 
 #. create an item to inform the user
 #: ../mousepad/mousepad-window.c:4339
@@ -1018,7 +1018,7 @@ msgstr "Құ_жат"
 
 #: ../mousepad/resources/gtk/menus.ui.h:50
 msgid "Document menu"
-msgstr ""
+msgstr "Құжат мәзірі"
 
 #: ../mousepad/resources/gtk/menus.ui.h:51
 msgid "_Word Wrap"
@@ -1816,7 +1816,7 @@ msgstr ""
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Әр түрлі"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
 msgid "Mousepad Shortcuts"
