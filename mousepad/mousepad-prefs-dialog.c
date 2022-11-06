@@ -23,6 +23,10 @@
 #include <mousepad/mousepad-encoding.h>
 #include <mousepad/mousepad-dialogs.h>
 
+#if defined (GDK_WINDOWING_X11) && ! GTK_CHECK_VERSION (4, 0, 0)
+#include <gdk/gdkx.h>
+#endif
+
 
 
 #define WID_NOTEBOOK                        "/prefs/main-notebook"
@@ -243,9 +247,10 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
                                 popover);
 #if defined (GDK_WINDOWING_X11) && ! GTK_CHECK_VERSION (4, 0, 0)
       /* see comment at the beginning of the corresponding code section above */
-      g_signal_connect (popover, "size-allocate",
-                        G_CALLBACK (mousepad_prefs_dialog_popover_allocate),
-                        gtk_widget_get_ancestor (button, MOUSEPAD_TYPE_PREFS_DIALOG));
+      if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
+        g_signal_connect (popover, "size-allocate",
+                          G_CALLBACK (mousepad_prefs_dialog_popover_allocate),
+                          gtk_widget_get_ancestor (button, MOUSEPAD_TYPE_PREFS_DIALOG));
 #endif
       gtk_widget_show (button);
     }
