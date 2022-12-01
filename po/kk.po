@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 12:50+0100\n"
+"POT-Creation-Date: 2022-11-28 15:01+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015,2018-2022\n"
 "Language-Team: Kazakh (http://www.transifex.com/xfce/xfce-apps/language/kk/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "Файлдарды ашу үшін қолданылатын кодтау (файлдарды кодтау сұхбатында ашу үшін бос қалдырыңыз)"
 
 #: ../mousepad/mousepad-application.c:142
 msgid "ENCODING"
@@ -36,7 +36,7 @@ msgstr "Файлды ашу үшін мүмкін кодтаулар тізім�
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr ""
+msgstr "Курсорды орналастыру үшін жол нөмірі (ЖОЛ > 0 жоғарыдан, ЖОЛ < 0 төменнен)"
 
 #: ../mousepad/mousepad-application.c:153
 msgid "LINE"
@@ -46,7 +46,7 @@ msgstr "ЖОЛ"
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr ""
+msgstr "Курсорды орналастыру үшін баған нөмірі (БАҒАН >= 0 басынан, БАҒАН < 0 соңынан)"
 
 #: ../mousepad/mousepad-application.c:159
 msgid "COLUMN"
@@ -62,7 +62,7 @@ msgstr "D-BUS сессиялар басқарушысы шинасына тір�
 
 #: ../mousepad/mousepad-application.c:174
 msgid "Quit a running Mousepad primary instance"
-msgstr ""
+msgstr "Орындалып тұрған негізгі Mousepad жұмысын аяқтау"
 
 #: ../mousepad/mousepad-application.c:179
 msgid "Print version information and exit"
@@ -82,7 +82,7 @@ msgstr "Mousepad"
 #: ../mousepad/mousepad-application.c:396
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "Файлды ашу режимі: \"%s\", \"%s\" немесе \"%s\" (беттерді жаңа терезеде ашады)"
 
 #: ../mousepad/mousepad-application.c:399
 msgid "MODE"
@@ -90,7 +90,7 @@ msgstr "РЕЖИМІ"
 
 #: ../mousepad/mousepad-application.c:457
 msgid "The Mousepad developers. All rights reserved."
-msgstr ""
+msgstr "Mousepad әзірлеу тобы. Барлық құқықтары қорғалған."
 
 #: ../mousepad/mousepad-application.c:458
 #, c-format
@@ -104,7 +104,7 @@ msgstr "%s | Авторлар: %s | Файл аты: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad - бұл Xfce жұмыс үстелі ортасы үшін қарапайым мәтін түзеткіші"
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -163,7 +163,7 @@ msgstr "Жабу алдында өзгерістерді сақтауды қал
 
 #: ../mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "Бұл құжат тек оқуға арналған, оны басқа файл ретінде сақтағыңыз келе ме?"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:392 ../mousepad/mousepad-dialogs.c:532
@@ -178,7 +178,7 @@ msgstr "Сақ_тамау"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Бұл тек оқуға арналған құжатты басқа файл ретінде сақтамасаңыз, барлық өзгертулер жоғалады."
 
 #: ../mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -197,11 +197,11 @@ msgstr "Құжатты сақтасаңыз, барлық сыртқы өзге�
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "Құжат сырттай өзгертілген. Оны дискіден қайта жүктегіңіз келе ме?"
 
 #: ../mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr ""
+msgstr "Сізде сақталмаған өзгертулер бар. Файлды қайтарсаңыз, олар жоғалады."
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:487
@@ -221,21 +221,21 @@ msgstr "Файлды қалпына келтірсеңіз, барлық сақ�
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "Файл %s ретінде кодталған сияқты, бірақ сіз %s кодтауын таңдадыңыз. Сіз бұл таңдауды растайсыз ба?"
 
 #: ../mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "Жоқ болса, болжанған кодтау пайдаланылады."
 
 #: ../mousepad/mousepad-dialogs.c:640
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "Алдыңғы сессия қалыпты аяқталмаған сияқты. Қол жетімді деректерді қалпына келтіргіңіз келе ме?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "Жоқ болса, бұл деректердің барлығы жоғалады."
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
@@ -243,11 +243,11 @@ msgstr "Файлды таңдаңыз"
 
 #: ../mousepad/mousepad-dialogs.c:893
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "Кодтауды сынау үшін уақытша файлды дайындау сәтсіз аяқталды"
 
 #: ../mousepad/mousepad-dialogs.c:956 ../mousepad/mousepad-dialogs.c:1029
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Кодтау диалогын ашу"
 
 #: ../mousepad/mousepad-dialogs.c:958
 msgid "Go back to shorten list"
@@ -332,15 +332,15 @@ msgstr "Қа_йтару"
 #: ../mousepad/mousepad-dialogs.h:38
 #: ../mousepad/resources/gtk/menus-common.ui.h:9
 msgid "Re_load"
-msgstr ""
+msgstr "Қа_йта жүктеу"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:570
+#: ../mousepad/mousepad-document.c:572
 msgid "Close this tab"
 msgstr "Бұл бетті жабу"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:600
+#: ../mousepad/mousepad-document.c:602
 msgid "Untitled"
 msgstr "Атаусыз"
 
@@ -355,40 +355,40 @@ msgstr "Кодтауларды тексеру..."
 #: ../mousepad/mousepad-encoding-dialog.c:292
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s (%s, сәтсіз)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:294
 #: ../mousepad/mousepad-encoding-dialog.c:349
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s (%s, жартылай)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:423
 msgid "Other (partial):"
-msgstr ""
+msgstr "Басқа (жартылай):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:434
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "Басқа жарамды кодтаулар табылды, төменде таңдаңыз."
 
 #: ../mousepad/mousepad-encoding-dialog.c:436
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "Басқа жартылай жарамды кодтаулар табылды, төменде таңдаңыз."
 
 #: ../mousepad/mousepad-encoding-dialog.c:472
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "Басқа жарамды кодтау табылмады."
 
 #. dialog title
 #: ../mousepad/mousepad-encoding-dialog.c:679
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "Бұл құжат жарамды %s."
 
 #: ../mousepad/mousepad-encoding-dialog.c:680
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "Бұл құжат жарамсыз %s."
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
@@ -521,17 +521,17 @@ msgstr "Жүйелік"
 msgid "History"
 msgstr "Тарихы"
 
-#: ../mousepad/mousepad-file.c:819
+#: ../mousepad/mousepad-file.c:821
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Түрлендіру шығысында байттардың қате тізбегі табылды"
 
-#: ../mousepad/mousepad-history.c:325
+#: ../mousepad/mousepad-history.c:327
 msgid "Failed to clear the recent history"
 msgstr "Жуырдағы тарихты тазарту сәтсіз аяқталды"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:639
+#: ../mousepad/mousepad-prefs-dialog.c:644
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Mousepad баптаулары"
@@ -673,7 +673,7 @@ msgid "All Documents"
 msgstr "Барлық құжаттар"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:618
+#: ../mousepad/mousepad-replace-dialog.c:616
 #: ../mousepad/mousepad-search-bar.c:456
 #, c-format
 msgid "%d occurrence"
@@ -719,27 +719,27 @@ msgstr "Файл түрі: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Ескерту, сіз root тіркелгісін қолданудасыз. Жүйеңізге зақым келтіруге болады."
 
-#: ../mousepad/mousepad-window.c:2289
+#: ../mousepad/mousepad-window.c:2330
 msgid "Read Only"
 msgstr "Тек оқу үшін"
 
-#: ../mousepad/mousepad-window.c:2293
+#: ../mousepad/mousepad-window.c:2334
 msgid "Viewer Mode"
-msgstr ""
+msgstr "Қарау режимі"
 
-#: ../mousepad/mousepad-window.c:3326
+#: ../mousepad/mousepad-window.c:3367
 #, c-format
 msgid "Use '%s' as template"
-msgstr ""
+msgstr "'%s' үлгі ретінде қолдану"
 
-#: ../mousepad/mousepad-window.c:3352
+#: ../mousepad/mousepad-window.c:3393
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Келесі бумадан үлгілер табылмады:\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3417
+#: ../mousepad/mousepad-window.c:3458
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -747,74 +747,74 @@ msgid ""
 msgstr "Үлгілер бумасы жоқ:\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3469
+#: ../mousepad/mousepad-window.c:3510
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Б_асқа (%d)..."
 
-#: ../mousepad/mousepad-window.c:3479
+#: ../mousepad/mousepad-window.c:3520
 msgid "Ot_her..."
 msgstr "Б_асқа..."
 
-#: ../mousepad/mousepad-window.c:3578
+#: ../mousepad/mousepad-window.c:3619
 msgid "Revert to the saved version of the file"
 msgstr "Файлдың сақталған нұсқасына оралу"
 
-#: ../mousepad/mousepad-window.c:3584
+#: ../mousepad/mousepad-window.c:3625
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
-msgstr ""
+msgstr "Файлды дискіден қайта жүктеу"
 
-#: ../mousepad/mousepad-window.c:3590
+#: ../mousepad/mousepad-window.c:3631
 msgid "Leave fullscreen mode"
 msgstr "Толық экраннан шығу"
 
-#: ../mousepad/mousepad-window.c:3595
+#: ../mousepad/mousepad-window.c:3636
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Терезені толық экранды қылу"
 
-#: ../mousepad/mousepad-window.c:3833
+#: ../mousepad/mousepad-window.c:3874
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s' ашу"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "No items found"
 msgstr "Ешнәрсе табылмады"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "History disabled"
 msgstr "Тарихы сөндірілген"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4339
+#: ../mousepad/mousepad-window.c:4380
 msgid "No clipboard data"
 msgstr "Алмасу буферінде деректер жоқ"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4448
+#: ../mousepad/mousepad-window.c:4489
 #, c-format
 msgid "Templates should be %s valid"
-msgstr ""
+msgstr "Үлгілер жарамды %s болуы тиіс"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4454
+#: ../mousepad/mousepad-window.c:4495
 msgid "Reading the template failed"
-msgstr ""
+msgstr "Үлгіні оқу сәтсіз аяқталды"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4459
+#: ../mousepad/mousepad-window.c:4500
 msgid "Loading the template failed"
 msgstr "Үлгіні жүктеу сәтсіз аяқталды"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4896
+#: ../mousepad/mousepad-window.c:4937
 msgid "Failed to reload the document"
 msgstr "Құжатты қайта жүктеу сәтсіз"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4928
+#: ../mousepad/mousepad-window.c:4969
 msgid "Failed to print the document"
 msgstr "Құжатты баспаға шығару сәтсіз"
 
@@ -840,7 +840,7 @@ msgstr "Үл_гіден жаңа файл"
 
 #: ../mousepad/resources/gtk/menus.ui.h:6
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "Үлгіден жаңа құжат жасау"
 
 #: ../mousepad/resources/gtk/menus.ui.h:7
 msgid "Op_en Recent"
@@ -848,7 +848,7 @@ msgstr "Жу_ырдағыны ашу"
 
 #: ../mousepad/resources/gtk/menus.ui.h:8
 msgid "Open a recently used file"
-msgstr ""
+msgstr "Жуырда қолданылған файлды ашу"
 
 #: ../mousepad/resources/gtk/menus.ui.h:9
 msgid "Clear _History"
@@ -932,11 +932,11 @@ msgstr "Дәл сол мәтінді артқа іздеу"
 
 #: ../mousepad/resources/gtk/menus.ui.h:29
 msgid "_Incremental Search"
-msgstr ""
+msgstr "Өс_пелі іздеу"
 
 #: ../mousepad/resources/gtk/menus.ui.h:30
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Іздеу нәтижесін автотаңдап, көріністі оған айналдыру"
 
 #: ../mousepad/resources/gtk/menus.ui.h:31
 msgid "Highlight _All"
@@ -944,7 +944,7 @@ msgstr "Б_арлығын түспен ерекшелеу"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search occurrences"
-msgstr ""
+msgstr "Іздеу сәйкестіктерін түспен ерекшелеу"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -952,7 +952,7 @@ msgstr "Тү_рі"
 
 #: ../mousepad/resources/gtk/menus.ui.h:34
 msgid "View menu"
-msgstr ""
+msgstr "Қарау мәзірі"
 
 #: ../mousepad/resources/gtk/menus.ui.h:35
 msgid "Select F_ont..."
@@ -968,7 +968,7 @@ msgstr "Тү_стер схемасы"
 
 #: ../mousepad/resources/gtk/menus.ui.h:38
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Мәтін көрінісі үшін түстер схемасы"
 
 #: ../mousepad/resources/gtk/menus.ui.h:39
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
@@ -1042,27 +1042,27 @@ msgstr "Табуляция ө_лшемі"
 
 #: ../mousepad/resources/gtk/menus.ui.h:56
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "Табуляция үшін қолданылатын бос аралықтар саны"
 
 #: ../mousepad/resources/gtk/menus.ui.h:57
 msgid "Two spaces"
-msgstr ""
+msgstr "Екі бос аралық"
 
 #: ../mousepad/resources/gtk/menus.ui.h:58
 msgid "Three spaces"
-msgstr ""
+msgstr "Үш бос аралық"
 
 #: ../mousepad/resources/gtk/menus.ui.h:59
 msgid "Four spaces"
-msgstr ""
+msgstr "Төрт бос аралық"
 
 #: ../mousepad/resources/gtk/menus.ui.h:60
 msgid "Eight spaces"
-msgstr ""
+msgstr "Сегіз бос аралық"
 
 #: ../mousepad/resources/gtk/menus.ui.h:61
 msgid "Other..."
-msgstr ""
+msgstr "Басқа..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:62
 msgid "Set custom tab size"
@@ -1082,7 +1082,7 @@ msgstr "_Файл түрі"
 
 #: ../mousepad/resources/gtk/menus.ui.h:66
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "Синтаксисті түспен ерекшелеу үшін қолданылатын тіл"
 
 #: ../mousepad/resources/gtk/menus.ui.h:67
 msgid "Plain Text"
@@ -1098,7 +1098,7 @@ msgstr "Жол а_яқтаулары"
 
 #: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "Жол аяғы ретінде қолданылатын таңба(лар)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "Set the line ending of the document to Unix (LF)"
@@ -1122,11 +1122,11 @@ msgstr "Файлда байттар реті белгісін сақату"
 
 #: ../mousepad/resources/gtk/menus.ui.h:76
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "Қа_рау режимі"
 
 #: ../mousepad/resources/gtk/menus.ui.h:77
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Пернетақта/тышқан арқылы өзгерістерді сөндіру"
 
 #: ../mousepad/resources/gtk/menus.ui.h:78
 msgid "_Previous Tab"
@@ -1150,7 +1150,7 @@ msgstr "_Көмек"
 
 #: ../mousepad/resources/gtk/menus.ui.h:83
 msgid "Help menu"
-msgstr ""
+msgstr "Көмек мәзірі"
 
 #: ../mousepad/resources/gtk/menus.ui.h:84
 msgid "_Contents"
@@ -1290,7 +1290,7 @@ msgstr "Ар_найы кірістіру"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:36
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "Алмасу буфері құрамасын арнайы кірістіру"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:37
 msgid "Paste from _History"
@@ -1310,7 +1310,7 @@ msgstr "Алмасу буферіндегі сақталған мәтінді б
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:41
 msgid "_Delete Selection"
-msgstr ""
+msgstr "Таңдалғанды ө_шіру"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:42
 msgid "Delete the current selection"
@@ -1318,11 +1318,11 @@ msgstr "Ағымдағы ерекшелеуді өшіру"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:43
 msgid "Delete _Line"
-msgstr ""
+msgstr "Жо_лды өшіру"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:44
 msgid "Delete the current line"
-msgstr ""
+msgstr "Ағымдағы жолды өшіру"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:45
 msgid "Conve_rt"
@@ -1330,7 +1330,7 @@ msgstr "Тү_рлендіру"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Мәтінді әртүрлі жолмен түрлендіру"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
@@ -1399,11 +1399,11 @@ msgstr "Бірнәрсенің ретін терістеу"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move"
-msgstr ""
+msgstr "Ж_ылжыту"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Құраманы әртүрлі жаққа жылжыту"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1411,7 +1411,7 @@ msgstr "Бір жолға _жоғары"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Жолдарды бір жолға жоғары жылжыту"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
@@ -1419,23 +1419,23 @@ msgstr "Бір жолға _төмен"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Жолдарды бір жолға төмен жылжыту"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
-msgstr ""
+msgstr "Бір сөзге со_л жаққа"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr ""
+msgstr "Сөздерді бір сөзге сол жаққа жылжыту"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
-msgstr ""
+msgstr "Бір сөзге _оң жаққа"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr ""
+msgstr "Сөздерді бір сөзге оң жаққа жылжыту"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1463,7 +1463,7 @@ msgstr "Таңдалғанның не ағымдағы жолдың шегіні
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:79
 msgid "label-to-be-filled-in"
-msgstr ""
+msgstr "толтырылатын-белгі"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "Insert Tabs"
@@ -1532,12 +1532,12 @@ msgstr "Сұхбат"
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
 msgid "new tabs"
-msgstr ""
+msgstr "жаңа беттер"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:21
 msgid "new windows"
-msgstr ""
+msgstr "жаңа терезелер"
 
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:23
@@ -1546,19 +1546,19 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "never"
-msgstr ""
+msgstr "ешқашан"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "after a crash"
-msgstr ""
+msgstr "құлаудан кейін"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "unsaved documents"
-msgstr ""
+msgstr "сақталмаған құжаттар"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
 msgid "saved documents"
-msgstr ""
+msgstr "сақталған құжаттар"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
 msgid "always"
@@ -1602,7 +1602,7 @@ msgstr "<b>Қаріп</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Түстер схемасы</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1745,23 +1745,23 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "Іздеу тарихының өлшемі:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>Тарих</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:76
 msgid "File monitoring"
-msgstr ""
+msgstr "Файлды бақылау"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Автоматты түрде қайта жүктеу"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
-msgstr ""
+msgstr "Әдепкі кодтау:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:79
 msgid "<b>Miscellaneous</b>"
@@ -1777,23 +1777,23 @@ msgstr "Плагиндер"
 
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:45
 msgid "Spell Checking"
-msgstr ""
+msgstr "Емлені тексеру"
 
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:47
 msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Жаңа құжаттардың әдепкі тілі осы жерде орнатылған. Содан кейін оны контест мәзір арқылы әр құжатқа өзгертуге болады, мұнда асты сызылған сөздер үшін емлені түзету бойынша ұсыныстар да бар."
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
 msgid "Default language:"
-msgstr ""
+msgstr "Әдепкі тіл:"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Жарлықтар түзеткіші"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
@@ -1803,16 +1803,16 @@ msgstr ""
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Қолданба"
 
 #. pack frames
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Menubar"
-msgstr ""
+msgstr "Мәзір жолағы"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Баптаулар сұхбаты"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
@@ -1820,16 +1820,16 @@ msgstr "Әр түрлі"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Mousepad жарлықтары"
 
 #. add the shortcuts menu entry
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Жарлықтар..."
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Жарлықтар сұхбатын көрсету"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
@@ -1841,11 +1841,11 @@ msgstr "Мәтін түзетушісі"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "Мәтіндік түзеткіш баптаулары"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
-msgstr ""
+msgstr "Mousepad мәзір түзеткішін баптау"
 
 #: ../org.xfce.mousepad.appdata.xml.in.h:3
 msgid ""
