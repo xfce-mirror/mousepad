@@ -251,7 +251,7 @@ msgstr "Кодтау диалогын ашу"
 
 #: ../mousepad/mousepad-dialogs.c:958
 msgid "Go back to shorten list"
-msgstr ""
+msgstr "Қысқартылған тізім"
 
 #. combo box label
 #: ../mousepad/mousepad-dialogs.c:1022
@@ -305,7 +305,7 @@ msgstr "Құжатты сақтау сәтсіз аяқталды"
 
 #: ../mousepad/mousepad-dialogs.h:30
 msgid "Unsupported character set"
-msgstr ""
+msgstr "Қолдауы жоқ таңбалар жиыны"
 
 #. button labels
 #: ../mousepad/mousepad-dialogs.h:33
@@ -1374,7 +1374,7 @@ msgstr "Құжаттағы барлық табуляцияларды бос ар
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:57
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "Жо_л басындағы бос аралықтар табуляцияға"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:58
 msgid ""
@@ -1479,11 +1479,11 @@ msgstr "Ешқашан"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
 msgid "First key press"
-msgstr ""
+msgstr "Бірінші перне басылғанда"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "Second key press"
-msgstr ""
+msgstr "Екінші перне басылғанда"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
 msgid "Always"
@@ -1542,7 +1542,7 @@ msgstr "жаңа терезелер"
 #. Preceded by: "Open files in:"
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:23
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "жаңа терезедегі жаңа беттер"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
 msgid "never"
@@ -1626,23 +1626,23 @@ msgstr "<b>Шегіну</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tab: Таңдалғанның шегінісін үлкейту (Shift+Tab: Шегіністі алып тастау)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Ағымдағы уақытта таңдалған мәтіннің немесе ағымдағы жолдың шегінісін үлкейту немесе кішірейту"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: Шегініс бос аралықтарын табуляция ретінде өшіру"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: Жол басындағы/соңындағы баспаға шықпайтын таңбаларды анықтау:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>Ақылды пернелер</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:50
 #: ../plugins/gspell-plugin/mousepad-plugin-gspell.c:50
@@ -1651,7 +1651,7 @@ msgstr "Түзеткіш"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:51
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Клиент жақтағы безендіру (қайта іске қосу керек)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:52
 msgid "Show full filename in title bar"
@@ -1695,7 +1695,7 @@ msgstr "Бір файл болса да беттерді көрсету"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Беттерді қолжетімді бос орынды алатындай жазық қылу"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "Cycled notebook tab switching"
@@ -1703,11 +1703,11 @@ msgstr "Беттер арасында циклды ауысу"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:64
 msgid "Open files in:"
-msgstr ""
+msgstr "Файлдарды қалай ашу:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>Блокнот беттері</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Window"
@@ -1715,33 +1715,33 @@ msgstr "Терезе"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:67
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "Жол соңында жол тасымалдауының бар болуын қамтамасыз ету"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Көшірмені '~' жұрнағымен жасау"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>Файлды сақтау</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Session restore:"
-msgstr ""
+msgstr "Сессияны қалпына келтіру:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:71
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "\"сақталмаған құжаттар\" немесе \"әрқашан\" таңдалса, Mousepad жұмысты аяқтаған кезде өзгертілген құжаттарды сақтауды сұрамайтын болады"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "Recent file menu length:"
-msgstr ""
+msgstr "Жуырдағы файлдар мәзірінің ұзындығы:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "'0' мүмкіндікті сөндіреді және жуырдағы тарихты тазартады"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
@@ -1799,7 +1799,7 @@ msgstr "Жарлықтар түзеткіші"
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "Жарлықтар түзеткіші осында қалқымалы терезе немесе сұхбат ретінде қолжетімді (мәзір жолағынан баптауларды ашқанда)"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
@@ -1860,7 +1860,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "Екінші жағынан, біз қол жетімді GTK ең жаңа мүмкіндіктерін қолдануға тырысамыз, яғни егер GTK редактор үшін пайдалы болатын үлкен шығарылымға жаңа бір нәрсе қосса, біз GTK тәуелділігін бұзып, осы жаңа мүмкіндікті Mousepad ішіне қосатын шығармыз."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
