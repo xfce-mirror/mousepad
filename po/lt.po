@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 12:50+0100\n"
+"POT-Creation-Date: 2022-11-28 15:01+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Moo, 2015-2022\n"
 "Language-Team: Lithuanian (http://www.transifex.com/xfce/xfce-apps/language/lt/)\n"
@@ -83,7 +83,7 @@ msgstr "Mousepad"
 #: ../mousepad/mousepad-application.c:396
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr "Failų atvėrimo veiksena: \"%s\", \"%s\" arba \"%s\" (atverti korteles naujame lange)"
+msgstr "Failų atvėrimo veiksena: „%s“, „%s“ arba „%s“ (atverti korteles naujame lange)"
 
 #: ../mousepad/mousepad-application.c:399
 msgid "MODE"
@@ -336,12 +336,12 @@ msgid "Re_load"
 msgstr "Įke_lti iš naujo"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:570
+#: ../mousepad/mousepad-document.c:572
 msgid "Close this tab"
 msgstr "Užverti šią kortelę"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:600
+#: ../mousepad/mousepad-document.c:602
 msgid "Untitled"
 msgstr "Be pavadinimo"
 
@@ -522,17 +522,17 @@ msgstr "Sistema"
 msgid "History"
 msgstr "Istorija"
 
-#: ../mousepad/mousepad-file.c:819
+#: ../mousepad/mousepad-file.c:821
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Įvestyje klaidinga baitų keitimo seka"
 
-#: ../mousepad/mousepad-history.c:325
+#: ../mousepad/mousepad-history.c:327
 msgid "Failed to clear the recent history"
 msgstr "Nepavyko išvalyti paskiausiai naudotų dokumentų istorijos"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:639
+#: ../mousepad/mousepad-prefs-dialog.c:644
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Mousepad nuostatos"
@@ -674,7 +674,7 @@ msgid "All Documents"
 msgstr "Visi dokumentai"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:618
+#: ../mousepad/mousepad-replace-dialog.c:616
 #: ../mousepad/mousepad-search-bar.c:456
 #, c-format
 msgid "%d occurrence"
@@ -722,102 +722,102 @@ msgstr "Failo tipas: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Įspėjimas: jūs naudojatės administratoriaus paskyra, dėl to galite pakenkti savo sistemai."
 
-#: ../mousepad/mousepad-window.c:2289
+#: ../mousepad/mousepad-window.c:2330
 msgid "Read Only"
 msgstr "Tik skaityti"
 
-#: ../mousepad/mousepad-window.c:2293
+#: ../mousepad/mousepad-window.c:2334
 msgid "Viewer Mode"
 msgstr "Žiūryklės veiksena"
 
-#: ../mousepad/mousepad-window.c:3326
+#: ../mousepad/mousepad-window.c:3367
 #, c-format
 msgid "Use '%s' as template"
-msgstr "Naudoti \"%s\" kaip šabloną"
+msgstr "Naudoti „%s“ kaip šabloną"
 
-#: ../mousepad/mousepad-window.c:3352
+#: ../mousepad/mousepad-window.c:3393
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Nerasta jokių šablono failų kataloge\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3417
+#: ../mousepad/mousepad-window.c:3458
 #, c-format
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr "Trūksta šablonų katalogo\n\"%s\""
+msgstr "Trūksta šablonų katalogo\n„%s“"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3469
+#: ../mousepad/mousepad-window.c:3510
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "K_ita (%d)..."
 
-#: ../mousepad/mousepad-window.c:3479
+#: ../mousepad/mousepad-window.c:3520
 msgid "Ot_her..."
 msgstr "_Kita..."
 
-#: ../mousepad/mousepad-window.c:3578
+#: ../mousepad/mousepad-window.c:3619
 msgid "Revert to the saved version of the file"
 msgstr "Sugrąžinti iki įrašytos failo versijos"
 
-#: ../mousepad/mousepad-window.c:3584
+#: ../mousepad/mousepad-window.c:3625
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Įkelti failą iš disko"
 
-#: ../mousepad/mousepad-window.c:3590
+#: ../mousepad/mousepad-window.c:3631
 msgid "Leave fullscreen mode"
 msgstr "Išjungti viso ekrano veikseną"
 
-#: ../mousepad/mousepad-window.c:3595
+#: ../mousepad/mousepad-window.c:3636
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Rodyti langą visame ekrane"
 
-#: ../mousepad/mousepad-window.c:3833
+#: ../mousepad/mousepad-window.c:3874
 #, c-format
 msgid "Open '%s'"
 msgstr "Atverti „%s“"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "No items found"
 msgstr "Elementų nerasta"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "History disabled"
 msgstr "Istorija išjungta"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4339
+#: ../mousepad/mousepad-window.c:4380
 msgid "No clipboard data"
 msgstr "Iškarpinėj nėra duomenų"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4448
+#: ../mousepad/mousepad-window.c:4489
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Šablonai turėtų būti tinkamos %s koduotės"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4454
+#: ../mousepad/mousepad-window.c:4495
 msgid "Reading the template failed"
 msgstr "Nepavyko perskaityti šablono"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4459
+#: ../mousepad/mousepad-window.c:4500
 msgid "Loading the template failed"
 msgstr "Įkelti šablono nepavyko"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4896
+#: ../mousepad/mousepad-window.c:4937
 msgid "Failed to reload the document"
 msgstr "dokumento įkelti iš naujo nepavyko"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4928
+#: ../mousepad/mousepad-window.c:4969
 msgid "Failed to print the document"
 msgstr "Nepavyko išspausdinti dokumento"
 
