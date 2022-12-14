@@ -406,11 +406,9 @@ mousepad_history_session_restore_changed (void)
                                                    NULL);
 #endif
 
-#if GTK_CHECK_VERSION (3, 24, 8)
       /* be aware of session logout */
       g_signal_connect (application, "query-end",
                         G_CALLBACK (mousepad_history_session_external_signal), NULL);
-#endif
     }
   /* any state -> disabled */
   else if (restore == MOUSEPAD_SESSION_RESTORE_NEVER)
@@ -617,7 +615,7 @@ mousepad_history_session_restore (MousepadApplication *application)
               autosave_file = g_file_new_for_uri (autosave_uri);
 
               /* validate file */
-              if (mousepad_util_get_path (autosave_file) == NULL)
+              if (g_file_peek_path (autosave_file) == NULL)
                 {
                   g_warning (CORRUPTED_SESSION_DATA);
                   g_object_unref (autosave_file);
