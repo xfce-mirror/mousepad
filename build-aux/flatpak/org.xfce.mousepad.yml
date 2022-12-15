@@ -1,6 +1,6 @@
 app-id: org.xfce.mousepad
 runtime: org.freedesktop.Platform
-runtime-version: '21.08'
+runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
 command: mousepad
 
@@ -46,8 +46,8 @@ modules:
       - -Dvapi=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.2.tar.xz
-        sha256: 842de7e5cb52000fd810e4be39cd9fe29ffa87477f15da85c18f7b82d45637cc
+        url: https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.4.tar.xz
+        sha256: 7ec9d18fb283d1f84a3a3eff3b7a72b09a10c9c006597b3fbabbb5958420a87d
         x-checker-data:
           type: gnome
           name: gtksourceview
@@ -62,8 +62,8 @@ modules:
           - /bin
         sources:
           - type: archive
-            url: https://github.com/AbiWord/enchant/releases/download/v2.3.1/enchant-2.3.1.tar.gz
-            sha256: 7b4b1afcf2cd8bfa691deea6188404d337f23174bbc39b9c2add2bf340736e9c
+            url: https://github.com/AbiWord/enchant/releases/download/v2.3.3/enchant-2.3.3.tar.gz
+            sha256: 3da12103f11cf49c3cf2fd2ce3017575c5321a489e5b9bfa81dd91ec413f3891
             x-checker-data:
               type: anitya
               project-id: 6601
@@ -74,8 +74,8 @@ modules:
       - --disable-vala
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gspell/1.8/gspell-1.8.4.tar.xz
-        sha256: cf4d16a716e813449bd631405dc1001ea89537b8cdae2b8abfb3999212bd43b4
+        url: https://download.gnome.org/sources/gspell/1.12/gspell-1.12.0.tar.xz
+        sha256: 40d2850f1bb6e8775246fa1e39438b36caafbdbada1d28a19fa1ca07e1ff82ad
         x-checker-data:
           type: gnome
           name: gspell
@@ -89,47 +89,27 @@ modules:
           - --disable-debug
         sources:
           - type: archive
-            url: https://archive.xfce.org/src/xfce/libxfce4util/4.17/libxfce4util-4.17.2.tar.bz2
-            sha256: cf5f4095ffa8ebe3d819ac779768cb75c567a85d5a508a4c4713258c1bd0fab7
+            url: https://archive.xfce.org/src/xfce/libxfce4util/4.18/libxfce4util-4.18.0.tar.bz2
+            sha256: 1157ca717fd3dd1da7724a6432a4fb24af9cd922f738e971fd1fd36dfaeac3c9
             x-checker-data:
               type: anitya
               project-id: 232001
               url-template: https://archive.xfce.org/src/xfce/libxfce4util/$major.$minor/libxfce4util-$version.tar.bz2
       - name: xfconf
-        modules:
-          - name: xfce4-dev-tools
-            cleanup:
-              - '*'
-            sources:
-              - type: archive
-                url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.16/xfce4-dev-tools-4.16.0.tar.bz2
-                sha256: f50b3070e66f3ebdf331744dd1ec5e1af5de333965d491e15ce05545e8eb4f04
-                x-checker-data:
-                  type: anitya
-                  project-id: 15888
-                  stable-only: true
-                  url-template: https://archive.xfce.org/src/xfce/xfce4-dev-tools/$major.$minor/xfce4-dev-tools-$version.tar.bz2
         cleanup:
           - /bin
           - /share/bash-completion
         config-opts:
-          - --enable-maintainer-mode
           - --disable-debug
           - XFCONF_SERVICE_NAME_PREFIX=org.xfce.mousepad
         sources:
-          - type: git
-            url: https://gitlab.xfce.org/xfce/xfconf.git
-            tag: xfconf-4.16.0
-            commit: f05f028b840b465a41deef0fae6f50a885222e62
+          - type: archive
+            url: https://archive.xfce.org/src/xfce/xfconf/4.18/xfconf-4.18.0.tar.bz2
+            sha256: 2e8c50160bf800a807aea094fc9dad81f9f361f42db56607508ed5b4855d2906
             x-checker-data:
               type: anitya
               project-id: 14854
-              stable-only: true
-              tag-template: xfconf-$version
-          - type: patch
-            path: patches/Xfconf-Allow-to-choose-an-alternative-service-name-prefix.patch
-          - type: patch
-            path: patches/Add-a-lifecycle-manager-to-xfconfd.patch
+              url-template: https://archive.xfce.org/src/xfce/xfconf/$major.$minor/xfconf-$version.tar.bz2
     cleanup:
       - /bin
       - /etc
@@ -139,8 +119,8 @@ modules:
       - --disable-debug
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.17/libxfce4ui-4.17.6.tar.bz2
-        sha256: 185f18c562d2b25cc151ac141a4defeeadfd7e2484915da540ff94c073ca4b98
+        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.18/libxfce4ui-4.18.0.tar.bz2
+        sha256: 532247c4387c17bb9ef94a73147039b8d013c3131c95cdbd2fa85fbcc848d06b
         x-checker-data:
           type: anitya
           project-id: 232000
@@ -153,8 +133,8 @@ modules:
           - '*'
         sources:
           - type: archive
-            url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.17/xfce4-dev-tools-4.17.0.tar.bz2
-            sha256: d334c1f10e140e666b86c6c3bd8dcd62f1a877f537bcacc974478b6e92c493c7
+            url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.18/xfce4-dev-tools-4.18.0.tar.bz2
+            sha256: eedb4fc955f0e3459c46864ff98579295db2b900743e0ff69cad5970ba76be37
     config-opts:
       - --enable-maintainer-mode
     sources:
