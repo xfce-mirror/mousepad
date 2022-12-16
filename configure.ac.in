@@ -88,10 +88,8 @@ XDT_I18N([@LINGUAS@])
 dnl ***********************************
 dnl *** Check for required packages ***
 dnl ***********************************
-AC_DEFINE(GLIB_VERSION_MAX_ALLOWED, GLIB_VERSION_2_52, Warn when using post 2_52 APIs)
-AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, GLIB_VERSION_2_52, Don't warn about post 2_52 deprecations)
-XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.52.0])
-XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [2.52.0])
+XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.56.2])
+XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [2.56.2])
 XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.22.0])
 
 dnl *******************************
