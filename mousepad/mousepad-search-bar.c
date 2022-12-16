@@ -307,7 +307,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   gtk_container_add (GTK_CONTAINER (item), widget);
   gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
 
-  menu_item = gtk_check_menu_item_new_with_mnemonic (_("Match whole _word"));
+  menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Match whole word"));
   gtk_tool_item_set_proxy_menu_item (item, "match-whole-word", menu_item);
   g_object_bind_property (widget, "active", menu_item, "active",
                           G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
