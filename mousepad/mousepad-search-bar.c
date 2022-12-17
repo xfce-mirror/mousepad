@@ -298,6 +298,20 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   g_object_bind_property (widget, "active", menu_item, "active",
                           G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
+  /* check button for matching whole words, including the proxy menu item */
+  widget = gtk_check_button_new_with_mnemonic (_("_Match whole_word"));
+  MOUSEPAD_SETTING_BIND (SEARCH_MATCH_WHOLE_WORD, widget, "active", G_SETTINGS_BIND_DEFAULT);
+  g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_setting_changed), bar);
+
+  item = gtk_tool_item_new ();
+  gtk_container_add (GTK_CONTAINER (item), widget);
+  gtk_toolbar_insert (GTK_TOOLBAR (bar), item, -1);
+
+  menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Match whole word"));
+  gtk_tool_item_set_proxy_menu_item (item, "match-whole-word", menu_item);
+  g_object_bind_property (widget, "active", menu_item, "active",
+                          G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
   /* check button for enabling regex, including the proxy menu item */
   widget = gtk_check_button_new_with_mnemonic (_("Regular e_xpression"));
   MOUSEPAD_SETTING_BIND (SEARCH_ENABLE_REGEX, widget, "active", G_SETTINGS_BIND_DEFAULT);
