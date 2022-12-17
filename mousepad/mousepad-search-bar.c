@@ -299,7 +299,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
                           G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
   /* check button for matching whole words, including the proxy menu item */
-  widget = gtk_check_button_new_with_mnemonic (_("_Match whole_word"));
+  widget = gtk_check_button_new_with_mnemonic (_("_Match whole word"));
   MOUSEPAD_SETTING_BIND (SEARCH_MATCH_WHOLE_WORD, widget, "active", G_SETTINGS_BIND_DEFAULT);
   g_signal_connect_swapped (widget, "toggled", G_CALLBACK (mousepad_search_bar_setting_changed), bar);
 
