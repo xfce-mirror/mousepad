@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 12:50+0100\n"
+"POT-Creation-Date: 2022-11-28 15:01+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>, 2011-2015,2018-2022\n"
 "Language-Team: Korean (http://www.transifex.com/xfce/xfce-apps/language/ko/)\n"
@@ -83,7 +83,7 @@ msgstr "마우스패드"
 #: ../mousepad/mousepad-application.c:396
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "파일 열기 모드: \"%s\", \"%s\", \"%s\" (새 창에서 탭 열기)"
 
 #: ../mousepad/mousepad-application.c:399
 msgid "MODE"
@@ -105,7 +105,7 @@ msgstr "%s | 작성자: %s | 파일 이름: %s"
 
 #: ../mousepad/mousepad-dialogs.c:70 ../org.xfce.mousepad.appdata.xml.in.h:2
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "마우스패드는 xfce 데스트톱 환경용 단순 텍스트 편집기입니다."
 
 #: ../mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -232,11 +232,11 @@ msgstr "그렇지 않으면, 추측한 인코딩 값을 활용합니다."
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "이전 세션을 제대로 끝내지 않은 것 같습니다. 가용 데이터를 복구하시렵니까?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "그렇지 않으면 모든 데이터를 잃을 수 있습니다."
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
@@ -306,7 +306,7 @@ msgstr "문서 저장에 실패했습니다"
 
 #: ../mousepad/mousepad-dialogs.h:30
 msgid "Unsupported character set"
-msgstr ""
+msgstr "지원하지 않는 문자 세트"
 
 #. button labels
 #: ../mousepad/mousepad-dialogs.h:33
@@ -336,12 +336,12 @@ msgid "Re_load"
 msgstr "다시 불러오기(_L)"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:570
+#: ../mousepad/mousepad-document.c:572
 msgid "Close this tab"
 msgstr "이 탭 닫기"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:600
+#: ../mousepad/mousepad-document.c:602
 msgid "Untitled"
 msgstr "이름 없음"
 
@@ -356,13 +356,13 @@ msgstr "인코딩 검사 중..."
 #: ../mousepad/mousepad-encoding-dialog.c:292
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s (%s, 실패)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:294
 #: ../mousepad/mousepad-encoding-dialog.c:349
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s (%s, 일부)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:423
 msgid "Other (partial):"
@@ -384,12 +384,12 @@ msgstr "다른 유효한 인코딩이 없습니다."
 #: ../mousepad/mousepad-encoding-dialog.c:679
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "올바른 %s 문서입니다."
 
 #: ../mousepad/mousepad-encoding-dialog.c:680
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "올바른 %s 문서가 아닙니다."
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
@@ -520,19 +520,19 @@ msgstr "시스템"
 
 #: ../mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "이력"
 
-#: ../mousepad/mousepad-file.c:819
+#: ../mousepad/mousepad-file.c:821
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "컨버전 입력의 바이트 순서가 잘못되었습니다"
 
-#: ../mousepad/mousepad-history.c:325
+#: ../mousepad/mousepad-history.c:327
 msgid "Failed to clear the recent history"
 msgstr "최근 기록 지우기에 실패했습니다"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:639
+#: ../mousepad/mousepad-prefs-dialog.c:644
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "마우스패드 기본 설정"
@@ -674,7 +674,7 @@ msgid "All Documents"
 msgstr "모든 문서"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:618
+#: ../mousepad/mousepad-replace-dialog.c:616
 #: ../mousepad/mousepad-search-bar.c:456
 #, c-format
 msgid "%d occurrence"
@@ -719,27 +719,27 @@ msgstr "파일 형식: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "경고: 루트 계정을 사용하고 있습니다. 시스템에 해를 끼칠 수 있습니다."
 
-#: ../mousepad/mousepad-window.c:2289
+#: ../mousepad/mousepad-window.c:2330
 msgid "Read Only"
 msgstr "읽기 전용"
 
-#: ../mousepad/mousepad-window.c:2293
+#: ../mousepad/mousepad-window.c:2334
 msgid "Viewer Mode"
 msgstr "보기 모드"
 
-#: ../mousepad/mousepad-window.c:3326
+#: ../mousepad/mousepad-window.c:3367
 #, c-format
 msgid "Use '%s' as template"
 msgstr "'%s'을(를) 양식으로 활용"
 
-#: ../mousepad/mousepad-window.c:3352
+#: ../mousepad/mousepad-window.c:3393
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "'%s'에 양식 파일이\n없습니다"
 
-#: ../mousepad/mousepad-window.c:3417
+#: ../mousepad/mousepad-window.c:3458
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -747,74 +747,74 @@ msgid ""
 msgstr "다음 양식 디렉터리가 빠졌습니다\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3469
+#: ../mousepad/mousepad-window.c:3510
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "기타(%d)(_H)..."
 
-#: ../mousepad/mousepad-window.c:3479
+#: ../mousepad/mousepad-window.c:3520
 msgid "Ot_her..."
 msgstr "기타(_H)..."
 
-#: ../mousepad/mousepad-window.c:3578
+#: ../mousepad/mousepad-window.c:3619
 msgid "Revert to the saved version of the file"
 msgstr "파일의 저장한 버전으로 복구합니다"
 
-#: ../mousepad/mousepad-window.c:3584
+#: ../mousepad/mousepad-window.c:3625
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "디스크에서 다시 불러오기"
 
-#: ../mousepad/mousepad-window.c:3590
+#: ../mousepad/mousepad-window.c:3631
 msgid "Leave fullscreen mode"
 msgstr "화면 복귀"
 
-#: ../mousepad/mousepad-window.c:3595
+#: ../mousepad/mousepad-window.c:3636
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "창을 전 화면에 채웁니다"
 
-#: ../mousepad/mousepad-window.c:3833
+#: ../mousepad/mousepad-window.c:3874
 #, c-format
 msgid "Open '%s'"
 msgstr "'%s'파일 열기"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "No items found"
 msgstr "항목을 찾을 수 없음"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "History disabled"
 msgstr "기록 끔"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4339
+#: ../mousepad/mousepad-window.c:4380
 msgid "No clipboard data"
 msgstr "클립보드 데이터 없음"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4448
+#: ../mousepad/mousepad-window.c:4489
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "양식은 유효한 %s 이어야 합니다"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4454
+#: ../mousepad/mousepad-window.c:4495
 msgid "Reading the template failed"
 msgstr "양식 읽기 실패"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4459
+#: ../mousepad/mousepad-window.c:4500
 msgid "Loading the template failed"
 msgstr "양식 불러오기에 실패했습니다"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4896
+#: ../mousepad/mousepad-window.c:4937
 msgid "Failed to reload the document"
 msgstr "문서 다시 불러오기에 실패했습니다"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4928
+#: ../mousepad/mousepad-window.c:4969
 msgid "Failed to print the document"
 msgstr "문서 인쇄에 실패했습니다"
 
@@ -900,7 +900,7 @@ msgstr "편집 메뉴"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences..."
-msgstr ""
+msgstr "기본 설정..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -1126,7 +1126,7 @@ msgstr "보기 모드(_V)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:77
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "키보드 / 마우스로 수정 비허용"
 
 #: ../mousepad/resources/gtk/menus.ui.h:78
 msgid "_Previous Tab"
@@ -1403,7 +1403,7 @@ msgstr "이동(_M)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
-msgstr ""
+msgstr "내용을 다른 방식으로 이동"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1423,7 +1423,7 @@ msgstr "한 줄 아래로 줄을 이동합니다"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
-msgstr ""
+msgstr "단어 좌측(_L)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
@@ -1431,7 +1431,7 @@ msgstr "단어 왼쪽으로 단어를 이동합니다"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
-msgstr ""
+msgstr "단어 우측(_R)"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
@@ -1463,7 +1463,7 @@ msgstr "선택 영역이나 현재 행에 대한 들여쓰기를 감소합니다
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:79
 msgid "label-to-be-filled-in"
-msgstr ""
+msgstr "label-to-be-filled-in"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "Insert Tabs"
@@ -1550,7 +1550,7 @@ msgstr "안함"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
 msgid "after a crash"
-msgstr ""
+msgstr "치명적인 종료 후"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
 msgid "unsaved documents"
@@ -1602,7 +1602,7 @@ msgstr "<b>글꼴</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>색상 구성</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1626,11 +1626,11 @@ msgstr "<b>들여쓰기</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "탭: 들여쓰기 선택 (Shift+Tab: 내어쓰기)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "현재 선택한 텍스트 또는 행에서 들여쓰기/내어쓰기를 합니다."
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
@@ -1707,7 +1707,7 @@ msgstr "다음 프로그램으로 파일 열기:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:65
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>공책 탭</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:66
 msgid "Window"
@@ -1719,11 +1719,11 @@ msgstr "파일 끝 개행 문자 확인"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:68
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "'~' 접미사를 추가한 사본 생성"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:69
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>파일 저장</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:70
 msgid "Session restore:"
@@ -1733,7 +1733,7 @@ msgstr "세션 복원:"
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "\"저장하지 않은 문서\" 또는 \"항상\" 을 선택하면, 마우스패드를 끝낼 때 수정한 문서 저장을 물어보지 않습니다"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "Recent file menu length:"
@@ -1741,11 +1741,11 @@ msgstr "최근 파일 메뉴 길이:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "'0' 값은 최근 이력을 기록하지 않으며 모두 소거합니다"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr ""
+msgstr "검색 이력 용량:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
@@ -1757,7 +1757,7 @@ msgstr "파일 감시"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
-msgstr ""
+msgstr "자동으로 다시 불러오기"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
@@ -1784,7 +1784,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "새 문서의 기본 언어를 설정합니다. 밑줄 친 단어에 대해 철자 수정 제안을 하는 위치의 단축 메뉴에서 문서별 기본 언어를 바꿀 수 있습니다"
 
 #. combo box label
 #: ../plugins/gspell-plugin/gspell-plugin.c:162
@@ -1793,26 +1793,26 @@ msgstr "기본 언어:"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "바로 가기 편집기"
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "바로 가기 편집기는 풍선 메뉴 또는 메뉴 표시줄의 기본 설정 대화상자에서 사용할 수 있습니다."
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "프로그램"
 
 #. pack frames
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Menubar"
-msgstr ""
+msgstr "메뉴 표시줄"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "기본 설정 대화 상자"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
@@ -1820,16 +1820,16 @@ msgstr "기타"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "마우스패드 바로 가기 키"
 
 #. add the shortcuts menu entry
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Shortcuts..."
-msgstr ""
+msgstr "바로 가기 키..."
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "바로 가기 대화 상자 표시"
 
 #: ../org.xfce.mousepad.desktop.in.in.h:2
 msgid "Simple Text Editor"
@@ -1860,7 +1860,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "그러나 늘 GTK 최신 기능을 접목하려고 합니다. GTK 주 버전 릴리스에 편집기에 필요한 새로운 무언가를 추가했다면 GTK의 기능에 따라 마우스패드에 새 기능을 넣습니다."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
