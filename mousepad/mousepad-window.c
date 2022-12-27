@@ -2387,12 +2387,34 @@ mousepad_window_hide_menubar_event (MousepadWindow *window)
 
 
 static gboolean
+mousepad_window_menubar_focus_out_event (GtkWidget *widget,
+                                         GdkEventFocus *event,
+                                         gboolean *alt_pressed)
+{
+  *alt_pressed = FALSE;
+  return FALSE;
+}
+
+
+
+static gboolean
 mousepad_window_menubar_key_event (MousepadWindow *window,
                                    GdkEventKey    *event,
                                    GList          *mnemonics)
 {
   GdkEvent *event_bis;
-  static gboolean hidden_last_time = FALSE;
+  static gboolean hidden_last_time = FALSE, alt_pressed = FALSE;
+
+  /* only show the menubar on Alt key release if it matches an Alt key press without losing
+   * focus in between (especially when grabbing the window via the Alt key, see issue #185) */
+  mousepad_disconnect_by_func (window, mousepad_window_menubar_focus_out_event, &alt_pressed);
+  if (event->type == GDK_KEY_PRESS)
+    {
+      alt_pressed = event->keyval == GDK_KEY_Alt_L;
+      if (alt_pressed)
+        g_signal_connect (window, "focus-out-event",
+                          G_CALLBACK (mousepad_window_menubar_focus_out_event), &alt_pressed);
+    }
 
   /* Alt key was pressed (alone or as a GdkModifierType) or released, or Esc key was pressed */
   if (event->state & GDK_MOD1_MASK || event->keyval == GDK_KEY_Alt_L
@@ -2416,7 +2438,7 @@ mousepad_window_menubar_key_event (MousepadWindow *window,
         }
       /* show the menubar if Alt key was released or if one of its mnemonic keys matched */
       else if (! hidden_last_time && ! gtk_widget_get_visible (window->menubar)
-               && ((event->keyval == GDK_KEY_Alt_L && event->type == GDK_KEY_RELEASE)
+               && ((alt_pressed && event->keyval == GDK_KEY_Alt_L && event->type == GDK_KEY_RELEASE)
                    || (event->type == GDK_KEY_PRESS && event->state & GDK_MOD1_MASK
                        && g_list_find (mnemonics, GUINT_TO_POINTER (event->keyval)))))
         {
@@ -2443,12 +2465,16 @@ mousepad_window_menubar_key_event (MousepadWindow *window,
               gdk_event_free (event_bis);
             }
 
+          alt_pressed = FALSE;
           return TRUE;
         }
     }
 
   /* show the menubar the next time the Alt key is released */
   hidden_last_time = FALSE;
+
+  if (event->type == GDK_KEY_RELEASE)
+    alt_pressed = FALSE;
 
   return FALSE;
 }
