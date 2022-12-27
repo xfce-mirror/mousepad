@@ -2373,12 +2373,11 @@ mousepad_window_get_in_fullscreen (MousepadWindow *window)
 
 
 static gboolean
-mousepad_window_hide_menubar_event (MousepadWindow *window)
+mousepad_window_menubar_hide_event (MousepadWindow *window)
 {
-  /* disconnect signals and hide the menubar */
-  mousepad_disconnect_by_func (window, mousepad_window_hide_menubar_event, NULL);
-  mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar_event, window);
-  mousepad_disconnect_by_func (window->notebook, mousepad_window_hide_menubar_event, window);
+  mousepad_disconnect_by_func (window, mousepad_window_menubar_hide_event, NULL);
+  mousepad_disconnect_by_func (window->menubar, mousepad_window_menubar_hide_event, window);
+  mousepad_disconnect_by_func (window->notebook, mousepad_window_menubar_hide_event, window);
   gtk_widget_hide (window->menubar);
 
   return FALSE;
@@ -2426,10 +2425,7 @@ mousepad_window_menubar_key_event (MousepadWindow *window,
           && gtk_widget_get_visible (window->menubar))
         {
           /* disconnect signals and hide the menubar */
-          mousepad_disconnect_by_func (window, mousepad_window_hide_menubar_event, NULL);
-          mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar_event, window);
-          mousepad_disconnect_by_func (window->notebook, mousepad_window_hide_menubar_event, window);
-          gtk_widget_hide (window->menubar);
+          mousepad_window_menubar_hide_event (window);
 
           /* don't show the menubar when the Alt key is released this time */
           hidden_last_time = TRUE;
@@ -2445,17 +2441,17 @@ mousepad_window_menubar_key_event (MousepadWindow *window,
           /* show the menubar and connect signals to hide it afterwards on user actions */
           gtk_widget_show (window->menubar);
           g_signal_connect (window, "button-press-event",
-                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
+                            G_CALLBACK (mousepad_window_menubar_hide_event), NULL);
           g_signal_connect (window, "button-release-event",
-                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
+                            G_CALLBACK (mousepad_window_menubar_hide_event), NULL);
           g_signal_connect (window, "focus-out-event",
-                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
+                            G_CALLBACK (mousepad_window_menubar_hide_event), NULL);
           g_signal_connect (window, "scroll-event",
-                            G_CALLBACK (mousepad_window_hide_menubar_event), NULL);
+                            G_CALLBACK (mousepad_window_menubar_hide_event), NULL);
           g_signal_connect_swapped (window->menubar, "deactivate",
-                                    G_CALLBACK (mousepad_window_hide_menubar_event), window);
+                                    G_CALLBACK (mousepad_window_menubar_hide_event), window);
           g_signal_connect_swapped (window->notebook, "button-press-event",
-                                    G_CALLBACK (mousepad_window_hide_menubar_event), window);
+                                    G_CALLBACK (mousepad_window_menubar_hide_event), window);
 
           /* in case of a mnemonic key, repeat the same event to make its menu popup */
           if (event->keyval != GDK_KEY_Alt_L)
@@ -5954,9 +5950,9 @@ mousepad_window_action_menubar_state (GSimpleAction *action,
   else
     {
       mousepad_disconnect_by_func (window, mousepad_window_menubar_key_event, mnemonics);
-      mousepad_disconnect_by_func (window, mousepad_window_hide_menubar_event, NULL);
-      mousepad_disconnect_by_func (window->menubar, mousepad_window_hide_menubar_event, window);
-      mousepad_disconnect_by_func (window->notebook, mousepad_window_hide_menubar_event, window);
+      mousepad_disconnect_by_func (window, mousepad_window_menubar_hide_event, NULL);
+      mousepad_disconnect_by_func (window->menubar, mousepad_window_menubar_hide_event, window);
+      mousepad_disconnect_by_func (window->notebook, mousepad_window_menubar_hide_event, window);
     }
 }
 
