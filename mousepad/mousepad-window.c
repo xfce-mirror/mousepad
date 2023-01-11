@@ -5986,6 +5986,7 @@ mousepad_window_action_line_ending (GSimpleAction *action,
                                     gpointer       data)
 {
   MousepadWindow *window = data;
+  MousepadLineEnding line_ending;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
 
@@ -5995,12 +5996,16 @@ mousepad_window_action_line_ending (GSimpleAction *action,
       /* avoid menu actions */
       lock_menu_updates++;
 
-      /* set the current state and the new line ending on the file */
+      /* set the current state */
       g_action_change_state (G_ACTION (action), value);
-      mousepad_file_set_line_ending (window->active->file, g_variant_get_int32 (value));
 
-      /* make buffer as modified to show the user the change is not saved */
-      gtk_text_buffer_set_modified (window->active->buffer, TRUE);
+      /* mark buffer as modified to show the user the change is not saved */
+      line_ending = g_variant_get_int32 (value);
+      if (line_ending != mousepad_file_get_line_ending (window->active->file))
+        {
+          mousepad_file_set_line_ending (window->active->file, line_ending);
+          gtk_text_buffer_set_modified (window->active->buffer, TRUE);
+        }
 
       /* allow menu actions again */
       lock_menu_updates--;
