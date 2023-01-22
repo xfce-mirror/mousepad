@@ -4960,8 +4960,11 @@ mousepad_window_action_reload (GSimpleAction *action,
       g_error_free (error);
     }
   else
-    g_idle_add (mousepad_view_scroll_to_cursor,
-                mousepad_util_source_autoremove (window->active->textview));
+    {
+      mousepad_window_update_actions (window);
+      g_idle_add (mousepad_view_scroll_to_cursor,
+                  mousepad_util_source_autoremove (window->active->textview));
+    }
 }
 
 
