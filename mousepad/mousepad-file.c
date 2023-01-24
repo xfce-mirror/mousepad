@@ -535,6 +535,9 @@ mousepad_file_set_encoding (MousepadFile     *file,
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
+  if (file->encoding == encoding)
+    return;
+
   /* set new encoding */
   file->encoding = encoding;
 
@@ -560,6 +563,9 @@ mousepad_file_set_write_bom (MousepadFile *file,
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
+  if (!!file->write_bom == !!write_bom)
+    return;
+
   /* set new value */
   file->write_bom = write_bom;
 
@@ -571,6 +577,8 @@ mousepad_file_set_write_bom (MousepadFile *file,
       && file->encoding != MOUSEPAD_ENCODING_UTF_32BE
       && file->encoding != MOUSEPAD_ENCODING_UTF_32LE)
     mousepad_file_set_encoding (file, MOUSEPAD_ENCODING_UTF_8);
+
+  gtk_text_buffer_set_modified (file->buffer, TRUE);
 }
 
 
@@ -601,7 +609,11 @@ mousepad_file_set_line_ending (MousepadFile       *file,
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
+  if (file->line_ending == line_ending)
+    return;
+
   file->line_ending = line_ending;
+  gtk_text_buffer_set_modified (file->buffer, TRUE);
 }
 
 
