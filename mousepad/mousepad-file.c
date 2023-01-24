@@ -570,7 +570,7 @@ mousepad_file_set_write_bom (MousepadFile *file,
       && file->encoding != MOUSEPAD_ENCODING_UTF_16LE
       && file->encoding != MOUSEPAD_ENCODING_UTF_32BE
       && file->encoding != MOUSEPAD_ENCODING_UTF_32LE)
-    file->encoding = MOUSEPAD_ENCODING_UTF_8;
+    mousepad_file_set_encoding (file, MOUSEPAD_ENCODING_UTF_8);
 }
 
 
