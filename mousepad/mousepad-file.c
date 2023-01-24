@@ -557,6 +557,19 @@ mousepad_file_get_encoding (MousepadFile *file)
 
 
 
+static void
+mousepad_file_set_modified_unbuffered (MousepadFile *file)
+{
+  /* we can't tell the undo manager to undo an unbuffered modification, so we are obliged
+   * to clear the undo action list, otherwise we could return to an unmodified state when
+   * an unbuffered modification has not been saved */
+  gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (file->buffer));
+  gtk_text_buffer_set_modified (file->buffer, TRUE);
+  gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (file->buffer));
+}
+
+
+
 void
 mousepad_file_set_write_bom (MousepadFile *file,
                              gboolean      write_bom)
@@ -578,7 +591,7 @@ mousepad_file_set_write_bom (MousepadFile *file,
       && file->encoding != MOUSEPAD_ENCODING_UTF_32LE)
     mousepad_file_set_encoding (file, MOUSEPAD_ENCODING_UTF_8);
 
-  gtk_text_buffer_set_modified (file->buffer, TRUE);
+  mousepad_file_set_modified_unbuffered (file);
 }
 
 
@@ -613,7 +626,7 @@ mousepad_file_set_line_ending (MousepadFile       *file,
     return;
 
   file->line_ending = line_ending;
-  gtk_text_buffer_set_modified (file->buffer, TRUE);
+  mousepad_file_set_modified_unbuffered (file);
 }
 
 
