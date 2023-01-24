@@ -2086,17 +2086,18 @@ mousepad_window_open_file (MousepadWindow   *window,
       /* set definitive location */
       uri = g_file_get_uri (file);
       if (g_strcmp0 (uri, autosave_uri) == 0)
-        mousepad_file_set_location (document->file, NULL, MOUSEPAD_LOCATION_REVERT);
+        {
+          mousepad_file_set_location (document->file, NULL, MOUSEPAD_LOCATION_REVERT);
+          gtk_text_buffer_set_modified (document->buffer, TRUE);
+        }
       else
         {
           mousepad_object_set_data (file, "autosave-uri", NULL);
           mousepad_file_set_location (document->file, file, MOUSEPAD_LOCATION_REAL);
+          mousepad_file_invalidate_saved_state (document->file);
         }
 
       g_free (uri);
-
-      /* mark document as modified */
-      gtk_text_buffer_set_modified (document->buffer, TRUE);
     }
 
   return succeed;
@@ -2228,7 +2229,7 @@ mousepad_window_close_document (MousepadWindow   *window,
         {
           /* mark the document as modified if it is not already so */
           if (! modified)
-            gtk_text_buffer_set_modified (document->buffer, TRUE);
+            mousepad_file_invalidate_saved_state (document->file);
 
           /* run save changes dialog */
           switch (mousepad_dialogs_save_changes (GTK_WINDOW (window), TRUE,

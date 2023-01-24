@@ -95,6 +95,16 @@ struct _MousepadFile
   /* autosave */
   GFile    *autosave_location;
   gboolean  autosave_scheduled;
+
+  /* saved state on disk */
+  struct
+  {
+    gchar *text;
+    gint char_count;
+    MousepadLineEnding line_ending;
+    gboolean write_bom;
+    guint id;
+  } saved_state;
 };
 
 
@@ -156,6 +166,11 @@ mousepad_file_init (MousepadFile *file)
   file->user_set_language = FALSE;
   file->autosave_location = NULL;
   file->autosave_scheduled = FALSE;
+  file->saved_state.text = g_strdup ("");
+  file->saved_state.char_count = 0;
+  file->saved_state.line_ending = file->line_ending;
+  file->saved_state.write_bom = file->write_bom;
+  file->saved_state.id = 0;
 
   /* file monitoring */
   MOUSEPAD_SETTING_CONNECT_OBJECT (MONITOR_CHANGES, mousepad_file_set_monitor,
@@ -184,7 +199,91 @@ mousepad_file_finalize (GObject *object)
   if (file->autosave_location != NULL)
     g_object_unref (file->autosave_location);
 
+  g_free (file->saved_state.text);
+
   (*G_OBJECT_CLASS (mousepad_file_parent_class)->finalize) (object);
+}
+
+
+
+static gboolean
+mousepad_file_buffer_changed_idle (gpointer data)
+{
+  MousepadFile *file = data;
+  GtkTextIter start, end;
+  gchar *text;
+
+  gtk_text_buffer_get_bounds (file->buffer, &start, &end);
+  text = gtk_text_buffer_get_slice (file->buffer, &start, &end, TRUE);
+  if (g_strcmp0 (text, file->saved_state.text) == 0)
+    gtk_text_buffer_set_modified (file->buffer, FALSE);
+
+  g_free (text);
+  file->saved_state.id = 0;
+
+  return FALSE;
+}
+
+
+
+static void
+mousepad_file_buffer_changed (MousepadFile *file)
+{
+  g_return_if_fail (MOUSEPAD_IS_FILE (file));
+
+  if (file->saved_state.id != 0)
+    {
+      g_source_remove (file->saved_state.id);
+      file->saved_state.id = 0;
+    }
+
+  if (file->saved_state.text == NULL
+      || file->line_ending != file->saved_state.line_ending
+      || file->write_bom != file->saved_state.write_bom
+      || gtk_text_buffer_get_char_count (file->buffer) != file->saved_state.char_count)
+    return;
+
+  /*
+   * In addition to being avoided as much as possible by the above tests, the string
+   * comparison is delayed for performance reasons:
+   * G_PRIORITY_HIGH_IDLE allows sequences of operations such as replace-all or its undo
+   * to be fully completed before it is performed.
+   * This priority level does, however, allow the string comparison to be performed
+   * before graphical operations (resizing, redrawing), or other operations which are
+   * performed at G_PRIORITY_HIGH_IDLE + N, so that it does take place for large files,
+   * where these operations can take a long time.
+   * The small timeout allows other sequences of operations to be performed before the
+   * string comparison while preserving the above priority level, such as typically a
+   * sequence of undos by holding down Ctrl+Z.
+   */
+  file->saved_state.id = g_timeout_add_full (G_PRIORITY_HIGH_IDLE, 100,
+                                             mousepad_file_buffer_changed_idle,
+                                             mousepad_util_source_autoremove (file), NULL);
+}
+
+
+
+static void
+mousepad_file_buffer_modified_changed (MousepadFile *file)
+{
+  GtkTextIter start, end;
+  gchar *text;
+
+  g_return_if_fail (MOUSEPAD_IS_FILE (file));
+
+  if (file->location == NULL
+      || mousepad_object_get_data (file->location, "autosave-uri") != NULL
+      || gtk_text_buffer_get_modified (file->buffer))
+    return;
+
+  /* buffer was set to unmodified for a named document: update saved state */
+  gtk_text_buffer_get_bounds (file->buffer, &start, &end);
+  text = gtk_text_buffer_get_slice (file->buffer, &start, &end, TRUE);
+  g_free (file->saved_state.text);
+  file->saved_state.text = text;
+  file->saved_state.char_count = gtk_text_buffer_get_char_count (file->buffer);
+  file->saved_state.line_ending = file->line_ending;
+  file->saved_state.write_bom = file->write_bom;
 }
 
 
@@ -200,9 +299,17 @@ mousepad_file_new (GtkTextBuffer *buffer)
 
   /* set the buffer */
   file->buffer = GTK_TEXT_BUFFER (g_object_ref (buffer));
+  g_signal_connect_object (file->buffer, "changed",
+                           G_CALLBACK (mousepad_file_buffer_changed),
+                           file, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
+  g_signal_connect_object (file->buffer, "modified-changed",
+                           G_CALLBACK (mousepad_file_buffer_modified_changed),
+                           file, G_CONNECT_SWAPPED);
 
   return file;
 }
+
+
 
 static gboolean
 mousepad_file_monitor_deleted (gpointer data)
@@ -210,12 +317,13 @@ mousepad_file_monitor_deleted (gpointer data)
   MousepadFile *file = data;
 
   if (! mousepad_util_query_exists (file->monitor_location, FALSE))
-    gtk_text_buffer_set_modified (file->buffer, TRUE);
+    mousepad_file_invalidate_saved_state (file);
 
   file->deleted_id = 0;
 
   return FALSE;
 }
+
 
 
 static void
@@ -406,7 +514,7 @@ mousepad_file_set_location (MousepadFile *file,
       /* mark the document as modified (and therefore savable) in case of a new, empty
        * but localized document */
       if (! mousepad_util_query_exists (location, TRUE))
-        gtk_text_buffer_set_modified (file->buffer, TRUE);
+        mousepad_file_invalidate_saved_state (file);
     }
   /* reset location */
   else if (file->location != NULL && location == NULL)
@@ -519,6 +627,18 @@ mousepad_file_get_read_only (MousepadFile *file)
 
 
 
+void
+mousepad_file_invalidate_saved_state (MousepadFile *file)
+{
+  g_return_if_fail (MOUSEPAD_IS_FILE (file));
+
+  g_free (file->saved_state.text);
+  file->saved_state.text = NULL;
+  gtk_text_buffer_set_modified (file->buffer, TRUE);
+}
+
+
+
 gboolean
 mousepad_file_is_savable (MousepadFile *file)
 {
@@ -566,6 +686,9 @@ mousepad_file_set_modified_unbuffered (MousepadFile *file)
   gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (file->buffer));
   gtk_text_buffer_set_modified (file->buffer, TRUE);
   gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (file->buffer));
+
+  /* emulate a buffer change to update its modified state if needed */
+  mousepad_file_buffer_changed (file);
 }
 
 

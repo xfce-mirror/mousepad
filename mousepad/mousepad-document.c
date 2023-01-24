@@ -27,7 +27,6 @@
 
 static void      mousepad_document_finalize                (GObject                *object);
 static void      mousepad_document_notify_cursor_position  (MousepadDocument       *document);
-static void      mousepad_document_delete_range            (MousepadDocument       *document);
 static void      mousepad_document_encoding_changed        (MousepadFile           *file,
                                                             MousepadEncoding        encoding,
                                                             MousepadDocument       *document);
@@ -275,9 +274,6 @@ mousepad_document_init (MousepadDocument *document)
                             G_CALLBACK (mousepad_document_notify_cursor_position), document);
   MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH, mousepad_document_notify_cursor_position,
                                    document, G_CONNECT_SWAPPED);
-  g_signal_connect_object (document->buffer, "delete-range",
-                           G_CALLBACK (mousepad_document_delete_range), document,
-                           G_CONNECT_SWAPPED | G_CONNECT_AFTER);
   g_signal_connect (document->file, "encoding-changed",
                     G_CALLBACK (mousepad_document_encoding_changed), document);
   g_signal_connect (document->buffer, "notify::language",
@@ -337,17 +333,6 @@ mousepad_document_notify_cursor_position (MousepadDocument *document)
 
   /* emit the signal */
   g_signal_emit (document, document_signals[CURSOR_CHANGED], 0, line, column, selection);
-}
-
-
-
-static void
-mousepad_document_delete_range (MousepadDocument *document)
-{
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-
-  if (gtk_text_buffer_get_char_count (document->buffer) == 0)
-    gtk_text_buffer_set_modified (document->buffer, FALSE);
 }
 
 
@@ -434,9 +419,6 @@ mousepad_document_location_changed (MousepadDocument *document,
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
   g_return_if_fail (file != NULL);
-
-  /* now that there's a backing file, treat empty buffers normally */
-  mousepad_disconnect_by_func (document->buffer, mousepad_document_delete_range, document);
 
   /* get the display filename */
   utf8_filename = mousepad_util_get_display_path (file);
