@@ -78,8 +78,6 @@ struct _MousepadDocumentClass
 
 struct _MousepadDocumentPrivate
 {
-  GtkScrolledWindow      __parent__;
-
   /* the tab label and its tooltip ebox */
   GtkWidget              *ebox;
   GtkWidget              *label;

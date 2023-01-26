@@ -26,8 +26,6 @@ typedef struct _MousepadDocumentPrivate MousepadDocumentPrivate;
 typedef struct _MousepadDocumentClass   MousepadDocumentClass;
 typedef struct _MousepadDocument        MousepadDocument;
 
-#define MOUSEPAD_SCROLL_MARGIN 0.02
-
 #define MOUSEPAD_TYPE_DOCUMENT            (mousepad_document_get_type ())
 #define MOUSEPAD_DOCUMENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_DOCUMENT, MousepadDocument))
 #define MOUSEPAD_DOCUMENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_DOCUMENT, MousepadDocumentClass))
