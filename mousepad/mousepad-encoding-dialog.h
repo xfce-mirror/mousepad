@@ -21,17 +21,8 @@ G_BEGIN_DECLS
 
 #include <mousepad/mousepad-encoding.h>
 
-#define MOUSEPAD_TYPE_ENCODING_DIALOG            (mousepad_encoding_dialog_get_type ())
-#define MOUSEPAD_ENCODING_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_ENCODING_DIALOG, MousepadEncodingDialog))
-#define MOUSEPAD_ENCODING_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_ENCODING_DIALOG, MousepadEncodingDialogClass))
-#define MOUSEPAD_IS_ENCODING_DIALOG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_ENCODING_DIALOG))
-#define MOUSEPAD_IS_ENCODING_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_ENCODING_DIALOG))
-#define MOUSEPAD_ENCODING_DIALOG_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_ENCODING_DIALOG, MousepadEncodingDialogClass))
-
-typedef struct _MousepadEncodingDialogClass MousepadEncodingDialogClass;
-typedef struct _MousepadEncodingDialog      MousepadEncodingDialog;
-
-GType mousepad_encoding_dialog_get_type (void) G_GNUC_CONST;
+#define MOUSEPAD_TYPE_ENCODING_DIALOG (mousepad_encoding_dialog_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadEncodingDialog, mousepad_encoding_dialog, MOUSEPAD, ENCODING_DIALOG, GtkDialog)
 
 gint  mousepad_encoding_dialog          (GtkWindow        *parent,
                                          MousepadFile     *file,

@@ -88,11 +88,6 @@ static void      mousepad_view_set_match_braces              (MousepadView      
 
 
 
-struct _MousepadViewClass
-{
-  GtkSourceViewClass __parent__;
-};
-
 struct _MousepadView
 {
   GtkSourceView         __parent__;

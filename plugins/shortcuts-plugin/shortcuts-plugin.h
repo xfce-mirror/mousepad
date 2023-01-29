@@ -17,23 +17,14 @@
 #ifndef __SHORTCUTS_PLUGIN_H__
 #define __SHORTCUTS_PLUGIN_H__
 
-#include <mousepad/mousepad-plugin-provider.h>
+#include <mousepad/mousepad-plugin.h>
 
 G_BEGIN_DECLS
 
-typedef struct _ShortcutsPluginClass  ShortcutsPluginClass;
-typedef struct _ShortcutsPlugin       ShortcutsPlugin;
+#define SHORTCUTS_TYPE_PLUGIN (shortcuts_plugin_get_type ())
+G_DECLARE_FINAL_TYPE (ShortcutsPlugin, shortcuts_plugin, SHORTCUTS, PLUGIN, MousepadPlugin)
 
-#define TYPE_SHORTCUTS_PLUGIN            (shortcuts_plugin_get_type ())
-#define SHORTCUTS_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_SHORTCUTS_PLUGIN, ShortcutsPlugin))
-#define SHORTCUTS_PLUGIN_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_SHORTCUTS_PLUGIN, ShortcutsPluginClass))
-#define IS_SHORTCUTS_PLUGIN(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_SHORTCUTS_PLUGIN))
-#define IS_SHORTCUTS_PLUGIN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_SHORTCUTS_PLUGIN)
-#define SHORTCUTS_PLUGIN_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_SHORTCUTS_PLUGIN, ShortcutsPluginClass))
-
-GType shortcuts_plugin_get_type (void) G_GNUC_CONST;
-
-void  shortcuts_plugin_register (MousepadPluginProvider *plugin);
+void shortcuts_plugin_register (MousepadPluginProvider *plugin);
 
 G_END_DECLS
 

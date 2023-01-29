@@ -15,7 +15,6 @@
  */
 
 #include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-plugin.h>
 #include <mousepad/mousepad-dialogs.h>
 #include <mousepad/mousepad-settings.h>
 #include <mousepad/mousepad-history.h>
@@ -41,11 +40,6 @@ static void test_plugin_window_actions (GSimpleAction  *test_action,
 #define LOG_WARNING(warning) g_printerr ("%s: %s\n", G_STRLOC, warning);
 
 
-
-struct _TestPluginClass
-{
-  MousepadPluginClass __parent__;
-};
 
 struct _TestPlugin
 {

@@ -39,7 +39,7 @@ mousepad_plugin_initialize (MousepadPluginProvider *provider)
   test_plugin_register (provider);
 
   /* set up plugin data */
-  types[0] = TYPE_TEST_PLUGIN;
+  types[0] = TEST_TYPE_PLUGIN;
   plugin_data.types = types;
   plugin_data.destroyable = TRUE;
   plugin_data.label = "Mousepad Test";

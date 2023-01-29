@@ -23,15 +23,9 @@
 G_BEGIN_DECLS
 
 typedef struct _MousepadDocumentPrivate MousepadDocumentPrivate;
-typedef struct _MousepadDocumentClass   MousepadDocumentClass;
-typedef struct _MousepadDocument        MousepadDocument;
 
-#define MOUSEPAD_TYPE_DOCUMENT            (mousepad_document_get_type ())
-#define MOUSEPAD_DOCUMENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_DOCUMENT, MousepadDocument))
-#define MOUSEPAD_DOCUMENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_DOCUMENT, MousepadDocumentClass))
-#define MOUSEPAD_IS_DOCUMENT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_DOCUMENT))
-#define MOUSEPAD_IS_DOCUMENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MOUSEPAD_TYPE_DOCUMENT))
-#define MOUSEPAD_DOCUMENT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_DOCUMENT, MousepadDocumentClass))
+#define MOUSEPAD_TYPE_DOCUMENT (mousepad_document_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadDocument, mousepad_document, MOUSEPAD, DOCUMENT, GtkScrolledWindow)
 
 #define MOUSEPAD_TYPE_SEARCH_FLAGS (mousepad_document_search_flags_get_type ())
 
@@ -76,8 +70,6 @@ struct _MousepadDocument
   /* text view */
   MousepadView            *textview;
 };
-
-GType             mousepad_document_get_type       (void) G_GNUC_CONST;
 
 MousepadDocument *mousepad_document_new            (void);
 

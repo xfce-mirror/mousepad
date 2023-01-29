@@ -15,7 +15,6 @@
  */
 
 #include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-plugin.h>
 #include <mousepad/mousepad-application.h>
 #include <mousepad/mousepad-window.h>
 #include <mousepad/mousepad-view.h>
@@ -57,11 +56,6 @@ static void gspell_plugin_view_menu_deactivate (GspellPlugin     *plugin,
                                                 GtkMenuShell     *menu);
 
 
-
-struct _GspellPluginClass
-{
-  MousepadPluginClass __parent__;
-};
 
 struct _GspellPlugin
 {

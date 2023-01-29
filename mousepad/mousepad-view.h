@@ -19,23 +19,14 @@
 
 G_BEGIN_DECLS
 
-#define MOUSEPAD_TYPE_VIEW            (mousepad_view_get_type ())
-#define MOUSEPAD_VIEW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_VIEW, MousepadView))
-#define MOUSEPAD_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_VIEW, MousepadViewClass))
-#define MOUSEPAD_IS_VIEW(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_VIEW))
-#define MOUSEPAD_IS_VIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPADL_TYPE_VIEW))
-#define MOUSEPAD_VIEW_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_VIEW, MousepadViewClass))
-
-typedef struct _MousepadViewClass MousepadViewClass;
-typedef struct _MousepadView      MousepadView;
+#define MOUSEPAD_TYPE_VIEW (mousepad_view_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadView, mousepad_view, MOUSEPAD, VIEW, GtkSourceView)
 
 enum
 {
   SPACES_TO_TABS,
   TABS_TO_SPACES
 };
-
-GType           mousepad_view_get_type                  (void) G_GNUC_CONST;
 
 gboolean        mousepad_view_scroll_to_cursor          (gpointer           data);
 

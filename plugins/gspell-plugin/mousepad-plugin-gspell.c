@@ -39,7 +39,7 @@ mousepad_plugin_initialize (MousepadPluginProvider *provider)
   gspell_plugin_register (provider);
 
   /* set up plugin data */
-  types[0] = TYPE_GSPELL_PLUGIN;
+  types[0] = GSPELL_TYPE_PLUGIN;
   plugin_data.types = types;
   plugin_data.destroyable = FALSE;
   plugin_data.label = _("Spell Checking");

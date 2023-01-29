@@ -21,17 +21,8 @@
 
 G_BEGIN_DECLS
 
-typedef struct _MousepadPrintClass MousepadPrintClass;
-typedef struct _MousepadPrint      MousepadPrint;
-
-#define MOUSEPAD_TYPE_PRINT            (mousepad_print_get_type ())
-#define MOUSEPAD_PRINT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_PRINT, MousepadPrint))
-#define MOUSEPAD_PRINT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_PRINT, MousepadPrintClass))
-#define MOUSEPAD_IS_PRINT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_PRINT))
-#define MOUSEPAD_IS_PRINT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MOUSEPAD_TYPE_PRINT))
-#define MOUSEPAD_PRINT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_PRINT, MousepadPrintClass))
-
-GType          mousepad_print_get_type             (void) G_GNUC_CONST;
+#define MOUSEPAD_TYPE_PRINT (mousepad_print_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadPrint, mousepad_print, MOUSEPAD, PRINT, GtkPrintOperation)
 
 MousepadPrint *mousepad_print_new                  (void);
 

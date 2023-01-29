@@ -57,11 +57,6 @@ static void     mousepad_file_set_read_only   (MousepadFile      *file,
 
 
 
-struct _MousepadFileClass
-{
-  GObjectClass __parent__;
-};
-
 struct _MousepadFile
 {
   GObject __parent__;

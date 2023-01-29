@@ -23,17 +23,8 @@
 
 G_BEGIN_DECLS
 
-#define MOUSEPAD_TYPE_REPLACE_DIALOG            (mousepad_replace_dialog_get_type ())
-#define MOUSEPAD_REPLACE_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_REPLACE_DIALOG, MousepadReplaceDialog))
-#define MOUSEPAD_REPLACE_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_REPLACE_DIALOG, MousepadReplaceDialogClass))
-#define MOUSEPAD_IS_REPLACE_DIALOG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_REPLACE_DIALOG))
-#define MOUSEPAD_IS_REPLACE_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPADL_TYPE_REPLACE_DIALOG))
-#define MOUSEPAD_REPLACE_DIALOG_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_REPLACE_DIALOG, MousepadReplaceDialogClass))
-
-typedef struct _MousepadReplaceDialogClass MousepadReplaceDialogClass;
-typedef struct _MousepadReplaceDialog      MousepadReplaceDialog;
-
-GType           mousepad_replace_dialog_get_type       (void) G_GNUC_CONST;
+#define MOUSEPAD_TYPE_REPLACE_DIALOG (mousepad_replace_dialog_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadReplaceDialog, mousepad_replace_dialog, MOUSEPAD, REPLACE_DIALOG, GtkDialog)
 
 GtkWidget      *mousepad_replace_dialog_new            (MousepadWindow        *window);
 

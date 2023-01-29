@@ -21,15 +21,8 @@
 
 G_BEGIN_DECLS
 
-typedef struct _MousepadPluginProviderClass MousepadPluginProviderClass;
-typedef struct _MousepadPluginProvider      MousepadPluginProvider;
-
-#define MOUSEPAD_TYPE_PLUGIN_PROVIDER            (mousepad_plugin_provider_get_type ())
-#define MOUSEPAD_PLUGIN_PROVIDER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_PLUGIN_PROVIDER, MousepadPluginProvider))
-#define MOUSEPAD_PLUGIN_PROVIDER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_PLUGIN_PROVIDER, MousepadPluginProviderClass))
-#define MOUSEPAD_IS_PLUGIN_PROVIDER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_PLUGIN_PROVIDER))
-#define MOUSEPAD_IS_PLUGIN_PROVIDER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MOUSEPAD_TYPE_PLUGIN_PROVIDER)
-#define MOUSEPAD_PLUGIN_PROVIDER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_PLUGIN_PROVIDER, MousepadPluginProviderClass))
+#define MOUSEPAD_TYPE_PLUGIN_PROVIDER (mousepad_plugin_provider_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadPluginProvider, mousepad_plugin_provider, MOUSEPAD, PLUGIN_PROVIDER, GTypeModule)
 
 /* minimal set of pre-instantiation data that each plugin must provide */
 typedef struct _MousepadPluginData
@@ -46,8 +39,6 @@ typedef struct _MousepadPluginData
   /* keybinding for enabling the plugin, also shown in the prefs dialog */
   const gchar *accel;
 } MousepadPluginData;
-
-GType                   mousepad_plugin_provider_get_type           (void) G_GNUC_CONST;
 
 MousepadPluginProvider *mousepad_plugin_provider_new                (const gchar             *name);
 

@@ -33,7 +33,7 @@ static void mousepad_plugin_constructed  (GObject      *object);
 
 
 
-struct _MousepadPluginPrivate
+typedef struct _MousepadPluginPrivate
 {
   GObject __parent__;
 
@@ -42,7 +42,7 @@ struct _MousepadPluginPrivate
 
   /* the plugin state */
   gboolean enabled;
-};
+} MousepadPluginPrivate;
 
 /* MousepadPlugin properties */
 enum
@@ -53,7 +53,7 @@ enum
 
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (MousepadPlugin, mousepad_plugin, G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (MousepadPlugin, mousepad_plugin, G_TYPE_OBJECT)
 
 
 

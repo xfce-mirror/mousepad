@@ -50,17 +50,8 @@ mousepad_action_get_state_int32_boolean (GAction *action)
   return value;
 }
 
-typedef struct _MousepadApplicationClass MousepadApplicationClass;
-typedef struct _MousepadApplication      MousepadApplication;
-
-#define MOUSEPAD_TYPE_APPLICATION            (mousepad_application_get_type ())
-#define MOUSEPAD_APPLICATION(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_APPLICATION, MousepadApplication))
-#define MOUSEPAD_APPLICATION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_APPLICATION, MousepadApplicationClass))
-#define MOUSEPAD_IS_APPLICATION(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_APPLICATION))
-#define MOUSEPAD_IS_APPLICATION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MOUSEPAD_TYPE_APPLICATION))
-#define MOUSEPAD_APPLICATION_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_APPLICATION, MousepadApplicationClass))
-
-GType                mousepad_application_get_type                   (void) G_GNUC_CONST;
+#define MOUSEPAD_TYPE_APPLICATION (mousepad_application_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadApplication, mousepad_application, MOUSEPAD, APPLICATION, GtkApplication)
 
 GList               *mousepad_application_get_providers              (MousepadApplication  *application);
 

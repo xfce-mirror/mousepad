@@ -46,11 +46,6 @@ enum
   LAST_SIGNAL
 };
 
-struct _MousepadSearchBarClass
-{
-  GtkToolbarClass __parent__;
-};
-
 struct _MousepadSearchBar
 {
   GtkToolbar      __parent__;

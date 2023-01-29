@@ -39,7 +39,7 @@ mousepad_plugin_initialize (MousepadPluginProvider *provider)
   shortcuts_plugin_register (provider);
 
   /* set up plugin data */
-  types[0] = TYPE_SHORTCUTS_PLUGIN;
+  types[0] = SHORTCUTS_TYPE_PLUGIN;
   plugin_data.types = types;
   plugin_data.destroyable = TRUE;
   plugin_data.label = _("Shortcuts Editor");

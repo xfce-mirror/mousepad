@@ -37,11 +37,6 @@ enum
   LAST_SIGNAL,
 };
 
-struct _MousepadStatusbarClass
-{
-  GtkStatusbarClass __parent__;
-};
-
 struct _MousepadStatusbar
 {
   GtkStatusbar        __parent__;

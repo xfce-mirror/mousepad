@@ -97,11 +97,6 @@ static void        mousepad_application_action_whitespace         (GSimpleAction
 
 
 
-struct _MousepadApplicationClass
-{
-  GtkApplicationClass __parent__;
-};
-
 struct _MousepadApplication
 {
   GtkApplication      __parent__;
@@ -720,8 +715,8 @@ static gint
 mousepad_application_sort_plugins (gconstpointer a,
                                    gconstpointer b)
 {
-  MousepadPluginProvider *p = MOUSEPAD_PLUGIN_PROVIDER (a),
-                         *q = MOUSEPAD_PLUGIN_PROVIDER (b);
+  MousepadPluginProvider *p = (MousepadPluginProvider *) a,
+                         *q = (MousepadPluginProvider *) b;
   gint comp_cat;
 
   comp_cat = g_utf8_collate (mousepad_plugin_provider_get_category (p),

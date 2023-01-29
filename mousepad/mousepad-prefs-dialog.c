@@ -68,16 +68,12 @@ enum
 
 
 
-struct MousepadPrefsDialog_
+struct _MousepadPrefsDialog
 {
   GtkDialog   parent;
+
   GtkBuilder *builder;
   gboolean    blocked;
-};
-
-struct MousepadPrefsDialogClass_
-{
-  GtkDialogClass parent_class;
 };
 
 

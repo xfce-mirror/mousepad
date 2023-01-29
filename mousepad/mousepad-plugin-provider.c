@@ -31,11 +31,6 @@ static void     mousepad_plugin_provider_unload   (GTypeModule *type_module);
 
 
 
-struct _MousepadPluginProviderClass
-{
-  GTypeModuleClass __parent__;
-};
-
 struct _MousepadPluginProvider
 {
   GTypeModule __parent__;

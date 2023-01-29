@@ -49,11 +49,6 @@ enum
   N_COLUMNS
 };
 
-struct _MousepadEncodingDialogClass
-{
-  GtkDialogClass __parent__;
-};
-
 struct _MousepadEncodingDialog
 {
   GtkDialog __parent__;

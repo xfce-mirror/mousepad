@@ -38,11 +38,6 @@ static void              mousepad_replace_dialog_entry_reverse_activate (Mousepa
 
 
 
-struct _MousepadReplaceDialogClass
-{
-  GtkDialogClass __parent__;
-};
-
 struct _MousepadReplaceDialog
 {
   GtkDialog __parent__;

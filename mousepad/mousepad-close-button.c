@@ -37,16 +37,11 @@ static gboolean mousepad_close_button_leave_notify_event (GtkWidget        *widg
 
 
 
-struct MousepadCloseButton_
+struct _MousepadCloseButton
 {
   GtkButton parent;
 
   GtkTextBuffer *buffer;
-};
-
-struct MousepadCloseButtonClass_
-{
-  GtkButtonClass  parent_class;
 };
 
 

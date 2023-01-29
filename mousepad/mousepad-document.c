@@ -71,11 +71,6 @@ enum
   HIDDEN,
 };
 
-struct _MousepadDocumentClass
-{
-  GtkScrolledWindowClass __parent__;
-};
-
 struct _MousepadDocumentPrivate
 {
   /* the tab label and its tooltip ebox */

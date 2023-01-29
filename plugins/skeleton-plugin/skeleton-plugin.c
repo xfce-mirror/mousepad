@@ -15,7 +15,6 @@
  */
 
 #include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-plugin.h>
 #include <mousepad/mousepad-application.h>
 
 #include <skeleton-plugin/skeleton-plugin.h>
@@ -33,11 +32,6 @@ static void skeleton_plugin_disable     (MousepadPlugin *mplugin);
 /* SkeletonPlugin own functions */
 
 
-
-struct _SkeletonPluginClass
-{
-  MousepadPluginClass __parent__;
-};
 
 struct _SkeletonPlugin
 {

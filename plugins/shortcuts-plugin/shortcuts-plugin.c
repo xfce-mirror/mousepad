@@ -15,7 +15,6 @@
  */
 
 #include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-plugin.h>
 #include <mousepad/mousepad-application.h>
 #include <mousepad/mousepad-prefs-dialog.h>
 #include <mousepad/mousepad-util.h>
@@ -45,11 +44,6 @@ static void shortcuts_plugin_disable      (MousepadPlugin *mplugin);
 static void shortcuts_plugin_build_editor (ShortcutsPlugin *plugin);
 
 
-
-struct _ShortcutsPluginClass
-{
-  MousepadPluginClass __parent__;
-};
 
 struct _ShortcutsPlugin
 {

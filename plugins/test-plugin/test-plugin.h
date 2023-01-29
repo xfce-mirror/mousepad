@@ -17,23 +17,14 @@
 #ifndef __TEST_PLUGIN_H__
 #define __TEST_PLUGIN_H__
 
-#include <mousepad/mousepad-plugin-provider.h>
+#include <mousepad/mousepad-plugin.h>
 
 G_BEGIN_DECLS
 
-typedef struct _TestPluginClass  TestPluginClass;
-typedef struct _TestPlugin       TestPlugin;
+#define TEST_TYPE_PLUGIN (test_plugin_get_type ())
+G_DECLARE_FINAL_TYPE (TestPlugin, test_plugin, TEST, PLUGIN, MousepadPlugin)
 
-#define TYPE_TEST_PLUGIN            (test_plugin_get_type ())
-#define TEST_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_TEST_PLUGIN, TestPlugin))
-#define TEST_PLUGIN_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_TEST_PLUGIN, TestPluginClass))
-#define IS_TEST_PLUGIN(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_TEST_PLUGIN))
-#define IS_TEST_PLUGIN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_TEST_PLUGIN)
-#define TEST_PLUGIN_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_TEST_PLUGIN, TestPluginClass))
-
-GType test_plugin_get_type (void) G_GNUC_CONST;
-
-void  test_plugin_register (MousepadPluginProvider *plugin);
+void test_plugin_register (MousepadPluginProvider *plugin);
 
 G_END_DECLS
 

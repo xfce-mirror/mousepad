@@ -24,15 +24,8 @@ G_BEGIN_DECLS
 #include <gtksourceview/gtksource.h>
 
 
-typedef struct _MousepadFileClass  MousepadFileClass;
-typedef struct _MousepadFile       MousepadFile;
-
-#define MOUSEPAD_TYPE_FILE            (mousepad_file_get_type ())
-#define MOUSEPAD_FILE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_FILE, MousepadFile))
-#define MOUSEPAD_FILE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_FILE, MousepadFileClass))
-#define MOUSEPAD_IS_FILE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_FILE))
-#define MOUSEPAD_IS_FILE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MOUSEPAD_TYPE_FILE))
-#define MOUSEPAD_FILE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_FILE, MousepadFileClass))
+#define MOUSEPAD_TYPE_FILE (mousepad_file_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadFile, mousepad_file, MOUSEPAD, FILE, GObject)
 
 #define MOUSEPAD_LANGUAGE_NONE "plain-text"
 
@@ -61,8 +54,6 @@ enum
   MOUSEPAD_LOCATION_REVERT,
   MOUSEPAD_LOCATION_REAL
 };
-
-GType               mousepad_file_get_type                 (void) G_GNUC_CONST;
 
 MousepadFile       *mousepad_file_new                      (GtkTextBuffer       *buffer);
 

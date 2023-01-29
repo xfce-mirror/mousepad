@@ -21,17 +21,8 @@
 
 G_BEGIN_DECLS
 
-#define MOUSEPAD_TYPE_SEARCH_BAR            (mousepad_search_bar_get_type ())
-#define MOUSEPAD_SEARCH_BAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_SEARCH_BAR, MousepadSearchBar))
-#define MOUSEPAD_SEARCH_BAR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_SEARCH_BAR, MousepadSearchBarClass))
-#define MOUSEPAD_IS_SEARCH_BAR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_SEARCH_BAR))
-#define MOUSEPAD_IS_SEARCH_BAR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPADL_TYPE_SEARCH_BAR))
-#define MOUSEPAD_SEARCH_BAR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_SEARCH_BAR, MousepadSearchBarClass))
-
-typedef struct _MousepadSearchBarClass MousepadSearchBarClass;
-typedef struct _MousepadSearchBar      MousepadSearchBar;
-
-GType           mousepad_search_bar_get_type        (void) G_GNUC_CONST;
+#define MOUSEPAD_TYPE_SEARCH_BAR (mousepad_search_bar_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadSearchBar, mousepad_search_bar, MOUSEPAD, SEARCH_BAR, GtkToolbar)
 
 GtkWidget      *mousepad_search_bar_new             (void);
 

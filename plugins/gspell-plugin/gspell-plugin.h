@@ -17,23 +17,14 @@
 #ifndef __GSPELL_PLUGIN_H__
 #define __GSPELL_PLUGIN_H__
 
-#include <mousepad/mousepad-plugin-provider.h>
+#include <mousepad/mousepad-plugin.h>
 
 G_BEGIN_DECLS
 
-typedef struct _GspellPluginClass  GspellPluginClass;
-typedef struct _GspellPlugin       GspellPlugin;
+#define GSPELL_TYPE_PLUGIN (gspell_plugin_get_type ())
+G_DECLARE_FINAL_TYPE (GspellPlugin, gspell_plugin, GSPELL, PLUGIN, MousepadPlugin)
 
-#define TYPE_GSPELL_PLUGIN            (gspell_plugin_get_type ())
-#define GSPELL_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GSPELL_PLUGIN, GspellPlugin))
-#define GSPELL_PLUGIN_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GSPELL_PLUGIN, GspellPluginClass))
-#define IS_GSPELL_PLUGIN(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GSPELL_PLUGIN))
-#define IS_GSPELL_PLUGIN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GSPELL_PLUGIN)
-#define GSPELL_PLUGIN_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_GSPELL_PLUGIN, GspellPluginClass))
-
-GType gspell_plugin_get_type (void) G_GNUC_CONST;
-
-void  gspell_plugin_register (MousepadPluginProvider *plugin);
+void gspell_plugin_register (MousepadPluginProvider *plugin);
 
 G_END_DECLS
 

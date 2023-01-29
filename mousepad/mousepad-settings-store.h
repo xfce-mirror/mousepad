@@ -22,19 +22,8 @@
 G_BEGIN_DECLS
 
 
-#define MOUSEPAD_TYPE_SETTINGS_STORE            (mousepad_settings_store_get_type ())
-#define MOUSEPAD_SETTINGS_STORE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_SETTINGS_STORE, MousepadSettingsStore))
-#define MOUSEPAD_SETTINGS_STORE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_SETTINGS_STORE, MousepadSettingsStoreClass))
-#define MOUSEPAD_IS_SETTINGS_STORE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_SETTINGS_STORE))
-#define MOUSEPAD_IS_SETTINGS_STORE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MOUSEPAD_TYPE_SETTINGS_STORE))
-#define MOUSEPAD_SETTINGS_STORE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_SETTINGS_STORE, MousepadSettingsStoreClass))
-
-
-typedef struct MousepadSettingsStore_      MousepadSettingsStore;
-typedef struct MousepadSettingsStoreClass_ MousepadSettingsStoreClass;
-
-
-GType                  mousepad_settings_store_get_type        (void);
+#define MOUSEPAD_TYPE_SETTINGS_STORE (mousepad_settings_store_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadSettingsStore, mousepad_settings_store, MOUSEPAD, SETTINGS_STORE, GObject)
 
 MousepadSettingsStore *mousepad_settings_store_new             (void);
 

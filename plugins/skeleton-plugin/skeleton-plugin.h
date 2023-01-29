@@ -17,23 +17,14 @@
 #ifndef __SKELETON_PLUGIN_H__
 #define __SKELETON_PLUGIN_H__
 
-#include <mousepad/mousepad-plugin-provider.h>
+#include <mousepad/mousepad-plugin.h>
 
 G_BEGIN_DECLS
 
-typedef struct _SkeletonPluginClass SkeletonPluginClass;
-typedef struct _SkeletonPlugin      SkeletonPlugin;
+#define SKELETON_TYPE_PLUGIN (skeleton_plugin_get_type ())
+G_DECLARE_FINAL_TYPE (SkeletonPlugin, skeleton_plugin, SKELETON, PLUGIN, MousepadPlugin)
 
-#define TYPE_SKELETON_PLUGIN            (skeleton_plugin_get_type ())
-#define SKELETON_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_SKELETON_PLUGIN, SkeletonPlugin))
-#define SKELETON_PLUGIN_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_SKELETON_PLUGIN, SkeletonPluginClass))
-#define IS_SKELETON_PLUGIN(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_SKELETON_PLUGIN))
-#define IS_SKELETON_PLUGIN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_SKELETON_PLUGIN)
-#define SKELETON_PLUGIN_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_SKELETON_PLUGIN, SkeletonPluginClass))
-
-GType skeleton_plugin_get_type (void) G_GNUC_CONST;
-
-void  skeleton_plugin_register (MousepadPluginProvider *plugin);
+void skeleton_plugin_register (MousepadPluginProvider *plugin);
 
 G_END_DECLS
 

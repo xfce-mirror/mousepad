@@ -422,11 +422,6 @@ static void              mousepad_window_action_about                 (GSimpleAc
 
 
 
-struct _MousepadWindowClass
-{
-  GtkApplicationWindowClass __parent__;
-};
-
 struct _MousepadWindow
 {
   GtkApplicationWindow __parent__;

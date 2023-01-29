@@ -21,10 +21,7 @@
 
 G_BEGIN_DECLS
 
-typedef struct _MousepadPluginPrivate MousepadPluginPrivate;
-
 #define MOUSEPAD_TYPE_PLUGIN (mousepad_plugin_get_type ())
-
 G_DECLARE_DERIVABLE_TYPE (MousepadPlugin, mousepad_plugin, MOUSEPAD, PLUGIN, GObject)
 
 struct _MousepadPluginClass

@@ -25,17 +25,8 @@
 
 G_BEGIN_DECLS
 
-#define MOUSEPAD_TYPE_STATUSBAR            (mousepad_statusbar_get_type ())
-#define MOUSEPAD_STATUSBAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_STATUSBAR, MousepadStatusbar))
-#define MOUSEPAD_STATUSBAR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_STATUSBAR, MousepadStatusbarClass))
-#define MOUSEPAD_IS_STATUSBAR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_STATUSBAR))
-#define MOUSEPAD_IS_STATUSBAR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_STATUSBAR))
-#define MOUSEPAD_STATUSBAR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_STATUSBAR, MousepadStatusbarClass))
-
-typedef struct _MousepadStatusbarClass MousepadStatusbarClass;
-typedef struct _MousepadStatusbar      MousepadStatusbar;
-
-GType       mousepad_statusbar_get_type             (void) G_GNUC_CONST;
+#define MOUSEPAD_TYPE_STATUSBAR (mousepad_statusbar_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadStatusbar, mousepad_statusbar, MOUSEPAD, STATUSBAR, GtkStatusbar)
 
 GtkWidget  *mousepad_statusbar_new                  (void);
 

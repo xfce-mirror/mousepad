@@ -27,20 +27,13 @@
 
 
 
-struct MousepadSettingsStore_
+struct _MousepadSettingsStore
 {
   GObject parent;
 
   GSettingsBackend *backend;
   GList            *roots;
   GHashTable       *keys;
-};
-
-
-
-struct MousepadSettingsStoreClass_
-{
-  GObjectClass parent_class;
 };
 
 

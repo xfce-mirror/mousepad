@@ -21,10 +21,6 @@
 
 
 
-#define DOCUMENT_SPACING (10)
-
-
-
 static void           mousepad_print_finalize              (GObject                 *object);
 static void           mousepad_print_settings_load         (GtkPrintOperation       *operation);
 static void           mousepad_print_settings_save_foreach (const gchar             *key,
@@ -47,11 +43,6 @@ static void           mousepad_print_done                  (GtkPrintOperation   
                                                             GtkPrintOperationResult  result);
 
 
-
-struct _MousepadPrintClass
-{
-  GtkPrintOperationClass __parent__;
-};
 
 struct _MousepadPrint
 {
@@ -260,41 +251,41 @@ mousepad_print_settings_load (GtkPrintOperation *operation)
       g_object_unref (settings);
     }
 
-    /* if no font name is set, get the one used in the widget */
-    if (G_UNLIKELY (body_font == NULL))
-      {
-        /* get the font description from the context and convert it into a string */
-        context = gtk_widget_get_pango_context (GTK_WIDGET (print->document->textview));
-        font_desc = pango_context_get_font_description (context);
-        body_font = pango_font_description_to_string (font_desc);
-      }
+  /* if no font name is set, get the one used in the widget */
+  if (G_UNLIKELY (body_font == NULL))
+    {
+      /* get the font description from the context and convert it into a string */
+      context = gtk_widget_get_pango_context (GTK_WIDGET (print->document->textview));
+      font_desc = pango_context_get_font_description (context);
+      body_font = pango_font_description_to_string (font_desc);
+    }
 
-    /* set the restored body font or the one from the textview */
-    gtk_source_print_compositor_set_body_font_name (print->compositor, body_font);
+  /* set the restored body font or the one from the textview */
+  gtk_source_print_compositor_set_body_font_name (print->compositor, body_font);
 
-    /* if header font restored use it, otherwise use body font */
-    if (header_font)
-      gtk_source_print_compositor_set_header_font_name (print->compositor, header_font);
-    else
-      gtk_source_print_compositor_set_header_font_name (print->compositor, body_font);
+  /* if header font restored use it, otherwise use body font */
+  if (header_font)
+    gtk_source_print_compositor_set_header_font_name (print->compositor, header_font);
+  else
+    gtk_source_print_compositor_set_header_font_name (print->compositor, body_font);
 
-    /* if line numbers font restored use it, otherwise use body font */
-    if (line_numbers_font)
-      gtk_source_print_compositor_set_line_numbers_font_name (print->compositor, line_numbers_font);
-    else
-      gtk_source_print_compositor_set_line_numbers_font_name (print->compositor, body_font);
+  /* if line numbers font restored use it, otherwise use body font */
+  if (line_numbers_font)
+    gtk_source_print_compositor_set_line_numbers_font_name (print->compositor, line_numbers_font);
+  else
+    gtk_source_print_compositor_set_line_numbers_font_name (print->compositor, body_font);
 
-    /* setup line number printing */
-    if (print->print_line_numbers)
-      gtk_source_print_compositor_set_print_line_numbers (print->compositor,
-                                                          print->line_number_increment);
-    else
-      gtk_source_print_compositor_set_print_line_numbers (print->compositor, 0);
+  /* setup line number printing */
+  if (print->print_line_numbers)
+    gtk_source_print_compositor_set_print_line_numbers (print->compositor,
+                                                        print->line_number_increment);
+  else
+    gtk_source_print_compositor_set_print_line_numbers (print->compositor, 0);
 
-    /* cleanup */
-    g_free (body_font);
-    g_free (header_font);
-    g_free (line_numbers_font);
+  /* cleanup */
+  g_free (body_font);
+  g_free (header_font);
+  g_free (line_numbers_font);
 }
 
 
@@ -762,7 +753,7 @@ mousepad_print_document_interactive (MousepadPrint     *print,
   print->compositor = gtk_source_print_compositor_new (GTK_SOURCE_BUFFER (document->buffer));
 
   /* set some reasonable defaults */
- gtk_source_print_compositor_set_wrap_mode (print->compositor, GTK_WRAP_WORD_CHAR);
+  gtk_source_print_compositor_set_wrap_mode (print->compositor, GTK_WRAP_WORD_CHAR);
 
   /* load settings */
   mousepad_print_settings_load (GTK_PRINT_OPERATION (print));

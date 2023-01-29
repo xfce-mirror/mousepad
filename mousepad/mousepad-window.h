@@ -22,12 +22,8 @@
 
 G_BEGIN_DECLS
 
-#define MOUSEPAD_TYPE_WINDOW            (mousepad_window_get_type ())
-#define MOUSEPAD_WINDOW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MOUSEPAD_TYPE_WINDOW, MousepadWindow))
-#define MOUSEPAD_WINDOW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_WINDOW, MousepadWindowClass))
-#define MOUSEPAD_IS_WINDOW(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MOUSEPAD_TYPE_WINDOW))
-#define MOUSEPAD_IS_WINDOW_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MOUSEPAD_TYPE_WINDOW))
-#define MOUSEPAD_WINDOW_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MOUSEPAD_TYPE_WINDOW, MousepadWindowClass))
+#define MOUSEPAD_TYPE_WINDOW (mousepad_window_get_type ())
+G_DECLARE_FINAL_TYPE (MousepadWindow, mousepad_window, MOUSEPAD, WINDOW, GtkApplicationWindow)
 
 /* sanity checks */
 #define mousepad_is_application_window(window) \
@@ -45,11 +41,6 @@ static const GtkTargetEntry drop_targets[] =
   { "text/uri-list", 0, TARGET_TEXT_URI_LIST },
   { "GTK_NOTEBOOK_TAB", GTK_TARGET_SAME_APP, TARGET_GTK_NOTEBOOK_TAB }
 };
-
-typedef struct _MousepadWindowClass MousepadWindowClass;
-typedef struct _MousepadWindow      MousepadWindow;
-
-GType           mousepad_window_get_type                   (void) G_GNUC_CONST;
 
 GtkWidget      *mousepad_window_new                        (MousepadApplication  *application);
 
