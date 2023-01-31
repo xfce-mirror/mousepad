@@ -590,6 +590,7 @@
                     <property name="primary-icon-activatable">False</property>
                     <property name="secondary-icon-activatable">False</property>
                     <property name="adjustment">/prefs/editor/indentation/tab-width-adjustment</property>
+                    <property name="numeric">True</property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
