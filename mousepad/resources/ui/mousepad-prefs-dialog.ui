@@ -319,7 +319,7 @@
                         <child>
                           <object class="GtkSpinButton" id="/prefs/view/display/long-line-spin">
                             <property name="visible">True</property>
-                            <property name="can-focus">False</property>
+                            <property name="can-focus">True</property>
                             <property name="invisible-char">•</property>
                             <property name="primary-icon-activatable">False</property>
                             <property name="secondary-icon-activatable">False</property>
@@ -585,7 +585,7 @@
                 <child>
                   <object class="GtkSpinButton" id="/prefs/editor/indentation/tab-width-spin">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="can-focus">True</property>
                     <property name="invisible-char">•</property>
                     <property name="primary-icon-activatable">False</property>
                     <property name="secondary-icon-activatable">False</property>
@@ -1309,7 +1309,7 @@
                     <child>
                       <object class="GtkSpinButton" id="/prefs/file/history/recent-spin">
                         <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="can-focus">True</property>
                         <property name="tooltip-text" translatable="yes">'0' disables and wipes recent history</property>
                         <property name="invisible-char">•</property>
                         <property name="primary-icon-activatable">False</property>
@@ -1337,7 +1337,7 @@
                     <child>
                       <object class="GtkSpinButton" id="/prefs/file/history/search-spin">
                         <property name="visible">True</property>
-                        <property name="can-focus">False</property>
+                        <property name="can-focus">True</property>
                         <property name="invisible-char">•</property>
                         <property name="primary-icon-activatable">False</property>
                         <property name="secondary-icon-activatable">False</property>
