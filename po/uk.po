@@ -4,7 +4,8 @@
 # 
 # Translators:
 # Andrii Protsun <minamotosoft@gmail.com>, 2022
-# Andrij Mizyk <andmizyk@gmail.com>, 2022
+# f977cb811fcf66493f48eac227fd7473_b98aa5d <2419f1d8d12d92441152e78ae3e3bde0_722180>, 2022
+# Gordon Freeman, 2023
 # Taras Panchenko <top39@ukr.net>, 2021
 # Yarema aka Knedlyk <yarpry@gmail.com>, 2012
 # Yarema aka Knedlyk <yupadmin@gmail.com>, 2014-2016,2018-2019
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 12:50+0100\n"
+"POT-Creation-Date: 2022-11-28 15:01+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Andrij Mizyk <andmizyk@gmail.com>, 2022\n"
+"Last-Translator: Gordon Freeman, 2023\n"
 "Language-Team: Ukrainian (http://www.transifex.com/xfce/xfce-apps/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -339,12 +340,12 @@ msgid "Re_load"
 msgstr "Переза_вантажити"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:570
+#: ../mousepad/mousepad-document.c:572
 msgid "Close this tab"
 msgstr "Закрити цю вкладку"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:600
+#: ../mousepad/mousepad-document.c:602
 msgid "Untitled"
 msgstr "Без назви"
 
@@ -359,17 +360,17 @@ msgstr "Перевірка кодувань..."
 #: ../mousepad/mousepad-encoding-dialog.c:292
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s(%s, невдало)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:294
 #: ../mousepad/mousepad-encoding-dialog.c:349
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s(%s, частково)"
 
 #: ../mousepad/mousepad-encoding-dialog.c:423
 msgid "Other (partial):"
-msgstr ""
+msgstr "Інше (частково):"
 
 #: ../mousepad/mousepad-encoding-dialog.c:434
 msgid "Other valid encodings were found, please choose below."
@@ -525,17 +526,17 @@ msgstr "Системне"
 msgid "History"
 msgstr "Історія"
 
-#: ../mousepad/mousepad-file.c:819
+#: ../mousepad/mousepad-file.c:821
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Неправильна послідовність байт у вхідних даних для перетворення"
 
-#: ../mousepad/mousepad-history.c:325
+#: ../mousepad/mousepad-history.c:327
 msgid "Failed to clear the recent history"
 msgstr "Помилка очищення історії недавніх файлів"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:639
+#: ../mousepad/mousepad-prefs-dialog.c:644
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Властивості Mousepad"
@@ -677,7 +678,7 @@ msgid "All Documents"
 msgstr "Всі документи"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:618
+#: ../mousepad/mousepad-replace-dialog.c:616
 #: ../mousepad/mousepad-search-bar.c:456
 #, c-format
 msgid "%d occurrence"
@@ -725,27 +726,27 @@ msgstr "Тип файлу: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Попередження: використовується обліковий запис root. Ви можете завдати шкоди своїй системі."
 
-#: ../mousepad/mousepad-window.c:2289
+#: ../mousepad/mousepad-window.c:2330
 msgid "Read Only"
 msgstr "Тільки читати"
 
-#: ../mousepad/mousepad-window.c:2293
+#: ../mousepad/mousepad-window.c:2334
 msgid "Viewer Mode"
 msgstr "Режим перегляду"
 
-#: ../mousepad/mousepad-window.c:3326
+#: ../mousepad/mousepad-window.c:3367
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Використовувати '%s' як шаблон"
 
-#: ../mousepad/mousepad-window.c:3352
+#: ../mousepad/mousepad-window.c:3393
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Не знайдено файлів-шаблонів в\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3417
+#: ../mousepad/mousepad-window.c:3458
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -753,74 +754,74 @@ msgid ""
 msgstr "Відсутній каталог шаблонів\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3469
+#: ../mousepad/mousepad-window.c:3510
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_Інше (%d)..."
 
-#: ../mousepad/mousepad-window.c:3479
+#: ../mousepad/mousepad-window.c:3520
 msgid "Ot_her..."
 msgstr "_Інше..."
 
-#: ../mousepad/mousepad-window.c:3578
+#: ../mousepad/mousepad-window.c:3619
 msgid "Revert to the saved version of the file"
 msgstr "Відновити збережену версію файлу"
 
-#: ../mousepad/mousepad-window.c:3584
+#: ../mousepad/mousepad-window.c:3625
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Завантажити файл з накопичувача"
 
-#: ../mousepad/mousepad-window.c:3590
+#: ../mousepad/mousepad-window.c:3631
 msgid "Leave fullscreen mode"
 msgstr "Покинути повноекранний режим"
 
-#: ../mousepad/mousepad-window.c:3595
+#: ../mousepad/mousepad-window.c:3636
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Включити повноекранний режим вікна"
 
-#: ../mousepad/mousepad-window.c:3833
+#: ../mousepad/mousepad-window.c:3874
 #, c-format
 msgid "Open '%s'"
 msgstr "Відкрити '%s'"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "No items found"
 msgstr "Нічого не знайдено"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "History disabled"
 msgstr "Історію вимкнено"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4339
+#: ../mousepad/mousepad-window.c:4380
 msgid "No clipboard data"
 msgstr "Немає даних буфера обміну"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4448
+#: ../mousepad/mousepad-window.c:4489
 #, c-format
 msgid "Templates should be %s valid"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4454
+#: ../mousepad/mousepad-window.c:4495
 msgid "Reading the template failed"
 msgstr "Не вдалося прочитати шаблон"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4459
+#: ../mousepad/mousepad-window.c:4500
 msgid "Loading the template failed"
 msgstr "Помилка завантаження шаблону"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4896
+#: ../mousepad/mousepad-window.c:4937
 msgid "Failed to reload the document"
 msgstr "Помилка перезавантаження документа"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4928
+#: ../mousepad/mousepad-window.c:4969
 msgid "Failed to print the document"
 msgstr "Помилка друкування документа"
 
@@ -906,7 +907,7 @@ msgstr "Меню Зміни"
 
 #: ../mousepad/resources/gtk/menus.ui.h:21
 msgid "Preferences..."
-msgstr ""
+msgstr "Налаштування..."
 
 #: ../mousepad/resources/gtk/menus.ui.h:22
 msgid "Show the preferences dialog"
@@ -1104,7 +1105,7 @@ msgstr "З_акінчення рядка"
 
 #: ../mousepad/resources/gtk/menus.ui.h:70
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "Символ(и) закінчення рядка"
 
 #: ../mousepad/resources/gtk/menus.ui.h:71
 msgid "Set the line ending of the document to Unix (LF)"
@@ -1296,7 +1297,7 @@ msgstr "Спеціальна _вставка"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:36
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "Вставити текст з буферу обміну в особливий спосіб"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:37
 msgid "Paste from _History"
@@ -1336,7 +1337,7 @@ msgstr "Конве_ртувати"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:46
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Трансформувати текст різними способами"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
@@ -1405,11 +1406,11 @@ msgstr "Обернений порядок"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:63
 msgid "_Move"
-msgstr ""
+msgstr "_Перемістити"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:64
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Перемістити контент різними способами"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "Line _Up"
@@ -1417,7 +1418,7 @@ msgstr "Рядок _вгору"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Перемістити рядки на один рядок угору"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "Line _Down"
@@ -1425,7 +1426,7 @@ msgstr "Рядок в_низ"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Перемістити рядки на один рядок униз"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "Word _Left"
@@ -1433,7 +1434,7 @@ msgstr "Слово _Вліво"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr ""
+msgstr "Перемістити слова на одне слово вліво"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
@@ -1441,7 +1442,7 @@ msgstr "Слово _Вправо"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr ""
+msgstr "Перемістити слова на одне слово вправо"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1596,7 +1597,7 @@ msgstr "Переносити довгі рядки"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:36
 msgid "<b>Display</b>"
-msgstr "<b>Дисплей</b>"
+msgstr "<b>Відображення</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:37
 msgid "Use system monospace font"
@@ -1608,7 +1609,7 @@ msgstr "<b>Шрифт</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:39
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Кольорова схема</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:40
 msgid "View"
@@ -1632,11 +1633,11 @@ msgstr "<b>Відступ</b>"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:45
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tab: додати відступ до виділеного тексту (Shift+Tab: видалити відступ)"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:46
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Додати або видалити відступ для виділеного тексту чи поточного рядку"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
@@ -1644,7 +1645,7 @@ msgstr "Backspace: Видаляти відступи з пробілами як 
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: виявляти пробіли на початку/кінці:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:49
 msgid "<b>Smart Keys</b>"
@@ -1701,7 +1702,7 @@ msgstr "Завжди показувати вкладки навіть з одн�
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Розгоратати вкладки, щоб зайняти весь доступний простір"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "Cycled notebook tab switching"
@@ -1739,7 +1740,7 @@ msgstr "Відновлення сеансу:"
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Коли обрано \"незбережені документи\" або \"завжди\", Mousepad не запитуватиме про збереження змінених документів під час виходу"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "Recent file menu length:"
@@ -1763,7 +1764,7 @@ msgstr "Моніторинг файлів"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:77
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Автоматичне перезавантаження"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:78
 msgid "Default encoding:"
@@ -1809,7 +1810,7 @@ msgstr ""
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Програма"
 
 #. pack frames
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
@@ -1818,7 +1819,7 @@ msgstr "Панель меню"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Діалог налаштунків"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
 msgid "Miscellaneous"
@@ -1826,12 +1827,12 @@ msgstr "Різне"
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Швидкі клавіші Mousepad"
 
 #. add the shortcuts menu entry
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Швидкі клавіші..."
 
 #: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
 msgid "Show the shortcuts dialog"
@@ -1858,7 +1859,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr ""
+msgstr "Mousepad має на меті бути простим у користуванні та швидким редактором. Наша ціль — редактор для швидкого редагування текстових файлів, а не середовище розробки чи редактор із величезною купою плагінів."
 
 #: ../org.xfce.mousepad.appdata.xml.in.h:4
 msgid ""
@@ -1866,7 +1867,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "З іншого боку, ми намагаємося використовувати найновіші доступні функції GTK, а це означає, що якщо GTK додає щось нове в великому випуску, корисне для редактора, ми, швидше за все, розширимо залежність GTK і інтегруємо цю нову функцію в Mousepad."
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
