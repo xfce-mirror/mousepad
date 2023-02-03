@@ -7,7 +7,7 @@
 # Ápo. <apostolos.papadimitriu@gmail.com>, 2016
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013,2015
 # Georgios Zarkadas <georgios.zarkadas@gmail.com>, 2018
-# Ioannis LM, 2019-2020,2022
+# Ioannis LM, 2019-2020,2022-2023
 # nonviotale <nonviotale@gmail.com>, 2013
 # Στέργιος Γέμελας <sgemelas@protonmail.com>, 2021
 # Vangelis Skarmoutsos <skarmoutsosv@gmail.com>, 2020
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 12:50+0100\n"
+"POT-Creation-Date: 2022-11-28 15:01+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Ioannis LM, 2019-2020,2022\n"
+"Last-Translator: Ioannis LM, 2019-2020,2022-2023\n"
 "Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -320,11 +320,11 @@ msgstr "Μη υποστηριζόμενο σύνολο χαρακτήρων"
 #. button labels
 #: ../mousepad/mousepad-dialogs.h:33
 msgid "_Cancel"
-msgstr "Α_κύρωση"
+msgstr "Άκ_υρο"
 
 #: ../mousepad/mousepad-dialogs.h:34
 msgid "_OK"
-msgstr "_ΟΚ"
+msgstr "_Εντάξει"
 
 #: ../mousepad/mousepad-dialogs.h:35
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
@@ -345,12 +345,12 @@ msgid "Re_load"
 msgstr "Επαναφό_ρτωση"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:570
+#: ../mousepad/mousepad-document.c:572
 msgid "Close this tab"
 msgstr "Κλείσιμο αυτής της καρτέλας"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:600
+#: ../mousepad/mousepad-document.c:602
 msgid "Untitled"
 msgstr "Ανώνυμο"
 
@@ -531,17 +531,17 @@ msgstr "Σύστημα"
 msgid "History"
 msgstr "Ιστορικό"
 
-#: ../mousepad/mousepad-file.c:819
+#: ../mousepad/mousepad-file.c:821
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Άκυρη σειρά byte στην είσοδο μετατροπής"
 
-#: ../mousepad/mousepad-history.c:325
+#: ../mousepad/mousepad-history.c:327
 msgid "Failed to clear the recent history"
 msgstr "Αποτυχία εκκαθάρισης πρόσφατου ιστορικού"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:639
+#: ../mousepad/mousepad-prefs-dialog.c:644
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Προτιμήσεις Mousepad"
@@ -683,7 +683,7 @@ msgid "All Documents"
 msgstr "Όλα τα έγγραφα"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:618
+#: ../mousepad/mousepad-replace-dialog.c:616
 #: ../mousepad/mousepad-search-bar.c:456
 #, c-format
 msgid "%d occurrence"
@@ -729,27 +729,27 @@ msgstr "Τύπος αρχείου: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Προσοχή: Χρησιμοποιείτε τον λογαριασμό διαχειριστή. Μπορεί να προκαλέσετε βλάβη το σύστημα σας."
 
-#: ../mousepad/mousepad-window.c:2289
+#: ../mousepad/mousepad-window.c:2330
 msgid "Read Only"
 msgstr "Μόνο για ανάγνωση"
 
-#: ../mousepad/mousepad-window.c:2293
+#: ../mousepad/mousepad-window.c:2334
 msgid "Viewer Mode"
 msgstr "Κατάσταση θέασης"
 
-#: ../mousepad/mousepad-window.c:3326
+#: ../mousepad/mousepad-window.c:3367
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Χρήση ως πρότυπο του '%s'"
 
-#: ../mousepad/mousepad-window.c:3352
+#: ../mousepad/mousepad-window.c:3393
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Δεν βρέθηκαν πρότυπα στο\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3417
+#: ../mousepad/mousepad-window.c:3458
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -757,74 +757,74 @@ msgid ""
 msgstr "Λείπει ο κατάλογος των προτύπων\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3469
+#: ../mousepad/mousepad-window.c:3510
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Ά_λλο (%d)..."
 
-#: ../mousepad/mousepad-window.c:3479
+#: ../mousepad/mousepad-window.c:3520
 msgid "Ot_her..."
 msgstr "Ά_λλο..."
 
-#: ../mousepad/mousepad-window.c:3578
+#: ../mousepad/mousepad-window.c:3619
 msgid "Revert to the saved version of the file"
 msgstr "Επαναφορά σε μια αποθηκευμένη έκδοση του αρχείου"
 
-#: ../mousepad/mousepad-window.c:3584
+#: ../mousepad/mousepad-window.c:3625
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Επαναφόρτωση του αρχείου από τον δίσκο"
 
-#: ../mousepad/mousepad-window.c:3590
+#: ../mousepad/mousepad-window.c:3631
 msgid "Leave fullscreen mode"
 msgstr "Έξοδος από κατάσταση πλήρους οθόνης"
 
-#: ../mousepad/mousepad-window.c:3595
+#: ../mousepad/mousepad-window.c:3636
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Αλλαγή παραθύρου σε πλήρη οθόνη"
 
-#: ../mousepad/mousepad-window.c:3833
+#: ../mousepad/mousepad-window.c:3874
 #, c-format
 msgid "Open '%s'"
 msgstr "Άνοιγμα '%s'"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "No items found"
 msgstr "Δε βρέθηκαν αντικείμενα"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "History disabled"
 msgstr "Απενεργοποιημένο ιστορικό "
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4339
+#: ../mousepad/mousepad-window.c:4380
 msgid "No clipboard data"
 msgstr "Δεν υπάρχουν δεδομένα στο πρόχειρο"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4448
+#: ../mousepad/mousepad-window.c:4489
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Τα πρότυπα πρέπει να είναι %s έγκυρα"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4454
+#: ../mousepad/mousepad-window.c:4495
 msgid "Reading the template failed"
 msgstr "Η ανάγνωση του προτύπου απέτυχε"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4459
+#: ../mousepad/mousepad-window.c:4500
 msgid "Loading the template failed"
 msgstr "Αποτυχία φόρτωσης του προτύπου"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4896
+#: ../mousepad/mousepad-window.c:4937
 msgid "Failed to reload the document"
 msgstr "Αποτυχία επαναφόρτωσης του εγγράφου"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4928
+#: ../mousepad/mousepad-window.c:4969
 msgid "Failed to print the document"
 msgstr "Αποτυχία εκτύπωσης του εγγράφου"
 
