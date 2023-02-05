@@ -1474,7 +1474,7 @@ msgstr ""
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "Insert Tabs"
-msgstr "Вставити вкладки"
+msgstr "Вставити відступи"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
 msgid "Insert Spaces"
@@ -1617,11 +1617,11 @@ msgstr "Вигляд"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:41
 msgid "Tab width:"
-msgstr "Ширина вкладки:"
+msgstr "Ширина відступу:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:42
 msgid "Tab mode:"
-msgstr "Режим вкладки:"
+msgstr "Режим відступів:"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:43
 msgid "Enable automatic indentation"
