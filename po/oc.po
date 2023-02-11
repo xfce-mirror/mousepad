@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cédric Valmary <cvalmary@yahoo.fr>, 2016
+# Cédric Valmary <cvalmary@yahoo.fr>, 2013,2016
 # Cédric Valmary <cvalmary@yahoo.fr>, 2013
+# Quentin PAGÈS, 2022
 # Quentin PAGÈS, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-16 12:50+0100\n"
+"POT-Creation-Date: 2022-11-28 15:01+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Quentin PAGÈS, 2022\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/xfce/xfce-apps/language/oc/)\n"
@@ -28,7 +29,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:142
 msgid "ENCODING"
-msgstr ""
+msgstr "CODATGE"
 
 #: ../mousepad/mousepad-application.c:147
 msgid "Display a list of possible encodings to open files"
@@ -42,7 +43,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:153
 msgid "LINE"
-msgstr ""
+msgstr "LINHA"
 
 #: ../mousepad/mousepad-application.c:158
 msgid ""
@@ -52,7 +53,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:159
 msgid "COLUMN"
-msgstr ""
+msgstr "COLOMNA"
 
 #: ../mousepad/mousepad-application.c:164
 msgid "Open the preferences dialog"
@@ -88,7 +89,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-application.c:399
 msgid "MODE"
-msgstr ""
+msgstr "MÒDE"
 
 #: ../mousepad/mousepad-application.c:457
 msgid "The Mousepad developers. All rights reserved."
@@ -157,7 +158,7 @@ msgstr "Escafament de l'istoric dels documents suprimirà definitivament totas l
 
 #: ../mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
-msgstr ""
+msgstr "Escafa_r"
 
 #: ../mousepad/mousepad-dialogs.c:382
 msgid "Do you want to save the changes before closing?"
@@ -241,7 +242,7 @@ msgstr ""
 
 #: ../mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
-msgstr ""
+msgstr "Seleccionatz un fichièr"
 
 #: ../mousepad/mousepad-dialogs.c:893
 msgid "Failed to prepare the temporary file for encoding tests"
@@ -258,11 +259,11 @@ msgstr ""
 #. combo box label
 #: ../mousepad/mousepad-dialogs.c:1022
 msgid "_Encoding:"
-msgstr ""
+msgstr "_Encodatge :"
 
 #: ../mousepad/mousepad-dialogs.c:1057
 msgid "Current"
-msgstr ""
+msgstr "Actual"
 
 #: ../mousepad/mousepad-dialogs.c:1075
 msgid "Show all encodings"
@@ -337,12 +338,12 @@ msgid "Re_load"
 msgstr ""
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:570
+#: ../mousepad/mousepad-document.c:572
 msgid "Close this tab"
 msgstr "Tampar aqueste onglet"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:600
+#: ../mousepad/mousepad-document.c:602
 msgid "Untitled"
 msgstr "Sens títol"
 
@@ -523,17 +524,17 @@ msgstr "Sistèma"
 msgid "History"
 msgstr ""
 
-#: ../mousepad/mousepad-file.c:819
+#: ../mousepad/mousepad-file.c:821
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Sequéncia d'octets invalida en entrada de conversion"
 
-#: ../mousepad/mousepad-history.c:325
+#: ../mousepad/mousepad-history.c:327
 msgid "Failed to clear the recent history"
 msgstr "Impossible d'escafar l'istoric recent"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:639
+#: ../mousepad/mousepad-prefs-dialog.c:644
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr ""
@@ -675,7 +676,7 @@ msgid "All Documents"
 msgstr "Totes los documents"
 
 #. update counter
-#: ../mousepad/mousepad-replace-dialog.c:618
+#: ../mousepad/mousepad-replace-dialog.c:616
 #: ../mousepad/mousepad-search-bar.c:456
 #, c-format
 msgid "%d occurrence"
@@ -721,27 +722,27 @@ msgstr "Tipe de fichièr : %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:2289
+#: ../mousepad/mousepad-window.c:2330
 msgid "Read Only"
 msgstr "Lectura sola"
 
-#: ../mousepad/mousepad-window.c:2293
+#: ../mousepad/mousepad-window.c:2334
 msgid "Viewer Mode"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3326
+#: ../mousepad/mousepad-window.c:3367
 #, c-format
 msgid "Use '%s' as template"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3352
+#: ../mousepad/mousepad-window.c:3393
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3417
+#: ../mousepad/mousepad-window.c:3458
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -749,74 +750,74 @@ msgid ""
 msgstr ""
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3469
+#: ../mousepad/mousepad-window.c:3510
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Aut_re (%d)..."
 
-#: ../mousepad/mousepad-window.c:3479
+#: ../mousepad/mousepad-window.c:3520
 msgid "Ot_her..."
 msgstr "Aut_re..."
 
-#: ../mousepad/mousepad-window.c:3578
+#: ../mousepad/mousepad-window.c:3619
 msgid "Revert to the saved version of the file"
 msgstr "Tornar a la version enregistrada del fichièr"
 
-#: ../mousepad/mousepad-window.c:3584
+#: ../mousepad/mousepad-window.c:3625
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3590
+#: ../mousepad/mousepad-window.c:3631
 msgid "Leave fullscreen mode"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3595
+#: ../mousepad/mousepad-window.c:3636
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr ""
 
-#: ../mousepad/mousepad-window.c:3833
+#: ../mousepad/mousepad-window.c:3874
 #, c-format
 msgid "Open '%s'"
 msgstr "Dobrir « %s »"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "No items found"
 msgstr "Cap d'article pas trobat"
 
-#: ../mousepad/mousepad-window.c:3864
+#: ../mousepad/mousepad-window.c:3905
 msgid "History disabled"
 msgstr ""
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4339
+#: ../mousepad/mousepad-window.c:4380
 msgid "No clipboard data"
 msgstr "Pas de donada del quichapapièrs"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4448
+#: ../mousepad/mousepad-window.c:4489
 #, c-format
 msgid "Templates should be %s valid"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4454
+#: ../mousepad/mousepad-window.c:4495
 msgid "Reading the template failed"
 msgstr ""
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4459
+#: ../mousepad/mousepad-window.c:4500
 msgid "Loading the template failed"
 msgstr "Lo cargament del modèl a fracassat"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4896
+#: ../mousepad/mousepad-window.c:4937
 msgid "Failed to reload the document"
 msgstr "Impossible de recargar lo document"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4928
+#: ../mousepad/mousepad-window.c:4969
 msgid "Failed to print the document"
 msgstr "Impossible d'imprimir lo document"
 
