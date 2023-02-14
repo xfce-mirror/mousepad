@@ -5,7 +5,7 @@
 # Translators:
 # Andre Miranda <andre42m@gmail.com>, 2018-2020,2022
 # Andre Miranda <andre42m@gmail.com>, 2013-2014
-# C. E., 2020,2022
+# Giálisson Rocha, 2020,2022
 # Lucas Wilm <lucaswilm@gmail.com>, 2020-2021
 # Michael Martins <michaelfm21@gmail.com>, 2019-2022
 # The Cat, 2020-2021
