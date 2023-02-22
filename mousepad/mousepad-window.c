@@ -3027,15 +3027,18 @@ mousepad_window_externally_modified (MousepadFile   *file,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
+  /* disconnect this handler, the time we ask the user what to do or the file is loadable */
+  mousepad_disconnect_by_func (file, mousepad_window_externally_modified, window);
+
+  /* auto-reload the file if it's unmodified and in the active tab (active window or not) */
   modified = gtk_text_buffer_get_modified (document->buffer);
   if (! modified && document->file == file && MOUSEPAD_SETTING_GET_BOOLEAN (AUTO_RELOAD))
     {
+      g_signal_connect (file, "externally-modified",
+                        G_CALLBACK (mousepad_window_externally_modified), window);
       g_action_group_activate_action (G_ACTION_GROUP (window), "file.reload", NULL);
       return;
     }
-
-  /* disconnect this handler, the time we ask the user what to do or the file is active */
-  mousepad_disconnect_by_func (file, mousepad_window_externally_modified, window);
 
   /* the file is active */
   if (document->file == file && gtk_window_is_active (GTK_WINDOW (window)))
