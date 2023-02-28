@@ -678,9 +678,9 @@ mousepad_file_set_modified_unbuffered (MousepadFile *file)
   /* we can't tell the undo manager to undo an unbuffered modification, so we are obliged
    * to clear the undo action list, otherwise we could return to an unmodified state when
    * an unbuffered modification has not been saved */
-  gtk_source_buffer_begin_not_undoable_action (GTK_SOURCE_BUFFER (file->buffer));
+  gtk_text_buffer_begin_irreversible_action (file->buffer);
   gtk_text_buffer_set_modified (file->buffer, TRUE);
-  gtk_source_buffer_end_not_undoable_action (GTK_SOURCE_BUFFER (file->buffer));
+  gtk_text_buffer_end_irreversible_action (file->buffer);
 
   /* emulate a buffer change to update its modified state if needed */
   mousepad_file_buffer_changed (file);
