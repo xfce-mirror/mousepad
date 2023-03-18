@@ -4545,6 +4545,8 @@ mousepad_window_action_open (GSimpleAction *action,
   MousepadWindow   *window = data;
   MousepadEncoding  encoding;
   GSList           *files, *file;
+  GFile           **files_array;
+  gint              n, n_files;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -4558,11 +4560,17 @@ mousepad_window_action_open (GSimpleAction *action,
       /* lock menu updates */
       lock_menu_updates++;
 
-      /* open all the selected locations in new tabs */
-      for (file = files; file != NULL; file = file->next)
-        mousepad_window_open_file (window, file->data, encoding, 0, 0, TRUE);
+      /* prepare GFile array */
+      n_files = g_slist_length (files);
+      files_array = g_new (GFile *, n_files);
+      for (n = 0, file = files; file != NULL; n++, file = file->next)
+        files_array[n] = file->data;
+
+      /* open selected locations according to the application's opening mode */
+      g_signal_emit_by_name (g_application_get_default (), "open", files_array, n_files, NULL);
 
       /* cleanup */
+      g_free (files_array);
       g_slist_free_full (files, g_object_unref);
 
       /* allow menu updates again */

@@ -711,6 +711,14 @@ mousepad_application_set_accels (MousepadApplication *application)
 
 
 
+static void
+mousepad_application_opening_mode_changed (MousepadApplication *application)
+{
+  application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
+}
+
+
+
 static gint
 mousepad_application_sort_plugins (gconstpointer a,
                                    gconstpointer b)
@@ -867,6 +875,10 @@ mousepad_application_startup (GApplication *gapplication)
 
       g_settings_schema_unref (schema);
     }
+
+  /* keep opening mode in sync for the open dialog */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (OPENING_MODE, mousepad_application_opening_mode_changed,
+                                   application, G_CONNECT_SWAPPED);
 
   /* add application actions */
   g_action_map_add_action_entries (G_ACTION_MAP (application), stateless_actions,
@@ -1138,6 +1150,9 @@ mousepad_application_open (GApplication  *gapplication,
             gtk_widget_destroy (window);
         }
     }
+
+  /* restore opening mode from the settings if it was overridden from the command line */
+  application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
 }
 
 
