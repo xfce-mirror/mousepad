@@ -114,6 +114,9 @@ dnl *** Check for debugging support ***
 dnl ***********************************
 XDT_FEATURE_DEBUG([xdt_debug_default])
 
+dnl TODO: Fix deprecation warnings from GTK >= 4.10
+CFLAGS="$CFLAGS -Wno-deprecated-declarations"
+
 dnl **************************************
 dnl *** Check for linker optimizations ***
 dnl **************************************
