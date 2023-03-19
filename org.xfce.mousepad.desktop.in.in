@@ -9,7 +9,7 @@ Terminal=false
 StartupNotify=true
 Type=Application
 Categories=Utility;TextEditor;GTK;
-MimeType=text/plain;
+MimeType=text/plain;application/x-zerosize;
 Actions=preferences;
 
 [Desktop Action preferences]

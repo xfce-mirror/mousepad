@@ -1109,6 +1109,7 @@ mousepad_dialogs_add_file_filter (GtkFileChooser *dialog)
   /* file filter on mime type */
   filter = gtk_file_filter_new ();
   gtk_file_filter_add_mime_type (filter, "text/plain");
+  gtk_file_filter_add_mime_type (filter, "application/x-zerosize");
   gtk_file_filter_set_name (filter, _("Text Files"));
   gtk_file_chooser_add_filter (dialog, filter);
 
