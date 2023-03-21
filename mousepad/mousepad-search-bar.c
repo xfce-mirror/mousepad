@@ -28,6 +28,7 @@ static void      mousepad_search_bar_finalize                   (GObject        
 static void      mousepad_search_bar_find_string                (MousepadSearchBar       *bar,
                                                                  MousepadSearchFlags      flags);
 static void      mousepad_search_bar_search_completed           (MousepadSearchBar       *bar,
+                                                                 gint                     cur_match,
                                                                  gint                     n_matches,
                                                                  const gchar             *search_string,
                                                                  MousepadSearchFlags      flags);
@@ -436,6 +437,7 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
 
 static void
 mousepad_search_bar_search_completed (MousepadSearchBar   *bar,
+                                      gint                 cur_match,
                                       gint                 n_matches,
                                       const gchar         *search_string,
                                       MousepadSearchFlags  flags)
@@ -462,8 +464,12 @@ mousepad_search_bar_search_completed (MousepadSearchBar   *bar,
       mousepad_util_entry_error (bar->entry, n_matches == 0);
 
       /* update counter */
-      message = g_strdup_printf (ngettext ("%d occurrence", "%d occurrences", n_matches),
-                                 n_matches);
+      if (cur_match != 0)
+        message = g_strdup_printf (ngettext ("%d of %d match", "%d of %d matches", n_matches),
+                                   cur_match, n_matches);
+      else
+        message = g_strdup_printf (ngettext ("%d match", "%d matches", n_matches),
+                                   n_matches);
       gtk_label_set_markup (GTK_LABEL (bar->hits_label), message);
       g_free (message);
     }
