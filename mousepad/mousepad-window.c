@@ -218,6 +218,7 @@ static void              mousepad_window_search                       (MousepadW
                                                                        const gchar            *string,
                                                                        const gchar            *replacement);
 static void              mousepad_window_search_completed             (MousepadDocument       *document,
+                                                                       gint                    cur_match_doc,
                                                                        gint                    n_matches_doc,
                                                                        const gchar            *string,
                                                                        MousepadSearchFlags     flags,
@@ -633,8 +634,8 @@ mousepad_window_class_init (MousepadWindowClass *klass)
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   0, NULL, NULL,
-                  _mousepad_marshal_VOID__INT_STRING_FLAGS,
-                  G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_STRING,
+                  _mousepad_marshal_VOID__INT_INT_STRING_FLAGS,
+                  G_TYPE_NONE, 4, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING,
                   MOUSEPAD_TYPE_SEARCH_FLAGS);
 
   g_object_class_install_property (gobject_class, PROP_SEARCH_WIDGET_VISIBLE,
@@ -4082,6 +4083,7 @@ mousepad_window_search (MousepadWindow      *window,
 
 static void
 mousepad_window_search_completed (MousepadDocument    *document,
+                                  gint                 cur_match_doc,
                                   gint                 n_matches_doc,
                                   const gchar         *string,
                                   MousepadSearchFlags  flags,
@@ -4096,8 +4098,8 @@ mousepad_window_search_completed (MousepadDocument    *document,
   /* always send the active document result, although it will only be relevant for the
    * search bar if the multi-document mode is active */
   if (document == window->active)
-    g_signal_emit (window, window_signals[SEARCH_COMPLETED], 0, n_matches_doc, string,
-                   flags & (~ MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS));
+    g_signal_emit (window, window_signals[SEARCH_COMPLETED], 0, cur_match_doc, n_matches_doc,
+                   string, flags & (~ MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS));
 
   /* multi-document mode is active: collect the search results regardless of their origin:
    * replace dialog, search bar or buffer change */
@@ -4178,7 +4180,7 @@ mousepad_window_search_completed (MousepadDocument    *document,
         return;
 
       /* send the final result, only relevant for the replace dialog */
-      g_signal_emit (window, window_signals[SEARCH_COMPLETED], 0, n_matches, string,
+      g_signal_emit (window, window_signals[SEARCH_COMPLETED], 0, 0, n_matches, string,
                      flags | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
     }
 
