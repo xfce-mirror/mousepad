@@ -681,13 +681,13 @@ mousepad_document_search_completed_idle (gpointer data)
            && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
     gtk_text_buffer_place_cursor (document->buffer, &iter);
 
-  document->priv->search_id = 0;
-
   /* force the signal emission, to cover cases where Mousepad search settings change without
    * changing GtkSourceView settings (e.g. when switching between single-document mode and
-   * multi-document mode), or if search index changed */
+   * multi-document mode, or if search index changed) */
   if (gtk_source_search_context_get_occurrences_count (search_context) != -1)
     g_object_notify (G_OBJECT (search_context), "occurrences-count");
+
+  document->priv->search_id = 0;
 
   return FALSE;
 }
