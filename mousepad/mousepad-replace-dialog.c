@@ -28,6 +28,7 @@ static void              mousepad_replace_dialog_finalize               (GObject
 static void              mousepad_replace_dialog_response               (GtkWidget             *widget,
                                                                          gint                   response_id);
 static void              mousepad_replace_dialog_search_completed       (MousepadReplaceDialog *dialog,
+                                                                         gint                   cur_match,
                                                                          gint                   n_matches,
                                                                          const gchar           *search_string,
                                                                          MousepadSearchFlags    flags);
@@ -225,7 +226,7 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
   /* give the dialog its definite size by setting a fake occurrences label */
   gtk_entry_grab_focus_without_selecting (GTK_ENTRY (dialog->search_entry));
   gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), "fake-text");
-  mousepad_replace_dialog_search_completed (dialog, 99999, "fake-text",
+  mousepad_replace_dialog_search_completed (dialog, 99999, 99999, "fake-text",
                                             MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
                                             | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
 
@@ -573,6 +574,7 @@ mousepad_replace_dialog_response (GtkWidget *widget,
 
 static void
 mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
+                                          gint                   cur_match,
                                           gint                   n_matches,
                                           const gchar           *search_string,
                                           MousepadSearchFlags    flags)
@@ -608,8 +610,12 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
       mousepad_util_entry_error (dialog->search_entry, n_matches == 0);
 
       /* update counter */
-      message = g_strdup_printf (ngettext ("%d occurrence", "%d occurrences", n_matches),
-                                 n_matches);
+      if (cur_match != 0)
+        message = g_strdup_printf (ngettext ("%d of %d match", "%d of %d matches", n_matches),
+                                   cur_match, n_matches);
+      else
+        message = g_strdup_printf (ngettext ("%d match", "%d matches", n_matches),
+                                   n_matches);
       gtk_label_set_markup (GTK_LABEL (dialog->hits_label), message);
       g_free (message);
     }

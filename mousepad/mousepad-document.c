@@ -86,6 +86,7 @@ struct _MousepadDocumentPrivate
   GtkSourceBuffer        *selection_buffer;
   gint                    prev_search_state;
   guint                   search_id;
+  gint                    cur_match;
 };
 
 
@@ -138,8 +139,8 @@ mousepad_document_class_init (MousepadDocumentClass *klass)
 
   document_signals[SEARCH_COMPLETED] =
     g_signal_new (I_("search-completed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, _mousepad_marshal_VOID__INT_STRING_FLAGS,
-                  G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_STRING, MOUSEPAD_TYPE_SEARCH_FLAGS);
+                  0, NULL, NULL, _mousepad_marshal_VOID__INT_INT_STRING_FLAGS,
+                  G_TYPE_NONE, 4, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING, MOUSEPAD_TYPE_SEARCH_FLAGS);
 }
 
 
@@ -226,6 +227,7 @@ mousepad_document_init (MousepadDocument *document)
   document->priv->search_context = gtk_source_search_context_new (
                                      GTK_SOURCE_BUFFER (document->buffer), NULL);
   document->priv->search_id = 0;
+  document->priv->cur_match = 0;
 
   /* bind search settings to Mousepad settings, except "regex-enabled" to prevent prohibitive
    * computation times in some situations (see
@@ -323,6 +325,13 @@ mousepad_document_notify_cursor_position (MousepadDocument *document)
 
   /* get length of the selection */
   selection = mousepad_view_get_selection_length (document->textview);
+
+  /* clear search index if set */
+  if (document->priv->cur_match != 0)
+    {
+      document->priv->cur_match = 0;
+      g_object_notify (G_OBJECT (document->priv->search_context), "occurrences-count");
+    }
 
   /* emit the signal */
   g_signal_emit (document, document_signals[CURSOR_CHANGED], 0, line, column, selection);
@@ -624,7 +633,11 @@ mousepad_document_search_completed_idle (gpointer data)
   /* handle the action */
   if (found && (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT)
       && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
-    gtk_text_buffer_select_range (document->buffer, start, end);
+    {
+      gtk_text_buffer_select_range (document->buffer, start, end);
+      document->priv->cur_match =
+        gtk_source_search_context_get_occurrence_position (search_context, start, end);
+    }
   else if (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE)
     {
       if (found && ! (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA))
@@ -667,6 +680,12 @@ mousepad_document_search_completed_idle (gpointer data)
   else if (! (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE)
            && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
     gtk_text_buffer_place_cursor (document->buffer, &iter);
+
+  /* force the signal emission, to cover cases where Mousepad search settings change without
+   * changing GtkSourceView settings (e.g. when switching between single-document mode and
+   * multi-document mode, or if search index changed) */
+  if (gtk_source_search_context_get_occurrences_count (search_context) != -1)
+    g_object_notify (G_OBJECT (search_context), "occurrences-count");
 
   document->priv->search_id = 0;
 
@@ -738,12 +757,6 @@ mousepad_document_search_completed (GObject      *object,
       g_warning ("%s", error->message);
       g_error_free (error);
     }
-
-  /* force the signal emission, to cover cases where Mousepad search settings change without
-   * changing GtkSourceView settings (e.g. when switching between single-document mode and
-   * multi-document mode) */
-  if (gtk_source_search_context_get_occurrences_count (search_context) != -1)
-    g_object_notify (G_OBJECT (search_context), "occurrences-count");
 
   /* now we need first to exit this async task callback to prevent any warning,
    * but we launch the rest as soon as possible to preserve real-time behavior */
@@ -890,7 +903,8 @@ mousepad_document_emit_search_signal (MousepadDocument       *document,
   string = gtk_source_search_settings_get_search_text (search_settings);
 
   /* emit the signal */
-  g_signal_emit (document, document_signals[SEARCH_COMPLETED], 0, n_matches, string, flags);
+  g_signal_emit (document, document_signals[SEARCH_COMPLETED], 0, document->priv->cur_match,
+                 n_matches, string, flags);
 }
 
 
