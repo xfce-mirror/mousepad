@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-28 15:01+0100\n"
+"POT-Creation-Date: 2023-03-23 00:47+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Arnold Marko <arnold.marko@gmail.com>, 2019-2021,2023\n"
 "Language-Team: Slovenian (http://www.transifex.com/xfce/xfce-apps/language/sl/)\n"
@@ -20,86 +20,86 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ../mousepad/mousepad-application.c:141
+#: ../mousepad/mousepad-application.c:136
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
 msgstr "Uporaba kodiranja za odpiranje datotek (pustite prazno za odpiranje datotek v kodirnem dialogu)"
 
-#: ../mousepad/mousepad-application.c:142
+#: ../mousepad/mousepad-application.c:137
 msgid "ENCODING"
 msgstr "KODIRANJE"
 
-#: ../mousepad/mousepad-application.c:147
+#: ../mousepad/mousepad-application.c:142
 msgid "Display a list of possible encodings to open files"
 msgstr "Prikaz seznama možnih kodiranj za odpiranje datotek"
 
-#: ../mousepad/mousepad-application.c:152
+#: ../mousepad/mousepad-application.c:147
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
 msgstr "Določi številko vrstice kurozrja na (LINE > 0 od vrha, LINE < 0 od dna)"
 
-#: ../mousepad/mousepad-application.c:153
+#: ../mousepad/mousepad-application.c:148
 msgid "LINE"
 msgstr "VRSTICA"
 
-#: ../mousepad/mousepad-application.c:158
+#: ../mousepad/mousepad-application.c:153
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
 msgstr "Določi številko stolpca kurzorja na (COLUMN >= 0 od začetka, COLUMN < 0 od konca)"
 
-#: ../mousepad/mousepad-application.c:159
+#: ../mousepad/mousepad-application.c:154
 msgid "COLUMN"
 msgstr "STOLPEC"
 
-#: ../mousepad/mousepad-application.c:164
+#: ../mousepad/mousepad-application.c:159
 msgid "Open the preferences dialog"
 msgstr "Odpri nastavitveno pogovorno okno"
 
-#: ../mousepad/mousepad-application.c:169
+#: ../mousepad/mousepad-application.c:164
 msgid "Do not register with the D-BUS session message bus"
 msgstr "Ne registriraj se s D-BUS vodilom za sporočila seje"
 
-#: ../mousepad/mousepad-application.c:174
+#: ../mousepad/mousepad-application.c:169
 msgid "Quit a running Mousepad primary instance"
 msgstr "Zapri zagnano primarno Mousepad instanco"
 
-#: ../mousepad/mousepad-application.c:179
+#: ../mousepad/mousepad-application.c:174
 msgid "Print version information and exit"
 msgstr "Izpiši informacije o različici in končaj"
 
-#: ../mousepad/mousepad-application.c:184
+#: ../mousepad/mousepad-application.c:179
 msgid "[FILES...]"
 msgstr "[DATOTEKE...]"
 
 #. default application name
-#: ../mousepad/mousepad-application.c:387
+#: ../mousepad/mousepad-application.c:382
 #: ../org.xfce.mousepad.desktop.in.in.h:1
 #: ../org.xfce.mousepad.appdata.xml.in.h:1
 msgid "Mousepad"
 msgstr "Mousepad"
 
-#: ../mousepad/mousepad-application.c:396
+#: ../mousepad/mousepad-application.c:391
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Način odpiranja datotek: \"%s\",  \"%s\" ali \"%s\" (zavihke odpre v novem oknu)"
 
-#: ../mousepad/mousepad-application.c:399
+#: ../mousepad/mousepad-application.c:394
 msgid "MODE"
 msgstr "NAČIN"
 
-#: ../mousepad/mousepad-application.c:457
+#: ../mousepad/mousepad-application.c:452
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Razvijalci Mousepad. Vse pravice pridržane."
 
-#: ../mousepad/mousepad-application.c:458
+#: ../mousepad/mousepad-application.c:453
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Prijavite hrošče na <%s>."
 
-#: ../mousepad/mousepad-application.c:1524
+#: ../mousepad/mousepad-application.c:1534
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Avtorji: %s | Ime datoteke: %s"
@@ -268,31 +268,31 @@ msgstr "Tenutno"
 msgid "Show all encodings"
 msgstr "Prikaži vsa kodiranja"
 
-#: ../mousepad/mousepad-dialogs.c:1112
+#: ../mousepad/mousepad-dialogs.c:1113
 msgid "Text Files"
 msgstr "Datoteka z besedillom"
 
-#: ../mousepad/mousepad-dialogs.c:1118
+#: ../mousepad/mousepad-dialogs.c:1119
 msgid "All Files"
 msgstr "Vse datoteke"
 
 #. create the dialog
-#: ../mousepad/mousepad-dialogs.c:1137
+#: ../mousepad/mousepad-dialogs.c:1138
 msgid "Save As"
 msgstr "Shrani kot"
 
 #. create new file chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1200
+#: ../mousepad/mousepad-dialogs.c:1201
 msgid "Open File"
 msgstr "Odpri datoteko"
 
 #. add button
-#: ../mousepad/mousepad-dialogs.c:1208
+#: ../mousepad/mousepad-dialogs.c:1209
 msgid "_Open"
 msgstr "_Odpri"
 
 #. create new font chooser dialog
-#: ../mousepad/mousepad-dialogs.c:1262
+#: ../mousepad/mousepad-dialogs.c:1263
 msgid "Choose Mousepad Font"
 msgstr "Izberi pisavo za Mousepad"
 
@@ -337,57 +337,57 @@ msgid "Re_load"
 msgstr "Ponovno na_loži"
 
 #. pack button, add signal and tooltip
-#: ../mousepad/mousepad-document.c:572
+#: ../mousepad/mousepad-document.c:556
 msgid "Close this tab"
 msgstr "Zapri ta zavihek"
 
 #. create an unique untitled document name
-#: ../mousepad/mousepad-document.c:602
+#: ../mousepad/mousepad-document.c:586
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: ../mousepad/mousepad-encoding-dialog.c:163
+#: ../mousepad/mousepad-encoding-dialog.c:158
 msgid "Other:"
 msgstr "Drugo:"
 
-#: ../mousepad/mousepad-encoding-dialog.c:188
+#: ../mousepad/mousepad-encoding-dialog.c:183
 msgid "Checking encodings..."
 msgstr "Preverjanje kodiranja..."
 
-#: ../mousepad/mousepad-encoding-dialog.c:292
+#: ../mousepad/mousepad-encoding-dialog.c:287
 #, c-format
 msgid "%s (%s, failed)"
 msgstr "%s (%s, neuspelo)"
 
-#: ../mousepad/mousepad-encoding-dialog.c:294
-#: ../mousepad/mousepad-encoding-dialog.c:349
+#: ../mousepad/mousepad-encoding-dialog.c:289
+#: ../mousepad/mousepad-encoding-dialog.c:344
 #, c-format
 msgid "%s (%s, partial)"
 msgstr "%s (%s, delno)"
 
-#: ../mousepad/mousepad-encoding-dialog.c:423
+#: ../mousepad/mousepad-encoding-dialog.c:418
 msgid "Other (partial):"
 msgstr "Drugo (delno):"
 
-#: ../mousepad/mousepad-encoding-dialog.c:434
+#: ../mousepad/mousepad-encoding-dialog.c:429
 msgid "Other valid encodings were found, please choose below."
 msgstr "Najdeni so bili drugi ustrezni kodni zapisi. Izberite med spodnjimi."
 
-#: ../mousepad/mousepad-encoding-dialog.c:436
+#: ../mousepad/mousepad-encoding-dialog.c:431
 msgid "Other partially valid encodings were found, please choose below."
 msgstr "Najdeni so bili drugi delno ustrezni kodni zapisi. Izberite med spodnjimi."
 
-#: ../mousepad/mousepad-encoding-dialog.c:472
+#: ../mousepad/mousepad-encoding-dialog.c:467
 msgid "No other valid encoding was found."
 msgstr "Noben drug ustrezen kodni zapis ni bil najden."
 
 #. dialog title
-#: ../mousepad/mousepad-encoding-dialog.c:679
+#: ../mousepad/mousepad-encoding-dialog.c:674
 #, c-format
 msgid "The document is %s valid."
 msgstr "Dokument  ustreza%s."
 
-#: ../mousepad/mousepad-encoding-dialog.c:680
+#: ../mousepad/mousepad-encoding-dialog.c:675
 #, c-format
 msgid "The document is not %s valid."
 msgstr "Dokument ne ustreza %s."
@@ -523,7 +523,7 @@ msgstr "Sistem"
 msgid "History"
 msgstr "Zgodovina"
 
-#: ../mousepad/mousepad-file.c:821
+#: ../mousepad/mousepad-file.c:962
 #, c-format
 msgid "Invalid byte sequence in conversion input"
 msgstr "Neveljavno zaporedje bajtov na vhodu pretvorbe"
@@ -533,217 +533,228 @@ msgid "Failed to clear the recent history"
 msgstr "Čiščenje nedavne zgodovine ni uspelo"
 
 #. setup the window properties
-#: ../mousepad/mousepad-prefs-dialog.c:644
+#: ../mousepad/mousepad-prefs-dialog.c:640
 #: ../org.xfce.mousepad.desktop.in.in.h:4
 msgid "Mousepad Preferences"
 msgstr "Nastavitve za Mousepad"
 
 #. set a custom tab label
-#: ../mousepad/mousepad-print.c:117
+#: ../mousepad/mousepad-print.c:108
 msgid "Document Settings"
 msgstr "Nastavitve dokumenta"
 
-#: ../mousepad/mousepad-print.c:570
+#: ../mousepad/mousepad-print.c:561
 msgid "Appearance"
 msgstr "Videz"
 
-#: ../mousepad/mousepad-print.c:585
+#: ../mousepad/mousepad-print.c:576
 msgid "Print page _headers"
 msgstr "Izpiši _glave strani"
 
-#: ../mousepad/mousepad-print.c:593
+#: ../mousepad/mousepad-print.c:584
 msgid "Print _line numbers"
 msgstr "Izpiši številke _vrstic"
 
-#: ../mousepad/mousepad-print.c:610
+#: ../mousepad/mousepad-print.c:601
 msgid "Numbering interval:"
 msgstr "Interval številčenja:"
 
-#: ../mousepad/mousepad-print.c:619
+#: ../mousepad/mousepad-print.c:610
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
 msgstr "Interval pri katerem naj se izpišejo številke vrstic. Na primer pri vrednosti 1 se bodo izpisale številke vsake vrstice, pri vrednosti 2 se bodo izpisale številke vsake druge vrstice, in tako dalje."
 
-#: ../mousepad/mousepad-print.c:631
+#: ../mousepad/mousepad-print.c:622
 msgid "Enable text _wrapping"
 msgstr "Omogoči _ovijanje besedila"
 
-#: ../mousepad/mousepad-print.c:640
+#: ../mousepad/mousepad-print.c:631
 msgid "Enable _syntax highlighting"
 msgstr "Omogoči označevanje _sintakse"
 
-#: ../mousepad/mousepad-print.c:652
+#: ../mousepad/mousepad-print.c:643
 msgid "Fonts"
 msgstr "Pisave"
 
-#: ../mousepad/mousepad-print.c:668
+#: ../mousepad/mousepad-print.c:659
 msgid "Header:"
 msgstr "Glava:"
 
-#: ../mousepad/mousepad-print.c:682
+#: ../mousepad/mousepad-print.c:673
 msgid "Body:"
 msgstr "Telo:"
 
-#: ../mousepad/mousepad-print.c:696
+#: ../mousepad/mousepad-print.c:687
 msgid "Line numbers:"
 msgstr "Številke vrstic:"
 
-#: ../mousepad/mousepad-replace-dialog.c:169
+#: ../mousepad/mousepad-replace-dialog.c:165
 msgid "_Replace All"
 msgstr "_Zamenjaj vse"
 
-#: ../mousepad/mousepad-replace-dialog.c:169
-#: ../mousepad/mousepad-replace-dialog.c:269
+#: ../mousepad/mousepad-replace-dialog.c:165
+#: ../mousepad/mousepad-replace-dialog.c:265
 msgid "_Replace"
 msgstr "_Zamenjaj"
 
 #. set dialog properties
-#: ../mousepad/mousepad-replace-dialog.c:258
+#: ../mousepad/mousepad-replace-dialog.c:254
 msgid "Find and Replace"
 msgstr "Najdi in zamenjaj"
 
 #. dialog buttons
-#: ../mousepad/mousepad-replace-dialog.c:264
+#: ../mousepad/mousepad-replace-dialog.c:260
 #: ../mousepad/resources/gtk/menus-common.ui.h:27
 msgid "_Find"
 msgstr "Na_jdi"
 
-#: ../mousepad/mousepad-replace-dialog.c:273
+#: ../mousepad/mousepad-replace-dialog.c:269
 msgid "_Close"
 msgstr "_Zapri"
 
-#: ../mousepad/mousepad-replace-dialog.c:291
+#: ../mousepad/mousepad-replace-dialog.c:287
 msgid "_Search for:"
 msgstr "_Išči po:"
 
-#: ../mousepad/mousepad-replace-dialog.c:325
+#: ../mousepad/mousepad-replace-dialog.c:321
 msgid "Replace _with:"
 msgstr "_Zamenjaj z:"
 
-#: ../mousepad/mousepad-replace-dialog.c:347
+#: ../mousepad/mousepad-replace-dialog.c:343
 msgid "Search _direction:"
 msgstr "_Smer iskanje:"
 
-#: ../mousepad/mousepad-replace-dialog.c:356
+#: ../mousepad/mousepad-replace-dialog.c:352
 msgid "Up"
 msgstr "Gor"
 
-#: ../mousepad/mousepad-replace-dialog.c:357
+#: ../mousepad/mousepad-replace-dialog.c:353
 msgid "Down"
 msgstr "Dol"
 
 #. wrap around
-#: ../mousepad/mousepad-replace-dialog.c:366
+#: ../mousepad/mousepad-replace-dialog.c:362
 msgid "_Wrap around"
 msgstr "Prelomi vrstice"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:373
-#: ../mousepad/mousepad-search-bar.c:288 ../mousepad/mousepad-search-bar.c:296
+#: ../mousepad/mousepad-replace-dialog.c:369
+#: ../mousepad/mousepad-search-bar.c:284 ../mousepad/mousepad-search-bar.c:292
 msgid "Match _case"
 msgstr "Upoštevaj velikost _črk"
 
 #. match whole word
-#: ../mousepad/mousepad-replace-dialog.c:382
+#. check button for matching whole words, including the proxy menu item
+#: ../mousepad/mousepad-replace-dialog.c:378
+#: ../mousepad/mousepad-search-bar.c:298 ../mousepad/mousepad-search-bar.c:306
 msgid "_Match whole word"
 msgstr "Upoštevaj celo _besedo"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
-#: ../mousepad/mousepad-replace-dialog.c:391
-#: ../mousepad/mousepad-search-bar.c:302 ../mousepad/mousepad-search-bar.c:310
+#: ../mousepad/mousepad-replace-dialog.c:387
+#: ../mousepad/mousepad-search-bar.c:312 ../mousepad/mousepad-search-bar.c:320
 msgid "Regular e_xpression"
 msgstr "Regularen izra_z"
 
-#: ../mousepad/mousepad-replace-dialog.c:405
+#: ../mousepad/mousepad-replace-dialog.c:401
 msgid "Replace _all in:"
 msgstr "Z_amenjaj vse v:"
 
-#: ../mousepad/mousepad-replace-dialog.c:410
+#: ../mousepad/mousepad-replace-dialog.c:406
 msgid "Selection"
 msgstr "Izbor"
 
-#: ../mousepad/mousepad-replace-dialog.c:411
+#: ../mousepad/mousepad-replace-dialog.c:407
 msgid "Document"
 msgstr "Dokument"
 
-#: ../mousepad/mousepad-replace-dialog.c:412
+#: ../mousepad/mousepad-replace-dialog.c:408
 msgid "All Documents"
 msgstr "Vsi dokumenti"
 
-#. update counter
-#: ../mousepad/mousepad-replace-dialog.c:616
-#: ../mousepad/mousepad-search-bar.c:456
+#: ../mousepad/mousepad-replace-dialog.c:614
+#: ../mousepad/mousepad-search-bar.c:468
 #, c-format
-msgid "%d occurrence"
-msgid_plural "%d occurrences"
-msgstr[0] "se pojavi %d krat"
-msgstr[1] "se pojavi %d krat"
-msgstr[2] "se pojavi %d krat"
-msgstr[3] "se pojavi %d krat"
+msgid "%d of %d match"
+msgid_plural "%d of %d matches"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: ../mousepad/mousepad-statusbar.c:126
+#: ../mousepad/mousepad-replace-dialog.c:617
+#: ../mousepad/mousepad-search-bar.c:471
+#, c-format
+msgid "%d match"
+msgid_plural "%d matches"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: ../mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
 msgstr "Izberi vrsto datoteke"
 
 #. language/filetype
-#: ../mousepad/mousepad-statusbar.c:132 ../mousepad/mousepad-statusbar.c:280
+#: ../mousepad/mousepad-statusbar.c:127 ../mousepad/mousepad-statusbar.c:275
 msgid "Filetype: None"
 msgstr "Vrsta datoteke: brez"
 
-#: ../mousepad/mousepad-statusbar.c:165
+#: ../mousepad/mousepad-statusbar.c:160
 msgid "Toggle the overwrite mode"
 msgstr "Preklopi prepisovalni način"
 
 #. overwrite label
-#: ../mousepad/mousepad-statusbar.c:171
+#: ../mousepad/mousepad-statusbar.c:166
 msgid "OVR"
 msgstr "OVR"
 
-#: ../mousepad/mousepad-statusbar.c:246
+#: ../mousepad/mousepad-statusbar.c:241
 #, c-format
 msgid "Line: %d Column: %d Selection: %d"
 msgstr "Vrstica: %d Stolpec: %d Izbira: %d"
 
-#: ../mousepad/mousepad-statusbar.c:249
+#: ../mousepad/mousepad-statusbar.c:244
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Vrstica: %d Stolpec: %d"
 
-#: ../mousepad/mousepad-statusbar.c:283
+#: ../mousepad/mousepad-statusbar.c:278
 #, c-format
 msgid "Filetype: %s"
 msgstr "Vrsta datoteke: %s"
 
 #. add the label with the root warning
-#: ../mousepad/mousepad-window.c:1076
+#: ../mousepad/mousepad-window.c:1072
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Opozorilo: uporabljate korenski root račun. S tem lahko poškudujete sistem."
 
-#: ../mousepad/mousepad-window.c:2330
+#: ../mousepad/mousepad-window.c:2327
 msgid "Read Only"
 msgstr "Samo za branje"
 
-#: ../mousepad/mousepad-window.c:2334
+#: ../mousepad/mousepad-window.c:2331
 msgid "Viewer Mode"
 msgstr "Način prikazovalnika"
 
-#: ../mousepad/mousepad-window.c:3367
+#: ../mousepad/mousepad-window.c:3389
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Uporabi '%s' kot predlogo"
 
-#: ../mousepad/mousepad-window.c:3393
+#: ../mousepad/mousepad-window.c:3415
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Ni najdenih predlog v:\n'%s'"
 
-#: ../mousepad/mousepad-window.c:3458
+#: ../mousepad/mousepad-window.c:3480
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -751,74 +762,74 @@ msgid ""
 msgstr "Manjka mapa Predloge\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: ../mousepad/mousepad-window.c:3510
+#: ../mousepad/mousepad-window.c:3532
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Os_talo (%d)..."
 
-#: ../mousepad/mousepad-window.c:3520
+#: ../mousepad/mousepad-window.c:3542
 msgid "Ot_her..."
 msgstr "Os_talo..."
 
-#: ../mousepad/mousepad-window.c:3619
+#: ../mousepad/mousepad-window.c:3641
 msgid "Revert to the saved version of the file"
 msgstr "Povrni na shranjeno različico datoteke"
 
-#: ../mousepad/mousepad-window.c:3625
+#: ../mousepad/mousepad-window.c:3647
 #: ../mousepad/resources/gtk/menus-common.ui.h:10
 msgid "Reload file from disk"
 msgstr "Ponovno naloži datoteko z diska"
 
-#: ../mousepad/mousepad-window.c:3631
+#: ../mousepad/mousepad-window.c:3653
 msgid "Leave fullscreen mode"
 msgstr "Zapusti celozaslonski način"
 
-#: ../mousepad/mousepad-window.c:3636
+#: ../mousepad/mousepad-window.c:3658
 #: ../mousepad/resources/gtk/menus-common.ui.h:34
 msgid "Make the window fullscreen"
 msgstr "Razširi okno čez celoten zaslon"
 
-#: ../mousepad/mousepad-window.c:3874
+#: ../mousepad/mousepad-window.c:3896
 #, c-format
 msgid "Open '%s'"
 msgstr "Odpri '%s'"
 
-#: ../mousepad/mousepad-window.c:3905
+#: ../mousepad/mousepad-window.c:3927
 msgid "No items found"
 msgstr "Ni najdenih predmetov"
 
-#: ../mousepad/mousepad-window.c:3905
+#: ../mousepad/mousepad-window.c:3927
 msgid "History disabled"
 msgstr "Zgodovina je izklopljena"
 
 #. create an item to inform the user
-#: ../mousepad/mousepad-window.c:4380
+#: ../mousepad/mousepad-window.c:4403
 msgid "No clipboard data"
 msgstr "Na odložišču ni podatkov"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4489
+#: ../mousepad/mousepad-window.c:4512
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Predloge naj ustrezajo %s"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4495
+#: ../mousepad/mousepad-window.c:4518
 msgid "Reading the template failed"
 msgstr "Branje datotek s predlogo"
 
 #. set error message
-#: ../mousepad/mousepad-window.c:4500
+#: ../mousepad/mousepad-window.c:4523
 msgid "Loading the template failed"
 msgstr "Nalaganje predloge ni uspelo"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4937
+#: ../mousepad/mousepad-window.c:4968
 msgid "Failed to reload the document"
 msgstr "Ponovno nalaganje dokumenta ni uspelo"
 
 #. show the error
-#: ../mousepad/mousepad-window.c:4969
+#: ../mousepad/mousepad-window.c:5003
 msgid "Failed to print the document"
 msgstr "Tiskanje dokumenta ni uspelo"
 
@@ -975,7 +986,7 @@ msgid "Color scheme to use for the text view"
 msgstr "Barvna shema za prikazovanje besedil"
 
 #: ../mousepad/resources/gtk/menus.ui.h:39
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:12
 msgid "None"
 msgstr "brez"
 
@@ -1469,104 +1480,104 @@ msgstr "Zmanjšaj zamik trenutnega izbora ali vrstice"
 msgid "label-to-be-filled-in"
 msgstr "oznaka-za-izpolnjevanje"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:1
 msgid "Insert Tabs"
 msgstr "vstavi tabulatorje"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:2
 msgid "Insert Spaces"
 msgstr "vstavi presledke"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:3
 msgid "Never"
 msgstr "Nikoli"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:4
 msgid "First key press"
 msgstr "Prva prtiisnjena tipka"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:5
 msgid "Second key press"
 msgstr "Druga pritisnjena tipka"
 
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:6
 msgid "Always"
 msgstr "vedno"
 
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:7
+msgid "never"
+msgstr "nikoli"
+
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:8
-msgid "Icons Only"
-msgstr "zgolj ikone"
+msgid "after a crash"
+msgstr "po sesutju"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:9
-msgid "Text Only"
-msgstr "zgolj besedilo"
+msgid "unsaved documents"
+msgstr "neshranjeni dokumenti"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:10
-msgid "Text Below Icons"
-msgstr "besedilo pod ikonami"
+msgid "saved documents"
+msgstr "shranjeni dokumenti"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:11
-msgid "Text Beside Icons"
-msgstr "besedilo poleg ikon"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:12
-msgid "Menu"
-msgstr "meni"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:13
-msgid "Small Toolbar"
-msgstr "majhna orodna vrstica"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
-msgid "Large Toolbar"
-msgstr "velika orodna vrstica"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:15
-msgid "Button"
-msgstr "gumb"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:16
-msgid "Drag & Drop"
-msgstr "povleci in spusti"
-
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:17
-msgid "Dialog"
-msgstr "pogovorno okno"
+msgid "always"
+msgstr "vedno"
 
 #. Preceded by: "Open files in:"
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:14
 msgid "new tabs"
 msgstr "novi zavihki"
 
 #. Preceded by: "Open files in:"
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:21
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:16
 msgid "new windows"
 msgstr "nova okna"
 
 #. Preceded by: "Open files in:"
-#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:23
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:18
 msgid "new tabs in a new window"
 msgstr "novi zavihki v novem oknu"
 
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:19
+msgid "Menu"
+msgstr "meni"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:20
+msgid "Small Toolbar"
+msgstr "majhna orodna vrstica"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:21
+msgid "Large Toolbar"
+msgstr "velika orodna vrstica"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:22
+msgid "Button"
+msgstr "gumb"
+
+#: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:23
+msgid "Drag & Drop"
+msgstr "povleci in spusti"
+
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:24
-msgid "never"
-msgstr "nikoli"
+msgid "Dialog"
+msgstr "pogovorno okno"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:25
-msgid "after a crash"
-msgstr "po sesutju"
+msgid "Icons Only"
+msgstr "zgolj ikone"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:26
-msgid "unsaved documents"
-msgstr "neshranjeni dokumenti"
+msgid "Text Only"
+msgstr "zgolj besedilo"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:27
-msgid "saved documents"
-msgstr "shranjeni dokumenti"
+msgid "Text Below Icons"
+msgstr "besedilo pod ikonami"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:28
-msgid "always"
-msgstr "vedno"
+msgid "Text Beside Icons"
+msgstr "besedilo poleg ikon"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:30
 msgid "Display whitespace"
@@ -1791,7 +1802,7 @@ msgid ""
 msgstr "Privzeti jezik novih dokumentov nastavite tukaj. Kasneje ga je moč spremeniti za vsak dokument posebej prek kontekstnega menija, kjer se nahajajo tudi predlogi popravkov črkovanja za podčrtane besede."
 
 #. combo box label
-#: ../plugins/gspell-plugin/gspell-plugin.c:162
+#: ../plugins/gspell-plugin/gspell-plugin.c:156
 msgid "Default language:"
 msgstr "Privzeti jezik:"
 
@@ -1810,28 +1821,28 @@ msgid "Application"
 msgstr "Program"
 
 #. pack frames
-#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:259
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:253
 msgid "Menubar"
 msgstr "Menijska vrstica"
 
-#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:260
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:254
 msgid "Preferences Dialog"
 msgstr "Pogovorno okno Nastavitve"
 
-#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:261
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:255
 msgid "Miscellaneous"
 msgstr "Razno"
 
-#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:589
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:583
 msgid "Mousepad Shortcuts"
 msgstr "Bližnjice na miškini plošči"
 
 #. add the shortcuts menu entry
-#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:638
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:632
 msgid "Shortcuts..."
 msgstr "Bližnjice ..."
 
-#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:642
+#: ../plugins/shortcuts-plugin/shortcuts-plugin.c:636
 msgid "Show the shortcuts dialog"
 msgstr "Pokaži pogovorno okno za bližnjice"
 
