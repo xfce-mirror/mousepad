@@ -682,18 +682,18 @@ msgstr "Сва документа"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d од %d се поклапа"
+msgstr[1] "%d од %d се поклапају"
+msgstr[2] "%d од %d се поклапа"
 
 #: ../mousepad/mousepad-replace-dialog.c:617
 #: ../mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d поклапање"
+msgstr[1] "%d поклапања"
+msgstr[2] "%d поклапања"
 
 #: ../mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
