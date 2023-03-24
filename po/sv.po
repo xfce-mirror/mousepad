@@ -684,16 +684,16 @@ msgstr "Alla dokument"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d av %d match"
+msgstr[1] "%d av %d matchningar"
 
 #: ../mousepad/mousepad-replace-dialog.c:617
 #: ../mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d matchning"
+msgstr[1] "%d matchningar"
 
 #: ../mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
