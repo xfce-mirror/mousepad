@@ -32,7 +32,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr "Κωδικοποίηση που θα χρησιμοποιηθεί για το άνοιγμα των αρχείων (αφήστε το κενό να ανοίξετε το παράθυρο κωδικοποιήσεων)"
+msgstr "Η κωδικοποίηση που θα χρησιμοποιηθεί για το άνοιγμα των αρχείων (αφήστε το κενό για να ανοίγει το παράθυρο κωδικοποιήσεων)"
 
 #: ../mousepad/mousepad-application.c:137
 msgid "ENCODING"
