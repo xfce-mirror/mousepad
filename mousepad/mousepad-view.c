@@ -34,13 +34,6 @@ static void      mousepad_view_set_property                  (GObject           
                                                               const GValue       *value,
                                                               GParamSpec         *pspec);
 
-/* GtkWidget virtual functions */
-static gboolean  mousepad_view_drag_motion                   (GtkWidget          *widget,
-                                                              GdkDragContext     *context,
-                                                              gint                x,
-                                                              gint                y,
-                                                              guint               timestamp);
-
 /* GtkTextView virtual functions */
 static void      mousepad_view_cut_clipboard                 (GtkTextView        *text_view);
 static void      mousepad_view_delete_from_cursor            (GtkTextView        *text_view,
@@ -49,18 +42,10 @@ static void      mousepad_view_delete_from_cursor            (GtkTextView       
 static void      mousepad_view_paste_clipboard               (GtkTextView        *text_view);
 
 /* GtkSourceView virtual functions */
-#if GTK_SOURCE_MAJOR_VERSION >= 4
 static void      mousepad_view_move_lines                    (GtkSourceView      *source_view,
                                                               gboolean            down);
-#else
-static void      mousepad_view_move_lines                    (GtkSourceView      *source_view,
-                                                              gboolean            copy,
-                                                              gint                count);
-#endif
 static void      mousepad_view_move_words                    (GtkSourceView      *source_view,
                                                               gint                count);
-static void      mousepad_view_redo                          (GtkSourceView      *source_view);
-static void      mousepad_view_undo                          (GtkSourceView      *source_view);
 
 /* MousepadView own functions */
 static void      mousepad_view_transpose_range               (GtkTextBuffer       *buffer,
@@ -126,14 +111,11 @@ static void
 mousepad_view_class_init (MousepadViewClass *klass)
 {
   GObjectClass       *gobject_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass     *widget_class = GTK_WIDGET_CLASS (klass);
   GtkTextViewClass   *textview_class = GTK_TEXT_VIEW_CLASS (klass);
   GtkSourceViewClass *sourceview_class = GTK_SOURCE_VIEW_CLASS (klass);
 
   gobject_class->finalize = mousepad_view_finalize;
   gobject_class->set_property = mousepad_view_set_property;
-
-  widget_class->drag_motion = mousepad_view_drag_motion;
 
   textview_class->cut_clipboard = mousepad_view_cut_clipboard;
   textview_class->delete_from_cursor = mousepad_view_delete_from_cursor;
@@ -141,8 +123,6 @@ mousepad_view_class_init (MousepadViewClass *klass)
 
   sourceview_class->move_lines = mousepad_view_move_lines;
   sourceview_class->move_words = mousepad_view_move_words;
-  sourceview_class->redo = mousepad_view_redo;
-  sourceview_class->undo = mousepad_view_undo;
 
   g_object_class_install_property (gobject_class, PROP_FONT,
     g_param_spec_string ("font", "Font", "The font to use in the view",
@@ -344,35 +324,6 @@ mousepad_view_set_property (GObject      *object,
 
 
 
-static gboolean
-mousepad_view_drag_motion (GtkWidget      *widget,
-                           GdkDragContext *context,
-                           gint            x,
-                           gint            y,
-                           guint           timestamp)
-{
-  GtkTargetList *target_list;
-  gboolean       drop_zone;
-
-  /* chain up to parent */
-  drop_zone = GTK_WIDGET_CLASS (mousepad_view_parent_class)->drag_motion (widget, context,
-                                                                          x, y, timestamp);
-
-  /* enforce acceptance of our targets, especially when hovering over selections */
-  target_list = gtk_target_list_new (drop_targets, G_N_ELEMENTS (drop_targets));
-  if (gtk_drag_dest_find_target (widget, context, target_list) != GDK_NONE)
-  {
-    gdk_drag_status (context, gdk_drag_context_get_suggested_action (context), timestamp);
-    drop_zone = TRUE;
-  }
-
-  gtk_target_list_unref (target_list);
-
-  return drop_zone;
-}
-
-
-
 static void
 mousepad_view_cut_clipboard (GtkTextView *text_view)
 {
@@ -512,8 +463,8 @@ mousepad_view_paste_clipboard (GtkTextView *text_view)
 
 
 static void
-_mousepad_view_move_lines (GtkSourceView *source_view,
-                           gboolean       down)
+mousepad_view_move_lines (GtkSourceView *source_view,
+                          gboolean       down)
 {
   GtkTextBuffer *buffer;
   GtkTextIter    start, end, iter;
@@ -563,11 +514,7 @@ _mousepad_view_move_lines (GtkSourceView *source_view,
     }
 
   /* let GSV move lines */
-#if GTK_SOURCE_MAJOR_VERSION >= 4
   GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_lines (source_view, down);
-#else
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_lines (source_view, FALSE, down ? 1 : -1);
-#endif
 
   /* delete fake text */
   if (inserted)
@@ -590,29 +537,6 @@ _mousepad_view_move_lines (GtkSourceView *source_view,
   gtk_text_buffer_end_user_action (buffer);
   g_object_thaw_notify (G_OBJECT (buffer));
 }
-
-
-
-#if GTK_SOURCE_MAJOR_VERSION >= 4
-
-static void
-mousepad_view_move_lines (GtkSourceView *source_view,
-                          gboolean       down)
-{
-  _mousepad_view_move_lines (source_view, down);
-}
-
-#else
-
-static void
-mousepad_view_move_lines (GtkSourceView *source_view,
-                          gboolean       copy,
-                          gint           count)
-{
-  _mousepad_view_move_lines (source_view, copy);
-}
-
-#endif
 
 
 
@@ -663,30 +587,6 @@ mousepad_view_move_words (GtkSourceView *source_view,
 
   /* let GSV move words */
   GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_words (source_view, count);
-}
-
-
-
-static void
-mousepad_view_redo (GtkSourceView *source_view)
-{
-  /* let GSV do the main job */
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->redo (source_view);
-
-  /* scroll to cursor in our way */
-  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
-}
-
-
-
-static void
-mousepad_view_undo (GtkSourceView *source_view)
-{
-  /* let GSV do the main job */
-  GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->undo (source_view);
-
-  /* scroll to cursor in our way */
-  mousepad_view_scroll_to_cursor (MOUSEPAD_VIEW (source_view));
 }
 
 
@@ -982,21 +882,57 @@ mousepad_view_transpose (MousepadView *view)
 
 
 
+static void
+mousepad_view_clipboard_read_text (GObject      *object,
+                                   GAsyncResult *result,
+                                   gpointer      data)
+{
+  MousepadView *view = data;
+  GdkClipboard *clipboard = GDK_CLIPBOARD (object);
+  gchar        *string;
+
+  string = gdk_clipboard_read_text_finish (clipboard, result, NULL);
+
+  mousepad_object_set_data (view, "text-read", GINT_TO_POINTER (TRUE));
+  mousepad_view_custom_paste (view, string);
+  mousepad_object_set_data (view, "text-read", GINT_TO_POINTER (FALSE));
+
+  g_free (string);
+}
+
+
+
 void
 mousepad_view_custom_paste (MousepadView *view,
                             const gchar  *string)
 {
-  GtkClipboard   *clipboard;
   GtkTextBuffer  *buffer;
   GtkTextMark    *mark;
   GtkTextIter     iter, start_iter, end_iter;
+  GdkClipboard   *clipboard;
   gchar         **pieces;
-  gchar          *text = NULL;
   gint            i, column;
 
   /* leave when the view is not editable */
   if (! gtk_text_view_get_editable (GTK_TEXT_VIEW (view)))
     return;
+
+  if (string == NULL)
+    {
+      /* leave if we have already tried to read the text */
+      if (mousepad_object_get_data (view, "text-read"))
+        return;
+
+      /* get the clipboard */
+      clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view));
+
+      /* get the clipboard text: we can't always get it from the content provider which
+       * may be NULL (gdk_clipboard_is_local() == FALSE), so let's get it asynchronously */
+      gdk_clipboard_read_text_async (clipboard, NULL, mousepad_view_clipboard_read_text, view);
+
+      /* we'll be back */
+      return;
+    }
 
   /* get the buffer */
   buffer = mousepad_view_get_buffer (view);
@@ -1004,20 +940,10 @@ mousepad_view_custom_paste (MousepadView *view,
   /* begin user action */
   gtk_text_buffer_begin_user_action (buffer);
 
-  if (string == NULL)
+  if (mousepad_object_get_data (view, "text-read"))
     {
-      /* get the clipboard */
-      clipboard = gtk_widget_get_clipboard (GTK_WIDGET (view), GDK_SELECTION_CLIPBOARD);
-
-      /* get the clipboard text */
-      text = gtk_clipboard_wait_for_text (clipboard);
-
-      /* leave when the text is null */
-      if (G_UNLIKELY (text == NULL))
-        return;
-
       /* chop the string into pieces */
-      pieces = g_strsplit (text, "\n", -1);
+      pieces = g_strsplit (string, "\n", -1);
 
       /* get iter at cursor position */
       mark = gtk_text_buffer_get_insert (buffer);
@@ -1050,7 +976,6 @@ mousepad_view_custom_paste (MousepadView *view,
         }
 
       /* cleanup */
-      g_free (text);
       g_strfreev (pieces);
 
       /* set the cursor to the last iter position */
@@ -1403,7 +1328,7 @@ mousepad_view_set_font (MousepadView *view,
 
   /* set font */
   provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+  gtk_css_provider_load_from_data (provider, css_string, -1);
   gtk_style_context_add_provider (gtk_widget_get_style_context (GTK_WIDGET (view)),
                                   GTK_STYLE_PROVIDER (provider),
                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
