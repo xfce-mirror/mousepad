@@ -21,7 +21,7 @@ msgstr ""
 "POT-Creation-Date: 2023-03-23 00:47+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Ioannis LM, 2019-2020,2022-2023\n"
-"Language-Team: Greek (http://www.transifex.com/xfce/xfce-apps/language/el/)\n"
+"Language-Team: Greek (http://app.transifex.com/xfce/xfce-apps/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -231,7 +231,7 @@ msgstr "Αν επαναφέρετε το αρχείο, όλες οι μη απο
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr "Το αρχείο φαίνεται κωδικοποιημένο σε %s, αλλά έχετε επιλέξει κωδικοποίηση σε %s. Είστε σίγουροι για την επιλογή σας;"
+msgstr "Το αρχείο φαίνεται κωδικοποιημένο σε %s αλλά, έχετε επιλέξει κωδικοποίηση σε %s. Επιβεβαιώνετε την επιλογή σας;"
 
 #: ../mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
@@ -297,7 +297,7 @@ msgstr "Άνοιγμα αρχείου"
 #. add button
 #: ../mousepad/mousepad-dialogs.c:1209
 msgid "_Open"
-msgstr "Άν_οιγμα"
+msgstr "Άνοι_γμα"
 
 #. create new font chooser dialog
 #: ../mousepad/mousepad-dialogs.c:1263
@@ -329,11 +329,11 @@ msgstr "_Εντάξει"
 #: ../mousepad/mousepad-dialogs.h:35
 #: ../mousepad/resources/gtk/menus-common.ui.h:5
 msgid "_Save"
-msgstr "Α_ποθήκευση"
+msgstr "Απο_θήκευση"
 
 #: ../mousepad/mousepad-dialogs.h:36
 msgid "Save _As"
-msgstr "Απο_θήκευση ως"
+msgstr "Αποθήκευση _ως"
 
 #: ../mousepad/mousepad-dialogs.h:37
 msgid "Re_vert"
@@ -393,12 +393,12 @@ msgstr "Δεν βρέθηκε άλλη έγκυρη κωδικοποίηση."
 #: ../mousepad/mousepad-encoding-dialog.c:674
 #, c-format
 msgid "The document is %s valid."
-msgstr "Το έγγραφο είναι %s έγκυρο."
+msgstr "Το έγγραφο είναι έγκυρο σε %s."
 
 #: ../mousepad/mousepad-encoding-dialog.c:675
 #, c-format
 msgid "The document is not %s valid."
-msgstr "Το έγγραφο δεν είναι %s έγκυρο."
+msgstr "Το έγγραφο δεν είναι έγκυρο σε %s."
 
 #. west european
 #: ../mousepad/mousepad-encoding.c:39
@@ -815,7 +815,7 @@ msgstr "Δεν υπάρχουν δεδομένα στο πρόχειρο"
 #: ../mousepad/mousepad-window.c:4512
 #, c-format
 msgid "Templates should be %s valid"
-msgstr "Τα πρότυπα πρέπει να είναι %s έγκυρα"
+msgstr "Τα πρότυπα για να είναι  έγκυρα πρέπει να είναι σε%s"
 
 #. set error message
 #: ../mousepad/mousepad-window.c:4518
@@ -1197,7 +1197,7 @@ msgstr "Δημιουργία νέου εγγράφου"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:3
 msgid "_Open..."
-msgstr "Άν_οιγμα..."
+msgstr "Άνοι_γμα..."
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:4
 msgid "Open a file"
