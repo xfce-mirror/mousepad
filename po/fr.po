@@ -14,7 +14,7 @@
 # Luc Pionchon <luc@handhelds.org>, 2004
 # Urien Desterres <urien.desterres@gmail.com>, 2014
 # Urien Desterres <urien.desterres@gmail.com>, 2014
-# Wallon Wallon, 2022
+# Wallon Wallon, 2022-2023
 # Yannick Le Guen <leguen.yannick@gmail.com>, 2014,2018-2021
 msgid ""
 msgstr ""
@@ -22,8 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-23 00:47+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: jc1 <jc1.quebecos@gmail.com>, 2013-2014,2020-2023\n"
-"Language-Team: French (http://www.transifex.com/xfce/xfce-apps/language/fr/)\n"
+"Last-Translator: Wallon Wallon, 2022-2023\n"
+"Language-Team: French (http://app.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -175,7 +175,7 @@ msgstr "Voulez-vous enregistrer les modifications avant de fermer ?"
 
 #: ../mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr "Le document est en lecture seule, voulez-vous l'enregistrer dans un autre fichier ?"
+msgstr "Le document est en lecture seule, voulez-vous l’enregistrer dans un autre fichier ?"
 
 #. setup CSD titlebar
 #: ../mousepad/mousepad-dialogs.c:392 ../mousepad/mousepad-dialogs.c:532
@@ -190,7 +190,7 @@ msgstr "Ne _pas enregistrer"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr "Si vous n'enregistrez pas ce document en lecture seule dans un autre fichier, toutes les modifications seront perdues."
+msgstr "Si vous n’enregistrez pas ce document en lecture seule dans un autre fichier, toutes les modifications seront perdues."
 
 #: ../mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -243,7 +243,7 @@ msgstr "Sinon, l’encodage deviné sera utilisé."
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr "Il semble que la session précédente ne s'est pas terminée normalement. Voulez-vous restaurer les données disponibles ?"
+msgstr "Il semble que la session précédente ne s’est pas terminée normalement. Voulez-vous restaurer les données disponibles ?"
 
 #: ../mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
@@ -1450,7 +1450,7 @@ msgstr "Mot _Gauche"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
-msgstr "Déplacer les mots d'un mot vers la gauche"
+msgstr "Déplacer les mots d’un mot vers la gauche"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "Word _Right"
@@ -1458,7 +1458,7 @@ msgstr "Mot _Droit"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
-msgstr "Déplacer les mots d'un mot vers la droite"
+msgstr "Déplacer les mots d’un mot vers la droite"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:73
 msgid "Dup_licate Line / Selection"
@@ -1718,7 +1718,7 @@ msgstr "Toujours afficher les onglets, même avec un seul fichier"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:62
 msgid "Expand tabs to fill available space"
-msgstr "Développer les onglets pour remplir l'espace disponible"
+msgstr "Développer les onglets pour remplir l’espace disponible"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:63
 msgid "Cycled notebook tab switching"
@@ -1756,7 +1756,7 @@ msgstr "Restauration de session :"
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr "Lorsque « documents non enregistrés » ou « toujours » est sélectionné, Mousepad ne demandera pas d'enregistrer les documents modifiés lors de la fermeture"
+msgstr "Lorsque « documents non enregistrés » ou « toujours » est sélectionné, Mousepad ne demandera pas d’enregistrer les documents modifiés lors de la fermeture"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:72
 msgid "Recent file menu length:"
@@ -1764,11 +1764,11 @@ msgstr "Longueur du menu des fichiers récents :"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:73
 msgid "'0' disables and wipes recent history"
-msgstr "« 0 » désactive et efface l'historique récent"
+msgstr "« 0 » désactive et efface l’historique récent"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:74
 msgid "Search history size:"
-msgstr "Taille de l'historique de recherche :"
+msgstr "Taille de l’historique de recherche :"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:75
 msgid "<b>History</b>"
@@ -1822,7 +1822,7 @@ msgstr "Raccourcis éditeur"
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr "L'éditeur de raccourcis est disponible ici sous la forme d'une fenêtre contextuelle ou d'une boîte de dialogue sous les préférences dans la barre de menus."
+msgstr "L’éditeur de raccourcis est disponible ici sous la forme dune fenêtre contextuelle ou d’une boîte de dialogue sous les préférences dans la barre de menus."
 
 #: ../plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
@@ -1864,11 +1864,11 @@ msgstr "Éditeur de texte"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:1
 msgid "Text Editor Settings"
-msgstr "Paramètres de l'éditeur de texte"
+msgstr "Paramètres de l’éditeur de texte"
 
 #: ../org.xfce.mousepad-settings.desktop.in.in.h:2
 msgid "Configure the Mousepad text editor"
-msgstr "Configurer l'éditeur de texte Mousepad"
+msgstr "Configurer l’éditeur de texte Mousepad"
 
 #: ../org.xfce.mousepad.appdata.xml.in.h:3
 msgid ""
