@@ -43,7 +43,11 @@ gchar       *mousepad_util_key_name                         (const gchar        
 gchar       *mousepad_util_escape_underscores               (const gchar                *str);
 
 GtkWidget   *mousepad_util_image_button                     (const gchar                *icon_name,
-                                                             const gchar                *label);
+                                                             const gchar                *label,
+                                                             gint                        margin_start,
+                                                             gint                        margin_end,
+                                                             gint                        margin_top,
+                                                             gint                        margin_bottom);
 
 void         mousepad_util_entry_error                      (GtkWidget                  *widget,
                                                              gboolean                    error);
@@ -78,13 +82,6 @@ gchar       *mousepad_util_get_save_location                (const gchar        
 void         mousepad_util_save_key_file                    (GKeyFile                   *keyfile,
                                                              const gchar                *filename);
 
-gboolean     mousepad_util_container_has_children           (GtkContainer               *container);
-
-void         mousepad_util_container_clear                  (GtkContainer               *container);
-
-void         mousepad_util_container_move_children          (GtkContainer               *source,
-                                                             GtkContainer               *destination);
-
 GSList      *mousepad_util_get_sorted_style_schemes         (void);
 
 GSList      *mousepad_util_get_sorted_language_sections     (void);
@@ -104,6 +101,8 @@ gchar       *mousepad_util_get_display_path                 (GFile              
 
 gpointer     mousepad_util_source_autoremove                (gpointer                    object);
 
+void         mousepad_util_widget_destroyed                 (GtkWidget                  *widget,
+                                                             GtkWidget                 **widget_pointer);
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_UTIL_H__ */
