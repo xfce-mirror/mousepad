@@ -1057,6 +1057,9 @@ mousepad_application_command_line (GApplication            *gapplication,
   else if (! restored)
     g_application_activate (gapplication);
 
+  /* restore opening mode from the settings if it was overridden from the command line */
+  application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
+
   /* cleanup */
   g_free (filenames);
 
@@ -1150,9 +1153,6 @@ mousepad_application_open (GApplication  *gapplication,
             gtk_widget_destroy (window);
         }
     }
-
-  /* restore opening mode from the settings if it was overridden from the command line */
-  application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
 }
 
 
