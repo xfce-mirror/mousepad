@@ -580,7 +580,7 @@ mousepad_history_session_restore (MousepadApplication *application)
         n_uris++;
 
       /* readjust position */
-      if (p != session)
+      if (atoi (*p) != (gint) wid)
         p++;
 
       /* allocate the GFile array */
