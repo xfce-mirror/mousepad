@@ -166,7 +166,7 @@
         </item>
         <item>
           <attribute name="label" translatable="yes">Highlight _All</attribute>
-          <attribute name="tooltip" translatable="yes">Highlight the search occurrences</attribute>
+          <attribute name="tooltip" translatable="yes">Highlight the search matches</attribute>
           <attribute name="action">app.state.search.highlight-all</attribute>
           <attribute name="icon">edit-select-all-symbolic</attribute>
         </item>
