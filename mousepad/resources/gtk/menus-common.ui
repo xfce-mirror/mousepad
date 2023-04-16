@@ -314,22 +314,22 @@
         <attribute name="label" translatable="yes">_Move</attribute>
         <attribute name="tooltip" translatable="yes">Move content in different ways</attribute>
         <item>
-          <attribute name="label" translatable="yes">Line _Up</attribute>
+          <attribute name="label" translatable="yes">One Line _Up</attribute>
           <attribute name="tooltip" translatable="yes">Move lines one line up</attribute>
           <attribute name="action">win.edit.move.line-up</attribute>
         </item>
         <item>
-          <attribute name="label" translatable="yes">Line _Down</attribute>
+          <attribute name="label" translatable="yes">One Line _Down</attribute>
           <attribute name="tooltip" translatable="yes">Move lines one line down</attribute>
           <attribute name="action">win.edit.move.line-down</attribute>
         </item>
         <item>
-          <attribute name="label" translatable="yes">Word _Left</attribute>
+          <attribute name="label" translatable="yes">One Word _Left</attribute>
           <attribute name="tooltip" translatable="yes">Move words one word left</attribute>
           <attribute name="action">win.edit.move.word-left</attribute>
         </item>
         <item>
-          <attribute name="label" translatable="yes">Word _Right</attribute>
+          <attribute name="label" translatable="yes">One Word _Right</attribute>
           <attribute name="tooltip" translatable="yes">Move words one word right</attribute>
           <attribute name="action">win.edit.move.word-right</attribute>
         </item>
