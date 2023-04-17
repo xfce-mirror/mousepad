@@ -5,7 +5,7 @@
 # Translators:
 # Charles Monzat <c.monzat@laposte.net>, 2018
 # Charles Monzat <c.monzat@laposte.net>, 2018
-# Gaël Bonithon, 2023
+# Gaël Bonithon <gael@xfce.org>, 2023
 # jc1 <jc1>, 2012
 # jc1 <jc1.quebecos@gmail.com>, 2013
 # jc1 <jc1.quebecos@gmail.com>, 2013-2014,2020-2023
@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Gaël Bonithon, 2023\n"
+"Last-Translator: Wallon Wallon, 2022-2023\n"
 "Language-Team: French (http://app.transifex.com/xfce/xfce-apps/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +35,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr "Encodage à utiliser pour ouvrir les fichiers (laissez vide pour ouvrir les fichiers dans la fenêtre d'encodage)"
+msgstr "Encodage à utiliser pour ouvrir les fichiers (laissez vide pour ouvrir les fichiers dans la fenêtre d’encodage)"
 
 #: ../mousepad/mousepad-application.c:137
 msgid "ENCODING"
@@ -967,8 +967,8 @@ msgid "Highlight _All"
 msgstr "_Tout surligner"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
-msgstr "Surligner les occurrences de recherche"
+msgid "Highlight the search matches"
+msgstr "Surligner les correspondances de recherche"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1098,7 +1098,7 @@ msgstr "Insérer des _espaces"
 
 #: ../mousepad/resources/gtk/menus.ui.h:64
 msgid "Insert spaces when the tab button is pressed"
-msgstr "Insérer des espaces lors d'un appui sur la touche Tab"
+msgstr "Insérer des espaces lors d’un appui sur la touche Tab"
 
 #: ../mousepad/resources/gtk/menus.ui.h:65
 msgid "_Filetype"
@@ -1138,7 +1138,7 @@ msgstr "Définir la fin de ligne du document à DOS / Windows (CR LF)"
 
 #: ../mousepad/resources/gtk/menus.ui.h:74
 msgid "Write Unicode _BOM"
-msgstr "Écrire l'IO_O Unicode "
+msgstr "Écrire l’IO_O Unicode "
 
 #: ../mousepad/resources/gtk/menus.ui.h:75
 msgid "Store the byte-order mark in the file"
@@ -1430,32 +1430,32 @@ msgid "Move content in different ways"
 msgstr "Déplacer le contenu de différentes manières"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "Ligne du ha_ut"
+msgid "One Line _Up"
+msgstr "Une ligne vers le _haut"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Déplacer les lignes d’une ligne vers le haut"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "Ligne du _bas"
+msgid "One Line _Down"
+msgstr "Une ligne vers le _bas"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Déplacer les lignes d’une ligne vers le bas"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
-msgstr "Mot _Gauche"
+msgid "One Word _Left"
+msgstr "Un mot vers la _gauche"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
 msgstr "Déplacer les mots d’un mot vers la gauche"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
-msgstr "Mot _Droit"
+msgid "One Word _Right"
+msgstr "Un mot vers la _droite"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
@@ -1658,7 +1658,7 @@ msgstr "Indenter / désindenter le texte actuellement sélectionné ou la ligne 
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:47
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr "Retour arrière : supprimer les espaces d'indentation comme des tabulations"
+msgstr "Retour arrière : supprimer les espaces d’indentation comme des tabulations"
 
 #: ../mousepad/resources/ui/mousepad-prefs-dialog.ui.h:48
 msgid "Home/End: Detect leading/trailing whitespace:"
