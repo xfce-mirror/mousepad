@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Pjotr <pjotrvertaalt@gmail.com>, 2014,2018-2023\n"
-"Language-Team: Dutch (http://www.transifex.com/xfce/xfce-apps/language/nl/)\n"
+"Language-Team: Dutch (http://app.transifex.com/xfce/xfce-apps/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -953,8 +953,8 @@ msgid "Highlight _All"
 msgstr "Markeer alles"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
-msgstr "Markeer de vondsten"
+msgid "Highlight the search matches"
+msgstr "Markeer de zoekovereenkomsten"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1416,32 +1416,32 @@ msgid "Move content in different ways"
 msgstr "Inhoud verplaatsen op verschillende manieren"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "Regel omhoog"
+msgid "One Line _Up"
+msgstr "Eén regel om_hoog"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Verplaats regels één regel omhoog"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "Regel omlaag"
+msgid "One Line _Down"
+msgstr "Eén regel _omlaag"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Verplaats regels één regel omlaag"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
-msgstr "Woord _links"
+msgid "One Word _Left"
+msgstr "Eén woord naar _links"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
 msgstr "Verplaats woorden één woord naar links"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
-msgstr "Woord _rechts"
+msgid "One Word _Right"
+msgstr "Eén woord naar _rechts"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
