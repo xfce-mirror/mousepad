@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>, 2019-2023\n"
 "Language-Team: Turkish (http://app.transifex.com/xfce/xfce-apps/language/tr/)\n"
@@ -963,8 +963,8 @@ msgid "Highlight _All"
 msgstr "Tü_münü Vurgula"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
-msgstr "Aramayla eşleşenleri vurgula"
+msgid "Highlight the search matches"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1426,32 +1426,32 @@ msgid "Move content in different ways"
 msgstr "İçeriği değişik yollarda taşı"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "_Üst Satıra"
+msgid "One Line _Up"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Satırları bir satır yukarı taşı"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "_Alt Satıra"
+msgid "One Line _Down"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Satırları bir satır aşağı taşı"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
-msgstr "Sözcük S_ola"
+msgid "One Word _Left"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
 msgstr "Sözcükleri bir sözcük sola taşı"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
-msgstr "Sözcük _Sağa"
+msgid "One Word _Right"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
