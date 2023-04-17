@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Emanuele Petriglia <transifex@emanuelepetriglia.com>, 2019-2023\n"
-"Language-Team: Italian (http://www.transifex.com/xfce/xfce-apps/language/it/)\n"
+"Language-Team: Italian (http://app.transifex.com/xfce/xfce-apps/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -958,8 +958,8 @@ msgid "Highlight _All"
 msgstr "Evidenzia _tutto"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
-msgstr "Evidenzia le occorrenze della ricerca"
+msgid "Highlight the search matches"
+msgstr "Evidenzia le corrispondenze della ricerca"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1421,32 +1421,32 @@ msgid "Move content in different ways"
 msgstr "Sposta contenuto in modi differenti"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "Riga _su"
+msgid "One Line _Up"
+msgstr "Una riga in _alto"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Sposta righe di una sopra"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "Riga _giù"
+msgid "One Line _Down"
+msgstr "Una riga in _basso"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Sposta le righe di una sotto"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
-msgstr "Parola a _sinistra"
+msgid "One Word _Left"
+msgstr "Una riga a _sinistra"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
 msgstr "Sposta parole di una parola a sinistra"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
-msgstr "Parola a _destra"
+msgid "One Word _Right"
+msgstr "Una riga a _destra"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
