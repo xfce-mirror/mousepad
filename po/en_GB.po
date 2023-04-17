@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Jason Collins <JasonPCollins@protonmail.com>, 2019\n"
 "Language-Team: English (United Kingdom) (http://app.transifex.com/xfce/xfce-apps/language/en_GB/)\n"
@@ -952,7 +952,7 @@ msgid "Highlight _All"
 msgstr "Highlight _All"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
+msgid "Highlight the search matches"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
@@ -1415,23 +1415,23 @@ msgid "Move content in different ways"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "Line _Up"
+msgid "One Line _Up"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "Line _Down"
+msgid "One Line _Down"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
+msgid "One Word _Left"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
@@ -1439,7 +1439,7 @@ msgid "Move words one word left"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
+msgid "One Word _Right"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
