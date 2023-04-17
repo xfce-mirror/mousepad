@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Kiril Kirilov <cybercop_montana@abv.bg>, 2014,2018-2023\n"
-"Language-Team: Bulgarian (http://www.transifex.com/xfce/xfce-apps/language/bg/)\n"
+"Language-Team: Bulgarian (http://app.transifex.com/xfce/xfce-apps/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -956,8 +956,8 @@ msgid "Highlight _All"
 msgstr "Подчертаване на всички"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
-msgstr "Маркиране на попаденията при търсенето"
+msgid "Highlight the search matches"
+msgstr "Подчертаване на съвпаденията при търсенето"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1419,32 +1419,32 @@ msgid "Move content in different ways"
 msgstr "Преместване на съдържанието в различни пътища"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "Ред нагоре"
+msgid "One Line _Up"
+msgstr "Един ред нагоре"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Преместване на редовете с един ред нагоре"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "Ред надолу"
+msgid "One Line _Down"
+msgstr "Един ред надолу"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Преместване на редовете с един ред надолу"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
-msgstr "Една дума на_ляво"
+msgid "One Word _Left"
+msgstr "Една дума наляво"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
 msgstr "Премести думите с една дума наляво"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
-msgstr "Една дума на_дясно"
+msgid "One Word _Right"
+msgstr "Една дума надясно"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
