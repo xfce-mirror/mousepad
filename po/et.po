@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Priit Jõerüüt <transifex@joeruut.com>, 2020-2023\n"
 "Language-Team: Estonian (http://app.transifex.com/xfce/xfce-apps/language/et/)\n"
@@ -952,8 +952,8 @@ msgid "Highlight _All"
 msgstr "Märgista kõik"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
-msgstr "Tõsta otsingutulemused esile"
+msgid "Highlight the search matches"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1415,32 +1415,32 @@ msgid "Move content in different ways"
 msgstr "Liiguta sisu uude kohta erineval moel"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "Rida üle_s"
+msgid "One Line _Up"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Tõsta ridu ühe rea võrra üles"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "Rida _alla"
+msgid "One Line _Down"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Tõsta ridu ühe rea võrra alla"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
-msgstr "Sõna _vasakule"
+msgid "One Word _Left"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
 msgstr "Tõsta sõnu ühe sõna võrra vasakule"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
-msgstr "Sõna _paremale"
+msgid "One Word _Right"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
