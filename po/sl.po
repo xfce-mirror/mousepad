@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Arnold Marko <arnold.marko@gmail.com>, 2019-2021,2023\n"
-"Language-Team: Slovenian (http://www.transifex.com/xfce/xfce-apps/language/sl/)\n"
+"Language-Team: Slovenian (http://app.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -958,8 +958,8 @@ msgid "Highlight _All"
 msgstr "Označi _vse:"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
-msgstr "Poudari pojavitve iskanja"
+msgid "Highlight the search matches"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1421,32 +1421,32 @@ msgid "Move content in different ways"
 msgstr "Prmekane vsebino v različne smeri"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "Vrstica _gor"
+msgid "One Line _Up"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Premakni vrstice za eno navzgor"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "Vrstica _dol"
+msgid "One Line _Down"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Premakni vrstice za eno navzdol"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
-msgstr "Besedo v _levo"
+msgid "One Word _Left"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
 msgstr "Besede premakne za eno besedo v levo"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
-msgstr "Besedo v _desno"
+msgid "One Word _Right"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
