@@ -21,10 +21,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Andrei Stepanov, 2022-2023\n"
-"Language-Team: Russian (http://www.transifex.com/xfce/xfce-apps/language/ru/)\n"
+"Language-Team: Russian (http://app.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -969,7 +969,7 @@ msgid "Highlight _All"
 msgstr "Подсветить _всё"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
+msgid "Highlight the search matches"
 msgstr "Подсвечивать поисковые совпадения"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
@@ -1432,32 +1432,32 @@ msgid "Move content in different ways"
 msgstr "Переместить содержимое особым образом"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "_Вверх"
+msgid "One Line _Up"
+msgstr "Вве_рх на одну линию"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Переместить строки на одну строку выше"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "В_низ"
+msgid "One Line _Down"
+msgstr "_Вниз на одну линию"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Переместить строки на одну строку ниже"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
-msgstr "В_лево"
+msgid "One Word _Left"
+msgstr "Влево на о_дно слово"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
 msgstr "Переместить слова на одно слово влево"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
-msgstr "В_право"
+msgid "One Word _Right"
+msgstr "Впр_аво на одно слово"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
