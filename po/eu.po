@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: beriain, 2020-2022\n"
-"Language-Team: Basque (http://www.transifex.com/xfce/xfce-apps/language/eu/)\n"
+"Language-Team: Basque (http://app.transifex.com/xfce/xfce-apps/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -954,8 +954,8 @@ msgid "Highlight _All"
 msgstr "Guztiak nabarmendu"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
-msgstr "Nabarmendu bilaketa bat-etortzeak"
+msgid "Highlight the search matches"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1417,32 +1417,32 @@ msgid "Move content in different ways"
 msgstr "Edukia hainbat modutan mugitu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "Lerroa _gora"
+msgid "One Line _Up"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Lerroak mugitu lerro bat gora"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "Lerroa _behera"
+msgid "One Line _Down"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Lerroak mugitu lerro bat behera"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
-msgstr "Hitza ezkerrera"
+msgid "One Word _Left"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
 msgstr "Hitzak hitz bat ezkerrera mugitu"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
-msgstr "Hitza eskuine_ra"
+msgid "One Word _Right"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
