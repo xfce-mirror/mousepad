@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-23 00:47+0100\n"
+"POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: 785411ef824cced88d3e197f5af1b61a_da6a977 <e5fae5b35c0c625157d991b31e113de3_956341>, 2021-2022\n"
-"Language-Team: Slovak (http://www.transifex.com/xfce/xfce-apps/language/sk/)\n"
+"Language-Team: Slovak (http://app.transifex.com/xfce/xfce-apps/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -960,8 +960,8 @@ msgid "Highlight _All"
 msgstr "Zvýrazniť _všetky"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
-msgid "Highlight the search occurrences"
-msgstr "Zvýrazniť výskyty vyhľadávania"
+msgid "Highlight the search matches"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1423,23 +1423,23 @@ msgid "Move content in different ways"
 msgstr "Presúvanie obsahu rôznymi spôsobmi"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
-msgid "Line _Up"
-msgstr "O riadok v_yššie"
+msgid "One Line _Up"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
 msgstr "Presunúť riadky o jeden riadok vyššie"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
-msgid "Line _Down"
-msgstr "O riadok _nižšie"
+msgid "One Line _Down"
+msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
 msgstr "Presunúť riadky o jeden riadok nižšie"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
-msgid "Word _Left"
+msgid "One Word _Left"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
@@ -1447,7 +1447,7 @@ msgid "Move words one word left"
 msgstr "Presunúť slová o jedno slovo doľava"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
-msgid "Word _Right"
+msgid "One Word _Right"
 msgstr ""
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
