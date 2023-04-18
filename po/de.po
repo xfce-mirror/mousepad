@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-17 00:47+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Andreas Eitel <github-aneitel@online.de>, 2019-2023\n"
+"Last-Translator: Ingo Brückl <ib@wupperonline.de>, 2021-2023\n"
 "Language-Team: German (http://app.transifex.com/xfce/xfce-apps/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -959,7 +959,7 @@ msgstr "_Alle hervorheben"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search matches"
-msgstr "Markieren der Suchtreffer"
+msgstr "Suchtreffer hervorheben"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1422,7 +1422,7 @@ msgstr "Inhalte auf unterschiedliche Weise verschieben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "One Line _Up"
-msgstr ""
+msgstr "Eine Zeile nach _oben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
@@ -1430,7 +1430,7 @@ msgstr "Zeilen um eine Zeile nach oben verschieben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "One Line _Down"
-msgstr ""
+msgstr "Eine Zeile nach _unten"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
@@ -1438,7 +1438,7 @@ msgstr "Zeilen um eine Zeile nach unten verschieben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "One Word _Left"
-msgstr ""
+msgstr "Ein Wort nach _links"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
@@ -1446,7 +1446,7 @@ msgstr "Text um ein Wort nach links verschieben"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "One Word _Right"
-msgstr ""
+msgstr "Ein Wort nach _rechts"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
