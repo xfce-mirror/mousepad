@@ -959,7 +959,7 @@ msgstr "_Paryškinti visus"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Paryškinti paieškos atitikmenis"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1422,7 +1422,7 @@ msgstr "Įvairiais būdais perkelti turinį"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "One Line _Up"
-msgstr ""
+msgstr "Viena eilute a_ukštyn"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
@@ -1430,7 +1430,7 @@ msgstr "Perkelti eilutes viena eilute aukščiau"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "One Line _Down"
-msgstr ""
+msgstr "Viena eilute ž_emyn"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
@@ -1438,7 +1438,7 @@ msgstr "Perkelti eilutes viena eilute žemyn"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "One Word _Left"
-msgstr ""
+msgstr "Vienu žodžiu _kairėn"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
@@ -1446,7 +1446,7 @@ msgstr "Perkelti žodžius vienu žodžiu į kairę"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "One Word _Right"
-msgstr ""
+msgstr "Vienu žodžiu _dešinėn"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
