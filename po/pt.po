@@ -959,7 +959,7 @@ msgstr "Realçar tod_as"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Destacar os resultados da pesquisa"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1422,7 +1422,7 @@ msgstr "Mover o conteúdo de diferentes maneiras"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "One Line _Up"
-msgstr ""
+msgstr "Uma linha para _cima"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
@@ -1430,7 +1430,7 @@ msgstr "Mover linhas uma linha acima"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "One Line _Down"
-msgstr ""
+msgstr "Uma linha para _baixo"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
@@ -1438,7 +1438,7 @@ msgstr "Mover linhas uma linha abaixo"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "One Word _Left"
-msgstr ""
+msgstr "Uma palavra à _esquerda"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
@@ -1446,7 +1446,7 @@ msgstr "Mover palavras uma palavra para a esquerda"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "One Word _Right"
-msgstr ""
+msgstr "Uma palavra à _direita"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
