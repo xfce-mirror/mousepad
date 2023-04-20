@@ -958,7 +958,7 @@ msgstr "Истакни све"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Истакни поклапање претраге"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1308,7 +1308,7 @@ msgstr "Налепи исечак на нарочити начин"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:37
 msgid "Paste from _History"
-msgstr "налепи из _историје"
+msgstr "Налепи из _историје"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:38
 msgid "Paste from the clipboard history"
@@ -1316,7 +1316,7 @@ msgstr "Налепи из историје исечака"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:39
 msgid "Paste as _Column"
-msgstr "налепи у виду стубца"
+msgstr "Налепи у виду стубца"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:40
 msgid "Paste the clipboard text into a column"
@@ -1348,7 +1348,7 @@ msgstr "Претвори писмо на различите начине"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:47
 msgid "To _Lowercase"
-msgstr "у мала слова"
+msgstr "У _мала слова"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:48
 msgid "Change the case of the selection to lowercase"
@@ -1356,7 +1356,7 @@ msgstr "Измени величину слова избора у мала сло
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:49
 msgid "To _Uppercase"
-msgstr "у велика слова"
+msgstr "У _велика слова"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:50
 msgid "Change the case of the selection to uppercase"
@@ -1364,7 +1364,7 @@ msgstr "Измени величину слова избора у велика с
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:51
 msgid "To _Title Case"
-msgstr "у слова наслова"
+msgstr "У слова _наслова"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:52
 msgid "Change the case of the selection to title case"
@@ -1372,7 +1372,7 @@ msgstr "Измени величину слова избора у величин�
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:53
 msgid "To _Opposite Case"
-msgstr "у супротну величину слова"
+msgstr "У супротну _величину слова"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:54
 msgid "Change the case of the selection opposite case"
@@ -1397,7 +1397,7 @@ msgstr "Претвори све водеће размаке у празнине 
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:59
 msgid "St_rip Trailing Spaces"
-msgstr "ск_ини завршне размаке"
+msgstr "Ск_ини завршне размаке"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:60
 msgid "Remove all the trailing spaces from the selected line(s) or document"
@@ -1421,7 +1421,7 @@ msgstr "Премести садржај на различите начине"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "One Line _Up"
-msgstr ""
+msgstr "Једна линија _навише"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
@@ -1429,7 +1429,7 @@ msgstr "Премести линију за положај навише"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "One Line _Down"
-msgstr ""
+msgstr "Једна линија _наниже"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
@@ -1437,7 +1437,7 @@ msgstr "Премести линију за положај наниже"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "One Word _Left"
-msgstr ""
+msgstr "Једна реч _улево"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
@@ -1445,7 +1445,7 @@ msgstr "Премести речи за положај улево"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "One Word _Right"
-msgstr ""
+msgstr "Једна реч _удесно"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
