@@ -959,7 +959,7 @@ msgstr "Fremhev _alle"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Fremhev søketreffene"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1422,7 +1422,7 @@ msgstr "Flytt innhold på forskjellige måter"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "One Line _Up"
-msgstr ""
+msgstr "Ei linje _opp"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
@@ -1430,7 +1430,7 @@ msgstr "Flytt linjer ett hakk opp"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "One Line _Down"
-msgstr ""
+msgstr "Ei linje _ned"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
@@ -1438,7 +1438,7 @@ msgstr "Flytt linjer ett hakk ned"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "One Word _Left"
-msgstr ""
+msgstr "Ett ord til _venstre"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
@@ -1446,7 +1446,7 @@ msgstr "Flytt ord ett ord til venstre"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "One Word _Right"
-msgstr ""
+msgstr "Ett ord til _høyre"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
