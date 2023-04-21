@@ -958,7 +958,7 @@ msgstr "Markera _alla"
 
 #: ../mousepad/resources/gtk/menus.ui.h:32
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Markera sökträffarna"
 
 #: ../mousepad/resources/gtk/menus.ui.h:33
 msgid "_View"
@@ -1421,7 +1421,7 @@ msgstr "Flytta innehåll på olika sätt"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:65
 msgid "One Line _Up"
-msgstr ""
+msgstr "En rad _upp"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:66
 msgid "Move lines one line up"
@@ -1429,7 +1429,7 @@ msgstr "Flytta rader en rad upp"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:67
 msgid "One Line _Down"
-msgstr ""
+msgstr "En rad _ner"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:68
 msgid "Move lines one line down"
@@ -1437,7 +1437,7 @@ msgstr "Flytta rader en rad ner"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:69
 msgid "One Word _Left"
-msgstr ""
+msgstr "Ett ord _vänster"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:70
 msgid "Move words one word left"
@@ -1445,7 +1445,7 @@ msgstr "Flytta ord ett ord åt vänster"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:71
 msgid "One Word _Right"
-msgstr ""
+msgstr "Ett ord _höger"
 
 #: ../mousepad/resources/gtk/menus-common.ui.h:72
 msgid "Move words one word right"
