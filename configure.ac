@@ -3,6 +3,12 @@ dnl *** Version information ***
 dnl ***************************
 XDT_VERSION_INIT([0.6.0], [git])
 
+dnl minimum required versions
+m4_define([glib_min_version], [2.56.2])
+m4_define([gtk_min_version], [3.22.0])
+m4_define([gtksourceview3_min_version], [3.24.0])
+m4_define([gtksourceview4_min_version], [4.0.0])
+
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
@@ -78,9 +84,9 @@ AM_GNU_GETTEXT_VERSION([0.19.8])
 dnl ***********************************
 dnl *** Check for required packages ***
 dnl ***********************************
-XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.56.2])
-XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [2.56.2])
-XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.22.0])
+XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [glib_min_version])
+XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [glib_min_version])
+XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [gtk_min_version])
 
 dnl *******************************
 dnl *** GtkSourceView 4 support ***
@@ -90,13 +96,13 @@ AC_ARG_ENABLE([gtksourceview4],
                               [Build against GtkSourceView 4 instead of GtkSourceView 3])],
               [enable_gtksourceview4=$enableval],
               [enable_gtksourceview4=auto])
-AS_IF([test "x$enable_gtksourceview4" = "xauto"],
-      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4],
-                         [enable_gtksourceview4=yes], [enable_gtksourceview4=no])])
 AS_IF([test "x$enable_gtksourceview4" = "xyes"],
-      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4 >= 4.0.0])])
+      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4 >= gtksourceview4_min_version])])
+AS_IF([test "x$enable_gtksourceview4" = "xauto"],
+      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4 >= gtksourceview4_min_version],
+                         [enable_gtksourceview4=yes], [enable_gtksourceview4=no])])
 AS_IF([test "x$enable_gtksourceview4" = "xno"],
-      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0 >= 3.24.0])])
+      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0 >= gtksourceview3_min_version])])
 
 dnl ************************************
 dnl *** Enable support for GSettings ***
@@ -164,13 +170,13 @@ dnl ***************************
 echo
 echo "Build Configuration:"
 echo
-echo "* Debug Support:              $enable_debug"
-echo "* Use keyfile backend:        $enable_keyfile_settings"
-echo "* Build with GtkSourceView 4: $enable_gtksourceview4"
+echo "* Debug Support:                 $enable_debug"
+echo "* Use keyfile backend:           $enable_keyfile_settings"
+echo "* Build against GtkSourceView 4: $enable_gtksourceview4"
 echo
 echo "Plugins:"
 echo
-echo "* gspell:                     $ac_mousepad_plugin_gspell"
-echo "* shortcuts:                  $ac_mousepad_plugin_shortcuts"
-echo "* test:                       $ac_mousepad_plugin_test"
+echo "* gspell:                        $ac_mousepad_plugin_gspell"
+echo "* shortcuts:                     $ac_mousepad_plugin_shortcuts"
+echo "* test:                          $ac_mousepad_plugin_test"
 echo
