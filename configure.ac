@@ -1,29 +1,18 @@
 dnl ***************************
 dnl *** Version information ***
 dnl ***************************
-m4_define([mousepad_version_major], [0])
-m4_define([mousepad_version_minor], [6])
-m4_define([mousepad_version_micro], [0])
-m4_define([mousepad_version_nano], []) dnl leave this empty to have no nano version
-m4_define([mousepad_version_build], [@REVISION@])
-m4_define([mousepad_version_tag], [git])
-m4_define([mousepad_version], [mousepad_version_major().mousepad_version_minor().mousepad_version_micro()ifelse(mousepad_version_nano(), [], [], [.mousepad_version_nano()])ifelse(mousepad_version_tag(), [git], [mousepad_version_tag()-mousepad_version_build()], [mousepad_version_tag()])])
-
-dnl *******************************************
-dnl *** Debugging support for GIT snapshots ***
-dnl *******************************************
-m4_define([mousepad_debug_default], [ifelse(mousepad_version_tag(), [git], [yes], [minimum])])
+XDT_VERSION_INIT([0.6.0], [git])
 
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
 AC_COPYRIGHT([Copyright (C) 2005-2023
         The Mousepad developers. All rights reserved.])
-AC_INIT([Mousepad], [mousepad_version], [https://gitlab.xfce.org/apps/mousepad], [mousepad])
-AC_PREREQ([2.50])
+AC_INIT([Mousepad], [xdt_version], [https://gitlab.xfce.org/apps/mousepad], [mousepad])
+AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIRS([m4])
 AC_CANONICAL_TARGET()
-AC_REVISION([])
+AC_REVISION([xdt_version_build])
 
 dnl ***************************
 dnl *** Initialize automake ***
@@ -57,14 +46,12 @@ LT_INIT([disable-static])
 dnl **************************************
 dnl *** Substitute version information ***
 dnl **************************************
-MOUSEPAD_VERSION_MAJOR=mousepad_version_major()
-MOUSEPAD_VERSION_MINOR=mousepad_version_minor()
-MOUSEPAD_VERSION_MICRO=mousepad_version_micro()
-MOUSEPAD_VERSION_NANO=mousepad_version_nano()
+MOUSEPAD_VERSION_MAJOR=xdt_version_major()
+MOUSEPAD_VERSION_MINOR=xdt_version_minor()
+MOUSEPAD_VERSION_MICRO=xdt_version_micro()
 AC_SUBST([MOUSEPAD_VERSION_MAJOR])
 AC_SUBST([MOUSEPAD_VERSION_MINOR])
 AC_SUBST([MOUSEPAD_VERSION_MICRO])
-AC_SUBST([MOUSEPAD_VERSION_NANO])
 
 dnl ************************************
 dnl *** Check for standard libraries ***
@@ -135,7 +122,7 @@ MOUSEPAD_PLUGIN_TEST()
 dnl ***********************************
 dnl *** Check for debugging support ***
 dnl ***********************************
-XDT_FEATURE_DEBUG([mousepad_debug_default])
+XDT_FEATURE_DEBUG([xdt_debug_default])
 
 dnl **************************************
 dnl *** Check for linker optimizations ***
