@@ -1,29 +1,24 @@
 dnl ***************************
 dnl *** Version information ***
 dnl ***************************
-m4_define([mousepad_version_major], [0])
-m4_define([mousepad_version_minor], [6])
-m4_define([mousepad_version_micro], [0])
-m4_define([mousepad_version_nano], []) dnl leave this empty to have no nano version
-m4_define([mousepad_version_build], [@REVISION@])
-m4_define([mousepad_version_tag], [git])
-m4_define([mousepad_version], [mousepad_version_major().mousepad_version_minor().mousepad_version_micro()ifelse(mousepad_version_nano(), [], [], [.mousepad_version_nano()])ifelse(mousepad_version_tag(), [git], [mousepad_version_tag()-mousepad_version_build()], [mousepad_version_tag()])])
+XDT_VERSION_INIT([0.6.0], [git])
 
-dnl *******************************************
-dnl *** Debugging support for GIT snapshots ***
-dnl *******************************************
-m4_define([mousepad_debug_default], [ifelse(mousepad_version_tag(), [git], [yes], [minimum])])
+dnl minimum required versions
+m4_define([glib_min_version], [2.56.2])
+m4_define([gtk_min_version], [3.22.0])
+m4_define([gtksourceview3_min_version], [3.24.0])
+m4_define([gtksourceview4_min_version], [4.0.0])
 
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
 AC_COPYRIGHT([Copyright (C) 2005-2023
         The Mousepad developers. All rights reserved.])
-AC_INIT([Mousepad], [mousepad_version], [https://gitlab.xfce.org/apps/mousepad], [mousepad])
-AC_PREREQ([2.50])
+AC_INIT([Mousepad], [xdt_version], [https://gitlab.xfce.org/apps/mousepad], [mousepad])
+AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIRS([m4])
 AC_CANONICAL_TARGET()
-AC_REVISION([])
+AC_REVISION([xdt_version_build])
 
 dnl ***************************
 dnl *** Initialize automake ***
@@ -47,7 +42,6 @@ AM_PROG_CC_C_O()
 LT_PATH_LD([])
 AC_PROG_INSTALL()
 AC_PROG_SED
-IT_PROG_INTLTOOL([0.35.0])
 
 dnl **************************
 dnl *** Initialize libtool ***
@@ -58,14 +52,12 @@ LT_INIT([disable-static])
 dnl **************************************
 dnl *** Substitute version information ***
 dnl **************************************
-MOUSEPAD_VERSION_MAJOR=mousepad_version_major()
-MOUSEPAD_VERSION_MINOR=mousepad_version_minor()
-MOUSEPAD_VERSION_MICRO=mousepad_version_micro()
-MOUSEPAD_VERSION_NANO=mousepad_version_nano()
+MOUSEPAD_VERSION_MAJOR=xdt_version_major()
+MOUSEPAD_VERSION_MINOR=xdt_version_minor()
+MOUSEPAD_VERSION_MICRO=xdt_version_micro()
 AC_SUBST([MOUSEPAD_VERSION_MAJOR])
 AC_SUBST([MOUSEPAD_VERSION_MINOR])
 AC_SUBST([MOUSEPAD_VERSION_MICRO])
-AC_SUBST([MOUSEPAD_VERSION_NANO])
 
 dnl ************************************
 dnl *** Check for standard libraries ***
@@ -83,14 +75,18 @@ AC_CHECK_HEADERS([errno.h libintl.h locale.h math.h stdio.h stdlib.h string.h])
 dnl ******************************
 dnl *** Check for i18n support ***
 dnl ******************************
-XDT_I18N([@LINGUAS@])
+GETTEXT_PACKAGE="$PACKAGE"
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Name of default gettext domain])
+AC_SUBST([GETTEXT_PACKAGE])
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 
 dnl ***********************************
 dnl *** Check for required packages ***
 dnl ***********************************
-XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [2.56.2])
-XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [2.56.2])
-XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [3.22.0])
+XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [glib_min_version])
+XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [glib_min_version])
+XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [gtk_min_version])
 
 dnl *******************************
 dnl *** GtkSourceView 4 support ***
@@ -100,13 +96,13 @@ AC_ARG_ENABLE([gtksourceview4],
                               [Build against GtkSourceView 4 instead of GtkSourceView 3])],
               [enable_gtksourceview4=$enableval],
               [enable_gtksourceview4=auto])
-AS_IF([test "x$enable_gtksourceview4" = "xauto"],
-      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4],
-                         [enable_gtksourceview4=yes], [enable_gtksourceview4=no])])
 AS_IF([test "x$enable_gtksourceview4" = "xyes"],
-      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4 >= 4.0.0])])
+      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4 >= gtksourceview4_min_version])])
+AS_IF([test "x$enable_gtksourceview4" = "xauto"],
+      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4 >= gtksourceview4_min_version],
+                         [enable_gtksourceview4=yes], [enable_gtksourceview4=no])])
 AS_IF([test "x$enable_gtksourceview4" = "xno"],
-      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0 >= 3.24.0])])
+      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0 >= gtksourceview3_min_version])])
 
 dnl ************************************
 dnl *** Enable support for GSettings ***
@@ -132,7 +128,7 @@ MOUSEPAD_PLUGIN_TEST()
 dnl ***********************************
 dnl *** Check for debugging support ***
 dnl ***********************************
-XDT_FEATURE_DEBUG([mousepad_debug_default])
+XDT_FEATURE_DEBUG([xdt_debug_default])
 
 dnl **************************************
 dnl *** Check for linker optimizations ***
@@ -174,13 +170,13 @@ dnl ***************************
 echo
 echo "Build Configuration:"
 echo
-echo "* Debug Support:              $enable_debug"
-echo "* Use keyfile backend:        $enable_keyfile_settings"
-echo "* Build with GtkSourceView 4: $enable_gtksourceview4"
+echo "* Debug Support:                 $enable_debug"
+echo "* Use keyfile backend:           $enable_keyfile_settings"
+echo "* Build against GtkSourceView 4: $enable_gtksourceview4"
 echo
 echo "Plugins:"
 echo
-echo "* gspell:                     $ac_mousepad_plugin_gspell"
-echo "* shortcuts:                  $ac_mousepad_plugin_shortcuts"
-echo "* test:                       $ac_mousepad_plugin_test"
+echo "* gspell:                        $ac_mousepad_plugin_gspell"
+echo "* shortcuts:                     $ac_mousepad_plugin_shortcuts"
+echo "* test:                          $ac_mousepad_plugin_test"
 echo
