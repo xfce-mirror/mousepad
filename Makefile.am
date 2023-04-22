@@ -17,28 +17,32 @@ desktop_in_in_files = 								\
 	org.xfce.mousepad.desktop.in.in \
 	org.xfce.mousepad-settings.desktop.in.in
 desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in)
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+
 %.desktop.in: %.desktop.in.in
 	$(SED) -e "s,\@libexecdir\@,$(libexecdir),g" < $< > $@
-desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-@INTLTOOL_DESKTOP_RULE@
 
-#
-# appdata
-#
-@INTLTOOL_XML_RULE@
+%.desktop: %.desktop.in
+	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
+
 appdatadir = $(datadir)/metainfo
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 appdata_in_files = org.xfce.mousepad.appdata.xml.in
+
+%.xml: %.xml.in
+	$(AM_V_GEN) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 polkit_policydir = $(datadir)/polkit-1/actions
 polkit_in_in_files =			\
 	org.xfce.mousepad.policy.in.in
 polkit_in_files = $(polkit_in_in_files:.policy.in.in=.policy.in)
+polkit_policy_DATA = $(polkit_in_files:.policy.in=.policy)
+
 %.policy.in: %.policy.in.in
 	$(SED) -e "s,\@bindir\@,$(bindir),g" < $< > $@
-polkit_policy_DATA = $(polkit_in_files:.policy.in=.policy)
-@INTLTOOL_POLICY_RULE@
 
+%.policy: %.policy.in
+	$(AM_V_GEN) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 .PHONY: ChangeLog
 
@@ -50,19 +54,11 @@ ChangeLog: Makefile
 dist-hook: ChangeLog
 
 EXTRA_DIST =									\
-	README.md									\
-	intltool-extract.in							\
-	intltool-merge.in							\
-	intltool-update.in							\
 	$(desktop_in_in_files)						\
 	$(appdata_in_files)							\
 	$(polkit_in_in_files)
 
 DISTCLEANFILES =								\
-	intltool-extract							\
-	intltool-merge								\
-	intltool-update								\
-	po/.intltool-merge-cache.lock \
 	$(desktop_in_files)							\
 	$(desktop_DATA)								\
 	$(appdata_DATA)								\

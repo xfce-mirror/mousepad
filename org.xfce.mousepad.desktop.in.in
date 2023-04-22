@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
-_Name=Mousepad
-_Comment=Simple Text Editor
-_GenericName=Text Editor
+Name=Mousepad
+Comment=Simple Text Editor
+GenericName=Text Editor
 Exec=mousepad %U
 Icon=org.xfce.mousepad
 Terminal=false
@@ -13,5 +13,5 @@ MimeType=text/plain;application/x-zerosize;
 Actions=preferences;
 
 [Desktop Action preferences]
-_Name=Mousepad Preferences
+Name=Mousepad Preferences
 Exec=mousepad --preferences

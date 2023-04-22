@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
-_Name=Text Editor Settings
-_Comment=Configure the Mousepad text editor
+Name=Text Editor Settings
+Comment=Configure the Mousepad text editor
 Exec=mousepad --preferences
 Icon=org.xfce.mousepad
 Terminal=false

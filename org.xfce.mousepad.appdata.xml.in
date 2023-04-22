@@ -4,19 +4,19 @@
   <id>org.xfce.mousepad</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
-  <_name>Mousepad</_name>
-  <_summary>Mousepad is a simple text editor for the Xfce desktop environment</_summary>
+  <name>Mousepad</name>
+  <summary>Mousepad is a simple text editor for the Xfce desktop environment</summary>
 
   <description>
-    <_p>Mousepad aims to be an easy-to-use and fast editor. Our target is an
+    <p>Mousepad aims to be an easy-to-use and fast editor. Our target is an
         editor for quickly editing text files, not a development environment
         or an editor with a huge bunch of plugins.
-   </_p>
-    <_p>On the other hand we try to use the latest GTK features available,
+   </p>
+    <p>On the other hand we try to use the latest GTK features available,
         which means that if GTK adds something new in a major release that is
         useful for the editor, we will likely bump the GTK dependency and
         integrate this new feature in Mousepad.
-    </_p>
+    </p>
   </description>
 
   <screenshots>
