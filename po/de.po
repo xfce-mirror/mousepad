@@ -1844,7 +1844,7 @@ msgstr "Textbearbeitung"
 #: org.xfce.mousepad.desktop.in.in:8
 #: org.xfce.mousepad-settings.desktop.in.in:7
 msgid "org.xfce.mousepad"
-msgstr ""
+msgstr "org.xfce.mousepad"
 
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
