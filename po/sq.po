@@ -945,7 +945,7 @@ msgstr "Theksoje Kr_ejt"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Thekso përkime kërkimi"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1408,7 +1408,7 @@ msgstr "Lëvizeni lëndën në mënyra të ndryshme"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Një Rresht _Sipër"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1416,7 +1416,7 @@ msgstr "Zhvendosi rreshtat një rresht më sipër"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Një Rresht _Poshtë"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1424,7 +1424,7 @@ msgstr "Zhvendosi rreshtat një rresht më poshtë"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Një Fjalë _Majtas"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1432,7 +1432,7 @@ msgstr "Lëvizi fjalët një fjalë majtas"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Një Fjalë _Djathtas"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1839,7 +1839,7 @@ msgstr "Përpunues Tekstesh"
 #: org.xfce.mousepad.desktop.in.in:8
 #: org.xfce.mousepad-settings.desktop.in.in:7
 msgid "org.xfce.mousepad"
-msgstr ""
+msgstr "org.xfce.mousepad"
 
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
