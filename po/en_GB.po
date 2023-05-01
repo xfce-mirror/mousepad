@@ -313,7 +313,7 @@ msgstr "_Cancel"
 
 #: mousepad/mousepad-dialogs.h:34
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: mousepad/mousepad-dialogs.h:35 mousepad/resources/gtk/menus-common.ui:54
 msgid "_Save"
