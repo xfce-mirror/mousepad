@@ -8,6 +8,7 @@ m4_define([glib_min_version], [2.56.2])
 m4_define([gtk_min_version], [3.22.0])
 m4_define([gtksourceview3_min_version], [3.24.0])
 m4_define([gtksourceview4_min_version], [4.0.0])
+m4_define([polkit_min_version], [0.102])
 
 dnl ***************************
 dnl *** Initialize autoconf ***
@@ -104,6 +105,11 @@ AS_IF([test "x$enable_gtksourceview4" = "xauto"],
 AS_IF([test "x$enable_gtksourceview4" = "xno"],
       [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0 >= gtksourceview3_min_version])])
 
+dnl **********************
+dnl *** Polkit support ***
+dnl **********************
+XDT_CHECK_OPTIONAL_PACKAGE([POLKIT], [polkit-gobject-1], [polkit_min_version], [polkit], [Polkit support])
+
 dnl ************************************
 dnl *** Enable support for GSettings ***
 dnl ************************************
@@ -173,6 +179,7 @@ echo
 echo "* Debug Support:                 $enable_debug"
 echo "* Use keyfile backend:           $enable_keyfile_settings"
 echo "* Build against GtkSourceView 4: $enable_gtksourceview4"
+echo "* Polkit support:                ${POLKIT_FOUND:-no}"
 echo
 echo "Plugins:"
 echo
