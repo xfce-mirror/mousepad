@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 12:48+0200\n"
+"POT-Creation-Date: 2023-05-04 21:30+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015,2018-2022\n"
 "Language-Team: Kazakh (http://app.transifex.com/xfce/xfce-apps/language/kk/)\n"
@@ -1835,11 +1835,6 @@ msgstr "Қарапайым мәтін түзетушісі"
 msgid "Text Editor"
 msgstr "Мәтін түзетушісі"
 
-#: org.xfce.mousepad.desktop.in.in:8
-#: org.xfce.mousepad-settings.desktop.in.in:7
-msgid "org.xfce.mousepad"
-msgstr ""
-
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
 msgstr "Мәтіндік түзеткіш баптаулары"
@@ -1862,3 +1857,19 @@ msgid ""
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
 msgstr "Екінші жағынан, біз қол жетімді GTK ең жаңа мүмкіндіктерін қолдануға тырысамыз, яғни егер GTK редактор үшін пайдалы болатын үлкен шығарылымға жаңа бір нәрсе қосса, біз GTK тәуелділігін бұзып, осы жаңа мүмкіндікті Mousepad ішіне қосатын шығармыз."
+
+#: org.xfce.mousepad.appdata.xml.in:36
+msgid "The Mousepad developers"
+msgstr ""
+
+#. SECURITY:
+#. - A normal active user can run mousepad without elevated rights. They
+#. may wish to modify a file they normally do not have read/write access
+#. to. This isn't a good idea, but is common on single user systems.
+#: org.xfce.mousepad.policy.in.in:24
+msgid "Run Mousepad as root"
+msgstr "Mousepad-ты root атынан жіберу"
+
+#: org.xfce.mousepad.policy.in.in:25
+msgid "Authentication is required to run Mousepad as root."
+msgstr "Mousepad-ты root атынан жіберу үшін аутентификация керек."
