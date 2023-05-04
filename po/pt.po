@@ -1866,7 +1866,7 @@ msgstr "Por outro lado, tentamos utilizar as últimas funcionalidades GTK dispon
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Os programadores do Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
