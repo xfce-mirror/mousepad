@@ -1873,7 +1873,7 @@ msgstr "Z drugiej strony staramy się korzystać z najnowszych dostępnych funkc
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Twórcy programu Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
