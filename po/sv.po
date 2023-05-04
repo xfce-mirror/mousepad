@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 12:48+0200\n"
+"POT-Creation-Date: 2023-05-04 20:42+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>, 2020-2023\n"
 "Language-Team: Swedish (http://app.transifex.com/xfce/xfce-apps/language/sv/)\n"
@@ -1840,11 +1840,6 @@ msgstr "Enkel textredigerare"
 msgid "Text Editor"
 msgstr "Textredigerare"
 
-#: org.xfce.mousepad.desktop.in.in:8
-#: org.xfce.mousepad-settings.desktop.in.in:7
-msgid "org.xfce.mousepad"
-msgstr "org.xfce.mousepad"
-
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
 msgstr "Textredigerarinställningar"
@@ -1867,3 +1862,7 @@ msgid ""
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
 msgstr "Å andra sidan försöker vi använda de senaste Gtk-funktionerna tillgängliga, vilket innebär att om Gtk lägger till något nytt i en stor utgåva som vi kan använda till editorn så kommer vi sannolikt ändra beroendet och integrera den nya funktionen i Mousepad."
+
+#: org.xfce.mousepad.appdata.xml.in:36
+msgid "The Mousepad developers"
+msgstr ""
