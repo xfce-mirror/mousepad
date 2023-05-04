@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 12:48+0200\n"
+"POT-Creation-Date: 2023-05-04 21:30+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Toni Estévez <toni.estevez@gmail.com>, 2020-2022\n"
 "Language-Team: Spanish (http://app.transifex.com/xfce/xfce-apps/language/es/)\n"
@@ -1850,11 +1850,6 @@ msgstr "Editor de texto simple"
 msgid "Text Editor"
 msgstr "Editor de texto"
 
-#: org.xfce.mousepad.desktop.in.in:8
-#: org.xfce.mousepad-settings.desktop.in.in:7
-msgid "org.xfce.mousepad"
-msgstr ""
-
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
 msgstr "Configuración del editor de texto"
@@ -1877,3 +1872,19 @@ msgid ""
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
 msgstr "Por otro lado, intentamos usar las últimas características de GTK disponibles, lo que significa que si GTK añade una función nueva que sea útil para el editor, probablemente modificaremos la dependencia de GTK e integraremos esta nueva característica en Mousepad."
+
+#: org.xfce.mousepad.appdata.xml.in:36
+msgid "The Mousepad developers"
+msgstr ""
+
+#. SECURITY:
+#. - A normal active user can run mousepad without elevated rights. They
+#. may wish to modify a file they normally do not have read/write access
+#. to. This isn't a good idea, but is common on single user systems.
+#: org.xfce.mousepad.policy.in.in:24
+msgid "Run Mousepad as root"
+msgstr "Ejecutar Mousepad como superusuario"
+
+#: org.xfce.mousepad.policy.in.in:25
+msgid "Authentication is required to run Mousepad as root."
+msgstr "Se requiere autenticación para ejecutar Mousepad como superusuario."
