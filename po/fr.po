@@ -1876,4 +1876,4 @@ msgstr "D’un autre côté nous essayons d’utiliser les dernières fonctionna
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Les développeurs de Mousepad"
