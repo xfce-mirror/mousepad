@@ -32,6 +32,8 @@ appdata_in_files = org.xfce.mousepad.appdata.xml.in
 %.xml: %.xml.in
 	$(AM_V_GEN) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
+if HAVE_POLKIT
+
 polkit_policydir = $(datadir)/polkit-1/actions
 polkit_in_in_files =			\
 	org.xfce.mousepad.policy.in.in
@@ -43,6 +45,8 @@ polkit_policy_DATA = $(polkit_in_files:.policy.in=.policy)
 
 %.policy: %.policy.in
 	$(AM_V_GEN) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
+
+endif
 
 .PHONY: ChangeLog
 
