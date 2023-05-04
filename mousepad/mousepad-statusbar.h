@@ -26,7 +26,7 @@
 G_BEGIN_DECLS
 
 #define MOUSEPAD_TYPE_STATUSBAR (mousepad_statusbar_get_type ())
-G_DECLARE_FINAL_TYPE (MousepadStatusbar, mousepad_statusbar, MOUSEPAD, STATUSBAR, GtkStatusbar)
+G_DECLARE_FINAL_TYPE (MousepadStatusbar, mousepad_statusbar, MOUSEPAD, STATUSBAR, GtkBox)
 
 GtkWidget  *mousepad_statusbar_new                  (void);
 
