@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-04-23 12:48+0200\n"
+"POT-Creation-Date: 2023-05-04 20:42+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: 黃柏諺 <s8321414@gmail.com>, 2019-2023\n"
 "Language-Team: Chinese (Taiwan) (http://app.transifex.com/xfce/xfce-apps/language/zh_TW/)\n"
@@ -1837,11 +1837,6 @@ msgstr "簡易文字編輯器"
 msgid "Text Editor"
 msgstr "文字編輯器"
 
-#: org.xfce.mousepad.desktop.in.in:8
-#: org.xfce.mousepad-settings.desktop.in.in:7
-msgid "org.xfce.mousepad"
-msgstr "org.xfce.mousepad"
-
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
 msgstr "文字編輯器設定"
@@ -1864,3 +1859,7 @@ msgid ""
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
 msgstr "另一方面，我們試著使用最新的 GTK 功能，這代表了如果 GTK 在新的主要版本中加入了某些可能對編輯器有用的新東西，我們可能會破壞 GTK 的依賴關係來將此功能整合到 Mousepad 中。"
+
+#: org.xfce.mousepad.appdata.xml.in:36
+msgid "The Mousepad developers"
+msgstr ""
