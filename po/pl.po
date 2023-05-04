@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 20:42+0200\n"
+"POT-Creation-Date: 2023-05-04 21:30+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Marek Adamski, 2021-2023\n"
 "Language-Team: Polish (http://app.transifex.com/xfce/xfce-apps/language/pl/)\n"
@@ -1874,3 +1874,15 @@ msgstr "Z drugiej strony staramy się korzystać z najnowszych dostępnych funkc
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
 msgstr ""
+
+#. SECURITY:
+#. - A normal active user can run mousepad without elevated rights. They
+#. may wish to modify a file they normally do not have read/write access
+#. to. This isn't a good idea, but is common on single user systems.
+#: org.xfce.mousepad.policy.in.in:24
+msgid "Run Mousepad as root"
+msgstr "Uruchom Mousepad jako użytkownik root"
+
+#: org.xfce.mousepad.policy.in.in:25
+msgid "Authentication is required to run Mousepad as root."
+msgstr "Uwierzytelnianie jest wymagane, aby uruchomić Mousepad jako użytkownik root."
