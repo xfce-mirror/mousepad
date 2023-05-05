@@ -1862,7 +1862,7 @@ msgstr "另一方面，我們試著使用最新的 GTK 功能，這代表了如�
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Mousepad 開發者"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
