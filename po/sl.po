@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Arnold Marko <arnold.marko@gmail.com>, 2019-2021,2023\n"
 "Language-Team: Slovenian (http://app.transifex.com/xfce/xfce-apps/language/sl/)\n"
@@ -675,19 +675,19 @@ msgstr "Vsi dokumenti"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d od %d zadetkov"
+msgstr[1] "%d od %d zadetkov"
+msgstr[2] "%d od %d zadetkov"
+msgstr[3] "%dod%d zadetkov"
 
 #: mousepad/mousepad-replace-dialog.c:617 mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d zadetek"
+msgstr[1] "%d zadetka"
+msgstr[2] "%d zadetki"
+msgstr[3] "%d zadetkov"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -950,7 +950,7 @@ msgstr "Označi _vse:"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Osvetli iskalne zadetke"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1413,7 +1413,7 @@ msgstr "Prmekane vsebino v različne smeri"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Vrstica _gor"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1421,7 +1421,7 @@ msgstr "Premakni vrstice za eno navzgor"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Vrstica _dol"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1429,7 +1429,7 @@ msgstr "Premakni vrstice za eno navzdol"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Besedo v _levo"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1437,7 +1437,7 @@ msgstr "Besede premakne za eno besedo v levo"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Besedo v _desno"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1866,7 +1866,7 @@ msgstr "Po drugi strani skušamo uporabljati zadnje funkcionalnosti, ki jih prin
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Mousepad razvijalci"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
