@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Demiray Muhterem <mdemiray@msn.com>, 2019-2023\n"
 "Language-Team: Turkish (http://app.transifex.com/xfce/xfce-apps/language/tr/)\n"
@@ -955,7 +955,7 @@ msgstr "Tü_münü Vurgula"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Arama eşleşmelerini vurgulayın"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1418,7 +1418,7 @@ msgstr "İçeriği değişik yollarda taşı"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Bir Satır _Yukarı"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1426,7 +1426,7 @@ msgstr "Satırları bir satır yukarı taşı"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Bir Satır _Aşağı"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1434,7 +1434,7 @@ msgstr "Satırları bir satır aşağı taşı"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Bir Kelime _Sol"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1442,7 +1442,7 @@ msgstr "Sözcükleri bir sözcük sola taşı"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Bir Kelime _Sağ"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1871,7 +1871,7 @@ msgstr "Bunun yanında son GTK yeniliklerini kullanmaya çalışıyoruz; yani, G
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Mousepad geliştiricileri"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
