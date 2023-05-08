@@ -17,6 +17,7 @@
 #include <mousepad/mousepad-private.h>
 #include <mousepad/mousepad-plugin-provider.h>
 #include <mousepad/mousepad-plugin.h>
+#include <mousepad/mousepad-util.h>
 
 #include <gmodule.h>
 
@@ -152,7 +153,7 @@ mousepad_plugin_provider_unload (GTypeModule *type_module)
   g_list_free_full (provider->instances, g_object_unref);
   provider->instances = NULL;
   if (provider->setting_box != NULL)
-    gtk_widget_destroy (provider->setting_box);
+    g_object_unref (provider->setting_box);
 
   /* reset provider state, except module if ever we go to finalize() */
   provider->initialize = NULL;
@@ -236,8 +237,8 @@ mousepad_plugin_provider_create_setting_box (MousepadPluginProvider *provider)
 
       /* if ever the setting box is destroyed from the outside (which should not happen)
        * the pointer will still be reset, and the tests based on it will work correctly */
-      g_signal_connect (provider->setting_box, "destroy", G_CALLBACK (gtk_widget_destroyed),
-                        &(provider->setting_box));
+      g_signal_connect (provider->setting_box, "destroy",
+                        G_CALLBACK (mousepad_util_widget_destroyed), &(provider->setting_box));
     }
 
   return provider->setting_box;
