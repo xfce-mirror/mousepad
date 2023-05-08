@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the xfce-apps.mousepad package.
 # 
 # Translators:
-# Cally Mal <zhouxiaobo.500@gmail.com>, 2020-2021
+# Cally Mal <zhouxiaobo.500@gmail.com>, 2020-2021,2023
 # Hunt Xu <huntxu@live.cn>, 2012
 # No Body, 2020
 # No Body, 2020
@@ -24,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: 玉堂白鹤 <yjwork@qq.com>, 2014-2016,2018-2022\n"
+"Last-Translator: Cally Mal <zhouxiaobo.500@gmail.com>, 2020-2021,2023\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/xfce/xfce-apps/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -689,13 +689,13 @@ msgstr "全部文档"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
+msgstr[0] "%d / %d 个匹配"
 
 #: mousepad/mousepad-replace-dialog.c:617 mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
+msgstr[0] "%d个匹配项"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -958,7 +958,7 @@ msgstr "全部高亮(_A)"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "高亮搜索匹配项"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1421,7 +1421,7 @@ msgstr "以不同方式移动内容"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "上移一行(_U)"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1429,7 +1429,7 @@ msgstr "向上移动一行"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "下移一行(_D)"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1437,7 +1437,7 @@ msgstr "向下移动一行"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "文字左移(_L)"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1445,7 +1445,7 @@ msgstr "左移一个字"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "文字右移(_R)"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1874,7 +1874,7 @@ msgstr "另一方面，我们尝试使用可用的最新 GTK 功能，这意味�
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Mousepad 开发者"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
