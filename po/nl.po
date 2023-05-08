@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Pjotr <pjotrvertaalt@gmail.com>, 2014,2018-2023\n"
 "Language-Team: Dutch (http://app.transifex.com/xfce/xfce-apps/language/nl/)\n"
@@ -1861,7 +1861,7 @@ msgstr "Aan de andere kant proberen we om de nieuwste GTK-functies te gebruiken,
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "De ontwikkelaars van Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
