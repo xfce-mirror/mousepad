@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Ingo Brückl <ib@wupperonline.de>, 2021-2023\n"
 "Language-Team: German (http://app.transifex.com/xfce/xfce-apps/language/de/)\n"
@@ -1739,7 +1739,7 @@ msgstr "Bei Auswahl von »Ungesicherte Dokumente« oder »Immer« fragt Mousepad
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1301
 msgid "Recent file menu length:"
-msgstr "Anzahl der Einträge für kürzlich verwendete Dateien"
+msgstr "Anzahl der Einträge für zuletzt geöffnete Dateien"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1313
 msgid "'0' disables and wipes recent history"
