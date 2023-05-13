@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Elishai Eliyahu <elishai@mailfence.com>, 2020-2023\n"
 "Language-Team: Hebrew (http://app.transifex.com/xfce/xfce-apps/language/he/)\n"
@@ -953,7 +953,7 @@ msgstr "הבלט הכל"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "הדגש את התאמות החיפוש"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1416,7 +1416,7 @@ msgstr "הזז תכולה בדרכים שונות"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "שורה אחת מ_עלה"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1424,7 +1424,7 @@ msgstr "הזז שורות מעלה שורה אחת "
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "שורה אחת מ_טה"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1432,7 +1432,7 @@ msgstr "הזז שורות מטה שורה אחת "
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "מילה אחת _שמאלה"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1440,7 +1440,7 @@ msgstr "הזז מילים שמאלה מילה אחת"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "מילה אחת _ימינה"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1615,11 +1615,11 @@ msgstr "תצוגה"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:565
 msgid "Tab width:"
-msgstr ""
+msgstr "רוחב לשונית:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:577
 msgid "Tab mode:"
-msgstr ""
+msgstr "מצב לשונית:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:620
 msgid "Enable automatic indentation"
@@ -1869,7 +1869,7 @@ msgstr "מצד שני אנו מנסים להשתמש במאפייני GTK העד
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "המפתחים של Mousepad "
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
