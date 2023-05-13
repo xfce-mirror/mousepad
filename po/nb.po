@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: heskjestad <cato@heskjestad.xyz>, 2020-2023\n"
 "Language-Team: Norwegian Bokmål (http://app.transifex.com/xfce/xfce-apps/language/nb/)\n"
@@ -1866,7 +1866,7 @@ msgstr "På den andre siden forsøker vi å bruke de nyeste GTK-funksjonaliteten
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Mousepad-utviklerne"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
@@ -1878,4 +1878,4 @@ msgstr "Kjør Mousepad som rot."
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
-msgstr ""
+msgstr "Autentisering kreves for å kjøre Mousepad som root-brukeren."
