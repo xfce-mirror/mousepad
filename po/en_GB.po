@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the xfce-apps.mousepad package.
 # 
 # Translators:
+# Andi Chandler <andi@gowling.com>, 2023
 # Jason Collins <JasonPCollins@protonmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-05 10:52+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Jason Collins <JasonPCollins@protonmail.com>, 2019\n"
+"Last-Translator: Andi Chandler <andi@gowling.com>, 2023\n"
 "Language-Team: English (United Kingdom) (http://app.transifex.com/xfce/xfce-apps/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,35 +23,35 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "Encoding to be used to open files (leave empty to open files in the encoding dialogue)"
 
 #: mousepad/mousepad-application.c:137
 msgid "ENCODING"
-msgstr ""
+msgstr "ENCODING"
 
 #: mousepad/mousepad-application.c:142
 msgid "Display a list of possible encodings to open files"
-msgstr ""
+msgstr "Display a list of possible encodings to open files"
 
 #: mousepad/mousepad-application.c:147
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr ""
+msgstr "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from bottom)"
 
 #: mousepad/mousepad-application.c:148
 msgid "LINE"
-msgstr ""
+msgstr "LINE"
 
 #: mousepad/mousepad-application.c:153
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr ""
+msgstr "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 from end)"
 
 #: mousepad/mousepad-application.c:154
 msgid "COLUMN"
-msgstr ""
+msgstr "COLUMN"
 
 #: mousepad/mousepad-application.c:159
 msgid "Open the preferences dialog"
@@ -62,7 +63,7 @@ msgstr "Do not register with the D-BUS session message bus"
 
 #: mousepad/mousepad-application.c:169
 msgid "Quit a running Mousepad primary instance"
-msgstr ""
+msgstr "Quit a running Mousepad primary instance"
 
 #: mousepad/mousepad-application.c:174
 msgid "Print version information and exit"
@@ -81,15 +82,15 @@ msgstr "Mousepad"
 #: mousepad/mousepad-application.c:391
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 
 #: mousepad/mousepad-application.c:394
 msgid "MODE"
-msgstr ""
+msgstr "MODE"
 
 #: mousepad/mousepad-application.c:452
 msgid "The Mousepad developers. All rights reserved."
-msgstr ""
+msgstr "The Mousepad developers. All rights reserved."
 
 #: mousepad/mousepad-application.c:453
 #, c-format
@@ -103,7 +104,7 @@ msgstr "%s | Authors: %s | Filename: %s"
 
 #: mousepad/mousepad-dialogs.c:70 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad is a simple text editor for the Xfce desktop environment"
 
 #: mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -127,7 +128,7 @@ msgstr "Go To"
 #. add button
 #: mousepad/mousepad-dialogs.c:240
 msgid "_Jump to"
-msgstr ""
+msgstr "_Jump to"
 
 #: mousepad/mousepad-dialogs.c:260
 msgid "_Line number:"
@@ -154,7 +155,7 @@ msgstr "Clearing the documents history will permanently remove all currently lis
 
 #: mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
-msgstr ""
+msgstr "Clea_r"
 
 #: mousepad/mousepad-dialogs.c:382
 msgid "Do you want to save the changes before closing?"
@@ -162,7 +163,7 @@ msgstr "Do you want to save the changes before closing?"
 
 #: mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "The document is read-only, do you want to save it as another file?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:392 mousepad/mousepad-dialogs.c:532
@@ -177,7 +178,7 @@ msgstr "_Don't Save"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "If you don't save this read-only document as another file, all the changes will be lost."
 
 #: mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -196,11 +197,11 @@ msgstr "If you save the document, all of the external changes will be lost."
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "The document has been externally modified. Do you want to reload it from disk?"
 
 #: mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr ""
+msgstr "You have unsaved changes. If you revert the file, they will be lost."
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:487
@@ -220,37 +221,37 @@ msgstr "If you revert the file, all unsaved changes will be lost."
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "The file seems to be encoded in %s, but you have chosen %s encoding. Do you confirm this choice?"
 
 #: mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "If not, the guessed encoding will be used."
 
 #: mousepad/mousepad-dialogs.c:640
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "It seems that the previous session did not end normally. Do you want to restore the available data?"
 
 #: mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "If not, all this data will be lost."
 
 #: mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
-msgstr ""
+msgstr "Please select a file"
 
 #: mousepad/mousepad-dialogs.c:893
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "Failed to prepare the temporary file for encoding tests"
 
 #: mousepad/mousepad-dialogs.c:956 mousepad/mousepad-dialogs.c:1029
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Open encoding dialogue"
 
 #: mousepad/mousepad-dialogs.c:958
 msgid "Go back to shorten list"
-msgstr ""
+msgstr "Go back to shorten list"
 
 #. combo box label
 #: mousepad/mousepad-dialogs.c:1022
@@ -259,15 +260,15 @@ msgstr "_Encoding:"
 
 #: mousepad/mousepad-dialogs.c:1057
 msgid "Current"
-msgstr ""
+msgstr "Current"
 
 #: mousepad/mousepad-dialogs.c:1075
 msgid "Show all encodings"
-msgstr ""
+msgstr "Show all encodings"
 
 #: mousepad/mousepad-dialogs.c:1113
 msgid "Text Files"
-msgstr ""
+msgstr "Text Files"
 
 #: mousepad/mousepad-dialogs.c:1119
 msgid "All Files"
@@ -304,7 +305,7 @@ msgstr "Failed to save the document"
 
 #: mousepad/mousepad-dialogs.h:30
 msgid "Unsupported character set"
-msgstr ""
+msgstr "Unsupported character set"
 
 #. button labels
 #: mousepad/mousepad-dialogs.h:33
@@ -321,7 +322,7 @@ msgstr "_Save"
 
 #: mousepad/mousepad-dialogs.h:36
 msgid "Save _As"
-msgstr ""
+msgstr "Save _As"
 
 #: mousepad/mousepad-dialogs.h:37
 msgid "Re_vert"
@@ -329,7 +330,7 @@ msgstr "Re_vert"
 
 #: mousepad/mousepad-dialogs.h:38 mousepad/resources/gtk/menus-common.ui:72
 msgid "Re_load"
-msgstr ""
+msgstr "Re_load"
 
 #. pack button, add signal and tooltip
 #: mousepad/mousepad-document.c:556
@@ -352,40 +353,40 @@ msgstr "Checking encodings..."
 #: mousepad/mousepad-encoding-dialog.c:287
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s (%s, failed)"
 
 #: mousepad/mousepad-encoding-dialog.c:289
 #: mousepad/mousepad-encoding-dialog.c:344
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s (%s, partial)"
 
 #: mousepad/mousepad-encoding-dialog.c:418
 msgid "Other (partial):"
-msgstr ""
+msgstr "Other (partial):"
 
 #: mousepad/mousepad-encoding-dialog.c:429
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "Other valid encodings were found, please choose below."
 
 #: mousepad/mousepad-encoding-dialog.c:431
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "Other partially valid encodings were found, please choose below."
 
 #: mousepad/mousepad-encoding-dialog.c:467
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "No other valid encoding was found."
 
 #. dialog title
 #: mousepad/mousepad-encoding-dialog.c:674
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "The document is %s valid."
 
 #: mousepad/mousepad-encoding-dialog.c:675
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "The document is not %s valid."
 
 #. west european
 #: mousepad/mousepad-encoding.c:39
@@ -516,7 +517,7 @@ msgstr "System"
 
 #: mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "History"
 
 #: mousepad/mousepad-file.c:962
 msgid "Invalid byte sequence in conversion input"
@@ -529,7 +530,7 @@ msgstr "Failed to clear the recent history"
 #. setup the window properties
 #: mousepad/mousepad-prefs-dialog.c:640 org.xfce.mousepad.desktop.in.in:17
 msgid "Mousepad Preferences"
-msgstr ""
+msgstr "Mousepad Preferences"
 
 #. set a custom tab label
 #: mousepad/mousepad-print.c:108
@@ -595,13 +596,13 @@ msgstr "_Replace"
 #. set dialog properties
 #: mousepad/mousepad-replace-dialog.c:254
 msgid "Find and Replace"
-msgstr ""
+msgstr "Find and Replace"
 
 #. dialog buttons
 #: mousepad/mousepad-replace-dialog.c:260
 #: mousepad/resources/gtk/menus-common.ui:156
 msgid "_Find"
-msgstr ""
+msgstr "_Find"
 
 #: mousepad/mousepad-replace-dialog.c:269
 msgid "_Close"
@@ -637,7 +638,7 @@ msgstr "_Wrap around"
 #: mousepad/mousepad-replace-dialog.c:369 mousepad/mousepad-search-bar.c:284
 #: mousepad/mousepad-search-bar.c:292
 msgid "Match _case"
-msgstr ""
+msgstr "Match _case"
 
 #. match whole word
 #. check button for matching whole words, including the proxy menu item
@@ -651,7 +652,7 @@ msgstr "_Match whole word"
 #: mousepad/mousepad-replace-dialog.c:387 mousepad/mousepad-search-bar.c:312
 #: mousepad/mousepad-search-bar.c:320
 msgid "Regular e_xpression"
-msgstr ""
+msgstr "Regular e_xpression"
 
 #: mousepad/mousepad-replace-dialog.c:401
 msgid "Replace _all in:"
@@ -673,15 +674,15 @@ msgstr "All Documents"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d of %d match"
+msgstr[1] "%d of %d matches"
 
 #: mousepad/mousepad-replace-dialog.c:617 mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d match"
+msgstr[1] "%d matches"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
