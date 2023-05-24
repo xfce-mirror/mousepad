@@ -680,6 +680,9 @@ mousepad_document_search_completed_idle (gpointer data)
   else if (! (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE)
            && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
     gtk_text_buffer_place_cursor (document->buffer, &iter);
+  /* if e.g. a silent search fails by modifying the search entry this must be reset */
+  else
+    document->priv->cur_match = 0;
 
   /* force the signal emission, to cover cases where Mousepad search settings change without
    * changing GtkSourceView settings (e.g. when switching between single-document mode and
