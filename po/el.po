@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Ioannis LM, 2019-2020,2022-2023\n"
 "Language-Team: Greek (http://app.transifex.com/xfce/xfce-apps/language/el/)\n"
@@ -954,7 +954,7 @@ msgstr "Επισήμανση ό_λων"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Επισήμανη αποτελεσμάτων αναζήτησης"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1417,7 +1417,7 @@ msgstr "Μετακίνηση με διάφορους τρόπους"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Μία γραμμή _επάνω"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1425,7 +1425,7 @@ msgstr "Μετακίνηση γραμμών προς τα επάνω κατά μ
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Μία γραμμή _κάτω"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1433,7 +1433,7 @@ msgstr "Μετακίνηση γραμμών προς τα κάτω κατά μί
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Μία γραμμή _αριστερά"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1441,7 +1441,7 @@ msgstr "Μετακίνηση λέξεων αριστερά κατά μία λέ�
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Μία γραμμή _δεξιά"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1739,7 +1739,7 @@ msgstr "Επαναφορά συνεδρίας:"
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr "Όταν η επιλογή είναι \"Μη αποθηκευμένα έγγραφα\" ή \"Πάντα\", το Mousepad δε θα ρωτάει για την αποθήκευση τροποποιημένων εγγράφων κατά την έξοδο"
+msgstr "Όταν η επιλογή είναι \"μη αποθηκευμένα έγγραφα\" ή \"πάντα\", το Mousepad δε θα ρωτάει για την αποθήκευση τροποποιημένων εγγράφων στην έξοδο"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1301
 msgid "Recent file menu length:"
@@ -1870,7 +1870,7 @@ msgstr "Από την άλλη προσπαθούμε να χρησιμοποι�
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Οι προγραμματιστές του Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
