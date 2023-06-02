@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-05 10:52+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>, 2023\n"
 "Language-Team: English (United Kingdom) (http://app.transifex.com/xfce/xfce-apps/language/en_GB/)\n"
@@ -720,7 +720,7 @@ msgstr "Filetype: %s"
 #. add the label with the root warning
 #: mousepad/mousepad-window.c:1072
 msgid "Warning: you are using the root account. You may harm your system."
-msgstr ""
+msgstr "Warning: you are using the root account. You may harm your system."
 
 #: mousepad/mousepad-window.c:2327
 msgid "Read Only"
@@ -728,12 +728,12 @@ msgstr "Read Only"
 
 #: mousepad/mousepad-window.c:2331
 msgid "Viewer Mode"
-msgstr ""
+msgstr "Viewer Mode"
 
 #: mousepad/mousepad-window.c:3389
 #, c-format
 msgid "Use '%s' as template"
-msgstr ""
+msgstr "Use '%s' as template"
 
 #: mousepad/mousepad-window.c:3415
 #, c-format
@@ -747,7 +747,7 @@ msgstr "No template files found in\n'%s'"
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr ""
+msgstr "Missing Templates directory\n'%s'"
 
 #. create suitable text label for the "Other" menu
 #: mousepad/mousepad-window.c:3532
@@ -765,7 +765,7 @@ msgstr "Revert to the saved version of the file"
 
 #: mousepad/mousepad-window.c:3647 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
-msgstr ""
+msgstr "Reload file from disk"
 
 #: mousepad/mousepad-window.c:3653
 msgid "Leave fullscreen mode"
@@ -786,7 +786,7 @@ msgstr "No items found"
 
 #: mousepad/mousepad-window.c:3927
 msgid "History disabled"
-msgstr ""
+msgstr "History disabled"
 
 #. create an item to inform the user
 #: mousepad/mousepad-window.c:4403
@@ -797,12 +797,12 @@ msgstr "No clipboard data"
 #: mousepad/mousepad-window.c:4512
 #, c-format
 msgid "Templates should be %s valid"
-msgstr ""
+msgstr "Templates should be %s valid"
 
 #. set error message
 #: mousepad/mousepad-window.c:4518
 msgid "Reading the template failed"
-msgstr ""
+msgstr "Reading the template failed"
 
 #. set error message
 #: mousepad/mousepad-window.c:4523
@@ -825,7 +825,7 @@ msgstr "_File"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
-msgstr ""
+msgstr "File menu"
 
 #: mousepad/resources/gtk/menus.ui:27
 msgid "New _Window"
@@ -841,7 +841,7 @@ msgstr "New From Te_mplate"
 
 #: mousepad/resources/gtk/menus.ui:33
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "Create a new document from a template"
 
 #: mousepad/resources/gtk/menus.ui:43
 msgid "Op_en Recent"
@@ -849,7 +849,7 @@ msgstr "Op_en Recent"
 
 #: mousepad/resources/gtk/menus.ui:44
 msgid "Open a recently used file"
-msgstr ""
+msgstr "Open a recently used file"
 
 #: mousepad/resources/gtk/menus.ui:50
 msgid "Clear _History"
@@ -889,7 +889,7 @@ msgstr "_Quit"
 
 #: mousepad/resources/gtk/menus.ui:103
 msgid "Quit Mousepad"
-msgstr ""
+msgstr "Quit Mousepad"
 
 #: mousepad/resources/gtk/menus.ui:111
 msgid "_Edit"
@@ -897,11 +897,11 @@ msgstr "_Edit"
 
 #: mousepad/resources/gtk/menus.ui:112
 msgid "Edit menu"
-msgstr ""
+msgstr "Edit menu"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
-msgstr ""
+msgstr "Preferences..."
 
 #: mousepad/resources/gtk/menus.ui:131
 msgid "Show the preferences dialog"
@@ -913,7 +913,7 @@ msgstr "_Search"
 
 #: mousepad/resources/gtk/menus.ui:140
 msgid "Search menu"
-msgstr ""
+msgstr "Search menu"
 
 #: mousepad/resources/gtk/menus.ui:147
 msgid "Find _Next"
@@ -933,11 +933,11 @@ msgstr "Search backwards for the same text"
 
 #: mousepad/resources/gtk/menus.ui:163
 msgid "_Incremental Search"
-msgstr ""
+msgstr "_Incremental Search"
 
 #: mousepad/resources/gtk/menus.ui:164
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Automatically select the search result and scroll the view"
 
 #: mousepad/resources/gtk/menus.ui:168
 msgid "Highlight _All"
@@ -945,7 +945,7 @@ msgstr "Highlight _All"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Highlight the search matches"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -953,7 +953,7 @@ msgstr "_View"
 
 #: mousepad/resources/gtk/menus.ui:184
 msgid "View menu"
-msgstr ""
+msgstr "View menu"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
@@ -969,7 +969,7 @@ msgstr "_Colour Scheme"
 
 #: mousepad/resources/gtk/menus.ui:196
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Colour scheme to use for the text view"
 
 #: mousepad/resources/gtk/menus.ui:199
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:120
