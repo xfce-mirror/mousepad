@@ -1019,7 +1019,7 @@ msgstr "_Document"
 
 #: mousepad/resources/gtk/menus.ui:241
 msgid "Document menu"
-msgstr ""
+msgstr "Document menu"
 
 #: mousepad/resources/gtk/menus.ui:245
 msgid "_Word Wrap"
@@ -1043,27 +1043,27 @@ msgstr "Tab _Size"
 
 #: mousepad/resources/gtk/menus.ui:256
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "The number of space characters for a tabulation"
 
 #: mousepad/resources/gtk/menus.ui:260
 msgid "Two spaces"
-msgstr ""
+msgstr "Two spaces"
 
 #: mousepad/resources/gtk/menus.ui:266
 msgid "Three spaces"
-msgstr ""
+msgstr "Three spaces"
 
 #: mousepad/resources/gtk/menus.ui:272
 msgid "Four spaces"
-msgstr ""
+msgstr "Four spaces"
 
 #: mousepad/resources/gtk/menus.ui:278
 msgid "Eight spaces"
-msgstr ""
+msgstr "Eight spaces"
 
 #: mousepad/resources/gtk/menus.ui:283
 msgid "Other..."
-msgstr ""
+msgstr "Other..."
 
 #: mousepad/resources/gtk/menus.ui:284
 msgid "Set custom tab size"
@@ -1083,7 +1083,7 @@ msgstr "_Filetype"
 
 #: mousepad/resources/gtk/menus.ui:301
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "Language to use for syntax highlighting"
 
 #: mousepad/resources/gtk/menus.ui:304
 msgid "Plain Text"
@@ -1099,7 +1099,7 @@ msgstr "Line E_nding"
 
 #: mousepad/resources/gtk/menus.ui:315
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "Character(s) to use as end of line"
 
 #: mousepad/resources/gtk/menus.ui:318
 msgid "Set the line ending of the document to Unix (LF)"
@@ -1123,11 +1123,11 @@ msgstr "Store the byte-order mark in the file"
 
 #: mousepad/resources/gtk/menus.ui:343
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "_Viewer Mode"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Disallow modifications via keyboard / mouse"
 
 #: mousepad/resources/gtk/menus.ui:350
 msgid "_Previous Tab"
@@ -1151,7 +1151,7 @@ msgstr "_Help"
 
 #: mousepad/resources/gtk/menus.ui:368
 msgid "Help menu"
-msgstr ""
+msgstr "Help menu"
 
 #: mousepad/resources/gtk/menus.ui:370
 msgid "_Contents"
@@ -1215,7 +1215,7 @@ msgstr "Close the current document"
 
 #: mousepad/resources/gtk/menus-common.ui:100
 msgid "_Undo"
-msgstr ""
+msgstr "_Undo"
 
 #: mousepad/resources/gtk/menus-common.ui:101
 msgid "Undo the last action"
@@ -1223,7 +1223,7 @@ msgstr "Undo the last action"
 
 #: mousepad/resources/gtk/menus-common.ui:109
 msgid "_Redo"
-msgstr ""
+msgstr "_Redo"
 
 #: mousepad/resources/gtk/menus-common.ui:110
 msgid "Redo the last undone action"
@@ -1231,7 +1231,7 @@ msgstr "Redo the last undone action"
 
 #: mousepad/resources/gtk/menus-common.ui:118
 msgid "Cu_t"
-msgstr ""
+msgstr "Cu_t"
 
 #: mousepad/resources/gtk/menus-common.ui:119
 msgid "Cut the selection"
@@ -1291,7 +1291,7 @@ msgstr "Paste _Special"
 
 #: mousepad/resources/gtk/menus-common.ui:235
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "Paste the clipboard in a special way"
 
 #: mousepad/resources/gtk/menus-common.ui:237
 msgid "Paste from _History"
@@ -1311,7 +1311,7 @@ msgstr "Paste the clipboard text into a column"
 
 #: mousepad/resources/gtk/menus-common.ui:248
 msgid "_Delete Selection"
-msgstr ""
+msgstr "_Delete Selection"
 
 #: mousepad/resources/gtk/menus-common.ui:249
 msgid "Delete the current selection"
@@ -1319,11 +1319,11 @@ msgstr "Delete the current selection"
 
 #: mousepad/resources/gtk/menus-common.ui:254
 msgid "Delete _Line"
-msgstr ""
+msgstr "Delete _Line"
 
 #: mousepad/resources/gtk/menus-common.ui:255
 msgid "Delete the current line"
-msgstr ""
+msgstr "Delete the current line"
 
 #: mousepad/resources/gtk/menus-common.ui:262
 msgid "Conve_rt"
@@ -1331,7 +1331,7 @@ msgstr "Conve_rt"
 
 #: mousepad/resources/gtk/menus-common.ui:263
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Convert text in different ways"
 
 #: mousepad/resources/gtk/menus-common.ui:266
 msgid "To _Lowercase"
@@ -1375,7 +1375,7 @@ msgstr "Convert all tabs to spaces in the selection or document"
 
 #: mousepad/resources/gtk/menus-common.ui:293
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "_Leading Spaces to Tabs"
 
 #: mousepad/resources/gtk/menus-common.ui:294
 msgid ""
@@ -1400,43 +1400,43 @@ msgstr "Reverse the order of something"
 
 #: mousepad/resources/gtk/menus-common.ui:314
 msgid "_Move"
-msgstr ""
+msgstr "_Move"
 
 #: mousepad/resources/gtk/menus-common.ui:315
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Move content in different ways"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "One Line _Up"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Move lines one line up"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "One Line _Down"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Move lines one line down"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "One Word _Left"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
-msgstr ""
+msgstr "Move words one word left"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "One Word _Right"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
-msgstr ""
+msgstr "Move words one word right"
 
 #: mousepad/resources/gtk/menus-common.ui:338
 msgid "Dup_licate Line / Selection"
@@ -1476,11 +1476,11 @@ msgstr "Never"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:43
 msgid "First key press"
-msgstr ""
+msgstr "First key press"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:47
 msgid "Second key press"
-msgstr ""
+msgstr "Second key press"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:51
 msgid "Always"
@@ -1488,38 +1488,38 @@ msgstr "Always"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:89
 msgid "never"
-msgstr ""
+msgstr "never"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:93
 msgid "after a crash"
-msgstr ""
+msgstr "after a crash"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:97
 msgid "unsaved documents"
-msgstr ""
+msgstr "unsaved documents"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:101
 msgid "saved documents"
-msgstr ""
+msgstr "saved documents"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:105
 msgid "always"
-msgstr ""
+msgstr "always"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:141
 msgid "new tabs"
-msgstr ""
+msgstr "new tabs"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:145
 msgid "new windows"
-msgstr ""
+msgstr "new windows"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:149
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "new tabs in a new window"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:164
 msgid "Menu"
@@ -1599,7 +1599,7 @@ msgstr "<b>Font</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:512
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Colour Scheme</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:529
 msgid "View"
@@ -1623,23 +1623,23 @@ msgstr "<b>Indentation</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:668
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tab: Indent selection (Shift+Tab: Unindent)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:672
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Indent/unindent the currently selected text or the current line"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:693
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: Delete indent spaces as tabs"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:709
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: Detect leading/trailing whitespace:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:754
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>Smart Keys</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:774
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:50
@@ -1648,7 +1648,7 @@ msgstr "Editor"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:808
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Client-side decorations (restart required)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:823
 msgid "Show full filename in title bar"
@@ -1692,7 +1692,7 @@ msgstr "Always show tabs even with one file"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1044
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Expand tabs to fill available space"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1059
 msgid "Cycled notebook tab switching"
@@ -1700,11 +1700,11 @@ msgstr "Cycled notebook tab switching"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1082
 msgid "Open files in:"
-msgstr ""
+msgstr "Open files in:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1128
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>Notebook Tabs</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1148
 msgid "Window"
@@ -1712,53 +1712,53 @@ msgstr "Window"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1182
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "Ensure new line at file end"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1197
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Make a copy with '~' suffix"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1216
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>File Saving</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1253
 msgid "Session restore:"
-msgstr ""
+msgstr "Session restore:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1266
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for saving modified documents when quitting"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1301
 msgid "Recent file menu length:"
-msgstr ""
+msgstr "Recent file menu length:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1313
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "'0' disables and wipes recent history"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1329
 msgid "Search history size:"
-msgstr ""
+msgstr "Search history size:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1365
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>History</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1416
 msgid "File monitoring"
-msgstr ""
+msgstr "File monitoring"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1426
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Automatic reloading"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1456
 msgid "Default encoding:"
-msgstr ""
+msgstr "Default encoding:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1497
 msgid "<b>Miscellaneous</b>"
@@ -1774,59 +1774,59 @@ msgstr "Plugins"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:45
 msgid "Spell Checking"
-msgstr ""
+msgstr "Spell Checking"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:47
 msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "The default language for new documents is set here. It can then be changed per document via the context menu, where there are also spelling correction suggestions for underlined words."
 
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:156
 msgid "Default language:"
-msgstr ""
+msgstr "Default language:"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Shortcuts Editor"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "The shortcuts editor is available here as a popover or as a dialogue below the preferences in the menu bar."
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Application"
 
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:253
 msgid "Menubar"
-msgstr ""
+msgstr "Menubar"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:254
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Preferences Dialogue"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:255
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Miscellaneous"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:583
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Mousepad Shortcuts"
 
 #. add the shortcuts menu entry
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:632
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Shortcuts..."
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:636
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Show the shortcuts dialogue"
 
 #: org.xfce.mousepad.desktop.in.in:5
 msgid "Simple Text Editor"
@@ -1838,18 +1838,18 @@ msgstr "Text Editor"
 
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "Text Editor Settings"
 
 #: org.xfce.mousepad-settings.desktop.in.in:5
 msgid "Configure the Mousepad text editor"
-msgstr ""
+msgstr "Configure the Mousepad text editor"
 
 #: org.xfce.mousepad.appdata.xml.in:11
 msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr ""
+msgstr "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor for quickly editing text files, not a development environment or an editor with a huge bunch of plugins."
 
 #: org.xfce.mousepad.appdata.xml.in:15
 msgid ""
@@ -1857,11 +1857,11 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "On the other hand we try to use the latest GTK features available, which means that if GTK adds something new in a major release that is useful for the editor, we will likely bump the GTK dependency and integrate this new feature in Mousepad."
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "The Mousepad developers"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
