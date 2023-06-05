@@ -164,7 +164,11 @@ plugins/test-plugin/Makefile
 po/Makefile.in
 icons/Makefile
 icons/16x16/Makefile
+icons/24x24/Makefile
+icons/32x32/Makefile
 icons/48x48/Makefile
+icons/64x64/Makefile
+icons/96x96/Makefile
 icons/128x128/Makefile
 icons/scalable/Makefile
 ])
