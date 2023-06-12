@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Priit Jõerüüt <transifex@joeruut.com>, 2020-2023\n"
 "Language-Team: Estonian (http://app.transifex.com/xfce/xfce-apps/language/et/)\n"
@@ -107,7 +107,7 @@ msgstr "Mousepad on lihtne tekstiredaktor Xfce töölauakeskkonna jaoks"
 
 #: mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
-msgstr "Kristjan Siimson <epost@ksiimson.se> &amp; tolge.pingviin.org\nPriit Jõerüüt 2020-2022"
+msgstr "Kristjan Siimson <epost@ksiimson.se> &amp; tolge.pingviin.org\nPriit Jõerüüt 2020-2023"
 
 #. display an error message to the user
 #: mousepad/mousepad-dialogs.c:124
@@ -944,7 +944,7 @@ msgstr "Märgista kõik"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Tõsta otsingutulemused esile"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1407,7 +1407,7 @@ msgstr "Liiguta sisu uude kohta erineval moel"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Üks rida üle_s"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1415,7 +1415,7 @@ msgstr "Tõsta ridu ühe rea võrra üles"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Üks rida _alla"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1423,7 +1423,7 @@ msgstr "Tõsta ridu ühe rea võrra alla"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Üks sõna _vasakule"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1431,7 +1431,7 @@ msgstr "Tõsta sõnu ühe sõna võrra vasakule"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Üks sõna _paremale"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1860,7 +1860,7 @@ msgstr "Teisalt me proovime kasutada GTK teekide uusimad võimalusi. See tähend
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Mousepad'i arendajad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
