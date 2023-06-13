@@ -86,8 +86,16 @@ G_DEFINE_TYPE (MousepadReplaceDialog, mousepad_replace_dialog, GTK_TYPE_DIALOG)
 static void
 mousepad_replace_dialog_class_init (MousepadReplaceDialogClass *klass)
 {
-  GObjectClass   *gobject_class, *entry_class;
-  GtkBindingSet  *binding_set;
+  GObjectClass     *gobject_class;
+  GtkWidgetClass   *widget_class;
+  GtkApplication   *application;
+  GdkModifierType   accel_mods;
+  guint             n, accel_key;
+  gchar           **accels;
+  const gchar      *actions[] = { "win.edit.cut", "win.edit.copy", "win.edit.paste",
+                                  "win.edit.select-all" };
+  const gchar      *signals[] = { "cut-clipboard", "copy-clipboard", "paste-clipboard",
+                                  "select-all" };
 
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_replace_dialog_finalize;
@@ -102,29 +110,57 @@ mousepad_replace_dialog_class_init (MousepadReplaceDialogClass *klass)
                   MOUSEPAD_TYPE_SEARCH_FLAGS,
                   G_TYPE_STRING, G_TYPE_STRING);
 
-  /* add a reverse-activate signal to GtkEntry */
-  entry_class = g_type_class_ref (GTK_TYPE_ENTRY);
-  binding_set = gtk_binding_set_by_class (entry_class);
-  if (G_LIKELY (g_signal_lookup ("reverse-activate", GTK_TYPE_ENTRY) == 0))
+  /* add an activate-backwards signal to GtkEntry */
+  widget_class = g_type_class_ref (GTK_TYPE_ENTRY);
+  if (G_LIKELY (g_signal_lookup ("activate-backward", GTK_TYPE_ENTRY) == 0))
     {
-      g_signal_new ("reverse-activate", GTK_TYPE_ENTRY, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+      g_signal_new ("activate-backward", GTK_TYPE_ENTRY, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                     0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
-      gtk_binding_entry_add_signal (binding_set, GDK_KEY_Return,
-                                    GDK_SHIFT_MASK, "reverse-activate", 0);
-      gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Enter,
-                                    GDK_SHIFT_MASK, "reverse-activate", 0);
+      gtk_widget_class_add_binding_signal (widget_class, GDK_KEY_Return, GDK_SHIFT_MASK,
+                                           "activate-backward", NULL);
+      gtk_widget_class_add_binding_signal (widget_class, GDK_KEY_KP_Enter, GDK_SHIFT_MASK,
+                                           "activate-backward", NULL);
     }
 
-  /* add a select-all signal to GtkEntry */
-  if (G_LIKELY (g_signal_lookup ("select-all", GTK_TYPE_ENTRY) == 0))
+  g_type_class_unref (widget_class);
+
+  /* add a select-all signal to GtkText (GtkEntry child) */
+  widget_class = g_type_class_ref (GTK_TYPE_TEXT);
+  if (G_LIKELY (g_signal_lookup ("select-all", GTK_TYPE_TEXT) == 0))
     {
-      g_signal_new ("select-all", GTK_TYPE_ENTRY, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+      g_signal_new ("select-all", GTK_TYPE_TEXT, G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                     0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
-      gtk_binding_entry_add_signal (binding_set, GDK_KEY_a, GDK_CONTROL_MASK, "select-all", 0);
+      gtk_widget_class_add_binding_signal (widget_class, GDK_KEY_a, GDK_CONTROL_MASK,
+                                           "select-all", NULL);
+    }
+
+  /* make search entry keybindings consistent with those of the text view */
+  application = GTK_APPLICATION (g_application_get_default ());
+  accels = gtk_application_get_accels_for_action (application, "win.edit.delete-selection");
+  if (accels[0] != NULL)
+    {
+      gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
+      gtk_widget_class_add_binding_signal (widget_class, accel_key, accel_mods,
+                                           "delete-from-cursor", "(ui)");
+    }
+
+  g_strfreev (accels);
+
+  for (n = 0; n < G_N_ELEMENTS (actions); n++)
+    {
+      accels = gtk_application_get_accels_for_action (application, actions[n]);
+      if (accels[0] != NULL)
+        {
+          gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
+          gtk_widget_class_add_binding_signal (widget_class, accel_key, accel_mods,
+                                               signals[n], NULL);
+        }
+
+      g_strfreev (accels);
     }
 
   /* cleanup */
-  g_type_class_unref (entry_class);
+  g_type_class_unref (widget_class);
 }
 
 
@@ -157,12 +193,14 @@ static void
 mousepad_replace_dialog_update_label (MousepadReplaceDialog *dialog,
                                       GtkWidget             *check)
 {
+  GtkWidget *box, *label;
   gboolean active;
 
-  active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+  active = gtk_check_button_get_active (GTK_CHECK_BUTTON (check));
 
-  gtk_button_set_label (GTK_BUTTON (dialog->replace_button),
-                        active ? _("_Replace All") : _("_Replace"));
+  box = gtk_button_get_child (GTK_BUTTON (dialog->replace_button));
+  label = gtk_widget_get_last_child (box);
+  gtk_label_set_label (GTK_LABEL (label), active ? _("_Replace All") : _("_Replace"));
 }
 
 
@@ -170,16 +208,7 @@ mousepad_replace_dialog_update_label (MousepadReplaceDialog *dialog,
 static void
 mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
 {
-  GtkApplication   *application;
-  GtkWindow        *window;
-  GtkBindingSet    *binding_set;
-  GdkModifierType   accel_mods;
-  guint             n, accel_key;
-  gchar           **accels;
-  const gchar      *actions[] = { "win.edit.cut", "win.edit.copy", "win.edit.paste",
-                                  "win.edit.select-all" };
-  const gchar      *signals[] = { "cut-clipboard", "copy-clipboard", "paste-clipboard",
-                                  "select-all" };
+  GtkWindow *window;
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (dialog, mousepad_replace_dialog_post_init, NULL);
@@ -187,54 +216,26 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
   /* setup CSD titlebar */
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
-  /* get the transient parent window and the application */
+  /* get the transient parent window */
   window = gtk_window_get_transient_for (GTK_WINDOW (dialog));
-  application = gtk_window_get_application (window);
 
   /* connect to the "search-completed" parent window signal */
   g_signal_connect_object (window, "search-completed",
                            G_CALLBACK (mousepad_replace_dialog_search_completed),
                            dialog, G_CONNECT_SWAPPED);
 
-  /* make text entries keybindings consistent with those of the text view */
-  binding_set = gtk_binding_set_by_class (g_type_class_peek (GTK_TYPE_ENTRY));
-
-  accels = gtk_application_get_accels_for_action (application, "win.edit.delete-selection");
-  if (accels[0] != NULL)
-    {
-      gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
-      gtk_binding_entry_remove (binding_set, accel_key, accel_mods);
-      gtk_binding_entry_add_signal (binding_set, accel_key, accel_mods, "delete-from-cursor",
-                                    2, GTK_TYPE_DELETE_TYPE, GTK_DELETE_CHARS, G_TYPE_INT, 1);
-    }
-
-  g_strfreev (accels);
-
-  for (n = 0; n < G_N_ELEMENTS (actions); n++)
-    {
-      accels = gtk_application_get_accels_for_action (application, actions[n]);
-      if (accels[0] != NULL)
-        {
-          gtk_accelerator_parse (accels[0], &accel_key, &accel_mods);
-          gtk_binding_entry_remove (binding_set, accel_key, accel_mods);
-          gtk_binding_entry_add_signal (binding_set, accel_key, accel_mods, signals[n], 0);
-        }
-
-      g_strfreev (accels);
-    }
-
   /* give the dialog its definite size by setting a fake occurrences label */
-  gtk_entry_grab_focus_without_selecting (GTK_ENTRY (dialog->search_entry));
-  gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), "fake-text");
+  gtk_widget_grab_focus (dialog->search_entry);
+  gtk_editable_set_text (GTK_EDITABLE (dialog->search_entry), "fake-text");
   mousepad_replace_dialog_search_completed (dialog, 99999, 99999, "fake-text",
                                             MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
                                             | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
 
-  /* show all widgets */
-  gtk_widget_show_all (GTK_WIDGET (dialog));
+  /* show the dialog */
+  gtk_widget_show (GTK_WIDGET (dialog));
 
   /* reset search entry and occurrences label */
-  gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), "");
+  gtk_editable_set_text (GTK_EDITABLE (dialog->search_entry), "");
   gtk_label_set_text (GTK_LABEL (dialog->hits_label), NULL);
 }
 
@@ -243,7 +244,7 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
 static void
 mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 {
-  GtkWidget    *button, *area, *vbox, *hbox, *combo, *label, *check;
+  GtkWidget    *button, *area, *hbox, *combo, *label, *check;
   GtkSizeGroup *size_group;
 
   /* we will complete initialization when the parent window is set */
@@ -257,97 +258,107 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
                     G_CALLBACK (mousepad_replace_dialog_response), NULL);
 
   /* dialog buttons */
-  dialog->find_button = mousepad_util_image_button ("edit-find", _("_Find"));
-  gtk_widget_set_can_default (dialog->find_button, TRUE);
+  dialog->find_button = mousepad_util_image_button ("edit-find", _("_Find"), 0, 4, 2, 2);
+  gtk_window_set_default_widget (GTK_WINDOW (dialog), dialog->find_button);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
                                 dialog->find_button, MOUSEPAD_RESPONSE_FIND);
 
-  dialog->replace_button = mousepad_util_image_button ("edit-find-replace", _("_Replace"));
+  dialog->replace_button = mousepad_util_image_button ("edit-find-replace",
+                                                       _("_Replace"), 0, 4, 2, 2);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
                                 dialog->replace_button, MOUSEPAD_RESPONSE_REPLACE);
 
-  button = mousepad_util_image_button ("window-close", _("_Close"));
+  button = mousepad_util_image_button ("window-close", _("_Close"), 0, 4, 2, 2);
   gtk_dialog_add_action_widget (GTK_DIALOG (dialog), button, MOUSEPAD_RESPONSE_CLOSE);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), MOUSEPAD_RESPONSE_FIND);
 
-  /* create main vertical box */
-  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 4);
+  /* set content area */
   area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  gtk_box_pack_start (GTK_BOX (area), vbox, TRUE, TRUE, 6);
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (area), GTK_ORIENTATION_VERTICAL);
+  gtk_box_set_spacing (GTK_BOX (area), 4);
+  gtk_widget_set_margin_top (area, 6);
 
   /* horizontal box for search string */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
   gtk_widget_set_margin_start (hbox, 6);
   gtk_widget_set_margin_end (hbox, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+  gtk_box_append (GTK_BOX (area), hbox);
 
   /* create a size group */
   size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
   label = gtk_label_new_with_mnemonic (_("_Search for:"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_size_group_add_widget (size_group, label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
 
   combo = dialog->search_box = gtk_combo_box_text_new_with_entry ();
   mousepad_history_search_fill_search_box (GTK_COMBO_BOX_TEXT (combo));
-  gtk_box_pack_start (GTK_BOX (hbox), combo, TRUE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), combo);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
 
   /* store as an entry widget */
-  dialog->search_entry = gtk_bin_get_child (GTK_BIN (combo));
+  dialog->search_entry = gtk_combo_box_get_child (GTK_COMBO_BOX (combo));
+  gtk_widget_set_hexpand (dialog->search_entry, TRUE);
+  gtk_widget_set_vexpand (dialog->search_entry, TRUE);
   g_signal_connect_swapped (dialog->search_entry, "changed",
                             G_CALLBACK (mousepad_replace_dialog_entry_changed), dialog);
   g_signal_connect_swapped (dialog->search_entry, "activate",
                             G_CALLBACK (mousepad_replace_dialog_entry_activate), dialog);
-  g_signal_connect_swapped (dialog->search_entry, "reverse-activate",
+  g_signal_connect_swapped (dialog->search_entry, "activate-backward",
                             G_CALLBACK (mousepad_replace_dialog_entry_reverse_activate), dialog);
-  g_signal_connect (dialog->search_entry, "select-all",
+  g_signal_connect (gtk_widget_get_first_child (dialog->search_entry), "select-all",
                     G_CALLBACK (mousepad_replace_dialog_entry_select_all), NULL);
 
-  /* bind the sensitivity of the find and replace buttons to the search text length */
-  g_object_bind_property (dialog->search_entry, "text-length",
+  /*
+   * Bind the sensitivity of the find and replace buttons to the search text length.
+   * It does not seem possible to connect to "notify::text-length" from GtkEntry as in GTK 3,
+   * see https://gitlab.gnome.org/GNOME/gtk/-/issues/3691.
+   * So let's connect to "notify::length" from GtkEntryBuffer instead.
+   */
+  g_object_bind_property (gtk_entry_get_buffer (GTK_ENTRY (dialog->search_entry)), "length",
                           dialog->find_button, "sensitive", G_BINDING_SYNC_CREATE);
-  g_object_bind_property (dialog->search_entry, "text-length",
+  g_object_bind_property (gtk_entry_get_buffer (GTK_ENTRY (dialog->search_entry)), "length",
                           dialog->replace_button, "sensitive", G_BINDING_SYNC_CREATE);
 
   /* horizontal box for replace string */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
   gtk_widget_set_margin_start (hbox, 6);
   gtk_widget_set_margin_end (hbox, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+  gtk_box_append (GTK_BOX (area), hbox);
 
   label = gtk_label_new_with_mnemonic (_("Replace _with:"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_size_group_add_widget (size_group, label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
 
   combo = dialog->replace_box = gtk_combo_box_text_new_with_entry ();
   mousepad_history_search_fill_replace_box (GTK_COMBO_BOX_TEXT (combo));
-  gtk_box_pack_start (GTK_BOX (hbox), combo, TRUE, TRUE, 0);
+  gtk_box_append (GTK_BOX (hbox), combo);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
 
   /* store as an entry widget */
-  dialog->replace_entry = gtk_bin_get_child (GTK_BIN (combo));
-  g_signal_connect (dialog->replace_entry, "select-all",
+  dialog->replace_entry = gtk_combo_box_get_child (GTK_COMBO_BOX (combo));
+  gtk_widget_set_hexpand (dialog->replace_entry, TRUE);
+  gtk_widget_set_vexpand (dialog->replace_entry, TRUE);
+  g_signal_connect (gtk_widget_get_first_child (dialog->replace_entry), "select-all",
                     G_CALLBACK (mousepad_replace_dialog_entry_select_all), NULL);
 
   /* search direction */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
   gtk_widget_set_margin_start (hbox, 6);
   gtk_widget_set_margin_end (hbox, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+  gtk_box_append (GTK_BOX (area), hbox);
 
   label = gtk_label_new_with_mnemonic (_("Search _direction:"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
   gtk_size_group_add_widget (size_group, label);
   gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   gtk_label_set_yalign (GTK_LABEL (label), 0.5);
 
   combo = gtk_combo_box_text_new ();
-  gtk_box_pack_start (GTK_BOX (hbox), combo, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), combo);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("Up"));
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("Down"));
@@ -360,7 +371,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* wrap around */
   check = gtk_check_button_new_with_mnemonic (_("_Wrap around"));
-  gtk_box_pack_start (GTK_BOX (hbox), check, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), check);
 
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_WRAP_AROUND,
                                         check, "active");
@@ -369,7 +380,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   check = gtk_check_button_new_with_mnemonic (_("Match _case"));
   gtk_widget_set_margin_start (check, 6);
   gtk_widget_set_margin_end (check, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (area), check);
 
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_MATCH_CASE,
                                         check, "active");
@@ -378,7 +389,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   check = gtk_check_button_new_with_mnemonic (_("_Match whole word"));
   gtk_widget_set_margin_start (check, 6);
   gtk_widget_set_margin_end (check, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (area), check);
 
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_MATCH_WHOLE_WORD,
                                         check, "active");
@@ -387,7 +398,7 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   check = gtk_check_button_new_with_mnemonic (_("Regular e_xpression"));
   gtk_widget_set_margin_start (check, 6);
   gtk_widget_set_margin_end (check, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (area), check);
 
   mousepad_replace_dialog_bind_setting (dialog, MOUSEPAD_SETTING_SEARCH_ENABLE_REGEX,
                                         check, "active");
@@ -396,13 +407,14 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
   gtk_widget_set_margin_start (hbox, 6);
   gtk_widget_set_margin_end (hbox, 6);
-  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+  gtk_widget_set_margin_bottom (hbox, 4);
+  gtk_box_append (GTK_BOX (area), hbox);
 
   check = gtk_check_button_new_with_mnemonic (_("Replace _all in:"));
-  gtk_box_pack_start (GTK_BOX (hbox), check, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), check);
 
   combo = dialog->search_location_combo = gtk_combo_box_text_new ();
-  gtk_box_pack_start (GTK_BOX (hbox), combo, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), combo);
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("Selection"));
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("Document"));
   gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("All Documents"));
@@ -417,11 +429,11 @@ mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 
   /* the occurrences label */
   label = dialog->hits_label = gtk_label_new (NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), label);
 
   /* the spinner */
   dialog->spinner = gtk_spinner_new ();
-  gtk_box_pack_start (GTK_BOX (hbox), dialog->spinner, FALSE, FALSE, 0);
+  gtk_box_append (GTK_BOX (hbox), dialog->spinner);
 }
 
 
@@ -443,7 +455,7 @@ mousepad_replace_dialog_reset_display (MousepadReplaceDialog *dialog)
   gtk_label_set_text (GTK_LABEL (dialog->hits_label), NULL);
 
   /* start the spinner or reset entry color */
-  string = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
+  string = gtk_editable_get_text (GTK_EDITABLE (dialog->search_entry));
   if (string != NULL && *string != '\0')
     gtk_spinner_start (GTK_SPINNER (dialog->spinner));
   else
@@ -466,13 +478,13 @@ mousepad_replace_dialog_response (GtkWidget *widget,
   /* close dialog */
   if (response_id == MOUSEPAD_RESPONSE_CLOSE || response_id < 0)
     {
-      gtk_widget_destroy (widget);
+      gtk_window_destroy (GTK_WINDOW (dialog));
       return;
     }
 
   /* get strings */
-  search_str = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
-  replace_str = gtk_entry_get_text (GTK_ENTRY (dialog->replace_entry));
+  search_str = gtk_editable_get_text (GTK_EDITABLE (dialog->search_entry));
+  replace_str = gtk_editable_get_text (GTK_EDITABLE (dialog->replace_entry));
 
   /* search direction */
   search_direction = MOUSEPAD_SETTING_GET_UINT (SEARCH_DIRECTION);
@@ -583,7 +595,7 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
   const gchar *string;
 
   /* get the entry string */
-  string = gtk_entry_get_text (GTK_ENTRY (dialog->search_entry));
+  string = gtk_editable_get_text (GTK_EDITABLE (dialog->search_entry));
 
   /* leave the dialog unchanged if the search was launched from the search bar
    * for a different string... */
@@ -703,6 +715,6 @@ void
 mousepad_replace_dialog_set_text (MousepadReplaceDialog *dialog,
                                   const gchar           *text)
 {
-  gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), text);
+  gtk_editable_set_text (GTK_EDITABLE (dialog->search_entry), text);
   gtk_editable_select_region (GTK_EDITABLE (dialog->search_entry), 0, -1);
 }
