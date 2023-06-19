@@ -14,7 +14,7 @@
   <requires lib="gtk+" version="3.20"/>
 
   <!--
-    To be shared, a menu item must have an additionnal "item-share-id" attribute, and be wrapped
+    To be shared, a menu item must have an additional "item-share-id" attribute, and be wrapped
     in a section whose id must match this attribute.
     To add a shared item to a menu, use the following syntax (see examples in ./menus.ui):
     <item>
