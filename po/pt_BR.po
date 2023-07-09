@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the xfce-apps.mousepad package.
 # 
 # Translators:
-# Andre Miranda <andre42m@gmail.com>, 2018-2020,2022
-# Andre Miranda <andre42m@gmail.com>, 2013-2014
+# Andre Miranda <andre@andreldm.com>, 2018-2020,2022
+# Andre Miranda <andre@andreldm.com>, 2013-2014
 # C. E., 2020,2022
 # Lucas Wilm <lucaswilm@gmail.com>, 2020-2021
 # Michael Martins <michaelfm21@gmail.com>, 2019-2023
+# The Cat, 2023
 # The Cat, 2020-2021
 # Wellington Almeida <wsalmeida6@gmail.com>, 2020-2021
 msgid ""
@@ -16,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Michael Martins <michaelfm21@gmail.com>, 2019-2023\n"
+"Last-Translator: The Cat, 2023\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/xfce/xfce-apps/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -679,17 +680,17 @@ msgstr "Todos Documentos"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d de %d correspondência"
+msgstr[1] "%d de %d correspondências"
+msgstr[2] "%d de %d correspondências"
 
 #: mousepad/mousepad-replace-dialog.c:617 mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d correspondência"
+msgstr[1] "%d correspondências"
+msgstr[2] "%d correspondências"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -952,7 +953,7 @@ msgstr "Realçar _Tudo"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Realçar os resultados da pesquisa"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1415,7 +1416,7 @@ msgstr "Mover o conteúdo de formas diferentes"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Uma linha para _cima"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1423,7 +1424,7 @@ msgstr "Mover as linhas uma linha acima"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Uma linha para _baixo"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1431,7 +1432,7 @@ msgstr "Mover as linhas uma linha abaixo"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Uma palavra à _esquerda"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1439,7 +1440,7 @@ msgstr "Mover palavras uma palavra para a esquerda"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Uma palavra à _direita"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1868,7 +1869,7 @@ msgstr "Por outro lado, tentamos usar os recursos GTK mais recentes disponíveis
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Os programadores do Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
