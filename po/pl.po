@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Marek Adamski, 2021-2023\n"
 "Language-Team: Polish (http://app.transifex.com/xfce/xfce-apps/language/pl/)\n"
@@ -837,7 +837,7 @@ msgstr "_Plik"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
-msgstr "Menu Plik"
+msgstr "Menu pliku"
 
 #: mousepad/resources/gtk/menus.ui:27
 msgid "New _Window"
@@ -909,7 +909,7 @@ msgstr "_Edycja"
 
 #: mousepad/resources/gtk/menus.ui:112
 msgid "Edit menu"
-msgstr "Menu Edycja"
+msgstr "Menu edycji"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
@@ -925,7 +925,7 @@ msgstr "_Wyszukiwanie"
 
 #: mousepad/resources/gtk/menus.ui:140
 msgid "Search menu"
-msgstr "Menu Wyszukiwanie"
+msgstr "Menu wyszukiwania"
 
 #: mousepad/resources/gtk/menus.ui:147
 msgid "Find _Next"
@@ -965,7 +965,7 @@ msgstr "_Widok"
 
 #: mousepad/resources/gtk/menus.ui:184
 msgid "View menu"
-msgstr "Menu Widok"
+msgstr "Menu widoku"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
@@ -1031,7 +1031,7 @@ msgstr "_Dokument"
 
 #: mousepad/resources/gtk/menus.ui:241
 msgid "Document menu"
-msgstr "Menu Dokument"
+msgstr "Menu dokumentu"
 
 #: mousepad/resources/gtk/menus.ui:245
 msgid "_Word Wrap"
@@ -1163,7 +1163,7 @@ msgstr "Pomo_c"
 
 #: mousepad/resources/gtk/menus.ui:368
 msgid "Help menu"
-msgstr "Menu Pomoc"
+msgstr "Menu pomocy"
 
 #: mousepad/resources/gtk/menus.ui:370
 msgid "_Contents"
