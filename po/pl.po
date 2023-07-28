@@ -71,7 +71,7 @@ msgstr "Nie rejestruje za pomocą demona powiadamiania sesji D-BUS"
 
 #: mousepad/mousepad-application.c:169
 msgid "Quit a running Mousepad primary instance"
-msgstr "Zamknij działającą podstawową instancję Mousepad"
+msgstr "Kończy działanie bieżącego wystąpienia programu"
 
 #: mousepad/mousepad-application.c:174
 msgid "Print version information and exit"
@@ -112,7 +112,7 @@ msgstr "%s | Autorzy: %s | Nazwa pliku: %s"
 
 #: mousepad/mousepad-dialogs.c:70 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr "Umożliwia proste edytowanie tekstu w środowisku graficznym Xfce."
+msgstr "Umożliwia szybkie edytowanie tekstu w środowisku graficznym Xfce."
 
 #: mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -901,7 +901,7 @@ msgstr "Za_kończ"
 
 #: mousepad/resources/gtk/menus.ui:103
 msgid "Quit Mousepad"
-msgstr "Kończy działanie Mousepad"
+msgstr "Kończy działanie programu"
 
 #: mousepad/resources/gtk/menus.ui:111
 msgid "_Edit"
@@ -1885,4 +1885,4 @@ msgstr "Uruchom Mousepad jako użytkownik root"
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
-msgstr "Uwierzytelnianie jest wymagane, aby uruchomić Mousepad jako użytkownik root."
+msgstr "Wymagane jest uwierzytelnienie, aby uruchomić program Mousepad jako użytkownik root."
