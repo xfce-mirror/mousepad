@@ -73,7 +73,7 @@ struct _MousepadFile
   GFile        *monitor_location;
   gchar        *etag;
   gboolean      readonly, symlink;
-  guint         deleted_id;
+  guint         deleted_id, modified_id;
 
   /* encoding of the file */
   MousepadEncoding encoding;
@@ -150,6 +150,7 @@ mousepad_file_init (MousepadFile *file)
   file->readonly = FALSE;
   file->symlink = FALSE;
   file->deleted_id = 0;
+  file->modified_id = 0;
   file->encoding = mousepad_encoding_get_default ();
 #ifdef G_OS_WIN32
   file->line_ending = MOUSEPAD_EOL_DOS;
@@ -307,6 +308,19 @@ mousepad_file_new (GtkTextBuffer *buffer)
 
 
 static gboolean
+mousepad_file_monitor_modified (gpointer data)
+{
+  MousepadFile *file = data;
+
+  g_signal_emit (file, file_signals[EXTERNALLY_MODIFIED], 0);
+  file->modified_id = 0;
+
+  return FALSE;
+}
+
+
+
+static gboolean
 mousepad_file_monitor_deleted (gpointer data)
 {
   MousepadFile *file = data;
@@ -357,7 +371,12 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
           return;
         }
 
-      g_signal_emit (file, file_signals[EXTERNALLY_MODIFIED], 0);
+      if (file->modified_id != 0)
+        g_source_remove (file->modified_id);
+
+      file->modified_id = g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
+                                         mousepad_file_monitor_modified,
+                                         mousepad_util_source_autoremove (file));
 
       /* update monitor location in case of a symlink (exit this handler first) */
       if (event_type != G_FILE_MONITOR_EVENT_CHANGED && (
@@ -381,6 +400,11 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
            || (event_type == G_FILE_MONITOR_EVENT_RENAMED
                && g_file_equal (file->monitor_location, location)))
     {
+      if (file->modified_id != 0)
+        {
+          g_source_remove (file->modified_id);
+          file->modified_id = 0;
+        }
       if (file->deleted_id != 0)
         g_source_remove (file->deleted_id);
 
