@@ -679,15 +679,15 @@ msgstr "Alle dokumenter"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d af %d forekomst"
+msgstr[1] "%d af %d forekomster"
 
 #: mousepad/mousepad-replace-dialog.c:617 mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d forekomst"
+msgstr[1] "%d forekomster"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -950,7 +950,7 @@ msgstr "Fremhæv _alle"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Fremhæv søgeforekomsterne"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1866,7 +1866,7 @@ msgstr "På den anden side prøver vi at bruge de seneste GTK-funktionaliteter, 
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Mousepad's udviklere"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
