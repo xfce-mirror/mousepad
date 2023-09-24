@@ -25,31 +25,33 @@
 
 
 
-static void      mousepad_document_finalize                (GObject                *object);
-static void      mousepad_document_notify_cursor_position  (MousepadDocument       *document);
-static void      mousepad_document_encoding_changed        (MousepadFile           *file,
-                                                            MousepadEncoding        encoding,
-                                                            MousepadDocument       *document);
-static void      mousepad_document_notify_language         (GtkSourceBuffer        *buffer,
-                                                            GParamSpec             *pspec,
-                                                            MousepadDocument       *document);
-static void      mousepad_document_notify_overwrite        (GtkTextView            *textview,
-                                                            GParamSpec             *pspec,
-                                                            MousepadDocument       *document);
-static void      mousepad_document_location_changed        (MousepadDocument       *document,
-                                                            GFile                  *file);
-static void      mousepad_document_style_label             (MousepadDocument       *document);
-static void      mousepad_document_tab_button_clicked      (GtkWidget              *widget,
-                                                            MousepadDocument       *document);
-static void      mousepad_document_search_completed        (GObject                *object,
-                                                            GAsyncResult           *result,
-                                                            gpointer                data);
-static void      mousepad_document_emit_search_signal      (MousepadDocument       *document,
-                                                            GParamSpec             *pspec,
-                                                            GtkSourceSearchContext *search_context);
-static void      mousepad_document_search_widget_visible   (MousepadDocument       *document,
-                                                            GParamSpec             *pspec,
-                                                            MousepadWindow         *window);
+static void          mousepad_document_finalize                (GObject                *object);
+static void          mousepad_document_notify_cursor_position  (MousepadDocument       *document);
+static void          mousepad_document_encoding_changed        (MousepadFile           *file,
+                                                                MousepadEncoding        encoding,
+                                                                MousepadDocument       *document);
+static void          mousepad_document_notify_language         (GtkSourceBuffer        *buffer,
+                                                                GParamSpec             *pspec,
+                                                                MousepadDocument       *document);
+static void          mousepad_document_notify_overwrite        (GtkTextView            *textview,
+                                                                GParamSpec             *pspec,
+                                                                MousepadDocument       *document);
+static void          mousepad_document_location_changed        (MousepadDocument       *document,
+                                                                GFile                  *file);
+static void          mousepad_document_style_label             (MousepadDocument       *document);
+static void          mousepad_document_tab_button_clicked      (GtkWidget              *widget,
+                                                                MousepadDocument       *document);
+static void          mousepad_document_search_completed        (GObject                *object,
+                                                                GAsyncResult           *result,
+                                                                gpointer                data);
+static void          mousepad_document_emit_search_signal      (MousepadDocument       *document,
+                                                                GParamSpec             *pspec,
+                                                                GtkSourceSearchContext *search_context);
+static gboolean      mousepad_document_scroll_event            (GtkWidget              *widget,
+                                                                GdkEventScroll         *event);
+static void          mousepad_document_search_widget_visible   (MousepadDocument       *document,
+                                                                GParamSpec             *pspec,
+                                                                MousepadWindow         *window);
 
 
 
@@ -111,9 +113,13 @@ static void
 mousepad_document_class_init (MousepadDocumentClass *klass)
 {
   GObjectClass *gobject_class;
+  GtkWidgetClass *gtkwidget_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_document_finalize;
+
+  gtkwidget_class = GTK_WIDGET_CLASS (klass);
+  gtkwidget_class->scroll_event = mousepad_document_scroll_event;
 
   document_signals[CLOSE_TAB] =
     g_signal_new (I_("close-tab"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
@@ -958,6 +964,21 @@ mousepad_document_prevent_endless_scanning (MousepadDocument *document,
       gtk_source_search_context_set_highlight (document->priv->search_context,
                                                MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_HIGHLIGHT_ALL));
     }
+}
+
+
+
+static gboolean
+mousepad_document_scroll_event (GtkWidget      *widget,
+                                GdkEventScroll *event)
+{
+  g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (widget), FALSE);
+
+  /* do not scroll text while zooming text in or out #207 */
+  if (event->state & GDK_CONTROL_MASK)
+    return FALSE;
+
+  return TRUE;
 }
 
 
