@@ -5,6 +5,7 @@
 # Translators:
 # Adrián Laviós <registres@lavios.cat>, 2013
 # Davidmp <medipas@gmail.com>, 2015-2016,2019
+# Oscar Perez <oscarpc@gmail.com>, 2023
 # Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2016-2021
 # Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2016
 # Roger Pueyo Centelles, 2014
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2016-2021\n"
+"Last-Translator: Oscar Perez <oscarpc@gmail.com>, 2023\n"
 "Language-Team: Catalan (http://app.transifex.com/xfce/xfce-apps/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr "Mostra una llista de codificacions possibles per obrir fitxers"
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr ""
+msgstr "Número de la línia on posicionar el cursor (LÍNIA > 0 des de dalt, LÍNIA < 0 des de baix)"
 
 #: mousepad/mousepad-application.c:148
 msgid "LINE"
@@ -50,7 +51,7 @@ msgstr "LÍNIA"
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr ""
+msgstr "Número de columna on posicionar el cursor (COLUMNA >= 0 des de l'inici, COLUMNA < 0 des del final)"
 
 #: mousepad/mousepad-application.c:154
 msgid "COLUMN"
@@ -107,7 +108,7 @@ msgstr "%s | Autors: %s | Nom de fitxer: %s"
 
 #: mousepad/mousepad-dialogs.c:70 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "El Mousepad és un editor de text sencill per a l'entorn d'escriptori Xfce"
 
 #: mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -166,7 +167,7 @@ msgstr "Voleu desar els canvis abans de tancar?"
 
 #: mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "Aquest document és de només lectura, el voleu desar com un altre fitxer?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:392 mousepad/mousepad-dialogs.c:532
@@ -181,7 +182,7 @@ msgstr "No ho _desis"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Si no deseu aquest document de només lectura com un altre fitxer, perdreu tots els canvis."
 
 #: mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -234,11 +235,11 @@ msgstr "Si no, s’utilitzarà la codificació endevinada."
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "Sembla que la sessió anterior no va acabar amb normalitat. Voleu restaurar les dades disponibles?"
 
 #: mousepad/mousepad-dialogs.c:658
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "En cas que no, totes aquestes dades es perdran."
 
 #: mousepad/mousepad-dialogs.c:861
 msgid "Please select a file"
@@ -520,7 +521,7 @@ msgstr "Sistema"
 
 #: mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "Historial"
 
 #: mousepad/mousepad-file.c:962
 msgid "Invalid byte sequence in conversion input"
@@ -533,7 +534,7 @@ msgstr "Ha fallat l'esborrament de l'historial recent"
 #. setup the window properties
 #: mousepad/mousepad-prefs-dialog.c:640 org.xfce.mousepad.desktop.in.in:17
 msgid "Mousepad Preferences"
-msgstr ""
+msgstr "Preferències del Mousepad"
 
 #. set a custom tab label
 #: mousepad/mousepad-print.c:108
@@ -677,15 +678,15 @@ msgstr "Tots els documents"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d de %d coincidència"
+msgstr[1] "%d de %d coincidències"
 
 #: mousepad/mousepad-replace-dialog.c:617 mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d coincidència"
+msgstr[1] "%d coincidències"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -904,7 +905,7 @@ msgstr "Menú edita"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
-msgstr ""
+msgstr "Perferències..."
 
 #: mousepad/resources/gtk/menus.ui:131
 msgid "Show the preferences dialog"
@@ -936,11 +937,11 @@ msgstr "Cerca enrere el mateix text"
 
 #: mousepad/resources/gtk/menus.ui:163
 msgid "_Incremental Search"
-msgstr ""
+msgstr "Cerca _incremental"
 
 #: mousepad/resources/gtk/menus.ui:164
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Selecciona automàticament el resultat de la cerca i desplaça la vista"
 
 #: mousepad/resources/gtk/menus.ui:168
 msgid "Highlight _All"
@@ -948,7 +949,7 @@ msgstr "Ressalta-ho t_ot"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Ressalta les coincidències de la cerca"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1378,7 +1379,7 @@ msgstr "Converteix tots els tabuladors a espais en la selecció o el document"
 
 #: mousepad/resources/gtk/menus-common.ui:293
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "Espais inicials a tabu_ladors"
 
 #: mousepad/resources/gtk/menus-common.ui:294
 msgid ""
@@ -1403,43 +1404,43 @@ msgstr "Inverteix l'ordre d'alguna cosa"
 
 #: mousepad/resources/gtk/menus-common.ui:314
 msgid "_Move"
-msgstr ""
+msgstr "_Mou"
 
 #: mousepad/resources/gtk/menus-common.ui:315
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Mou el contingut de diferents maneres"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Una línia am_unt"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Mou les línies una línia amunt"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Una línia a_vall"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Mou les línies una línia avall"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Una paraula a _l'esquerra"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
-msgstr ""
+msgstr "Mou les paraules una paraula a l'esquerra"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Una paraula a la d_reta"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
-msgstr ""
+msgstr "Mou les paraules una paraula a la dreta"
 
 #: mousepad/resources/gtk/menus-common.ui:338
 msgid "Dup_licate Line / Selection"
@@ -1491,19 +1492,19 @@ msgstr "Sempre"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:89
 msgid "never"
-msgstr ""
+msgstr "mai"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:93
 msgid "after a crash"
-msgstr ""
+msgstr "després d'un error"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:97
 msgid "unsaved documents"
-msgstr ""
+msgstr "documents no desats"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:101
 msgid "saved documents"
-msgstr ""
+msgstr "documents desats"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:105
 msgid "always"
@@ -1602,7 +1603,7 @@ msgstr "<b>Lletra</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:512
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Esquema de colors</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:529
 msgid "View"
@@ -1626,23 +1627,23 @@ msgstr "<b>Sagnat</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:668
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tabulador: incrementa el sagnat de la selecció (Majúscules+Tabulador: disminueix el sagnat)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:672
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Incrementa/disminueix el sagnat del text seleccionat o de l'arxiu actual"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:693
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Retrocés: Esborra espais de sagnats com a tabuladors"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:709
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Inici/fi: detecta els espais en blanc al principi/final:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:754
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>Tecles intel·ligents</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:774
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:50
@@ -1651,7 +1652,7 @@ msgstr "Editor"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:808
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Decoracions del costat del client (cal reiniciar)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:823
 msgid "Show full filename in title bar"
@@ -1695,7 +1696,7 @@ msgstr "Mostra sempre les pestanyes fins i tot amb un fitxer"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1044
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Expandeix els tabuladors per a omplir tot l'espai disponible"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1059
 msgid "Cycled notebook tab switching"
@@ -1707,7 +1708,7 @@ msgstr "Obre els fitxers en:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1128
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>Pestanyes de la llibreta</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1148
 msgid "Window"
@@ -1715,53 +1716,53 @@ msgstr "Finestra"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1182
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "Assegura que hi ha una línia en blanc al final del fitxer"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1197
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Fes una còpia amb el sufix «~»"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1216
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>Desat de fitxers</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1253
 msgid "Session restore:"
-msgstr ""
+msgstr "Restauració de la sessió:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1266
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Quan es seleccioni «documents no desats» o «sempre», el Mousepad no demanarà de desar els documents modificats al sortir"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1301
 msgid "Recent file menu length:"
-msgstr ""
+msgstr "Longitud del menú d'arxius recents:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1313
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "«0» deshabilita i esborra l'historial de recents"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1329
 msgid "Search history size:"
-msgstr ""
+msgstr "Mida de l'historial de cerca:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1365
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>Historial</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1416
 msgid "File monitoring"
-msgstr ""
+msgstr "Vigilància d'arxius"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1426
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Recàrrega automàtica"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1456
 msgid "Default encoding:"
-msgstr ""
+msgstr "Codificació predeterminada:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1497
 msgid "<b>Miscellaneous</b>"
@@ -1784,7 +1785,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Aquí s'estableix l'idioma predeterminat per als nous documents. Es pot canviar per a cada document amb el menú contextual, on també hi ha la correcció gramatical per a les paraules subratllades."
 
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:156
@@ -1793,26 +1794,26 @@ msgstr "Idioma predeterminat:"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:45
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Editor de dreceres"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "L'editor de dreceres està disponible com un desplegable o com un diàleg sota les preferències de la barra de menú."
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Aplicació"
 
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:253
 msgid "Menubar"
-msgstr ""
+msgstr "Barra de menú"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:254
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Diàleg de preferències"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:255
 msgid "Miscellaneous"
@@ -1820,16 +1821,16 @@ msgstr "Miscel·lània"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:583
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Dreceres del Mousepad"
 
 #. add the shortcuts menu entry
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:632
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Dreceres..."
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:636
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Mostra el diàleg de dreceres"
 
 #: org.xfce.mousepad.desktop.in.in:5
 msgid "Simple Text Editor"
@@ -1841,11 +1842,11 @@ msgstr "Editor de text"
 
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "Paràmetres de l'editor de text"
 
 #: org.xfce.mousepad-settings.desktop.in.in:5
 msgid "Configure the Mousepad text editor"
-msgstr ""
+msgstr "Configura l'editor de text Mousepad"
 
 #: org.xfce.mousepad.appdata.xml.in:11
 msgid ""
@@ -1860,11 +1861,11 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "D’altra banda, intentem fer servir les darreres funcions de GTK disponibles, cosa que significa que si el GTK afegeix alguna cosa nova en una versió important que sigui útil per a l’editor, probablement toparem amb la dependència de GTK i integrem aquesta nova funció al Mousepad."
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Els desenvolupadors del Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
