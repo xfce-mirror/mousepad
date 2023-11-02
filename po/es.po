@@ -8,7 +8,7 @@
 # Casper, 2022
 # emiliano casal chiarotti <emiliano.casal.chiarotti@gmail.com>, 2020
 # Luis Enrique Bazán De León <bazanluis20@gmail.com>, 2012
-# Ignacio Poggi <ignaciop.3@gmail.com>, 2019-2020
+# Ignacio Poggi <ignaciop.3@gmail.com>, 2019-2020,2023
 # Luis Enrique Bazán De León <bazanluis20@gmail.com>, 2012
 # 629cf3e396111bb8c5fb6664e2dbc91d, 2015
 # Markel @wakutiteo, 2018
@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Toni Estévez <toni.estevez@gmail.com>, 2020-2022\n"
+"Last-Translator: Ignacio Poggi <ignaciop.3@gmail.com>, 2019-2020,2023\n"
 "Language-Team: Spanish (http://app.transifex.com/xfce/xfce-apps/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,7 +120,7 @@ msgstr "Mousepad es editor de texto sencillo para el entorno de escritorio Xfce.
 
 #: mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
-msgstr "Toni Estevez <toni.estevez@gmail.com> 2021\nPablo Lezaeta <prflr88@gmail.com> 2013-2016"
+msgstr "Ignacio Poggi <ignaciop.3@gmail.com> 2023\nToni Estevez <toni.estevez@gmail.com> 2021\nPablo Lezaeta <prflr88@gmail.com> 2013-2016"
 
 #. display an error message to the user
 #: mousepad/mousepad-dialogs.c:124
@@ -686,17 +686,17 @@ msgstr "Todos los documentos"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d de %d coincidencia"
+msgstr[1] "%d de %d coincidencias"
+msgstr[2] "%d de %d coincidencias"
 
 #: mousepad/mousepad-replace-dialog.c:617 mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d coincidencia"
+msgstr[1] "%d coincidencias"
+msgstr[2] "%d coincidencias"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -835,7 +835,7 @@ msgstr "No se ha podido imprimir el documento"
 
 #: mousepad/resources/gtk/menus.ui:19
 msgid "_File"
-msgstr "_Fichero"
+msgstr "_Archivo"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
@@ -959,7 +959,7 @@ msgstr "Resaltar _todo"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Resaltar las coincidencias de la búsqueda"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1422,23 +1422,23 @@ msgstr "Mover el contenido de diferentes modos"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Una fila _arriba"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
-msgstr "Subir las líneas una línea"
+msgstr "Subir las líneas una fila"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Una fila a_bajo"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
-msgstr "Bajar las líneas una línea"
+msgstr "Bajar las líneas una fila"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Una palabra a la _izquierda"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1446,7 +1446,7 @@ msgstr "Mover las palabras una palabra a la izquierda"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Una palabra a la de_recha"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1875,7 +1875,7 @@ msgstr "Por otro lado, intentamos usar las últimas características de GTK disp
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Los desarrolladores de Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
