@@ -1818,13 +1818,7 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
         {
           action = g_menu_model_get_item_attribute_value (model, n, "action",
                                                           G_VARIANT_TYPE_STRING);
-          if (action != NULL)
-            {
-              action_name = g_variant_get_string (action, NULL);
-              g_variant_unref (action);
-            }
-          else
-            action_name = NULL;
+          action_name = action != NULL ? g_variant_get_string (action, NULL) : NULL;
 
           /* an hidden GMenuItem doesn't correspond to an hidden GtkMenuItem,
            * but to nothing, so we have to skip it in this case */
@@ -1832,14 +1826,17 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
                                                                G_VARIANT_TYPE_STRING);
           if (hidden_when != NULL)
             {
+              const gchar *hidden_when_str = g_variant_get_string (hidden_when, NULL);
+
               /* skip the GMenuItem if hidden when action is missing */
-              if (g_strcmp0 (g_variant_get_string (hidden_when, NULL), "action-missing") == 0
-                  && action_name == NULL)
-                continue;
+              if (g_strcmp0 (hidden_when_str, "action-missing") == 0 && action_name == NULL)
+                {
+                  g_variant_unref (hidden_when);
+                  continue;
+                }
 
               /* skip the GMenuItem if hidden when action is disabled (but not missing) */
-              if (g_strcmp0 (g_variant_get_string (hidden_when, NULL), "action-disabled") == 0
-                  && action_name != NULL)
+              if (g_strcmp0 (hidden_when_str, "action-disabled") == 0 && action_name != NULL)
                 {
                   /* retrieve action group */
                   if (g_str_has_prefix (action_name, "win."))
@@ -1855,7 +1852,11 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
 
                   if (action_group != NULL
                       && ! g_action_group_get_action_enabled (action_group, action_name + 4))
-                    continue;
+                    {
+                      g_variant_unref (hidden_when);
+                      g_variant_unref (action);
+                      continue;
+                    }
                 }
 
               /* cleanup */
@@ -1866,6 +1867,9 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
           if (realign)
             child->data = mousepad_window_menu_item_realign (window, child->data,
                                                              action_name, menu, *offset);
+
+          if (action != NULL)
+            g_variant_unref (action);
 
           /* set the tooltip on the corresponding GtkMenuItem */
           tooltip = g_menu_model_get_item_attribute_value (model, n, "tooltip",
