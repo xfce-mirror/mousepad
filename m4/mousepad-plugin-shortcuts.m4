@@ -22,12 +22,16 @@ AC_DEFUN([MOUSEPAD_PLUGIN_SHORTCUTS],
 [
 AC_ARG_ENABLE([plugin-shortcuts], [AS_HELP_STRING([--disable-plugin-shortcuts], [Don't build the shortcuts plugin])],
   [ac_mousepad_plugin_shortcuts=$enableval], [ac_mousepad_plugin_shortcuts=yes])
+
+dnl This plugin will not be portable to GTK 4 as long as it relies on GtkAccelMap.
+ac_mousepad_plugin_shortcuts=no
+
 if test x"$ac_mousepad_plugin_shortcuts" = x"yes"; then
   XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [4.17.5],
     [XDT_CHECK_PACKAGE([LIBXFCE4KBD_PRIVATE], [libxfce4kbd-private-3], [4.17.5], [], [ac_mousepad_plugin_shortcuts=no])],
     [ac_mousepad_plugin_shortcuts=no])
 else
-  ac_mousepad_plugin_shortcuts=no
+  ac_mousepad_plugin_shortcuts="no (not portable to GTK 4 as it relies on GtkAccelMap)"
 fi
 
 AC_MSG_CHECKING([whether to build the shortcuts plugin])
