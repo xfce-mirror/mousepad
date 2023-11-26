@@ -75,6 +75,11 @@ guint        mousepad_history_search_insert_search_text        (const gchar     
 
 guint        mousepad_history_search_insert_replace_text       (const gchar                *text);
 
+void         mousepad_history_paste_add                        (void);
+
+GtkWidget   *mousepad_history_paste_get_menu                   (GCallback                   callback,
+                                                                gpointer                    data);
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_HISTORY_H__ */

@@ -32,7 +32,6 @@
 
 
 #define PADDING                   2
-#define PASTE_HISTORY_MENU_LENGTH 30
 #define MIN_FONT_SIZE             6
 #define MAX_FONT_SIZE             72
 
@@ -224,14 +223,6 @@ static void              mousepad_window_search_completed             (MousepadD
                                                                        MousepadSearchFlags     flags,
                                                                        MousepadWindow         *window);
 static void              mousepad_window_hide_search_bar              (MousepadWindow         *window);
-
-/* history clipboard functions */
-static void              mousepad_window_paste_history_add            (MousepadWindow         *window);
-static void              mousepad_window_paste_history_activate       (GtkMenuItem            *item,
-                                                                       MousepadWindow         *window);
-static GtkWidget        *mousepad_window_paste_history_menu_item      (const gchar            *text,
-                                                                       const gchar            *mnemonic);
-static GtkWidget        *mousepad_window_paste_history_menu           (MousepadWindow         *window);
 
 /* actions */
 static void              mousepad_window_action_new                   (GSimpleAction          *action,
@@ -574,8 +565,6 @@ static const GActionEntry action_entries[] =
 /* global variables */
 static guint   window_signals[LAST_SIGNAL];
 static gint    lock_menu_updates = 0;
-static GSList *clipboard_history = NULL;
-static guint   clipboard_history_ref_count = 0;
 static GFile  *last_save_location = NULL;
 static guint   last_save_location_ref_count = 0;
 
@@ -691,15 +680,8 @@ mousepad_window_get_property (GObject    *object,
 static void
 mousepad_window_finalize (GObject *object)
 {
-  /* decrease history clipboard ref count */
-  clipboard_history_ref_count--;
-
   /* decrease last save location ref count */
   last_save_location_ref_count--;
-
-  /* free clipboard history if needed */
-  if (clipboard_history_ref_count == 0 && clipboard_history != NULL)
-    g_slist_free_full (clipboard_history, g_free);
 
   /* free last save location if needed */
   if (last_save_location_ref_count == 0 && last_save_location != NULL)
@@ -1199,9 +1181,6 @@ mousepad_window_init (MousepadWindow *window)
   window->gtkmenu_key = NULL;
   window->offset_key = NULL;
   window->old_style_menu = MOUSEPAD_SETTING_GET_BOOLEAN (OLD_STYLE_MENU);
-
-  /* increase clipboard history ref count */
-  clipboard_history_ref_count++;
 
   /* increase last save location ref count */
   last_save_location_ref_count++;
@@ -4197,225 +4176,6 @@ mousepad_window_search_completed (MousepadDocument    *document,
 
 
 /**
- * Paste from History
- **/
-static void
-mousepad_window_paste_history_add (MousepadWindow *window)
-{
-  GtkClipboard *clipboard;
-  gchar        *text;
-  GSList       *li;
-
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  /* get the current clipboard text */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window), GDK_SELECTION_CLIPBOARD);
-  text = gtk_clipboard_wait_for_text (clipboard);
-
-  /* leave when there is no text */
-  if (G_UNLIKELY (text == NULL))
-    return;
-
-  /* check if the item is already in the history */
-  for (li = clipboard_history; li != NULL; li = li->next)
-    if (strcmp (li->data, text) == 0)
-      break;
-
-  /* append the item or remove it */
-  if (G_LIKELY (li == NULL))
-    {
-      /* add to the list */
-      clipboard_history = g_slist_prepend (clipboard_history, text);
-
-      /* get the 10th item from the list and remove it if it exists */
-      li = g_slist_nth (clipboard_history, 10);
-      if (li != NULL)
-        {
-          /* cleanup */
-          g_free (li->data);
-          clipboard_history = g_slist_delete_link (clipboard_history, li);
-        }
-    }
-  else
-    {
-      /* already in the history, remove it */
-      g_free (text);
-    }
-}
-
-
-
-static void
-mousepad_window_paste_history_activate (GtkMenuItem    *item,
-                                        MousepadWindow *window)
-{
-  const gchar *text;
-
-  g_return_if_fail (GTK_IS_MENU_ITEM (item));
-  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
-  g_return_if_fail (MOUSEPAD_IS_VIEW (window->active->textview));
-
-  /* get the menu item text */
-  text = mousepad_object_get_data (item, "history-pointer");
-
-  /* paste the text */
-  if (G_LIKELY (text != NULL))
-    mousepad_view_custom_paste (window->active->textview, text);
-}
-
-
-
-static GtkWidget *
-mousepad_window_paste_history_menu_item (const gchar *text,
-                                         const gchar *mnemonic)
-{
-  GtkWidget   *item;
-  GtkWidget   *label;
-  GtkWidget   *hbox;
-  const gchar *s;
-  gchar       *label_str;
-  GString     *string;
-
-  /* create new label string */
-  string = g_string_sized_new (PASTE_HISTORY_MENU_LENGTH);
-
-  /* get the first 30 chars of the clipboard text */
-  if (g_utf8_strlen (text, -1) > PASTE_HISTORY_MENU_LENGTH)
-    {
-      /* append the first 30 chars */
-      s = g_utf8_offset_to_pointer (text, PASTE_HISTORY_MENU_LENGTH);
-      string = g_string_append_len (string, text, s - text);
-
-      /* make it look like a ellipsized string */
-      string = g_string_append (string, "...");
-    }
-  else
-    {
-      /* append the entire string */
-      string = g_string_append (string, text);
-    }
-
-  /* get the string */
-  label_str = g_string_free (string, FALSE);
-
-  /* replace tab and new lines with spaces */
-  label_str = g_strdelimit (label_str, "\n\t\r", ' ');
-
-  /* create a new item */
-  item = gtk_menu_item_new ();
-
-  /* create a hbox */
-  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 14);
-  gtk_container_add (GTK_CONTAINER (item), hbox);
-  gtk_widget_show (hbox);
-
-  /* create the clipboard label */
-  label = gtk_label_new (label_str);
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
-  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_widget_show (label);
-
-  /* create the mnemonic label */
-  label = gtk_label_new_with_mnemonic (mnemonic);
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-  gtk_label_set_xalign (GTK_LABEL (label), 1.0);
-  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label), item);
-  gtk_widget_show (label);
-
-  /* cleanup */
-  g_free (label_str);
-
-  return item;
-}
-
-
-
-static GtkWidget *
-mousepad_window_paste_history_menu (MousepadWindow *window)
-{
-  GSList       *li;
-  gchar        *text;
-  gpointer      list_data = NULL;
-  GtkWidget    *item;
-  GtkWidget    *menu;
-  GtkClipboard *clipboard;
-  gchar         mnemonic[4];
-  gint          n;
-
-  g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), NULL);
-
-  /* create new menu and set the screen */
-  menu = gtk_menu_new ();
-  g_object_ref_sink (menu);
-  g_signal_connect (menu, "deactivate", G_CALLBACK (g_object_unref), NULL);
-  gtk_menu_set_screen (GTK_MENU (menu), gtk_widget_get_screen (GTK_WIDGET (window)));
-
-  /* get the current clipboard text */
-  clipboard = gtk_widget_get_clipboard (GTK_WIDGET (window), GDK_SELECTION_CLIPBOARD);
-  text = gtk_clipboard_wait_for_text (clipboard);
-
-  /* append the history items */
-  for (li = clipboard_history, n = 1; li != NULL; li = li->next)
-    {
-      /* skip the active clipboard item */
-      if (G_UNLIKELY (list_data == NULL && text && strcmp (li->data, text) == 0))
-        {
-          /* store the pointer so we can attach it at the end of the menu */
-          list_data = li->data;
-        }
-      else
-        {
-          /* create mnemonic string */
-          g_snprintf (mnemonic, sizeof (mnemonic), "_%d", n++);
-
-          /* create menu item */
-          item = mousepad_window_paste_history_menu_item (li->data, mnemonic);
-          mousepad_object_set_data (item, "history-pointer", li->data);
-          gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-          g_signal_connect (item, "activate", G_CALLBACK (mousepad_window_paste_history_activate), window);
-          gtk_widget_show (item);
-        }
-    }
-
-  /* cleanup */
-  g_free (text);
-
-  if (list_data != NULL)
-    {
-      /* add separator between history and active menu items */
-      if (mousepad_util_container_has_children (GTK_CONTAINER (menu)))
-        {
-          item = gtk_separator_menu_item_new ();
-          gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-          gtk_widget_show (item);
-        }
-
-      /* create menu item for current clipboard text */
-      item = mousepad_window_paste_history_menu_item (list_data, "_0");
-      mousepad_object_set_data (item, "history-pointer", list_data);
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      g_signal_connect (item, "activate",
-                        G_CALLBACK (mousepad_window_paste_history_activate), window);
-      gtk_widget_show (item);
-    }
-  else if (! mousepad_util_container_has_children (GTK_CONTAINER (menu)))
-    {
-      /* create an item to inform the user */
-      item = gtk_menu_item_new_with_label (_("No clipboard data"));
-      gtk_widget_set_sensitive (item, FALSE);
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      gtk_widget_show (item);
-    }
-
-  return menu;
-}
-
-
-
-/**
  * Menu Actions
  *
  * All those function should be sorted by the menu structure so it's
@@ -5159,7 +4919,7 @@ mousepad_window_action_cut (GSimpleAction *action,
   g_signal_emit_by_name (window->active->textview, "cut-clipboard");
 
   /* update the history */
-  mousepad_window_paste_history_add (window);
+  mousepad_history_paste_add ();
 }
 
 
@@ -5178,7 +4938,7 @@ mousepad_window_action_copy (GSimpleAction *action,
   g_signal_emit_by_name (window->active->textview, "copy-clipboard");
 
   /* update the history */
-  mousepad_window_paste_history_add (window);
+  mousepad_history_paste_add ();
 }
 
 
@@ -5200,6 +4960,27 @@ mousepad_window_action_paste (GSimpleAction *action,
 
 
 static void
+mousepad_window_paste_history_activate (GtkMenuItem    *item,
+                                        MousepadWindow *window)
+{
+  const gchar *text;
+
+  g_return_if_fail (GTK_IS_MENU_ITEM (item));
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+  g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
+  g_return_if_fail (MOUSEPAD_IS_VIEW (window->active->textview));
+
+  /* get the menu item text */
+  text = mousepad_object_get_data (item, "history-pointer");
+
+  /* paste the text */
+  if (G_LIKELY (text != NULL))
+    mousepad_view_custom_paste (window->active->textview, text);
+}
+
+
+
+static void
 mousepad_window_action_paste_history (GSimpleAction *action,
                                       GVariant      *value,
                                       gpointer       data)
@@ -5212,7 +4993,7 @@ mousepad_window_action_paste_history (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
 
   /* get the history menu */
-  menu = mousepad_window_paste_history_menu (window);
+  menu = mousepad_history_paste_get_menu (G_CALLBACK (mousepad_window_paste_history_activate), window);
 
   /* select the first item in the menu */
   gtk_menu_shell_select_first (GTK_MENU_SHELL (menu), TRUE);

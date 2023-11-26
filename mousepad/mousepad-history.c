@@ -38,6 +38,7 @@ static void     mousepad_history_autosave_init              (void);
 static void     mousepad_history_autosave_finalize          (void);
 static void     mousepad_history_search_init                (void);
 static void     mousepad_history_search_finalize            (void);
+static void     mousepad_history_paste_finalize             (void);
 
 
 
@@ -78,6 +79,10 @@ static GList *autosave_ids = NULL;
 static GHashTable *search_history = NULL;
 static GHashTable *replace_history = NULL;
 
+/* paste data */
+#define PASTE_HISTORY_MENU_LENGTH 30
+static GSList *clipboard_history = NULL;
+
 
 
 void
@@ -96,6 +101,7 @@ mousepad_history_finalize (void)
 {
   mousepad_history_autosave_finalize ();
   mousepad_history_search_finalize ();
+  mousepad_history_paste_finalize ();
 }
 
 
@@ -1204,4 +1210,202 @@ mousepad_history_search_insert_replace_text (const gchar *text)
 {
   return mousepad_history_search_insert_text (text, replace_history,
                                               MOUSEPAD_SETTING_SEARCH_REPLACE_HISTORY);
+}
+
+
+
+static void
+mousepad_history_paste_finalize (void)
+{
+  g_slist_free_full (clipboard_history, g_free);
+}
+
+
+
+void
+mousepad_history_paste_add (void)
+{
+  GtkClipboard *clipboard;
+  gchar        *text;
+  GSList       *li;
+
+  /* get the current clipboard text */
+  clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+  text = gtk_clipboard_wait_for_text (clipboard);
+
+  /* leave when there is no text */
+  if (G_UNLIKELY (text == NULL))
+    return;
+
+  /* check if the item is already in the history */
+  for (li = clipboard_history; li != NULL; li = li->next)
+    if (strcmp (li->data, text) == 0)
+      break;
+
+  /* append the item or remove it */
+  if (G_LIKELY (li == NULL))
+    {
+      /* add to the list */
+      clipboard_history = g_slist_prepend (clipboard_history, text);
+
+      /* get the 10th item from the list and remove it if it exists */
+      li = g_slist_nth (clipboard_history, 10);
+      if (li != NULL)
+        {
+          /* cleanup */
+          g_free (li->data);
+          clipboard_history = g_slist_delete_link (clipboard_history, li);
+        }
+    }
+  else
+    {
+      /* already in the history, remove it */
+      g_free (text);
+    }
+}
+
+
+
+static GtkWidget *
+get_menu_item (const gchar *text,
+               const gchar *mnemonic)
+{
+  GtkWidget   *item;
+  GtkWidget   *label;
+  GtkWidget   *hbox;
+  const gchar *s;
+  gchar       *label_str;
+  GString     *string;
+
+  /* create new label string */
+  string = g_string_sized_new (PASTE_HISTORY_MENU_LENGTH);
+
+  /* get the first 30 chars of the clipboard text */
+  if (g_utf8_strlen (text, -1) > PASTE_HISTORY_MENU_LENGTH)
+    {
+      /* append the first 30 chars */
+      s = g_utf8_offset_to_pointer (text, PASTE_HISTORY_MENU_LENGTH);
+      string = g_string_append_len (string, text, s - text);
+
+      /* make it look like a ellipsized string */
+      string = g_string_append (string, "...");
+    }
+  else
+    {
+      /* append the entire string */
+      string = g_string_append (string, text);
+    }
+
+  /* get the string */
+  label_str = g_string_free (string, FALSE);
+
+  /* replace tab and new lines with spaces */
+  label_str = g_strdelimit (label_str, "\n\t\r", ' ');
+
+  /* create a new item */
+  item = gtk_menu_item_new ();
+
+  /* create a hbox */
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 14);
+  gtk_container_add (GTK_CONTAINER (item), hbox);
+  gtk_widget_show (hbox);
+
+  /* create the clipboard label */
+  label = gtk_label_new (label_str);
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
+  gtk_widget_show (label);
+
+  /* create the mnemonic label */
+  label = gtk_label_new_with_mnemonic (mnemonic);
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+  gtk_label_set_xalign (GTK_LABEL (label), 1.0);
+  gtk_label_set_yalign (GTK_LABEL (label), 0.5);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label), item);
+  gtk_widget_show (label);
+
+  /* cleanup */
+  g_free (label_str);
+
+  return item;
+}
+
+
+
+GtkWidget *
+mousepad_history_paste_get_menu (GCallback callback,
+                                 gpointer data)
+{
+  GSList       *li;
+  gchar        *text;
+  gpointer      list_data = NULL;
+  GtkWidget    *item;
+  GtkWidget    *menu;
+  GtkClipboard *clipboard;
+  gchar         mnemonic[4];
+  gint          n;
+
+  /* create new menu and set the screen */
+  menu = gtk_menu_new ();
+  g_object_ref_sink (menu);
+  g_signal_connect (menu, "deactivate", G_CALLBACK (g_object_unref), NULL);
+
+  /* get the current clipboard text */
+  clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+  text = gtk_clipboard_wait_for_text (clipboard);
+
+  /* append the history items */
+  for (li = clipboard_history, n = 1; li != NULL; li = li->next)
+    {
+      /* skip the active clipboard item */
+      if (G_UNLIKELY (list_data == NULL && text && strcmp (li->data, text) == 0))
+        {
+          /* store the pointer so we can attach it at the end of the menu */
+          list_data = li->data;
+        }
+      else
+        {
+          /* create mnemonic string */
+          g_snprintf (mnemonic, sizeof (mnemonic), "_%d", n++);
+
+          /* create menu item */
+          item = get_menu_item (li->data, mnemonic);
+          mousepad_object_set_data (item, "history-pointer", li->data);
+          gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+          g_signal_connect (item, "activate", callback, data);
+          gtk_widget_show (item);
+        }
+    }
+
+  /* cleanup */
+  g_free (text);
+
+  if (list_data != NULL)
+    {
+      /* add separator between history and active menu items */
+      if (mousepad_util_container_has_children (GTK_CONTAINER (menu)))
+        {
+          item = gtk_separator_menu_item_new ();
+          gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+          gtk_widget_show (item);
+        }
+
+      /* create menu item for current clipboard text */
+      item = get_menu_item (list_data, "_0");
+      mousepad_object_set_data (item, "history-pointer", list_data);
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect (item, "activate", callback, data);
+      gtk_widget_show (item);
+    }
+  else if (! mousepad_util_container_has_children (GTK_CONTAINER (menu)))
+    {
+      /* create an item to inform the user */
+      item = gtk_menu_item_new_with_label (_("No clipboard data"));
+      gtk_widget_set_sensitive (item, FALSE);
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      gtk_widget_show (item);
+    }
+
+  return menu;
 }
