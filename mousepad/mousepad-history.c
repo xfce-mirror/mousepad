@@ -1309,15 +1309,11 @@ mousepad_history_paste_get_menu (GCallback callback,
                                  gpointer data)
 {
   GtkWidget *menu, *item;
-  gchar *text;
 
   /* create new menu and set the screen */
   menu = gtk_menu_new ();
   g_object_ref_sink (menu);
   g_signal_connect (menu, "deactivate", G_CALLBACK (g_object_unref), NULL);
-
-  /* get the current clipboard text */
-  text = gtk_clipboard_wait_for_text (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 
   /* append the history items */
   for (GSList *li = clipboard_history; li != NULL; li = li->next)
@@ -1329,9 +1325,6 @@ mousepad_history_paste_get_menu (GCallback callback,
       g_signal_connect (item, "activate", callback, data);
       gtk_widget_show (item);
     }
-
-  /* cleanup */
-  g_free (text);
 
   /* create an item to inform the user if history is empty */
   if (!mousepad_util_container_has_children (GTK_CONTAINER (menu)))
