@@ -872,7 +872,15 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
           /* try to create a temporary file to save the current buffer */
           if ((g_file = g_file_new_tmp (NULL, &iostream, &error)) != NULL)
             {
-              file = mousepad_file_new (mousepad_file_get_buffer (current_file));
+              GtkTextBuffer *buffer = mousepad_file_get_buffer (current_file);
+              GtkTextIter start, end;
+              gchar *text;
+              gtk_text_buffer_get_start_iter (buffer, &start);
+              gtk_text_buffer_get_end_iter (buffer, &end);
+              text = gtk_text_buffer_get_text (buffer, &start, &end, TRUE);
+              buffer = GTK_TEXT_BUFFER (gtk_source_buffer_new (NULL));
+              gtk_text_buffer_set_text (buffer, text, -1);
+              file = mousepad_file_new (buffer);
               mousepad_file_set_location (file, g_file, MOUSEPAD_LOCATION_REAL);
               if (encoding != MOUSEPAD_ENCODING_NONE)
                 mousepad_file_set_encoding (file, encoding);
@@ -882,6 +890,8 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
               mousepad_file_save (file, FALSE, &error);
 
               /* cleanup */
+              g_free (text);
+              g_object_unref (buffer);
               g_object_unref (g_file);
               g_object_unref (iostream);
             }
