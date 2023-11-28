@@ -499,8 +499,6 @@ mousepad_util_set_titlebar (GtkWindow *window)
   static GtkSettings *settings = NULL;
 
   GtkWidget *bar;
-  GtkStyleContext *context;
-  GtkCssProvider *provider;
   const gchar *title;
   gboolean show_buttons = TRUE;
 
@@ -554,12 +552,7 @@ mousepad_util_set_titlebar (GtkWindow *window)
 
   /* TODO Header bar: works roughly with GTK 3 (not for "Open", "Save As", …), but not with GTK 4 */
   /* make the header bar slim */
-  context = gtk_widget_get_style_context (bar);
-  provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_data (provider, "headerbar { min-height: 0px; }", -1);
-  gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
-                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-  g_object_unref (provider);
+  gtk_widget_add_css_class (bar, "headerbar-slim");
 
   gtk_window_set_titlebar (window, bar);
 }
