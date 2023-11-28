@@ -501,7 +501,7 @@ gspell_plugin_view_menu_show (GspellPlugin *plugin,
   /* append the mousepad context menu to the context menu to be shown */
   item = gtk_separator_menu_item_new ();
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  gtk_widget_show (item);
+  gtk_widget_set_visible (item, TRUE);
   mousepad_util_container_move_children (GTK_CONTAINER (plugin->mousepad_menu),
                                          GTK_CONTAINER (menu));
 
