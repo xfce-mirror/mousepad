@@ -1334,7 +1334,7 @@ mousepad_application_open (GApplication *gapplication,
 
           /* if the file was finally opened, show the window */
           if (opened > 0)
-            gtk_widget_show (window);
+            gtk_widget_set_visible (window, TRUE);
           /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
           else if (G_LIKELY (mousepad_is_application_window (window)))
             gtk_window_destroy (GTK_WINDOW (window));
@@ -1503,7 +1503,7 @@ mousepad_application_new_window (MousepadWindow *existing,
   mousepad_window_add (MOUSEPAD_WINDOW (window), document);
 
   /* show the window */
-  gtk_widget_show (window);
+  gtk_widget_set_visible (window, TRUE);
 }
 
 
