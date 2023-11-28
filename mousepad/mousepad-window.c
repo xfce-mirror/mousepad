@@ -2586,7 +2586,7 @@ mousepad_window_notebook_button_pressed (GtkGestureClick *gesture_click,
               if (button == 3)
                 {
                   gtk_popover_set_pointing_to (GTK_POPOVER (window->tab_menu), &rect);
-                  gtk_widget_show (window->tab_menu);
+                  gtk_widget_set_visible (window->tab_menu, TRUE);
                 }
               /* close the document */
               else if (button == 2)
@@ -2659,7 +2659,7 @@ mousepad_window_textview_menu_popup (GtkGestureClick *gesture,
   rect.x = tx;
   rect.y = ty;
   gtk_popover_set_pointing_to (GTK_POPOVER (window->textview_menu), &rect);
-  gtk_widget_show (window->textview_menu);
+  gtk_widget_set_visible (window->textview_menu, TRUE);
 
   gtk_gesture_set_state (GTK_GESTURE (gesture), GTK_EVENT_SEQUENCE_CLAIMED);
 }
@@ -4615,7 +4615,7 @@ mousepad_window_action_paste_history (GSimpleAction *action,
 
   /* popup the menu */
   gtk_popover_set_pointing_to (GTK_POPOVER (window->paste_history_menu), &location);
-  gtk_widget_show (window->paste_history_menu);
+  gtk_widget_set_visible (window->paste_history_menu, TRUE);
 }
 
 
@@ -4976,7 +4976,7 @@ mousepad_window_hide_search_bar (MousepadWindow *window)
                                mousepad_window_search_bar_switch_page, window);
 
   /* hide the search bar */
-  gtk_widget_hide (window->search_bar);
+  gtk_widget_set_visible (window->search_bar, FALSE);
 
   /* set the window property if no search widget is visible */
   if (window->replace_dialog == NULL || !gtk_widget_get_visible (window->replace_dialog))
@@ -5037,7 +5037,7 @@ mousepad_window_action_find (GSimpleAction *action,
       mousepad_window_search_bar_switch_page (window);
 
       /* show the search bar */
-      gtk_widget_show (window->search_bar);
+      gtk_widget_set_visible (window->search_bar, TRUE);
 
       /* set the window property if no search widget was visible */
       if (window->replace_dialog == NULL || !gtk_widget_get_visible (window->replace_dialog))
@@ -5402,7 +5402,7 @@ mousepad_window_menubar_hide (MousepadWindow *window,
 
   /* disconnect signals and hide the menubar */
   mousepad_window_menubar_disconnect_signals (window);
-  gtk_widget_hide (window->menubar);
+  gtk_widget_set_visible (window->menubar, FALSE);
 
   return FALSE;
 }
@@ -5459,7 +5459,7 @@ mousepad_window_menubar_key (GtkEventControllerKey *controller,
         {
           /* disconnect signals and hide the menubar */
           mousepad_window_menubar_disconnect_signals (window);
-          gtk_widget_hide (window->menubar);
+          gtk_widget_set_visible (window->menubar, FALSE);
 
           /* don't show the menubar when the Alt key is released this time */
           hidden_last_time = TRUE;
@@ -5473,7 +5473,7 @@ mousepad_window_menubar_key (GtkEventControllerKey *controller,
                        && g_list_find (mnemonics, GUINT_TO_POINTER (keycode)))))
         {
           /* show the menubar and connect signals to hide it afterwards on user actions */
-          gtk_widget_show (window->menubar);
+          gtk_widget_set_visible (window->menubar, TRUE);
           mousepad_window_menubar_connect_signals (window);
 
           /* in case of a mnemonic key, repeat the same event to make its menu popup */
