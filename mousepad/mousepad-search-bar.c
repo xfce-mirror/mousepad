@@ -184,7 +184,7 @@ mousepad_search_bar_hide_box_button (GtkWidget *widget,
                                      gpointer   data)
 {
   if (GTK_IS_BUTTON (widget))
-    gtk_widget_hide (widget);
+    gtk_widget_set_visible (widget, FALSE);
   else
     for (GtkWidget *child = gtk_widget_get_first_child (widget); child != NULL;
          child = gtk_widget_get_next_sibling (child))
@@ -300,7 +300,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
   gtk_box_append (GTK_BOX (bar), item);
 
   /* don't show the search bar yet */
-  gtk_widget_hide (GTK_WIDGET (bar));
+  gtk_widget_set_visible (GTK_WIDGET (bar), FALSE);
 
   /* reset search box history on show/hide */
   g_signal_connect_swapped (bar, "show",
