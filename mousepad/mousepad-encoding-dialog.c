@@ -130,7 +130,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   g_signal_connect (dialog->radio_default, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_append (GTK_BOX (hbox), dialog->radio_default);
-  gtk_widget_hide (dialog->radio_default);
+  gtk_widget_set_visible (dialog->radio_default, FALSE);
 
   /* system charset: added only if different from default */
   if (mousepad_encoding_get_default () != mousepad_encoding_get_system ())
@@ -141,7 +141,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
       g_signal_connect (dialog->radio_system, "toggled",
                         G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
       gtk_box_append (GTK_BOX (hbox), dialog->radio_system);
-      gtk_widget_hide (dialog->radio_system);
+      gtk_widget_set_visible (dialog->radio_system, FALSE);
     }
   else
     dialog->radio_system = NULL;
@@ -153,7 +153,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   g_signal_connect (dialog->radio_history, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_append (GTK_BOX (hbox), dialog->radio_history);
-  gtk_widget_hide (dialog->radio_history);
+  gtk_widget_set_visible (dialog->radio_history, FALSE);
 
   /* valid conversions to UTF-8 if there are any, else partially valid conversions, else hidden */
   dialog->radio_other = gtk_check_button_new_with_label (_("Other:"));
@@ -162,7 +162,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   g_signal_connect (dialog->radio_other, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_append (GTK_BOX (hbox), dialog->radio_other);
-  gtk_widget_hide (dialog->radio_other);
+  gtk_widget_set_visible (dialog->radio_other, FALSE);
 
   /* create stores */
   dialog->store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_INT);
@@ -173,7 +173,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   gtk_box_append (GTK_BOX (hbox), dialog->combo);
   g_signal_connect (dialog->combo, "changed",
                     G_CALLBACK (mousepad_encoding_dialog_combo_changed), dialog);
-  gtk_widget_hide (dialog->combo);
+  gtk_widget_set_visible (dialog->combo, FALSE);
 
   /* text renderer for 1st column */
   cell = gtk_cell_renderer_text_new ();
@@ -198,7 +198,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   /* error box */
   dialog->error_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
   gtk_box_append (GTK_BOX (area), dialog->error_box);
-  gtk_widget_hide (dialog->error_box);
+  gtk_widget_set_visible (dialog->error_box, FALSE);
 
   /* error icon */
   icon = gtk_image_new_from_icon_name ("dialog-error");
@@ -405,8 +405,8 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
   g_free (contents);
 
   /* hide progress bar and cancel button */
-  gtk_widget_hide (dialog->progress_bar);
-  gtk_widget_hide (dialog->button_cancel);
+  gtk_widget_set_visible (dialog->progress_bar, FALSE);
+  gtk_widget_set_visible (dialog->button_cancel, FALSE);
 
   /* check if we have something to propose to the user apart from the default encoding */
   if (! gtk_tree_model_iter_n_children (GTK_TREE_MODEL (dialog->store), NULL))
@@ -436,15 +436,15 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
                                           subtitle, "text-x-generic");
 
       /* show the default, system and history radio buttons */
-      gtk_widget_show (dialog->radio_default);
+      gtk_widget_set_visible (dialog->radio_default, TRUE);
       if (dialog->radio_system != NULL)
-        gtk_widget_show (dialog->radio_system);
+        gtk_widget_set_visible (dialog->radio_system, TRUE);
       if (show_history)
-        gtk_widget_show (dialog->radio_history);
+        gtk_widget_set_visible (dialog->radio_history, TRUE);
 
       /* show the "Other" radio button and combo box */
-      gtk_widget_show (dialog->radio_other);
-      gtk_widget_show (dialog->combo);
+      gtk_widget_set_visible (dialog->radio_other, TRUE);
+      gtk_widget_set_visible (dialog->combo, TRUE);
 
       /* select the first item in the combo box*/
       gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->combo), 0);
@@ -470,14 +470,14 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
        * inform the user that they are different from default */
       if (dialog->radio_system != NULL)
         {
-          gtk_widget_show (dialog->radio_default);
-          gtk_widget_show (dialog->radio_system);
+          gtk_widget_set_visible (dialog->radio_default, TRUE);
+          gtk_widget_set_visible (dialog->radio_system, TRUE);
         }
 
       if (show_history)
         {
-          gtk_widget_show (dialog->radio_default);
-          gtk_widget_show (dialog->radio_history);
+          gtk_widget_set_visible (dialog->radio_default, TRUE);
+          gtk_widget_set_visible (dialog->radio_history, TRUE);
         }
 
       /* activate the radio button (maybe hidden) */
@@ -553,7 +553,7 @@ mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
 
   /* no error, hide the box */
   if (result == 0)
-    gtk_widget_hide (dialog->error_box);
+    gtk_widget_set_visible (dialog->error_box, FALSE);
   else
     {
       /* conversion error */
@@ -576,7 +576,7 @@ mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
       g_free (message);
 
       /* show the error box */
-      gtk_widget_show (dialog->error_box);
+      gtk_widget_set_visible (dialog->error_box, TRUE);
     }
 }
 
