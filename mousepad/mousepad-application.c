@@ -211,6 +211,15 @@ enum
 
 
 
+/* globally available CSS classes */
+static const gchar *css_classes =
+  ".mousepad-close-button { outline-width: 0; outline-offset: 0; padding: 0; }"
+  ".entry-override-shape { border-top-right-radius: 0; border-bottom-right-radius: 0; }"
+  ".headerbar-slim { min-height: 0px; }"
+  ".root-warning { background-color: #b4254b; color: #fefefe; }";
+
+
+
 /* application actions */
 
 /* stateless actions */
@@ -1019,6 +1028,7 @@ mousepad_application_startup (GApplication *gapplication)
 
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GtkApplication *kapplication = GTK_APPLICATION (gapplication);
+  GtkCssProvider *provider;
   GSettingsSchema *schema;
   GVariant *state;
   GAction *action;
@@ -1027,6 +1037,14 @@ mousepad_application_startup (GApplication *gapplication)
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
+
+  /* add our CSS classes */
+  provider = gtk_css_provider_new ();
+  gtk_css_provider_load_from_data (provider, css_classes, -1);
+  gtk_style_context_add_provider_for_display (gdk_display_get_default (),
+                                              GTK_STYLE_PROVIDER (provider),
+                                              GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  g_object_unref (provider);
 
   /* load plugins */
   mousepad_application_load_plugins (application);
