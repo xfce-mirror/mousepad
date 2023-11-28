@@ -1048,10 +1048,7 @@ mousepad_window_create_root_warning (MousepadWindow *window)
   /* check if we need to add the root warning */
   if (G_UNLIKELY (geteuid () == 0))
     {
-      GtkWidget       *hbox, *label, *separator;
-      GtkCssProvider  *provider;
-      GtkStyleContext *context;
-      const gchar     *css_string;
+      GtkWidget *hbox, *label, *separator;
 
       /* add the box for the root warning */
       hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -1070,13 +1067,7 @@ mousepad_window_create_root_warning (MousepadWindow *window)
       gtk_box_append (GTK_BOX (window->box), separator);
 
       /* apply a CSS style to capture the user's attention */
-      provider = gtk_css_provider_new ();
-      css_string = "box { background-color: #b4254b; color: #fefefe; }";
-      context = gtk_widget_get_style_context (hbox);
-      gtk_css_provider_load_from_data (provider, css_string, -1);
-      gtk_style_context_add_provider (context, GTK_STYLE_PROVIDER (provider),
-                                      GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-      g_object_unref (provider);
+      gtk_widget_add_css_class (hbox, "root-warning");
     }
 }
 
@@ -1179,7 +1170,7 @@ mousepad_window_init (MousepadWindow *window)
   last_save_location_ref_count++;
 
   /* add mousepad style class for easier theming */
-  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (window)), "mousepad");
+  gtk_widget_add_css_class (GTK_WIDGET (window), "mousepad");
 
   /* add window actions */
   g_action_map_add_action_entries (G_ACTION_MAP (window), action_entries,
