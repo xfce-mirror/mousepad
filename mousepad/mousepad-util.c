@@ -481,7 +481,7 @@ mousepad_util_set_titlebar (GtkWindow *window)
   if (!GTK_IS_HEADER_BAR (bar))
     {
       bar = gtk_header_bar_new ();
-      gtk_widget_show (bar);
+      gtk_widget_set_visible (bar, TRUE);
     }
   /* do not change "show-title-buttons" if there is already a header bar, this should be
    * handled internally by one means or another */
