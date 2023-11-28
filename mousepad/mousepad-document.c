@@ -494,22 +494,18 @@ mousepad_document_location_changed (MousepadDocument *document,
 static void
 mousepad_document_style_label (MousepadDocument *document)
 {
-  GtkStyleContext *context;
-
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
   g_return_if_fail (GTK_IS_TEXT_BUFFER (document->buffer));
   g_return_if_fail (MOUSEPAD_IS_FILE (document->file));
 
   if (document->priv->label)
     {
-      context = gtk_widget_get_style_context (document->priv->label);
-
       /* grey out the label text */
       if (mousepad_file_get_read_only (document->file)
           || !gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview)))
-        gtk_style_context_add_class (context, "dim-label");
+        gtk_widget_add_css_class (document->priv->label, "dim-label");
       else
-        gtk_style_context_remove_class (context, "dim-label");
+        gtk_widget_remove_css_class (document->priv->label, "dim-label");
     }
 }
 

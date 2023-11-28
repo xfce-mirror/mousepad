@@ -80,20 +80,9 @@ mousepad_close_button_motion_leave_event (GtkEventControllerMotion *controller,
 static void
 mousepad_close_button_init (MousepadCloseButton *button)
 {
-  GtkCssProvider *css_provider;
-  GtkStyleContext *context;
   GtkEventController *controller;
 
-  static const gchar *button_style = "* { outline-width: 0; outline-offset: 0; padding: 0; }";
-
-  css_provider = gtk_css_provider_new ();
-  gtk_css_provider_load_from_data (css_provider, button_style, -1);
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (button));
-  gtk_style_context_add_provider (context,
-                                  GTK_STYLE_PROVIDER (css_provider),
-                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-  g_object_unref (css_provider);
+  gtk_widget_add_css_class (GTK_WIDGET (button), "mousepad-close-button");
 
   controller = gtk_event_controller_motion_new ();
   gtk_widget_add_controller (GTK_WIDGET (button), controller);
