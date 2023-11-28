@@ -165,15 +165,15 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
       popover = gtk_popover_new ();
       gtk_widget_set_parent (popover, button);
       gtk_popover_set_child (GTK_POPOVER (popover), box);
-      g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_show), popover);
+      g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_set_visible), popover);
       g_signal_connect_swapped (button, "destroy",
                                 G_CALLBACK (mousepad_prefs_dialog_remove_setting_box),
                                 popover);
-      gtk_widget_show (button);
+      gtk_widget_set_visible (button, TRUE);
     }
   /* the setting box was destroyed (normally with its plugin): hide the prefs button */
   else if (box == NULL && visible)
-    gtk_widget_hide (button);
+    gtk_widget_set_visible (button, FALSE);
 
   return FALSE;
 }
@@ -262,7 +262,7 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
       gtk_grid_attach (GTK_GRID (grid), child, 2, n, 1, 1);
 
       /* show the button if the plugin already has a setting box, or when it gets one */
-      gtk_widget_hide (child);
+      gtk_widget_set_visible (child, FALSE);
       mousepad_object_set_data (child, "provider", provider->data);
       mousepad_prefs_dialog_checkbox_toggled_idle (child);
       g_signal_connect (widget, "toggled",
@@ -597,7 +597,7 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
     g_signal_connect (widget, "switch-page",
                       G_CALLBACK (mousepad_prefs_dialog_plugins_tab), child);
   else
-    gtk_widget_hide (child);
+    gtk_widget_set_visible (child, FALSE);
 }
 
 
