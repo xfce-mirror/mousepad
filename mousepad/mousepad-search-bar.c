@@ -220,8 +220,6 @@ static void
 mousepad_search_bar_init (MousepadSearchBar *bar)
 {
   GtkWidget *item, *box;
-  GtkCssProvider *provider;
-  const gchar *css_string;
 
   /* we will complete initialization when the bar is anchored */
   g_signal_connect (bar, "notify::root", G_CALLBACK (mousepad_search_bar_post_init), NULL);
@@ -255,13 +253,7 @@ mousepad_search_bar_init (MousepadSearchBar *bar)
                     G_CALLBACK (mousepad_search_bar_entry_select_all), NULL);
 
   /* recover entry shape after hiding the combo box button */
-  provider = gtk_css_provider_new ();
-  css_string = "entry { border-top-right-radius: 0; border-bottom-right-radius: 0; }";
-  gtk_css_provider_load_from_data (provider, css_string, -1);
-  gtk_style_context_add_provider (gtk_widget_get_style_context (bar->entry),
-                                  GTK_STYLE_PROVIDER (provider),
-                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-  g_object_unref (provider);
+  gtk_widget_add_css_class (bar->entry, "entry-override-shape");
 
   /* previous button */
   item = gtk_button_new_from_icon_name ("go-up-symbolic");
