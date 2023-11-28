@@ -108,7 +108,7 @@ mousepad_dialogs_run (GtkWidget *dialog,
   if (parent != NULL)
     mousepad_dialogs_destroy_with_parent (dialog, parent);
 
-  gtk_widget_show (dialog);
+  gtk_widget_set_visible (dialog, TRUE);
   g_main_loop_run (loop);
   g_main_loop_unref (loop);
 
@@ -348,7 +348,7 @@ mousepad_dialogs_go_to (GtkWindow *parent,
   if (succeed)
     {
       /* hide the dialog */
-      gtk_widget_hide (dialog);
+      gtk_widget_set_visible (dialog, FALSE);
 
       /* get new position */
       line = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (line_spin));
@@ -1090,7 +1090,7 @@ mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
   if ((widget = mousepad_dialogs_find_choice_box (dialog)) != NULL)
     {
       /* hide choice widget instead of removing it: usually preferable */
-      gtk_widget_hide (gtk_widget_get_first_child (widget));
+      gtk_widget_set_visible (gtk_widget_get_first_child (widget), FALSE);
       gtk_box_append (GTK_BOX (widget), hbox);
     }
   else
