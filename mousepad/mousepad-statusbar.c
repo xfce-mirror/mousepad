@@ -198,7 +198,7 @@ mousepad_statusbar_language_clicked (GtkGestureClick *gesture,
     gtk_widget_set_parent (menu, statusbar->language);
 
   /* show the menu */
-  gtk_widget_show (menu);
+  gtk_widget_set_visible (menu, TRUE);
 
   gtk_gesture_set_state (GTK_GESTURE (gesture), GTK_EVENT_SEQUENCE_CLAIMED);
 }
