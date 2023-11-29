@@ -61,7 +61,7 @@ test_simple_gui ()
   ((r == 0)) && {
     if [[ $* == *--disable-server* ]]; then
       # wait for the test plugin to run the quit command internally
-      $timeout pwait -x mousepad 2> >(indent)
+      $timeout $pidwait -x mousepad 2> >(indent)
     elif $timeout grep -q -x -F "$idle" 2> >(indent); then
       # purge the logs and run the quit command
       purge_logs

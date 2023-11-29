@@ -123,7 +123,7 @@ log_and_run_mousepad ()
 
   if [ "$1" = '--quit' ]; then
     "$mousepad" --quit 2> >(filter | indent) 1>/dev/null &
-    $timeout pwait -x mousepad 2> >(indent)
+    $timeout $pidwait -x mousepad 2> >(indent)
   else
     "$mousepad" "$@" 2> >(filter >"$temp_logfile") 1>/dev/null &
   fi

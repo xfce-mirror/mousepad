@@ -71,7 +71,7 @@ declare -r timeout='timeout -v -k 5 -- 10' script_name=${0##*/} \
                        "('org.gtk.Application', {'Busy': <false>}, @as [])")
 declare -a ignored warnings errors tempfiles
 declare -i quiet=0 n_warns=0 n_errs=0 n_cmds=0 session_restore=0 gdbus_pid
-declare    mousepad logfile logdir temp_logfile sections session_backup
+declare    mousepad logfile logdir temp_logfile sections session_backup pidwait
 
 # Option parsing
 temp=$(getopt -o 'hqc:l:s:i:' \
@@ -162,6 +162,16 @@ which "$mousepad" &>/dev/null || {
 }
 mousepad=$(realpath "$(which "$mousepad")")
 
+# pwait was renamed to pidwait in procps-ng 4.0.0 (2022-03-22)
+pidwait='pidwait'
+which "$pidwait" &>/dev/null || {
+  pidwait='pwait'
+  which "$pidwait" &>/dev/null || {
+    printerr 'error' "Command not found 'pidwait' or 'pwait'"
+    exit 1
+  }
+}
+
 logfile=${logfile:-"$PWD/$script_name.log"}
 logdir=$(dirname "$logfile")
 [ -d "$logfile" ] && {
@@ -219,7 +229,7 @@ trap 'abort "INT signal received"' INT
 trap 'abort "Undetermined error"' ERR
 
 # Set some global constants
-readonly quiet mousepad logfile logdir sections ignored gdbus_pid
+readonly quiet mousepad logfile logdir sections ignored gdbus_pid pidwait
 
 
 
