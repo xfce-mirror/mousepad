@@ -22,7 +22,7 @@
 G_BEGIN_DECLS
 
 #define MOUSEPAD_TYPE_SEARCH_BAR (mousepad_search_bar_get_type ())
-G_DECLARE_FINAL_TYPE (MousepadSearchBar, mousepad_search_bar, MOUSEPAD, SEARCH_BAR, GtkToolbar)
+G_DECLARE_FINAL_TYPE (MousepadSearchBar, mousepad_search_bar, MOUSEPAD, SEARCH_BAR, GtkBox)
 
 GtkWidget      *mousepad_search_bar_new             (void);
 
