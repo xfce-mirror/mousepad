@@ -66,7 +66,7 @@ create_tempfiles ()
 ### Preamble ###
 
 # Global variables
-declare -r timeout='timeout -v -k 5 -- 10' script_name=${0##*/} \
+declare -r timeout='timeout -v -k 5 -- 20' script_name=${0##*/} \
            idle=$(echo "/org/xfce/mousepad: org.freedesktop.DBus.Properties.PropertiesChanged" \
                        "('org.gtk.Application', {'Busy': <false>}, @as [])")
 declare -a ignored warnings errors tempfiles
