@@ -66,7 +66,7 @@ dnl ************************************
 AC_SEARCH_LIBS([round], [m], [], [
   AC_MSG_ERROR([unable to find the round() function in math library])
 ])
-AC_CHECK_FUNCS([realpath bind_textdomain_codeset])
+AC_CHECK_FUNCS([realpath])
 
 dnl **********************************
 dnl *** Check for standard headers ***
@@ -81,6 +81,9 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Name of default get
 AC_SUBST([GETTEXT_PACKAGE])
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.19.8])
+AC_SEARCH_LIBS([bind_textdomain_codeset], [intl],
+  [AC_DEFINE([HAVE_BIND_TEXTDOMAIN_CODESET], [1], [Define to 1 if you have the 'bind_textdomain_codeset' function.])],
+  [])
 
 dnl ***********************************
 dnl *** Check for required packages ***
