@@ -639,6 +639,7 @@ mousepad_dialogs_session_restore (void)
                                    GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
                                    _("It seems that the previous session did not end normally."
                                      " Do you want to restore the available data?"));
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
 
   /* destroy with parent or on "app.quit" */
   if (parent != NULL)
