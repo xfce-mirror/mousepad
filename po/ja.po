@@ -8,14 +8,14 @@
 # Masato HASHIMOTO <cabezon.hashimoto@gmail.com>, 2012
 # Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2008,2018-2023
 # Tarot Osuji <tarot@sdf.lonestar.org>, 2004
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2019-2023
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2019-2024
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-05 10:52+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, 2008,2018-2023\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2019-2024\n"
 "Language-Team: Japanese (http://app.transifex.com/xfce/xfce-apps/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1718,7 +1718,7 @@ msgstr "ファイルの最後に改行があるか確認する"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1197
 msgid "Make a copy with '~' suffix"
-msgstr "「~」接頭辞を付けてコピーを作成する"
+msgstr "「~」接尾辞を付けてコピーを作成する"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1216
 msgid "<b>File Saving</b>"
@@ -1736,7 +1736,7 @@ msgstr "\"保存されていないドキュメント\" や \"常に\" を選択�
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1301
 msgid "Recent file menu length:"
-msgstr "最近のファイルのメニューの長さ: "
+msgstr "最近開いたファイルの履歴:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1313
 msgid "'0' disables and wipes recent history"
