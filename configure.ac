@@ -13,7 +13,7 @@ m4_define([polkit_min_version], [0.102])
 dnl ***************************
 dnl *** Initialize autoconf ***
 dnl ***************************
-AC_COPYRIGHT([Copyright (C) 2005-2023
+AC_COPYRIGHT([Copyright (C) 2005-2024
         The Mousepad developers. All rights reserved.])
 AC_INIT([Mousepad], [xdt_version], [https://gitlab.xfce.org/apps/mousepad], [mousepad])
 AC_PREREQ([2.69])
