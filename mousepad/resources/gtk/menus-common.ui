@@ -72,6 +72,7 @@
         <attribute name="label" translatable="yes">Re_load</attribute>
         <attribute name="tooltip" translatable="yes">Reload file from disk</attribute>
         <attribute name="action">win.file.reload</attribute>
+        <attribute name="target" type="b">false</attribute>
         <attribute name="icon">view-refresh</attribute>
       </item>
     </section>

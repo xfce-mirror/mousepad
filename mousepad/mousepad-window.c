@@ -476,7 +476,7 @@ static const GActionEntry action_entries[] =
   { "file.save", mousepad_window_action_save, NULL, "0", NULL },
   { "file.save-as", mousepad_window_action_save_as, NULL, "0", NULL },
   { "file.save-all", mousepad_window_action_save_all, NULL, NULL, NULL },
-  { "file.reload", mousepad_window_action_reload, NULL, NULL, NULL },
+  { "file.reload", mousepad_window_action_reload, "b", NULL, NULL },
 
   { "file.print", mousepad_window_action_print, NULL, NULL, NULL },
 
@@ -813,6 +813,12 @@ mousepad_window_update_toolbar_item (GMenuModel  *model,
         {
           gtk_actionable_set_action_name (GTK_ACTIONABLE (item),
                                           g_variant_get_string (value, NULL));
+          g_variant_unref (value);
+        }
+
+      if ((value = g_menu_model_get_item_attribute_value (model, position, "target", NULL)))
+        {
+          gtk_actionable_set_action_target_value (GTK_ACTIONABLE (item), value);
           g_variant_unref (value);
         }
     }
@@ -3020,7 +3026,8 @@ mousepad_window_externally_modified (MousepadFile   *file,
     {
       g_signal_connect (file, "externally-modified",
                         G_CALLBACK (mousepad_window_externally_modified), window);
-      g_action_group_activate_action (G_ACTION_GROUP (window), "file.reload", NULL);
+      g_action_group_activate_action (G_ACTION_GROUP (window), "file.reload",
+                                      g_variant_new_boolean (FALSE));
       return;
     }
 
@@ -3035,8 +3042,8 @@ mousepad_window_externally_modified (MousepadFile   *file,
       if (mousepad_dialogs_externally_modified (GTK_WINDOW (window), FALSE, modified)
           == MOUSEPAD_RESPONSE_RELOAD)
         {
-          gtk_text_buffer_set_modified (document->buffer, FALSE);
-          g_action_group_activate_action (G_ACTION_GROUP (window), "file.reload", NULL);
+          g_action_group_activate_action (G_ACTION_GROUP (window), "file.reload",
+                                          g_variant_new_boolean (TRUE));
         }
 
       /* reconnect this handler if the document wasn't removed */
@@ -4685,8 +4692,8 @@ mousepad_window_action_reload (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
-  /* ask the user if he really wants to do this when the file is modified */
-  if (gtk_text_buffer_get_modified (document->buffer))
+  /* ask the user what to do if file is modified and action is not forced */
+  if (gtk_text_buffer_get_modified (document->buffer) && !g_variant_get_boolean (value))
     {
       /* ask the user if he really wants to revert */
       switch (mousepad_dialogs_revert (GTK_WINDOW (window)))
