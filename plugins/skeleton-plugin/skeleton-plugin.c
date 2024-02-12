@@ -94,9 +94,6 @@ skeleton_plugin_constructed (GObject *object)
   g_object_get (object, "provider", &provider, NULL);
   vbox = mousepad_plugin_provider_create_setting_box (provider);
 
-  /* show all widgets in the setting box */
-  gtk_widget_show_all (vbox);
-
   /* chain-up to MousepadPlugin */
   G_OBJECT_CLASS (skeleton_plugin_parent_class)->constructed (object);
 }
