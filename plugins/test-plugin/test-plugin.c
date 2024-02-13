@@ -476,6 +476,9 @@ test_plugin_window_actions (GSimpleAction *test_action,
 
       hook = test_plugin_action_hook_new (0, 1, "file.close-tab");
       g_hash_table_insert (hooks, "file.new", hook);
+
+      hook = test_plugin_action_hook_new (0, 0);
+      g_hash_table_insert (hooks, "file.reload(false)", hook);
     }
   else if (g_strcmp0 (type, "edit") == 0)
     {
