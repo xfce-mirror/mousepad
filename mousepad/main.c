@@ -43,11 +43,6 @@ main (gint argc, gchar **argv)
   /* set the package textdomain */
   textdomain (GETTEXT_PACKAGE);
 
-#ifdef G_ENABLE_DEBUG
-  /* crash when something went wrong */
-  g_log_set_always_fatal (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
-#endif
-
   /* create the application */
   application = g_object_new (MOUSEPAD_TYPE_APPLICATION,
                               "application-id", MOUSEPAD_ID,
