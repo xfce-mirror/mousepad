@@ -30,16 +30,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/* In non-debug mode, turn off g_return_*()/g_assert*() debugging checks. */
-#ifdef NDEBUG
-# ifndef G_DISABLE_CHECKS
-#  define G_DISABLE_CHECKS
-# endif
-# ifndef G_DISABLE_ASSERT
-#  define G_DISABLE_ASSERT
-# endif
-#endif
-
 /* These are the only three headers that can be assumed to always be included
  * since they are so core to the basic and advanced type system that GLib
  * provides us and for all the various i18n includes and macros we need. */
