@@ -1903,6 +1903,41 @@ mousepad_window_menu_set_tooltips (MousepadWindow *window,
  * Mousepad Window Functions
  **/
 static gboolean
+mousepad_window_file_is_open (MousepadWindow *window,
+                              GFile *file,
+                              gboolean focus_tab)
+{
+  /* walk window list */
+  GList *list = gtk_application_get_windows (gtk_window_get_application (GTK_WINDOW (window)));
+  for (GList *li = list; li != NULL; li = li->next)
+    {
+      /* walk tab list */
+      GtkNotebook *notebook = GTK_NOTEBOOK (MOUSEPAD_WINDOW (li->data)->notebook);
+      gint npages = gtk_notebook_get_n_pages (notebook);
+      for (gint i = 0; i < npages; i++)
+        {
+          /* see if the file is already open */
+          MousepadDocument *document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (notebook, i));
+          GFile *open_file = mousepad_file_get_location (document->file);
+          if (open_file != NULL && g_file_equal (file, open_file))
+            {
+              if (focus_tab)
+                {
+                  gtk_notebook_set_current_page (notebook, i);
+                  gtk_window_present (li->data);
+                }
+
+              return TRUE;
+            }
+        }
+    }
+
+  return FALSE;
+}
+
+
+
+static gboolean
 mousepad_window_open_file (MousepadWindow   *window,
                            GFile            *file,
                            MousepadEncoding  encoding,
@@ -1911,41 +1946,18 @@ mousepad_window_open_file (MousepadWindow   *window,
                            gboolean          must_exist)
 {
   MousepadDocument *document;
-  GtkNotebook      *notebook;
-  GList            *list, *li;
   GError           *error = NULL;
-  GFile            *open_file;
   gchar            *uri;
   const gchar      *autosave_uri;
-  gint              npages, result, i;
+  gint              result;
   gboolean          user_set_encoding, user_set_cursor, succeed;
 
   g_return_val_if_fail (MOUSEPAD_IS_WINDOW (window), FALSE);
   g_return_val_if_fail (file != NULL, FALSE);
 
-  /* check if the file is already open */
-  list = gtk_application_get_windows (GTK_APPLICATION (
-           gtk_window_get_application (GTK_WINDOW (window))));
-  for (li = list; li != NULL; li = li->next)
-    {
-      notebook = GTK_NOTEBOOK (MOUSEPAD_WINDOW (li->data)->notebook);
-      npages = gtk_notebook_get_n_pages (notebook);
-      for (i = 0; i < npages; i++)
-        {
-          /* see if the file is already opened */
-          document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (notebook, i));
-          open_file = mousepad_file_get_location (document->file);
-          if (open_file != NULL && g_file_equal (file, open_file))
-            {
-              /* switch to the tab and present the window */
-              gtk_notebook_set_current_page (notebook, i);
-              gtk_window_present (li->data);
-
-              /* and we're done */
-              return TRUE;
-            }
-        }
-    }
+  /* check if the file is already open, if so focus its tab and exit */
+  if (mousepad_window_file_is_open (window, file, TRUE))
+    return TRUE;
 
   /* new document */
   document = mousepad_document_new ();
@@ -3874,8 +3886,11 @@ mousepad_window_recent_menu (GSimpleAction *action,
           uri = gtk_recent_info_get_uri (info);
           file = g_file_new_for_uri (uri);
 
+          /* do not add already open files to the menu */
+          if (mousepad_window_file_is_open (data, file, FALSE))
+            filtered = g_list_delete_link (filtered, li);
           /* append to the menu if the file exists, else remove it from the history */
-          if (mousepad_util_query_exists (file, TRUE))
+          else if (mousepad_util_query_exists (file, TRUE))
             {
               /* get label, escaping underscores for mnemonics */
               display_name = gtk_recent_info_get_display_name (info);
