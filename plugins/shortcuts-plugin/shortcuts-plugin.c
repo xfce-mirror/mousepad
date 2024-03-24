@@ -28,7 +28,7 @@
 #ifdef I_
 #undef I_
 #endif
-#include <libxfce4kbd-private-3/libxfce4kbd-private/xfce-shortcuts-editor.h>
+#include <libxfce4kbd-private/xfce-shortcuts-editor.h>
 
 
 
