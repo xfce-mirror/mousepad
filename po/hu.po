@@ -8,6 +8,7 @@
 # Benedek Imre <nucleo@indamail.hu>, 2014
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013
 # Gábor P., 2019-2020
+# Egyember, 2024
 # gyeben <gyonkibendeguz@gmail.com>, 2013,2016
 # gyeben <gyonkibendeguz@gmail.com>, 2014
 # Robert Huszar, 2022
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: SZERVÁC  Libre art  Attila  Libre art, 2022\n"
+"Last-Translator: Egyember, 2024\n"
 "Language-Team: Hungarian (http://app.transifex.com/xfce/xfce-apps/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +71,7 @@ msgstr "Ne regisztráljon a D-BUS munkamenet üzenetbuszra"
 
 #: mousepad/mousepad-application.c:169
 msgid "Quit a running Mousepad primary instance"
-msgstr ""
+msgstr "Kilépés a Mousepad főpéldányából"
 
 #: mousepad/mousepad-application.c:174
 msgid "Print version information and exit"
@@ -97,7 +98,7 @@ msgstr "MÓD"
 
 #: mousepad/mousepad-application.c:452
 msgid "The Mousepad developers. All rights reserved."
-msgstr ""
+msgstr "Mousepad fejlesztőcsapat. Minden jog fenntartva."
 
 #: mousepad/mousepad-application.c:453
 #, c-format
@@ -111,7 +112,7 @@ msgstr "%s | Szerzők: %s | Fájlnév: %s"
 
 #: mousepad/mousepad-dialogs.c:70 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "A Mousepad egy egyszerű szövegszerkesztő az Xfce asztali környezethez."
 
 #: mousepad/mousepad-dialogs.c:77
 msgid "translator-credits"
@@ -170,7 +171,7 @@ msgstr "Menti a módosításokat bezárás előtt?"
 
 #: mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "A dokumentum csak olvasható, szeretnéd más néven menteni?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:392 mousepad/mousepad-dialogs.c:532
@@ -185,7 +186,7 @@ msgstr "_Ne legyen mentve"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Ha nem ment ezt az írásvédett dokumentumot, az összes változtatás elvész."
 
 #: mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -204,7 +205,7 @@ msgstr "Ha menti a dokumentumot, minden külső változtatás elvész."
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "A dokumentumot külső program módosította. Szeretné újratölteni a lemezről?"
 
 #: mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
@@ -228,7 +229,7 @@ msgstr "Ha visszaállítja a fájlt, az összes nem mentett változtatás elvés
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "A file úgy tűnik hogy %s-val van kódolva, de a(z) %s kódolást választotta.  Megerősíti ezt a választást?"
 
 #: mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
