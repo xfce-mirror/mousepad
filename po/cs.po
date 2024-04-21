@@ -5,6 +5,7 @@
 # Translators:
 # Alois Nešpor <info@aloisnespor.info>, 2014
 # k3dar, 2022
+# Martin Šiška <martin-siska@email.cz>, 2024
 # Michal Várady <miko.vaji@gmail.com>, 2014,2018-2021
 # Pavel Borecki <pavel.borecki@gmail.com>, 2018-2019
 # Pavel Pernička <pernicka.pa@gmail.com>, 2019
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: k3dar, 2022\n"
+"Last-Translator: Martin Šiška <martin-siska@email.cz>, 2024\n"
 "Language-Team: Czech (http://app.transifex.com/xfce/xfce-apps/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -678,19 +679,19 @@ msgstr "Všech dokumentech"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d z %d shody"
+msgstr[1] "%d z %d shod "
+msgstr[2] "%d z %d shod"
+msgstr[3] "%d z %d shod "
 
 #: mousepad/mousepad-replace-dialog.c:617 mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d shoda"
+msgstr[1] "%d shod"
+msgstr[2] "%d shod"
+msgstr[3] "%d shod"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -953,7 +954,7 @@ msgstr "Z_výraznit vše"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Zvýraznit nalezené shody"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1416,7 +1417,7 @@ msgstr "Přesune obsah různými způsoby"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Řádek _výše"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1424,7 +1425,7 @@ msgstr "Přesune řádky o jeden řádek výše"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Řádek _níže"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1432,7 +1433,7 @@ msgstr "Přesune řádky o jeden řádek níže"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Slovo _nalevo"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1440,7 +1441,7 @@ msgstr "Přesune slova o jedno slovo doleva"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Slovo _napravo"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1789,7 +1790,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Zde se nastavuje výchozí jazyk pro nové dokumenty. Může být změněn pro jednotlivé dokumenty pomocí kontextové nabídky, kde jsou i návrhy na opravu pravopisu u podtržených slov."
 
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:156
@@ -1804,20 +1805,20 @@ msgstr "Editor zkratek"
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "Editor zkratek je dostupný jako vyskakovací okno, nebo dialogové okno v nastavení na liště nabídek."
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Aplikace"
 
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:253
 msgid "Menubar"
-msgstr ""
+msgstr "Lišta nabídek"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:254
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Nastavení"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:255
 msgid "Miscellaneous"
@@ -1825,7 +1826,7 @@ msgstr "Ostatní"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:583
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Zkratky Mousepadu"
 
 #. add the shortcuts menu entry
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:632
@@ -1834,7 +1835,7 @@ msgstr "Klávesové zkratky..."
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:636
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Zobrazit okno se zkratkami"
 
 #: org.xfce.mousepad.desktop.in.in:5
 msgid "Simple Text Editor"
@@ -1865,11 +1866,11 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "Na druhou stranu se pokoušíme užívat nejnovější dostupné funkce GTK, což znamená, že pokud GTK přidá v novém vydání něco nového, co by mohlo být užitečné pro editor, pravděpodobně povýšíme závislost GTK a začleníme tuto funkci do Mousepadu."
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Vývojáři Mousepadu"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
