@@ -1,0 +1,37 @@
+---
+Language: Cpp
+BasedOnStyle: GNU
+
+AllowAllParametersOfDeclarationOnNextLine: false
+AlwaysBreakAfterReturnType: All
+BinPackParameters: false
+ColumnLimit: 0
+ContinuationIndentWidth: 2
+IncludeCategories:
+  - Regex: 'mousepad-private\.h'
+    Priority: -1
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: '<.*>'
+    Priority: 2
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: '.*'
+    Priority: 1
+    SortPriority: 0
+    CaseSensitive: false
+IndentGotoLabels: false
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 3
+SpaceAfterCStyleCast: true
+# Buggy workaround to add exceptions to 'SpaceBeforeParens: Always' (see below)
+WhitespaceSensitiveMacros:
+  - _
+# Workaround to avoid some alignment bugs when adding a macro to WhitespaceSensitiveMacros,
+# see https://github.com/llvm/llvm-project/issues/55443#issuecomment-1953268337
+# This doesn't fix all alignment bugs though, so I'd rather make an exception only for '_',
+# and not also for 'N_' or 'I_' for example.
+# See also https://github.com/llvm/llvm-project/issues/82288
+Macros:
+  - _(x)=x
+...
