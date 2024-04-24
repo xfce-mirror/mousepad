@@ -14,27 +14,31 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-dialogs.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-history.h>
-#include <mousepad/mousepad-util.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-dialogs.h"
+#include "mousepad/mousepad-history.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
 
-#include <test-plugin/test-plugin.h>
+#include "test-plugin/test-plugin.h"
 
 
 
 /* GObject virtual functions */
-static void test_plugin_finalize       (GObject        *object);
+static void
+test_plugin_finalize (GObject *object);
 
 /* MousepadPlugin virtual functions */
-static void test_plugin_enable         (MousepadPlugin *mplugin);
-static void test_plugin_disable        (MousepadPlugin *mplugin);
+static void
+test_plugin_enable (MousepadPlugin *mplugin);
+static void
+test_plugin_disable (MousepadPlugin *mplugin);
 
 /* TestPlugin own functions */
-static void test_plugin_window_actions (GSimpleAction  *test_action,
-                                        GVariant       *parameter,
-                                        gpointer        data);
+static void
+test_plugin_window_actions (GSimpleAction *test_action,
+                            GVariant *parameter,
+                            gpointer data);
 
 #define LOG_COMMAND(command) g_printerr ("Command: %s: %s\n", G_STRLOC, command);
 #define LOG_WARNING(warning) g_printerr ("%s: %s\n", G_STRLOC, warning);
@@ -49,12 +53,11 @@ struct _TestPlugin
   GHashTable *dialog_actions;
 };
 
-static GApplication* application;
+static GApplication *application;
 
 #define PF(str) ("mousepad-test-plugin." str)
 
-static const GActionEntry test_actions[] =
-{
+static const GActionEntry test_actions[] = {
   { PF ("window-actions"), test_plugin_window_actions, "s", NULL, NULL },
 };
 
@@ -77,7 +80,7 @@ test_plugin_register (MousepadPluginProvider *plugin)
 static void
 test_plugin_class_init (TestPluginClass *klass)
 {
-  GObjectClass        *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   MousepadPluginClass *mplugin_class = MOUSEPAD_PLUGIN_CLASS (klass);
 
   gobject_class->finalize = test_plugin_finalize;
@@ -141,8 +144,8 @@ test_plugin_finalize (GObject *object)
 static gboolean
 test_plugin_dialog_shown (gpointer instance)
 {
-  gpointer  dialog;
-  GList    *windows, *window;
+  gpointer dialog;
+  GList *windows, *window;
 
   /* disconnect this handler */
   if (G_IS_ACTION (instance))
@@ -188,7 +191,8 @@ test_plugin_disable_monitoring (TestPlugin *plugin)
   GAction *action;
 
   /* remove pending sources */
-  while (g_source_remove_by_user_data (application));
+  while (g_source_remove_by_user_data (application))
+    ;
 
   /* disconnect signal handlers */
   g_signal_handlers_disconnect_by_data (application, plugin);
@@ -201,10 +205,10 @@ test_plugin_disable_monitoring (TestPlugin *plugin)
 
 static void
 test_plugin_is_busy_changed (GApplication *gapplication,
-                             GParamSpec   *pspec,
-                             TestPlugin   *plugin)
+                             GParamSpec *pspec,
+                             TestPlugin *plugin)
 {
-  if (! g_application_get_is_busy (gapplication))
+  if (!g_application_get_is_busy (gapplication))
     test_plugin_disable_monitoring (plugin);
 }
 
@@ -212,11 +216,11 @@ test_plugin_is_busy_changed (GApplication *gapplication,
 
 static void
 test_plugin_action_added (GActionGroup *action_group,
-                          const gchar  *action_name,
-                          TestPlugin   *plugin)
+                          const gchar *action_name,
+                          TestPlugin *plugin)
 {
-  GAction  *action;
-  gpointer  blocking;
+  GAction *action;
+  gpointer blocking;
 
   if (g_hash_table_lookup_extended (plugin->dialog_actions, action_name, NULL, &blocking))
     {
@@ -300,15 +304,15 @@ test_plugin_disable (MousepadPlugin *mplugin)
 
 static void
 test_plugin_activate_action (GActionGroup *group,
-                             const gchar  *detailed_name)
+                             const gchar *detailed_name)
 {
-  GAction  *action;
+  GAction *action;
   GVariant *parameter;
-  GError   *error = NULL;
-  gchar    *name, *prefixed_name;
+  GError *error = NULL;
+  gchar *name, *prefixed_name;
 
   /* retrieve action name and parameter */
-  if (! g_action_parse_detailed_name (detailed_name, &name, &parameter, &error))
+  if (!g_action_parse_detailed_name (detailed_name, &name, &parameter, &error))
     {
       LOG_WARNING (error->message);
       return;
@@ -362,8 +366,8 @@ test_plugin_action_hook_new (guint pr,
                              ...)
 {
   ActionHook *hook;
-  guint       n;
-  va_list     ap;
+  guint n;
+  va_list ap;
 
   hook = g_new (ActionHook, 1);
   hook->prereqs = g_new (gchar *, pr + 1);
@@ -379,7 +383,7 @@ test_plugin_action_hook_new (guint pr,
   for (n = 0; n < pp; n++)
     hook->postprocs[n] = g_strdup (va_arg (ap, gchar *));
 
-  va_end(ap);
+  va_end (ap);
 
   return hook;
 }
@@ -398,8 +402,8 @@ static gboolean
 test_plugin_action_hook_equal_func (gconstpointer a,
                                     gconstpointer b)
 {
-  gchar    *p, *s = (gchar *) a, *t = (gchar *) b;
-  gboolean  r;
+  gchar *p, *s = (gchar *) a, *t = (gchar *) b;
+  gboolean r;
 
   if ((p = g_strstr_len (s, -1, "(")) != NULL)
     s = g_strndup (s, p - s);
@@ -416,7 +420,7 @@ static guint
 test_plugin_action_hook_hash_func (gconstpointer k)
 {
   gchar *p, *s = (gchar *) k;
-  guint  r;
+  guint r;
 
   if ((p = g_strstr_len (s, -1, "(")) != NULL)
     s = g_strndup (s, p - s);
@@ -433,18 +437,18 @@ test_plugin_action_hook_hash_func (gconstpointer k)
 
 static void
 test_plugin_window_actions (GSimpleAction *test_action,
-                            GVariant      *parameter,
-                            gpointer       data)
+                            GVariant *parameter,
+                            gpointer data)
 {
-  ActionHook    *hook;
-  GActionGroup  *group;
-  GRegex        *included, *excluded;
-  GHashTable    *hooks;
-  gpointer       key;
-  gchar        **actions, **pname, **qname;
-  const gchar   *type;
-  gboolean       save = FALSE;
-  gint           restore;
+  ActionHook *hook;
+  GActionGroup *group;
+  GRegex *included, *excluded;
+  GHashTable *hooks;
+  gpointer key;
+  gchar **actions, **pname, **qname;
+  const gchar *type;
+  gboolean save = FALSE;
+  gint restore;
 
   /* get the window actions list */
   group = G_ACTION_GROUP (gtk_application_get_active_window (GTK_APPLICATION (application)));
@@ -574,7 +578,7 @@ test_plugin_window_actions (GSimpleAction *test_action,
 
   /* filter action list */
   for (pname = actions; *pname != NULL; pname++)
-    if (g_regex_match (included, *pname, 0, NULL) && ! g_regex_match (excluded, *pname, 0, NULL))
+    if (g_regex_match (included, *pname, 0, NULL) && !g_regex_match (excluded, *pname, 0, NULL))
       {
         /* activate prerequisites */
         if (g_hash_table_lookup_extended (hooks, *pname, &key, (gpointer *) &hook))

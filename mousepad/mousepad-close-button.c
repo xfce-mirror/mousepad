@@ -14,8 +14,8 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-close-button.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-close-button.h"
 
 
 
@@ -27,13 +27,16 @@
                                 icon_name, GTK_ICON_SIZE_MENU);
 
 /* GObject virtual functions */
-static void     mousepad_close_button_finalize           (GObject          *object);
+static void
+mousepad_close_button_finalize (GObject *object);
 
 /* GtkWidget virtual functions */
-static gboolean mousepad_close_button_enter_notify_event (GtkWidget        *widget,
-                                                          GdkEventCrossing *event);
-static gboolean mousepad_close_button_leave_notify_event (GtkWidget        *widget,
-                                                          GdkEventCrossing *event);
+static gboolean
+mousepad_close_button_enter_notify_event (GtkWidget *widget,
+                                          GdkEventCrossing *event);
+static gboolean
+mousepad_close_button_leave_notify_event (GtkWidget *widget,
+                                          GdkEventCrossing *event);
 
 
 
@@ -53,7 +56,7 @@ G_DEFINE_TYPE (MousepadCloseButton, mousepad_close_button, GTK_TYPE_BUTTON)
 static void
 mousepad_close_button_class_init (MousepadCloseButtonClass *klass)
 {
-  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->finalize = mousepad_close_button_finalize;
@@ -68,15 +71,10 @@ static void
 mousepad_close_button_init (MousepadCloseButton *button)
 {
   GtkWidget *image;
-  GtkCssProvider  *css_provider;
+  GtkCssProvider *css_provider;
   GtkStyleContext *context;
 
-  static const gchar *button_style =
-    "* {\n"
-    "  outline-width: 0;\n"
-    "  outline-offset: 0;\n"
-    "  padding: 0;\n"
-    "}\n";
+  static const gchar *button_style = "* { outline-width: 0; outline-offset: 0; padding: 0; }";
 
   css_provider = gtk_css_provider_new ();
   gtk_css_provider_load_from_data (css_provider, button_style, -1, NULL);
@@ -107,7 +105,7 @@ mousepad_close_button_finalize (GObject *object)
 
 
 static gboolean
-mousepad_close_button_enter_notify_event (GtkWidget        *widget,
+mousepad_close_button_enter_notify_event (GtkWidget *widget,
                                           GdkEventCrossing *event)
 {
   MousepadCloseButton *button = MOUSEPAD_CLOSE_BUTTON (widget);
@@ -121,7 +119,7 @@ mousepad_close_button_enter_notify_event (GtkWidget        *widget,
 
 
 static gboolean
-mousepad_close_button_leave_notify_event (GtkWidget        *widget,
+mousepad_close_button_leave_notify_event (GtkWidget *widget,
                                           GdkEventCrossing *event)
 {
   MousepadCloseButton *button = MOUSEPAD_CLOSE_BUTTON (widget);
@@ -135,7 +133,7 @@ mousepad_close_button_leave_notify_event (GtkWidget        *widget,
 
 
 static void
-mousepad_close_button_modified_changed (GtkTextBuffer       *buffer,
+mousepad_close_button_modified_changed (GtkTextBuffer *buffer,
                                         MousepadCloseButton *button)
 {
   const gchar *icon_name;

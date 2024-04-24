@@ -24,21 +24,27 @@ G_BEGIN_DECLS
 #define MOUSEPAD_TYPE_SEARCH_BAR (mousepad_search_bar_get_type ())
 G_DECLARE_FINAL_TYPE (MousepadSearchBar, mousepad_search_bar, MOUSEPAD, SEARCH_BAR, GtkToolbar)
 
-GtkWidget      *mousepad_search_bar_new             (void);
+GtkWidget *
+mousepad_search_bar_new (void);
 
-void            mousepad_search_bar_focus           (MousepadSearchBar *bar);
+void
+mousepad_search_bar_focus (MousepadSearchBar *bar);
 
-void            mousepad_search_bar_find_next       (MousepadSearchBar *bar);
+void
+mousepad_search_bar_find_next (MousepadSearchBar *bar);
 
-void            mousepad_search_bar_find_previous   (MousepadSearchBar *bar);
+void
+mousepad_search_bar_find_previous (MousepadSearchBar *bar);
 
-void            mousepad_search_bar_page_switched   (MousepadSearchBar *bar,
-                                                     GtkTextBuffer     *old_buffer,
-                                                     GtkTextBuffer     *new_buffer,
-                                                     gboolean           search);
+void
+mousepad_search_bar_page_switched (MousepadSearchBar *bar,
+                                   GtkTextBuffer *old_buffer,
+                                   GtkTextBuffer *new_buffer,
+                                   gboolean search);
 
-void            mousepad_search_bar_set_text        (MousepadSearchBar *bar,
-                                                     const gchar       *text);
+void
+mousepad_search_bar_set_text (MousepadSearchBar *bar,
+                              const gchar *text);
 
 G_END_DECLS
 
