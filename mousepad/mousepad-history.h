@@ -17,9 +17,9 @@
 #ifndef __MOUSEPAD_HISTORY_H__
 #define __MOUSEPAD_HISTORY_H__
 
-#include <mousepad/mousepad-encoding.h>
-#include <mousepad/mousepad-file.h>
-#include <mousepad/mousepad-application.h>
+#include "mousepad/mousepad-application.h"
+#include "mousepad/mousepad-encoding.h"
+#include "mousepad/mousepad-file.h"
 
 G_BEGIN_DECLS
 
@@ -39,46 +39,64 @@ enum
   MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE,
 };
 
-void         mousepad_history_init                             (void);
+void
+mousepad_history_init (void);
 
-void         mousepad_history_finalize                         (void);
+void
+mousepad_history_finalize (void);
 
-void         mousepad_history_recent_add                       (MousepadFile               *file);
+void
+mousepad_history_recent_add (MousepadFile *file);
 
-void         mousepad_history_recent_get_language              (GFile                      *file,
-                                                                gchar                     **language);
+void
+mousepad_history_recent_get_language (GFile *file,
+                                      gchar **language);
 
-void         mousepad_history_recent_get_encoding              (GFile                      *file,
-                                                                MousepadEncoding           *encoding);
+void
+mousepad_history_recent_get_encoding (GFile *file,
+                                      MousepadEncoding *encoding);
 
-void         mousepad_history_recent_get_cursor                (GFile                      *file,
-                                                                gint                       *line,
-                                                                gint                       *column);
+void
+mousepad_history_recent_get_cursor (GFile *file,
+                                    gint *line,
+                                    gint *column);
 
-void         mousepad_history_recent_clear                     (void);
+void
+mousepad_history_recent_clear (void);
 
-void         mousepad_history_session_set_quitting             (gboolean                    quitting);
+void
+mousepad_history_session_set_quitting (gboolean quitting);
 
-gint         mousepad_history_session_get_quitting             (void);
+gint
+mousepad_history_session_get_quitting (void);
 
-void         mousepad_history_session_save                     (void);
+void
+mousepad_history_session_save (void);
 
-gboolean     mousepad_history_session_restore                  (MousepadApplication        *application);
+gboolean
+mousepad_history_session_restore (MousepadApplication *application);
 
-GFile       *mousepad_history_autosave_get_location            (void);
+GFile *
+mousepad_history_autosave_get_location (void);
 
-void         mousepad_history_search_fill_search_box           (GtkComboBoxText            *box);
+void
+mousepad_history_search_fill_search_box (GtkComboBoxText *box);
 
-void         mousepad_history_search_fill_replace_box          (GtkComboBoxText            *box);
+void
+mousepad_history_search_fill_replace_box (GtkComboBoxText *box);
 
-guint        mousepad_history_search_insert_search_text        (const gchar                *text);
+guint
+mousepad_history_search_insert_search_text (const gchar *text);
 
-guint        mousepad_history_search_insert_replace_text       (const gchar                *text);
+guint
+mousepad_history_search_insert_replace_text (const gchar *text);
 
-void         mousepad_history_paste_add                        (void);
+void
+mousepad_history_paste_add (void);
 
-GtkWidget   *mousepad_history_paste_get_menu                   (GCallback                   callback,
-                                                                gpointer                    data);
+GtkWidget *
+mousepad_history_paste_get_menu (GCallback callback,
+                                 gpointer data);
 
 G_END_DECLS
 

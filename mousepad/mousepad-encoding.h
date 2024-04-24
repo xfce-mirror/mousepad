@@ -21,7 +21,7 @@ G_BEGIN_DECLS
 
 /* button labels */
 #define MOUSEPAD_ENCODING_LABEL_DEFAULT _("Default")
-#define MOUSEPAD_ENCODING_LABEL_SYSTEM  _("System")
+#define MOUSEPAD_ENCODING_LABEL_SYSTEM _("System")
 #define MOUSEPAD_ENCODING_LABEL_HISTORY _("History")
 
 typedef enum
@@ -101,28 +101,34 @@ typedef enum
   MOUSEPAD_ENCODING_WINDOWS_1258,
 
   MOUSEPAD_N_ENCODINGS
-}
-MousepadEncoding;
+} MousepadEncoding;
 
 
 
-const gchar      *mousepad_encoding_get_charset (MousepadEncoding   encoding);
+const gchar *
+mousepad_encoding_get_charset (MousepadEncoding encoding);
 
-const gchar      *mousepad_encoding_get_name    (MousepadEncoding   encoding);
+const gchar *
+mousepad_encoding_get_name (MousepadEncoding encoding);
 
-MousepadEncoding  mousepad_encoding_find        (const gchar       *charset);
+MousepadEncoding
+mousepad_encoding_find (const gchar *charset);
 
-MousepadEncoding  mousepad_encoding_get_default (void);
+MousepadEncoding
+mousepad_encoding_get_default (void);
 
-MousepadEncoding  mousepad_encoding_get_system  (void);
+MousepadEncoding
+mousepad_encoding_get_system (void);
 
-MousepadEncoding  mousepad_encoding_read_bom    (const gchar       *contents,
-                                                 gsize              length,
-                                                 gsize             *bom_length);
+MousepadEncoding
+mousepad_encoding_read_bom (const gchar *contents,
+                            gsize length,
+                            gsize *bom_length);
 
-void              mousepad_encoding_write_bom   (MousepadEncoding  *encoding,
-                                                 gsize             *length,
-                                                 gchar            **contents);
+void
+mousepad_encoding_write_bom (MousepadEncoding *encoding,
+                             gsize *length,
+                             gchar **contents);
 
 G_END_DECLS
 

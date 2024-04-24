@@ -17,6 +17,8 @@
 #ifndef __MOUSEPAD_VIEW_H__
 #define __MOUSEPAD_VIEW_H__
 
+#include <gtksourceview/gtksource.h>
+
 G_BEGIN_DECLS
 
 #define MOUSEPAD_TYPE_VIEW (mousepad_view_get_type ())
@@ -28,21 +30,28 @@ enum
   TABS_TO_SPACES
 };
 
-gboolean        mousepad_view_scroll_to_cursor          (gpointer           data);
+gboolean
+mousepad_view_scroll_to_cursor (gpointer data);
 
-void            mousepad_view_transpose                 (MousepadView      *view);
+void
+mousepad_view_transpose (MousepadView *view);
 
-void            mousepad_view_custom_paste              (MousepadView      *view,
-                                                         const gchar       *string);
+void
+mousepad_view_custom_paste (MousepadView *view,
+                            const gchar *string);
 
-void            mousepad_view_convert_spaces_and_tabs   (MousepadView      *view,
-                                                         gint               type);
+void
+mousepad_view_convert_spaces_and_tabs (MousepadView *view,
+                                       gint type);
 
-void            mousepad_view_strip_trailing_spaces     (MousepadView      *view);
+void
+mousepad_view_strip_trailing_spaces (MousepadView *view);
 
-void            mousepad_view_duplicate                 (MousepadView      *view);
+void
+mousepad_view_duplicate (MousepadView *view);
 
-gint            mousepad_view_get_selection_length      (MousepadView      *view);
+gint
+mousepad_view_get_selection_length (MousepadView *view);
 
 G_END_DECLS
 

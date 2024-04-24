@@ -14,20 +14,21 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-statusbar.h>
-#include <mousepad/mousepad-window.h>
-#include <mousepad/mousepad-util.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-statusbar.h"
+#include "mousepad/mousepad-util.h"
+#include "mousepad/mousepad-window.h"
 
 
 
-static gboolean mousepad_statusbar_overwrite_clicked (GtkWidget         *widget,
-                                                      GdkEventButton    *event,
-                                                      MousepadStatusbar *statusbar);
-
-static gboolean mousepad_statusbar_filetype_clicked  (GtkWidget         *widget,
-                                                      GdkEventButton    *event,
-                                                      MousepadStatusbar *statusbar);
+static gboolean
+mousepad_statusbar_overwrite_clicked (GtkWidget *widget,
+                                      GdkEventButton *event,
+                                      MousepadStatusbar *statusbar);
+static gboolean
+mousepad_statusbar_filetype_clicked (GtkWidget *widget,
+                                     GdkEventButton *event,
+                                     MousepadStatusbar *statusbar);
 
 
 
@@ -39,16 +40,16 @@ enum
 
 struct _MousepadStatusbar
 {
-  GtkStatusbar        __parent__;
+  GtkStatusbar __parent__;
 
   /* whether overwrite is enabled */
-  guint               overwrite_enabled : 1;
+  guint overwrite_enabled : 1;
 
   /* extra labels in the statusbar */
-  GtkWidget          *language;
-  GtkWidget          *encoding;
-  GtkWidget          *position;
-  GtkWidget          *overwrite;
+  GtkWidget *language;
+  GtkWidget *encoding;
+  GtkWidget *position;
+  GtkWidget *overwrite;
 };
 
 
@@ -76,13 +77,12 @@ mousepad_statusbar_class_init (MousepadStatusbarClass *klass)
 
   gobject_class = G_OBJECT_CLASS (klass);
 
-  statusbar_signals[ENABLE_OVERWRITE] =
-    g_signal_new (I_("enable-overwrite"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__BOOLEAN,
-                  G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+  statusbar_signals[ENABLE_OVERWRITE] = g_signal_new (I_ ("enable-overwrite"),
+                                                      G_TYPE_FROM_CLASS (gobject_class),
+                                                      G_SIGNAL_RUN_LAST,
+                                                      0, NULL, NULL,
+                                                      g_cclosure_marshal_VOID__BOOLEAN,
+                                                      G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 }
 
 
@@ -90,7 +90,7 @@ mousepad_statusbar_class_init (MousepadStatusbarClass *klass)
 static void
 mousepad_statusbar_init (MousepadStatusbar *statusbar)
 {
-  GtkWidget    *ebox, *box, *separator, *label;
+  GtkWidget *ebox, *box, *separator, *label;
   GtkStatusbar *bar = GTK_STATUSBAR (statusbar);
   GList *frame;
 
@@ -171,8 +171,8 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
 
 
 static gboolean
-mousepad_statusbar_overwrite_clicked (GtkWidget         *widget,
-                                      GdkEventButton    *event,
+mousepad_statusbar_overwrite_clicked (GtkWidget *widget,
+                                      GdkEventButton *event,
                                       MousepadStatusbar *statusbar)
 {
   g_return_val_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar), FALSE);
@@ -193,14 +193,14 @@ mousepad_statusbar_overwrite_clicked (GtkWidget         *widget,
 
 
 static gboolean
-mousepad_statusbar_filetype_clicked (GtkWidget         *widget,
-                                     GdkEventButton    *event,
+mousepad_statusbar_filetype_clicked (GtkWidget *widget,
+                                     GdkEventButton *event,
                                      MousepadStatusbar *statusbar)
 {
   GtkWidget *window;
-  GtkMenu   *menu = NULL;
-  GList     *children;
-  gint       n_children = 0;
+  GtkMenu *menu = NULL;
+  GList *children;
+  gint n_children = 0;
 
   g_return_val_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar), FALSE);
 
@@ -228,9 +228,9 @@ mousepad_statusbar_filetype_clicked (GtkWidget         *widget,
 
 void
 mousepad_statusbar_set_cursor_position (MousepadStatusbar *statusbar,
-                                        gint               line,
-                                        gint               column,
-                                        gint               selection)
+                                        gint line,
+                                        gint column,
+                                        gint selection)
 {
   gchar string[64];
 
@@ -251,7 +251,7 @@ mousepad_statusbar_set_cursor_position (MousepadStatusbar *statusbar,
 
 void
 mousepad_statusbar_set_encoding (MousepadStatusbar *statusbar,
-                                 MousepadEncoding   encoding)
+                                 MousepadEncoding encoding)
 {
   g_return_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar));
 
@@ -272,7 +272,7 @@ mousepad_statusbar_set_language (MousepadStatusbar *statusbar,
   g_return_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar));
 
   if (language == NULL)
-      gtk_label_set_text (GTK_LABEL (statusbar->language), _("Filetype: None"));
+    gtk_label_set_text (GTK_LABEL (statusbar->language), _("Filetype: None"));
   else
     {
       label = g_strdup_printf (_("Filetype: %s"), gtk_source_language_get_name (language));
@@ -285,7 +285,7 @@ mousepad_statusbar_set_language (MousepadStatusbar *statusbar,
 
 void
 mousepad_statusbar_set_overwrite (MousepadStatusbar *statusbar,
-                                  gboolean           overwrite)
+                                  gboolean overwrite)
 {
   g_return_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar));
 
@@ -297,7 +297,7 @@ mousepad_statusbar_set_overwrite (MousepadStatusbar *statusbar,
 
 void
 mousepad_statusbar_push_tooltip (MousepadStatusbar *statusbar,
-                                 const gchar       *tooltip)
+                                 const gchar *tooltip)
 {
   gint id;
 
