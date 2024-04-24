@@ -24,7 +24,8 @@ G_BEGIN_DECLS
 #define MOUSEPAD_TYPE_CLOSE_BUTTON (mousepad_close_button_get_type ())
 G_DECLARE_FINAL_TYPE (MousepadCloseButton, mousepad_close_button, MOUSEPAD, CLOSE_BUTTON, GtkButton)
 
-GtkWidget *mousepad_close_button_new      (GtkTextBuffer *buffer);
+GtkWidget *
+mousepad_close_button_new (GtkTextBuffer *buffer);
 
 G_END_DECLS
 

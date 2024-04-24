@@ -14,20 +14,24 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-application.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-application.h"
 
-#include <skeleton-plugin/skeleton-plugin.h>
+#include "skeleton-plugin/skeleton-plugin.h"
 
 
 
 /* GObject virtual functions */
-static void skeleton_plugin_constructed (GObject        *object);
-static void skeleton_plugin_finalize    (GObject        *object);
+static void
+skeleton_plugin_constructed (GObject *object);
+static void
+skeleton_plugin_finalize (GObject *object);
 
 /* MousepadPlugin virtual functions */
-static void skeleton_plugin_enable      (MousepadPlugin *mplugin);
-static void skeleton_plugin_disable     (MousepadPlugin *mplugin);
+static void
+skeleton_plugin_enable (MousepadPlugin *mplugin);
+static void
+skeleton_plugin_disable (MousepadPlugin *mplugin);
 
 /* SkeletonPlugin own functions */
 
@@ -55,7 +59,7 @@ skeleton_plugin_register (MousepadPluginProvider *plugin)
 static void
 skeleton_plugin_class_init (SkeletonPluginClass *klass)
 {
-  GObjectClass        *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   MousepadPluginClass *mplugin_class = MOUSEPAD_PLUGIN_CLASS (klass);
 
   gobject_class->constructed = skeleton_plugin_constructed;
@@ -88,7 +92,7 @@ static void
 skeleton_plugin_constructed (GObject *object)
 {
   MousepadPluginProvider *provider;
-  GtkWidget              *vbox;
+  GtkWidget *vbox;
 
   /* request the creation of the plugin setting box */
   g_object_get (object, "provider", &provider, NULL);
@@ -118,7 +122,7 @@ skeleton_plugin_finalize (GObject *object)
 static void
 skeleton_plugin_enable (MousepadPlugin *mplugin)
 {
-  SkeletonPlugin      *plugin = SKELETON_PLUGIN (mplugin);
+  SkeletonPlugin *plugin = SKELETON_PLUGIN (mplugin);
   MousepadApplication *application;
 
   /* get the mousepad application */
@@ -130,7 +134,7 @@ skeleton_plugin_enable (MousepadPlugin *mplugin)
 static void
 skeleton_plugin_disable (MousepadPlugin *mplugin)
 {
-  SkeletonPlugin      *plugin = SKELETON_PLUGIN (mplugin);
+  SkeletonPlugin *plugin = SKELETON_PLUGIN (mplugin);
   MousepadApplication *application;
 
   /* get the mousepad application */

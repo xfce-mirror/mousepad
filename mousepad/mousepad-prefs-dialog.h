@@ -24,7 +24,8 @@ G_BEGIN_DECLS
 #define MOUSEPAD_TYPE_PREFS_DIALOG (mousepad_prefs_dialog_get_type ())
 G_DECLARE_FINAL_TYPE (MousepadPrefsDialog, mousepad_prefs_dialog, MOUSEPAD, PREFS_DIALOG, GtkDialog)
 
-GtkWidget *mousepad_prefs_dialog_new      (void);
+GtkWidget *
+mousepad_prefs_dialog_new (void);
 
 G_END_DECLS
 

@@ -14,20 +14,23 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-plugin-provider.h>
-#include <mousepad/mousepad-plugin.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-plugin-provider.h"
+#include "mousepad/mousepad-plugin.h"
 
 #include <gmodule.h>
 
 
 
 /* GObject virtual functions */
-static void     mousepad_plugin_provider_finalize (GObject     *object);
+static void
+mousepad_plugin_provider_finalize (GObject *object);
 
 /* GTypeModule virtual functions */
-static gboolean mousepad_plugin_provider_load     (GTypeModule *type_module);
-static void     mousepad_plugin_provider_unload   (GTypeModule *type_module);
+static gboolean
+mousepad_plugin_provider_load (GTypeModule *type_module);
+static void
+mousepad_plugin_provider_unload (GTypeModule *type_module);
 
 
 
@@ -39,16 +42,16 @@ struct _MousepadPluginProvider
   GModule *module;
 
   /* list of instantiated types */
-  GList    *instances;
-  gboolean  first_instantiation;
+  GList *instances;
+  gboolean first_instantiation;
 
   /* plugin data */
   MousepadPluginData *plugin_data;
-  GtkWidget          *setting_box;
+  GtkWidget *setting_box;
 
   /* minimal set of pre-instantiation functions that each plugin must implement */
-  void                 (*initialize)      (MousepadPluginProvider *provider);
-  MousepadPluginData * (*get_plugin_data) (void);
+  void (*initialize) (MousepadPluginProvider *provider);
+  MousepadPluginData *(*get_plugin_data) (void);
 };
 
 
@@ -60,7 +63,7 @@ G_DEFINE_TYPE (MousepadPluginProvider, mousepad_plugin_provider, G_TYPE_TYPE_MOD
 static void
 mousepad_plugin_provider_class_init (MousepadPluginProviderClass *klass)
 {
-  GObjectClass     *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   GTypeModuleClass *gtype_module_class = G_TYPE_MODULE_CLASS (klass);
 
   gobject_class->finalize = mousepad_plugin_provider_finalize;
@@ -105,7 +108,7 @@ static gboolean
 mousepad_plugin_provider_load (GTypeModule *type_module)
 {
   MousepadPluginProvider *provider = MOUSEPAD_PLUGIN_PROVIDER (type_module);
-  gchar                  *path;
+  gchar *path;
 
   /* load the module */
   path = g_module_build_path (MOUSEPAD_PLUGIN_DIRECTORY, type_module->name);
@@ -257,8 +260,8 @@ void
 mousepad_plugin_provider_new_plugin (MousepadPluginProvider *provider)
 {
   GTypeModule *module = G_TYPE_MODULE (provider);
-  gpointer     instance;
-  GType        type;
+  gpointer instance;
+  GType type;
 
   /* if ever there is an interest in having multi-instance plugins, this could be changed */
   if (provider->instances != NULL)

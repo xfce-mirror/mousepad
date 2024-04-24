@@ -14,33 +14,45 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-document.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-print.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-print.h"
+#include "mousepad/mousepad-document.h"
+#include "mousepad/mousepad-util.h"
 
 
 
-static void           mousepad_print_finalize              (GObject                 *object);
-static void           mousepad_print_settings_load         (GtkPrintOperation       *operation);
-static void           mousepad_print_settings_save_foreach (const gchar             *key,
-                                                            const gchar             *value,
-                                                            gpointer                 user_data);
-static void           mousepad_print_settings_save         (GtkPrintOperation       *operation);
-static void           mousepad_print_begin_print           (GtkPrintOperation       *operation,
-                                                            GtkPrintContext         *context);
-static void           mousepad_print_draw_page             (GtkPrintOperation       *operation,
-                                                            GtkPrintContext         *context,
-                                                            gint                     page_nr);
-static void           mousepad_print_button_toggled        (GtkWidget               *button,
-                                                            MousepadPrint           *print);
-static void           mousepad_print_button_font_set       (GtkFontButton           *button,
-                                                            MousepadPrint           *print);
-static PangoAttrList *mousepad_print_attr_list_bold        (void);
-static GtkWidget     *mousepad_print_create_custom_widget  (GtkPrintOperation       *operation);
-static void           mousepad_print_status_changed        (GtkPrintOperation       *operation);
-static void           mousepad_print_done                  (GtkPrintOperation       *operation,
-                                                            GtkPrintOperationResult  result);
+static void
+mousepad_print_finalize (GObject *object);
+static void
+mousepad_print_settings_load (GtkPrintOperation *operation);
+static void
+mousepad_print_settings_save_foreach (const gchar *key,
+                                      const gchar *value,
+                                      gpointer user_data);
+static void
+mousepad_print_settings_save (GtkPrintOperation *operation);
+static void
+mousepad_print_begin_print (GtkPrintOperation *operation,
+                            GtkPrintContext *context);
+static void
+mousepad_print_draw_page (GtkPrintOperation *operation,
+                          GtkPrintContext *context,
+                          gint page_nr);
+static void
+mousepad_print_button_toggled (GtkWidget *button,
+                               MousepadPrint *print);
+static void
+mousepad_print_button_font_set (GtkFontButton *button,
+                                MousepadPrint *print);
+static PangoAttrList *
+mousepad_print_attr_list_bold (void);
+static GtkWidget *
+mousepad_print_create_custom_widget (GtkPrintOperation *operation);
+static void
+mousepad_print_status_changed (GtkPrintOperation *operation);
+static void
+mousepad_print_done (GtkPrintOperation *operation,
+                     GtkPrintOperationResult result);
 
 
 
@@ -49,23 +61,23 @@ struct _MousepadPrint
   GtkPrintOperation __parent__;
 
   /* the document we're going to print */
-  MousepadDocument        *document;
+  MousepadDocument *document;
 
   /* print dialog widgets */
-  GtkWidget                *widget_page_headers;
-  GtkWidget                *widget_page_footers;
-  GtkWidget                *widget_line_numbers;
-  GtkWidget                *widget_text_wrapping;
-  GtkWidget                *widget_syntax_highlighting;
-  GtkWidget                *widget_header_font;
-  GtkWidget                *widget_line_numbers_font;
-  GtkWidget                *widget_body_font;
-  GtkWidget                *widget_line_numbers_spin;
-  GtkWidget                *widget_line_numbers_hbox;
+  GtkWidget *widget_page_headers;
+  GtkWidget *widget_page_footers;
+  GtkWidget *widget_line_numbers;
+  GtkWidget *widget_text_wrapping;
+  GtkWidget *widget_syntax_highlighting;
+  GtkWidget *widget_header_font;
+  GtkWidget *widget_line_numbers_font;
+  GtkWidget *widget_body_font;
+  GtkWidget *widget_line_numbers_spin;
+  GtkWidget *widget_line_numbers_hbox;
 
   /* settings */
-  gboolean                  print_line_numbers;
-  gint                      line_number_increment;
+  gboolean print_line_numbers;
+  gint line_number_increment;
 
   /* source view print compositor */
   GtkSourcePrintCompositor *compositor;
@@ -80,7 +92,7 @@ G_DEFINE_TYPE (MousepadPrint, mousepad_print, GTK_TYPE_PRINT_OPERATION)
 static void
 mousepad_print_class_init (MousepadPrintClass *klass)
 {
-  GObjectClass           *gobject_class;
+  GObjectClass *gobject_class;
   GtkPrintOperationClass *gtkprintoperation_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
@@ -126,18 +138,17 @@ mousepad_print_finalize (GObject *object)
 static void
 mousepad_print_settings_load (GtkPrintOperation *operation)
 {
-  MousepadPrint         *print = MOUSEPAD_PRINT (operation);
-  GKeyFile              *keyfile;
-  GtkPrintSettings      *settings = NULL;
-  GtkPageSetup          *page_setup;
-  GtkPaperSize          *paper_size;
-  PangoContext          *context;
-  PangoFontDescription  *font_desc;
-  gchar                **keys;
-  gchar                 *filename, *key, *value, *body_font = NULL, *header_font = NULL,
-                        *line_numbers_font = NULL;
-  gint                   i;
-  gdouble                margin;
+  MousepadPrint *print = MOUSEPAD_PRINT (operation);
+  GKeyFile *keyfile;
+  GtkPrintSettings *settings = NULL;
+  GtkPageSetup *page_setup;
+  GtkPaperSize *paper_size;
+  PangoContext *context;
+  PangoFontDescription *font_desc;
+  gchar **keys;
+  gchar *filename, *key, *value, *body_font = NULL, *header_font = NULL, *line_numbers_font = NULL;
+  gint i;
+  gdouble margin;
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (print->document));
   g_return_if_fail (GTK_IS_WIDGET (print->document->textview));
@@ -198,8 +209,7 @@ mousepad_print_settings_load (GtkPrintOperation *operation)
           page_setup = gtk_page_setup_new ();
 
           /* set orientation */
-          gtk_page_setup_set_orientation (page_setup,
-            gtk_print_settings_get_orientation (settings));
+          gtk_page_setup_set_orientation (page_setup, gtk_print_settings_get_orientation (settings));
 
           /* restore margins */
           margin = gtk_print_settings_get_double (settings, "top-margin");
@@ -233,8 +243,7 @@ mousepad_print_settings_load (GtkPrintOperation *operation)
                     "print-line-numbers",
                     gtk_print_settings_get_int (settings, "line-numbers-increment"),
                     "wrap-mode",
-                    gtk_print_settings_get_bool (settings, "text-wrapping")
-                      ? GTK_WRAP_WORD_CHAR : GTK_WRAP_NONE,
+                    gtk_print_settings_get_bool (settings, "text-wrapping") ? GTK_WRAP_WORD_CHAR : GTK_WRAP_NONE,
                     "highlight-syntax",
                     gtk_print_settings_get_bool (settings, "highlight-syntax"),
                     NULL);
@@ -293,10 +302,10 @@ mousepad_print_settings_load (GtkPrintOperation *operation)
 static void
 mousepad_print_settings_save_foreach (const gchar *key,
                                       const gchar *value,
-                                      gpointer     user_data)
+                                      gpointer user_data)
 {
   GKeyFile *keyfile = user_data;
-  gchar    *config;
+  gchar *config;
 
   /* save the setting */
   if (G_LIKELY (key && value))
@@ -312,13 +321,13 @@ mousepad_print_settings_save_foreach (const gchar *key,
 static void
 mousepad_print_settings_save (GtkPrintOperation *operation)
 {
-  MousepadPrint    *print = MOUSEPAD_PRINT (operation);
-  GKeyFile         *keyfile;
+  MousepadPrint *print = MOUSEPAD_PRINT (operation);
+  GKeyFile *keyfile;
   GtkPrintSettings *settings;
-  GtkPageSetup     *page_setup;
-  GtkPaperSize     *paper_size;
-  gchar            *filename, *str;
-  gboolean          value;
+  GtkPageSetup *page_setup;
+  GtkPaperSize *paper_size;
+  gchar *filename, *str;
+  gboolean value;
 
   /* get the save location */
   filename = mousepad_util_get_save_location (MOUSEPAD_RC_RELPATH, TRUE);
@@ -340,18 +349,17 @@ mousepad_print_settings_save (GtkPrintOperation *operation)
   if (G_LIKELY (page_setup != NULL))
     {
       /* the the settings page orienation */
-      gtk_print_settings_set_orientation (settings,
-        gtk_page_setup_get_orientation (page_setup));
+      gtk_print_settings_set_orientation (settings, gtk_page_setup_get_orientation (page_setup));
 
       /* save margins */
       gtk_print_settings_set_double (settings, "top-margin",
-        gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_MM));
+                                     gtk_page_setup_get_top_margin (page_setup, GTK_UNIT_MM));
       gtk_print_settings_set_double (settings, "bottom-margin",
-        gtk_page_setup_get_bottom_margin (page_setup, GTK_UNIT_MM));
+                                     gtk_page_setup_get_bottom_margin (page_setup, GTK_UNIT_MM));
       gtk_print_settings_set_double (settings, "right-margin",
-        gtk_page_setup_get_right_margin (page_setup, GTK_UNIT_MM));
+                                     gtk_page_setup_get_right_margin (page_setup, GTK_UNIT_MM));
       gtk_print_settings_set_double (settings, "left-margin",
-        gtk_page_setup_get_left_margin (page_setup, GTK_UNIT_MM));
+                                     gtk_page_setup_get_left_margin (page_setup, GTK_UNIT_MM));
 
       /* get the paper size */
       paper_size = gtk_page_setup_get_paper_size (page_setup);
@@ -412,12 +420,12 @@ mousepad_print_settings_save (GtkPrintOperation *operation)
 
 static void
 mousepad_print_begin_print (GtkPrintOperation *operation,
-                            GtkPrintContext   *context)
+                            GtkPrintContext *context)
 {
-  MousepadPrint    *print = MOUSEPAD_PRINT (operation);
+  MousepadPrint *print = MOUSEPAD_PRINT (operation);
   MousepadDocument *document = print->document;
-  gint              n_pages = 1;
-  const gchar      *file_name;
+  gint n_pages = 1;
+  const gchar *file_name;
 
   /* print header */
   if (gtk_source_print_compositor_get_print_header (print->compositor))
@@ -448,8 +456,8 @@ mousepad_print_begin_print (GtkPrintOperation *operation,
 
 static void
 mousepad_print_draw_page (GtkPrintOperation *operation,
-                          GtkPrintContext   *context,
-                          gint               page_nr)
+                          GtkPrintContext *context,
+                          gint page_nr)
 {
   MousepadPrint *print = MOUSEPAD_PRINT (operation);
 
@@ -459,7 +467,7 @@ mousepad_print_draw_page (GtkPrintOperation *operation,
 
 
 static void
-mousepad_print_button_toggled (GtkWidget     *button,
+mousepad_print_button_toggled (GtkWidget *button,
                                MousepadPrint *print)
 {
   gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button));
@@ -468,15 +476,15 @@ mousepad_print_button_toggled (GtkWidget     *button,
   if (button == print->widget_page_headers)
     gtk_source_print_compositor_set_print_header (print->compositor, active);
   else if (button == print->widget_line_numbers)
-  {
-    print->print_line_numbers = active;
-    gtk_widget_set_sensitive (print->widget_line_numbers_hbox, active);
-    if (active)
-      gtk_source_print_compositor_set_print_line_numbers (print->compositor,
-                                                          print->line_number_increment);
-    else
-      gtk_source_print_compositor_set_print_line_numbers (print->compositor, 0);
-  }
+    {
+      print->print_line_numbers = active;
+      gtk_widget_set_sensitive (print->widget_line_numbers_hbox, active);
+      if (active)
+        gtk_source_print_compositor_set_print_line_numbers (print->compositor,
+                                                            print->line_number_increment);
+      else
+        gtk_source_print_compositor_set_print_line_numbers (print->compositor, 0);
+    }
   else if (button == print->widget_text_wrapping)
     gtk_source_print_compositor_set_wrap_mode (print->compositor,
                                                active ? GTK_WRAP_WORD_CHAR : GTK_WRAP_NONE);
@@ -491,7 +499,7 @@ mousepad_print_button_font_set (GtkFontButton *button,
                                 MousepadPrint *print)
 {
   const gchar *font;
-  GtkWidget   *widget = GTK_WIDGET (button);
+  GtkWidget *widget = GTK_WIDGET (button);
 
   font = gtk_font_chooser_get_font (GTK_FONT_CHOOSER (button));
 
@@ -521,7 +529,7 @@ static PangoAttrList *
 mousepad_print_attr_list_bold (void)
 {
   static PangoAttrList *attr_list = NULL;
-  PangoAttribute       *attr;
+  PangoAttribute *attr;
 
   if (G_UNLIKELY (attr_list == NULL))
     {
@@ -546,9 +554,9 @@ static GtkWidget *
 mousepad_print_create_custom_widget (GtkPrintOperation *operation)
 {
   MousepadPrint *print = MOUSEPAD_PRINT (operation);
-  GtkWidget     *button, *vbox, *vbox2, *frame, *label, *grid;
+  GtkWidget *button, *vbox, *vbox2, *frame, *label, *grid;
   GtkAdjustment *adjustment;
-  gchar         *str;
+  gchar *str;
 
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
@@ -572,16 +580,14 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   gtk_container_add (GTK_CONTAINER (frame), vbox2);
   gtk_widget_show (vbox2);
 
-  button = print->widget_page_headers =
-    gtk_check_button_new_with_mnemonic (_("Print page _headers"));
+  button = print->widget_page_headers = gtk_check_button_new_with_mnemonic (_("Print page _headers"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 gtk_source_print_compositor_get_print_header (print->compositor));
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
   gtk_widget_show (button);
 
-  button = print->widget_line_numbers =
-    gtk_check_button_new_with_mnemonic (_("Print _line numbers"));
+  button = print->widget_line_numbers = gtk_check_button_new_with_mnemonic (_("Print _line numbers"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 print->print_line_numbers);
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
@@ -607,9 +613,9 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
   adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 100.0, 1.0, 0.0, 0.0));
   print->widget_line_numbers_spin = gtk_spin_button_new (adjustment, 1.0, 0);
   gtk_widget_set_tooltip_text (print->widget_line_numbers_spin,
-    _("The interval at which to print line numbers. For example a value of 1 "
-      "will print a line number on each line, a value of 2 will print a line "
-      "number on every other line, and so on."));
+                               _("The interval at which to print line numbers. For example a value of 1 "
+                                 "will print a line number on each line, a value of 2 will print a line "
+                                 "number on every other line, and so on."));
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (print->widget_line_numbers_spin),
                              print->line_number_increment);
   g_signal_connect (print->widget_line_numbers_spin, "value-changed",
@@ -618,17 +624,14 @@ mousepad_print_create_custom_widget (GtkPrintOperation *operation)
                       print->widget_line_numbers_spin, FALSE, TRUE, 0);
   gtk_widget_show (print->widget_line_numbers_spin);
 
-  button = print->widget_text_wrapping =
-    gtk_check_button_new_with_mnemonic (_("Enable text _wrapping"));
+  button = print->widget_text_wrapping = gtk_check_button_new_with_mnemonic (_("Enable text _wrapping"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-                                gtk_source_print_compositor_get_wrap_mode (print->compositor)
-                                  == GTK_WRAP_NONE ? FALSE : TRUE);
+                                gtk_source_print_compositor_get_wrap_mode (print->compositor) != GTK_WRAP_NONE);
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
   gtk_box_pack_start (GTK_BOX (vbox2), button, FALSE, FALSE, 0);
   gtk_widget_show (button);
 
-  button = print->widget_syntax_highlighting =
-    gtk_check_button_new_with_mnemonic (_("Enable _syntax highlighting"));
+  button = print->widget_syntax_highlighting = gtk_check_button_new_with_mnemonic (_("Enable _syntax highlighting"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
                                 gtk_source_print_compositor_get_highlight_syntax (print->compositor));
   g_signal_connect (button, "toggled", G_CALLBACK (mousepad_print_button_toggled), print);
@@ -712,8 +715,8 @@ mousepad_print_status_changed (GtkPrintOperation *operation)
 
 
 static void
-mousepad_print_done (GtkPrintOperation       *operation,
-                     GtkPrintOperationResult  result)
+mousepad_print_done (GtkPrintOperation *operation,
+                     GtkPrintOperationResult result)
 {
   /* check if the print succeeded */
   if (result == GTK_PRINT_OPERATION_RESULT_APPLY)
@@ -734,10 +737,10 @@ mousepad_print_new (void)
 
 
 gboolean
-mousepad_print_document_interactive (MousepadPrint     *print,
-                                     MousepadDocument  *document,
-                                     GtkWindow         *parent,
-                                     GError           **error)
+mousepad_print_document_interactive (MousepadPrint *print,
+                                     MousepadDocument *document,
+                                     GtkWindow *parent,
+                                     GError **error)
 {
   GtkPrintOperationResult result;
 
