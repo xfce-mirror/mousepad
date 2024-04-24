@@ -14,15 +14,15 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-settings-store.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-settings-store.h"
 
 
 
 #ifdef MOUSEPAD_SETTINGS_KEYFILE_BACKEND
 /* Needed to use keyfile GSettings backend */
-# define G_SETTINGS_ENABLE_BACKEND
-# include <gio/gsettingsbackend.h>
+#define G_SETTINGS_ENABLE_BACKEND
+#include <gio/gsettingsbackend.h>
 #endif
 
 
@@ -32,8 +32,8 @@ struct _MousepadSettingsStore
   GObject parent;
 
   GSettingsBackend *backend;
-  GList            *roots;
-  GHashTable       *keys;
+  GList *roots;
+  GHashTable *keys;
 };
 
 
@@ -41,13 +41,13 @@ struct _MousepadSettingsStore
 typedef struct
 {
   const gchar *name;
-  GSettings   *settings;
-}
-MousepadSettingKey;
+  GSettings *settings;
+} MousepadSettingKey;
 
 
 
-static void mousepad_settings_store_finalize (GObject *object);
+static void
+mousepad_settings_store_finalize (GObject *object);
 
 
 
@@ -57,7 +57,7 @@ G_DEFINE_TYPE (MousepadSettingsStore, mousepad_settings_store, G_TYPE_OBJECT)
 
 static MousepadSettingKey *
 mousepad_setting_key_new (const gchar *key_name,
-                          GSettings   *settings)
+                          GSettings *settings)
 {
   MousepadSettingKey *key;
 
@@ -88,13 +88,13 @@ static void
 mousepad_settings_store_update_env (void)
 {
   const gchar *old_value = g_getenv ("GSETTINGS_SCHEMA_DIR");
-  gchar       *new_value = NULL;
+  gchar *new_value = NULL;
 
   /* append to path */
   if (old_value != NULL)
     {
       gchar **paths = g_strsplit (old_value, G_SEARCHPATH_SEPARATOR_S, 0);
-      gsize   len = g_strv_length (paths) + 1;
+      gsize len = g_strv_length (paths) + 1;
 
       paths = g_renew (gchar *, paths, len + 1);
       paths[len - 1] = g_strdup (MOUSEPAD_GSETTINGS_SCHEMA_DIR);
@@ -147,9 +147,9 @@ mousepad_settings_store_finalize (GObject *object)
 
 static void
 mousepad_settings_store_add_key (MousepadSettingsStore *self,
-                                 const gchar           *setting,
-                                 const gchar           *key_name,
-                                 GSettings             *settings)
+                                 const gchar *setting,
+                                 const gchar *key_name,
+                                 GSettings *settings)
 {
   MousepadSettingKey *key;
 
@@ -162,15 +162,15 @@ mousepad_settings_store_add_key (MousepadSettingsStore *self,
 
 static void
 mousepad_settings_store_add_settings (MousepadSettingsStore *self,
-                                      const gchar           *schema_id,
+                                      const gchar *schema_id,
                                       GSettingsSchemaSource *source,
-                                      GSettings             *settings)
+                                      GSettings *settings)
 {
-  GSettingsSchema  *schema;
-  GSettings        *child_settings;
-  gchar           **keys, **key, **children, **child;
-  gchar            *setting, *child_schema_id;
-  const gchar      *prefix;
+  GSettingsSchema *schema;
+  GSettings *child_settings;
+  gchar **keys, **key, **children, **child;
+  gchar *setting, *child_schema_id;
+  const gchar *prefix;
 
   /* loop through keys in schema and store mapping of their setting name to GSettings */
   schema = g_settings_schema_source_lookup (source, schema_id, TRUE);
@@ -231,11 +231,11 @@ mousepad_settings_store_new (void)
 
 void
 mousepad_settings_store_add_root (MousepadSettingsStore *self,
-                                  const gchar           *schema_id)
+                                  const gchar *schema_id)
 {
   GSettingsSchemaSource *source;
-  GSettingsSchema       *schema;
-  GSettings             *root;
+  GSettingsSchema *schema;
+  GSettings *root;
 
   source = g_settings_schema_source_get_default ();
   schema = g_settings_schema_source_lookup (source, schema_id, TRUE);
@@ -256,11 +256,11 @@ mousepad_settings_store_add_root (MousepadSettingsStore *self,
 
 const gchar *
 mousepad_settings_store_lookup_key_name (MousepadSettingsStore *self,
-                                         const gchar           *setting)
+                                         const gchar *setting)
 {
   const gchar *key_name = NULL;
 
-  if (! mousepad_settings_store_lookup (self, setting, &key_name, NULL))
+  if (!mousepad_settings_store_lookup (self, setting, &key_name, NULL))
     return NULL;
 
   return key_name;
@@ -270,11 +270,11 @@ mousepad_settings_store_lookup_key_name (MousepadSettingsStore *self,
 
 GSettings *
 mousepad_settings_store_lookup_settings (MousepadSettingsStore *self,
-                                         const gchar           *setting)
+                                         const gchar *setting)
 {
   GSettings *settings = NULL;
 
-  if (! mousepad_settings_store_lookup (self, setting, NULL, &settings))
+  if (!mousepad_settings_store_lookup (self, setting, NULL, &settings))
     return NULL;
 
   return settings;
@@ -284,9 +284,9 @@ mousepad_settings_store_lookup_settings (MousepadSettingsStore *self,
 
 gboolean
 mousepad_settings_store_lookup (MousepadSettingsStore *self,
-                                const gchar           *setting,
-                                const gchar          **key_name,
-                                GSettings            **settings)
+                                const gchar *setting,
+                                const gchar **key_name,
+                                GSettings **settings)
 {
   MousepadSettingKey *key;
 

@@ -26,7 +26,7 @@ static inline gboolean
 mousepad_action_get_state_boolean (GAction *action)
 {
   GVariant *variant;
-  gboolean  value;
+  gboolean value;
 
   variant = g_action_get_state (action);
   value = g_variant_get_boolean (variant);
@@ -41,7 +41,7 @@ static inline gboolean
 mousepad_action_get_state_int32_boolean (GAction *action)
 {
   GVariant *variant;
-  gboolean  value;
+  gboolean value;
 
   variant = g_action_get_state (action);
   value = g_variant_get_int32 (variant);
@@ -53,9 +53,11 @@ mousepad_action_get_state_int32_boolean (GAction *action)
 #define MOUSEPAD_TYPE_APPLICATION (mousepad_application_get_type ())
 G_DECLARE_FINAL_TYPE (MousepadApplication, mousepad_application, MOUSEPAD, APPLICATION, GtkApplication)
 
-GList               *mousepad_application_get_providers              (MousepadApplication  *application);
+GList *
+mousepad_application_get_providers (MousepadApplication *application);
 
-GtkWidget           *mousepad_application_get_prefs_dialog           (MousepadApplication  *application);
+GtkWidget *
+mousepad_application_get_prefs_dialog (MousepadApplication *application);
 
 G_END_DECLS
 

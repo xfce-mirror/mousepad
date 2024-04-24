@@ -40,31 +40,43 @@ typedef struct _MousepadPluginData
   const gchar *accel;
 } MousepadPluginData;
 
-MousepadPluginProvider *mousepad_plugin_provider_new                (const gchar             *name);
+MousepadPluginProvider *
+mousepad_plugin_provider_new (const gchar *name);
 
-void                    mousepad_plugin_provider_get_types          (MousepadPluginProvider  *plugin,
-                                                                     const GType            **types,
-                                                                     gint                    *n_types);
+void
+mousepad_plugin_provider_get_types (MousepadPluginProvider *plugin,
+                                    const GType **types,
+                                    gint *n_types);
 
-gboolean                mousepad_plugin_provider_is_destroyable     (MousepadPluginProvider  *provider);
+gboolean
+mousepad_plugin_provider_is_destroyable (MousepadPluginProvider *provider);
 
-gboolean                mousepad_plugin_provider_is_instantiated    (MousepadPluginProvider  *provider);
+gboolean
+mousepad_plugin_provider_is_instantiated (MousepadPluginProvider *provider);
 
-const gchar            *mousepad_plugin_provider_get_label          (MousepadPluginProvider  *provider);
+const gchar *
+mousepad_plugin_provider_get_label (MousepadPluginProvider *provider);
 
-const gchar            *mousepad_plugin_provider_get_tooltip        (MousepadPluginProvider  *provider);
+const gchar *
+mousepad_plugin_provider_get_tooltip (MousepadPluginProvider *provider);
 
-const gchar            *mousepad_plugin_provider_get_category       (MousepadPluginProvider  *provider);
+const gchar *
+mousepad_plugin_provider_get_category (MousepadPluginProvider *provider);
 
-const gchar            *mousepad_plugin_provider_get_accel          (MousepadPluginProvider  *provider);
+const gchar *
+mousepad_plugin_provider_get_accel (MousepadPluginProvider *provider);
 
-GtkWidget              *mousepad_plugin_provider_create_setting_box (MousepadPluginProvider  *provider);
+GtkWidget *
+mousepad_plugin_provider_create_setting_box (MousepadPluginProvider *provider);
 
-GtkWidget              *mousepad_plugin_provider_get_setting_box    (MousepadPluginProvider  *provider);
+GtkWidget *
+mousepad_plugin_provider_get_setting_box (MousepadPluginProvider *provider);
 
-void                    mousepad_plugin_provider_new_plugin         (MousepadPluginProvider  *provider);
+void
+mousepad_plugin_provider_new_plugin (MousepadPluginProvider *provider);
 
-void                    mousepad_plugin_provider_unuse              (gpointer                 data);
+void
+mousepad_plugin_provider_unuse (gpointer data);
 
 G_END_DECLS
 

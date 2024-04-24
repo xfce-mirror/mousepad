@@ -14,12 +14,12 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-application.h>
-#include <mousepad/mousepad-prefs-dialog.h>
-#include <mousepad/mousepad-util.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-application.h"
+#include "mousepad/mousepad-prefs-dialog.h"
+#include "mousepad/mousepad-util.h"
 
-#include <shortcuts-plugin/shortcuts-plugin.h>
+#include "shortcuts-plugin/shortcuts-plugin.h"
 
 /* prevent I18N macros redefinition */
 #ifndef __G_I18N_LIB_H__
@@ -33,15 +33,20 @@
 
 
 /* GObject virtual functions */
-static void shortcuts_plugin_constructed  (GObject        *object);
-static void shortcuts_plugin_finalize     (GObject        *object);
+static void
+shortcuts_plugin_constructed (GObject *object);
+static void
+shortcuts_plugin_finalize (GObject *object);
 
 /* MousepadPlugin virtual functions */
-static void shortcuts_plugin_enable       (MousepadPlugin *mplugin);
-static void shortcuts_plugin_disable      (MousepadPlugin *mplugin);
+static void
+shortcuts_plugin_enable (MousepadPlugin *mplugin);
+static void
+shortcuts_plugin_disable (MousepadPlugin *mplugin);
 
 /* ShortcutsPlugin own functions */
-static void shortcuts_plugin_build_editor (ShortcutsPlugin *plugin);
+static void
+shortcuts_plugin_build_editor (ShortcutsPlugin *plugin);
 
 
 
@@ -50,12 +55,12 @@ struct _ShortcutsPlugin
   MousepadPlugin __parent__;
 
   XfceShortcutsEditorSection *menubar_sections, *prefs_dialog_sections;
-  guint                       n_menubar_sections, n_prefs_dialog_sections;
-  XfceGtkActionEntry         *misc_entries;
-  guint                       n_misc_entries;
-  GtkWidget                  *menubar_editor, *prefs_dialog_editor, *misc_editor;
+  guint n_menubar_sections, n_prefs_dialog_sections;
+  XfceGtkActionEntry *misc_entries;
+  guint n_misc_entries;
+  GtkWidget *menubar_editor, *prefs_dialog_editor, *misc_editor;
 
-  GtkWidget                  *dialog;
+  GtkWidget *dialog;
 };
 
 
@@ -75,7 +80,7 @@ shortcuts_plugin_register (MousepadPluginProvider *plugin)
 static void
 shortcuts_plugin_class_init (ShortcutsPluginClass *klass)
 {
-  GObjectClass        *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   MousepadPluginClass *mplugin_class = MOUSEPAD_PLUGIN_CLASS (klass);
 
   gobject_class->constructed = shortcuts_plugin_constructed;
@@ -112,14 +117,14 @@ shortcuts_plugin_init (ShortcutsPlugin *plugin)
 
 
 static void
-shortcuts_plugin_setting_box_packed (GObject         *object,
-                                     GParamSpec      *pspec,
+shortcuts_plugin_setting_box_packed (GObject *object,
+                                     GParamSpec *pspec,
                                      ShortcutsPlugin *plugin)
 {
   GtkWidget *parent;
 
   g_object_get (object, "parent", &parent, NULL);
-  if (! GTK_IS_POPOVER (parent))
+  if (!GTK_IS_POPOVER (parent))
     return;
 
   /* do the main work now if not already done */
@@ -137,7 +142,7 @@ static void
 shortcuts_plugin_constructed (GObject *object)
 {
   MousepadPluginProvider *provider;
-  GtkWidget              *vbox;
+  GtkWidget *vbox;
 
   /* request the creation of the plugin setting box */
   g_object_get (object, "provider", &provider, NULL);
@@ -182,12 +187,12 @@ shortcuts_plugin_disable_scrolled_window (GtkWidget *widget)
 
 
 static void
-shortcuts_plugin_pack_frame (GtkWidget   *editor,
-                             GtkWidget   *sbox,
+shortcuts_plugin_pack_frame (GtkWidget *editor,
+                             GtkWidget *sbox,
                              const gchar *title)
 {
   GtkWidget *frame, *fbox, *label;
-  gchar     *str;
+  gchar *str;
 
   /* prevent markup syntax mistakes in translations for the label */
   str = g_strdup_printf ("<b>%s</b>", title);
@@ -211,8 +216,8 @@ shortcuts_plugin_pack_frame (GtkWidget   *editor,
 
 
 static void
-shortcuts_plugin_enable_action (GObject       *object,
-                                GParamSpec    *pspec,
+shortcuts_plugin_enable_action (GObject *object,
+                                GParamSpec *pspec,
                                 GSimpleAction *action)
 {
   GtkWidget *parent;
@@ -227,8 +232,8 @@ static void
 shortcuts_plugin_set_setting_box (ShortcutsPlugin *plugin)
 {
   MousepadPluginProvider *provider;
-  GtkWidget              *vbox, *swin, *sbox;
-  GAction                *action;
+  GtkWidget *vbox, *swin, *sbox;
+  GAction *action;
 
   /* get the plugin setting box */
   g_object_get (plugin, "provider", &provider, NULL);
@@ -287,7 +292,7 @@ shortcuts_plugin_get_misc_paths (gpointer data,
 static const gchar *
 shortcuts_plugin_search_child_label (GtkWidget *widget)
 {
-  GList       *list, *lp;
+  GList *list, *lp;
   const gchar *label = NULL;
 
   if (GTK_IS_LABEL (widget))
@@ -311,20 +316,20 @@ shortcuts_plugin_search_child_label (GtkWidget *widget)
 
 
 static void
-shortcuts_plugin_get_tab_entries (GtkAccelMap        *map,
-                                  GtkWidget          *widget,
+shortcuts_plugin_get_tab_entries (GtkAccelMap *map,
+                                  GtkWidget *widget,
                                   XfceGtkActionEntry *entries,
-                                  guint              *size)
+                                  guint *size)
 {
-  GList       *list, *lp;
-  gchar       *path;
+  GList *list, *lp;
+  gchar *path;
   const gchar *action, *label, *accel;
 
   if (GTK_IS_CHECK_BUTTON (widget))
     {
       action = gtk_actionable_get_action_name (GTK_ACTIONABLE (widget));
       path = g_strconcat ("<Actions>/", action, NULL);
-      if (! gtk_accel_map_lookup_entry (path, NULL) || mousepad_object_get_data (map, path))
+      if (!gtk_accel_map_lookup_entry (path, NULL) || mousepad_object_get_data (map, path))
         {
           g_free (path);
           return;
@@ -357,15 +362,15 @@ shortcuts_plugin_get_tab_entries (GtkAccelMap        *map,
 
 
 static void
-shortcuts_plugin_get_menu_entries (GtkAccelMap        *map,
-                                   GMenuModel         *menu,
+shortcuts_plugin_get_menu_entries (GtkAccelMap *map,
+                                   GMenuModel *menu,
                                    XfceGtkActionEntry *entries,
-                                   guint              *size)
+                                   guint *size)
 {
   GMenuModel *submenu;
-  GVariant   *action, *target, *label;
-  gchar      *path, *temp, *target_str;
-  guint       n_items;
+  GVariant *action, *target, *label;
+  gchar *path, *temp, *target_str;
+  guint n_items;
 
   n_items = g_menu_model_get_n_items (menu);
   for (guint n = 0; n < n_items; n++)
@@ -375,8 +380,7 @@ shortcuts_plugin_get_menu_entries (GtkAccelMap        *map,
           || (submenu = g_menu_model_get_item_link (menu, n, G_MENU_LINK_SUBMENU)) != NULL)
         shortcuts_plugin_get_menu_entries (map, submenu, entries, size);
       /* real GMenuItem */
-      else if ((action = g_menu_model_get_item_attribute_value (menu, n, "action",
-                                                                G_VARIANT_TYPE_STRING)) != NULL)
+      else if ((action = g_menu_model_get_item_attribute_value (menu, n, "action", G_VARIANT_TYPE_STRING)) != NULL)
         {
           /* build path from action name and target */
           path = g_strconcat ("<Actions>/", g_variant_get_string (action, NULL), NULL);
@@ -392,7 +396,7 @@ shortcuts_plugin_get_menu_entries (GtkAccelMap        *map,
               g_variant_unref (target);
             }
 
-          if (! gtk_accel_map_lookup_entry (path, NULL))
+          if (!gtk_accel_map_lookup_entry (path, NULL))
             {
               g_free (path);
               continue;
@@ -430,15 +434,15 @@ static void
 shortcuts_plugin_build_editor (ShortcutsPlugin *plugin)
 {
   XfceGtkActionEntry *entries;
-  GtkAccelMap        *map;
-  GtkApplication     *application;
-  GtkNotebook        *notebook;
-  GtkWidget          *dialog, *widget;
-  GList              *list, *lp;
-  GMenuModel         *menubar, *menu;
-  GVariant           *label;
-  GStrv               strv;
-  guint               n_accels = 0, size, n, n_sections;
+  GtkAccelMap *map;
+  GtkApplication *application;
+  GtkNotebook *notebook;
+  GtkWidget *dialog, *widget;
+  GList *list, *lp;
+  GMenuModel *menubar, *menu;
+  GVariant *label;
+  GStrv strv;
+  guint n_accels = 0, size, n, n_sections;
 
   /* get the mousepad application */
   application = GTK_APPLICATION (g_application_get_default ());
@@ -491,7 +495,7 @@ shortcuts_plugin_build_editor (ShortcutsPlugin *plugin)
   notebook = list->data;
   g_list_free (list);
   n_sections = gtk_notebook_get_n_pages (notebook);
-  if (! gtk_widget_get_visible (dialog))
+  if (!gtk_widget_get_visible (dialog))
     gtk_notebook_set_current_page (notebook, n_sections - 1);
 
   /* allocate the XfceShortcutsEditorSection array */
@@ -512,16 +516,14 @@ shortcuts_plugin_build_editor (ShortcutsPlugin *plugin)
       plugin->prefs_dialog_sections[n].size = size;
 
       /* get section name for this tab */
-      plugin->prefs_dialog_sections[n].section_name =
-        g_strdup (gtk_notebook_get_tab_label_text (notebook, widget));
+      plugin->prefs_dialog_sections[n].section_name = g_strdup (gtk_notebook_get_tab_label_text (notebook, widget));
     }
 
-  if (! gtk_widget_get_visible (dialog))
+  if (!gtk_widget_get_visible (dialog))
     gtk_widget_destroy (dialog);
 
   /* get shortcuts editor for the prefs dialog */
-  plugin->prefs_dialog_editor =
-    xfce_shortcuts_editor_new_array (plugin->prefs_dialog_sections, n_sections);
+  plugin->prefs_dialog_editor = xfce_shortcuts_editor_new_array (plugin->prefs_dialog_sections, n_sections);
 
   /* remaining accel map entries not treated above (off-menu, hidden, ...) */
   entries = g_new (XfceGtkActionEntry, n_accels);
@@ -563,14 +565,14 @@ shortcuts_plugin_remove_setting_box (GtkWidget *dialog,
 
 
 static void
-shortcuts_plugin_show_dialog (GSimpleAction   *action,
-                              GVariant        *parameter,
+shortcuts_plugin_show_dialog (GSimpleAction *action,
+                              GVariant *parameter,
                               ShortcutsPlugin *plugin)
 {
   MousepadPluginProvider *provider;
-  GtkApplication         *application;
-  GtkWidget              *dbox, *sbox;
-  GtkWindow              *dialog, *parent;
+  GtkApplication *application;
+  GtkWidget *dbox, *sbox;
+  GtkWindow *dialog, *parent;
 
   /* get the mousepad application */
   application = GTK_APPLICATION (g_application_get_default ());
@@ -606,10 +608,10 @@ static void
 shortcuts_plugin_set_menubar_entry (ShortcutsPlugin *plugin)
 {
   GtkApplication *application;
-  GMenu          *menu;
-  GMenuItem      *item;
-  GSimpleAction  *action;
-  const gchar    *path;
+  GMenu *menu;
+  GMenuItem *item;
+  GSimpleAction *action;
+  const gchar *path;
 
   /* get the mousepad application */
   application = GTK_APPLICATION (g_application_get_default ());
@@ -622,7 +624,7 @@ shortcuts_plugin_set_menubar_entry (ShortcutsPlugin *plugin)
 
   /* add accel map entry */
   path = "<Actions>/app.shortcuts";
-  if (! gtk_accel_map_lookup_entry (path, NULL))
+  if (!gtk_accel_map_lookup_entry (path, NULL))
     gtk_accel_map_add_entry (path, 0, 0);
 
   /* get the menubar section to which to add the shortcuts menu entry */
@@ -657,7 +659,7 @@ shortcuts_plugin_enable (MousepadPlugin *mplugin)
 
 static void
 shortcuts_plugin_free_entry_array (XfceGtkActionEntry *entries,
-                                   guint               n_entries)
+                                   guint n_entries)
 {
   for (guint n = 0; n < n_entries; n++)
     {
@@ -673,7 +675,7 @@ shortcuts_plugin_free_entry_array (XfceGtkActionEntry *entries,
 
 static void
 shortcuts_plugin_free_section_array (XfceShortcutsEditorSection *sections,
-                                     guint                       n_sections)
+                                     guint n_sections)
 {
   for (guint n = 0; n < n_sections; n++)
     {
@@ -690,8 +692,8 @@ static void
 shortcuts_plugin_disable (MousepadPlugin *mplugin)
 {
   ShortcutsPlugin *plugin = SHORTCUTS_PLUGIN (mplugin);
-  GtkApplication  *application;
-  GMenu           *menu;
+  GtkApplication *application;
+  GMenu *menu;
 
   /* remove the shortcuts menu entry from the menubar */
   application = GTK_APPLICATION (g_application_get_default ());

@@ -17,7 +17,7 @@
 #ifndef __MOUSEPAD_REPLACE_DIALOG_H__
 #define __MOUSEPAD_REPLACE_DIALOG_H__
 
-#include <mousepad/mousepad-window.h>
+#include "mousepad/mousepad-window.h"
 
 #include <gtk/gtk.h>
 
@@ -26,16 +26,20 @@ G_BEGIN_DECLS
 #define MOUSEPAD_TYPE_REPLACE_DIALOG (mousepad_replace_dialog_get_type ())
 G_DECLARE_FINAL_TYPE (MousepadReplaceDialog, mousepad_replace_dialog, MOUSEPAD, REPLACE_DIALOG, GtkDialog)
 
-GtkWidget      *mousepad_replace_dialog_new            (MousepadWindow        *window);
+GtkWidget *
+mousepad_replace_dialog_new (MousepadWindow *window);
 
-void            mousepad_replace_dialog_history_clean  (void);
+void
+mousepad_replace_dialog_history_clean (void);
 
-void            mousepad_replace_dialog_page_switched  (MousepadReplaceDialog *dialog,
-                                                        GtkTextBuffer         *old_buffer,
-                                                        GtkTextBuffer         *new_buffer);
+void
+mousepad_replace_dialog_page_switched (MousepadReplaceDialog *dialog,
+                                       GtkTextBuffer *old_buffer,
+                                       GtkTextBuffer *new_buffer);
 
-void            mousepad_replace_dialog_set_text       (MousepadReplaceDialog *dialog,
-                                                        const gchar           *text);
+void
+mousepad_replace_dialog_set_text (MousepadReplaceDialog *dialog,
+                                  const gchar *text);
 
 G_END_DECLS
 
