@@ -14,15 +14,17 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
+#include "mousepad/mousepad-private.h"
 
-#include <gspell-plugin/gspell-plugin.h>
+#include "gspell-plugin/gspell-plugin.h"
 
 #include <gmodule.h>
 
 
-G_MODULE_EXPORT void                mousepad_plugin_initialize (MousepadPluginProvider *provider);
-G_MODULE_EXPORT MousepadPluginData *mousepad_plugin_get_data   (void);
+G_MODULE_EXPORT void
+mousepad_plugin_initialize (MousepadPluginProvider *provider);
+G_MODULE_EXPORT MousepadPluginData *
+mousepad_plugin_get_data (void);
 
 
 
@@ -43,10 +45,9 @@ mousepad_plugin_initialize (MousepadPluginProvider *provider)
   plugin_data.types = types;
   plugin_data.destroyable = FALSE;
   plugin_data.label = _("Spell Checking");
-  plugin_data.tooltip =
-    _("The default language for new documents is set here. It can then be changed per"
-      " document via the context menu, where there are also spelling correction suggestions"
-      " for underlined words.");
+  plugin_data.tooltip = _("The default language for new documents is set here. It can then be changed per"
+                          " document via the context menu, where there are also spelling correction suggestions"
+                          " for underlined words.");
   plugin_data.category = _("Editor");
   plugin_data.accel = "<Control>K";
 }

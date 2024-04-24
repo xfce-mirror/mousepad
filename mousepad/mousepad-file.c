@@ -14,12 +14,12 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-file.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-dialogs.h>
-#include <mousepad/mousepad-history.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-file.h"
+#include "mousepad/mousepad-dialogs.h"
+#include "mousepad/mousepad-history.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
@@ -43,17 +43,21 @@ enum
 
 
 /* GObject virtual functions */
-static void     mousepad_file_finalize        (GObject           *object);
+static void
+mousepad_file_finalize (GObject *object);
 
 /* MousepadFile own functions */
-static gboolean mousepad_file_set_monitor     (gpointer           data);
-static void     mousepad_file_monitor_changed (GFileMonitor      *monitor,
-                                               GFile             *location,
-                                               GFile             *other_location,
-                                               GFileMonitorEvent  event_type,
-                                               MousepadFile      *file);
-static void     mousepad_file_set_read_only   (MousepadFile      *file,
-                                               gboolean           readonly);
+static gboolean
+mousepad_file_set_monitor (gpointer data);
+static void
+mousepad_file_monitor_changed (GFileMonitor *monitor,
+                               GFile *location,
+                               GFile *other_location,
+                               GFileMonitorEvent event_type,
+                               MousepadFile *file);
+static void
+mousepad_file_set_read_only (MousepadFile *file,
+                             gboolean readonly);
 
 
 
@@ -65,15 +69,15 @@ struct _MousepadFile
   GtkTextBuffer *buffer;
 
   /* location */
-  GFile    *location;
-  gboolean  temporary;
+  GFile *location;
+  gboolean temporary;
 
   /* file monitoring */
   GFileMonitor *monitor;
-  GFile        *monitor_location;
-  gchar        *etag;
-  gboolean      readonly, symlink;
-  guint         deleted_id, modified_id;
+  GFile *monitor_location;
+  gchar *etag;
+  gboolean readonly, symlink;
+  guint deleted_id, modified_id;
 
   /* encoding of the file */
   MousepadEncoding encoding;
@@ -88,8 +92,8 @@ struct _MousepadFile
   gboolean user_set_language;
 
   /* autosave */
-  GFile    *autosave_location;
-  gboolean  autosave_scheduled;
+  GFile *autosave_location;
+  gboolean autosave_scheduled;
 
   /* saved state on disk */
   struct
@@ -120,21 +124,33 @@ mousepad_file_class_init (MousepadFileClass *klass)
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_file_finalize;
 
-  file_signals[ENCODING_CHANGED] =
-    g_signal_new (I_("encoding-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__INT, G_TYPE_NONE, 1, G_TYPE_INT);
+  file_signals[ENCODING_CHANGED] = g_signal_new (I_ ("encoding-changed"),
+                                                 G_TYPE_FROM_CLASS (gobject_class),
+                                                 G_SIGNAL_RUN_LAST,
+                                                 0, NULL, NULL,
+                                                 g_cclosure_marshal_VOID__INT,
+                                                 G_TYPE_NONE, 1, G_TYPE_INT);
 
-  file_signals[EXTERNALLY_MODIFIED] =
-    g_signal_new (I_("externally-modified"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
+  file_signals[EXTERNALLY_MODIFIED] = g_signal_new (I_ ("externally-modified"),
+                                                    G_TYPE_FROM_CLASS (gobject_class),
+                                                    G_SIGNAL_RUN_LAST,
+                                                    0, NULL, NULL,
+                                                    g_cclosure_marshal_VOID__VOID,
+                                                    G_TYPE_NONE, 0);
 
-  file_signals[READONLY_CHANGED] =
-    g_signal_new (I_("readonly-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__BOOLEAN, G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+  file_signals[READONLY_CHANGED] = g_signal_new (I_ ("readonly-changed"),
+                                                 G_TYPE_FROM_CLASS (gobject_class),
+                                                 G_SIGNAL_RUN_LAST,
+                                                 0, NULL, NULL,
+                                                 g_cclosure_marshal_VOID__BOOLEAN,
+                                                 G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 
-  file_signals[LOCATION_CHANGED] =
-    g_signal_new (I_("location-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1, G_TYPE_FILE);
+  file_signals[LOCATION_CHANGED] = g_signal_new (I_ ("location-changed"),
+                                                 G_TYPE_FROM_CLASS (gobject_class),
+                                                 G_SIGNAL_RUN_LAST,
+                                                 0, NULL, NULL,
+                                                 g_cclosure_marshal_VOID__OBJECT,
+                                                 G_TYPE_NONE, 1, G_TYPE_FILE);
 }
 
 
@@ -325,7 +341,7 @@ mousepad_file_monitor_deleted (gpointer data)
 {
   MousepadFile *file = data;
 
-  if (! mousepad_util_query_exists (file->monitor_location, FALSE))
+  if (!mousepad_util_query_exists (file->monitor_location, FALSE))
     mousepad_file_invalidate_saved_state (file);
 
   file->deleted_id = 0;
@@ -336,11 +352,11 @@ mousepad_file_monitor_deleted (gpointer data)
 
 
 static void
-mousepad_file_monitor_changed (GFileMonitor      *monitor,
-                               GFile             *location,
-                               GFile             *other_location,
-                               GFileMonitorEvent  event_type,
-                               MousepadFile      *file)
+mousepad_file_monitor_changed (GFileMonitor *monitor,
+                               GFile *location,
+                               GFile *other_location,
+                               GFileMonitorEvent event_type,
+                               MousepadFile *file)
 {
   static gboolean deleted_pending = FALSE;
 
@@ -351,8 +367,8 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
       && G_LIKELY (fileinfo = g_file_query_info (location, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
                                                  G_FILE_QUERY_INFO_NONE, NULL, NULL)))
     {
-      mousepad_file_set_read_only (file,
-        ! g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
+      mousepad_file_set_read_only (
+        file, !g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
       g_object_unref (fileinfo);
     }
   /* the file has been externally modified */
@@ -379,9 +395,8 @@ mousepad_file_monitor_changed (GFileMonitor      *monitor,
                                          mousepad_util_source_autoremove (file));
 
       /* update monitor location in case of a symlink (exit this handler first) */
-      if (event_type != G_FILE_MONITOR_EVENT_CHANGED && (
-            file->symlink || (file->symlink = mousepad_util_is_symlink (file->location))
-          ))
+      if (event_type != G_FILE_MONITOR_EVENT_CHANGED
+          && (file->symlink || (file->symlink = mousepad_util_is_symlink (file->location))))
         g_idle_add (mousepad_file_set_monitor, mousepad_util_source_autoremove (file));
 
       /* a "changed" event may or may not be issued following a "deleted"-"created" pair:
@@ -423,8 +438,8 @@ static gboolean
 mousepad_file_set_monitor (gpointer data)
 {
   MousepadFile *file = data;
-  GError       *error = NULL;
-  gchar        *path, *dir, *str;
+  GError *error = NULL;
+  gchar *path, *dir, *str;
 
   if (file->monitor != NULL)
     {
@@ -465,7 +480,7 @@ mousepad_file_set_monitor (gpointer data)
                 }
 
               /* readlink() encountered a real error */
-              if (! g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
+              if (!g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
                 {
                   g_free (path);
                   path = NULL;
@@ -490,8 +505,7 @@ mousepad_file_set_monitor (gpointer data)
         file->monitor_location = g_object_ref (file->location);
 
       file->monitor = g_file_monitor_file (file->monitor_location,
-                                           G_FILE_MONITOR_WATCH_HARD_LINKS |
-                                           G_FILE_MONITOR_WATCH_MOVES,
+                                           G_FILE_MONITOR_WATCH_HARD_LINKS | G_FILE_MONITOR_WATCH_MOVES,
                                            NULL, &error);
 
       /* inform the user */
@@ -515,8 +529,8 @@ mousepad_file_set_monitor (gpointer data)
 
 void
 mousepad_file_set_location (MousepadFile *file,
-                            GFile        *location,
-                            gint          type)
+                            GFile *location,
+                            gint type)
 {
   GFileInfo *fileinfo;
 
@@ -532,7 +546,7 @@ mousepad_file_set_location (MousepadFile *file,
 
       /* mark the document as modified (and therefore savable) in case of a new, empty
        * but localized document */
-      if (! mousepad_util_query_exists (location, TRUE))
+      if (!mousepad_util_query_exists (location, TRUE))
         mousepad_file_invalidate_saved_state (file);
     }
   /* reset location */
@@ -543,7 +557,7 @@ mousepad_file_set_location (MousepadFile *file,
     }
   /* update location */
   else if (file->location != NULL && location != NULL
-           && ! g_file_equal (file->location, location))
+           && !g_file_equal (file->location, location))
     {
       g_object_unref (file->location);
       file->location = g_object_ref (location);
@@ -557,8 +571,8 @@ mousepad_file_set_location (MousepadFile *file,
           && G_LIKELY (fileinfo = g_file_query_info (location, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
                                                      G_FILE_QUERY_INFO_NONE, NULL, NULL)))
         {
-          mousepad_file_set_read_only (file,
-            ! g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
+          mousepad_file_set_read_only (
+            file, !g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
           g_object_unref (fileinfo);
         }
       else if (g_file_peek_path (location) == NULL)
@@ -620,7 +634,7 @@ mousepad_file_get_uri (MousepadFile *file)
 
 static void
 mousepad_file_set_read_only (MousepadFile *file,
-                             gboolean      readonly)
+                             gboolean readonly)
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
@@ -669,8 +683,8 @@ mousepad_file_is_savable (MousepadFile *file)
 
 
 void
-mousepad_file_set_encoding (MousepadFile     *file,
-                            MousepadEncoding  encoding)
+mousepad_file_set_encoding (MousepadFile *file,
+                            MousepadEncoding encoding)
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
@@ -714,7 +728,7 @@ mousepad_file_set_modified_unbuffered (MousepadFile *file)
 
 void
 mousepad_file_set_write_bom (MousepadFile *file,
-                             gboolean      write_bom)
+                             gboolean write_bom)
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
@@ -759,8 +773,8 @@ mousepad_file_get_buffer (MousepadFile *file)
 
 
 void
-mousepad_file_set_line_ending (MousepadFile       *file,
-                               MousepadLineEnding  line_ending)
+mousepad_file_set_line_ending (MousepadFile *file,
+                               MousepadLineEnding line_ending)
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
@@ -783,19 +797,19 @@ mousepad_file_get_line_ending (MousepadFile *file)
 
 void
 mousepad_file_set_language (MousepadFile *file,
-                            const gchar  *language_id)
+                            const gchar *language_id)
 {
   GtkSourceLanguage *language;
-  GtkTextIter        start, end;
-  gchar             *data = NULL, *content_type, *basename;
-  gboolean           result_uncertain;
+  GtkTextIter start, end;
+  gchar *data = NULL, *content_type, *basename;
+  gboolean result_uncertain;
 
   /* the language is set by the user */
   if (language_id != NULL)
     {
       file->user_set_language = TRUE;
       language = gtk_source_language_manager_get_language (
-                   gtk_source_language_manager_get_default (), language_id);
+        gtk_source_language_manager_get_default (), language_id);
       gtk_source_buffer_set_language (GTK_SOURCE_BUFFER (file->buffer), language);
 
       return;
@@ -810,7 +824,7 @@ mousepad_file_set_language (MousepadFile *file,
     {
       file->user_set_language = TRUE;
       language = gtk_source_language_manager_get_language (
-                   gtk_source_language_manager_get_default (), data);
+        gtk_source_language_manager_get_default (), data);
       gtk_source_buffer_set_language (GTK_SOURCE_BUFFER (file->buffer), language);
       g_free (data);
 
@@ -827,8 +841,8 @@ mousepad_file_set_language (MousepadFile *file,
                                        strlen (data), &result_uncertain);
   basename = g_file_get_basename (file->location);
   language = gtk_source_language_manager_guess_language (
-               gtk_source_language_manager_get_default (), basename,
-               result_uncertain ? NULL : content_type);
+    gtk_source_language_manager_get_default (), basename,
+    result_uncertain ? NULL : content_type);
 
   gtk_source_buffer_set_language (GTK_SOURCE_BUFFER (file->buffer), language);
 
@@ -860,22 +874,22 @@ mousepad_file_get_user_set_language (MousepadFile *file)
 
 
 gint
-mousepad_file_open (MousepadFile  *file,
-                    gint           line,
-                    gint           column,
-                    gboolean       must_exist,
-                    gboolean       ignore_bom,
-                    gboolean       make_valid,
-                    GError       **error)
+mousepad_file_open (MousepadFile *file,
+                    gint line,
+                    gint column,
+                    gboolean must_exist,
+                    gboolean ignore_bom,
+                    gboolean make_valid,
+                    GError **error)
 {
-  MousepadEncoding  bom_encoding;
-  GtkTextIter       start, end;
-  GFile            *location;
-  GFileInfo        *fileinfo;
-  const gchar      *autosave_uri, *charset, *bom_charset, *endc, *n, *m;
-  gchar            *contents = NULL, *etag, *temp;
-  gsize             file_size, written, bom_length;
-  gint              retval = ERROR_READING_FAILED;
+  MousepadEncoding bom_encoding;
+  GtkTextIter start, end;
+  GFile *location;
+  GFileInfo *fileinfo;
+  const gchar *autosave_uri, *charset, *bom_charset, *endc, *n, *m;
+  gchar *contents = NULL, *etag, *temp;
+  gsize file_size, written, bom_length;
+  gint retval = ERROR_READING_FAILED;
 
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
   g_return_val_if_fail (GTK_IS_TEXT_BUFFER (file->buffer), FALSE);
@@ -891,15 +905,15 @@ mousepad_file_open (MousepadFile  *file,
 
       /* update monitor location in case of a symlink (really useful only on reload,
        * but not very costly) */
-      if (file->monitor != NULL && (
-            file->symlink || (file->symlink = mousepad_util_is_symlink (file->location))
-          ))
+      if (file->monitor != NULL
+          && (file->symlink || (file->symlink = mousepad_util_is_symlink (file->location))))
         mousepad_file_set_monitor (file);
     }
 
   /* if the file does not exist and this is allowed, no problem */
-  if (! g_file_load_contents (location, NULL, &contents, &file_size, &etag, error)
-      && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND) && ! must_exist)
+  if (!g_file_load_contents (location, NULL, &contents, &file_size, &etag, error)
+      && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)
+      && !must_exist)
     {
       g_clear_error (error);
       g_object_unref (location);
@@ -923,7 +937,7 @@ mousepad_file_open (MousepadFile  *file,
           charset = mousepad_encoding_get_charset (file->encoding);
 
           /* detect if there is a bom with the encoding type */
-          if (! ignore_bom)
+          if (!ignore_bom)
             {
               bom_encoding = mousepad_encoding_read_bom (contents, file_size, &bom_length);
               if (G_UNLIKELY (bom_encoding != MOUSEPAD_ENCODING_NONE))
@@ -973,29 +987,29 @@ mousepad_file_open (MousepadFile  *file,
                 }
             }
 
-          if (! g_utf8_validate (contents, file_size, &endc))
-          {
-            /* leave when the encoding is not valid... */
-            if (! make_valid)
-              {
-                /* set return value */
-                retval = ERROR_ENCODING_NOT_VALID;
+          if (!g_utf8_validate (contents, file_size, &endc))
+            {
+              /* leave when the encoding is not valid... */
+              if (!make_valid)
+                {
+                  /* set return value */
+                  retval = ERROR_ENCODING_NOT_VALID;
 
-                /* set an error */
-                g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
-                             _("Invalid byte sequence in conversion input"));
+                  /* set an error */
+                  g_set_error (error, G_CONVERT_ERROR, G_CONVERT_ERROR_ILLEGAL_SEQUENCE,
+                               _("Invalid byte sequence in conversion input"));
 
-                goto failed;
-              }
-            /* ... or make it valid and update location for end of valid data */
-            else
-              {
-                temp = g_utf8_make_valid (contents, file_size);
-                g_free (contents);
-                contents = temp;
-                g_utf8_validate (contents, -1, &endc);
-              }
-          }
+                  goto failed;
+                }
+              /* ... or make it valid and update location for end of valid data */
+              else
+                {
+                  temp = g_utf8_make_valid (contents, file_size);
+                  g_free (contents);
+                  contents = temp;
+                  g_utf8_validate (contents, -1, &endc);
+                }
+            }
 
           /* detect the line ending, based on the first eol we match */
           for (n = contents; n < endc; n = g_utf8_next_char (n))
@@ -1052,12 +1066,12 @@ mousepad_file_open (MousepadFile  *file,
       retval = 0;
 
       /* store the file status */
-      if (G_LIKELY (! file->temporary))
+      if (G_LIKELY (!file->temporary))
         if (G_LIKELY (fileinfo = g_file_query_info (location, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
                                                     G_FILE_QUERY_INFO_NONE, NULL, error)))
           {
-            mousepad_file_set_read_only (file,
-              ! g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
+            mousepad_file_set_read_only (
+              file, !g_file_info_get_attribute_boolean (fileinfo, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
             g_object_unref (fileinfo);
           }
         /* set return value */
@@ -1070,7 +1084,7 @@ mousepad_file_open (MousepadFile  *file,
           file->etag = NULL;
         }
 
-      failed:
+failed:
 
       /* make sure the buffer is empty if we did not succeed */
       if (G_UNLIKELY (retval != 0))
@@ -1108,16 +1122,16 @@ mousepad_file_monitor_unblock (gpointer data)
 
 
 static gboolean
-mousepad_file_replace_contents (MousepadFile      *m_file,
-                                GFile             *file,
-                                const char        *contents,
-                                gsize              length,
-                                const char        *etag,
-                                gboolean           make_backup,
-                                GFileCreateFlags   flags,
-                                char             **new_etag,
-                                GCancellable      *cancellable,
-                                GError           **error)
+mousepad_file_replace_contents (MousepadFile *m_file,
+                                GFile *file,
+                                const char *contents,
+                                gsize length,
+                                const char *etag,
+                                gboolean make_backup,
+                                GFileCreateFlags flags,
+                                char **new_etag,
+                                GCancellable *cancellable,
+                                GError **error)
 {
   gboolean succeed;
 
@@ -1131,7 +1145,7 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
    * See https://gitlab.gnome.org/GNOME/glib/-/issues/2466
    */
   if (mousepad_util_is_symlink (m_file->location)
-      && ! mousepad_util_query_exists (m_file->location, TRUE))
+      && !mousepad_util_query_exists (m_file->location, TRUE))
     etag = NULL;
 
   /* replace contents */
@@ -1141,9 +1155,7 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
   if (m_file->monitor != NULL)
     {
       /* update monitor location in case of a symlink */
-      if (succeed && (
-            m_file->symlink || (m_file->symlink = mousepad_util_is_symlink (m_file->location))
-         ))
+      if (succeed && (m_file->symlink || (m_file->symlink = mousepad_util_is_symlink (m_file->location))))
         g_timeout_add (MOUSEPAD_SETTING_GET_UINT (MONITOR_DISABLING_TIMER),
                        mousepad_file_set_monitor, mousepad_util_source_autoremove (m_file));
       /* reactivate file monitoring with a delay, to not consider our own saving as
@@ -1159,17 +1171,17 @@ mousepad_file_replace_contents (MousepadFile      *m_file,
 
 
 static gboolean
-mousepad_file_prepare_save_contents (MousepadFile  *file,
-                                     gchar        **out_contents,
-                                     gsize         *out_length,
-                                     gchar        **out_eol,
-                                     GError       **error)
+mousepad_file_prepare_save_contents (MousepadFile *file,
+                                     gchar **out_contents,
+                                     gsize *out_length,
+                                     gchar **out_eol,
+                                     GError **error)
 {
-  GtkTextIter   start, end;
-  gchar       **chunks;
-  gchar        *contents, *p, *encoded;
-  const gchar  *charset, *eol = NULL;
-  gsize         length, written;
+  GtkTextIter start, end;
+  gchar **chunks;
+  gchar *contents, *p, *encoded;
+  const gchar *charset, *eol = NULL;
+  gsize length, written;
 
   /* get buffer contents */
   gtk_text_buffer_get_bounds (file->buffer, &start, &end);
@@ -1203,36 +1215,36 @@ mousepad_file_prepare_save_contents (MousepadFile  *file,
     {
       switch (file->line_ending)
         {
-          case MOUSEPAD_EOL_UNIX:
-            if (contents[length - 1] != '\n')
-              {
-                contents = g_renew (gchar, contents, length + 2);
-                contents[length] = '\n';
-                length++;
-                eol = "\n";
-              }
-            break;
+        case MOUSEPAD_EOL_UNIX:
+          if (contents[length - 1] != '\n')
+            {
+              contents = g_renew (gchar, contents, length + 2);
+              contents[length] = '\n';
+              length++;
+              eol = "\n";
+            }
+          break;
 
-          case MOUSEPAD_EOL_MAC:
-            if (contents[length - 1] != '\r')
-              {
-                contents = g_renew (gchar, contents, length + 2);
-                contents[length] = '\r';
-                length++;
-                eol = "\r";
-              }
-            break;
+        case MOUSEPAD_EOL_MAC:
+          if (contents[length - 1] != '\r')
+            {
+              contents = g_renew (gchar, contents, length + 2);
+              contents[length] = '\r';
+              length++;
+              eol = "\r";
+            }
+          break;
 
-          case MOUSEPAD_EOL_DOS:
-            if (contents[length - 1] != '\n' || (length > 1 && contents[length - 2] != '\r'))
-              {
-                contents = g_renew (gchar, contents, length + 3);
-                contents[length] = '\r';
-                contents[length + 1] = '\n';
-                length += 2;
-                eol = "\r\n";
-              }
-            break;
+        case MOUSEPAD_EOL_DOS:
+          if (contents[length - 1] != '\n' || (length > 1 && contents[length - 2] != '\r'))
+            {
+              contents = g_renew (gchar, contents, length + 3);
+              contents[length] = '\r';
+              contents[length + 1] = '\n';
+              length += 2;
+              eol = "\r\n";
+            }
+          break;
         }
 
       contents[length] = '\0';
@@ -1284,26 +1296,26 @@ mousepad_file_prepare_save_contents (MousepadFile  *file,
 
 
 gboolean
-mousepad_file_save (MousepadFile  *file,
-                    gboolean       forced,
-                    GError       **error)
+mousepad_file_save (MousepadFile *file,
+                    gboolean forced,
+                    GError **error)
 {
-  GtkTextIter  iter;
-  gchar       *contents, *eol = NULL, *etag = NULL;
-  gsize        length;
+  GtkTextIter iter;
+  gchar *contents, *eol = NULL, *etag = NULL;
+  gsize length;
 
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   /* prepare save contents */
-  if (! mousepad_file_prepare_save_contents (file, &contents, &length, &eol, error))
+  if (!mousepad_file_prepare_save_contents (file, &contents, &length, &eol, error))
     return FALSE;
 
   /* write the buffer to the file */
-  if (! mousepad_file_replace_contents (file, file->location, contents, length,
-                                        (file->temporary || forced) ? NULL : file->etag,
-                                        MOUSEPAD_SETTING_GET_BOOLEAN (MAKE_BACKUP),
-                                        G_FILE_CREATE_NONE, &etag, NULL, error))
+  if (!mousepad_file_replace_contents (file, file->location, contents, length,
+                                       (file->temporary || forced) ? NULL : file->etag,
+                                       MOUSEPAD_SETTING_GET_BOOLEAN (MAKE_BACKUP),
+                                       G_FILE_CREATE_NONE, &etag, NULL, error))
     {
       g_free (contents);
       g_free (eol);
@@ -1338,13 +1350,13 @@ mousepad_file_save (MousepadFile  *file,
 
 
 static void
-mousepad_file_autosave_save_finish (GObject      *source_object,
+mousepad_file_autosave_save_finish (GObject *source_object,
                                     GAsyncResult *res,
-                                    gpointer      user_data)
+                                    gpointer user_data)
 {
   GError *error = NULL;
 
-  if (! g_file_replace_contents_finish (G_FILE (source_object), res, NULL, &error))
+  if (!g_file_replace_contents_finish (G_FILE (source_object), res, NULL, &error))
     {
       g_warning ("Autosave failed: %s", error->message);
       g_error_free (error);
@@ -1360,20 +1372,20 @@ static gboolean
 mousepad_file_autosave_save (gpointer data)
 {
   MousepadFile *file = data;
-  GError       *error = NULL;
-  GBytes       *contents;
-  gchar        *strcont;
-  gsize         length;
+  GError *error = NULL;
+  GBytes *contents;
+  gchar *strcont;
+  gsize length;
 
   /* autosave cancelled */
-  if (! file->autosave_scheduled)
+  if (!file->autosave_scheduled)
     return FALSE;
 
   /* update autosave state right now, in particular to prevent any concurrent sync saving */
   file->autosave_scheduled = FALSE;
 
   /* prepare save contents */
-  if (! mousepad_file_prepare_save_contents (file, &strcont, &length, NULL, &error))
+  if (!mousepad_file_prepare_save_contents (file, &strcont, &length, NULL, &error))
     {
       g_warning ("Autosave failed: %s", error->message);
       g_error_free (error);
@@ -1400,11 +1412,11 @@ mousepad_file_autosave_save (gpointer data)
 
 static void
 mousepad_file_autosave_schedule (GtkTextBuffer *buffer,
-                                 MousepadFile  *file)
+                                 MousepadFile *file)
 {
   /* we are mainly interested in a switch to the "modified" state, especially when
    * the buffer changes state without real modification: EOL change, BOM change... */
-  if (! gtk_text_buffer_get_modified (file->buffer))
+  if (!gtk_text_buffer_get_modified (file->buffer))
     {
       /* cancel any previous scheduled saving */
       file->autosave_scheduled = FALSE;
@@ -1412,7 +1424,7 @@ mousepad_file_autosave_schedule (GtkTextBuffer *buffer,
       return;
     }
 
-  if (! file->autosave_scheduled)
+  if (!file->autosave_scheduled)
     {
       file->autosave_scheduled = g_timeout_add_seconds (MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER),
                                                         mousepad_file_autosave_save,
@@ -1423,14 +1435,14 @@ mousepad_file_autosave_schedule (GtkTextBuffer *buffer,
 
 
 static void
-mousepad_file_autosave_delete_finish (GObject      *source_object,
+mousepad_file_autosave_delete_finish (GObject *source_object,
                                       GAsyncResult *res,
-                                      gpointer      user_data)
+                                      gpointer user_data)
 {
   GError *error = NULL;
 
-  if (! g_file_delete_finish (G_FILE (source_object), res, &error)
-      && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+  if (!g_file_delete_finish (G_FILE (source_object), res, &error)
+      && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
     {
       g_warning ("Autoremove failed: %s", error->message);
       g_error_free (error);
@@ -1444,7 +1456,7 @@ mousepad_file_autosave_delete_finish (GObject      *source_object,
 
 static void
 mousepad_file_autosave_delete (GtkTextBuffer *buffer,
-                               MousepadFile  *file)
+                               MousepadFile *file)
 {
   /* we are only interested in a switch to the "unmodified" state, i.e. when the file
    * was regularly saved, or changes were reverted by some means */
@@ -1489,7 +1501,6 @@ mousepad_file_autosave_timer_changed (MousepadFile *file)
                         G_CALLBACK (mousepad_file_autosave_delete), file);
       g_signal_connect (file->buffer, "modified-changed",
                         G_CALLBACK (mousepad_history_session_save), NULL);
-
     }
   /* enabled -> disabled */
   else if (file->autosave_location != NULL && MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) == 0)
@@ -1537,14 +1548,14 @@ mousepad_file_autosave_get_uri (MousepadFile *file)
 gboolean
 mousepad_file_autosave_save_sync (MousepadFile *file)
 {
-  GtkWindow  *window;
-  GError    **perror = NULL;
-  GError     *error = NULL;
-  gchar      *contents = NULL;
-  gsize       length;
+  GtkWindow *window;
+  GError **perror = NULL;
+  GError *error = NULL;
+  gchar *contents = NULL;
+  gsize length;
 
   /* file already saved */
-  if (! file->autosave_scheduled)
+  if (!file->autosave_scheduled)
     return TRUE;
 
   /* update autosave state right now, in particular to prevent any concurrent async saving */
@@ -1555,7 +1566,7 @@ mousepad_file_autosave_save_sync (MousepadFile *file)
     perror = &error;
 
   /* prepare save contents */
-  if (! mousepad_file_prepare_save_contents (file, &contents, &length, NULL, perror)
+  if (!mousepad_file_prepare_save_contents (file, &contents, &length, NULL, perror)
       && perror != NULL)
     {
       window = gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ()));
@@ -1567,8 +1578,8 @@ mousepad_file_autosave_save_sync (MousepadFile *file)
 
   /* save contents */
   if (contents != NULL
-      && ! g_file_replace_contents (file->autosave_location, contents, length, NULL, FALSE,
-                                    G_FILE_CREATE_NONE, NULL, NULL, perror)
+      && !g_file_replace_contents (file->autosave_location, contents, length, NULL, FALSE,
+                                   G_FILE_CREATE_NONE, NULL, NULL, perror)
       && perror != NULL)
     {
       window = gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ()));

@@ -14,31 +14,41 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-document.h>
-#include <mousepad/mousepad-encoding.h>
-#include <mousepad/mousepad-encoding-dialog.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-dialogs.h>
-#include <mousepad/mousepad-history.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-encoding-dialog.h"
+#include "mousepad/mousepad-dialogs.h"
+#include "mousepad/mousepad-document.h"
+#include "mousepad/mousepad-encoding.h"
+#include "mousepad/mousepad-history.h"
+#include "mousepad/mousepad-util.h"
 
 
 
-static void     mousepad_encoding_dialog_constructed            (GObject                     *object);
-static void     mousepad_encoding_dialog_finalize               (GObject                     *object);
-static void     mousepad_encoding_dialog_response               (GtkDialog                   *dialog,
-                                                                 gint                         response_id);
-static gboolean mousepad_encoding_dialog_test_encodings_idle    (gpointer                     user_data);
-static void     mousepad_encoding_dialog_test_encodings_destroy (gpointer                     user_data);
-static void     mousepad_encoding_dialog_test_encodings         (MousepadEncodingDialog      *dialog);
-static void     mousepad_encoding_dialog_cancel_encoding_test   (GtkWidget                   *button,
-                                                                 MousepadEncodingDialog      *dialog);
-static void     mousepad_encoding_dialog_read_file              (MousepadEncodingDialog      *dialog,
-                                                                 MousepadEncoding             encoding);
-static void     mousepad_encoding_dialog_button_toggled         (GtkWidget                   *button,
-                                                                 MousepadEncodingDialog      *dialog);
-static void     mousepad_encoding_dialog_combo_changed          (GtkComboBox                 *combo,
-                                                                 MousepadEncodingDialog      *dialog);
+static void
+mousepad_encoding_dialog_constructed (GObject *object);
+static void
+mousepad_encoding_dialog_finalize (GObject *object);
+static void
+mousepad_encoding_dialog_response (GtkDialog *dialog,
+                                   gint response_id);
+static gboolean
+mousepad_encoding_dialog_test_encodings_idle (gpointer user_data);
+static void
+mousepad_encoding_dialog_test_encodings_destroy (gpointer user_data);
+static void
+mousepad_encoding_dialog_test_encodings (MousepadEncodingDialog *dialog);
+static void
+mousepad_encoding_dialog_cancel_encoding_test (GtkWidget *button,
+                                               MousepadEncodingDialog *dialog);
+static void
+mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
+                                    MousepadEncoding encoding);
+static void
+mousepad_encoding_dialog_button_toggled (GtkWidget *button,
+                                         MousepadEncodingDialog *dialog);
+static void
+mousepad_encoding_dialog_combo_changed (GtkComboBox *combo,
+                                        MousepadEncodingDialog *dialog);
 
 
 
@@ -73,7 +83,7 @@ struct _MousepadEncodingDialog
 
   /* "Other Encodings" combo box */
   GtkListStore *store, *fallback_store;
-  GtkWidget    *combo;
+  GtkWidget *combo;
 };
 
 
@@ -85,7 +95,7 @@ G_DEFINE_TYPE (MousepadEncodingDialog, mousepad_encoding_dialog, GTK_TYPE_DIALOG
 static void
 mousepad_encoding_dialog_class_init (MousepadEncodingDialogClass *klass)
 {
-  GObjectClass   *gobject_class;
+  GObjectClass *gobject_class;
   GtkDialogClass *gtkdialog_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
@@ -101,7 +111,7 @@ mousepad_encoding_dialog_class_init (MousepadEncodingDialogClass *klass)
 static void
 mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 {
-  GtkWidget       *area, *vbox, *hbox, *icon;
+  GtkWidget *area, *vbox, *hbox, *icon;
   GtkCellRenderer *cell;
 
   /* set some dialog properties */
@@ -138,7 +148,7 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
   if (mousepad_encoding_get_default () != mousepad_encoding_get_system ())
     {
       dialog->radio_system = gtk_radio_button_new_with_label_from_widget (
-                               GTK_RADIO_BUTTON (dialog->radio_default), NULL);
+        GTK_RADIO_BUTTON (dialog->radio_default), NULL);
       g_signal_connect (dialog->radio_system, "toggled",
                         G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
       gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_system, FALSE, FALSE, 0);
@@ -148,14 +158,14 @@ mousepad_encoding_dialog_init (MousepadEncodingDialog *dialog)
 
   /* history charset: shown only if different from default and system */
   dialog->radio_history = gtk_radio_button_new_with_label_from_widget (
-                            GTK_RADIO_BUTTON (dialog->radio_default), NULL);
+    GTK_RADIO_BUTTON (dialog->radio_default), NULL);
   g_signal_connect (dialog->radio_history, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_history, FALSE, FALSE, 0);
 
   /* valid conversions to UTF-8 if there are any, else partially valid conversions, else hidden */
   dialog->radio_other = gtk_radio_button_new_with_label_from_widget (
-                          GTK_RADIO_BUTTON (dialog->radio_default), _("Other:"));
+    GTK_RADIO_BUTTON (dialog->radio_default), _("Other:"));
   g_signal_connect (dialog->radio_other, "toggled",
                     G_CALLBACK (mousepad_encoding_dialog_button_toggled), dialog);
   gtk_box_pack_start (GTK_BOX (hbox), dialog->radio_other, FALSE, FALSE, 0);
@@ -255,7 +265,7 @@ mousepad_encoding_dialog_finalize (GObject *object)
 
 static void
 mousepad_encoding_dialog_response (GtkDialog *dialog,
-                                   gint       response_id)
+                                   gint response_id)
 {
   /* make sure we cancel encoding testing asap */
   MOUSEPAD_ENCODING_DIALOG (dialog)->cancel_testing = TRUE;
@@ -264,16 +274,16 @@ mousepad_encoding_dialog_response (GtkDialog *dialog,
 
 
 static gboolean
-mousepad_encoding_dialog_set_radio (GtkWidget        *radio,
-                                    const gchar      *name,
-                                    MousepadEncoding  encoding,
-                                    const gchar      *contents,
-                                    gsize             length)
+mousepad_encoding_dialog_set_radio (GtkWidget *radio,
+                                    const gchar *name,
+                                    MousepadEncoding encoding,
+                                    const gchar *contents,
+                                    gsize length)
 {
-  gchar       *encoded, *label;
+  gchar *encoded, *label;
   const gchar *charset;
-  gsize        written;
-  gboolean     valid = FALSE;
+  gsize written;
+  gboolean valid = FALSE;
 
   /* attach encoding to the button for later use */
   mousepad_object_set_data (radio, "encoding", GINT_TO_POINTER (encoding));
@@ -285,7 +295,7 @@ mousepad_encoding_dialog_set_radio (GtkWidget        *radio,
   /* set the radio label accordingly */
   if (encoded == NULL)
     label = g_strdup_printf (_("%s (%s, failed)"), name, charset);
-  else if (! g_utf8_validate (encoded, written, NULL))
+  else if (!g_utf8_validate (encoded, written, NULL))
     label = g_strdup_printf (_("%s (%s, partial)"), name, charset);
   else
     {
@@ -308,19 +318,18 @@ static gboolean
 mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
 {
   MousepadEncodingDialog *dialog = MOUSEPAD_ENCODING_DIALOG (user_data);
-  MousepadEncoding        default_encoding, system_encoding,
-                          history_encoding = MOUSEPAD_ENCODING_NONE;
-  GError                 *error = NULL;
-  const gchar            *charset, *subtitle;
-  gchar                  *contents, *label, *encoded;
-  gsize                   length, written;
-  guint                   i, n;
-  gint                    result = 0;
-  gboolean                default_valid, system_valid = FALSE, history_valid = FALSE, show_history;
+  MousepadEncoding default_encoding, system_encoding, history_encoding = MOUSEPAD_ENCODING_NONE;
+  GError *error = NULL;
+  const gchar *charset, *subtitle;
+  gchar *contents, *label, *encoded;
+  gsize length, written;
+  guint i, n;
+  gint result = 0;
+  gboolean default_valid, system_valid = FALSE, history_valid = FALSE, show_history;
 
   /* exit with a popup dialog in case of problem */
-  if (! g_file_load_contents (mousepad_file_get_location (dialog->document->file),
-                              NULL, &contents, &length, NULL, &error))
+  if (!g_file_load_contents (mousepad_file_get_location (dialog->document->file),
+                             NULL, &contents, &length, NULL, &error))
     {
       /* show the warning */
       mousepad_dialogs_show_error (GTK_WINDOW (dialog), error, MOUSEPAD_MESSAGE_IO_ERROR_OPEN);
@@ -366,7 +375,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
                                                         history_encoding, contents, length);
 
   /* test all other encodings */
-  for (i = 1, n = 0; i < MOUSEPAD_N_ENCODINGS && ! dialog->cancel_testing; i++)
+  for (i = 1, n = 0; i < MOUSEPAD_N_ENCODINGS && !dialog->cancel_testing; i++)
     {
       /* skip default, system and history encodings */
       if (i == default_encoding || i == system_encoding || i == history_encoding)
@@ -407,7 +416,7 @@ mousepad_encoding_dialog_test_encodings_idle (gpointer user_data)
   gtk_widget_hide (dialog->button_cancel);
 
   /* check if we have something to propose to the user apart from the default encoding */
-  if (! gtk_tree_model_iter_n_children (GTK_TREE_MODEL (dialog->store), NULL))
+  if (!gtk_tree_model_iter_n_children (GTK_TREE_MODEL (dialog->store), NULL))
     {
       /* fall back to partially valid conversions if possible */
       if (G_LIKELY (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (dialog->fallback_store), NULL)))
@@ -515,7 +524,7 @@ mousepad_encoding_dialog_test_encodings (MousepadEncodingDialog *dialog)
 
 
 static void
-mousepad_encoding_dialog_cancel_encoding_test (GtkWidget              *button,
+mousepad_encoding_dialog_cancel_encoding_test (GtkWidget *button,
                                                MousepadEncodingDialog *dialog)
 {
   /* cancel the testing loop */
@@ -526,12 +535,12 @@ mousepad_encoding_dialog_cancel_encoding_test (GtkWidget              *button,
 
 static void
 mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
-                                    MousepadEncoding        encoding)
+                                    MousepadEncoding encoding)
 {
-  GtkTextIter  start, end;
-  GError      *error = NULL;
-  gchar       *message;
-  gint         result;
+  GtkTextIter start, end;
+  GError *error = NULL;
+  gchar *message;
+  gint result;
 
   /* clear buffer */
   gtk_text_buffer_get_bounds (dialog->document->buffer, &start, &end);
@@ -584,7 +593,7 @@ mousepad_encoding_dialog_read_file (MousepadEncodingDialog *dialog,
 
 
 static void
-mousepad_encoding_dialog_button_toggled (GtkWidget              *button,
+mousepad_encoding_dialog_button_toggled (GtkWidget *button,
                                          MousepadEncodingDialog *dialog)
 {
   MousepadEncoding encoding;
@@ -609,11 +618,11 @@ mousepad_encoding_dialog_button_toggled (GtkWidget              *button,
 
 
 static void
-mousepad_encoding_dialog_combo_changed (GtkComboBox            *combo,
+mousepad_encoding_dialog_combo_changed (GtkComboBox *combo,
                                         MousepadEncodingDialog *dialog)
 {
   GtkTreeIter iter;
-  gint        id;
+  gint id;
 
   /* get the selected item */
   if (gtk_widget_get_sensitive (GTK_WIDGET (combo))
@@ -630,14 +639,14 @@ mousepad_encoding_dialog_combo_changed (GtkComboBox            *combo,
 
 
 gint
-mousepad_encoding_dialog (GtkWindow        *parent,
-                          MousepadFile     *file,
-                          gboolean          valid,
+mousepad_encoding_dialog (GtkWindow *parent,
+                          MousepadFile *file,
+                          gboolean valid,
                           MousepadEncoding *encoding)
 {
   MousepadEncodingDialog *dialog;
-  GError                 *error = NULL;
-  gint                    result, response;
+  GError *error = NULL;
+  gint result, response;
 
   g_return_val_if_fail (GTK_IS_WINDOW (parent), 0);
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), 0);
@@ -673,7 +682,7 @@ mousepad_encoding_dialog (GtkWindow        *parent,
   /* dialog title */
   dialog->title = g_strdup_printf (valid ? _("The document is %s valid.")
                                          : _("The document is not %s valid."),
-                    mousepad_encoding_get_charset (mousepad_file_get_encoding (file)));
+                                   mousepad_encoding_get_charset (mousepad_file_get_encoding (file)));
 
   /* update the dialog header */
   mousepad_util_dialog_update_header (GTK_DIALOG (dialog), dialog->title, NULL, "text-x-generic");

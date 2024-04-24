@@ -14,16 +14,16 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-application.h>
-#include <mousepad/mousepad-document.h>
-#include <mousepad/mousepad-prefs-dialog.h>
-#include <mousepad/mousepad-replace-dialog.h>
-#include <mousepad/mousepad-window.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-plugin-provider.h>
-#include <mousepad/mousepad-history.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-application.h"
+#include "mousepad/mousepad-document.h"
+#include "mousepad/mousepad-history.h"
+#include "mousepad/mousepad-plugin-provider.h"
+#include "mousepad/mousepad-prefs-dialog.h"
+#include "mousepad/mousepad-replace-dialog.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
+#include "mousepad/mousepad-window.h"
 
 
 
@@ -32,86 +32,110 @@
 
 
 /* GObject virtual functions */
-static void        mousepad_application_set_property              (GObject                  *object,
-                                                                   guint                     prop_id,
-                                                                   const GValue             *value,
-                                                                   GParamSpec               *pspec);
-static void        mousepad_application_get_property              (GObject                  *object,
-                                                                   guint                     prop_id,
-                                                                   GValue                   *value,
-                                                                   GParamSpec               *pspec);
+static void
+mousepad_application_set_property (GObject *object,
+                                   guint prop_id,
+                                   const GValue *value,
+                                   GParamSpec *pspec);
+static void
+mousepad_application_get_property (GObject *object,
+                                   guint prop_id,
+                                   GValue *value,
+                                   GParamSpec *pspec);
 
 /* GApplication virtual functions, in the order in which they are called on launch */
-static gint        mousepad_application_handle_local_options      (GApplication             *gapplication,
-                                                                   GVariantDict             *options);
-static void        mousepad_application_startup                   (GApplication             *gapplication);
-static gint        mousepad_application_command_line              (GApplication             *gapplication,
-                                                                   GApplicationCommandLine  *command_line);
-static void        mousepad_application_activate                  (GApplication             *gapplication);
-static void        mousepad_application_open                      (GApplication             *gapplication,
-                                                                   GFile                   **files,
-                                                                   gint                      n_files,
-                                                                   const gchar              *hint);
-static void        mousepad_application_shutdown                  (GApplication             *gapplication);
+static gint
+mousepad_application_handle_local_options (GApplication *gapplication,
+                                           GVariantDict *options);
+static void
+mousepad_application_startup (GApplication *gapplication);
+static gint
+mousepad_application_command_line (GApplication *gapplication,
+                                   GApplicationCommandLine *command_line);
+static void
+mousepad_application_activate (GApplication *gapplication);
+static void
+mousepad_application_open (GApplication *gapplication,
+                           GFile **files,
+                           gint n_files,
+                           const gchar *hint);
+static void
+mousepad_application_shutdown (GApplication *gapplication);
 
 /* MousepadApplication own functions */
-static gboolean    mousepad_application_parse_encoding            (const gchar              *option_name,
-                                                                   const gchar              *value,
-                                                                   gpointer                  data,
-                                                                   GError                  **error);
-static GtkWidget  *mousepad_application_create_window             (MousepadApplication      *application);
-static void        mousepad_application_new_window_with_document  (MousepadWindow           *existing,
-                                                                   MousepadDocument         *document,
-                                                                   gint                      x,
-                                                                   gint                      y,
-                                                                   MousepadApplication      *application);
-static void        mousepad_application_new_window                (MousepadWindow           *existing,
-                                                                   MousepadApplication      *application);
-static void        mousepad_application_active_window_changed     (MousepadApplication      *application);
-static void        mousepad_application_set_shared_menu_parts     (MousepadApplication      *application,
-                                                                   GMenuModel               *model);
-static void        mousepad_application_create_languages_menu     (MousepadApplication      *application);
-static void        mousepad_application_create_style_schemes_menu (MousepadApplication      *application);
-static void        mousepad_application_action_preferences        (GSimpleAction            *action,
-                                                                   GVariant                 *value,
-                                                                   gpointer                  data);
-static void        mousepad_application_action_quit               (GSimpleAction            *action,
-                                                                   GVariant                 *value,
-                                                                   gpointer                  data);
-static void        mousepad_application_toggle_activate           (GSimpleAction            *action,
-                                                                   GVariant                 *parameter,
-                                                                   gpointer                  data);
-static void        mousepad_application_radio_activate            (GSimpleAction            *action,
-                                                                   GVariant                 *parameter,
-                                                                   gpointer                  data);
-static void        mousepad_application_plugin_activate           (GSimpleAction            *action,
-                                                                   GVariant                 *parameter,
-                                                                   gpointer                  data);
-static void        mousepad_application_action_update             (MousepadApplication      *application,
-                                                                   gchar                    *key,
-                                                                   GSettings                *settings);
-static void        mousepad_application_plugin_update             (MousepadApplication      *application);
-static void        mousepad_application_action_whitespace         (GSimpleAction            *action,
-                                                                   GVariant                 *state,
-                                                                   gpointer                  data);
+static gboolean
+mousepad_application_parse_encoding (const gchar *option_name,
+                                     const gchar *value,
+                                     gpointer data,
+                                     GError **error);
+static GtkWidget *
+mousepad_application_create_window (MousepadApplication *application);
+static void
+mousepad_application_new_window_with_document (MousepadWindow *existing,
+                                               MousepadDocument *document,
+                                               gint x,
+                                               gint y,
+                                               MousepadApplication *application);
+static void
+mousepad_application_new_window (MousepadWindow *existing,
+                                 MousepadApplication *application);
+static void
+mousepad_application_active_window_changed (MousepadApplication *application);
+static void
+mousepad_application_set_shared_menu_parts (MousepadApplication *application,
+                                            GMenuModel *model);
+static void
+mousepad_application_create_languages_menu (MousepadApplication *application);
+static void
+mousepad_application_create_style_schemes_menu (MousepadApplication *application);
+static void
+mousepad_application_action_preferences (GSimpleAction *action,
+                                         GVariant *value,
+                                         gpointer data);
+static void
+mousepad_application_action_quit (GSimpleAction *action,
+                                  GVariant *value,
+                                  gpointer data);
+static void
+mousepad_application_toggle_activate (GSimpleAction *action,
+                                      GVariant *parameter,
+                                      gpointer data);
+static void
+mousepad_application_radio_activate (GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data);
+static void
+mousepad_application_plugin_activate (GSimpleAction *action,
+                                      GVariant *parameter,
+                                      gpointer data);
+static void
+mousepad_application_action_update (MousepadApplication *application,
+                                    gchar *key,
+                                    GSettings *settings);
+static void
+mousepad_application_plugin_update (MousepadApplication *application);
+static void
+mousepad_application_action_whitespace (GSimpleAction *action,
+                                        GVariant *state,
+                                        gpointer data);
 
 
 
 struct _MousepadApplication
 {
-  GtkApplication      __parent__;
+  GtkApplication __parent__;
 
   /* preferences dialog */
   GtkWidget *prefs_dialog;
-  gboolean   prefs_dialog_standalone;
+  gboolean prefs_dialog_standalone;
 
   /* command line options */
-  gint             opening_mode, line, column;
+  gint opening_mode, line, column;
   MousepadEncoding encoding;
 
   /* properties */
-  gchar                       *default_font;
-  GtkSourceSpaceLocationFlags  space_location_flags;
+  gchar *default_font;
+  GtkSourceSpaceLocationFlags space_location_flags;
 
   /* plugins */
   GList *providers;
@@ -128,56 +152,46 @@ enum
 
 
 /* command line options */
-static const GOptionEntry option_entries[] =
-{
-  {
-    "encoding", 'e', G_OPTION_FLAG_OPTIONAL_ARG,
+static const GOptionEntry option_entries[] = {
+  { "encoding", 'e', G_OPTION_FLAG_OPTIONAL_ARG,
     G_OPTION_ARG_CALLBACK, mousepad_application_parse_encoding,
-    N_("Encoding to be used to open files (leave empty to open files in the encoding dialog)"),
-    N_("ENCODING")
-  },
-  {
-    "list-encodings", '\0', G_OPTION_FLAG_NONE,
+    N_ ("Encoding to be used to open files (leave empty to open files in the encoding dialog)"),
+    N_ ("ENCODING") },
+
+  { "list-encodings", '\0', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
-    N_("Display a list of possible encodings to open files"), NULL
-  },
-  {
-    "line", 'l', G_OPTION_FLAG_NONE,
+    N_ ("Display a list of possible encodings to open files"), NULL },
+
+  { "line", 'l', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_INT, NULL,
-    N_("Line number the cursor to position to (LINE > 0 from top, LINE < 0 from bottom)"),
-    N_("LINE")
-  },
-  {
-    "column", 'c', G_OPTION_FLAG_NONE,
+    N_ ("Line number the cursor to position to (LINE > 0 from top, LINE < 0 from bottom)"),
+    N_ ("LINE") },
+
+  { "column", 'c', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_INT, NULL,
-    N_("Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 from end)"),
-    N_("COLUMN")
-  },
-  {
-    "preferences", '\0', G_OPTION_FLAG_NONE,
+    N_ ("Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 from end)"),
+    N_ ("COLUMN") },
+
+  { "preferences", '\0', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
-    N_("Open the preferences dialog"), NULL
-  },
-  {
-    "disable-server", '\0', G_OPTION_FLAG_NONE,
+    N_ ("Open the preferences dialog"), NULL },
+
+  { "disable-server", '\0', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
-    N_("Do not register with the D-BUS session message bus"), NULL
-  },
-  {
-    "quit", 'q', G_OPTION_FLAG_NONE,
+    N_ ("Do not register with the D-BUS session message bus"), NULL },
+
+  { "quit", 'q', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
-    N_("Quit a running Mousepad primary instance"), NULL
-  },
-  {
-    "version", 'v', G_OPTION_FLAG_NONE,
+    N_ ("Quit a running Mousepad primary instance"), NULL },
+
+  { "version", 'v', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_NONE, NULL,
-    N_("Print version information and exit"), NULL
-  },
-  {
-    G_OPTION_REMAINING, '\0', G_OPTION_FLAG_NONE,
+    N_ ("Print version information and exit"), NULL },
+
+  { G_OPTION_REMAINING, '\0', G_OPTION_FLAG_NONE,
     G_OPTION_ARG_FILENAME_ARRAY, NULL,
-    NULL, N_("[FILES...]")
-  },
+    NULL, N_ ("[FILES...]") },
+
   { NULL }
 };
 
@@ -194,8 +208,7 @@ enum
 /* application actions */
 
 /* stateless actions */
-static const GActionEntry stateless_actions[] =
-{
+static const GActionEntry stateless_actions[] = {
   /* command line options */
   { "preferences", mousepad_application_action_preferences, NULL, NULL, NULL },
   { "quit", mousepad_application_action_quit, NULL, NULL, NULL }
@@ -203,8 +216,7 @@ static const GActionEntry stateless_actions[] =
 #define N_STATELESS G_N_ELEMENTS (stateless_actions)
 
 /* preferences dialog */
-static const GActionEntry dialog_actions[] =
-{
+static const GActionEntry dialog_actions[] = {
   /* "View" tab */
   { MOUSEPAD_SETTING_SHOW_LINE_NUMBERS, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_SHOW_WHITESPACE, mousepad_application_toggle_activate, NULL, "false", NULL },
@@ -242,16 +254,14 @@ static const GActionEntry dialog_actions[] =
 #define N_DIALOG G_N_ELEMENTS (dialog_actions)
 
 /* settings only accessible from the menubar */
-static const GActionEntry menubar_actions[] =
-{
+static const GActionEntry menubar_actions[] = {
   { MOUSEPAD_SETTING_SEARCH_INCREMENTAL, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_SEARCH_HIGHLIGHT_ALL, mousepad_application_toggle_activate, NULL, "false", NULL }
 };
 #define N_MENUBAR G_N_ELEMENTS (menubar_actions)
 
 /* whitespace location settings, only accessible from GSettings */
-static const GActionEntry whitespace_actions[] =
-{
+static const GActionEntry whitespace_actions[] = {
   { MOUSEPAD_SETTING_SHOW_WHITESPACE_LEADING, mousepad_application_toggle_activate, NULL,
     "false", mousepad_application_action_whitespace },
   { MOUSEPAD_SETTING_SHOW_WHITESPACE_INSIDE, mousepad_application_toggle_activate, NULL,
@@ -262,14 +272,12 @@ static const GActionEntry whitespace_actions[] =
 #define N_WHITESPACE G_N_ELEMENTS (whitespace_actions)
 
 /* concatenate all setting actions */
-static const GActionEntry* setting_actions[] =
-{
+static const GActionEntry *setting_actions[] = {
   dialog_actions,
   menubar_actions,
   whitespace_actions
 };
-static const guint n_setting_actions[] =
-{
+static const guint n_setting_actions[] = {
   N_DIALOG,
   N_MENUBAR,
   N_WHITESPACE
@@ -285,7 +293,7 @@ G_DEFINE_TYPE (MousepadApplication, mousepad_application, GTK_TYPE_APPLICATION)
 static void
 mousepad_application_class_init (MousepadApplicationClass *klass)
 {
-  GObjectClass      *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   GApplicationClass *application_class = G_APPLICATION_CLASS (klass);
 
   gobject_class->set_property = mousepad_application_set_property;
@@ -298,23 +306,30 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
   application_class->open = mousepad_application_open;
   application_class->shutdown = mousepad_application_shutdown;
 
-  g_object_class_install_property (gobject_class, PROP_DEFAULT_FONT,
-    g_param_spec_string ("default-font", "DefaultFont", "The default font to use in text views",
-                         DEFAULT_FONT, G_PARAM_READWRITE));
-
-  g_object_class_install_property (gobject_class, PROP_SPACE_LOCATION,
-    g_param_spec_flags ("space-location", "SpaceLocation", "The space location setting",
-                        GTK_SOURCE_TYPE_SPACE_LOCATION_FLAGS, GTK_SOURCE_SPACE_LOCATION_ALL,
-                        G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_DEFAULT_FONT,
+                                   g_param_spec_string ("default-font",
+                                                        "DefaultFont",
+                                                        "The default font to use in text views",
+                                                        DEFAULT_FONT,
+                                                        G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_SPACE_LOCATION,
+                                   g_param_spec_flags ("space-location",
+                                                       "SpaceLocation",
+                                                       "The space location setting",
+                                                       GTK_SOURCE_TYPE_SPACE_LOCATION_FLAGS,
+                                                       GTK_SOURCE_SPACE_LOCATION_ALL,
+                                                       G_PARAM_READWRITE));
 }
 
 
 
 static void
-mousepad_application_set_property (GObject      *object,
-                                   guint         prop_id,
+mousepad_application_set_property (GObject *object,
+                                   guint prop_id,
                                    const GValue *value,
-                                   GParamSpec   *pspec)
+                                   GParamSpec *pspec)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (object);
 
@@ -336,9 +351,9 @@ mousepad_application_set_property (GObject      *object,
 
 
 static void
-mousepad_application_get_property (GObject    *object,
-                                   guint       prop_id,
-                                   GValue     *value,
+mousepad_application_get_property (GObject *object,
+                                   guint prop_id,
+                                   GValue *value,
                                    GParamSpec *pspec)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (object);
@@ -387,9 +402,8 @@ mousepad_application_init (MousepadApplication *application)
   /* this option is added separately using g_strdup_printf() for the description, to be sure
    * that opening modes will be excluded from the translation (experience shows that using a
    * translation context is not enough to ensure it) */
-  option_desc = g_strdup_printf (
-    _("File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"),
-    "tab", "window", "mixed");
+  option_desc = g_strdup_printf (_("File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"),
+                                 "tab", "window", "mixed");
   g_application_add_main_option (G_APPLICATION (application), "opening-mode", 'o',
                                  G_OPTION_FLAG_NONE, G_OPTION_ARG_STRING, option_desc, _("MODE"));
   g_free (option_desc);
@@ -401,13 +415,13 @@ mousepad_application_init (MousepadApplication *application)
 
 
 static gboolean
-mousepad_application_parse_encoding (const gchar  *option_name,
-                                     const gchar  *value,
-                                     gpointer      data,
-                                     GError      **error)
+mousepad_application_parse_encoding (const gchar *option_name,
+                                     const gchar *value,
+                                     gpointer data,
+                                     GError **error)
 {
   MousepadApplication *application;
-  gboolean             user_set_encoding = TRUE;
+  gboolean user_set_encoding = TRUE;
 
   application = MOUSEPAD_APPLICATION (g_application_get_default ());
 
@@ -441,9 +455,9 @@ mousepad_application_handle_local_options (GApplication *gapplication,
                                            GVariantDict *options)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
-  MousepadEncoding     encoding;
-  GApplicationFlags    flags;
-  GError              *error = NULL;
+  MousepadEncoding encoding;
+  GApplicationFlags flags;
+  GError *error = NULL;
 
   if (g_variant_dict_contains (options, "version"))
     {
@@ -467,7 +481,7 @@ mousepad_application_handle_local_options (GApplication *gapplication,
   if (g_variant_dict_contains (options, "quit"))
     {
       /* try to register the application */
-      if (! g_application_register (gapplication, NULL, &error))
+      if (!g_application_register (gapplication, NULL, &error))
         {
           g_printerr ("%s\n", error->message);
           g_error_free (error);
@@ -476,7 +490,7 @@ mousepad_application_handle_local_options (GApplication *gapplication,
         }
 
       /* try to find a running primary instance */
-      if (! g_application_get_is_remote (gapplication))
+      if (!g_application_get_is_remote (gapplication))
         {
           g_printerr ("%s\n", "Failed to find a running Mousepad primary instance");
 
@@ -497,7 +511,7 @@ mousepad_application_handle_local_options (GApplication *gapplication,
   /* transfer encoding from remote to primary instance via the options dictionary */
   g_variant_dict_insert (options, "encoding", "u", application->encoding);
   g_variant_dict_insert (options, "user-set-encoding", "b",
-    GPOINTER_TO_INT (mousepad_object_get_data (application, "user-set-encoding")));
+                         GPOINTER_TO_INT (mousepad_object_get_data (application, "user-set-encoding")));
 
   /* chain up to startup (primary instance) or command_line (remote instance) */
   return -1;
@@ -506,14 +520,14 @@ mousepad_application_handle_local_options (GApplication *gapplication,
 
 
 static void
-mousepad_application_update_accels (GtkApplication  *application,
-                                    const gchar     *accel_path,
-                                    guint            accel_key,
-                                    GdkModifierType  accel_mods,
-                                    GtkAccelMap     *object)
+mousepad_application_update_accels (GtkApplication *application,
+                                    const gchar *accel_path,
+                                    guint accel_key,
+                                    GdkModifierType accel_mods,
+                                    GtkAccelMap *object)
 {
-  GVariant    *target;
-  gchar       *action, *accel;
+  GVariant *target;
+  gchar *action, *accel;
   const gchar *accels[] = { NULL, NULL };
 
   /* make sure to not crash because of corrupted data */
@@ -540,12 +554,12 @@ mousepad_application_update_accels (GtkApplication  *application,
 static void
 mousepad_application_complete_accel_map (GtkApplication *application)
 {
-  GtkWindow    *window;
-  gchar        *accel_path, *filename;
-  guint         n;
-  gchar       **action_names;
-  const gchar  *excluded_actions[] = { "win.insensitive", "win.file.new-from-template",
-                                       "win.file.open-recent", "win.document" };
+  GtkWindow *window;
+  gchar *accel_path, *filename;
+  guint n;
+  gchar **action_names;
+  const gchar *excluded_actions[] = { "win.insensitive", "win.file.new-from-template",
+                                      "win.file.open-recent", "win.document" };
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (application, mousepad_application_complete_accel_map, NULL);
@@ -558,7 +572,7 @@ mousepad_application_complete_accel_map (GtkApplication *application)
     {
       /* add accel map entry to fill the accels file at shutdown */
       accel_path = g_strconcat ("<Actions>/win.", action_names[n], NULL);
-      if (! gtk_accel_map_lookup_entry (accel_path, NULL))
+      if (!gtk_accel_map_lookup_entry (accel_path, NULL))
         gtk_accel_map_add_entry (accel_path, 0, 0);
 
       g_free (accel_path);
@@ -594,55 +608,73 @@ mousepad_application_complete_accel_map (GtkApplication *application)
 static void
 mousepad_application_set_accels (MousepadApplication *application)
 {
-  GtkAccelMap      *accel_map;
-  GdkModifierType   accel_mods;
-  GTypeModule      *provider;
-  GList            *item;
-  guint             n, accel_key;
-  gchar            *accel_path;
-  gchar           **action_names;
-  const gchar      *accel;
-  const gchar      *accels[] = { NULL, NULL };
-  const gchar      *accel_maps[][2] =
-  {
+  GtkAccelMap *accel_map;
+  GdkModifierType accel_mods;
+  GTypeModule *provider;
+  GList *item;
+  guint n, accel_key;
+  gchar *accel_path;
+  gchar **action_names;
+  const gchar *accel;
+  const gchar *accels[] = { NULL, NULL };
+  const gchar *accel_maps[][2] = {
     /* increase/decrease font size from keyboard/mouse */
-    { "win.increase-font-size", "<Control>plus" }, { "win.decrease-font-size", "<Control>minus" },
+    { "win.increase-font-size", "<Control>plus" },
+    { "win.decrease-font-size", "<Control>minus" },
     { "win.reset-font-size", "<Control>0" },
 
     /* "File" menu */
-    { "win.file.new", "<Control>N" }, { "win.file.new-window", "<Control><Shift>N" },
-    { "win.file.open", "<Control>O" }, { "win.file.save", "<Control>S" },
-    { "win.file.save-as", "<Control><Shift>S" }, { "win.file.print", "<Control>P" },
-    { "win.file.detach-tab", "<Control>D" }, { "win.file.close-tab", "<Control>W" },
-    { "win.file.close-window", "<Control><Shift>W" }, { "app.quit", "<Control>Q" },
+    { "win.file.new", "<Control>N" },
+    { "win.file.new-window", "<Control><Shift>N" },
+    { "win.file.open", "<Control>O" },
+    { "win.file.save", "<Control>S" },
+    { "win.file.save-as", "<Control><Shift>S" },
+    { "win.file.print", "<Control>P" },
+    { "win.file.detach-tab", "<Control>D" },
+    { "win.file.close-tab", "<Control>W" },
+    { "win.file.close-window", "<Control><Shift>W" },
+    { "app.quit", "<Control>Q" },
 
     /* "Edit" menu */
-    { "win.edit.undo", "<Control>Z" }, { "win.edit.redo", "<Control>Y" },
-    { "win.edit.cut", "<Control>X" }, { "win.edit.copy", "<Control>C" },
-    { "win.edit.paste", "<Control>V" }, { "win.edit.delete-selection", "Delete" },
-    { "win.edit.delete-line", "<Control><Shift>Delete" }, { "win.edit.select-all", "<Control>A" },
+    { "win.edit.undo", "<Control>Z" },
+    { "win.edit.redo", "<Control>Y" },
+    { "win.edit.cut", "<Control>X" },
+    { "win.edit.copy", "<Control>C" },
+    { "win.edit.paste", "<Control>V" },
+    { "win.edit.delete-selection", "Delete" },
+    { "win.edit.delete-line", "<Control><Shift>Delete" },
+    { "win.edit.select-all", "<Control>A" },
     { "win.edit.convert.to-opposite-case", "<Alt><Control>U" },
     { "win.edit.convert.transpose", "<Control>T" },
-    { "win.edit.move.line-up", "<Alt>Up" }, { "win.edit.move.line-down", "<Alt>Down" },
-    { "win.edit.move.word-left", "<Alt>Left" }, { "win.edit.move.word-right", "<Alt>Right" },
-    { "win.edit.increase-indent", "<Control>I" }, { "win.edit.decrease-indent", "<Control>U" },
+    { "win.edit.move.line-up", "<Alt>Up" },
+    { "win.edit.move.line-down", "<Alt>Down" },
+    { "win.edit.move.word-left", "<Alt>Left" },
+    { "win.edit.move.word-right", "<Alt>Right" },
+    { "win.edit.increase-indent", "<Control>I" },
+    { "win.edit.decrease-indent", "<Control>U" },
 
     /* "Search" menu */
-    { "win.search.find", "<Control>F" }, { "win.search.find-next", "<Control>G" },
+    { "win.search.find", "<Control>F" },
+    { "win.search.find-next", "<Control>G" },
     { "win.search.find-previous", "<Control><Shift>G" },
     { "win.search.find-and-replace", "<Control>R" },
     { "win.search.go-to", "<Control>L" },
 
     /* "View" menu */
-    { "win.preferences.window.menubar-visible", "<Control>M" }, { "win.view.fullscreen", "F11" },
+    { "win.preferences.window.menubar-visible", "<Control>M" },
+    { "win.view.fullscreen", "F11" },
 
     /* "Document" menu */
     { "win.document.previous-tab", "<Control>Page_Up" },
     { "win.document.next-tab", "<Control>Page_Down" },
-    { "win.document.go-to-tab(0)", "<Alt>1" }, { "win.document.go-to-tab(1)", "<Alt>2" },
-    { "win.document.go-to-tab(2)", "<Alt>3" }, { "win.document.go-to-tab(3)", "<Alt>4" },
-    { "win.document.go-to-tab(4)", "<Alt>5" }, { "win.document.go-to-tab(5)", "<Alt>6" },
-    { "win.document.go-to-tab(6)", "<Alt>7" }, { "win.document.go-to-tab(7)", "<Alt>8" },
+    { "win.document.go-to-tab(0)", "<Alt>1" },
+    { "win.document.go-to-tab(1)", "<Alt>2" },
+    { "win.document.go-to-tab(2)", "<Alt>3" },
+    { "win.document.go-to-tab(3)", "<Alt>4" },
+    { "win.document.go-to-tab(4)", "<Alt>5" },
+    { "win.document.go-to-tab(5)", "<Alt>6" },
+    { "win.document.go-to-tab(6)", "<Alt>7" },
+    { "win.document.go-to-tab(7)", "<Alt>8" },
     { "win.document.go-to-tab(8)", "<Alt>9" },
 
     /* "Help" menu */
@@ -695,7 +727,7 @@ mousepad_application_set_accels (MousepadApplication *application)
     {
       /* add accel map entry to fill the accels file at shutdown */
       accel_path = g_strconcat ("<Actions>/app.", action_names[n], NULL);
-      if (! gtk_accel_map_lookup_entry (accel_path, NULL))
+      if (!gtk_accel_map_lookup_entry (accel_path, NULL))
         gtk_accel_map_add_entry (accel_path, 0, 0);
 
       g_free (accel_path);
@@ -743,16 +775,16 @@ mousepad_application_sort_plugins (gconstpointer a,
 static void
 mousepad_application_load_plugins (MousepadApplication *application)
 {
-  MousepadPluginProvider  *provider;
-  GSimpleAction           *action;
-  GError                  *error = NULL;
-  GDir                    *dir;
-  const gchar             *basename;
-  gchar                   *provider_name, *schema_id;
-  gchar                  **strs;
-  gsize                    n_strs;
+  MousepadPluginProvider *provider;
+  GSimpleAction *action;
+  GError *error = NULL;
+  GDir *dir;
+  const gchar *basename;
+  gchar *provider_name, *schema_id;
+  gchar **strs;
+  gsize n_strs;
 
-  if (! g_module_supported ())
+  if (!g_module_supported ())
     {
       g_warning ("Dynamic type loading is not supported on this system");
       return;
@@ -772,8 +804,8 @@ mousepad_application_load_plugins (MousepadApplication *application)
   /* scan plugin directory */
   for (basename = g_dir_read_name (dir); basename != NULL; basename = g_dir_read_name (dir))
     {
-      if (! g_str_has_prefix (basename, "lib")
-          || ! g_str_has_suffix (basename, "." G_MODULE_SUFFIX))
+      if (!g_str_has_prefix (basename, "lib")
+          || !g_str_has_suffix (basename, "." G_MODULE_SUFFIX))
         continue;
 
       /* remove prefix */
@@ -849,11 +881,11 @@ mousepad_application_startup (GApplication *gapplication)
   static GSettings *settings;
 
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
-  GSettingsSchema     *schema;
-  GVariant            *state;
-  GAction             *action;
-  GMenu               *menu;
-  guint                m, n;
+  GSettingsSchema *schema;
+  GVariant *state;
+  GAction *action;
+  GMenu *menu;
+  guint m, n;
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
@@ -943,17 +975,17 @@ mousepad_application_startup (GApplication *gapplication)
 
 
 static gint
-mousepad_application_command_line (GApplication            *gapplication,
+mousepad_application_command_line (GApplication *gapplication,
                                    GApplicationCommandLine *command_line)
 {
-  MousepadApplication  *application = MOUSEPAD_APPLICATION (gapplication);
-  GVariantDict         *options;
-  GFile               **files;
-  GFile                *file;
-  const gchar          *opening_mode;
-  const gchar         **filenames = NULL;
-  gint                  n, n_files;
-  gboolean              user_set_encoding, user_set_cursor = FALSE, restored = FALSE;
+  MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  GVariantDict *options;
+  GFile **files;
+  GFile *file;
+  const gchar *opening_mode;
+  const gchar **filenames = NULL;
+  gint n, n_files;
+  gboolean user_set_encoding, user_set_cursor = FALSE, restored = FALSE;
 
   /* get the option dictionary */
   options = g_application_command_line_get_options_dict (command_line);
@@ -965,7 +997,7 @@ mousepad_application_command_line (GApplication            *gapplication,
       g_action_group_activate_action (G_ACTION_GROUP (gapplication), "preferences", NULL);
 
       /* increase application use count to keep the prefs dialog alive */
-      if (! application->prefs_dialog_standalone)
+      if (!application->prefs_dialog_standalone)
         {
           g_application_hold (gapplication);
           application->prefs_dialog_standalone = TRUE;
@@ -976,7 +1008,7 @@ mousepad_application_command_line (GApplication            *gapplication,
 
   /* restore previous session */
   if (MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE) != MOUSEPAD_SESSION_RESTORE_NEVER
-      && ! g_application_command_line_get_is_remote (command_line))
+      && !g_application_command_line_get_is_remote (command_line))
     {
       application->opening_mode = MIXED;
       application->encoding = mousepad_encoding_get_default ();
@@ -1009,7 +1041,7 @@ mousepad_application_command_line (GApplication            *gapplication,
     application->opening_mode = MOUSEPAD_SETTING_GET_ENUM (OPENING_MODE);
 
   /* see if line number was not provided on the command line */
-  if (! g_variant_dict_lookup (options, "line", "i", &(application->line)))
+  if (!g_variant_dict_lookup (options, "line", "i", &(application->line)))
     application->line = 0;
   else
     {
@@ -1021,7 +1053,7 @@ mousepad_application_command_line (GApplication            *gapplication,
     }
 
   /* see if column number was not provided on the command line */
-  if (! g_variant_dict_lookup (options, "column", "i", &(application->column)))
+  if (!g_variant_dict_lookup (options, "column", "i", &(application->column)))
     application->column = 0;
   else
     user_set_cursor = TRUE;
@@ -1054,7 +1086,7 @@ mousepad_application_command_line (GApplication            *gapplication,
       g_free (files);
     }
   /* open an empty document if previous session wasn't restored */
-  else if (! restored)
+  else if (!restored)
     g_application_activate (gapplication);
 
   /* restore opening mode from the settings if it was overridden from the command line */
@@ -1104,14 +1136,14 @@ mousepad_application_activate (GApplication *gapplication)
 
 
 static void
-mousepad_application_open (GApplication  *gapplication,
-                           GFile        **files,
-                           gint           n_files,
-                           const gchar   *hint)
+mousepad_application_open (GApplication *gapplication,
+                           GFile **files,
+                           gint n_files,
+                           const gchar *hint)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
-  GtkWidget           *window;
-  gint                 n, opened = 0;
+  GtkWidget *window;
+  gint n, opened = 0;
 
   /* open the files in tabs */
   if (application->opening_mode != WINDOW)
@@ -1161,8 +1193,8 @@ static void
 mousepad_application_shutdown (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
-  GList               *windows, *window;
-  gchar               *filename;
+  GList *windows, *window;
+  gchar *filename;
 
   /* finalize history management */
   mousepad_history_finalize ();
@@ -1205,7 +1237,7 @@ static GtkWidget *
 mousepad_application_create_window (MousepadApplication *application)
 {
   GtkWindowGroup *window_group;
-  GtkWidget      *window, *notebook;
+  GtkWidget *window, *notebook;
 
   /* create a new window */
   window = mousepad_window_new (application);
@@ -1235,10 +1267,10 @@ mousepad_application_create_window (MousepadApplication *application)
 
 
 static void
-mousepad_application_new_window_with_document (MousepadWindow      *existing,
-                                               MousepadDocument    *document,
-                                               gint                 x,
-                                               gint                 y,
+mousepad_application_new_window_with_document (MousepadWindow *existing,
+                                               MousepadDocument *document,
+                                               gint x,
+                                               gint y,
                                                MousepadApplication *application)
 {
   GtkWidget *window;
@@ -1274,7 +1306,7 @@ mousepad_application_new_window_with_document (MousepadWindow      *existing,
 
 
 static void
-mousepad_application_new_window (MousepadWindow      *existing,
+mousepad_application_new_window (MousepadWindow *existing,
                                  MousepadApplication *application)
 {
   /* trigger new document function */
@@ -1286,7 +1318,7 @@ mousepad_application_new_window (MousepadWindow      *existing,
 static void
 mousepad_application_active_window_changed (MousepadApplication *application)
 {
-  GList        *app_windows;
+  GList *app_windows;
   static GList *windows = NULL;
 
   /* get the application windows list */
@@ -1315,13 +1347,13 @@ mousepad_application_active_window_changed (MousepadApplication *application)
 
 static void
 mousepad_application_update_menu (GMenuModel *shared_menu,
-                                  gint        position,
-                                  gint        removed,
-                                  gint        added,
+                                  gint position,
+                                  gint removed,
+                                  gint added,
                                   GMenuModel *model)
 {
   GMenuItem *item;
-  gint       n, index;
+  gint n, index;
 
   /* update the target menu when shared menu items are added or removed: some of them may
    * be temporarily added/removed during an update process, of permanently added/removed */
@@ -1346,14 +1378,14 @@ mousepad_application_update_menu (GMenuModel *shared_menu,
 
 static void
 mousepad_application_update_menu_item (GMenuModel *shared_item,
-                                       gint        position,
-                                       gint        removed,
-                                       gint        added,
+                                       gint position,
+                                       gint removed,
+                                       gint added,
                                        GMenuModel *model)
 {
   GMenuItem *item;
-  GVariant  *value;
-  gint       n;
+  GVariant *value;
+  gint n;
 
   /* update the target menu item only when the shared menu item is added, that is at the end
    * of its own update: an isolated shared menu item is not supposed to be permanently removed */
@@ -1375,12 +1407,12 @@ mousepad_application_update_menu_item (GMenuModel *shared_item,
 
 static void
 mousepad_application_set_shared_menu_parts (MousepadApplication *application,
-                                            GMenuModel          *model)
+                                            GMenuModel *model)
 {
-  GMenuModel  *section, *shared_menu, *shared_item, *submodel;
-  GVariant    *value;
+  GMenuModel *section, *shared_menu, *shared_item, *submodel;
+  GVariant *value;
   const gchar *share_id;
-  gint         n;
+  gint n;
 
   for (n = 0; n < g_menu_model_get_n_items (model); n++)
     {
@@ -1393,7 +1425,7 @@ mousepad_application_set_shared_menu_parts (MousepadApplication *application,
           g_variant_unref (value);
 
           shared_menu = G_MENU_MODEL (gtk_application_get_menu_by_id (
-                                        GTK_APPLICATION (application), share_id));
+            GTK_APPLICATION (application), share_id));
           mousepad_application_update_menu (shared_menu, 0, 0,
                                             g_menu_model_get_n_items (shared_menu), section);
 
@@ -1414,7 +1446,7 @@ mousepad_application_set_shared_menu_parts (MousepadApplication *application,
               g_variant_unref (value);
 
               shared_item = G_MENU_MODEL (gtk_application_get_menu_by_id (
-                                            GTK_APPLICATION (application), share_id));
+                GTK_APPLICATION (application), share_id));
               mousepad_object_set_data (model, g_intern_string (share_id), GINT_TO_POINTER (n));
               mousepad_application_update_menu_item (shared_item, 0, 0, 1, model);
 
@@ -1431,7 +1463,7 @@ mousepad_application_set_shared_menu_parts (MousepadApplication *application,
               g_variant_unref (value);
 
               shared_menu = G_MENU_MODEL (gtk_application_get_menu_by_id (
-                                            GTK_APPLICATION (application), share_id));
+                GTK_APPLICATION (application), share_id));
               mousepad_application_update_menu (shared_menu, 0, 0,
                                                 g_menu_model_get_n_items (shared_menu), submodel);
 
@@ -1450,11 +1482,11 @@ mousepad_application_set_shared_menu_parts (MousepadApplication *application,
 static void
 mousepad_application_create_languages_menu (MousepadApplication *application)
 {
-  GMenu       *menu, *submenu;
-  GMenuItem   *item;
-  GSList      *sections, *languages, *iter_sect, *iter_lang;
+  GMenu *menu, *submenu;
+  GMenuItem *item;
+  GSList *sections, *languages, *iter_sect, *iter_lang;
   const gchar *label;
-  gchar       *action_name, *tooltip;
+  gchar *action_name, *tooltip;
 
   /* get the empty "Filetype" submenu and populate it */
   menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "document.filetype.list");
@@ -1508,12 +1540,12 @@ mousepad_application_create_languages_menu (MousepadApplication *application)
 static void
 mousepad_application_create_style_schemes_menu (MousepadApplication *application)
 {
-  GMenu        *menu;
-  GMenuItem    *item;
-  GSList       *schemes, *iter;
-  const gchar  *label;
-  gchar       **authors;
-  gchar        *action_name, *author, *tooltip;
+  GMenu *menu;
+  GMenuItem *item;
+  GSList *schemes, *iter;
+  const gchar *label;
+  gchar **authors;
+  gchar *action_name, *author, *tooltip;
 
   /* get the empty "Color Scheme" submenu and populate it */
   menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "view.color-scheme.list");
@@ -1529,7 +1561,7 @@ mousepad_application_create_style_schemes_menu (MousepadApplication *application
       item = g_menu_item_new (label, action_name);
 
       /* set tooltip */
-      authors = (gchar**) gtk_source_style_scheme_get_authors (iter->data);
+      authors = (gchar **) gtk_source_style_scheme_get_authors (iter->data);
       author = g_strjoinv (", ", authors);
       tooltip = g_strdup_printf (_("%s | Authors: %s | Filename: %s"),
                                  gtk_source_style_scheme_get_description (iter->data),
@@ -1566,7 +1598,7 @@ mousepad_application_prefs_dialog_standalone (MousepadApplication *application)
 
 static void
 mousepad_application_prefs_dialog_response (MousepadApplication *application,
-                                            gint                 response_id,
+                                            gint response_id,
                                             MousepadPrefsDialog *dialog)
 {
   gtk_widget_destroy (application->prefs_dialog);
@@ -1580,8 +1612,8 @@ mousepad_application_prefs_dialog_response (MousepadApplication *application,
 
 static void
 mousepad_application_action_preferences (GSimpleAction *action,
-                                         GVariant      *value,
-                                         gpointer       data)
+                                         GVariant *value,
+                                         gpointer data)
 {
   MousepadApplication *application = data;
 
@@ -1608,10 +1640,10 @@ mousepad_application_action_preferences (GSimpleAction *action,
 
 static void
 mousepad_application_action_quit (GSimpleAction *action,
-                                  GVariant      *value,
-                                  gpointer       data)
+                                  GVariant *value,
+                                  gpointer data)
 {
-  GList   *windows, *window;
+  GList *windows, *window;
   GAction *close;
 
   /* block session handler */
@@ -1623,7 +1655,7 @@ mousepad_application_action_quit (GSimpleAction *action,
     {
       close = g_action_map_lookup_action (G_ACTION_MAP (window->data), "file.close-window");
       g_action_activate (close, NULL);
-      if (! mousepad_action_get_state_int32_boolean (close))
+      if (!mousepad_action_get_state_int32_boolean (close))
         {
           /* unblock session handler and save session */
           mousepad_history_session_set_quitting (FALSE);
@@ -1643,13 +1675,13 @@ mousepad_application_action_quit (GSimpleAction *action,
 
 static void
 mousepad_application_toggle_activate (GSimpleAction *action,
-                                      GVariant      *parameter,
-                                      gpointer       data)
+                                      GVariant *parameter,
+                                      gpointer data)
 {
   gboolean state;
 
   /* save the setting */
-  state = ! mousepad_action_get_state_boolean (G_ACTION (action));
+  state = !mousepad_action_get_state_boolean (G_ACTION (action));
   mousepad_setting_set_boolean (g_action_get_name (G_ACTION (action)), state);
 }
 
@@ -1657,8 +1689,8 @@ mousepad_application_toggle_activate (GSimpleAction *action,
 
 static void
 mousepad_application_radio_activate (GSimpleAction *action,
-                                     GVariant      *parameter,
-                                     gpointer       data)
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   /* save the setting */
   mousepad_setting_set_variant (g_action_get_name (G_ACTION (action)), parameter);
@@ -1668,16 +1700,16 @@ mousepad_application_radio_activate (GSimpleAction *action,
 
 static void
 mousepad_application_plugin_activate (GSimpleAction *action,
-                                      GVariant      *parameter,
-                                      gpointer       data)
+                                      GVariant *parameter,
+                                      gpointer data)
 {
-  gchar       **plugins;
-  const gchar  *action_name;
-  gboolean      enabled, contained, need_update = FALSE;
-  guint         length = 0;
+  gchar **plugins;
+  const gchar *action_name;
+  gboolean enabled, contained, need_update = FALSE;
+  guint length = 0;
 
   /* get the new action state */
-  enabled = ! mousepad_action_get_state_boolean (G_ACTION (action));
+  enabled = !mousepad_action_get_state_boolean (G_ACTION (action));
 
   /* get the list of enabled plugins */
   plugins = MOUSEPAD_SETTING_GET_STRV (ENABLED_PLUGINS);
@@ -1687,7 +1719,7 @@ mousepad_application_plugin_activate (GSimpleAction *action,
   contained = g_strv_contains ((const gchar *const *) plugins, action_name);
 
   /* update the list if needed */
-  if (enabled && ! contained)
+  if (enabled && !contained)
     {
       need_update = TRUE;
       length = g_strv_length (plugins);
@@ -1695,10 +1727,11 @@ mousepad_application_plugin_activate (GSimpleAction *action,
       plugins[length] = g_strdup (action_name);
       plugins[length + 1] = NULL;
     }
-  else if (! enabled && contained)
+  else if (!enabled && contained)
     {
       need_update = TRUE;
-      while (g_strcmp0 (plugins[length++], action_name) != 0);
+      while (g_strcmp0 (plugins[length++], action_name) != 0)
+        ;
       g_free (plugins[--length]);
       while (plugins[++length] != NULL)
         plugins[length - 1] = plugins[length];
@@ -1718,11 +1751,11 @@ mousepad_application_plugin_activate (GSimpleAction *action,
 
 static void
 mousepad_application_action_update (MousepadApplication *application,
-                                    gchar               *key,
-                                    GSettings           *settings)
+                                    gchar *key,
+                                    GSettings *settings)
 {
   GVariant *state;
-  gchar    *schema_id, *action_name;
+  gchar *schema_id, *action_name;
 
   /* retrieve the action name from the setting schema id */
   g_object_get (settings, "schema_id", &schema_id, NULL);
@@ -1743,12 +1776,12 @@ mousepad_application_action_update (MousepadApplication *application,
 static void
 mousepad_application_plugin_update (MousepadApplication *application)
 {
-  MousepadPluginProvider  *mprovider;
-  GTypeModule             *provider;
-  GAction                 *action;
-  GList                   *item;
-  gchar                  **plugins;
-  gboolean                 enabled, contained, destroyable;
+  MousepadPluginProvider *mprovider;
+  GTypeModule *provider;
+  GAction *action;
+  GList *item;
+  gchar **plugins;
+  gboolean enabled, contained, destroyable;
 
   /* get the list of enabled plugins */
   plugins = MOUSEPAD_SETTING_GET_STRV (ENABLED_PLUGINS);
@@ -1761,14 +1794,14 @@ mousepad_application_plugin_update (MousepadApplication *application)
       contained = g_strv_contains ((const gchar *const *) plugins, provider->name);
       action = g_action_map_lookup_action (G_ACTION_MAP (application), provider->name);
       enabled = mousepad_action_get_state_boolean (action);
-      if ((enabled && ! contained) || (! enabled && contained))
+      if ((enabled && !contained) || (!enabled && contained))
         {
-          g_action_change_state (action, g_variant_new_boolean (! enabled));
+          g_action_change_state (action, g_variant_new_boolean (!enabled));
           mprovider = item->data;
           destroyable = mousepad_plugin_provider_is_destroyable (mprovider);
 
           /* plugin should be loaded from here */
-          if (! enabled && (! mousepad_plugin_provider_is_instantiated (mprovider) || destroyable)
+          if (!enabled && (!mousepad_plugin_provider_is_instantiated (mprovider) || destroyable)
               && g_type_module_use (provider))
             mousepad_plugin_provider_new_plugin (mprovider);
           /* plugin should be unloaded from here */
@@ -1789,8 +1822,8 @@ mousepad_application_plugin_update (MousepadApplication *application)
  */
 static void
 mousepad_application_action_whitespace (GSimpleAction *action,
-                                        GVariant      *state,
-                                        gpointer       data)
+                                        GVariant *state,
+                                        gpointer data)
 {
   GtkSourceSpaceLocationFlags flags, flag;
 
