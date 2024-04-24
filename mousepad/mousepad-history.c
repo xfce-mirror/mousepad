@@ -14,13 +14,13 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-history.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-dialogs.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-document.h>
-#include <mousepad/mousepad-window.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-history.h"
+#include "mousepad/mousepad-dialogs.h"
+#include "mousepad/mousepad-document.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
+#include "mousepad/mousepad-window.h"
 
 #ifdef G_OS_UNIX
 #include <glib-unix.h>
@@ -28,17 +28,32 @@
 
 
 
-static void     mousepad_history_recent_init                (void);
-static gboolean mousepad_history_session_external_signal    (gpointer      data);
-static void     mousepad_history_session_init               (void);
-static guint    mousepad_history_autosave_check_basename    (const gchar  *basename);
-static void     mousepad_history_autosave_cleanup_directory (GList        *ids);
-static void     mousepad_history_autosave_timer_changed     (void);
-static void     mousepad_history_autosave_init              (void);
-static void     mousepad_history_autosave_finalize          (void);
-static void     mousepad_history_search_init                (void);
-static void     mousepad_history_search_finalize            (void);
-static void     mousepad_history_paste_finalize             (void);
+static void
+mousepad_history_recent_init (void);
+
+static gboolean
+mousepad_history_session_external_signal (gpointer data);
+static void
+mousepad_history_session_init (void);
+
+static guint
+mousepad_history_autosave_check_basename (const gchar *basename);
+static void
+mousepad_history_autosave_cleanup_directory (GList *ids);
+static void
+mousepad_history_autosave_timer_changed (void);
+static void
+mousepad_history_autosave_init (void);
+static void
+mousepad_history_autosave_finalize (void);
+
+static void
+mousepad_history_search_init (void);
+static void
+mousepad_history_search_finalize (void);
+
+static void
+mousepad_history_paste_finalize (void);
 
 
 
@@ -54,24 +69,24 @@ enum
 struct MousepadRecentData
 {
   const gchar *str;
-  gsize        len;
+  gsize len;
 };
 
 static struct MousepadRecentData recent_data[N_RECENT_DATA];
 
 /* session data */
 #define CORRUPTED_SESSION_DATA "Corrupted session data in " MOUSEPAD_ID "." MOUSEPAD_SETTING_SESSION
-#define SESSION_N_SIGNALS      3
+#define SESSION_N_SIGNALS 3
 
-static gint  session_quitting = MOUSEPAD_SESSION_QUITTING_NO;
+static gint session_quitting = MOUSEPAD_SESSION_QUITTING_NO;
 static guint session_source_ids[SESSION_N_SIGNALS] = { 0 };
 
 /* autosave data */
-#define AUTOSAVE_PREFIX     "autosave-"
+#define AUTOSAVE_PREFIX "autosave-"
 #define AUTOSAVE_PREFIX_LEN G_N_ELEMENTS (AUTOSAVE_PREFIX) - 1
-#define AUTOSAVE_ORPHANS    "Some '%s*' files in directory '%s/Mousepad' do not correspond to "    \
-                            "any session backup anymore. They will not be deleted automatically: " \
-                            "please do it manually to remove this warning."
+#define AUTOSAVE_ORPHANS "Some '%s*' files in directory '%s/Mousepad' do not correspond to " \
+                         "any session backup anymore. They will not be deleted automatically: " \
+                         "please do it manually to remove this warning."
 
 static GList *autosave_ids = NULL;
 
@@ -80,7 +95,7 @@ static GHashTable *search_history = NULL;
 static GHashTable *replace_history = NULL;
 
 /* paste data */
-#define PASTE_HISTORY_MENU_WIDTH  30
+#define PASTE_HISTORY_MENU_WIDTH 30
 #define PASTE_HISTORY_MENU_LENGTH 10
 static GSList *clipboard_history = NULL;
 
@@ -138,13 +153,13 @@ mousepad_history_recent_init (void)
 void
 mousepad_history_recent_add (MousepadFile *file)
 {
-  GtkRecentData  info;
+  GtkRecentData info;
   GtkTextBuffer *buffer;
-  GtkTextIter    iter;
-  gchar         *uri, *description;
-  const gchar   *language = "", *charset;
-  gchar         *cursor;
-  static gchar  *groups[] = { PACKAGE_NAME, NULL };
+  GtkTextIter iter;
+  gchar *uri, *description;
+  const gchar *language = "", *charset;
+  gchar *cursor;
+  static gchar *groups[] = { PACKAGE_NAME, NULL };
 
   /* don't insert in the recent history if history disabled */
   if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
@@ -168,12 +183,12 @@ mousepad_history_recent_add (MousepadFile *file)
 
   /* create the recent info */
   info.display_name = NULL;
-  info.description  = description;
-  info.mime_type    = "text/plain";
-  info.app_name     = PACKAGE_NAME;
-  info.app_exec     = PACKAGE " %u";
-  info.groups       = groups;
-  info.is_private   = FALSE;
+  info.description = description;
+  info.mime_type = "text/plain";
+  info.app_name = PACKAGE_NAME;
+  info.app_exec = PACKAGE " %u";
+  info.groups = groups;
+  info.is_private = FALSE;
 
   /* add the new recent info to the recent manager */
   uri = mousepad_file_get_uri (file);
@@ -188,17 +203,17 @@ mousepad_history_recent_add (MousepadFile *file)
 
 
 static void
-mousepad_history_recent_get_data (GFile    *file,
-                                  gint      data_type,
-                                  gpointer  data)
+mousepad_history_recent_get_data (GFile *file,
+                                  gint data_type,
+                                  gpointer data)
 {
-  MousepadEncoding   encoding;
-  GtkRecentInfo     *info;
-  const gchar       *description, *p, *q, *r;
-  gint             **cursor = data;
-  gchar            **strv;
-  gchar             *str, *m_end, *n_end;
-  gint64             m, n;
+  MousepadEncoding encoding;
+  GtkRecentInfo *info;
+  const gchar *description, *p, *q, *r;
+  gint **cursor = data;
+  gchar **strv;
+  gchar *str, *m_end, *n_end;
+  gint64 m, n;
 
   /* get file info */
   str = g_file_get_uri (file);
@@ -210,10 +225,9 @@ mousepad_history_recent_get_data (GFile    *file,
     return;
   /* ... or if the description is null or doesn't look valid */
   else if (G_UNLIKELY (
-            (description = gtk_recent_info_get_description (info)) == NULL
-            || (p = g_strstr_len (description, -1, recent_data[data_type].str)) == NULL
-            || (q = g_strstr_len (r = p + recent_data[data_type].len, -1, ";")) == NULL
-          ))
+             (description = gtk_recent_info_get_description (info)) == NULL
+             || (p = g_strstr_len (description, -1, recent_data[data_type].str)) == NULL
+             || (q = g_strstr_len (r = p + recent_data[data_type].len, -1, ";")) == NULL))
     {
       gtk_recent_info_unref (info);
       return;
@@ -248,9 +262,8 @@ mousepad_history_recent_get_data (GFile    *file,
       break;
 
     case LANGUAGE:
-      if (g_strcmp0 (str, MOUSEPAD_LANGUAGE_NONE) == 0 ||
-          gtk_source_language_manager_get_language (
-            gtk_source_language_manager_get_default (), str) != NULL)
+      if (g_strcmp0 (str, MOUSEPAD_LANGUAGE_NONE) == 0
+          || gtk_source_language_manager_get_language (gtk_source_language_manager_get_default (), str) != NULL)
         *((gchar **) data) = g_strdup (str);
 
       break;
@@ -267,7 +280,7 @@ mousepad_history_recent_get_data (GFile    *file,
 
 
 void
-mousepad_history_recent_get_language (GFile  *file,
+mousepad_history_recent_get_language (GFile *file,
                                       gchar **language)
 {
   mousepad_history_recent_get_data (file, LANGUAGE, language);
@@ -276,7 +289,7 @@ mousepad_history_recent_get_language (GFile  *file,
 
 
 void
-mousepad_history_recent_get_encoding (GFile            *file,
+mousepad_history_recent_get_encoding (GFile *file,
                                       MousepadEncoding *encoding)
 {
   mousepad_history_recent_get_data (file, ENCODING, encoding);
@@ -286,8 +299,8 @@ mousepad_history_recent_get_encoding (GFile            *file,
 
 void
 mousepad_history_recent_get_cursor (GFile *file,
-                                    gint  *line,
-                                    gint  *column)
+                                    gint *line,
+                                    gint *column)
 {
   gint *cursor[2] = { line, column };
 
@@ -300,10 +313,10 @@ void
 mousepad_history_recent_clear (void)
 {
   GtkRecentManager *manager;
-  GtkWindow        *window;
-  GList            *items, *li;
-  GError           *error = NULL;
-  const gchar      *uri;
+  GtkWindow *window;
+  GList *items, *li;
+  GError *error = NULL;
+  const gchar *uri;
 
   /* get all the items in the manager */
   manager = gtk_recent_manager_get_default ();
@@ -313,16 +326,16 @@ mousepad_history_recent_clear (void)
   for (li = items; li != NULL; li = li->next)
     {
       /* check if the item is in the Mousepad group */
-      if (! gtk_recent_info_has_group (li->data, PACKAGE_NAME))
+      if (!gtk_recent_info_has_group (li->data, PACKAGE_NAME))
         continue;
 
       /* get the uri of the recent item */
       uri = gtk_recent_info_get_uri (li->data);
 
       /* try to remove it, if it fails, break the loop to avoid multiple errors */
-      if (G_UNLIKELY (! gtk_recent_manager_remove_item (manager, uri, &error)))
+      if (G_UNLIKELY (!gtk_recent_manager_remove_item (manager, uri, &error)))
         break;
-     }
+    }
 
   /* cleanup */
   g_list_free_full (items, (GDestroyNotify) gtk_recent_info_unref);
@@ -386,10 +399,10 @@ static void
 mousepad_history_session_restore_changed (void)
 {
   GApplication *application = g_application_get_default ();
-  gint          restore;
+  gint restore;
 #ifdef G_OS_UNIX
-  gint          n;
-  guint         signals[SESSION_N_SIGNALS] = { SIGHUP, SIGINT, SIGTERM };
+  gint n;
+  guint signals[SESSION_N_SIGNALS] = { SIGHUP, SIGINT, SIGTERM };
 #endif
 
   /* disabled or startup -> enabled */
@@ -413,7 +426,7 @@ mousepad_history_session_restore_changed (void)
                                                    NULL);
 #endif
 
-#if GTK_CHECK_VERSION (3, 24, 8)
+#if GTK_CHECK_VERSION(3, 24, 8)
       /* be aware of session logout */
       g_signal_connect (application, "query-end",
                         G_CALLBACK (mousepad_history_session_external_signal), NULL);
@@ -466,14 +479,14 @@ mousepad_history_session_get_quitting (void)
 void
 mousepad_history_session_save (void)
 {
-  MousepadDocument  *document;
-  GtkNotebook       *notebook;
-  GList             *list, *li;
-  gchar            **session;
-  gchar             *uri, *autosave_uri;
-  const gchar       *fmt;
-  guint              length = 0, id, current, n_pages, n;
-  gboolean           loc_set, autoloc_set;
+  MousepadDocument *document;
+  GtkNotebook *notebook;
+  GList *list, *li;
+  gchar **session;
+  gchar *uri, *autosave_uri;
+  const gchar *fmt;
+  guint length = 0, id, current, n_pages, n;
+  gboolean loc_set, autoloc_set;
 
   /* exit if session save is blocked or disabled */
   if (session_quitting != MOUSEPAD_SESSION_QUITTING_NO
@@ -499,35 +512,35 @@ mousepad_history_session_save (void)
 
   /* fill in the session array */
   for (li = list, length = 0; li != NULL; li = li->next)
-  {
-    id = gtk_application_window_get_id (li->data);
-    notebook = GTK_NOTEBOOK (mousepad_window_get_notebook (li->data));
-    current = gtk_notebook_get_current_page (notebook);
-    n_pages = gtk_notebook_get_n_pages (notebook);
-    for (n = 0; n < n_pages; n++)
-      {
-        document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (notebook, n));
-        loc_set = mousepad_file_location_is_set (document->file);
-        autoloc_set = mousepad_file_autosave_location_is_set (document->file);
-        if (loc_set || autoloc_set)
-          {
-            if (loc_set)
-              uri = mousepad_file_get_uri (document->file);
-            else
-              uri = g_strdup ("");
+    {
+      id = gtk_application_window_get_id (li->data);
+      notebook = GTK_NOTEBOOK (mousepad_window_get_notebook (li->data));
+      current = gtk_notebook_get_current_page (notebook);
+      n_pages = gtk_notebook_get_n_pages (notebook);
+      for (n = 0; n < n_pages; n++)
+        {
+          document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (notebook, n));
+          loc_set = mousepad_file_location_is_set (document->file);
+          autoloc_set = mousepad_file_autosave_location_is_set (document->file);
+          if (loc_set || autoloc_set)
+            {
+              if (loc_set)
+                uri = mousepad_file_get_uri (document->file);
+              else
+                uri = g_strdup ("");
 
-            if (autoloc_set && gtk_text_buffer_get_modified (document->buffer))
-              autosave_uri = mousepad_file_autosave_get_uri (document->file);
-            else
-              autosave_uri = g_strdup ("");
+              if (autoloc_set && gtk_text_buffer_get_modified (document->buffer))
+                autosave_uri = mousepad_file_autosave_get_uri (document->file);
+              else
+                autosave_uri = g_strdup ("");
 
-            fmt = (n == current ? "%d;%s;+%s" : "%d;%s;%s");
-            session[length++] = g_strdup_printf (fmt, id, autosave_uri, uri);
-            g_free (uri);
-            g_free (autosave_uri);
-          }
-      }
-  }
+              fmt = (n == current ? "%d;%s;+%s" : "%d;%s;%s");
+              session[length++] = g_strdup_printf (fmt, id, autosave_uri, uri);
+              g_free (uri);
+              g_free (autosave_uri);
+            }
+        }
+    }
 
   /* save the session array */
   MOUSEPAD_SETTING_SET_STRV (SESSION, (const gchar *const *) session);
@@ -541,23 +554,23 @@ mousepad_history_session_save (void)
 gboolean
 mousepad_history_session_restore (MousepadApplication *application)
 {
-  GtkWindow    *window;
-  GtkWidget    *notebook;
-  GFile       **files;
-  GFile        *file, *autosave_file;
-  GList        *remaining_ids, *restored_ids = NULL;
-  gchar       **session, **p;
-  gchar        *autosave_uri, *basename;
-  const gchar  *uri;
-  guint         n_uris, n_files, n, sid, wid, fid, current;
-  gint          restore_setting;
-  gboolean      autosaved = FALSE, restore = TRUE, restore_autosaved = TRUE, restored = FALSE;
+  GtkWindow *window;
+  GtkWidget *notebook;
+  GFile **files;
+  GFile *file, *autosave_file;
+  GList *remaining_ids, *restored_ids = NULL;
+  gchar **session, **p;
+  gchar *autosave_uri, *basename;
+  const gchar *uri;
+  guint n_uris, n_files, n, sid, wid, fid, current;
+  gint restore_setting;
+  gboolean autosaved = FALSE, restore = TRUE, restore_autosaved = TRUE, restored = FALSE;
 
   /* get the session array */
   session = MOUSEPAD_SETTING_GET_STRV (SESSION);
   n_uris = g_strv_length (session);
   if (n_uris == 0)
-   {
+    {
       g_strfreev (session);
 
       /* warn if there are orphans in Mousepad data dir */
@@ -565,7 +578,7 @@ mousepad_history_session_restore (MousepadApplication *application)
         g_warning (AUTOSAVE_ORPHANS, AUTOSAVE_PREFIX, g_get_user_data_dir ());
 
       return FALSE;
-   }
+    }
 
   /* see what we have to restore by default */
   restore_setting = MOUSEPAD_SETTING_GET_ENUM (SESSION_RESTORE);
@@ -666,7 +679,7 @@ mousepad_history_session_restore (MousepadApplication *application)
             file = g_file_new_for_uri (uri);
 
           /* there is at least one autosaved file to restore */
-          if (! autosaved && autosave_file != NULL && mousepad_util_query_exists (autosave_file, FALSE))
+          if (!autosaved && autosave_file != NULL && mousepad_util_query_exists (autosave_file, FALSE))
             {
               autosaved = TRUE;
 
@@ -682,10 +695,9 @@ mousepad_history_session_restore (MousepadApplication *application)
             }
 
           /* add the file or drop it if it was removed since last session */
-          if (file != NULL && mousepad_util_query_exists (file, TRUE) && (
-                restore_setting != MOUSEPAD_SESSION_RESTORE_UNSAVED
-                || (autosave_file != NULL && mousepad_util_query_exists (autosave_file, FALSE))
-              ))
+          if (file != NULL && mousepad_util_query_exists (file, TRUE)
+              && (restore_setting != MOUSEPAD_SESSION_RESTORE_UNSAVED
+                  || (autosave_file != NULL && mousepad_util_query_exists (autosave_file, FALSE))))
             {
               mousepad_object_set_data_full (file, "autosave-uri", autosave_uri, g_free);
               files[n_files++] = file;
@@ -752,8 +764,8 @@ mousepad_history_session_restore (MousepadApplication *application)
   g_strfreev (session);
   if (restored_ids != NULL)
     {
-      if ((restore_setting == MOUSEPAD_SESSION_RESTORE_CRASH && ! restore)
-          || (restore_setting == MOUSEPAD_SESSION_RESTORE_SAVED && ! restore_autosaved))
+      if ((restore_setting == MOUSEPAD_SESSION_RESTORE_CRASH && !restore)
+          || (restore_setting == MOUSEPAD_SESSION_RESTORE_SAVED && !restore_autosaved))
         mousepad_history_autosave_cleanup_directory (restored_ids);
 
       g_list_free (restored_ids);
@@ -767,9 +779,9 @@ mousepad_history_session_restore (MousepadApplication *application)
 static guint
 mousepad_history_autosave_check_basename (const gchar *basename)
 {
-  gchar       *end;
+  gchar *end;
   const gchar *strid;
-  guint        id;
+  guint id;
 
   if (g_str_has_prefix (basename, AUTOSAVE_PREFIX))
     {
@@ -787,13 +799,13 @@ mousepad_history_autosave_check_basename (const gchar *basename)
 static GDir *
 mousepad_history_autosave_open_directory (void)
 {
-  GDir   *dir;
+  GDir *dir;
   GError *error = NULL;
-  gchar  *dirname;
+  gchar *dirname;
 
   dirname = g_build_filename (g_get_user_data_dir (), "Mousepad", NULL);
   dir = g_dir_open (dirname, 0, &error);
-  if (dir == NULL && ! g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
+  if (dir == NULL && !g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
     {
       g_critical ("Failed to open directory '%s', autosave disabled: %s",
                   dirname, error->message);
@@ -814,12 +826,12 @@ mousepad_history_autosave_open_directory (void)
 static void
 mousepad_history_autosave_cleanup_directory (GList *ids)
 {
-  GDir        *dir;
-  GError      *error = NULL;
-  GFile       *location;
-  gchar       *dirname, *filename;
+  GDir *dir;
+  GError *error = NULL;
+  GFile *location;
+  gchar *dirname, *filename;
   const gchar *basename;
-  guint        id;
+  guint id;
 
   /* try to open Mousepad data dir */
   if ((dir = mousepad_history_autosave_open_directory ()) == NULL)
@@ -832,7 +844,7 @@ mousepad_history_autosave_cleanup_directory (GList *ids)
       {
         filename = g_build_filename (dirname, basename, NULL);
         location = g_file_new_for_path (filename);
-        if (! g_file_delete (location, NULL, &error))
+        if (!g_file_delete (location, NULL, &error))
           {
             g_warning ("Autoremove failed: %s", error->message);
             g_clear_error (&error);
@@ -866,10 +878,10 @@ mousepad_history_autosave_disable (void)
 static gboolean
 mousepad_history_autosave_enable (void)
 {
-  GDir        *dir;
-  gchar       *dirname;
+  GDir *dir;
+  gchar *dirname;
   const gchar *basename;
-  guint        id;
+  guint id;
 
   /* try to create Mousepad data dir if needed */
   dirname = g_build_filename (g_get_user_data_dir (), "Mousepad", NULL);
@@ -949,7 +961,8 @@ mousepad_history_autosave_get_location (void)
   static guint autosave_id = 0;
 
   /* update autosave id */
-  while (g_list_find (autosave_ids, GUINT_TO_POINTER (autosave_id++)));
+  while (g_list_find (autosave_ids, GUINT_TO_POINTER (autosave_id++)))
+    ;
 
   /* build location */
   basename = g_strdup_printf (AUTOSAVE_PREFIX "%d", autosave_id - 1);
@@ -964,12 +977,12 @@ mousepad_history_autosave_get_location (void)
 
 
 static void
-mousepad_history_search_resize (GHashTable  *history,
-                                guint        size,
+mousepad_history_search_resize (GHashTable *history,
+                                guint size,
                                 const gchar *setting)
 {
   GHashTableIter iter;
-  gpointer       key, value;
+  gpointer key, value;
 
   /* allocated on the stack for simplicity, the maximum size is set to a reasonable
    * value in org.xfce.mousepad.gschema.xml */
@@ -993,11 +1006,11 @@ mousepad_history_search_resize (GHashTable  *history,
 
 
 static void
-mousepad_history_search_init_hash_table (GHashTable  **history,
-                                         const gchar  *setting)
+mousepad_history_search_init_hash_table (GHashTable **history,
+                                         const gchar *setting)
 {
   GStrv strv, p;
-  gint  n;
+  gint n;
 
   /* initialize hash table from the history stored in the settings */
   *history = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
@@ -1065,11 +1078,11 @@ mousepad_history_search_finalize (void)
 
 static void
 mousepad_history_search_fill_box (GtkComboBoxText *box,
-                                  GHashTable      *history)
+                                  GHashTable *history)
 {
   GHashTableIter iter;
-  gpointer       key, value;
-  guint          idx, size;
+  gpointer key, value;
+  guint idx, size;
 
   g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (box));
 
@@ -1085,11 +1098,11 @@ mousepad_history_search_fill_box (GtkComboBoxText *box,
   /* insert keys in the box in the right order */
   g_hash_table_iter_init (&iter, history);
   while (g_hash_table_iter_next (&iter, &key, &value))
-  {
-    idx = GPOINTER_TO_UINT (value);
-    gtk_combo_box_text_insert (box, idx, NULL, key);
-    gtk_combo_box_text_remove (box, idx + 1);
-  }
+    {
+      idx = GPOINTER_TO_UINT (value);
+      gtk_combo_box_text_insert (box, idx, NULL, key);
+      gtk_combo_box_text_remove (box, idx + 1);
+    }
 }
 
 
@@ -1112,13 +1125,13 @@ mousepad_history_search_fill_replace_box (GtkComboBoxText *box)
 
 static guint
 mousepad_history_search_insert_text (const gchar *text,
-                                     GHashTable  *history,
+                                     GHashTable *history,
                                      const gchar *setting)
 {
   GHashTableIter iter;
-  gpointer       key, value;
-  guint          max_idx, idx;
-  gboolean       contains;
+  gpointer key, value;
+  guint max_idx, idx;
+  gboolean contains;
 
   /* history disabled */
   if (history == NULL)

@@ -17,14 +17,15 @@
 #ifndef __GSPELL_PLUGIN_H__
 #define __GSPELL_PLUGIN_H__
 
-#include <mousepad/mousepad-plugin.h>
+#include "mousepad/mousepad-plugin.h"
 
 G_BEGIN_DECLS
 
 #define GSPELL_TYPE_PLUGIN (gspell_plugin_get_type ())
 G_DECLARE_FINAL_TYPE (GspellPlugin, gspell_plugin, GSPELL, PLUGIN, MousepadPlugin)
 
-void gspell_plugin_register (MousepadPluginProvider *plugin);
+void
+gspell_plugin_register (MousepadPluginProvider *plugin);
 
 G_END_DECLS
 

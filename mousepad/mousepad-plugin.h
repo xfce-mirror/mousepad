@@ -17,7 +17,7 @@
 #ifndef __MOUSEPAD_PLUGIN_H__
 #define __MOUSEPAD_PLUGIN_H__
 
-#include <mousepad/mousepad-plugin-provider.h>
+#include "mousepad/mousepad-plugin-provider.h"
 
 G_BEGIN_DECLS
 
@@ -29,7 +29,7 @@ struct _MousepadPluginClass
   GObjectClass __parent__;
 
   /* virtual functions */
-  void (*enable)  (MousepadPlugin *plugin);
+  void (*enable) (MousepadPlugin *plugin);
   void (*disable) (MousepadPlugin *plugin);
 
   /* reserved space for the addition of future virtual functions */

@@ -17,6 +17,8 @@
 #ifndef __MOUSEPAD_PRINT_H__
 #define __MOUSEPAD_PRINT_H__
 
+#include "mousepad/mousepad-document.h"
+
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
@@ -24,12 +26,14 @@ G_BEGIN_DECLS
 #define MOUSEPAD_TYPE_PRINT (mousepad_print_get_type ())
 G_DECLARE_FINAL_TYPE (MousepadPrint, mousepad_print, MOUSEPAD, PRINT, GtkPrintOperation)
 
-MousepadPrint *mousepad_print_new                  (void);
+MousepadPrint *
+mousepad_print_new (void);
 
-gboolean       mousepad_print_document_interactive (MousepadPrint     *print,
-                                                    MousepadDocument  *document,
-                                                    GtkWindow         *parent,
-                                                    GError           **error);
+gboolean
+mousepad_print_document_interactive (MousepadPrint *print,
+                                     MousepadDocument *document,
+                                     GtkWindow *parent,
+                                     GError **error);
 
 G_END_DECLS
 
