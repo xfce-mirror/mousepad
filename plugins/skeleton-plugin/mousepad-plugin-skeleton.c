@@ -14,15 +14,17 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
+#include "mousepad/mousepad-private.h"
 
-#include <skeleton-plugin/skeleton-plugin.h>
+#include "skeleton-plugin/skeleton-plugin.h"
 
 #include <gmodule.h>
 
 
-G_MODULE_EXPORT void                mousepad_plugin_initialize (MousepadPluginProvider *provider);
-G_MODULE_EXPORT MousepadPluginData *mousepad_plugin_get_data   (void);
+G_MODULE_EXPORT void
+mousepad_plugin_initialize (MousepadPluginProvider *provider);
+G_MODULE_EXPORT MousepadPluginData *
+mousepad_plugin_get_data (void);
 
 
 

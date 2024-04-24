@@ -14,28 +14,35 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-replace-dialog.h>
-#include <mousepad/mousepad-dialogs.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-marshal.h>
-#include <mousepad/mousepad-history.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-replace-dialog.h"
+#include "mousepad/mousepad-dialogs.h"
+#include "mousepad/mousepad-history.h"
+#include "mousepad/mousepad-marshal.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
 
 
 
-static void              mousepad_replace_dialog_finalize               (GObject               *object);
-static void              mousepad_replace_dialog_response               (GtkWidget             *widget,
-                                                                         gint                   response_id);
-static void              mousepad_replace_dialog_search_completed       (MousepadReplaceDialog *dialog,
-                                                                         gint                   cur_match,
-                                                                         gint                   n_matches,
-                                                                         const gchar           *search_string,
-                                                                         MousepadSearchFlags    flags);
-static void              mousepad_replace_dialog_entry_changed          (MousepadReplaceDialog *dialog);
-static void              mousepad_replace_dialog_setting_changed        (MousepadReplaceDialog *dialog);
-static void              mousepad_replace_dialog_entry_activate         (MousepadReplaceDialog *dialog);
-static void              mousepad_replace_dialog_entry_reverse_activate (MousepadReplaceDialog *dialog);
+static void
+mousepad_replace_dialog_finalize (GObject *object);
+static void
+mousepad_replace_dialog_response (GtkWidget *widget,
+                                  gint response_id);
+static void
+mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
+                                          gint cur_match,
+                                          gint n_matches,
+                                          const gchar *search_string,
+                                          MousepadSearchFlags flags);
+static void
+mousepad_replace_dialog_entry_changed (MousepadReplaceDialog *dialog);
+static void
+mousepad_replace_dialog_setting_changed (MousepadReplaceDialog *dialog);
+static void
+mousepad_replace_dialog_entry_activate (MousepadReplaceDialog *dialog);
+static void
+mousepad_replace_dialog_entry_reverse_activate (MousepadReplaceDialog *dialog);
 
 
 
@@ -76,7 +83,7 @@ enum
 
 
 
-static guint   dialog_signals[LAST_SIGNAL];
+static guint dialog_signals[LAST_SIGNAL];
 
 
 
@@ -86,21 +93,18 @@ G_DEFINE_TYPE (MousepadReplaceDialog, mousepad_replace_dialog, GTK_TYPE_DIALOG)
 static void
 mousepad_replace_dialog_class_init (MousepadReplaceDialogClass *klass)
 {
-  GObjectClass   *gobject_class, *entry_class;
-  GtkBindingSet  *binding_set;
+  GObjectClass *gobject_class, *entry_class;
+  GtkBindingSet *binding_set;
 
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_replace_dialog_finalize;
 
-  dialog_signals[SEARCH] =
-    g_signal_new (I_("search"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  _mousepad_marshal_VOID__FLAGS_STRING_STRING,
-                  G_TYPE_NONE, 3,
-                  MOUSEPAD_TYPE_SEARCH_FLAGS,
-                  G_TYPE_STRING, G_TYPE_STRING);
+  dialog_signals[SEARCH] = g_signal_new (I_ ("search"),
+                                         G_TYPE_FROM_CLASS (gobject_class),
+                                         G_SIGNAL_RUN_LAST,
+                                         0, NULL, NULL,
+                                         _mousepad_marshal_VOID__FLAGS_STRING_STRING,
+                                         G_TYPE_NONE, 3, MOUSEPAD_TYPE_SEARCH_FLAGS, G_TYPE_STRING, G_TYPE_STRING);
 
   /* add a reverse-activate signal to GtkEntry */
   entry_class = g_type_class_ref (GTK_TYPE_ENTRY);
@@ -139,9 +143,9 @@ mousepad_replace_dialog_entry_select_all (GtkEntry *entry)
 
 static void
 mousepad_replace_dialog_bind_setting (MousepadReplaceDialog *dialog,
-                                      const gchar           *path,
-                                      gpointer               object,
-                                      const gchar           *property)
+                                      const gchar *path,
+                                      gpointer object,
+                                      const gchar *property)
 {
   mousepad_setting_bind (path, object, property, G_SETTINGS_BIND_DEFAULT);
 
@@ -155,7 +159,7 @@ mousepad_replace_dialog_bind_setting (MousepadReplaceDialog *dialog,
 
 static void
 mousepad_replace_dialog_update_label (MousepadReplaceDialog *dialog,
-                                      GtkWidget             *check)
+                                      GtkWidget *check)
 {
   gboolean active;
 
@@ -170,16 +174,14 @@ mousepad_replace_dialog_update_label (MousepadReplaceDialog *dialog,
 static void
 mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
 {
-  GtkApplication   *application;
-  GtkWindow        *window;
-  GtkBindingSet    *binding_set;
-  GdkModifierType   accel_mods;
-  guint             n, accel_key;
-  gchar           **accels;
-  const gchar      *actions[] = { "win.edit.cut", "win.edit.copy", "win.edit.paste",
-                                  "win.edit.select-all" };
-  const gchar      *signals[] = { "cut-clipboard", "copy-clipboard", "paste-clipboard",
-                                  "select-all" };
+  GtkApplication *application;
+  GtkWindow *window;
+  GtkBindingSet *binding_set;
+  GdkModifierType accel_mods;
+  guint n, accel_key;
+  gchar **accels;
+  const gchar *actions[] = { "win.edit.cut", "win.edit.copy", "win.edit.paste", "win.edit.select-all" };
+  const gchar *signals[] = { "cut-clipboard", "copy-clipboard", "paste-clipboard", "select-all" };
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (dialog, mousepad_replace_dialog_post_init, NULL);
@@ -228,7 +230,7 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
   gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), "fake-text");
   mousepad_replace_dialog_search_completed (dialog, 99999, 99999, "fake-text",
                                             MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
-                                            | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
+                                              | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS);
 
   /* show all widgets */
   gtk_widget_show_all (GTK_WIDGET (dialog));
@@ -243,7 +245,7 @@ mousepad_replace_dialog_post_init (MousepadReplaceDialog *dialog)
 static void
 mousepad_replace_dialog_init (MousepadReplaceDialog *dialog)
 {
-  GtkWidget    *button, *area, *vbox, *hbox, *combo, *label, *check;
+  GtkWidget *button, *area, *vbox, *hbox, *combo, *label, *check;
   GtkSizeGroup *size_group;
 
   /* we will complete initialization when the parent window is set */
@@ -454,14 +456,14 @@ mousepad_replace_dialog_reset_display (MousepadReplaceDialog *dialog)
 
 static void
 mousepad_replace_dialog_response (GtkWidget *widget,
-                                  gint       response_id)
+                                  gint response_id)
 {
   MousepadReplaceDialog *dialog = MOUSEPAD_REPLACE_DIALOG (widget);
-  MousepadSearchFlags    flags;
-  GtkComboBoxText       *box;
-  const gchar           *search_str, *replace_str;
-  gint                   search_direction, replace_all_location;
-  guint                  idx;
+  MousepadSearchFlags flags;
+  GtkComboBoxText *box;
+  const gchar *search_str, *replace_str;
+  gint search_direction, replace_all_location;
+  guint idx;
 
   /* close dialog */
   if (response_id == MOUSEPAD_RESPONSE_CLOSE || response_id < 0)
@@ -574,12 +576,12 @@ mousepad_replace_dialog_response (GtkWidget *widget,
 
 static void
 mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
-                                          gint                   cur_match,
-                                          gint                   n_matches,
-                                          const gchar           *search_string,
-                                          MousepadSearchFlags    flags)
+                                          gint cur_match,
+                                          gint n_matches,
+                                          const gchar *search_string,
+                                          MousepadSearchFlags flags)
 {
-  gchar       *message;
+  gchar *message;
   const gchar *string;
 
   /* get the entry string */
@@ -597,8 +599,7 @@ mousepad_replace_dialog_search_completed (MousepadReplaceDialog *dialog,
    * in this case (we are in multi-document mode and this is a partial result) */
   else if (MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL)
            && MOUSEPAD_SETTING_GET_UINT (SEARCH_REPLACE_ALL_LOCATION) != IN_DOCUMENT
-           && ! (flags & (MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION
-                          | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)))
+           && !(flags & (MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION | MOUSEPAD_SEARCH_FLAGS_AREA_ALL_DOCUMENTS)))
     return;
 
   /* stop the spinner */
@@ -678,8 +679,8 @@ mousepad_replace_dialog_new (MousepadWindow *window)
 
 void
 mousepad_replace_dialog_page_switched (MousepadReplaceDialog *dialog,
-                                       GtkTextBuffer         *old_buffer,
-                                       GtkTextBuffer         *new_buffer)
+                                       GtkTextBuffer *old_buffer,
+                                       GtkTextBuffer *new_buffer)
 {
   /* disconnect from old buffer signals */
   if (old_buffer != NULL)
@@ -701,7 +702,7 @@ mousepad_replace_dialog_page_switched (MousepadReplaceDialog *dialog,
 
 void
 mousepad_replace_dialog_set_text (MousepadReplaceDialog *dialog,
-                                  const gchar           *text)
+                                  const gchar *text)
 {
   gtk_entry_set_text (GTK_ENTRY (dialog->search_entry), text);
   gtk_editable_select_region (GTK_EDITABLE (dialog->search_entry), 0, -1);

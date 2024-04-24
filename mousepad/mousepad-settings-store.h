@@ -21,25 +21,29 @@
 
 G_BEGIN_DECLS
 
-
 #define MOUSEPAD_TYPE_SETTINGS_STORE (mousepad_settings_store_get_type ())
 G_DECLARE_FINAL_TYPE (MousepadSettingsStore, mousepad_settings_store, MOUSEPAD, SETTINGS_STORE, GObject)
 
-MousepadSettingsStore *mousepad_settings_store_new             (void);
+MousepadSettingsStore *
+mousepad_settings_store_new (void);
 
-void                   mousepad_settings_store_add_root        (MousepadSettingsStore  *store,
-                                                                const gchar            *schema_id);
+void
+mousepad_settings_store_add_root (MousepadSettingsStore *store,
+                                  const gchar *schema_id);
 
-const gchar           *mousepad_settings_store_lookup_key_name (MousepadSettingsStore  *store,
-                                                                const gchar            *setting);
+const gchar *
+mousepad_settings_store_lookup_key_name (MousepadSettingsStore *store,
+                                         const gchar *setting);
 
-GSettings             *mousepad_settings_store_lookup_settings (MousepadSettingsStore  *store,
-                                                                const gchar            *setting);
+GSettings *
+mousepad_settings_store_lookup_settings (MousepadSettingsStore *store,
+                                         const gchar *setting);
 
-gboolean               mousepad_settings_store_lookup          (MousepadSettingsStore  *store,
-                                                                const gchar            *setting,
-                                                                const gchar           **key_name,
-                                                                GSettings             **settings);
+gboolean
+mousepad_settings_store_lookup (MousepadSettingsStore *store,
+                                const gchar *setting,
+                                const gchar **key_name,
+                                GSettings **settings);
 
 G_END_DECLS
 

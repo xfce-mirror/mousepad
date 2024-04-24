@@ -17,17 +17,19 @@
 #ifndef __MOUSEPAD_ENCODING_DIALOG_H__
 #define __MOUSEPAD_ENCODING_DIALOG_H__
 
-G_BEGIN_DECLS
+#include "mousepad/mousepad-encoding.h"
+#include "mousepad/mousepad-file.h"
 
-#include <mousepad/mousepad-encoding.h>
+G_BEGIN_DECLS
 
 #define MOUSEPAD_TYPE_ENCODING_DIALOG (mousepad_encoding_dialog_get_type ())
 G_DECLARE_FINAL_TYPE (MousepadEncodingDialog, mousepad_encoding_dialog, MOUSEPAD, ENCODING_DIALOG, GtkDialog)
 
-gint  mousepad_encoding_dialog          (GtkWindow        *parent,
-                                         MousepadFile     *file,
-                                         gboolean          valid,
-                                         MousepadEncoding *encoding);
+gint
+mousepad_encoding_dialog (GtkWindow *parent,
+                          MousepadFile *file,
+                          gboolean valid,
+                          MousepadEncoding *encoding);
 
 G_END_DECLS
 

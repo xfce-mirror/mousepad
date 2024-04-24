@@ -17,14 +17,15 @@
 #ifndef __SHORTCUTS_PLUGIN_H__
 #define __SHORTCUTS_PLUGIN_H__
 
-#include <mousepad/mousepad-plugin.h>
+#include "mousepad/mousepad-plugin.h"
 
 G_BEGIN_DECLS
 
 #define SHORTCUTS_TYPE_PLUGIN (shortcuts_plugin_get_type ())
 G_DECLARE_FINAL_TYPE (ShortcutsPlugin, shortcuts_plugin, SHORTCUTS, PLUGIN, MousepadPlugin)
 
-void shortcuts_plugin_register (MousepadPluginProvider *plugin);
+void
+shortcuts_plugin_register (MousepadPluginProvider *plugin);
 
 G_END_DECLS
 
