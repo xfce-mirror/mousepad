@@ -14,29 +14,37 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-marshal.h>
-#include <mousepad/mousepad-search-bar.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-window.h>
-#include <mousepad/mousepad-history.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-search-bar.h"
+#include "mousepad/mousepad-history.h"
+#include "mousepad/mousepad-marshal.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
+#include "mousepad/mousepad-window.h"
 
 
 
-static void      mousepad_search_bar_finalize                   (GObject                 *object);
-static void      mousepad_search_bar_find_string                (MousepadSearchBar       *bar,
-                                                                 MousepadSearchFlags      flags);
-static void      mousepad_search_bar_search_completed           (MousepadSearchBar       *bar,
-                                                                 gint                     cur_match,
-                                                                 gint                     n_matches,
-                                                                 const gchar             *search_string,
-                                                                 MousepadSearchFlags      flags);
-static void      mousepad_search_bar_hide_clicked               (MousepadSearchBar       *bar);
-static void      mousepad_search_bar_entry_activate             (MousepadSearchBar       *bar);
-static void      mousepad_search_bar_entry_activate_backward    (MousepadSearchBar       *bar);
-static void      mousepad_search_bar_entry_changed              (MousepadSearchBar       *bar);
-static void      mousepad_search_bar_setting_changed            (MousepadSearchBar       *bar);
+static void
+mousepad_search_bar_finalize (GObject *object);
+static void
+mousepad_search_bar_find_string (MousepadSearchBar *bar,
+                                 MousepadSearchFlags flags);
+static void
+mousepad_search_bar_search_completed (MousepadSearchBar *bar,
+                                      gint cur_match,
+                                      gint n_matches,
+                                      const gchar *search_string,
+                                      MousepadSearchFlags flags);
+static void
+mousepad_search_bar_hide_clicked (MousepadSearchBar *bar);
+static void
+mousepad_search_bar_entry_activate (MousepadSearchBar *bar);
+static void
+mousepad_search_bar_entry_activate_backward (MousepadSearchBar *bar);
+static void
+mousepad_search_bar_entry_changed (MousepadSearchBar *bar);
+static void
+mousepad_search_bar_setting_changed (MousepadSearchBar *bar);
 
 
 
@@ -49,7 +57,7 @@ enum
 
 struct _MousepadSearchBar
 {
-  GtkToolbar      __parent__;
+  GtkToolbar __parent__;
 
   /* bar widgets */
   GtkWidget *box;
@@ -82,31 +90,27 @@ G_DEFINE_TYPE (MousepadSearchBar, mousepad_search_bar, GTK_TYPE_TOOLBAR)
 static void
 mousepad_search_bar_class_init (MousepadSearchBarClass *klass)
 {
-  GObjectClass  *gobject_class;
-  GObjectClass  *entry_class;
+  GObjectClass *gobject_class;
+  GObjectClass *entry_class;
   GtkBindingSet *binding_set;
 
   gobject_class = G_OBJECT_CLASS (klass);
   gobject_class->finalize = mousepad_search_bar_finalize;
 
   /* signals */
-  search_bar_signals[HIDE_BAR] =
-    g_signal_new (I_("hide-bar"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-                  0, NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE, 0);
+  search_bar_signals[HIDE_BAR] = g_signal_new (I_ ("hide-bar"),
+                                               G_TYPE_FROM_CLASS (gobject_class),
+                                               G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                                               0, NULL, NULL,
+                                               g_cclosure_marshal_VOID__VOID,
+                                               G_TYPE_NONE, 0);
 
-  search_bar_signals[SEARCH] =
-    g_signal_new (I_("search"),
-                  G_TYPE_FROM_CLASS (gobject_class),
-                  G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL,
-                  _mousepad_marshal_VOID__FLAGS_STRING_STRING,
-                  G_TYPE_NONE, 3,
-                  MOUSEPAD_TYPE_SEARCH_FLAGS,
-                  G_TYPE_STRING, G_TYPE_STRING);
+  search_bar_signals[SEARCH] = g_signal_new (I_ ("search"),
+                                             G_TYPE_FROM_CLASS (gobject_class),
+                                             G_SIGNAL_RUN_LAST,
+                                             0, NULL, NULL,
+                                             _mousepad_marshal_VOID__FLAGS_STRING_STRING,
+                                             G_TYPE_NONE, 3, MOUSEPAD_TYPE_SEARCH_FLAGS, G_TYPE_STRING, G_TYPE_STRING);
 
   /* setup key bindings for the search bar */
   binding_set = gtk_binding_set_by_class (klass);
@@ -149,7 +153,7 @@ mousepad_search_bar_entry_select_all (GtkEntry *entry)
 
 static void
 mousepad_search_bar_hide_box_button (GtkWidget *widget,
-                                     gpointer   data)
+                                     gpointer data)
 {
   if (GTK_IS_BOX (widget))
     gtk_container_forall (GTK_CONTAINER (widget), mousepad_search_bar_hide_box_button, NULL);
@@ -162,16 +166,14 @@ mousepad_search_bar_hide_box_button (GtkWidget *widget,
 static void
 mousepad_search_bar_post_init (MousepadSearchBar *bar)
 {
-  GtkApplication   *application;
-  GtkWidget        *window;
-  GtkBindingSet    *binding_set;
-  GdkModifierType   accel_mods;
-  guint             n, accel_key;
-  gchar           **accels;
-  const gchar      *actions[] = { "win.edit.cut", "win.edit.copy", "win.edit.paste",
-                                  "win.edit.select-all" };
-  const gchar      *signals[] = { "cut-clipboard", "copy-clipboard", "paste-clipboard",
-                                  "select-all" };
+  GtkApplication *application;
+  GtkWidget *window;
+  GtkBindingSet *binding_set;
+  GdkModifierType accel_mods;
+  guint n, accel_key;
+  gchar **accels;
+  const gchar *actions[] = { "win.edit.cut", "win.edit.copy", "win.edit.paste", "win.edit.select-all" };
+  const gchar *signals[] = { "cut-clipboard", "copy-clipboard", "paste-clipboard", "select-all" };
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (bar, mousepad_search_bar_post_init, NULL);
@@ -218,10 +220,10 @@ mousepad_search_bar_post_init (MousepadSearchBar *bar)
 static void
 mousepad_search_bar_init (MousepadSearchBar *bar)
 {
-  GtkWidget      *widget, *box, *menu_item;
-  GtkToolItem    *item;
+  GtkWidget *widget, *box, *menu_item;
+  GtkToolItem *item;
   GtkCssProvider *provider;
-  const gchar    *css_string;
+  const gchar *css_string;
 
   /* we will complete initialization when the bar is anchored */
   g_signal_connect (bar, "hierarchy-changed", G_CALLBACK (mousepad_search_bar_post_init), NULL);
@@ -393,25 +395,25 @@ mousepad_search_bar_reset_display (MousepadSearchBar *bar)
 
 
 static void
-mousepad_search_bar_find_string (MousepadSearchBar   *bar,
-                                 MousepadSearchFlags  flags)
+mousepad_search_bar_find_string (MousepadSearchBar *bar,
+                                 MousepadSearchFlags flags)
 {
   const gchar *string;
-  guint        idx;
+  guint idx;
 
   /* always true when using the search bar */
   flags |= MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND;
 
   /* always select unless it is a silent search */
-  if (! (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE))
+  if (!(flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE))
     flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
 
   /* get the entry string */
   string = gtk_entry_get_text (GTK_ENTRY (bar->entry));
 
   /* update search history in case of an explicit search */
-  if (! (flags & MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START)
-      || ! (flags & MOUSEPAD_SEARCH_FLAGS_DIR_FORWARD))
+  if (!(flags & MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START)
+      || !(flags & MOUSEPAD_SEARCH_FLAGS_DIR_FORWARD))
     {
       GtkComboBoxText *box = GTK_COMBO_BOX_TEXT (bar->box);
 
@@ -436,13 +438,13 @@ mousepad_search_bar_find_string (MousepadSearchBar   *bar,
 
 
 static void
-mousepad_search_bar_search_completed (MousepadSearchBar   *bar,
-                                      gint                 cur_match,
-                                      gint                 n_matches,
-                                      const gchar         *search_string,
-                                      MousepadSearchFlags  flags)
+mousepad_search_bar_search_completed (MousepadSearchBar *bar,
+                                      gint cur_match,
+                                      gint n_matches,
+                                      const gchar *search_string,
+                                      MousepadSearchFlags flags)
 {
-  gchar       *message;
+  gchar *message;
   const gchar *string;
 
   /* stop the spinner */
@@ -513,7 +515,7 @@ mousepad_search_bar_entry_changed (MousepadSearchBar *bar)
   flags = MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START
           | MOUSEPAD_SEARCH_FLAGS_DIR_FORWARD;
 
-  if (! MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_INCREMENTAL))
+  if (!MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_INCREMENTAL))
     flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_NONE;
 
   /* find */
@@ -591,9 +593,9 @@ mousepad_search_bar_find_previous (MousepadSearchBar *bar)
 
 void
 mousepad_search_bar_page_switched (MousepadSearchBar *bar,
-                                   GtkTextBuffer     *old_buffer,
-                                   GtkTextBuffer     *new_buffer,
-                                   gboolean           search)
+                                   GtkTextBuffer *old_buffer,
+                                   GtkTextBuffer *new_buffer,
+                                   gboolean search)
 {
   g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (bar));
 
@@ -618,7 +620,7 @@ mousepad_search_bar_page_switched (MousepadSearchBar *bar,
 
 void
 mousepad_search_bar_set_text (MousepadSearchBar *bar,
-                              const gchar       *text)
+                              const gchar *text)
 {
   g_return_if_fail (MOUSEPAD_IS_SEARCH_BAR (bar));
 

@@ -17,8 +17,8 @@
 #ifndef __MOUSEPAD_WINDOW_H__
 #define __MOUSEPAD_WINDOW_H__
 
-#include <mousepad/mousepad-document.h>
-#include <mousepad/mousepad-application.h>
+#include "mousepad/mousepad-application.h"
+#include "mousepad/mousepad-document.h"
 
 G_BEGIN_DECLS
 
@@ -27,8 +27,7 @@ G_DECLARE_FINAL_TYPE (MousepadWindow, mousepad_window, MOUSEPAD, WINDOW, GtkAppl
 
 /* sanity checks */
 #define mousepad_is_application_window(window) \
-  (g_list_find (gtk_application_get_windows (GTK_APPLICATION (g_application_get_default ())), \
-                window) != NULL)
+  (g_list_find (gtk_application_get_windows (GTK_APPLICATION (g_application_get_default ())), window) != NULL)
 
 enum
 {
@@ -36,41 +35,49 @@ enum
   TARGET_GTK_NOTEBOOK_TAB
 };
 
-static const GtkTargetEntry drop_targets[] =
-{
+static const GtkTargetEntry drop_targets[] = {
   { "text/uri-list", 0, TARGET_TEXT_URI_LIST },
   { "GTK_NOTEBOOK_TAB", GTK_TARGET_SAME_APP, TARGET_GTK_NOTEBOOK_TAB }
 };
 
-GtkWidget      *mousepad_window_new                        (MousepadApplication  *application);
+GtkWidget *
+mousepad_window_new (MousepadApplication *application);
 
-void            mousepad_window_add                        (MousepadWindow       *window,
-                                                            MousepadDocument     *document);
+void
+mousepad_window_add (MousepadWindow *window,
+                     MousepadDocument *document);
 
-gint            mousepad_window_open_files                 (MousepadWindow       *window,
-                                                            GFile               **files,
-                                                            gint                  n_files,
-                                                            MousepadEncoding      encoding,
-                                                            gint                  line,
-                                                            gint                  column,
-                                                            gboolean              must_exist);
+gint
+mousepad_window_open_files (MousepadWindow *window,
+                            GFile **files,
+                            gint n_files,
+                            MousepadEncoding encoding,
+                            gint line,
+                            gint column,
+                            gboolean must_exist);
 
-void            mousepad_window_show_preferences           (MousepadWindow       *window);
+void
+mousepad_window_show_preferences (MousepadWindow *window);
 
-GtkWidget      *mousepad_window_get_languages_menu         (MousepadWindow       *window);
+GtkWidget *
+mousepad_window_get_languages_menu (MousepadWindow *window);
 
-void            mousepad_window_update_document_menu_items (MousepadWindow       *window);
+void
+mousepad_window_update_document_menu_items (MousepadWindow *window);
 
-void            mousepad_window_update_window_menu_items   (MousepadWindow       *window);
+void
+mousepad_window_update_window_menu_items (MousepadWindow *window);
 
 /* for plugins */
-GtkWidget      *mousepad_window_get_notebook               (MousepadWindow       *window);
+GtkWidget *
+mousepad_window_get_notebook (MousepadWindow *window);
 
-GtkWidget      *mousepad_window_menu_item_realign          (MousepadWindow       *window,
-                                                            GtkWidget            *item,
-                                                            const gchar          *action_name,
-                                                            GtkWidget            *menu,
-                                                            gint                  index);
+GtkWidget *
+mousepad_window_menu_item_realign (MousepadWindow *window,
+                                   GtkWidget *item,
+                                   const gchar *action_name,
+                                   GtkWidget *menu,
+                                   gint index);
 
 G_END_DECLS
 

@@ -17,37 +17,43 @@
 #ifndef __MOUSEPAD_STATUSBAR_H__
 #define __MOUSEPAD_STATUSBAR_H__
 
-#include <mousepad/mousepad-encoding.h>
+#include "mousepad/mousepad-encoding.h"
 
 #include <gtk/gtk.h>
 #include <gtksourceview/gtksource.h>
-
 
 G_BEGIN_DECLS
 
 #define MOUSEPAD_TYPE_STATUSBAR (mousepad_statusbar_get_type ())
 G_DECLARE_FINAL_TYPE (MousepadStatusbar, mousepad_statusbar, MOUSEPAD, STATUSBAR, GtkStatusbar)
 
-GtkWidget  *mousepad_statusbar_new                  (void);
+GtkWidget *
+mousepad_statusbar_new (void);
 
-void        mousepad_statusbar_set_cursor_position  (MousepadStatusbar *statusbar,
-                                                     gint               line,
-                                                     gint               column,
-                                                     gint               selection);
+void
+mousepad_statusbar_set_cursor_position (MousepadStatusbar *statusbar,
+                                        gint line,
+                                        gint column,
+                                        gint selection);
 
-void        mousepad_statusbar_set_encoding         (MousepadStatusbar *statusbar,
-                                                     MousepadEncoding   encoding);
+void
+mousepad_statusbar_set_encoding (MousepadStatusbar *statusbar,
+                                 MousepadEncoding encoding);
 
-void        mousepad_statusbar_set_language         (MousepadStatusbar *statusbar,
-                                                     GtkSourceLanguage *language);
+void
+mousepad_statusbar_set_language (MousepadStatusbar *statusbar,
+                                 GtkSourceLanguage *language);
 
-void        mousepad_statusbar_set_overwrite        (MousepadStatusbar *statusbar,
-                                                     gboolean           overwrite);
+void
+mousepad_statusbar_set_overwrite (MousepadStatusbar *statusbar,
+                                  gboolean overwrite);
 
-void        mousepad_statusbar_push_tooltip         (MousepadStatusbar *statusbar,
-                                                     const gchar       *tooltip);
+void
+mousepad_statusbar_push_tooltip (MousepadStatusbar *statusbar,
+                                 const gchar *tooltip);
 
-void        mousepad_statusbar_pop_tooltip          (MousepadStatusbar *statusbar);
+void
+mousepad_statusbar_pop_tooltip (MousepadStatusbar *statusbar);
 
 G_END_DECLS
 

@@ -14,9 +14,9 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-settings.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-util.h"
+#include "mousepad/mousepad-settings.h"
 
 #ifdef HAVE_MATH_H
 #include <math.h>
@@ -24,12 +24,12 @@
 
 
 
-#define FONT_FAMILY  "font-family"
-#define FONT_STYLE   "font-style"
+#define FONT_FAMILY "font-family"
+#define FONT_STYLE "font-style"
 #define FONT_VARIANT "font-variant"
 #define FONT_STRETCH "font-stretch"
-#define FONT_WEIGHT  "font-weight"
-#define FONT_SIZE    "font-size"
+#define FONT_WEIGHT "font-weight"
+#define FONT_SIZE "font-size"
 
 
 
@@ -191,8 +191,8 @@ gchar *
 mousepad_util_config_name (const gchar *name)
 {
   const gchar *s;
-  gchar       *config, *t;
-  gboolean     upper = TRUE;
+  gchar *config, *t;
+  gboolean upper = TRUE;
 
   /* allocate string */
   config = g_new (gchar, strlen (name) + 1);
@@ -227,7 +227,7 @@ gchar *
 mousepad_util_key_name (const gchar *name)
 {
   const gchar *s;
-  gchar       *key, *t;
+  gchar *key, *t;
 
   /* allocate string (max of 9 extra - chars) */
   key = g_new (gchar, strlen (name) + 10);
@@ -252,7 +252,7 @@ mousepad_util_key_name (const gchar *name)
 gchar *
 mousepad_util_escape_underscores (const gchar *str)
 {
-  GString     *result;
+  GString *result;
   const gchar *s;
 
   /* allocate a new string */
@@ -292,7 +292,7 @@ mousepad_util_image_button (const gchar *icon_name,
 
 void
 mousepad_util_entry_error (GtkWidget *widget,
-                           gboolean   error)
+                           gboolean error)
 {
   gpointer pointer;
 
@@ -321,8 +321,8 @@ mousepad_util_entry_error (GtkWidget *widget,
 gchar *
 mousepad_util_get_selection (GtkTextBuffer *buffer)
 {
-  GtkTextIter  start, end;
-  gchar       *selection = NULL, *escaped;
+  GtkTextIter start, end;
+  gchar *selection = NULL, *escaped;
 
   if (gtk_text_buffer_get_has_selection (buffer))
     {
@@ -342,12 +342,12 @@ mousepad_util_get_selection (GtkTextBuffer *buffer)
 
 
 void
-mousepad_util_dialog_create_header (GtkDialog   *dialog,
+mousepad_util_dialog_create_header (GtkDialog *dialog,
                                     const gchar *title,
                                     const gchar *subtitle,
                                     const gchar *icon_name)
 {
-  gchar     *formated_title, *full_title;
+  gchar *formated_title, *full_title;
   GtkWidget *vbox, *hbox;
   GtkWidget *icon, *label, *line;
   GtkWidget *dialog_vbox;
@@ -407,15 +407,15 @@ mousepad_util_dialog_create_header (GtkDialog   *dialog,
 
 
 void
-mousepad_util_dialog_update_header (GtkDialog   *dialog,
+mousepad_util_dialog_update_header (GtkDialog *dialog,
                                     const gchar *title,
                                     const gchar *subtitle,
                                     const gchar *icon_name)
 {
-  gchar     *formated_title, *full_title;
+  gchar *formated_title, *full_title;
   GtkWidget *vbox, *hbox;
   GtkWidget *icon, *label;
-  GList     *children, *child;
+  GList *children, *child;
 
   /* retrieve the hbox */
   vbox = gtk_bin_get_child (GTK_BIN (dialog));
@@ -451,9 +451,9 @@ mousepad_util_dialog_update_header (GtkDialog   *dialog,
 
 
 static void
-mousepad_util_decoration_layout_changed (GObject    *settings,
+mousepad_util_decoration_layout_changed (GObject *settings,
                                          GParamSpec *pspec,
-                                         gpointer    bar)
+                                         gpointer bar)
 {
   gchar *layout, *p, *str;
 
@@ -498,11 +498,11 @@ mousepad_util_set_titlebar (GtkWindow *window)
 {
   static GtkSettings *settings = NULL;
 
-  GtkWidget       *bar;
+  GtkWidget *bar;
   GtkStyleContext *context;
-  GtkCssProvider  *provider;
-  const gchar     *title;
-  gboolean         show_close = TRUE;
+  GtkCssProvider *provider;
+  const gchar *title;
+  gboolean show_close = TRUE;
 
   /* set a default window title if needed */
   title = gtk_window_get_title (window);
@@ -511,10 +511,10 @@ mousepad_util_set_titlebar (GtkWindow *window)
 
   /* exit if the user doesn't want client-side decorations, ensuring we have at least
    * one close button or similar in the title bar for all dialogs */
-  if (! MOUSEPAD_SETTING_GET_BOOLEAN (CLIENT_SIDE_DECORATIONS)
+  if (!MOUSEPAD_SETTING_GET_BOOLEAN (CLIENT_SIDE_DECORATIONS)
       && g_strcmp0 (g_getenv ("GTK_CSD"), "1") != 0)
     {
-      if (! GTK_IS_HEADER_BAR (gtk_window_get_titlebar (window)))
+      if (!GTK_IS_HEADER_BAR (gtk_window_get_titlebar (window)))
         gtk_window_set_titlebar (window, NULL);
 
       return;
@@ -523,7 +523,7 @@ mousepad_util_set_titlebar (GtkWindow *window)
   /* use existing header bar or create a new one (including when the title bar widget
    * is not a GtkHeaderBar) */
   bar = gtk_window_get_titlebar (window);
-  if (! GTK_IS_HEADER_BAR (bar))
+  if (!GTK_IS_HEADER_BAR (bar))
     {
       bar = gtk_header_bar_new ();
       gtk_widget_show (bar);
@@ -570,7 +570,7 @@ mousepad_util_set_titlebar (GtkWindow *window)
 gint
 mousepad_util_get_real_line_offset (const GtkTextIter *iter)
 {
-  gint        tab_size, offset = 0;
+  gint tab_size, offset = 0;
   GtkTextIter needle = *iter;
 
   /* move the needle to the start of the line */
@@ -598,10 +598,10 @@ mousepad_util_get_real_line_offset (const GtkTextIter *iter)
 
 void
 mousepad_util_set_real_line_offset (GtkTextIter *iter,
-                                    gint         column,
-                                    gboolean     from_end)
+                                    gint column,
+                                    gboolean from_end)
 {
-  gint        tab_size, char_offset = 0, column_offset = 0;
+  gint tab_size, char_offset = 0, column_offset = 0;
   GtkTextIter needle = *iter;
 
   /* move the needle to the start of the line */
@@ -644,11 +644,11 @@ mousepad_util_set_real_line_offset (GtkTextIter *iter,
 
 void
 mousepad_util_place_cursor (GtkTextBuffer *buffer,
-                            gint           line,
-                            gint           column)
+                            gint line,
+                            gint column)
 {
   GtkTextIter pos;
-  gboolean    from_end = FALSE;
+  gboolean from_end = FALSE;
 
   /* for negative line number count from bottom */
   if (line < 0)
@@ -678,7 +678,7 @@ mousepad_util_place_cursor (GtkTextBuffer *buffer,
 
 gchar *
 mousepad_util_get_save_location (const gchar *relpath,
-                                 gboolean     create_parents)
+                                 gboolean create_parents)
 {
   gchar *filename, *dirname;
 
@@ -688,7 +688,7 @@ mousepad_util_get_save_location (const gchar *relpath,
   filename = g_build_filename (g_get_user_config_dir (), relpath, NULL);
 
   /* test if the file exists */
-  if (G_UNLIKELY (! g_file_test (filename, G_FILE_TEST_EXISTS)))
+  if (G_UNLIKELY (!g_file_test (filename, G_FILE_TEST_EXISTS)))
     {
       if (create_parents)
         {
@@ -700,7 +700,8 @@ mousepad_util_get_save_location (const gchar *relpath,
             {
               /* show warning to the user */
               g_critical ("Unable to create base directory \"%s\". "
-                          "Saving to file \"%s\" will be aborted.", dirname, filename);
+                          "Saving to file \"%s\" will be aborted.",
+                          dirname, filename);
 
               /* don't return a filename, to avoid problems */
               g_free (filename);
@@ -724,11 +725,11 @@ mousepad_util_get_save_location (const gchar *relpath,
 
 
 void
-mousepad_util_save_key_file (GKeyFile    *keyfile,
+mousepad_util_save_key_file (GKeyFile *keyfile,
                              const gchar *filename)
 {
-  gchar  *contents;
-  gsize   length;
+  gchar *contents;
+  gsize length;
   GError *error = NULL;
 
   /* get the contents of the key file */
@@ -737,12 +738,12 @@ mousepad_util_save_key_file (GKeyFile    *keyfile,
   if (G_LIKELY (error == NULL))
     {
       /* write the contents to the file */
-      if (G_UNLIKELY (! g_file_set_contents (filename, contents, length, &error)))
+      if (G_UNLIKELY (!g_file_set_contents (filename, contents, length, &error)))
         goto print_error;
     }
   else
     {
-      print_error:
+print_error:
 
       /* print error */
       g_critical ("Failed to store the preferences to \"%s\": %s", filename, error->message);
@@ -759,7 +760,7 @@ mousepad_util_save_key_file (GKeyFile    *keyfile,
 
 static void
 mousepad_util_container_foreach_counter (GtkWidget *widget,
-                                         gpointer   data)
+                                         gpointer data)
 {
   guint *n_children = (guint *) data;
 
@@ -829,7 +830,7 @@ mousepad_util_style_schemes_name_compare (gconstpointer a,
   const gchar *name_a, *name_b;
 
   if (G_UNLIKELY (a == NULL))
-    return - (a != b);
+    return -(a != b);
   if (G_UNLIKELY (b == NULL))
     return a != b;
 
@@ -844,12 +845,12 @@ mousepad_util_style_schemes_name_compare (gconstpointer a,
 static GSList *
 mousepad_util_get_style_schemes (void)
 {
-  GSList               *list = NULL;
-  const gchar * const  *schemes;
+  GSList *list = NULL;
+  const gchar *const *schemes;
   GtkSourceStyleScheme *scheme;
 
   schemes = gtk_source_style_scheme_manager_get_scheme_ids (
-              gtk_source_style_scheme_manager_get_default ());
+    gtk_source_style_scheme_manager_get_default ());
 
   if (G_UNLIKELY (schemes == NULL))
     return NULL;
@@ -857,7 +858,7 @@ mousepad_util_get_style_schemes (void)
   while (*schemes)
     {
       scheme = gtk_source_style_scheme_manager_get_scheme (
-                gtk_source_style_scheme_manager_get_default (), *schemes);
+        gtk_source_style_scheme_manager_get_default (), *schemes);
       list = g_slist_prepend (list, scheme);
       schemes++;
     }
@@ -879,9 +880,9 @@ mousepad_util_get_sorted_style_schemes (void)
 GSList *
 mousepad_util_get_sorted_language_sections (void)
 {
-  GSList                   *list = NULL;
-  const gchar *const       *languages;
-  GtkSourceLanguage        *language;
+  GSList *list = NULL;
+  const gchar *const *languages;
+  GtkSourceLanguage *language;
   GtkSourceLanguageManager *manager;
 
   manager = gtk_source_language_manager_get_default ();
@@ -925,7 +926,7 @@ mousepad_util_languages_name_compare (gconstpointer a,
   const gchar *name_a, *name_b;
 
   if (G_UNLIKELY (a == NULL))
-    return - (a != b);
+    return -(a != b);
   if (G_UNLIKELY (b == NULL))
     return a != b;
 
@@ -940,9 +941,9 @@ mousepad_util_languages_name_compare (gconstpointer a,
 GSList *
 mousepad_util_get_sorted_languages_for_section (const gchar *section)
 {
-  GSList                   *list = NULL;
-  const gchar *const       *languages;
-  GtkSourceLanguage        *language;
+  GSList *list = NULL;
+  const gchar *const *languages;
+  GtkSourceLanguage *language;
   GtkSourceLanguageManager *manager;
 
   g_return_val_if_fail (section != NULL, NULL);
@@ -993,13 +994,13 @@ mousepad_util_get_sorted_languages_for_section (const gchar *section)
 gchar *
 mousepad_util_pango_font_description_to_css (const PangoFontDescription *font_desc)
 {
-  PangoFontMask  mask;
-  GString       *str;
+  PangoFontMask mask;
+  GString *str;
 
-#define ADD_KEYVAL(key,fmt) \
-  g_string_append(str,key":"fmt";")
-#define ADD_KEYVAL_PRINTF(key,fmt,...) \
-  g_string_append_printf(str,key":"fmt";", __VA_ARGS__)
+#define ADD_KEYVAL(key, fmt) \
+  g_string_append (str, key ":" fmt ";")
+#define ADD_KEYVAL_PRINTF(key, fmt, ...) \
+  g_string_append_printf (str, key ":" fmt ";", __VA_ARGS__)
 
   g_return_val_if_fail (font_desc, NULL);
 
@@ -1178,8 +1179,8 @@ mousepad_util_pango_font_description_to_css (const PangoFontDescription *font_de
 
 
 gboolean
-mousepad_util_query_exists (GFile    *file,
-                            gboolean  follow_symlink)
+mousepad_util_query_exists (GFile *file,
+                            gboolean follow_symlink)
 {
   const gchar *path;
 
@@ -1212,10 +1213,11 @@ mousepad_util_get_display_path (GFile *file)
 
 
 static void
-mousepad_util_source_remove_all (gpointer  data,
-                                 GObject  *object)
+mousepad_util_source_remove_all (gpointer data,
+                                 GObject *object)
 {
-  while (g_source_remove_by_user_data (object));
+  while (g_source_remove_by_user_data (object))
+    ;
 }
 
 
@@ -1227,7 +1229,7 @@ mousepad_util_source_autoremove (gpointer object)
 {
   g_return_val_if_fail (G_IS_OBJECT (object), object);
 
-  if (! mousepad_object_get_data (object, "source-autoremove"))
+  if (!mousepad_object_get_data (object, "source-autoremove"))
     {
       g_object_weak_ref (object, mousepad_util_source_remove_all, NULL);
       mousepad_object_set_data (object, "source-autoremove", GINT_TO_POINTER (TRUE));

@@ -17,14 +17,15 @@
 #ifndef __SKELETON_PLUGIN_H__
 #define __SKELETON_PLUGIN_H__
 
-#include <mousepad/mousepad-plugin.h>
+#include "mousepad/mousepad-plugin.h"
 
 G_BEGIN_DECLS
 
 #define SKELETON_TYPE_PLUGIN (skeleton_plugin_get_type ())
 G_DECLARE_FINAL_TYPE (SkeletonPlugin, skeleton_plugin, SKELETON, PLUGIN, MousepadPlugin)
 
-void skeleton_plugin_register (MousepadPluginProvider *plugin);
+void
+skeleton_plugin_register (MousepadPluginProvider *plugin);
 
 G_END_DECLS
 

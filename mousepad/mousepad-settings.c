@@ -14,9 +14,9 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-settings-store.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-settings-store.h"
 
 
 
@@ -56,13 +56,13 @@ mousepad_settings_add_root (const gchar *schema_id)
 
 
 void
-mousepad_setting_bind (const gchar        *setting,
-                       gpointer            object,
-                       const gchar        *prop,
-                       GSettingsBindFlags  flags)
+mousepad_setting_bind (const gchar *setting,
+                       gpointer object,
+                       const gchar *prop,
+                       GSettingsBindFlags flags)
 {
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   g_return_if_fail (setting != NULL);
   g_return_if_fail (G_IS_OBJECT (object));
@@ -77,14 +77,14 @@ mousepad_setting_bind (const gchar        *setting,
 
 
 gulong
-mousepad_setting_connect (const gchar   *setting,
-                          GCallback      callback,
-                          gpointer       user_data,
-                          GConnectFlags  connect_flags)
+mousepad_setting_connect (const gchar *setting,
+                          GCallback callback,
+                          gpointer user_data,
+                          GConnectFlags connect_flags)
 {
-  gulong       signal_id = 0;
+  gulong signal_id = 0;
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   g_return_val_if_fail (setting != NULL, 0);
   g_return_val_if_fail (callback != NULL, 0);
@@ -113,14 +113,14 @@ mousepad_setting_connect (const gchar   *setting,
 
 
 gulong
-mousepad_setting_connect_object (const gchar   *setting,
-                                 GCallback      callback,
-                                 gpointer       gobject,
-                                 GConnectFlags  connect_flags)
+mousepad_setting_connect_object (const gchar *setting,
+                                 GCallback callback,
+                                 gpointer gobject,
+                                 GConnectFlags connect_flags)
 {
-  gulong       signal_id = 0;
+  gulong signal_id = 0;
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   g_return_val_if_fail (setting != NULL, 0);
   g_return_val_if_fail (callback != NULL, 0);
@@ -150,8 +150,8 @@ mousepad_setting_connect_object (const gchar   *setting,
 
 void
 mousepad_setting_disconnect (const gchar *setting,
-                             GCallback    callback,
-                             gpointer     user_data)
+                             GCallback callback,
+                             gpointer user_data)
 {
   GSettings *settings;
 
@@ -172,7 +172,7 @@ void
 mousepad_setting_reset (const gchar *setting)
 {
   const gchar *key_name;
-  GSettings   *settings;
+  GSettings *settings;
 
   g_return_if_fail (setting != NULL);
 
@@ -190,7 +190,7 @@ mousepad_setting_get (const gchar *setting,
                       ...)
 {
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   g_return_if_fail (setting != NULL);
   g_return_if_fail (format_string != NULL);
@@ -198,7 +198,7 @@ mousepad_setting_get (const gchar *setting,
   if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     {
       GVariant *variant;
-      va_list   ap;
+      va_list ap;
 
       variant = g_settings_get_value (settings, key_name);
 
@@ -220,7 +220,7 @@ mousepad_setting_set (const gchar *setting,
                       ...)
 {
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   g_return_if_fail (setting != NULL);
   g_return_if_fail (format_string != NULL);
@@ -228,7 +228,7 @@ mousepad_setting_set (const gchar *setting,
   if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     {
       GVariant *variant;
-      va_list   ap;
+      va_list ap;
 
       va_start (ap, format_string);
       variant = g_variant_new_va (format_string, NULL, &ap);
@@ -260,7 +260,7 @@ mousepad_setting_get_boolean (const gchar *setting)
 
 void
 mousepad_setting_set_boolean (const gchar *setting,
-                              gboolean     value)
+                              gboolean value)
 {
   mousepad_setting_set (setting, "b", value);
 }
@@ -281,7 +281,7 @@ mousepad_setting_get_int (const gchar *setting)
 
 void
 mousepad_setting_set_int (const gchar *setting,
-                          gint         value)
+                          gint value)
 {
   mousepad_setting_set (setting, "i", value);
 }
@@ -302,7 +302,7 @@ mousepad_setting_get_uint (const gchar *setting)
 
 void
 mousepad_setting_set_uint (const gchar *setting,
-                           guint        value)
+                           guint value)
 {
   mousepad_setting_set (setting, "u", value);
 }
@@ -333,9 +333,9 @@ mousepad_setting_set_string (const gchar *setting,
 gchar **
 mousepad_setting_get_strv (const gchar *setting)
 {
-  const gchar  *key_name = NULL;
-  GSettings    *settings = NULL;
-  gchar       **value = NULL;
+  const gchar *key_name = NULL;
+  GSettings *settings = NULL;
+  gchar **value = NULL;
 
   if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     value = g_settings_get_strv (settings, key_name);
@@ -348,11 +348,11 @@ mousepad_setting_get_strv (const gchar *setting)
 
 
 void
-mousepad_setting_set_strv (const gchar        *setting,
+mousepad_setting_set_strv (const gchar *setting,
                            const gchar *const *value)
 {
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   if (mousepad_settings_store_lookup (settings_store, setting, &key_name, &settings))
     g_settings_set_strv (settings, key_name, value);
@@ -365,9 +365,9 @@ mousepad_setting_set_strv (const gchar        *setting,
 gint
 mousepad_setting_get_enum (const gchar *setting)
 {
-  gint         result = 0;
+  gint result = 0;
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   g_return_val_if_fail (setting != NULL, FALSE);
 
@@ -383,10 +383,10 @@ mousepad_setting_get_enum (const gchar *setting)
 
 void
 mousepad_setting_set_enum (const gchar *setting,
-                           gint         value)
+                           gint value)
 {
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   g_return_if_fail (setting != NULL);
 
@@ -401,9 +401,9 @@ mousepad_setting_set_enum (const gchar *setting,
 GVariant *
 mousepad_setting_get_variant (const gchar *setting)
 {
-  GVariant    *variant = NULL;
+  GVariant *variant = NULL;
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   g_return_val_if_fail (setting != NULL, FALSE);
 
@@ -419,10 +419,10 @@ mousepad_setting_get_variant (const gchar *setting)
 
 void
 mousepad_setting_set_variant (const gchar *setting,
-                              GVariant    *variant)
+                              GVariant *variant)
 {
   const gchar *key_name = NULL;
-  GSettings   *settings = NULL;
+  GSettings *settings = NULL;
 
   g_return_if_fail (setting != NULL);
 
