@@ -380,8 +380,7 @@ mousepad_print_settings_save (GtkPrintOperation *operation)
 
   gtk_print_settings_set_int (settings, "line-numbers-increment", print->line_number_increment);
 
-  value = gtk_source_print_compositor_get_wrap_mode (print->compositor) == GTK_WRAP_NONE ? FALSE
-                                                                                         : TRUE;
+  value = gtk_source_print_compositor_get_wrap_mode (print->compositor) != GTK_WRAP_NONE;
   gtk_print_settings_set_bool (settings, "text-wrapping", value);
 
   value = gtk_source_print_compositor_get_highlight_syntax (print->compositor);
