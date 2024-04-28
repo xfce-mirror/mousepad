@@ -14,15 +14,17 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
+#include "mousepad/mousepad-private.h"
 
-#include <shortcuts-plugin/shortcuts-plugin.h>
+#include "shortcuts-plugin/shortcuts-plugin.h"
 
 #include <gmodule.h>
 
 
-G_MODULE_EXPORT void                mousepad_plugin_initialize (MousepadPluginProvider *provider);
-G_MODULE_EXPORT MousepadPluginData *mousepad_plugin_get_data   (void);
+G_MODULE_EXPORT void
+mousepad_plugin_initialize (MousepadPluginProvider *provider);
+G_MODULE_EXPORT MousepadPluginData *
+mousepad_plugin_get_data (void);
 
 
 
@@ -43,9 +45,8 @@ mousepad_plugin_initialize (MousepadPluginProvider *provider)
   plugin_data.types = types;
   plugin_data.destroyable = TRUE;
   plugin_data.label = _("Shortcuts Editor");
-  plugin_data.tooltip =
-    _("The shortcuts editor is available here as a popover or as a dialog below the"
-      " preferences in the menu bar.");
+  plugin_data.tooltip = _("The shortcuts editor is available here as a popover or as a dialog below the"
+                          " preferences in the menu bar.");
   plugin_data.category = _("Application");
   plugin_data.accel = NULL;
 }

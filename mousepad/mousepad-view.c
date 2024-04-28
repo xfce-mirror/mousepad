@@ -14,12 +14,12 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-application.h>
-#include <mousepad/mousepad-view.h>
-#include <mousepad/mousepad-window.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-view.h"
+#include "mousepad/mousepad-application.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
+#include "mousepad/mousepad-window.h"
 
 
 
@@ -28,77 +28,98 @@
 
 
 /* GObject virtual functions */
-static void      mousepad_view_finalize                      (GObject            *object);
-static void      mousepad_view_set_property                  (GObject            *object,
-                                                              guint               prop_id,
-                                                              const GValue       *value,
-                                                              GParamSpec         *pspec);
+static void
+mousepad_view_finalize (GObject *object);
+static void
+mousepad_view_set_property (GObject *object,
+                            guint prop_id,
+                            const GValue *value,
+                            GParamSpec *pspec);
 
 /* GtkWidget virtual functions */
-static gboolean  mousepad_view_drag_motion                   (GtkWidget          *widget,
-                                                              GdkDragContext     *context,
-                                                              gint                x,
-                                                              gint                y,
-                                                              guint               timestamp);
+static gboolean
+mousepad_view_drag_motion (GtkWidget *widget,
+                           GdkDragContext *context,
+                           gint x,
+                           gint y,
+                           guint timestamp);
 
 /* GtkTextView virtual functions */
-static void      mousepad_view_cut_clipboard                 (GtkTextView        *text_view);
-static void      mousepad_view_delete_from_cursor            (GtkTextView        *text_view,
-                                                              GtkDeleteType       type,
-                                                              int                 count);
-static void      mousepad_view_paste_clipboard               (GtkTextView        *text_view);
+static void
+mousepad_view_cut_clipboard (GtkTextView *text_view);
+static void
+mousepad_view_delete_from_cursor (GtkTextView *text_view,
+                                  GtkDeleteType type,
+                                  int count);
+static void
+mousepad_view_paste_clipboard (GtkTextView *text_view);
 
 /* GtkSourceView virtual functions */
 #if GTK_SOURCE_MAJOR_VERSION >= 4
-static void      mousepad_view_move_lines                    (GtkSourceView      *source_view,
-                                                              gboolean            down);
+static void
+mousepad_view_move_lines (GtkSourceView *source_view,
+                          gboolean down);
 #else
-static void      mousepad_view_move_lines                    (GtkSourceView      *source_view,
-                                                              gboolean            copy,
-                                                              gint                count);
+static void
+mousepad_view_move_lines (GtkSourceView *source_view,
+                          gboolean copy,
+                          gint count);
 #endif
-static void      mousepad_view_move_words                    (GtkSourceView      *source_view,
-                                                              gint                count);
-static void      mousepad_view_redo                          (GtkSourceView      *source_view);
-static void      mousepad_view_undo                          (GtkSourceView      *source_view);
+static void
+mousepad_view_move_words (GtkSourceView *source_view,
+                          gint count);
+static void
+mousepad_view_redo (GtkSourceView *source_view);
+static void
+mousepad_view_undo (GtkSourceView *source_view);
 
 /* MousepadView own functions */
-static void      mousepad_view_transpose_range               (GtkTextBuffer       *buffer,
-                                                              GtkTextIter         *start_iter,
-                                                              GtkTextIter         *end_iter);
-static void      mousepad_view_transpose_lines               (GtkTextBuffer       *buffer,
-                                                              GtkTextIter         *start_iter,
-                                                              GtkTextIter         *end_iter);
-static void      mousepad_view_transpose_words               (GtkTextBuffer       *buffer,
-                                                              GtkTextIter         *iter);
-static void      mousepad_view_set_font                      (MousepadView        *view,
-                                                              const gchar         *font);
-static void      mousepad_view_set_show_whitespace           (MousepadView        *view,
-                                                              gboolean             show);
-static void      mousepad_view_set_space_location_flags      (MousepadView        *view,
-                                                              gulong               flags);
-static void      mousepad_view_set_show_line_endings         (MousepadView        *view,
-                                                              gboolean             show);
-static void      mousepad_view_set_color_scheme              (MousepadView        *view,
-                                                              const gchar         *color_scheme);
-static void      mousepad_view_set_word_wrap                 (MousepadView        *view,
-                                                              gboolean             enabled);
-static void      mousepad_view_set_match_braces              (MousepadView        *view,
-                                                              gboolean             enabled);
+static void
+mousepad_view_transpose_range (GtkTextBuffer *buffer,
+                               GtkTextIter *start_iter,
+                               GtkTextIter *end_iter);
+static void
+mousepad_view_transpose_lines (GtkTextBuffer *buffer,
+                               GtkTextIter *start_iter,
+                               GtkTextIter *end_iter);
+static void
+mousepad_view_transpose_words (GtkTextBuffer *buffer,
+                               GtkTextIter *iter);
+static void
+mousepad_view_set_font (MousepadView *view,
+                        const gchar *font);
+static void
+mousepad_view_set_show_whitespace (MousepadView *view,
+                                   gboolean show);
+static void
+mousepad_view_set_space_location_flags (MousepadView *view,
+                                        gulong flags);
+static void
+mousepad_view_set_show_line_endings (MousepadView *view,
+                                     gboolean show);
+static void
+mousepad_view_set_color_scheme (MousepadView *view,
+                                const gchar *color_scheme);
+static void
+mousepad_view_set_word_wrap (MousepadView *view,
+                             gboolean enabled);
+static void
+mousepad_view_set_match_braces (MousepadView *view,
+                                gboolean enabled);
 
 
 
 struct _MousepadView
 {
-  GtkSourceView         __parent__;
+  GtkSourceView __parent__;
 
   /* property related */
-  GBinding                    *font_binding;
-  gboolean                     show_whitespace;
-  GtkSourceSpaceLocationFlags  space_location_flags;
-  gboolean                     show_line_endings;
-  gchar                       *color_scheme;
-  gboolean                     match_braces;
+  GBinding *font_binding;
+  gboolean show_whitespace;
+  GtkSourceSpaceLocationFlags space_location_flags;
+  gboolean show_line_endings;
+  gchar *color_scheme;
+  gboolean match_braces;
 };
 
 
@@ -125,9 +146,9 @@ G_DEFINE_TYPE (MousepadView, mousepad_view, GTK_SOURCE_TYPE_VIEW)
 static void
 mousepad_view_class_init (MousepadViewClass *klass)
 {
-  GObjectClass       *gobject_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass     *widget_class = GTK_WIDGET_CLASS (klass);
-  GtkTextViewClass   *textview_class = GTK_TEXT_VIEW_CLASS (klass);
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+  GtkTextViewClass *textview_class = GTK_TEXT_VIEW_CLASS (klass);
   GtkSourceViewClass *sourceview_class = GTK_SOURCE_VIEW_CLASS (klass);
 
   gobject_class->finalize = mousepad_view_finalize;
@@ -144,48 +165,64 @@ mousepad_view_class_init (MousepadViewClass *klass)
   sourceview_class->redo = mousepad_view_redo;
   sourceview_class->undo = mousepad_view_undo;
 
-  g_object_class_install_property (gobject_class, PROP_FONT,
-    g_param_spec_string ("font", "Font", "The font to use in the view",
-                         NULL, G_PARAM_WRITABLE));
-
-  g_object_class_install_property (gobject_class, PROP_SHOW_WHITESPACE,
-    g_param_spec_boolean ("show-whitespace", "ShowWhitespace",
-                          "Whether whitespace is visualized in the view",
-                          FALSE, G_PARAM_WRITABLE));
-
-  g_object_class_install_property (gobject_class, PROP_SPACE_LOCATION,
-    g_param_spec_flags ("space-location", "SpaceLocation",
-                        "The space locations to show in the view",
-                        GTK_SOURCE_TYPE_SPACE_LOCATION_FLAGS, GTK_SOURCE_SPACE_LOCATION_ALL,
-                        G_PARAM_WRITABLE));
-
-  g_object_class_install_property (gobject_class, PROP_SHOW_LINE_ENDINGS,
-    g_param_spec_boolean ("show-line-endings", "ShowLineEndings",
-                          "Whether line-endings are visualized in the view",
-                          FALSE, G_PARAM_WRITABLE));
-
-  g_object_class_install_property (gobject_class, PROP_COLOR_SCHEME,
-    g_param_spec_string ("color-scheme", "ColorScheme",
-                         "The id of the syntax highlighting color scheme to use",
-                         NULL, G_PARAM_WRITABLE));
-
-  g_object_class_install_property (gobject_class, PROP_WORD_WRAP,
-    g_param_spec_boolean ("word-wrap", "WordWrap",
-                          "Whether to virtually wrap long lines in the view",
-                          FALSE, G_PARAM_WRITABLE));
-
-  g_object_class_install_property (gobject_class, PROP_MATCH_BRACES,
-    g_param_spec_boolean ("match-braces", "MatchBraces",
-                          "Whether to highlight matching braces, parens, brackets, etc.",
-                          FALSE, G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_FONT,
+                                   g_param_spec_string ("font",
+                                                        "Font",
+                                                        "The font to use in the view",
+                                                        NULL,
+                                                        G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_SHOW_WHITESPACE,
+                                   g_param_spec_boolean ("show-whitespace",
+                                                         "ShowWhitespace",
+                                                         "Whether whitespace is visualized in the view",
+                                                         FALSE,
+                                                         G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_SPACE_LOCATION,
+                                   g_param_spec_flags ("space-location",
+                                                       "SpaceLocation",
+                                                       "The space locations to show in the view",
+                                                       GTK_SOURCE_TYPE_SPACE_LOCATION_FLAGS,
+                                                       GTK_SOURCE_SPACE_LOCATION_ALL,
+                                                       G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_SHOW_LINE_ENDINGS,
+                                   g_param_spec_boolean ("show-line-endings",
+                                                         "ShowLineEndings",
+                                                         "Whether line-endings are visualized in the view",
+                                                         FALSE,
+                                                         G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_COLOR_SCHEME,
+                                   g_param_spec_string ("color-scheme",
+                                                        "ColorScheme",
+                                                        "The id of the syntax highlighting color scheme to use",
+                                                        NULL,
+                                                        G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_WORD_WRAP,
+                                   g_param_spec_boolean ("word-wrap",
+                                                         "WordWrap",
+                                                         "Whether to virtually wrap long lines in the view",
+                                                         FALSE,
+                                                         G_PARAM_WRITABLE));
+  g_object_class_install_property (gobject_class,
+                                   PROP_MATCH_BRACES,
+                                   g_param_spec_boolean ("match-braces",
+                                                         "MatchBraces",
+                                                         "Whether to highlight matching braces, parens, brackets, etc.",
+                                                         FALSE,
+                                                         G_PARAM_WRITABLE));
 }
 
 
 
 static void
 mousepad_view_buffer_changed (MousepadView *view,
-                              GParamSpec   *pspec,
-                              gpointer      user_data)
+                              GParamSpec *pspec,
+                              gpointer user_data)
 {
   GtkSourceBuffer *buffer;
   buffer = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (view)));
@@ -193,12 +230,12 @@ mousepad_view_buffer_changed (MousepadView *view,
   if (buffer != NULL)
     {
       GtkSourceStyleSchemeManager *manager;
-      GtkSourceStyleScheme        *scheme;
+      GtkSourceStyleScheme *scheme;
       gboolean enable_highlight = TRUE;
 
       manager = gtk_source_style_scheme_manager_get_default ();
-      scheme = gtk_source_style_scheme_manager_get_scheme (manager,
-                 view->color_scheme ? view->color_scheme : "");
+      scheme = gtk_source_style_scheme_manager_get_scheme (
+        manager, view->color_scheme != NULL ? view->color_scheme : "");
 
       if (scheme == NULL)
         {
@@ -260,23 +297,23 @@ mousepad_view_init (MousepadView *view)
 #define BIND_(setting, prop) \
   MOUSEPAD_SETTING_BIND (setting, view, prop, G_SETTINGS_BIND_GET)
 
-  BIND_ (AUTO_INDENT,            "auto-indent");
-  BIND_ (INDENT_ON_TAB,          "indent-on-tab");
-  BIND_ (INDENT_WIDTH,           "indent-width");
-  BIND_ (TAB_WIDTH,              "tab-width");
-  BIND_ (INSERT_SPACES,          "insert-spaces-instead-of-tabs");
-  BIND_ (SMART_BACKSPACE,        "smart-backspace");
-  BIND_ (SMART_HOME_END,         "smart-home-end");
-  BIND_ (SHOW_WHITESPACE,        "show-whitespace");
-  BIND_ (SHOW_LINE_ENDINGS,      "show-line-endings");
-  BIND_ (SHOW_LINE_MARKS,        "show-line-marks");
-  BIND_ (SHOW_LINE_NUMBERS,      "show-line-numbers");
-  BIND_ (SHOW_RIGHT_MARGIN,      "show-right-margin");
-  BIND_ (RIGHT_MARGIN_POSITION,  "right-margin-position");
+  BIND_ (AUTO_INDENT, "auto-indent");
+  BIND_ (INDENT_ON_TAB, "indent-on-tab");
+  BIND_ (INDENT_WIDTH, "indent-width");
+  BIND_ (TAB_WIDTH, "tab-width");
+  BIND_ (INSERT_SPACES, "insert-spaces-instead-of-tabs");
+  BIND_ (SMART_BACKSPACE, "smart-backspace");
+  BIND_ (SMART_HOME_END, "smart-home-end");
+  BIND_ (SHOW_WHITESPACE, "show-whitespace");
+  BIND_ (SHOW_LINE_ENDINGS, "show-line-endings");
+  BIND_ (SHOW_LINE_MARKS, "show-line-marks");
+  BIND_ (SHOW_LINE_NUMBERS, "show-line-numbers");
+  BIND_ (SHOW_RIGHT_MARGIN, "show-right-margin");
+  BIND_ (RIGHT_MARGIN_POSITION, "right-margin-position");
   BIND_ (HIGHLIGHT_CURRENT_LINE, "highlight-current-line");
-  BIND_ (COLOR_SCHEME,           "color-scheme");
-  BIND_ (WORD_WRAP,              "word-wrap");
-  BIND_ (MATCH_BRACES,           "match-braces");
+  BIND_ (COLOR_SCHEME, "color-scheme");
+  BIND_ (WORD_WRAP, "word-wrap");
+  BIND_ (MATCH_BRACES, "match-braces");
 
 #undef BIND_
 
@@ -306,10 +343,10 @@ mousepad_view_finalize (GObject *object)
 
 
 static void
-mousepad_view_set_property (GObject      *object,
-                            guint         prop_id,
+mousepad_view_set_property (GObject *object,
+                            guint prop_id,
                             const GValue *value,
-                            GParamSpec   *pspec)
+                            GParamSpec *pspec)
 {
   MousepadView *view = MOUSEPAD_VIEW (object);
 
@@ -345,26 +382,25 @@ mousepad_view_set_property (GObject      *object,
 
 
 static gboolean
-mousepad_view_drag_motion (GtkWidget      *widget,
+mousepad_view_drag_motion (GtkWidget *widget,
                            GdkDragContext *context,
-                           gint            x,
-                           gint            y,
-                           guint           timestamp)
+                           gint x,
+                           gint y,
+                           guint timestamp)
 {
   GtkTargetList *target_list;
-  gboolean       drop_zone;
+  gboolean drop_zone;
 
   /* chain up to parent */
-  drop_zone = GTK_WIDGET_CLASS (mousepad_view_parent_class)->drag_motion (widget, context,
-                                                                          x, y, timestamp);
+  drop_zone = GTK_WIDGET_CLASS (mousepad_view_parent_class)->drag_motion (widget, context, x, y, timestamp);
 
   /* enforce acceptance of our targets, especially when hovering over selections */
   target_list = gtk_target_list_new (drop_targets, G_N_ELEMENTS (drop_targets));
   if (gtk_drag_dest_find_target (widget, context, target_list) != GDK_NONE)
-  {
-    gdk_drag_status (context, gdk_drag_context_get_suggested_action (context), timestamp);
-    drop_zone = TRUE;
-  }
+    {
+      gdk_drag_status (context, gdk_drag_context_get_suggested_action (context), timestamp);
+      drop_zone = TRUE;
+    }
 
   gtk_target_list_unref (target_list);
 
@@ -386,15 +422,15 @@ mousepad_view_cut_clipboard (GtkTextView *text_view)
 
 
 static void
-mousepad_view_delete_from_cursor (GtkTextView   *text_view,
-                                  GtkDeleteType  type,
-                                  int            count)
+mousepad_view_delete_from_cursor (GtkTextView *text_view,
+                                  GtkDeleteType type,
+                                  int count)
 {
   GtkTextBuffer *buffer;
-  GtkTextIter    iter, start, end;
-  GtkTextMark   *start_mark, *end_mark;
-  gchar         *text = NULL, *eol;
-  gint           line, column, n_lines;
+  GtkTextIter iter, start, end;
+  GtkTextMark *start_mark, *end_mark;
+  gchar *text = NULL, *eol;
+  gint line, column, n_lines;
 
   /* override only GTK_DELETE_PARAGRAPHS to make "win.edit.delete-line" work as expected */
   if (type == GTK_DELETE_PARAGRAPHS)
@@ -438,7 +474,7 @@ mousepad_view_delete_from_cursor (GtkTextView   *text_view,
               /* copy the penultimate line, paragraph delimiter aside */
               gtk_text_buffer_get_iter_at_line (buffer, &start, line - 1);
               end = start;
-              if (! gtk_text_iter_ends_line (&end))
+              if (!gtk_text_iter_ends_line (&end))
                 gtk_text_iter_forward_to_line_end (&end);
 
               text = gtk_text_buffer_get_text (buffer, &start, &end, TRUE);
@@ -513,12 +549,12 @@ mousepad_view_paste_clipboard (GtkTextView *text_view)
 
 static void
 _mousepad_view_move_lines (GtkSourceView *source_view,
-                           gboolean       down)
+                           gboolean down)
 {
   GtkTextBuffer *buffer;
-  GtkTextIter    start, end, iter;
-  gint           n_lines, start_line, end_line, start_char, end_char;
-  gboolean       cursor_start = FALSE, inserted = FALSE;
+  GtkTextIter start, end, iter;
+  gint n_lines, start_line, end_line, start_char, end_char;
+  gboolean cursor_start = FALSE, inserted = FALSE;
 
   /* get selection lines and character offsets */
   buffer = mousepad_view_get_buffer (MOUSEPAD_VIEW (source_view));
@@ -540,7 +576,7 @@ _mousepad_view_move_lines (GtkSourceView *source_view,
 
   /* insert fake text on last line if needed, to not make the last empty line a special case */
   if ((down && end_line == n_lines - 2 && (end_char != 0 || start_line == end_line))
-      || (! down && start_line == n_lines - 1))
+      || (!down && start_line == n_lines - 1))
     {
       gtk_text_buffer_get_end_iter (buffer, &end);
       if (gtk_text_iter_get_chars_in_line (&end) == 0)
@@ -551,7 +587,7 @@ _mousepad_view_move_lines (GtkSourceView *source_view,
     }
 
   /* compute new start/end lines */
-  if (! down && start_line != 0)
+  if (!down && start_line != 0)
     {
       start_line--;
       end_line--;
@@ -562,8 +598,8 @@ _mousepad_view_move_lines (GtkSourceView *source_view,
       end_line++;
     }
 
-  /* let GSV move lines */
 #if GTK_SOURCE_MAJOR_VERSION >= 4
+  /* let GSV move lines */
   GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_lines (source_view, down);
 #else
   GTK_SOURCE_VIEW_CLASS (mousepad_view_parent_class)->move_lines (source_view, FALSE, down ? 1 : -1);
@@ -572,7 +608,7 @@ _mousepad_view_move_lines (GtkSourceView *source_view,
   /* delete fake text */
   if (inserted)
     {
-      down = !! down;
+      down = !!down;
       gtk_text_buffer_get_iter_at_line_offset (buffer, &start, start_line - down, 0);
       gtk_text_buffer_get_iter_at_line_offset (buffer, &end, start_line - down, 1);
       gtk_text_buffer_delete (buffer, &start, &end);
@@ -597,7 +633,7 @@ _mousepad_view_move_lines (GtkSourceView *source_view,
 
 static void
 mousepad_view_move_lines (GtkSourceView *source_view,
-                          gboolean       down)
+                          gboolean down)
 {
   _mousepad_view_move_lines (source_view, down);
 }
@@ -606,8 +642,8 @@ mousepad_view_move_lines (GtkSourceView *source_view,
 
 static void
 mousepad_view_move_lines (GtkSourceView *source_view,
-                          gboolean       copy,
-                          gint           count)
+                          gboolean copy,
+                          gint count)
 {
   _mousepad_view_move_lines (source_view, copy);
 }
@@ -618,14 +654,14 @@ mousepad_view_move_lines (GtkSourceView *source_view,
 
 static void
 mousepad_view_move_words (GtkSourceView *source_view,
-                          gint           count)
+                          gint count)
 {
   GtkTextBuffer *buffer, *test_buffer;
-  GtkWidget     *test_view;
-  GtkTextIter    start, end;
-  gchar         *text;
-  gint           n_chars, start_offset, end_offset;
-  gboolean       succeed;
+  GtkWidget *test_view;
+  GtkTextIter start, end;
+  gchar *text;
+  gint n_chars, start_offset, end_offset;
+  gboolean succeed;
 
   /*
    * GSV sometimes fails to move words correctly, and removes content in these cases:
@@ -658,7 +694,7 @@ mousepad_view_move_words (GtkSourceView *source_view,
   succeed = (gtk_text_buffer_get_char_count (test_buffer) == n_chars);
   g_object_unref (test_view);
   g_free (text);
-  if (! succeed)
+  if (!succeed)
     return;
 
   /* let GSV move words */
@@ -694,7 +730,7 @@ mousepad_view_undo (GtkSourceView *source_view)
 gboolean
 mousepad_view_scroll_to_cursor (gpointer data)
 {
-  MousepadView  *view = data;
+  MousepadView *view = data;
   GtkTextBuffer *buffer;
 
   /* get the buffer */
@@ -712,11 +748,11 @@ mousepad_view_scroll_to_cursor (gpointer data)
 
 static void
 mousepad_view_transpose_range (GtkTextBuffer *buffer,
-                               GtkTextIter   *start_iter,
-                               GtkTextIter   *end_iter)
+                               GtkTextIter *start_iter,
+                               GtkTextIter *end_iter)
 {
   gchar *string, *reversed;
-  gint   offset;
+  gint offset;
 
   /* store start iter line offset */
   offset = gtk_text_iter_get_offset (start_iter);
@@ -751,13 +787,13 @@ mousepad_view_transpose_range (GtkTextBuffer *buffer,
 
 static void
 mousepad_view_transpose_lines (GtkTextBuffer *buffer,
-                               GtkTextIter   *start_iter,
-                               GtkTextIter   *end_iter)
+                               GtkTextIter *start_iter,
+                               GtkTextIter *end_iter)
 {
   GString *string;
-  gint     start_line, end_line;
-  gint     i;
-  gchar   *slice;
+  gint start_line, end_line;
+  gint i;
+  gchar *slice;
 
   /* make sure the order is ok */
   gtk_text_iter_order (start_iter, end_iter);
@@ -815,12 +851,12 @@ mousepad_view_transpose_lines (GtkTextBuffer *buffer,
 
 static void
 mousepad_view_transpose_words (GtkTextBuffer *buffer,
-                               GtkTextIter   *iter)
+                               GtkTextIter *iter)
 {
   GtkTextMark *left_mark, *right_mark;
-  GtkTextIter  start_left, end_left, start_right, end_right;
-  gchar       *word_left, *word_right;
-  gboolean     restore_cursor;
+  GtkTextIter start_left, end_left, start_right, end_right;
+  gchar *word_left, *word_right;
+  gboolean restore_cursor;
 
   /* left word end */
   end_left = *iter;
@@ -893,7 +929,7 @@ void
 mousepad_view_transpose (MousepadView *view)
 {
   GtkTextBuffer *buffer;
-  GtkTextIter    sel_start, sel_end;
+  GtkTextIter sel_start, sel_end;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -984,18 +1020,18 @@ mousepad_view_transpose (MousepadView *view)
 
 void
 mousepad_view_custom_paste (MousepadView *view,
-                            const gchar  *string)
+                            const gchar *string)
 {
-  GtkClipboard   *clipboard;
-  GtkTextBuffer  *buffer;
-  GtkTextMark    *mark;
-  GtkTextIter     iter, start_iter, end_iter;
-  gchar         **pieces;
-  gchar          *text = NULL;
-  gint            i, column;
+  GtkClipboard *clipboard;
+  GtkTextBuffer *buffer;
+  GtkTextMark *mark;
+  GtkTextIter iter, start_iter, end_iter;
+  gchar **pieces;
+  gchar *text = NULL;
+  gint i, column;
 
   /* leave when the view is not editable */
-  if (! gtk_text_view_get_editable (GTK_TEXT_VIEW (view)))
+  if (!gtk_text_view_get_editable (GTK_TEXT_VIEW (view)))
     return;
 
   /* get the buffer */
@@ -1033,7 +1069,7 @@ mousepad_view_custom_paste (MousepadView *view,
           gtk_text_buffer_insert (buffer, &iter, pieces[i], -1);
 
           /* break if the next piece is null */
-          if (G_UNLIKELY (pieces[i+1] == NULL))
+          if (G_UNLIKELY (pieces[i + 1] == NULL))
             break;
 
           /* move the iter to the next line */
@@ -1080,20 +1116,20 @@ mousepad_view_custom_paste (MousepadView *view,
 
 void
 mousepad_view_convert_spaces_and_tabs (MousepadView *view,
-                                       gint          type)
+                                       gint type)
 {
   GtkTextBuffer *buffer;
-  GtkTextMark   *mark;
-  GtkTextIter    start_iter, end_iter;
-  GtkTextIter    iter;
-  gint           tab_size;
-  gboolean       in_range = FALSE;
-  gboolean       no_forward;
-  gunichar       c;
-  gint           offset;
-  gint           n_spaces = 0;
-  gint           start_offset = -1;
-  gchar         *string;
+  GtkTextMark *mark;
+  GtkTextIter start_iter, end_iter;
+  GtkTextIter iter;
+  gint tab_size;
+  gboolean in_range = FALSE;
+  gboolean no_forward;
+  gunichar c;
+  gint offset;
+  gint n_spaces = 0;
+  gint start_offset = -1;
+  gchar *string;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -1143,7 +1179,7 @@ mousepad_view_convert_spaces_and_tabs (MousepadView *view,
         {
           if (c == ' ' || in_range)
             {
-              if (! in_range)
+              if (!in_range)
                 {
                   /* set the start iter */
                   iter = start_iter;
@@ -1230,7 +1266,7 @@ mousepad_view_convert_spaces_and_tabs (MousepadView *view,
         break;
 
       /* forward the iter */
-      if (G_LIKELY (! no_forward))
+      if (G_LIKELY (!no_forward))
         gtk_text_iter_forward_char (&start_iter);
     }
 
@@ -1256,9 +1292,9 @@ void
 mousepad_view_strip_trailing_spaces (MousepadView *view)
 {
   GtkTextBuffer *buffer;
-  GtkTextIter    start_iter, end_iter, needle;
-  gint           start, end, i;
-  gunichar       c;
+  GtkTextIter start_iter, end_iter, needle;
+  gint start, end, i;
+  gunichar c;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -1326,9 +1362,9 @@ void
 mousepad_view_duplicate (MousepadView *view)
 {
   GtkTextBuffer *buffer;
-  GtkTextIter    start_iter, end_iter;
-  gboolean       has_selection;
-  gboolean       insert_eol = FALSE;
+  GtkTextIter start_iter, end_iter;
+  gboolean has_selection;
+  gboolean insert_eol = FALSE;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -1342,7 +1378,7 @@ mousepad_view_duplicate (MousepadView *view)
   has_selection = gtk_text_buffer_get_selection_bounds (buffer, &start_iter, &end_iter);
 
   /* select entire line */
-  if (! has_selection)
+  if (!has_selection)
     {
       /* set to the start of the line */
       if (!gtk_text_iter_starts_line (&start_iter))
@@ -1369,8 +1405,8 @@ gint
 mousepad_view_get_selection_length (MousepadView *view)
 {
   GtkTextBuffer *buffer;
-  GtkTextIter    start, end;
-  gint           length = 0;
+  GtkTextIter start, end;
+  gint length = 0;
 
   g_return_val_if_fail (MOUSEPAD_IS_VIEW (view), FALSE);
 
@@ -1388,11 +1424,11 @@ mousepad_view_get_selection_length (MousepadView *view)
 
 static void
 mousepad_view_set_font (MousepadView *view,
-                        const gchar  *font)
+                        const gchar *font)
 {
   PangoFontDescription *font_desc;
-  GtkCssProvider       *provider;
-  gchar                *css_font_desc, *css_string;
+  GtkCssProvider *provider;
+  gchar *css_font_desc, *css_string;
 
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -1420,10 +1456,10 @@ mousepad_view_set_font (MousepadView *view,
 static void
 mousepad_view_update_draw_spaces (MousepadView *view)
 {
-  GtkSourceSpaceTypeFlags      type_flags = GTK_SOURCE_SPACE_TYPE_NONE;
-  GtkSourceSpaceLocationFlags  flag;
-  GtkSourceSpaceDrawer        *drawer;
-  gboolean                     enable_matrix = FALSE;
+  GtkSourceSpaceTypeFlags type_flags = GTK_SOURCE_SPACE_TYPE_NONE;
+  GtkSourceSpaceLocationFlags flag;
+  GtkSourceSpaceDrawer *drawer;
+  gboolean enable_matrix = FALSE;
 
   drawer = gtk_source_view_get_space_drawer (GTK_SOURCE_VIEW (view));
 
@@ -1462,7 +1498,7 @@ mousepad_view_update_draw_spaces (MousepadView *view)
 
 static void
 mousepad_view_set_show_whitespace (MousepadView *view,
-                                   gboolean      show)
+                                   gboolean show)
 {
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -1474,7 +1510,7 @@ mousepad_view_set_show_whitespace (MousepadView *view,
 
 static void
 mousepad_view_set_space_location_flags (MousepadView *view,
-                                        gulong        flags)
+                                        gulong flags)
 {
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -1486,7 +1522,7 @@ mousepad_view_set_space_location_flags (MousepadView *view,
 
 static void
 mousepad_view_set_show_line_endings (MousepadView *view,
-                                     gboolean      show)
+                                     gboolean show)
 {
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -1498,7 +1534,7 @@ mousepad_view_set_show_line_endings (MousepadView *view,
 
 static void
 mousepad_view_set_color_scheme (MousepadView *view,
-                                const gchar  *color_scheme)
+                                const gchar *color_scheme)
 {
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -1516,7 +1552,7 @@ mousepad_view_set_color_scheme (MousepadView *view,
 
 static void
 mousepad_view_set_word_wrap (MousepadView *view,
-                             gboolean      enabled)
+                             gboolean enabled)
 {
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 
@@ -1528,7 +1564,7 @@ mousepad_view_set_word_wrap (MousepadView *view,
 
 static void
 mousepad_view_set_match_braces (MousepadView *view,
-                                gboolean      enabled)
+                                gboolean enabled)
 {
   g_return_if_fail (MOUSEPAD_IS_VIEW (view));
 

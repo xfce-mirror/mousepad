@@ -14,22 +14,28 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-plugin.h>
-#include <mousepad/mousepad-settings.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-plugin.h"
+#include "mousepad/mousepad-settings.h"
 
 
+
+#define get_instance_private(instance) \
+  ((MousepadPluginPrivate *) mousepad_plugin_get_instance_private (MOUSEPAD_PLUGIN (instance)))
 
 /* GObject virtual functions */
-static void mousepad_plugin_set_property (GObject      *object,
-                                          guint         prop_id,
-                                          const GValue *value,
-                                          GParamSpec   *pspec);
-static void mousepad_plugin_get_property (GObject      *object,
-                                          guint         prop_id,
-                                          GValue       *value,
-                                          GParamSpec   *pspec);
-static void mousepad_plugin_constructed  (GObject      *object);
+static void
+mousepad_plugin_set_property (GObject *object,
+                              guint prop_id,
+                              const GValue *value,
+                              GParamSpec *pspec);
+static void
+mousepad_plugin_get_property (GObject *object,
+                              guint prop_id,
+                              GValue *value,
+                              GParamSpec *pspec);
+static void
+mousepad_plugin_constructed (GObject *object);
 
 
 
@@ -67,20 +73,22 @@ mousepad_plugin_class_init (MousepadPluginClass *klass)
   gobject_class->constructed = mousepad_plugin_constructed;
 
   g_object_class_install_property (gobject_class, PROP_PROVIDER,
-    g_param_spec_object ("provider", "Provider", "The plugin provider",
-                         MOUSEPAD_TYPE_PLUGIN_PROVIDER,
-                         G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+                                   g_param_spec_object ("provider",
+                                                        "Provider",
+                                                        "The plugin provider",
+                                                        MOUSEPAD_TYPE_PLUGIN_PROVIDER,
+                                                        G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 
 
 static void
-mousepad_plugin_set_property (GObject      *object,
-                              guint         prop_id,
+mousepad_plugin_set_property (GObject *object,
+                              guint prop_id,
                               const GValue *value,
-                              GParamSpec   *pspec)
+                              GParamSpec *pspec)
 {
-  MousepadPluginPrivate *priv = mousepad_plugin_get_instance_private (MOUSEPAD_PLUGIN (object));
+  MousepadPluginPrivate *priv = get_instance_private (object);
 
   switch (prop_id)
     {
@@ -96,12 +104,12 @@ mousepad_plugin_set_property (GObject      *object,
 
 
 static void
-mousepad_plugin_get_property (GObject    *object,
-                              guint       prop_id,
-                              GValue     *value,
+mousepad_plugin_get_property (GObject *object,
+                              guint prop_id,
+                              GValue *value,
                               GParamSpec *pspec)
 {
-  MousepadPluginPrivate *priv = mousepad_plugin_get_instance_private (MOUSEPAD_PLUGIN (object));
+  MousepadPluginPrivate *priv = get_instance_private (object);
 
   switch (prop_id)
     {
@@ -119,7 +127,7 @@ mousepad_plugin_get_property (GObject    *object,
 static void
 mousepad_plugin_init (MousepadPlugin *plugin)
 {
-  MousepadPluginPrivate *priv = mousepad_plugin_get_instance_private (plugin);
+  MousepadPluginPrivate *priv = get_instance_private (plugin);
 
   priv->provider = NULL;
   priv->enabled = TRUE;
@@ -130,9 +138,9 @@ mousepad_plugin_init (MousepadPlugin *plugin)
 static void
 mousepad_plugin_state_changed (MousepadPlugin *plugin)
 {
-  MousepadPluginPrivate  *priv = mousepad_plugin_get_instance_private (plugin);
-  gchar                 **plugins;
-  gboolean                contained;
+  MousepadPluginPrivate *priv = get_instance_private (plugin);
+  gchar **plugins;
+  gboolean contained;
 
   /* get the list of enabled plugins */
   plugins = MOUSEPAD_SETTING_GET_STRV (ENABLED_PLUGINS);
@@ -141,12 +149,12 @@ mousepad_plugin_state_changed (MousepadPlugin *plugin)
   contained = g_strv_contains ((const gchar *const *) plugins,
                                G_TYPE_MODULE (priv->provider)->name);
 
-  if (! priv->enabled && contained)
+  if (!priv->enabled && contained)
     {
       priv->enabled = TRUE;
       MOUSEPAD_PLUGIN_GET_CLASS (plugin)->enable (plugin);
     }
-  else if (priv->enabled && ! contained)
+  else if (priv->enabled && !contained)
     {
       priv->enabled = FALSE;
       MOUSEPAD_PLUGIN_GET_CLASS (plugin)->disable (plugin);
@@ -161,10 +169,10 @@ mousepad_plugin_state_changed (MousepadPlugin *plugin)
 static void
 mousepad_plugin_constructed (GObject *object)
 {
-  MousepadPluginPrivate *priv = mousepad_plugin_get_instance_private (MOUSEPAD_PLUGIN (object));
+  MousepadPluginPrivate *priv = get_instance_private (object);
 
   /* if the plugin isn't destroyed when disabled, bind to gsettings to keep its state in sync */
-  if (! mousepad_plugin_provider_is_destroyable (priv->provider))
+  if (!mousepad_plugin_provider_is_destroyable (priv->provider))
     MOUSEPAD_SETTING_CONNECT_OBJECT (ENABLED_PLUGINS, mousepad_plugin_state_changed,
                                      object, G_CONNECT_SWAPPED);
 
