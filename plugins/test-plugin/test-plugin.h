@@ -17,14 +17,15 @@
 #ifndef __TEST_PLUGIN_H__
 #define __TEST_PLUGIN_H__
 
-#include <mousepad/mousepad-plugin.h>
+#include "mousepad/mousepad-plugin.h"
 
 G_BEGIN_DECLS
 
 #define TEST_TYPE_PLUGIN (test_plugin_get_type ())
 G_DECLARE_FINAL_TYPE (TestPlugin, test_plugin, TEST, PLUGIN, MousepadPlugin)
 
-void test_plugin_register (MousepadPluginProvider *plugin);
+void
+test_plugin_register (MousepadPluginProvider *plugin);
 
 G_END_DECLS
 

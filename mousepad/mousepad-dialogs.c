@@ -14,13 +14,13 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-dialogs.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-encoding-dialog.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-window.h>
-#include <mousepad/mousepad-history.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-dialogs.h"
+#include "mousepad/mousepad-encoding-dialog.h"
+#include "mousepad/mousepad-history.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
+#include "mousepad/mousepad-window.h"
 
 
 
@@ -38,7 +38,7 @@ mousepad_dialogs_destroy_with_parent (GtkWidget *dialog,
 {
   /* make sure to connect to a MousepadWindow "destroy" signal, so that stacked dialogs
    * are recursively destroyed */
-  while (! MOUSEPAD_IS_WINDOW (parent))
+  while (!MOUSEPAD_IS_WINDOW (parent))
     {
       parent = gtk_window_get_transient_for (parent);
       if (G_UNLIKELY (parent == NULL))
@@ -55,8 +55,7 @@ mousepad_dialogs_destroy_with_parent (GtkWidget *dialog,
 void
 mousepad_dialogs_show_about (GtkWindow *parent)
 {
-  static const gchar *authors[] =
-  {
+  static const gchar *authors[] = {
     "Nick Schermer <nick@xfce.org>",
     "Erik Harrison <erikharrison@xfce.org>",
     "Matthew Brush <matt@xfce.org>",
@@ -82,9 +81,9 @@ mousepad_dialogs_show_about (GtkWindow *parent)
 
 
 void
-mousepad_dialogs_show_error (GtkWindow    *parent,
+mousepad_dialogs_show_error (GtkWindow *parent,
                              const GError *error,
-                             const gchar  *message)
+                             const gchar *message)
 {
   GtkWidget *dialog;
 
@@ -110,11 +109,11 @@ mousepad_dialogs_show_error (GtkWindow    *parent,
 
 
 void
-mousepad_dialogs_show_help (GtkWindow   *parent,
+mousepad_dialogs_show_help (GtkWindow *parent,
                             const gchar *page,
                             const gchar *offset)
 {
-  GError      *error = NULL;
+  GError *error = NULL;
   const gchar *uri = "https://docs.xfce.org/apps/mousepad/start";
 
   /* try to run the documentation browser */
@@ -130,7 +129,7 @@ mousepad_dialogs_show_help (GtkWindow   *parent,
 
 gint
 mousepad_dialogs_other_tab_size (GtkWindow *parent,
-                                 gint      active_size)
+                                 gint active_size)
 {
   GtkWidget *dialog;
   GtkWidget *area;
@@ -175,8 +174,8 @@ mousepad_dialogs_go_to_line_changed (GtkSpinButton *line_spin,
                                      GtkSpinButton *col_spin)
 {
   GtkTextBuffer *buffer;
-  GtkTextIter    iter;
-  gint           line, total_columns;
+  GtkTextIter iter;
+  gint line, total_columns;
 
   g_return_if_fail (GTK_IS_SPIN_BUTTON (line_spin));
   g_return_if_fail (GTK_IS_SPIN_BUTTON (col_spin));
@@ -207,18 +206,18 @@ mousepad_dialogs_go_to_line_changed (GtkSpinButton *line_spin,
 
 
 gboolean
-mousepad_dialogs_go_to (GtkWindow     *parent,
+mousepad_dialogs_go_to (GtkWindow *parent,
                         GtkTextBuffer *buffer)
 {
-  GtkWidget    *dialog;
-  GtkWidget    *area, *vbox, *hbox;
-  GtkWidget    *button;
-  GtkWidget    *label;
-  GtkWidget    *line_spin, *col_spin;
+  GtkWidget *dialog;
+  GtkWidget *area, *vbox, *hbox;
+  GtkWidget *button;
+  GtkWidget *label;
+  GtkWidget *line_spin, *col_spin;
   GtkSizeGroup *size_group;
-  GtkTextIter   iter;
-  gint          line, column, lines;
-  gint          response;
+  GtkTextIter iter;
+  gint line, column, lines;
+  gint response;
 
   /* get cursor iter */
   gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
@@ -332,7 +331,7 @@ gboolean
 mousepad_dialogs_clear_recent (GtkWindow *parent)
 {
   GtkWidget *dialog, *button;
-  gboolean   succeed = FALSE;
+  gboolean succeed = FALSE;
 
   /* setup the question dialog */
   dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
@@ -345,7 +344,8 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* set secondary text */
-  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+  gtk_message_dialog_format_secondary_text (
+    GTK_MESSAGE_DIALOG (dialog),
     _("Clearing the documents history will permanently remove all currently listed entries."));
 
   /* add buttons */
@@ -370,12 +370,12 @@ mousepad_dialogs_clear_recent (GtkWindow *parent)
 
 gint
 mousepad_dialogs_save_changes (GtkWindow *parent,
-                               gboolean   closing,
-                               gboolean   readonly)
+                               gboolean closing,
+                               gboolean readonly)
 {
-  GtkWidget   *dialog, *button;
+  GtkWidget *dialog, *button;
   const gchar *text;
-  gint         response, button_response;
+  gint response, button_response;
 
   /* primary text */
   if (G_LIKELY (closing))
@@ -443,12 +443,12 @@ mousepad_dialogs_save_changes (GtkWindow *parent,
 
 gint
 mousepad_dialogs_externally_modified (GtkWindow *parent,
-                                      gboolean   saving,
-                                      gboolean   modified)
+                                      gboolean saving,
+                                      gboolean modified)
 {
-  GtkWidget   *dialog, *button;
+  GtkWidget *dialog, *button;
   const gchar *text_1, *text_2, *icon, *label;
-  gint         button_response, response;
+  gint button_response, response;
 
   /* set icons and texts to display */
   if (saving)
@@ -520,7 +520,7 @@ gint
 mousepad_dialogs_revert (GtkWindow *parent)
 {
   GtkWidget *dialog, *button;
-  gint       response;
+  gint response;
 
   /* setup the question dialog */
   dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
@@ -533,7 +533,8 @@ mousepad_dialogs_revert (GtkWindow *parent)
   mousepad_util_set_titlebar (GTK_WINDOW (dialog));
 
   /* set subtitle */
-  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+  gtk_message_dialog_format_secondary_text (
+    GTK_MESSAGE_DIALOG (dialog),
     _("If you revert the file, all unsaved changes will be lost."));
 
   /* add buttons */
@@ -564,7 +565,7 @@ mousepad_dialogs_confirm_encoding (const gchar *charset,
 {
   GtkWindow *parent;
   GtkWidget *dialog;
-  gint       response;
+  gint response;
 
   /* get the parent window */
   parent = gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ()));
@@ -607,8 +608,8 @@ mousepad_dialogs_session_restore_quit_idle (gpointer data)
 
 static void
 mousepad_dialogs_session_restore_quit (GSimpleAction *action,
-                                       GVariant      *parameter,
-                                       GtkDialog     *dialog)
+                                       GVariant *parameter,
+                                       GtkDialog *dialog)
 {
   /* disconnect this handler */
   mousepad_disconnect_by_func (action, mousepad_dialogs_session_restore_quit, dialog);
@@ -625,10 +626,10 @@ gint
 mousepad_dialogs_session_restore (void)
 {
   GtkApplication *application;
-  GtkWindow      *parent;
-  GtkWidget      *dialog;
-  GAction        *action;
-  gint            response;
+  GtkWindow *parent;
+  GtkWidget *dialog;
+  GAction *action;
+  gint response;
 
   /* get the parent window */
   application = GTK_APPLICATION (g_application_get_default ());
@@ -670,18 +671,18 @@ mousepad_dialogs_session_restore (void)
 
 
 static gboolean
-mousepad_dialogs_combo_set_active (GtkComboBox      *combo,
-                                   MousepadEncoding  encoding)
+mousepad_dialogs_combo_set_active (GtkComboBox *combo,
+                                   MousepadEncoding encoding)
 {
-  GtkTreeModel     *model;
-  GtkTreeIter       iter;
-  MousepadEncoding  value;
-  gint              n = 0;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  MousepadEncoding value;
+  gint n = 0;
 
   model = gtk_combo_box_get_model (combo);
   do
     {
-      if (! gtk_tree_model_iter_nth_child (model, &iter, NULL, n++))
+      if (!gtk_tree_model_iter_nth_child (model, &iter, NULL, n++))
         return FALSE;
 
       gtk_tree_model_get (model, &iter, 1, &value, -1);
@@ -697,15 +698,15 @@ mousepad_dialogs_combo_set_active (GtkComboBox      *combo,
 
 static void
 mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
-                                         GtkComboBox    *combo)
+                                         GtkComboBox *combo)
 {
-  MousepadEncoding  encoding = MOUSEPAD_ENCODING_NONE;
-  GtkTreeModel     *model;
-  GtkTreeIter       iter;
-  GSList           *files;
-  gchar            *label = NULL;
-  gint              row_type, row = 1;
-  gboolean          replace = FALSE;
+  MousepadEncoding encoding = MOUSEPAD_ENCODING_NONE;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  GSList *files;
+  gchar *label = NULL;
+  gint row_type, row = 1;
+  gboolean replace = FALSE;
 
   /* do nothing if no file or several files are selected */
   files = gtk_file_chooser_get_files (chooser);
@@ -758,7 +759,7 @@ mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
               gtk_tree_model_get (model, &iter, 0, &label, -1);
             }
           while (label != NULL && g_strstr_len (label, -1, "(") != NULL
-                 && ! (replace = g_strstr_len (label, -1, MOUSEPAD_ENCODING_LABEL_HISTORY) != NULL));
+                 && !(replace = g_strstr_len (label, -1, MOUSEPAD_ENCODING_LABEL_HISTORY) != NULL));
 
           g_free (label);
           label = g_strdup_printf ("%s (%s)", MOUSEPAD_ENCODING_LABEL_HISTORY,
@@ -784,8 +785,8 @@ mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
 
 static gboolean
 mousepad_dialogs_combo_insert_separator (GtkTreeModel *model,
-                                         GtkTreeIter  *iter,
-                                         gpointer      data)
+                                         GtkTreeIter *iter,
+                                         gpointer data)
 {
   gint row_type;
 
@@ -809,19 +810,19 @@ mousepad_dialogs_combo_popup (gpointer data)
 
 static void
 mousepad_dialogs_combo_changed (GtkComboBox *combo,
-                                GtkWidget   *dialog)
+                                GtkWidget *dialog)
 {
-  MousepadFile        *file = NULL, *current_file;
-  MousepadEncoding     encoding, cell_encoding;
-  GtkTreeModel        *model;
-  GtkListStore        *list;
-  GtkTreeIter          iter;
-  GSList              *files;
-  GFile               *g_file;
-  GFileIOStream       *iostream = NULL;
-  GError              *error = NULL;
-  gint                 row_type = 0, n_rows = 2;
-  gboolean             found = FALSE;
+  MousepadFile *file = NULL, *current_file;
+  MousepadEncoding encoding, cell_encoding;
+  GtkTreeModel *model;
+  GtkListStore *list;
+  GtkTreeIter iter;
+  GSList *files;
+  GFile *g_file;
+  GFileIOStream *iostream = NULL;
+  GError *error = NULL;
+  gint row_type = 0, n_rows = 2;
+  gboolean found = FALSE;
   static GtkTreeModel *short_model = NULL;
 
   /* consider encoding as user-set from now on */
@@ -900,7 +901,8 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
           /* inform the user in case of problem */
           if (error != NULL)
             {
-              mousepad_dialogs_show_error (GTK_WINDOW (dialog), error,
+              mousepad_dialogs_show_error (
+                GTK_WINDOW (dialog), error,
                 _("Failed to prepare the temporary file for encoding tests"));
 
               /* cleanup */
@@ -915,8 +917,8 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
         }
 
       /* run the encoding dialog */
-      if (file != NULL && mousepad_encoding_dialog (GTK_WINDOW (dialog), file, TRUE, &encoding)
-          == MOUSEPAD_RESPONSE_OK
+      if (file != NULL
+          && mousepad_encoding_dialog (GTK_WINDOW (dialog), file, TRUE, &encoding) == MOUSEPAD_RESPONSE_OK
           && gtk_tree_model_iter_nth_child (model, &iter, NULL, 1))
         {
           /* cleanup */
@@ -940,7 +942,7 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
             }
 
           /* add encoding to the combo box if needed */
-          if (! found)
+          if (!found)
             {
               n_rows++;
               gtk_list_store_insert_with_values (GTK_LIST_STORE (model), NULL, n_rows - 3,
@@ -1015,14 +1017,14 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
 static GtkComboBox *
 mousepad_dialogs_add_encoding_combo (GtkWidget *dialog)
 {
-  MousepadEncoding  default_encoding, system_encoding, current_encoding = MOUSEPAD_ENCODING_NONE;
-  MousepadFile     *file;
-  GtkWidget        *hbox, *widget, *combo;
-  GtkListStore     *list;
-  GtkCellRenderer  *cell;
-  gchar            *label;
-  guint             n_rows = 0, n;
-  MousepadEncoding  encodings[] = { MOUSEPAD_ENCODING_UTF_8, MOUSEPAD_ENCODING_ISO_8859_15 };
+  MousepadEncoding default_encoding, system_encoding, current_encoding = MOUSEPAD_ENCODING_NONE;
+  MousepadFile *file;
+  GtkWidget *hbox, *widget, *combo;
+  GtkListStore *list;
+  GtkCellRenderer *cell;
+  gchar *label;
+  guint n_rows = 0, n;
+  MousepadEncoding encodings[] = { MOUSEPAD_ENCODING_UTF_8, MOUSEPAD_ENCODING_ISO_8859_15 };
 
   /* packing */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
@@ -1134,16 +1136,16 @@ mousepad_dialogs_add_file_filter (GtkFileChooser *dialog)
 
 
 gint
-mousepad_dialogs_save_as (GtkWindow         *parent,
-                          MousepadFile      *current_file,
-                          GFile             *last_save_location,
-                          GFile            **file,
-                          MousepadEncoding  *encoding)
+mousepad_dialogs_save_as (GtkWindow *parent,
+                          MousepadFile *current_file,
+                          GFile *last_save_location,
+                          GFile **file,
+                          MousepadEncoding *encoding)
 {
-  GtkWidget   *dialog, *button;
+  GtkWidget *dialog, *button;
   GtkComboBox *combo;
-  GtkTreeIter  iter;
-  gint         response;
+  GtkTreeIter iter;
+  gint response;
 
   /* create the dialog */
   dialog = gtk_file_chooser_dialog_new (_("Save As"), parent, GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -1198,15 +1200,15 @@ mousepad_dialogs_save_as (GtkWindow         *parent,
 
 
 gint
-mousepad_dialogs_open (GtkWindow         *parent,
-                       GFile             *file,
-                       GSList           **files,
-                       MousepadEncoding  *encoding)
+mousepad_dialogs_open (GtkWindow *parent,
+                       GFile *file,
+                       GSList **files,
+                       MousepadEncoding *encoding)
 {
-  GtkWidget   *dialog, *button;
+  GtkWidget *dialog, *button;
   GtkComboBox *combo;
-  GtkTreeIter  iter;
-  gint         response;
+  GtkTreeIter iter;
+  gint response;
 
   /* create new file chooser dialog */
   dialog = gtk_file_chooser_dialog_new (_("Open File"), parent, GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -1268,7 +1270,7 @@ void
 mousepad_dialogs_select_font (GtkWindow *parent)
 {
   GtkWidget *dialog;
-  gchar     *font;
+  gchar *font;
 
   /* create new font chooser dialog */
   dialog = gtk_font_chooser_dialog_new (_("Choose Mousepad Font"), parent);

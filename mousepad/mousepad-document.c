@@ -14,44 +14,56 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-close-button.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-document.h>
-#include <mousepad/mousepad-marshal.h>
-#include <mousepad/mousepad-view.h>
-#include <mousepad/mousepad-window.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-document.h"
+#include "mousepad/mousepad-close-button.h"
+#include "mousepad/mousepad-marshal.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
+#include "mousepad/mousepad-view.h"
+#include "mousepad/mousepad-window.h"
 
 
 
-static void      mousepad_document_finalize                (GObject                *object);
-static gboolean  mousepad_document_scroll_event            (GtkWidget              *widget,
-                                                            GdkEventScroll         *event);
-static void      mousepad_document_notify_cursor_position  (MousepadDocument       *document);
-static void      mousepad_document_encoding_changed        (MousepadFile           *file,
-                                                            MousepadEncoding        encoding,
-                                                            MousepadDocument       *document);
-static void      mousepad_document_notify_language         (GtkSourceBuffer        *buffer,
-                                                            GParamSpec             *pspec,
-                                                            MousepadDocument       *document);
-static void      mousepad_document_notify_overwrite        (GtkTextView            *textview,
-                                                            GParamSpec             *pspec,
-                                                            MousepadDocument       *document);
-static void      mousepad_document_location_changed        (MousepadDocument       *document,
-                                                            GFile                  *file);
-static void      mousepad_document_style_label             (MousepadDocument       *document);
-static void      mousepad_document_tab_button_clicked      (GtkWidget              *widget,
-                                                            MousepadDocument       *document);
-static void      mousepad_document_search_completed        (GObject                *object,
-                                                            GAsyncResult           *result,
-                                                            gpointer                data);
-static void      mousepad_document_emit_search_signal      (MousepadDocument       *document,
-                                                            GParamSpec             *pspec,
-                                                            GtkSourceSearchContext *search_context);
-static void      mousepad_document_search_widget_visible   (MousepadDocument       *document,
-                                                            GParamSpec             *pspec,
-                                                            MousepadWindow         *window);
+static void
+mousepad_document_finalize (GObject *object);
+static gboolean
+mousepad_document_scroll_event (GtkWidget *widget,
+                                GdkEventScroll *event);
+static void
+mousepad_document_notify_cursor_position (MousepadDocument *document);
+static void
+mousepad_document_encoding_changed (MousepadFile *file,
+                                    MousepadEncoding encoding,
+                                    MousepadDocument *document);
+static void
+mousepad_document_notify_language (GtkSourceBuffer *buffer,
+                                   GParamSpec *pspec,
+                                   MousepadDocument *document);
+static void
+mousepad_document_notify_overwrite (GtkTextView *textview,
+                                    GParamSpec *pspec,
+                                    MousepadDocument *document);
+static void
+mousepad_document_location_changed (MousepadDocument *document,
+                                    GFile *file);
+static void
+mousepad_document_style_label (MousepadDocument *document);
+static void
+mousepad_document_tab_button_clicked (GtkWidget *widget,
+                                      MousepadDocument *document);
+static void
+mousepad_document_search_completed (GObject *object,
+                                    GAsyncResult *result,
+                                    gpointer data);
+static void
+mousepad_document_emit_search_signal (MousepadDocument *document,
+                                      GParamSpec *pspec,
+                                      GtkSourceSearchContext *search_context);
+static void
+mousepad_document_search_widget_visible (MousepadDocument *document,
+                                         GParamSpec *pspec,
+                                         MousepadWindow *window);
 
 
 
@@ -76,19 +88,19 @@ enum
 struct _MousepadDocumentPrivate
 {
   /* the tab label and its tooltip ebox */
-  GtkWidget              *ebox;
-  GtkWidget              *label;
+  GtkWidget *ebox;
+  GtkWidget *label;
 
   /* utf-8 valid document names */
-  gchar                  *utf8_filename;
-  gchar                  *utf8_basename;
+  gchar *utf8_filename;
+  gchar *utf8_basename;
 
   /* search related */
   GtkSourceSearchContext *search_context, *selection_context;
-  GtkSourceBuffer        *selection_buffer;
-  gint                    prev_search_state;
-  guint                   search_id;
-  gint                    cur_match;
+  GtkSourceBuffer *selection_buffer;
+  gint prev_search_state;
+  guint search_id;
+  gint cur_match;
 };
 
 
@@ -121,42 +133,57 @@ mousepad_document_class_init (MousepadDocumentClass *klass)
   gtkwidget_class = GTK_WIDGET_CLASS (klass);
   gtkwidget_class->scroll_event = mousepad_document_scroll_event;
 
-  document_signals[CLOSE_TAB] =
-    g_signal_new (I_("close-tab"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
+  document_signals[CLOSE_TAB] = g_signal_new (I_ ("close-tab"),
+                                              G_TYPE_FROM_CLASS (gobject_class),
+                                              G_SIGNAL_RUN_LAST,
+                                              0, NULL, NULL,
+                                              g_cclosure_marshal_VOID__VOID,
+                                              G_TYPE_NONE, 0);
 
-  document_signals[CURSOR_CHANGED] =
-    g_signal_new (I_("cursor-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, _mousepad_marshal_VOID__INT_INT_INT,
-                  G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT);
+  document_signals[CURSOR_CHANGED] = g_signal_new (I_ ("cursor-changed"),
+                                                   G_TYPE_FROM_CLASS (gobject_class),
+                                                   G_SIGNAL_RUN_LAST,
+                                                   0, NULL, NULL,
+                                                   _mousepad_marshal_VOID__INT_INT_INT,
+                                                   G_TYPE_NONE, 3, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT);
 
-  document_signals[ENCODING_CHANGED] =
-    g_signal_new (I_("encoding-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__INT, G_TYPE_NONE, 1, G_TYPE_INT);
+  document_signals[ENCODING_CHANGED] = g_signal_new (I_ ("encoding-changed"),
+                                                     G_TYPE_FROM_CLASS (gobject_class),
+                                                     G_SIGNAL_RUN_LAST,
+                                                     0, NULL, NULL,
+                                                     g_cclosure_marshal_VOID__INT,
+                                                     G_TYPE_NONE, 1, G_TYPE_INT);
 
-  document_signals[LANGUAGE_CHANGED] =
-    g_signal_new (I_("language-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT,
-                  G_TYPE_NONE, 1, GTK_SOURCE_TYPE_LANGUAGE);
+  document_signals[LANGUAGE_CHANGED] = g_signal_new (I_ ("language-changed"),
+                                                     G_TYPE_FROM_CLASS (gobject_class),
+                                                     G_SIGNAL_RUN_LAST,
+                                                     0, NULL, NULL,
+                                                     g_cclosure_marshal_VOID__OBJECT,
+                                                     G_TYPE_NONE, 1, GTK_SOURCE_TYPE_LANGUAGE);
 
-  document_signals[OVERWRITE_CHANGED] =
-    g_signal_new (I_("overwrite-changed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, g_cclosure_marshal_VOID__BOOLEAN, G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+  document_signals[OVERWRITE_CHANGED] = g_signal_new (I_ ("overwrite-changed"),
+                                                      G_TYPE_FROM_CLASS (gobject_class),
+                                                      G_SIGNAL_RUN_LAST,
+                                                      0, NULL, NULL,
+                                                      g_cclosure_marshal_VOID__BOOLEAN,
+                                                      G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 
-  document_signals[SEARCH_COMPLETED] =
-    g_signal_new (I_("search-completed"), G_TYPE_FROM_CLASS (gobject_class), G_SIGNAL_RUN_LAST,
-                  0, NULL, NULL, _mousepad_marshal_VOID__INT_INT_STRING_FLAGS,
-                  G_TYPE_NONE, 4, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING, MOUSEPAD_TYPE_SEARCH_FLAGS);
+  document_signals[SEARCH_COMPLETED] = g_signal_new (I_ ("search-completed"),
+                                                     G_TYPE_FROM_CLASS (gobject_class),
+                                                     G_SIGNAL_RUN_LAST,
+                                                     0, NULL, NULL,
+                                                     _mousepad_marshal_VOID__INT_INT_STRING_FLAGS,
+                                                     G_TYPE_NONE, 4, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING, MOUSEPAD_TYPE_SEARCH_FLAGS);
 }
 
 
 
 static void
 mousepad_document_hierarchy_changed (MousepadDocument *document,
-                                     GtkWidget        *prev_window)
+                                     GtkWidget *prev_window)
 {
   GtkWidget *window;
-  gboolean   visible;
+  gboolean visible;
 
   /* disconnect from previous window signals in case of a drag and drop */
   if (prev_window != NULL)
@@ -203,7 +230,7 @@ mousepad_document_hierarchy_changed (MousepadDocument *document,
 static void
 mousepad_document_init (MousepadDocument *document)
 {
-  GtkTargetList           *target_list;
+  GtkTargetList *target_list;
   GtkSourceSearchSettings *search_settings;
 
   /* we will complete initialization when the document is anchored */
@@ -230,8 +257,7 @@ mousepad_document_init (MousepadDocument *document)
 
   /* create a textbuffer and associated search context */
   document->buffer = GTK_TEXT_BUFFER (gtk_source_buffer_new (NULL));
-  document->priv->search_context = gtk_source_search_context_new (
-                                     GTK_SOURCE_BUFFER (document->buffer), NULL);
+  document->priv->search_context = gtk_source_search_context_new (GTK_SOURCE_BUFFER (document->buffer), NULL);
   document->priv->search_id = 0;
   document->priv->cur_match = 0;
 
@@ -312,7 +338,7 @@ mousepad_document_finalize (GObject *object)
 
 
 static gboolean
-mousepad_document_scroll_event (GtkWidget      *widget,
+mousepad_document_scroll_event (GtkWidget *widget,
                                 GdkEventScroll *event)
 {
   g_return_val_if_fail (MOUSEPAD_IS_DOCUMENT (widget), FALSE);
@@ -330,7 +356,7 @@ static void
 mousepad_document_notify_cursor_position (MousepadDocument *document)
 {
   GtkTextIter iter;
-  gint        line, column, selection;
+  gint line, column, selection;
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
@@ -361,8 +387,8 @@ mousepad_document_notify_cursor_position (MousepadDocument *document)
 
 
 static void
-mousepad_document_encoding_changed (MousepadFile     *file,
-                                    MousepadEncoding  encoding,
+mousepad_document_encoding_changed (MousepadFile *file,
+                                    MousepadEncoding encoding,
                                     MousepadDocument *document)
 {
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
@@ -374,8 +400,8 @@ mousepad_document_encoding_changed (MousepadFile     *file,
 
 
 static void
-mousepad_document_notify_language (GtkSourceBuffer  *buffer,
-                                   GParamSpec       *pspec,
+mousepad_document_notify_language (GtkSourceBuffer *buffer,
+                                   GParamSpec *pspec,
                                    MousepadDocument *document)
 {
   GtkSourceLanguage *language;
@@ -393,8 +419,8 @@ mousepad_document_notify_language (GtkSourceBuffer  *buffer,
 
 
 static void
-mousepad_document_notify_overwrite (GtkTextView      *textview,
-                                    GParamSpec       *pspec,
+mousepad_document_notify_overwrite (GtkTextView *textview,
+                                    GParamSpec *pspec,
                                     MousepadDocument *document)
 {
   gboolean overwrite;
@@ -434,11 +460,11 @@ mousepad_document_send_signals (MousepadDocument *document)
 
 static void
 mousepad_document_location_changed (MousepadDocument *document,
-                                    GFile            *file)
+                                    GFile *file)
 {
-  gchar       *utf8_filename, *utf8_short_filename, *utf8_basename;
+  gchar *utf8_filename, *utf8_short_filename, *utf8_basename;
   const gchar *home;
-  size_t       home_len;
+  size_t home_len;
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
   g_return_if_fail (file != NULL);
@@ -497,7 +523,7 @@ mousepad_document_style_label (MousepadDocument *document)
 
       /* grey out the label text */
       if (mousepad_file_get_read_only (document->file)
-          || ! gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview)))
+          || !gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview)))
         gtk_style_context_add_class (context, GTK_STYLE_CLASS_DIM_LABEL);
       else
         gtk_style_context_remove_class (context, GTK_STYLE_CLASS_DIM_LABEL);
@@ -508,7 +534,7 @@ mousepad_document_style_label (MousepadDocument *document)
 
 void
 mousepad_document_set_overwrite (MousepadDocument *document,
-                                 gboolean          overwrite)
+                                 gboolean overwrite)
 {
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
@@ -545,7 +571,7 @@ mousepad_document_expand_tabs_changed (MousepadDocument *document)
 GtkWidget *
 mousepad_document_get_tab_label (MousepadDocument *document)
 {
-  GtkWidget  *hbox, *button;
+  GtkWidget *hbox, *button;
 
   /* create the box */
   hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -585,7 +611,7 @@ mousepad_document_get_tab_label (MousepadDocument *document)
 
 
 static void
-mousepad_document_tab_button_clicked (GtkWidget        *widget,
+mousepad_document_tab_button_clicked (GtkWidget *widget,
                                       MousepadDocument *document)
 {
   g_signal_emit (document, document_signals[CLOSE_TAB], 0);
@@ -625,16 +651,16 @@ mousepad_document_get_filename (MousepadDocument *document)
 static gboolean
 mousepad_document_search_completed_idle (gpointer data)
 {
-  MousepadDocument        *document = data;
-  MousepadSearchFlags      flags;
-  GtkSourceSearchContext  *search_context;
+  MousepadDocument *document = data;
+  MousepadSearchFlags flags;
+  GtkSourceSearchContext *search_context;
   GtkSourceSearchSettings *search_settings;
-  GtkTextBuffer           *selection_buffer;
-  GtkTextIter             *start, *end;
-  GtkTextIter              iter;
-  gchar                   *selected_text;
-  const gchar             *string, *replace;
-  gboolean                 found;
+  GtkTextBuffer *selection_buffer;
+  GtkTextIter *start, *end;
+  GtkTextIter iter;
+  gchar *selected_text;
+  const gchar *string, *replace;
+  gboolean found;
 
   /* retrieve the first stage data */
   search_context = mousepad_object_get_data (document, "search-context");
@@ -653,15 +679,14 @@ mousepad_document_search_completed_idle (gpointer data)
 
   /* handle the action */
   if (found && (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT)
-      && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
+      && !(flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
     {
       gtk_text_buffer_select_range (document->buffer, start, end);
-      document->priv->cur_match =
-        gtk_source_search_context_get_occurrence_position (search_context, start, end);
+      document->priv->cur_match = gtk_source_search_context_get_occurrence_position (search_context, start, end);
     }
   else if (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE)
     {
-      if (found && ! (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA))
+      if (found && !(flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA))
         {
           /* replace selected occurrence */
 #if GTK_SOURCE_MAJOR_VERSION >= 4
@@ -672,7 +697,7 @@ mousepad_document_search_completed_idle (gpointer data)
 
           /* select next occurrence */
           flags |= MOUSEPAD_SEARCH_FLAGS_ACTION_SELECT;
-          flags &= ~ MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE;
+          flags &= ~MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE;
           mousepad_document_search (document, string, NULL, flags);
         }
       else if (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA)
@@ -698,8 +723,8 @@ mousepad_document_search_completed_idle (gpointer data)
         }
     }
   /* deselect previous result when the new search fails or the search field is reset */
-  else if (! (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE)
-           && ! (flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
+  else if (!(flags & MOUSEPAD_SEARCH_FLAGS_ACTION_NONE)
+           && !(flags & MOUSEPAD_SEARCH_FLAGS_AREA_SELECTION))
     gtk_text_buffer_place_cursor (document->buffer, &iter);
   /* if e.g. a silent search fails by modifying the search entry this must be reset */
   else
@@ -729,16 +754,16 @@ mousepad_document_unref (gpointer data)
 
 
 static void
-mousepad_document_search_completed (GObject      *object,
+mousepad_document_search_completed (GObject *object,
                                     GAsyncResult *result,
-                                    gpointer      data)
+                                    gpointer data)
 {
-  MousepadDocument        *document = data;
-  MousepadSearchFlags      flags;
-  GtkSourceSearchContext  *search_context = GTK_SOURCE_SEARCH_CONTEXT (object);
-  GtkTextIter              start, end;
-  GError                  *error = NULL;
-  gboolean                 found;
+  MousepadDocument *document = data;
+  MousepadSearchFlags flags;
+  GtkSourceSearchContext *search_context = GTK_SOURCE_SEARCH_CONTEXT (object);
+  GtkTextIter start, end;
+  GError *error = NULL;
+  gboolean found;
 
   /* exit if the document was removed during the search process */
   if (gtk_widget_get_parent (GTK_WIDGET (document)) == NULL)
@@ -793,26 +818,25 @@ mousepad_document_search_completed (GObject      *object,
   if (document->priv->search_id != 0)
     g_source_remove (document->priv->search_id);
 
-  document->priv->search_id =
-    g_idle_add_full (G_PRIORITY_HIGH, mousepad_document_search_completed_idle,
-                     mousepad_util_source_autoremove (document), NULL);
+  document->priv->search_id = g_idle_add_full (G_PRIORITY_HIGH, mousepad_document_search_completed_idle,
+                                               mousepad_util_source_autoremove (document), NULL);
 }
 
 
 
 void
-mousepad_document_search (MousepadDocument    *document,
-                          const gchar         *string,
-                          const gchar         *replace,
-                          MousepadSearchFlags  flags)
+mousepad_document_search (MousepadDocument *document,
+                          const gchar *string,
+                          const gchar *replace,
+                          MousepadSearchFlags flags)
 {
-  GtkSourceSearchContext  *search_context;
+  GtkSourceSearchContext *search_context;
   GtkSourceSearchSettings *search_settings, *search_settings_doc;
-  GtkTextIter              iter, start, end;
-  GCancellable            *cancellable;
-  gchar                   *selected_text;
-  const gchar             *reference = "";
-  gboolean                 has_references;
+  GtkTextIter iter, start, end;
+  GCancellable *cancellable;
+  gchar *selected_text;
+  const gchar *reference = "";
+  gboolean has_references;
 
   /* get the search iter */
   if (flags & MOUSEPAD_SEARCH_FLAGS_ITER_SEL_START)
@@ -828,8 +852,7 @@ mousepad_document_search (MousepadDocument    *document,
       if (document->priv->selection_buffer == NULL)
         {
           document->priv->selection_buffer = gtk_source_buffer_new (NULL);
-          document->priv->selection_context =
-            gtk_source_search_context_new (document->priv->selection_buffer, NULL);
+          document->priv->selection_context = gtk_source_search_context_new (document->priv->selection_buffer, NULL);
           g_signal_connect_swapped (document->priv->selection_context, "notify::occurrences-count",
                                     G_CALLBACK (mousepad_document_emit_search_signal), document);
           gtk_source_search_context_set_highlight (document->priv->selection_context, FALSE);
@@ -868,7 +891,7 @@ mousepad_document_search (MousepadDocument    *document,
   /* set wrap around: always true for the search bar, bound to GSettings otherwise */
   gtk_source_search_settings_set_wrap_around (search_settings,
                                               (flags & MOUSEPAD_SEARCH_FLAGS_WRAP_AROUND)
-                                              || MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_WRAP_AROUND));
+                                                || MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_WRAP_AROUND));
 
   /* special treatments if regex search is enabled */
   if (gtk_source_search_settings_get_regex_enabled (search_settings))
@@ -885,7 +908,7 @@ mousepad_document_search (MousepadDocument    *document,
       if (replace != NULL && (flags & MOUSEPAD_SEARCH_FLAGS_ACTION_REPLACE)
           && (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA)
           && g_regex_check_replacement (replace, &has_references, NULL)
-          && ! has_references)
+          && !has_references)
         reference = "\\g<1>";
     }
 
@@ -911,14 +934,14 @@ mousepad_document_search (MousepadDocument    *document,
 
 
 static void
-mousepad_document_emit_search_signal (MousepadDocument       *document,
-                                      GParamSpec             *pspec,
+mousepad_document_emit_search_signal (MousepadDocument *document,
+                                      GParamSpec *pspec,
                                       GtkSourceSearchContext *search_context)
 {
   GtkSourceSearchSettings *search_settings;
-  MousepadSearchFlags      flags;
-  gint                     n_matches;
-  const gchar             *string;
+  MousepadSearchFlags flags;
+  gint n_matches;
+  const gchar *string;
 
   /* retrieve data */
   flags = GPOINTER_TO_INT (mousepad_object_get_data (search_context, "flags"));
@@ -957,7 +980,7 @@ mousepad_document_scanning_completed (MousepadDocument *document)
  */
 static void
 mousepad_document_prevent_endless_scanning (MousepadDocument *document,
-                                            gboolean          visible)
+                                            gboolean visible)
 {
   if (visible && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_HIGHLIGHT_ALL)
       && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_ENABLE_REGEX))
@@ -985,11 +1008,11 @@ mousepad_document_prevent_endless_scanning (MousepadDocument *document,
 
 static void
 mousepad_document_search_widget_visible (MousepadDocument *document,
-                                         GParamSpec       *pspec,
-                                         MousepadWindow   *window)
+                                         GParamSpec *pspec,
+                                         MousepadWindow *window)
 {
   GtkSourceSearchSettings *search_settings;
-  gboolean                 visible;
+  gboolean visible;
 
   /* get the window property */
   g_object_get (window, "search-widget-visible", &visible, NULL);
@@ -1025,7 +1048,7 @@ mousepad_document_search_widget_visible (MousepadDocument *document,
       MOUSEPAD_SETTING_BIND (SEARCH_ENABLE_REGEX, search_settings,
                              "regex-enabled", G_SETTINGS_BIND_GET);
     }
-  else if (! visible && document->priv->prev_search_state != HIDDEN)
+  else if (!visible && document->priv->prev_search_state != HIDDEN)
     {
       /* update previous search state */
       document->priv->prev_search_state = HIDDEN;
@@ -1065,13 +1088,12 @@ mousepad_document_search_flags_get_type (void)
   if (G_UNLIKELY (type == G_TYPE_NONE))
     {
       /* use empty values table */
-      static const GFlagsValue values[] =
-      {
+      static const GFlagsValue values[] = {
         { 0, NULL, NULL }
       };
 
       /* register the type */
-      type = g_flags_register_static (I_("MousepadSearchFlags"), values);
+      type = g_flags_register_static (I_ ("MousepadSearchFlags"), values);
     }
 
   return type;

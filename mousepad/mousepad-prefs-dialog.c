@@ -14,49 +14,49 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-prefs-dialog.h>
-#include <mousepad/mousepad-settings.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-application.h>
-#include <mousepad/mousepad-plugin-provider.h>
-#include <mousepad/mousepad-encoding.h>
-#include <mousepad/mousepad-dialogs.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-prefs-dialog.h"
+#include "mousepad/mousepad-application.h"
+#include "mousepad/mousepad-dialogs.h"
+#include "mousepad/mousepad-encoding.h"
+#include "mousepad/mousepad-plugin-provider.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
 
-#if defined (GDK_WINDOWING_X11) && ! GTK_CHECK_VERSION (4, 0, 0)
+#if defined(GDK_WINDOWING_X11) && !GTK_CHECK_VERSION(4, 0, 0)
 #include <gdk/gdkx.h>
 #endif
 
 
 
-#define WID_NOTEBOOK                        "/prefs/main-notebook"
+#define WID_NOTEBOOK "/prefs/main-notebook"
 
 /* View page */
-#define WID_RIGHT_MARGIN_SPIN               "/prefs/view/display/long-line-spin"
-#define WID_FONT_BUTTON                     "/prefs/view/font/chooser-button"
-#define WID_SCHEME_COMBO                    "/prefs/view/color-scheme/combo"
-#define WID_SCHEME_MODEL                    "/prefs/view/color-scheme/model"
+#define WID_RIGHT_MARGIN_SPIN "/prefs/view/display/long-line-spin"
+#define WID_FONT_BUTTON "/prefs/view/font/chooser-button"
+#define WID_SCHEME_COMBO "/prefs/view/color-scheme/combo"
+#define WID_SCHEME_MODEL "/prefs/view/color-scheme/model"
 
 /* Editor page */
-#define WID_TAB_WIDTH_SPIN                  "/prefs/editor/indentation/tab-width-spin"
-#define WID_TAB_MODE_COMBO                  "/prefs/editor/indentation/tab-mode-combo"
-#define WID_SMART_HOME_END_COMBO            "/prefs/editor/smart-keys/smart-home-end-combo"
+#define WID_TAB_WIDTH_SPIN "/prefs/editor/indentation/tab-width-spin"
+#define WID_TAB_MODE_COMBO "/prefs/editor/indentation/tab-mode-combo"
+#define WID_SMART_HOME_END_COMBO "/prefs/editor/smart-keys/smart-home-end-combo"
 
 /* Window page */
-#define WID_TOOLBAR_STYLE_COMBO             "/prefs/window/toolbar/style-combo"
-#define WID_TOOLBAR_ICON_SIZE_COMBO         "/prefs/window/toolbar/icon-size-combo"
-#define WID_OPENING_MODE_COMBO              "/prefs/window/notebook/opening-mode-combo"
+#define WID_TOOLBAR_STYLE_COMBO "/prefs/window/toolbar/style-combo"
+#define WID_TOOLBAR_ICON_SIZE_COMBO "/prefs/window/toolbar/icon-size-combo"
+#define WID_OPENING_MODE_COMBO "/prefs/window/notebook/opening-mode-combo"
 
 /* File page */
-#define WID_RECENT_SPIN                     "/prefs/file/history/recent-spin"
-#define WID_SEARCH_SPIN                     "/prefs/file/history/search-spin"
-#define WID_SESSION_COMBO                   "/prefs/file/history/session-combo"
-#define WID_ENCODING_COMBO                  "/prefs/file/history/encoding-combo"
-#define WID_ENCODING_MODEL                  "/prefs/file/history/encoding-model"
+#define WID_RECENT_SPIN "/prefs/file/history/recent-spin"
+#define WID_SEARCH_SPIN "/prefs/file/history/search-spin"
+#define WID_SESSION_COMBO "/prefs/file/history/session-combo"
+#define WID_ENCODING_COMBO "/prefs/file/history/encoding-combo"
+#define WID_ENCODING_MODEL "/prefs/file/history/encoding-model"
 
 /* Plugins page */
-#define WID_PLUGINS_TAB                     "/prefs/plugins/scrolled-window"
-#define WID_PLUGINS_BOX                     "/prefs/plugins/content-area"
+#define WID_PLUGINS_TAB "/prefs/plugins/scrolled-window"
+#define WID_PLUGINS_BOX "/prefs/plugins/content-area"
 
 
 
@@ -70,16 +70,18 @@ enum
 
 struct _MousepadPrefsDialog
 {
-  GtkDialog   parent;
+  GtkDialog parent;
 
   GtkBuilder *builder;
-  gboolean    blocked;
+  gboolean blocked;
 };
 
 
 
-static void mousepad_prefs_dialog_constructed (GObject *object);
-static void mousepad_prefs_dialog_finalize    (GObject *object);
+static void
+mousepad_prefs_dialog_constructed (GObject *object);
+static void
+mousepad_prefs_dialog_finalize (GObject *object);
 
 
 
@@ -142,7 +144,7 @@ mousepad_prefs_dialog_remove_setting_box (gpointer popover)
 
 
 
-#if defined (GDK_WINDOWING_X11) && ! GTK_CHECK_VERSION (4, 0, 0)
+#if defined(GDK_WINDOWING_X11) && !GTK_CHECK_VERSION(4, 0, 0)
 /*
  * Popovers suffer from a limitation in GTK 3 on X11: they cannot extend outside their
  * toplevel window. So we have to resize the dialog before showing the popover in this case.
@@ -150,8 +152,8 @@ mousepad_prefs_dialog_remove_setting_box (gpointer popover)
  */
 static gboolean
 mousepad_prefs_dialog_drawn (GtkWidget *dialog,
-                             cairo_t   *cr,
-                             gpointer   popover)
+                             cairo_t *cr,
+                             gpointer popover)
 {
   /* disconnect this handler */
   mousepad_disconnect_by_func (dialog, mousepad_prefs_dialog_drawn, popover);
@@ -167,7 +169,7 @@ mousepad_prefs_dialog_drawn (GtkWidget *dialog,
 static gboolean
 mousepad_prefs_dialog_popover_allocate_finish (gpointer popover)
 {
-  GtkWidget    *dialog, *button;
+  GtkWidget *dialog, *button;
   GtkAllocation balloc, dalloc, palloc;
 
   /* get widget allocations */
@@ -192,12 +194,12 @@ mousepad_prefs_dialog_popover_allocate_finish (gpointer popover)
 
 
 static void
-mousepad_prefs_dialog_popover_allocate (GtkWidget    *popover,
+mousepad_prefs_dialog_popover_allocate (GtkWidget *popover,
                                         GdkRectangle *palloc,
-                                        GtkWidget    *dialog)
+                                        GtkWidget *dialog)
 {
   GtkAllocation dalloc;
-  gint          dx, dy, px, py;
+  gint dx, dy, px, py;
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (popover, mousepad_prefs_dialog_popover_allocate, dialog);
@@ -224,8 +226,8 @@ static gboolean
 mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
 {
   MousepadPluginProvider *provider;
-  GtkWidget              *button = data, *box, *popover;
-  gboolean                visible;
+  GtkWidget *button = data, *box, *popover;
+  gboolean visible;
 
   provider = mousepad_object_get_data (button, "provider");
   box = mousepad_plugin_provider_get_setting_box (provider);
@@ -233,7 +235,7 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
 
   /* the plugin has a setting box which is not already packed (e.g. in a dialog)
    * and the prefs button is hidden: it is time to show it with its popover */
-  if (box != NULL && ! visible && gtk_widget_get_parent (box) == NULL)
+  if (box != NULL && !visible && gtk_widget_get_parent (box) == NULL)
     {
       popover = gtk_popover_new (button);
       gtk_container_add (GTK_CONTAINER (popover), box);
@@ -241,7 +243,7 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
       g_signal_connect_swapped (button, "destroy",
                                 G_CALLBACK (mousepad_prefs_dialog_remove_setting_box),
                                 popover);
-#if defined (GDK_WINDOWING_X11) && ! GTK_CHECK_VERSION (4, 0, 0)
+#if defined(GDK_WINDOWING_X11) && !GTK_CHECK_VERSION(4, 0, 0)
       /* see comment at the beginning of the corresponding code section above */
       if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
         g_signal_connect (popover, "size-allocate",
@@ -261,7 +263,7 @@ mousepad_prefs_dialog_checkbox_toggled_idle (gpointer data)
 
 static void
 mousepad_prefs_dialog_checkbox_toggled (GtkToggleButton *checkbox,
-                                        GtkWidget       *button)
+                                        GtkWidget *button)
 {
   /* wait for the plugin to get its setting box, or for this box to be destroyed */
   g_idle_add (mousepad_prefs_dialog_checkbox_toggled_idle,
@@ -272,20 +274,20 @@ mousepad_prefs_dialog_checkbox_toggled (GtkToggleButton *checkbox,
 
 static void
 mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
-                                   GtkWidget   *page,
-                                   guint        page_num,
-                                   GtkWidget   *plugins_tab)
+                                   GtkWidget *page,
+                                   guint page_num,
+                                   GtkWidget *plugins_tab)
 {
-  MousepadPrefsDialog  *self;
-  MousepadApplication  *application;
-  GtkWidget            *box, *widget, *child, *grid = NULL;
-  GdkModifierType       mods;
-  GTypeModule          *module;
-  GList                *providers, *provider;
-  gchar               **accels;
-  const gchar          *category = NULL;
-  gchar                *str;
-  guint                 n, key;
+  MousepadPrefsDialog *self;
+  MousepadApplication *application;
+  GtkWidget *box, *widget, *child, *grid = NULL;
+  GdkModifierType mods;
+  GTypeModule *module;
+  GList *providers, *provider;
+  gchar **accels;
+  const gchar *category = NULL;
+  gchar *str;
+  guint n, key;
 
   /* filter other tabs */
   if (page != plugins_tab)
@@ -373,17 +375,17 @@ mousepad_prefs_dialog_plugins_tab (GtkNotebook *notebook,
 /* update the color scheme when the prefs dialog widget changes */
 static void
 mousepad_prefs_dialog_color_scheme_changed (MousepadPrefsDialog *self,
-                                            GtkComboBox         *combo)
+                                            GtkComboBox *combo)
 {
   GtkListStore *store;
-  GtkTreeIter   iter;
-  gchar        *scheme_id = NULL;
+  GtkTreeIter iter;
+  gchar *scheme_id = NULL;
 
   store = GTK_LIST_STORE (gtk_builder_get_object (self->builder, WID_SCHEME_MODEL));
 
   gtk_combo_box_get_active_iter (combo, &iter);
 
-  gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, COLUMN_ID, &scheme_id,-1);
+  gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, COLUMN_ID, &scheme_id, -1);
 
   self->blocked = TRUE;
   MOUSEPAD_SETTING_SET_STRING (COLOR_SCHEME, scheme_id);
@@ -397,13 +399,13 @@ mousepad_prefs_dialog_color_scheme_changed (MousepadPrefsDialog *self,
 /* udpate the color schemes combo when the setting changes */
 static void
 mousepad_prefs_dialog_color_scheme_setting_changed (MousepadPrefsDialog *self,
-                                                    gchar               *key,
-                                                    GSettings           *settings)
+                                                    gchar *key,
+                                                    GSettings *settings)
 {
-  gchar        *new_id;
-  GtkTreeIter   iter;
-  gboolean      iter_valid;
-  GtkComboBox  *combo;
+  gchar *new_id;
+  GtkTreeIter iter;
+  gboolean iter_valid;
+  GtkComboBox *combo;
   GtkTreeModel *model;
 
   /* don't do anything when the combo box is itself updating the setting */
@@ -418,7 +420,7 @@ mousepad_prefs_dialog_color_scheme_setting_changed (MousepadPrefsDialog *self,
   iter_valid = gtk_tree_model_get_iter_first (model, &iter);
   while (iter_valid)
     {
-      gchar   *id = NULL;
+      gchar *id = NULL;
       gboolean equal;
 
       gtk_tree_model_get (model, &iter, COLUMN_ID, &id, -1);
@@ -444,10 +446,10 @@ static void
 mousepad_prefs_dialog_setup_color_schemes_combo (MousepadPrefsDialog *self)
 {
   GtkSourceStyleSchemeManager *manager;
-  const gchar *const          *ids;
-  const gchar *const          *id_iter;
-  GtkListStore                *store;
-  GtkTreeIter                  iter;
+  const gchar *const *ids;
+  const gchar *const *id_iter;
+  GtkListStore *store;
+  GtkTreeIter iter;
 
   store = GTK_LIST_STORE (gtk_builder_get_object (self->builder, WID_SCHEME_MODEL));
   manager = gtk_source_style_scheme_manager_get_default ();
@@ -481,7 +483,7 @@ mousepad_prefs_dialog_setup_color_schemes_combo (MousepadPrefsDialog *self)
 /* update the setting when the prefs dialog widget changes */
 static void
 mousepad_prefs_dialog_tab_mode_changed (MousepadPrefsDialog *self,
-                                        GtkComboBox         *combo)
+                                        GtkComboBox *combo)
 {
   self->blocked = TRUE;
   /* in the combo box, id 0 is tabs, and 1 is spaces */
@@ -496,10 +498,10 @@ mousepad_prefs_dialog_tab_mode_changed (MousepadPrefsDialog *self,
 /* update the combo box when the setting changes */
 static void
 mousepad_prefs_dialog_tab_mode_setting_changed (MousepadPrefsDialog *self,
-                                                gchar               *key,
-                                                GSettings           *settings)
+                                                gchar *key,
+                                                GSettings *settings)
 {
-  gboolean     insert_spaces;
+  gboolean insert_spaces;
   GtkComboBox *combo;
 
   /* don't do anything when the combo box is itself updating the setting */
@@ -519,7 +521,7 @@ mousepad_prefs_dialog_tab_mode_setting_changed (MousepadPrefsDialog *self,
 /* update encoding when the prefs dialog widget changes */
 static void
 mousepad_prefs_dialog_encoding_changed (MousepadPrefsDialog *self,
-                                        GtkComboBox         *combo)
+                                        GtkComboBox *combo)
 {
   MousepadEncoding encoding;
 
@@ -535,11 +537,11 @@ mousepad_prefs_dialog_encoding_changed (MousepadPrefsDialog *self,
 /* udpate encoding combo when the setting changes */
 static void
 mousepad_prefs_dialog_encoding_setting_changed (MousepadPrefsDialog *self,
-                                                gchar               *key,
-                                                GSettings           *settings)
+                                                gchar *key,
+                                                GSettings *settings)
 {
   GtkComboBox *combo;
-  gchar       *charset;
+  gchar *charset;
 
   /* don't do anything when the combo box is itself updating the setting */
   if (self->blocked)
@@ -559,10 +561,10 @@ mousepad_prefs_dialog_encoding_setting_changed (MousepadPrefsDialog *self,
 static void
 mousepad_prefs_dialog_setup_encoding_combo (MousepadPrefsDialog *self)
 {
-  MousepadEncoding  encoding;
-  GObject          *combo;
-  GtkListStore     *store;
-  gint              n_rows;
+  MousepadEncoding encoding;
+  GObject *combo;
+  GtkListStore *store;
+  gint n_rows;
 
   store = GTK_LIST_STORE (gtk_builder_get_object (self->builder, WID_ENCODING_MODEL));
   for (encoding = 1; encoding < MOUSEPAD_N_ENCODINGS; encoding++)
@@ -589,7 +591,7 @@ mousepad_prefs_dialog_setup_encoding_combo (MousepadPrefsDialog *self)
 /* ask user for confirmation before clearing recent history */
 static void
 mousepad_prefs_dialog_recent_spin_changed (MousepadPrefsDialog *self,
-                                           GtkSpinButton       *button)
+                                           GtkSpinButton *button)
 {
   guint n_items;
 
@@ -611,15 +613,15 @@ static void
 mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
 {
   MousepadApplication *application;
-  GtkWidget           *widget, *child;
-  GError              *error = NULL;
+  GtkWidget *widget, *child;
+  GError *error = NULL;
 
   self->builder = gtk_builder_new ();
 
   /* load the gtkbuilder xml that is compiled into the binary, or else die */
-  if (! gtk_builder_add_from_resource (self->builder,
-                                       "/org/xfce/mousepad/ui/mousepad-prefs-dialog.ui",
-                                       &error))
+  if (!gtk_builder_add_from_resource (self->builder,
+                                      "/org/xfce/mousepad/ui/mousepad-prefs-dialog.ui",
+                                      &error))
     {
       g_error ("Failed to load the internal preferences dialog: %s", error->message);
       /* not reached */

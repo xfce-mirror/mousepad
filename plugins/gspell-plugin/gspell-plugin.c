@@ -14,14 +14,14 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-application.h>
-#include <mousepad/mousepad-window.h>
-#include <mousepad/mousepad-view.h>
-#include <mousepad/mousepad-util.h>
-#include <mousepad/mousepad-settings.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-application.h"
+#include "mousepad/mousepad-settings.h"
+#include "mousepad/mousepad-util.h"
+#include "mousepad/mousepad-view.h"
+#include "mousepad/mousepad-window.h"
 
-#include <gspell-plugin/gspell-plugin.h>
+#include "gspell-plugin/gspell-plugin.h"
 
 #include <gspell/gspell.h>
 
@@ -35,25 +35,33 @@
 typedef struct _GspellPluginView GspellPluginView;
 
 /* GObject virtual functions */
-static void gspell_plugin_constructed          (GObject          *object);
-static void gspell_plugin_finalize             (GObject          *object);
+static void
+gspell_plugin_constructed (GObject *object);
+static void
+gspell_plugin_finalize (GObject *object);
 
 /* MousepadPlugin virtual functions */
-static void gspell_plugin_enable               (MousepadPlugin   *mplugin);
-static void gspell_plugin_disable              (MousepadPlugin   *mplugin);
+static void
+gspell_plugin_enable (MousepadPlugin *mplugin);
+static void
+gspell_plugin_disable (MousepadPlugin *mplugin);
 
 /* GspellPlugin own functions */
-static void gspell_plugin_set_state            (GspellPlugin     *plugin,
-                                                gboolean          enabled,
-                                                gboolean          external,
-                                                GspellPluginView *view);
-static void gspell_plugin_view_menu_populate   (GspellPlugin     *plugin,
-                                                GtkWidget        *menu,
-                                                GtkTextView      *mousepad_view);
-static void gspell_plugin_view_menu_show       (GspellPlugin     *plugin,
-                                                GtkWidget        *menu);
-static void gspell_plugin_view_menu_deactivate (GspellPlugin     *plugin,
-                                                GtkMenuShell     *menu);
+static void
+gspell_plugin_set_state (GspellPlugin *plugin,
+                         gboolean enabled,
+                         gboolean external,
+                         GspellPluginView *view);
+static void
+gspell_plugin_view_menu_populate (GspellPlugin *plugin,
+                                  GtkWidget *menu,
+                                  GtkTextView *mousepad_view);
+static void
+gspell_plugin_view_menu_show (GspellPlugin *plugin,
+                              GtkWidget *menu);
+static void
+gspell_plugin_view_menu_deactivate (GspellPlugin *plugin,
+                                    GtkMenuShell *menu);
 
 
 
@@ -77,8 +85,8 @@ struct _GspellPluginView
   MousepadView *mousepad_view;
 
   /* gspell objects */
-  GspellTextView   *gspell_view;
-  GspellChecker    *gspell_checker;
+  GspellTextView *gspell_view;
+  GspellChecker *gspell_checker;
   GspellTextBuffer *gspell_buffer;
 };
 
@@ -99,7 +107,7 @@ gspell_plugin_register (MousepadPluginProvider *plugin)
 static void
 gspell_plugin_class_init (GspellPluginClass *klass)
 {
-  GObjectClass        *gobject_class = G_OBJECT_CLASS (klass);
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   MousepadPluginClass *mplugin_class = MOUSEPAD_PLUGIN_CLASS (klass);
 
   gobject_class->constructed = gspell_plugin_constructed;
@@ -136,13 +144,13 @@ gspell_plugin_init (GspellPlugin *plugin)
 static void
 gspell_plugin_constructed (GObject *object)
 {
-  const GspellLanguage   *language;
+  const GspellLanguage *language;
   MousepadPluginProvider *provider;
-  GtkWidget              *vbox, *hbox, *widget;
-  GtkListStore           *list;
-  GtkCellRenderer        *cell;
-  const GList            *item;
-  gint                    n;
+  GtkWidget *vbox, *hbox, *widget;
+  GtkListStore *list;
+  GtkCellRenderer *cell;
+  const GList *item;
+  gint n;
 
   /* request the creation of the plugin setting box */
   g_object_get (object, "provider", &provider, NULL);
@@ -230,7 +238,7 @@ gspell_plugin_compare_view (gconstpointer item_data,
 
 static void
 gspell_plugin_view_destroy (GspellPlugin *plugin,
-                            GtkWidget    *mousepad_view)
+                            GtkWidget *mousepad_view)
 {
   GList *item;
 
@@ -246,15 +254,15 @@ gspell_plugin_view_destroy (GspellPlugin *plugin,
 
 static void
 gspell_plugin_document_added (GspellPlugin *plugin,
-                              GtkWidget    *widget)
+                              GtkWidget *widget)
 {
-  GspellPluginView     *view;
+  GspellPluginView *view;
   const GspellLanguage *language;
-  MousepadDocument     *document = MOUSEPAD_DOCUMENT (widget);
-  GtkTextView          *text_view;
-  GtkTextBuffer        *buffer;
-  GList                *item = NULL;
-  gchar                *language_code;
+  MousepadDocument *document = MOUSEPAD_DOCUMENT (widget);
+  GtkTextView *text_view;
+  GtkTextBuffer *buffer;
+  GList *item = NULL;
+  gchar *language_code;
 
   /* (re)connect to the mousepad view "populate-popup" signal to rearrange the context menu */
   g_signal_connect_object (document->textview, "populate-popup",
@@ -299,11 +307,11 @@ gspell_plugin_document_added (GspellPlugin *plugin,
 
 
 static void
-gspell_plugin_window_added (GspellPlugin   *plugin,
+gspell_plugin_window_added (GspellPlugin *plugin,
                             MousepadWindow *window)
 {
   GtkNotebook *notebook;
-  gint         n_docs, n;
+  gint n_docs, n;
 
   /* get the notebook */
   notebook = GTK_NOTEBOOK (mousepad_window_get_notebook (window));
@@ -323,9 +331,9 @@ gspell_plugin_window_added (GspellPlugin   *plugin,
 static void
 gspell_plugin_enable (MousepadPlugin *mplugin)
 {
-  GspellPlugin        *plugin = GSPELL_PLUGIN (mplugin);
+  GspellPlugin *plugin = GSPELL_PLUGIN (mplugin);
   MousepadApplication *application;
-  GList               *windows, *window;
+  GList *windows, *window;
 
   /* get the mousepad application */
   application = MOUSEPAD_APPLICATION (g_application_get_default ());
@@ -345,10 +353,10 @@ gspell_plugin_enable (MousepadPlugin *mplugin)
 static void
 gspell_plugin_disable (MousepadPlugin *mplugin)
 {
-  GspellPlugin        *plugin = GSPELL_PLUGIN (mplugin);
-  GspellPluginView    *view;
+  GspellPlugin *plugin = GSPELL_PLUGIN (mplugin);
+  GspellPluginView *view;
   MousepadApplication *application;
-  GList               *list, *item;
+  GList *list, *item;
 
   /* get the mousepad application */
   application = MOUSEPAD_APPLICATION (g_application_get_default ());
@@ -376,9 +384,9 @@ gspell_plugin_disable (MousepadPlugin *mplugin)
 
 
 static void
-gspell_plugin_set_state (GspellPlugin     *plugin,
-                         gboolean          enabled,
-                         gboolean          external,
+gspell_plugin_set_state (GspellPlugin *plugin,
+                         gboolean enabled,
+                         gboolean external,
                          GspellPluginView *view)
 {
   /* the function call comes from a change in mousepad settings, not from
@@ -394,11 +402,11 @@ gspell_plugin_set_state (GspellPlugin     *plugin,
 
 static void
 gspell_plugin_view_menu_populate (GspellPlugin *plugin,
-                                  GtkWidget    *menu,
-                                  GtkTextView  *mousepad_view)
+                                  GtkWidget *menu,
+                                  GtkTextView *mousepad_view)
 {
   GtkWidget *window;
-  guint      signal_id;
+  guint signal_id;
 
   /* connect to the context menu "show" signal to get it after mousepad replaced it */
   g_signal_connect_object (menu, "show", G_CALLBACK (gspell_plugin_view_menu_show),
@@ -423,7 +431,7 @@ static void
 gspell_plugin_view_menu_subtract (GtkMenu *menu_1,
                                   GtkMenu *menu_2)
 {
-  GList       *list_1, *list_2, *iter_1, *iter_2;
+  GList *list_1, *list_2, *iter_1, *iter_2;
   const gchar *label;
 
   g_return_if_fail (GTK_IS_MENU (menu_1));
@@ -453,12 +461,12 @@ gspell_plugin_view_menu_subtract (GtkMenu *menu_1,
 
 static void
 gspell_plugin_view_menu_show (GspellPlugin *plugin,
-                              GtkWidget    *menu)
+                              GtkWidget *menu)
 {
   GspellPluginView *view;
-  GtkWidget        *mousepad_view, *window, *item;
-  GList            *children, *child;
-  guint             signal_id, index;
+  GtkWidget *mousepad_view, *window, *item;
+  GList *children, *child;
+  guint signal_id, index;
 
   /* disconnect this handler and the "populate-popup" handler */
   mousepad_disconnect_by_func (menu, gspell_plugin_view_menu_show, plugin);
@@ -526,10 +534,10 @@ gspell_plugin_view_menu_show (GspellPlugin *plugin,
 static void
 gspell_plugin_view_menu_move_sections (GtkMenu *source,
                                        GtkMenu *destination,
-                                       gint     sections)
+                                       gint sections)
 {
   GtkWidget *tmp;
-  GList     *list, *iter;
+  GList *list, *iter;
 
   g_return_if_fail (GTK_IS_MENU (source));
   g_return_if_fail (GTK_IS_MENU (destination));
@@ -544,7 +552,7 @@ gspell_plugin_view_menu_move_sections (GtkMenu *source,
       gtk_container_add (GTK_CONTAINER (destination), tmp);
       g_object_unref (tmp);
 
-      if (GTK_IS_SEPARATOR_MENU_ITEM (iter->data) && ! --sections)
+      if (GTK_IS_SEPARATOR_MENU_ITEM (iter->data) && --sections == 0)
         break;
     }
 
@@ -558,7 +566,7 @@ gspell_plugin_view_menu_deactivate (GspellPlugin *plugin,
                                     GtkMenuShell *menu)
 {
   GtkWidget *mousepad_view, *window;
-  guint      signal_id;
+  guint signal_id;
 
   /* disconnect this handler */
   mousepad_disconnect_by_func (menu, gspell_plugin_view_menu_deactivate, plugin);

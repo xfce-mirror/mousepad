@@ -14,8 +14,8 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <mousepad/mousepad-private.h>
-#include <mousepad/mousepad-application.h>
+#include "mousepad/mousepad-private.h"
+#include "mousepad/mousepad-application.h"
 
 #ifdef HAVE_LIBINTL_H
 #include <libintl.h>
@@ -28,10 +28,11 @@
 
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
   MousepadApplication *application;
-  gint                 status;
+  gint status;
 
   /* bind the text domain to the locale directory */
   setlocale (LC_ALL, "");
@@ -46,8 +47,7 @@ main (gint argc, gchar **argv)
   /* create the application */
   application = g_object_new (MOUSEPAD_TYPE_APPLICATION,
                               "application-id", MOUSEPAD_ID,
-                              "flags", G_APPLICATION_HANDLES_COMMAND_LINE
-                                       | G_APPLICATION_HANDLES_OPEN,
+                              "flags", G_APPLICATION_HANDLES_COMMAND_LINE | G_APPLICATION_HANDLES_OPEN,
                               NULL);
 
   /* run the application */
