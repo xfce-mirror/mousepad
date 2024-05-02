@@ -23,6 +23,7 @@ IncludeCategories:
     SortPriority: 0
     CaseSensitive: false
 IndentGotoLabels: false
+InsertNewlineAtEOF: true
 KeepEmptyLinesAtTheStartOfBlocks: false
 MaxEmptyLinesToKeep: 3
 SpaceAfterCStyleCast: true
