@@ -15,10 +15,10 @@
  */
 
 #include "mousepad-private.h"
-#include "mousepad-replace-dialog.h"
 #include "mousepad-dialogs.h"
 #include "mousepad-history.h"
 #include "mousepad-marshal.h"
+#include "mousepad-replace-dialog.h"
 #include "mousepad-settings.h"
 #include "mousepad-util.h"
 

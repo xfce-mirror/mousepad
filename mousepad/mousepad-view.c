@@ -15,10 +15,10 @@
  */
 
 #include "mousepad-private.h"
-#include "mousepad-view.h"
 #include "mousepad-application.h"
 #include "mousepad-settings.h"
 #include "mousepad-util.h"
+#include "mousepad-view.h"
 #include "mousepad-window.h"
 
 

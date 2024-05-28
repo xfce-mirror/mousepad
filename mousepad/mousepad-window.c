@@ -15,7 +15,6 @@
  */
 
 #include "mousepad-private.h"
-#include "mousepad-window.h"
 #include "mousepad-application.h"
 #include "mousepad-dialogs.h"
 #include "mousepad-document.h"
@@ -28,6 +27,7 @@
 #include "mousepad-settings.h"
 #include "mousepad-statusbar.h"
 #include "mousepad-util.h"
+#include "mousepad-window.h"
 
 
 

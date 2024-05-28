@@ -15,11 +15,11 @@
  */
 
 #include "mousepad-private.h"
-#include "mousepad-prefs-dialog.h"
 #include "mousepad-application.h"
 #include "mousepad-dialogs.h"
 #include "mousepad-encoding.h"
 #include "mousepad-plugin-provider.h"
+#include "mousepad-prefs-dialog.h"
 #include "mousepad-settings.h"
 #include "mousepad-util.h"
 

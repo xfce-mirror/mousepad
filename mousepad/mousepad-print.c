@@ -15,8 +15,8 @@
  */
 
 #include "mousepad-private.h"
-#include "mousepad-print.h"
 #include "mousepad-document.h"
+#include "mousepad-print.h"
 #include "mousepad-util.h"
 
 

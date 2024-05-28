@@ -15,8 +15,8 @@
  */
 
 #include "mousepad-private.h"
-#include "mousepad-settings.h"
 #include "mousepad-settings-store.h"
+#include "mousepad-settings.h"
 
 
 

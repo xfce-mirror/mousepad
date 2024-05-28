@@ -15,8 +15,8 @@
  */
 
 #include "mousepad-private.h"
-#include "mousepad-document.h"
 #include "mousepad-close-button.h"
+#include "mousepad-document.h"
 #include "mousepad-marshal.h"
 #include "mousepad-settings.h"
 #include "mousepad-util.h"

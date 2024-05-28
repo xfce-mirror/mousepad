@@ -15,8 +15,8 @@
  */
 
 #include "mousepad-private.h"
-#include "mousepad-util.h"
 #include "mousepad-settings.h"
+#include "mousepad-util.h"
 
 #ifdef HAVE_MATH_H
 #include <math.h>

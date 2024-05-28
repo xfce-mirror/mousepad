@@ -15,9 +15,9 @@
  */
 
 #include "mousepad-private.h"
-#include "mousepad-search-bar.h"
 #include "mousepad-history.h"
 #include "mousepad-marshal.h"
+#include "mousepad-search-bar.h"
 #include "mousepad-settings.h"
 #include "mousepad-util.h"
 #include "mousepad-window.h"
