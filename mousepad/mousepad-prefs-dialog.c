@@ -14,14 +14,14 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "mousepad/mousepad-private.h"
-#include "mousepad/mousepad-prefs-dialog.h"
-#include "mousepad/mousepad-application.h"
-#include "mousepad/mousepad-dialogs.h"
-#include "mousepad/mousepad-encoding.h"
-#include "mousepad/mousepad-plugin-provider.h"
-#include "mousepad/mousepad-settings.h"
-#include "mousepad/mousepad-util.h"
+#include "mousepad-private.h"
+#include "mousepad-application.h"
+#include "mousepad-dialogs.h"
+#include "mousepad-encoding.h"
+#include "mousepad-plugin-provider.h"
+#include "mousepad-prefs-dialog.h"
+#include "mousepad-settings.h"
+#include "mousepad-util.h"
 
 #if defined(GDK_WINDOWING_X11) && !GTK_CHECK_VERSION(4, 0, 0)
 #include <gdk/gdkx.h>

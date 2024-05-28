@@ -15,8 +15,7 @@
  */
 
 #include "mousepad/mousepad-private.h"
-
-#include "gspell-plugin/gspell-plugin.h"
+#include "gspell-plugin.h"
 
 #include <gmodule.h>
 

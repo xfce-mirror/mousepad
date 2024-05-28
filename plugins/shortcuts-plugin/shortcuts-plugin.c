@@ -15,11 +15,11 @@
  */
 
 #include "mousepad/mousepad-private.h"
+#include "shortcuts-plugin.h"
+
 #include "mousepad/mousepad-application.h"
 #include "mousepad/mousepad-prefs-dialog.h"
 #include "mousepad/mousepad-util.h"
-
-#include "shortcuts-plugin/shortcuts-plugin.h"
 
 /* prevent I18N macros redefinition */
 #ifndef __G_I18N_LIB_H__

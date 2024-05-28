@@ -14,9 +14,9 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "mousepad/mousepad-private.h"
-#include "mousepad/mousepad-plugin-provider.h"
-#include "mousepad/mousepad-plugin.h"
+#include "mousepad-private.h"
+#include "mousepad-plugin-provider.h"
+#include "mousepad-plugin.h"
 
 #include <gmodule.h>
 

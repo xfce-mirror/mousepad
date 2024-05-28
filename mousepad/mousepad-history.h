@@ -17,9 +17,9 @@
 #ifndef __MOUSEPAD_HISTORY_H__
 #define __MOUSEPAD_HISTORY_H__
 
-#include "mousepad/mousepad-application.h"
-#include "mousepad/mousepad-encoding.h"
-#include "mousepad/mousepad-file.h"
+#include "mousepad-application.h"
+#include "mousepad-encoding.h"
+#include "mousepad-file.h"
 
 G_BEGIN_DECLS
 

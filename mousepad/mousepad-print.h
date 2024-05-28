@@ -17,7 +17,7 @@
 #ifndef __MOUSEPAD_PRINT_H__
 #define __MOUSEPAD_PRINT_H__
 
-#include "mousepad/mousepad-document.h"
+#include "mousepad-document.h"
 
 #include <gtk/gtk.h>
 

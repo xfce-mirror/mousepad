@@ -17,8 +17,8 @@
 #ifndef __MOUSEPAD_DIALOGS_H__
 #define __MOUSEPAD_DIALOGS_H__
 
-#include "mousepad/mousepad-encoding.h"
-#include "mousepad/mousepad-file.h"
+#include "mousepad-encoding.h"
+#include "mousepad-file.h"
 
 #include <gtk/gtk.h>
 

@@ -14,20 +14,20 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "mousepad/mousepad-private.h"
-#include "mousepad/mousepad-window.h"
-#include "mousepad/mousepad-application.h"
-#include "mousepad/mousepad-dialogs.h"
-#include "mousepad/mousepad-document.h"
-#include "mousepad/mousepad-encoding-dialog.h"
-#include "mousepad/mousepad-history.h"
-#include "mousepad/mousepad-marshal.h"
-#include "mousepad/mousepad-print.h"
-#include "mousepad/mousepad-replace-dialog.h"
-#include "mousepad/mousepad-search-bar.h"
-#include "mousepad/mousepad-settings.h"
-#include "mousepad/mousepad-statusbar.h"
-#include "mousepad/mousepad-util.h"
+#include "mousepad-private.h"
+#include "mousepad-application.h"
+#include "mousepad-dialogs.h"
+#include "mousepad-document.h"
+#include "mousepad-encoding-dialog.h"
+#include "mousepad-history.h"
+#include "mousepad-marshal.h"
+#include "mousepad-print.h"
+#include "mousepad-replace-dialog.h"
+#include "mousepad-search-bar.h"
+#include "mousepad-settings.h"
+#include "mousepad-statusbar.h"
+#include "mousepad-util.h"
+#include "mousepad-window.h"
 
 
 

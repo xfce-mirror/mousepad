@@ -17,7 +17,7 @@
 #ifndef __MOUSEPAD_STATUSBAR_H__
 #define __MOUSEPAD_STATUSBAR_H__
 
-#include "mousepad/mousepad-encoding.h"
+#include "mousepad-encoding.h"
 
 #include <gtk/gtk.h>
 #include <gtksourceview/gtksource.h>

@@ -15,12 +15,12 @@
  */
 
 #include "mousepad/mousepad-private.h"
+#include "test-plugin.h"
+
 #include "mousepad/mousepad-dialogs.h"
 #include "mousepad/mousepad-history.h"
 #include "mousepad/mousepad-settings.h"
 #include "mousepad/mousepad-util.h"
-
-#include "test-plugin/test-plugin.h"
 
 
 

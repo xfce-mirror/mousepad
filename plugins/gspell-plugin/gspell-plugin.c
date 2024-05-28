@@ -15,13 +15,13 @@
  */
 
 #include "mousepad/mousepad-private.h"
+#include "gspell-plugin.h"
+
 #include "mousepad/mousepad-application.h"
 #include "mousepad/mousepad-settings.h"
 #include "mousepad/mousepad-util.h"
 #include "mousepad/mousepad-view.h"
 #include "mousepad/mousepad-window.h"
-
-#include "gspell-plugin/gspell-plugin.h"
 
 #include <gspell/gspell.h>
 

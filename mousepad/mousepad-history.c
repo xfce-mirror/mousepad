@@ -14,13 +14,13 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "mousepad/mousepad-private.h"
-#include "mousepad/mousepad-history.h"
-#include "mousepad/mousepad-dialogs.h"
-#include "mousepad/mousepad-document.h"
-#include "mousepad/mousepad-settings.h"
-#include "mousepad/mousepad-util.h"
-#include "mousepad/mousepad-window.h"
+#include "mousepad-private.h"
+#include "mousepad-dialogs.h"
+#include "mousepad-document.h"
+#include "mousepad-history.h"
+#include "mousepad-settings.h"
+#include "mousepad-util.h"
+#include "mousepad-window.h"
 
 #ifdef G_OS_UNIX
 #include <glib-unix.h>

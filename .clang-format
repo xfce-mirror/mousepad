@@ -10,19 +10,22 @@ BinPackParameters: false
 BreakBeforeBinaryOperators: NonAssignment
 ColumnLimit: 0
 ContinuationIndentWidth: 2
+IncludeBlocks: Regroup
 IncludeCategories:
-  - Regex: 'mousepad-private\.h'
-    Priority: -1
-    SortPriority: 0
-    CaseSensitive: false
-  - Regex: '<.*>'
+  - Regex: '"(mousepad/)?mousepad-private\.h"'
+    Priority: 0
+    SortPriority: -1
+    CaseSensitive: true
+  - Regex: '"[^/]*"'
+    Priority: 0
+    SortPriority: 1
+    CaseSensitive: true
+  - Regex: '".*"'
     Priority: 2
-    SortPriority: 0
-    CaseSensitive: false
-  - Regex: '.*'
-    Priority: 1
-    SortPriority: 0
-    CaseSensitive: false
+    CaseSensitive: true
+  - Regex: '<.*>'
+    Priority: 3
+    CaseSensitive: true
 IndentGotoLabels: false
 InsertNewlineAtEOF: true
 KeepEmptyLinesAtTheStartOfBlocks: false

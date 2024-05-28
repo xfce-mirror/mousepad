@@ -17,7 +17,7 @@
 #ifndef __MOUSEPAD_PLUGIN_H__
 #define __MOUSEPAD_PLUGIN_H__
 
-#include "mousepad/mousepad-plugin-provider.h"
+#include "mousepad-plugin-provider.h"
 
 G_BEGIN_DECLS
 
