@@ -17,7 +17,7 @@
 #include "mousepad/mousepad-private.h"
 #include "mousepad/mousepad-application.h"
 
-#include "skeleton-plugin/skeleton-plugin.h"
+#include "skeleton-plugin.h"
 
 
 

@@ -14,12 +14,12 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "mousepad/mousepad-private.h"
-#include "mousepad/mousepad-file.h"
-#include "mousepad/mousepad-dialogs.h"
-#include "mousepad/mousepad-history.h"
-#include "mousepad/mousepad-settings.h"
-#include "mousepad/mousepad-util.h"
+#include "mousepad-private.h"
+#include "mousepad-file.h"
+#include "mousepad-dialogs.h"
+#include "mousepad-history.h"
+#include "mousepad-settings.h"
+#include "mousepad-util.h"
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>

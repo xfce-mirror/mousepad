@@ -16,7 +16,7 @@
 
 #include "mousepad/mousepad-private.h"
 
-#include "shortcuts-plugin/shortcuts-plugin.h"
+#include "shortcuts-plugin.h"
 
 #include <gmodule.h>
 

@@ -20,7 +20,7 @@
 #include "mousepad/mousepad-settings.h"
 #include "mousepad/mousepad-util.h"
 
-#include "test-plugin/test-plugin.h"
+#include "test-plugin.h"
 
 
 

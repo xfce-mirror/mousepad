@@ -21,7 +21,7 @@
 #include "mousepad/mousepad-view.h"
 #include "mousepad/mousepad-window.h"
 
-#include "gspell-plugin/gspell-plugin.h"
+#include "gspell-plugin.h"
 
 #include <gspell/gspell.h>
 

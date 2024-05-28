@@ -19,7 +19,7 @@
 #include "mousepad/mousepad-prefs-dialog.h"
 #include "mousepad/mousepad-util.h"
 
-#include "shortcuts-plugin/shortcuts-plugin.h"
+#include "shortcuts-plugin.h"
 
 /* prevent I18N macros redefinition */
 #ifndef __G_I18N_LIB_H__

@@ -16,7 +16,7 @@
 
 #include "mousepad/mousepad-private.h"
 
-#include "test-plugin/test-plugin.h"
+#include "test-plugin.h"
 
 #include <gmodule.h>
 

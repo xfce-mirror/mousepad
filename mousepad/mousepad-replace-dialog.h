@@ -17,7 +17,7 @@
 #ifndef __MOUSEPAD_REPLACE_DIALOG_H__
 #define __MOUSEPAD_REPLACE_DIALOG_H__
 
-#include "mousepad/mousepad-window.h"
+#include "mousepad-window.h"
 
 #include <gtk/gtk.h>
 

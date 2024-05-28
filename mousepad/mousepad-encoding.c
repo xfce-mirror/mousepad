@@ -14,9 +14,9 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "mousepad/mousepad-private.h"
-#include "mousepad/mousepad-encoding.h"
-#include "mousepad/mousepad-settings.h"
+#include "mousepad-private.h"
+#include "mousepad-encoding.h"
+#include "mousepad-settings.h"
 
 
 

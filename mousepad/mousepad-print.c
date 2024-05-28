@@ -14,10 +14,10 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "mousepad/mousepad-private.h"
-#include "mousepad/mousepad-print.h"
-#include "mousepad/mousepad-document.h"
-#include "mousepad/mousepad-util.h"
+#include "mousepad-private.h"
+#include "mousepad-print.h"
+#include "mousepad-document.h"
+#include "mousepad-util.h"
 
 
 

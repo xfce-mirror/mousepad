@@ -17,8 +17,8 @@
 #ifndef __MOUSEPAD_WINDOW_H__
 #define __MOUSEPAD_WINDOW_H__
 
-#include "mousepad/mousepad-application.h"
-#include "mousepad/mousepad-document.h"
+#include "mousepad-application.h"
+#include "mousepad-document.h"
 
 G_BEGIN_DECLS
 

@@ -17,7 +17,7 @@
 #ifndef __MOUSEPAD_FILE_H__
 #define __MOUSEPAD_FILE_H__
 
-#include "mousepad/mousepad-encoding.h"
+#include "mousepad-encoding.h"
 
 #include <gtksourceview/gtksource.h>
 
