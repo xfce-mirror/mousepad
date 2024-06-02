@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the xfce-apps.mousepad package.
 # 
 # Translators:
-# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015,2018-2022
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015,2018-2022,2024
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2023-05-04 21:30+0200\n"
+"POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015,2018-2022\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2013,2015,2018-2022,2024\n"
 "Language-Team: Kazakh (http://app.transifex.com/xfce/xfce-apps/language/kk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -673,15 +673,15 @@ msgstr "Барлық құжаттар"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d сәйкестік, %d ішінен"
+msgstr[1] "%d сәйкестік, %d ішінен"
 
 #: mousepad/mousepad-replace-dialog.c:617 mousepad/mousepad-search-bar.c:471
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d сәйкестік"
+msgstr[1] "%d сәйкестік"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -944,7 +944,7 @@ msgstr "Б_арлығын түспен ерекшелеу"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Іздеу сәйкестіктерін түспен ерекшелеу"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1407,7 +1407,7 @@ msgstr "Құраманы әртүрлі жаққа жылжыту"
 
 #: mousepad/resources/gtk/menus-common.ui:317
 msgid "One Line _Up"
-msgstr ""
+msgstr "Бір жолға _жоғары"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "Move lines one line up"
@@ -1415,7 +1415,7 @@ msgstr "Жолдарды бір жолға жоғары жылжыту"
 
 #: mousepad/resources/gtk/menus-common.ui:322
 msgid "One Line _Down"
-msgstr ""
+msgstr "Бір жолға _төмен"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "Move lines one line down"
@@ -1423,7 +1423,7 @@ msgstr "Жолдарды бір жолға төмен жылжыту"
 
 #: mousepad/resources/gtk/menus-common.ui:327
 msgid "One Word _Left"
-msgstr ""
+msgstr "Бір сөзге со_л жаққа"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "Move words one word left"
@@ -1431,7 +1431,7 @@ msgstr "Сөздерді бір сөзге сол жаққа жылжыту"
 
 #: mousepad/resources/gtk/menus-common.ui:332
 msgid "One Word _Right"
-msgstr ""
+msgstr "Бір сөзге _оң жаққа"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "Move words one word right"
@@ -1860,7 +1860,7 @@ msgstr "Екінші жағынан, біз қол жетімді GTK ең жа�
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Mousepad әзірлеушілері"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
