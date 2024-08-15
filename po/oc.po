@@ -1772,7 +1772,7 @@ msgstr "Fichièr"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1547
 msgid "Plugins"
-msgstr ""
+msgstr "Empeutons"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:45
 msgid "Spell Checking"
