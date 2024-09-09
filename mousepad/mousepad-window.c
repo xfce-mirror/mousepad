@@ -2039,6 +2039,38 @@ mousepad_window_file_is_open (MousepadWindow *window,
 
 
 
+static void
+admin_mount_finish (GObject *file,
+                    GAsyncResult *res,
+                    gpointer window)
+{
+  GError *error = NULL;
+  if (!g_file_mount_enclosing_volume_finish (G_FILE (file), res, &error))
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_ALREADY_MOUNTED))
+        {
+          mousepad_dialogs_show_error (window, error, MOUSEPAD_MESSAGE_IO_ERROR_OPEN);
+          g_error_free (error);
+          return;
+        }
+      g_error_free (error);
+    }
+
+  /* block while user enters password */
+  g_file_query_exists (G_FILE (file), NULL);
+
+  /* normally done in mousepad_application_open() when opening file synchronously */
+  gtk_window_present (GTK_WINDOW (window));
+
+  mousepad_window_open_file (window, G_FILE (file),
+                             GPOINTER_TO_INT (mousepad_object_get_data (file, "admin-mount-encoding")),
+                             GPOINTER_TO_INT (mousepad_object_get_data (file, "admin-mount-line")),
+                             GPOINTER_TO_INT (mousepad_object_get_data (file, "admin-mount-column")),
+                             FALSE);
+}
+
+
+
 static gboolean
 mousepad_window_open_file (MousepadWindow *window,
                            GFile *file,
@@ -2060,6 +2092,17 @@ mousepad_window_open_file (MousepadWindow *window,
   /* check if the file is already open, if so focus its tab and exit */
   if (mousepad_window_file_is_open (window, file, TRUE))
     return TRUE;
+
+  /* deal with admin protocol asynchronously */
+  if (g_file_has_uri_scheme (file, "admin") && !mousepad_object_get_data (file, "admin-mount-done"))
+    {
+      mousepad_object_set_data (file, "admin-mount-done", GINT_TO_POINTER (TRUE));
+      mousepad_object_set_data (file, "admin-mount-encoding", GINT_TO_POINTER (encoding));
+      mousepad_object_set_data (file, "admin-mount-line", GINT_TO_POINTER (line));
+      mousepad_object_set_data (file, "admin-mount-column", GINT_TO_POINTER (column));
+      g_file_mount_enclosing_volume (file, G_MOUNT_MOUNT_NONE, NULL, NULL, admin_mount_finish, window);
+      return FALSE;
+    }
 
   /* new document */
   document = mousepad_document_new ();
@@ -4571,7 +4614,7 @@ mousepad_window_action_save (GSimpleAction *action,
       /* file is readonly */
       else if (G_UNLIKELY (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)
                            || g_error_matches (error, G_IO_ERROR, G_IO_ERROR_READ_ONLY)
-                           || mousepad_file_get_path (document->file) == NULL))
+                           || (!succeed && mousepad_file_get_path (document->file) == NULL)))
         {
           /* cleanup */
           g_clear_error (&error);
