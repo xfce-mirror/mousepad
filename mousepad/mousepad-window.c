@@ -2044,7 +2044,9 @@ admin_mount_finish (GObject *file,
                     GAsyncResult *res,
                     gpointer window)
 {
+  GFileInfo *info;
   GError *error = NULL;
+
   if (!g_file_mount_enclosing_volume_finish (G_FILE (file), res, &error))
     {
       if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_ALREADY_MOUNTED))
@@ -2053,20 +2055,36 @@ admin_mount_finish (GObject *file,
           g_error_free (error);
           return;
         }
-      g_error_free (error);
+      g_clear_error (&error);
     }
 
   /* block while user enters password */
-  g_file_query_exists (G_FILE (file), NULL);
+  info = g_file_query_info (G_FILE (file), G_FILE_ATTRIBUTE_STANDARD_NAME, G_FILE_QUERY_INFO_NONE, NULL, &error);
+  if (info == NULL)
+    {
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED))
+        {
+          /* G_IO_ERROR_PERMISSION_DENIED == operation cancelled by user: we just leave
+           * this callback and auth dialog will not be shown again */
+          g_error_free (error);
+          return;
+        }
+      g_error_free (error);
+    }
+  else
+    {
+      g_object_unref (info);
+    }
 
-  /* normally done in mousepad_application_open() when opening file synchronously */
-  gtk_window_present (GTK_WINDOW (window));
-
-  mousepad_window_open_file (window, G_FILE (file),
-                             GPOINTER_TO_INT (mousepad_object_get_data (file, "admin-mount-encoding")),
-                             GPOINTER_TO_INT (mousepad_object_get_data (file, "admin-mount-line")),
-                             GPOINTER_TO_INT (mousepad_object_get_data (file, "admin-mount-column")),
-                             FALSE);
+  /* at this point user should have authenticated successfully */
+  if (mousepad_window_open_file (window, G_FILE (file),
+                                 GPOINTER_TO_INT (mousepad_object_get_data (file, "admin-mount-encoding")),
+                                 GPOINTER_TO_INT (mousepad_object_get_data (file, "admin-mount-line")),
+                                 GPOINTER_TO_INT (mousepad_object_get_data (file, "admin-mount-column")),
+                                 FALSE))
+    {
+      gtk_window_present (GTK_WINDOW (window));
+    }
 }
 
 
