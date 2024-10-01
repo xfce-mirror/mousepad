@@ -6,7 +6,7 @@
 # ised, 2014
 # ised, 2014
 # marcin mikołajczak <me@mkljczk.pl>, 2017
-# Marek Adamski, 2021-2023
+# Marek Adamski, 2021-2024
 # Nick Schermer <nick@xfce.org>, 2014
 # Nick Schermer <nick@xfce.org>, 2014
 # Marek Adamski, 2018-2021
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2023-05-30 00:50+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Marek Adamski, 2021-2023\n"
+"Last-Translator: Marek Adamski, 2021-2024\n"
 "Language-Team: Polish (http://app.transifex.com/xfce/xfce-apps/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +90,7 @@ msgstr "Mousepad"
 #: mousepad/mousepad-application.c:391
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr "Tryb otwierania plików: \"%s\", \"%s\" lub \"%s\" (otwieranie kart w nowym oknie)"
+msgstr "Tryb otwierania plików: „%s”, „%s” lub „%s” (otwieranie kart w nowym oknie)"
 
 #: mousepad/mousepad-application.c:394
 msgid "MODE"
@@ -159,7 +159,7 @@ msgstr "Wyczyść historię dokumentów"
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
-msgstr "Wyczyszczenie historii dokumentów, usunie wszystkie pozycje na liście."
+msgstr "Wyczyszczenie historii dokumentów usunie wszystkie pozycje na liście."
 
 #: mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
@@ -285,12 +285,12 @@ msgstr "Wszystkie pliki"
 #. create the dialog
 #: mousepad/mousepad-dialogs.c:1138
 msgid "Save As"
-msgstr "Wybór pliku"
+msgstr "Zapisz jako"
 
 #. create new file chooser dialog
 #: mousepad/mousepad-dialogs.c:1201
 msgid "Open File"
-msgstr "Wybór pliku"
+msgstr "Otwórz plik"
 
 #. add button
 #: mousepad/mousepad-dialogs.c:1209
@@ -745,7 +745,7 @@ msgstr "Tryb przeglądarki"
 #: mousepad/mousepad-window.c:3389
 #, c-format
 msgid "Use '%s' as template"
-msgstr "Użyj '%s' jako szablonu"
+msgstr "Użyj „%s” jako szablonu"
 
 #: mousepad/mousepad-window.c:3415
 #, c-format
@@ -759,7 +759,7 @@ msgstr "Nie odnaleziono plików szablonu w\npołożeniu „%s”"
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr "Brakujący katalog szablonów\n'%s'"
+msgstr "Brakujący katalog szablonów\n„%s”"
 
 #. create suitable text label for the "Other" menu
 #: mousepad/mousepad-window.c:3532
@@ -986,7 +986,7 @@ msgstr "Schemat kolorów używany w widoku tekstu"
 #: mousepad/resources/gtk/menus.ui:199
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:120
 msgid "None"
-msgstr "Żadne"
+msgstr "Brak"
 
 #: mousepad/resources/gtk/menus.ui:200
 msgid "No style scheme"
@@ -1143,7 +1143,7 @@ msgstr "Zakazuje modyfikacji za pomocą klawiatury / myszy"
 
 #: mousepad/resources/gtk/menus.ui:350
 msgid "_Previous Tab"
-msgstr "_Poprzednia"
+msgstr "_Poprzednia karta"
 
 #: mousepad/resources/gtk/menus.ui:351
 msgid "Select the previous tab"
@@ -1151,7 +1151,7 @@ msgstr "Przechodzi do poprzedniej karty"
 
 #: mousepad/resources/gtk/menus.ui:356
 msgid "_Next Tab"
-msgstr "_Następna"
+msgstr "_Następna karta"
 
 #: mousepad/resources/gtk/menus.ui:357
 msgid "Select the next tab"
@@ -1728,7 +1728,7 @@ msgstr "Zapewnianie nowego wiersza na końcu pliku"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1197
 msgid "Make a copy with '~' suffix"
-msgstr "Tworzenie kopii z sufiksem '~'"
+msgstr "Tworzenie kopii z sufiksem „~”"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1216
 msgid "<b>File Saving</b>"
@@ -1750,7 +1750,7 @@ msgstr "Długość menu ostatnich plików:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1313
 msgid "'0' disables and wipes recent history"
-msgstr "'0' wyłącza i czyści najnowszą historię"
+msgstr "„0” wyłącza i czyści najnowszą historię"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1329
 msgid "Search history size:"
@@ -1808,11 +1808,11 @@ msgstr "Edytor skrótów"
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr "Edytor skrótów jest dostępny tutaj jako popover lub jako okno dialogowe poniżej preferencji na pasku menu."
+msgstr "Edytor skrótów jest dostępny tutaj jako „popover” lub jako okno dialogowe poniżej preferencji na pasku menu."
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr "Aplikacja"
+msgstr "Program"
 
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:253
