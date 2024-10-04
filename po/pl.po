@@ -229,7 +229,7 @@ msgstr "Przywrócenie poprzedniej wersji dokumentu sprawi, że wszystkie niezapi
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr "Plik wydaje się być zakodowany w %s, ale wybranłeś kodowanie %s. Czy potwierdzasz ten wybór?"
+msgstr "Plik wygląda na zakodowany w %s, ale wybrano kodowanie %s. Czy potwierdzasz ten wybór?"
 
 #: mousepad/mousepad-dialogs.c:585
 msgid "If not, the guessed encoding will be used."
@@ -566,7 +566,7 @@ msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
-msgstr "Określa odstęp z jakim wyświetlane będą numery wierszy. Dla wartości 1 numery pojawią się w każdym wierszu, wartość 2 wyświetli numer w co drugim wierszu, itd."
+msgstr "Określa odstęp, z jakim wyświetlane będą numery wierszy. Dla wartości 1 numery pojawią się w każdym wierszu, wartość 2 wyświetli numer w co drugim wierszu, itd."
 
 #: mousepad/mousepad-print.c:622
 msgid "Enable text _wrapping"
@@ -752,7 +752,7 @@ msgstr "Użyj „%s” jako szablonu"
 msgid ""
 "No template files found in\n"
 "'%s'"
-msgstr "Nie odnaleziono plików szablonu w\npołożeniu „%s”"
+msgstr "Nie znaleziono plików szablonu\nw położeniu „%s”"
 
 #: mousepad/mousepad-window.c:3480
 #, c-format
@@ -865,11 +865,11 @@ msgstr "Otwiera ostatnio używany plik"
 
 #: mousepad/resources/gtk/menus.ui:50
 msgid "Clear _History"
-msgstr "_Wyczyść"
+msgstr "Wyczyść _historię"
 
 #: mousepad/resources/gtk/menus.ui:51
 msgid "Clear the recently used files history"
-msgstr "Czyści listę ostatnio otwartych plików"
+msgstr "Czyści historię ostatnio używanych plików"
 
 #: mousepad/resources/gtk/menus.ui:68
 msgid "Save A_ll"
@@ -881,7 +881,7 @@ msgstr "Zapisuje wszystkie dokumenty bieżącego okna"
 
 #: mousepad/resources/gtk/menus.ui:79
 msgid "_Print..."
-msgstr "_Wydrukuj..."
+msgstr "_Drukuj..."
 
 #: mousepad/resources/gtk/menus.ui:80
 msgid "Print the current document"
@@ -981,7 +981,7 @@ msgstr "Zestaw _kolorów"
 
 #: mousepad/resources/gtk/menus.ui:196
 msgid "Color scheme to use for the text view"
-msgstr "Schemat kolorów używany w widoku tekstu"
+msgstr "Zestaw kolorów używany w widoku tekstu"
 
 #: mousepad/resources/gtk/menus.ui:199
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:120
@@ -1011,11 +1011,11 @@ msgstr "Przełącza wyświetlanie paska menu"
 
 #: mousepad/resources/gtk/menus.ui:221
 msgid "_Toolbar"
-msgstr "_Pasek narzędziowy"
+msgstr "_Pasek narzędzi"
 
 #: mousepad/resources/gtk/menus.ui:222
 msgid "Change the visibility of the toolbar"
-msgstr "Przełącza wyświetlanie paska narzędziowego"
+msgstr "Przełącza wyświetlanie paska narzędzi"
 
 #: mousepad/resources/gtk/menus.ui:226
 msgid "St_atusbar"
@@ -1539,11 +1539,11 @@ msgstr "Menu"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:168
 msgid "Small Toolbar"
-msgstr "Mały pasek narzędziowy"
+msgstr "Mały pasek narzędzi"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:172
 msgid "Large Toolbar"
-msgstr "Duży pasek narzędziowy"
+msgstr "Duży pasek narzędzi"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:176
 msgid "Button"
@@ -1696,7 +1696,7 @@ msgstr "Rozmiar ikon:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1000
 msgid "<b>Toolbar</b>"
-msgstr "<b>Pasek narzędziowy</b>"
+msgstr "<b>Pasek narzędzi</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1029
 msgid "Always show tabs even with one file"
