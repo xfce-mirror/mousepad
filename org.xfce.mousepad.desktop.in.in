@@ -11,6 +11,7 @@ Type=Application
 Categories=Utility;TextEditor;GTK;
 MimeType=text/plain;application/x-zerosize;
 Actions=preferences;
+Keywords=Edit;Text;Simple;XFCE;Lightweight;Fast;
 
 [Desktop Action preferences]
 Name=Mousepad Preferences
