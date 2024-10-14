@@ -7,5 +7,6 @@ Icon=org.xfce.mousepad
 Terminal=false
 Type=Application
 Categories=XFCE;GTK;Settings;DesktopSettings;X-XFCE-SettingsDialog;X-XFCE-PersonalSettings;
+Keywords=Text;Editor;Mousepad;Preferences;Settings;Configure;
 StartupNotify=true
 NotShowIn=GNOME;
