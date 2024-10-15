@@ -22,10 +22,15 @@ AC_DEFUN([MOUSEPAD_PLUGIN_GSPELL],
 [
 AC_ARG_ENABLE([plugin-gspell], [AS_HELP_STRING([--disable-plugin-gspell], [Don't build the gspell plugin])],
   [ac_mousepad_plugin_gspell=$enableval], [ac_mousepad_plugin_gspell=yes])
+
+dnl This plugin will probably never be portable to GTK 4, which might have a built-in spellchecker.
+dnl See https://gitlab.gnome.org/GNOME/gtk/-/issues/3814
+ac_mousepad_plugin_gspell=no
+
 if test x"$ac_mousepad_plugin_gspell" = x"yes"; then
   XDT_CHECK_PACKAGE([GSPELL], [gspell-1], [1.6.0], [], [ac_mousepad_plugin_gspell=no])
 else
-  ac_mousepad_plugin_gspell=no
+  ac_mousepad_plugin_gspell="no (not portable to GTK 4 as it relies on GtkMenu)"
 fi
 
 AC_MSG_CHECKING([whether to build the gspell plugin])
