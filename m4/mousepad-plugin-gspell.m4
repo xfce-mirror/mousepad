@@ -23,7 +23,7 @@ AC_DEFUN([MOUSEPAD_PLUGIN_GSPELL],
 AC_ARG_ENABLE([plugin-gspell], [AS_HELP_STRING([--disable-plugin-gspell], [Don't build the gspell plugin])],
   [ac_mousepad_plugin_gspell=$enableval], [ac_mousepad_plugin_gspell=yes])
 if test x"$ac_mousepad_plugin_gspell" = x"yes"; then
-  XDT_CHECK_PACKAGE([GSPELL], [gspell-1], [1.6.0], [], [ac_mousepad_plugin_gspell=no])
+  XDT_CHECK_PACKAGE([GSPELL], [gspell-1], [1.6.0])
 else
   ac_mousepad_plugin_gspell=no
 fi
