@@ -23,7 +23,7 @@ AC_DEFUN([MOUSEPAD_PLUGIN_SKELETON],
 AC_ARG_ENABLE([plugin-skeleton], [AS_HELP_STRING([--disable-plugin-skeleton], [Don't build the skeleton plugin])],
   [ac_mousepad_plugin_skeleton=$enableval], [ac_mousepad_plugin_skeleton=yes])
 if test x"$ac_mousepad_plugin_skeleton" = x"yes"; then
-  XDT_CHECK_PACKAGE([SKELETON_DEPENDENCY], [skeleton-dependency], [0.0.1], [], [ac_mousepad_plugin_skeleton=no])
+  XDT_CHECK_PACKAGE([SKELETON_DEPENDENCY], [skeleton-dependency], [0.0.1])
 else
   ac_mousepad_plugin_skeleton=no
 fi
