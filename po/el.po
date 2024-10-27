@@ -858,7 +858,7 @@ msgstr "Δημιουργία νέου εγγράφου από πρότυπο"
 
 #: mousepad/resources/gtk/menus.ui:43
 msgid "Op_en Recent"
-msgstr "Άνοιγμα π_ρόσφατου"
+msgstr "Άνοιγμα πρόσ_φατου"
 
 #: mousepad/resources/gtk/menus.ui:44
 msgid "Open a recently used file"
@@ -930,7 +930,7 @@ msgstr "Μενού αναζήτησης"
 
 #: mousepad/resources/gtk/menus.ui:147
 msgid "Find _Next"
-msgstr "Εύρεση _επόμενου"
+msgstr "Εύ_ρεση επόμενου"
 
 #: mousepad/resources/gtk/menus.ui:148
 msgid "Search forwards for the same text"
@@ -1108,7 +1108,7 @@ msgstr "Κανένας τύπος αρχείου"
 
 #: mousepad/resources/gtk/menus.ui:314
 msgid "Line E_nding"
-msgstr "_Τέλος γραμμής"
+msgstr "Τέ_λος γραμμής"
 
 #: mousepad/resources/gtk/menus.ui:315
 msgid "Character(s) to use as end of line"
@@ -1851,7 +1851,7 @@ msgstr "Επεξεργαστής κειμένου"
 
 #: org.xfce.mousepad.desktop.in.in:15
 msgid "Edit;Text;Simple;XFCE;Lightweight;Fast;"
-msgstr ""
+msgstr "Επεξεργασία;Κείμενο;Απλός;XFCE;Ελαφρύς;Γρήγορη;"
 
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
@@ -1863,7 +1863,7 @@ msgstr "Ρυθμίσεις επεξεργαστή κειμένου Mousepad"
 
 #: org.xfce.mousepad-settings.desktop.in.in:11
 msgid "Text;Editor;Mousepad;Preferences;Settings;Configure;"
-msgstr ""
+msgstr "Κείμενο;Επεξεργαστής;Mousepad;Προτιμήσεις;Ρυθμίσεις;Ρυθμίσεις;"
 
 #: org.xfce.mousepad.appdata.xml.in:11
 msgid ""
