@@ -547,7 +547,7 @@ msgstr "Brak danych w schowku"
 #. setup the window properties
 #: mousepad/mousepad-prefs-dialog.c:642 org.xfce.mousepad.desktop.in.in:18
 msgid "Mousepad Preferences"
-msgstr "Preferencje Mousepad"
+msgstr "Preferencje edytora tekstu"
 
 #. set a custom tab label
 #: mousepad/mousepad-print.c:120
@@ -1746,7 +1746,7 @@ msgstr "Przywracanie sesji:"
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr "W przypadku wybrania opcji „niezapisane dokumenty” lub „zawsze” Mousepad nie poprosi o zapisanie zmodyfikowanych dokumentów przy zakończeniu działania"
+msgstr "W przypadku wybrania opcji „niezapisane dokumenty” lub „zawsze” program Mousepad nie poprosi o zapisanie zmodyfikowanych dokumentów przy zakończeniu działania"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1301
 msgid "Recent file menu length:"
@@ -1833,7 +1833,7 @@ msgstr "Różne"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:585
 msgid "Mousepad Shortcuts"
-msgstr "Skróty Mousepad"
+msgstr "Skróty programu Mousepad"
 
 #. add the shortcuts menu entry
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:634
@@ -1893,7 +1893,7 @@ msgstr "Twórcy programu Mousepad"
 #. to. This isn't a good idea, but is common on single user systems.
 #: org.xfce.mousepad.policy.in.in:24
 msgid "Run Mousepad as root"
-msgstr "Uruchom Mousepad jako użytkownik root"
+msgstr "Uruchom program Mousepad jako użytkownik root"
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
