@@ -60,7 +60,7 @@ msgstr "SLOUPEC"
 
 #: mousepad/mousepad-application.c:177
 msgid "Open the preferences dialog"
-msgstr "Otevřít dialogové okno nastavení"
+msgstr "Otevřít dialogové okno předvolby"
 
 #: mousepad/mousepad-application.c:181
 msgid "Do not register with the D-BUS session message bus"
@@ -118,7 +118,7 @@ msgstr "Mousepad je jednoduchý textový editor pro desktopové prostředí Xfce
 
 #: mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
-msgstr "Michal Várady <miko.vaji@gmail.com> 2012"
+msgstr "Michal Várady <miko.vaji@gmail.com>"
 
 #. display an error message to the user
 #: mousepad/mousepad-dialogs.c:123
@@ -138,15 +138,15 @@ msgstr "Přejít na"
 #. add button
 #: mousepad/mousepad-dialogs.c:239
 msgid "_Jump to"
-msgstr "_Přeskočit na"
+msgstr "_Přejít"
 
 #: mousepad/mousepad-dialogs.c:259
 msgid "_Line number:"
-msgstr "Číslo řá_dku::"
+msgstr "Číslo řá_dku:"
 
 #: mousepad/mousepad-dialogs.c:279
 msgid "C_olumn number:"
-msgstr "Číslo _sloupce"
+msgstr "Číslo _sloupce:"
 
 #: mousepad/mousepad-dialogs.c:339
 msgid "Remove all entries from the documents history?"
@@ -645,7 +645,7 @@ msgstr "Dolů"
 #. wrap around
 #: mousepad/mousepad-replace-dialog.c:364
 msgid "_Wrap around"
-msgstr "_Orámování"
+msgstr "_Po nalezení poslední shody pokračovat od začátku"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
@@ -914,7 +914,7 @@ msgstr "Nabídka úpravy"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
-msgstr "Nastavení..."
+msgstr "Předvolby..."
 
 #: mousepad/resources/gtk/menus.ui:131
 msgid "Show the preferences dialog"
@@ -1000,7 +1000,7 @@ msgstr "Čí_sla řádků"
 #: mousepad/resources/gtk/menus.ui:210
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:248
 msgid "Show line numbers"
-msgstr "Zobrazovat čísla řádků"
+msgstr "Zobrazit čísla řádků"
 
 #: mousepad/resources/gtk/menus.ui:216 mousepad/resources/gtk/menus.ui:445
 msgid "_Menubar"
@@ -1522,17 +1522,17 @@ msgstr "vždy"
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:141
 msgid "new tabs"
-msgstr "nové karty"
+msgstr "nových kartách"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:145
 msgid "new windows"
-msgstr "nová okna"
+msgstr "nových oknech"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:149
 msgid "new tabs in a new window"
-msgstr "nové karty v novém okně"
+msgstr "nových kartách v novém okně"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:164
 msgid "Menu"
@@ -1576,7 +1576,7 @@ msgstr "Text vedle ikon"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:263
 msgid "Display whitespace"
-msgstr "Zobrazit prázdné mezery"
+msgstr "Zobrazit prázdné znaky"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:278
 msgid "Display line endings"
@@ -1584,7 +1584,7 @@ msgstr "Zobrazit ukončení řádku"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:298
 msgid "Long line margin at column:"
-msgstr "Zalamovat dlouhé řádky na sloupci:"
+msgstr "Zalmit dlouhé řádky na sloupci:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:351
 msgid "Highlight current line"
@@ -1644,7 +1644,7 @@ msgstr "Odsadí/Předsadí aktuálně vybraný text nebo aktuální řádek"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:693
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr "Backspace: Smaže odsazené mezery jako tabulátory"
+msgstr "Backspace: Smaže odsazené mezery, např. tabulátory"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:709
 msgid "Home/End: Detect leading/trailing whitespace:"
@@ -1705,11 +1705,11 @@ msgstr "Vždy zobrazovat karty i při jednom souboru"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1044
 msgid "Expand tabs to fill available space"
-msgstr "Rozšířit karty k vyplňění dostupného místa"
+msgstr "Rozšířit karty a vyplnit tak dostupné místo"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1059
 msgid "Cycled notebook tab switching"
-msgstr "Přepínat karty zápisníku dokola"
+msgstr "Přepínat karty poznámkového bloku dokola"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1082
 msgid "Open files in:"
@@ -1717,7 +1717,7 @@ msgstr "Otevřít soubory v:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1128
 msgid "<b>Notebook Tabs</b>"
-msgstr "Karty zápisníku"
+msgstr "<b>Karty poznámkového bloku</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1148
 msgid "Window"
@@ -1818,11 +1818,11 @@ msgstr "Aplikace"
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:258
 msgid "Menubar"
-msgstr "Lišta nabídek"
+msgstr "Panel nabídky"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Preferences Dialog"
-msgstr "Nastavení"
+msgstr "Dialogové okno Předvolby"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Miscellaneous"
