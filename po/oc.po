@@ -388,12 +388,12 @@ msgstr ""
 #: mousepad/mousepad-encoding-dialog.c:683
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "Lo document es valid %s."
 
 #: mousepad/mousepad-encoding-dialog.c:684
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "Lo document es pas valid %s."
 
 #. west european
 #: mousepad/mousepad-encoding.c:38
@@ -524,7 +524,7 @@ msgstr "Sistèma"
 
 #: mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "Istoric"
 
 #: mousepad/mousepad-file.c:1000
 msgid "Invalid byte sequence in conversion input"
@@ -541,7 +541,7 @@ msgstr "Pas de donada del quichapapièrs"
 #. setup the window properties
 #: mousepad/mousepad-prefs-dialog.c:642 org.xfce.mousepad.desktop.in.in:18
 msgid "Mousepad Preferences"
-msgstr ""
+msgstr "Preferéncias del pavat de la mirga"
 
 #. set a custom tab label
 #: mousepad/mousepad-print.c:120
@@ -607,13 +607,13 @@ msgstr "_Remplaçar"
 #. set dialog properties
 #: mousepad/mousepad-replace-dialog.c:256
 msgid "Find and Replace"
-msgstr ""
+msgstr "Cercar e remplaçar"
 
 #. dialog buttons
 #: mousepad/mousepad-replace-dialog.c:262
 #: mousepad/resources/gtk/menus-common.ui:157
 msgid "_Find"
-msgstr ""
+msgstr "_Cercar"
 
 #: mousepad/mousepad-replace-dialog.c:271
 msgid "_Close"
@@ -831,7 +831,7 @@ msgstr "_Fichièr"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
-msgstr ""
+msgstr "Menú fichièr"
 
 #: mousepad/resources/gtk/menus.ui:27
 msgid "New _Window"
@@ -847,7 +847,7 @@ msgstr "Novèl a partir del _modèl"
 
 #: mousepad/resources/gtk/menus.ui:33
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "Crear un document novèl a partir d’un modèl"
 
 #: mousepad/resources/gtk/menus.ui:43
 msgid "Op_en Recent"
@@ -903,11 +903,11 @@ msgstr "_Editar"
 
 #: mousepad/resources/gtk/menus.ui:112
 msgid "Edit menu"
-msgstr ""
+msgstr "Menú edicion"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
-msgstr ""
+msgstr "Preferéncias..."
 
 #: mousepad/resources/gtk/menus.ui:131
 msgid "Show the preferences dialog"
