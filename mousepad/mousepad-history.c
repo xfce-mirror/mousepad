@@ -426,11 +426,9 @@ mousepad_history_session_restore_changed (void)
                                                    NULL);
 #endif
 
-#if GTK_CHECK_VERSION(3, 24, 8)
       /* be aware of session logout */
       g_signal_connect (application, "query-end",
                         G_CALLBACK (mousepad_history_session_external_signal), NULL);
-#endif
     }
   /* any state -> disabled */
   else if (restore == MOUSEPAD_SESSION_RESTORE_NEVER)
@@ -1237,14 +1235,17 @@ mousepad_history_paste_finalize (void)
 
 
 void
-mousepad_history_paste_add (void)
+mousepad_history_paste_add (GObject *object,
+                            GAsyncResult *result,
+                            gpointer data)
 {
+  GError *error = NULL;
   GSList *li;
   gchar *text;
   gint n;
 
   /* get the current clipboard text */
-  text = gtk_clipboard_wait_for_text (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+  text = gdk_clipboard_read_text_finish (GDK_CLIPBOARD (object), result, &error);
 
   /* leave when there is no text */
   if (G_UNLIKELY (text == NULL || *text == '\0'))
@@ -1274,10 +1275,10 @@ mousepad_history_paste_add (void)
 
 
 
-static GtkWidget *
+static GMenuItem *
 get_menu_item (const gchar *text)
 {
-  GtkWidget *item;
+  GMenuItem *item;
   GString *string;
   gchar *label_str;
 
@@ -1307,7 +1308,9 @@ get_menu_item (const gchar *text)
   label_str = g_strdelimit (label_str, "\n\t\r", ' ');
 
   /* create a new item */
-  item = gtk_menu_item_new_with_label (label_str);
+  item = g_menu_item_new (label_str, NULL);
+  g_menu_item_set_action_and_target_value (item, "win.paste-from-history.item",
+                                           g_variant_new_string (text));
 
   /* cleanup */
   g_free (label_str);
@@ -1317,36 +1320,27 @@ get_menu_item (const gchar *text)
 
 
 
-GtkWidget *
-mousepad_history_paste_get_menu (GCallback callback,
-                                 gpointer data)
+GMenuModel *
+mousepad_history_paste_get_menu (void)
 {
-  GtkWidget *menu, *item;
-
-  /* create new menu and set the screen */
-  menu = gtk_menu_new ();
-  g_object_ref_sink (menu);
-  g_signal_connect (menu, "deactivate", G_CALLBACK (g_object_unref), NULL);
+  GMenu *menu = g_menu_new ();
+  GMenuItem *item;
 
   /* append the history items */
   for (GSList *li = clipboard_history; li != NULL; li = li->next)
     {
-      /* create menu item */
       item = get_menu_item (li->data);
-      mousepad_object_set_data (item, "history-pointer", li->data);
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      g_signal_connect (item, "activate", callback, data);
-      gtk_widget_show (item);
+      g_menu_append_item (menu, item);
+      g_object_unref (item);
     }
 
   /* create an item to inform the user if history is empty */
-  if (!mousepad_util_container_has_children (GTK_CONTAINER (menu)))
+  if (g_menu_model_get_n_items (G_MENU_MODEL (menu)) == 0)
     {
-      item = gtk_menu_item_new_with_label (_("No clipboard data"));
-      gtk_widget_set_sensitive (item, FALSE);
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      gtk_widget_show (item);
+      item = g_menu_item_new (_("No clipboard data"), "win.insensitive");
+      g_menu_append_item (menu, item);
+      g_object_unref (item);
     }
 
-  return menu;
+  return G_MENU_MODEL (menu);
 }
