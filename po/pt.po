@@ -70,7 +70,7 @@ msgstr "Sair de uma instância principal do Mousepad em execução"
 
 #: mousepad/mousepad-application.c:189
 msgid "Print version information and exit"
-msgstr "Imprimir informações da versão e sair"
+msgstr "Mostrar informações da versão e sair"
 
 #: mousepad/mousepad-application.c:193
 msgid "[FILES...]"
@@ -98,7 +98,7 @@ msgstr "MODO"
 
 #: mousepad/mousepad-application.c:466
 msgid "The Mousepad developers. All rights reserved."
-msgstr "Os programadores do Mousepad. Todos os direitos reservados."
+msgstr "Os criadores do Mousepad. Todos os direitos reservados."
 
 #: mousepad/mousepad-application.c:467
 #, c-format
@@ -136,7 +136,7 @@ msgstr "Ir para"
 #. add button
 #: mousepad/mousepad-dialogs.c:239
 msgid "_Jump to"
-msgstr "Saltar para"
+msgstr "_Saltar para"
 
 #: mousepad/mousepad-dialogs.c:259
 msgid "_Line number:"
@@ -148,7 +148,7 @@ msgstr "Número da c_oluna:"
 
 #: mousepad/mousepad-dialogs.c:339
 msgid "Remove all entries from the documents history?"
-msgstr "Remover todas as entradas no histórico de documentos?"
+msgstr "Remover todas as entradas do histórico de documentos?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:343
@@ -159,7 +159,7 @@ msgstr "Limpar histórico de documentos"
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
-msgstr "Se limpar o histórico de documentos, remove todas as entradas permanentemente."
+msgstr "Limpar o histórico de documentos removerá permanentemente todas as entradas atualmente listadas."
 
 #: mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
@@ -171,7 +171,7 @@ msgstr "Pretende guardar as alterações antes de fechar?"
 
 #: mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr "O documento é apenas de leitura, quer guardá-lo como outro ficheiro?"
+msgstr "O documento é de apenas-leitura, pretende guardá-lo como outro ficheiro?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:392 mousepad/mousepad-dialogs.c:532
@@ -186,7 +186,7 @@ msgstr "_Não guardar"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr "Se não guardar este documento apenas para leitura como outro ficheiro, todas as alterações serão perdidas."
+msgstr "Se não guardar este documento de apenas-leitura como outro ficheiro, todas as alterações serão perdidas."
 
 #: mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -205,7 +205,7 @@ msgstr "Se não guardar o documento, todas as alterações externas serão perdi
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr "O documento foi modificado externamente. Deseja recarregá-lo do disco?"
+msgstr "O documento foi modificado externamente. Pretende recarregá-lo a partir do disco?"
 
 #: mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
@@ -222,7 +222,7 @@ msgstr "Pretende guardar as alterações antes de recarregar?"
 
 #: mousepad/mousepad-dialogs.c:538
 msgid "If you revert the file, all unsaved changes will be lost."
-msgstr "Se reverter o ficheiro, todas as alterações não gravadas serão perdidas."
+msgstr "Se reverter o ficheiro, todas as alterações não guardadas serão perdidas."
 
 #: mousepad/mousepad-dialogs.c:576
 #, c-format
@@ -239,7 +239,7 @@ msgstr "Caso contrário, será utilizada a codificação adivinhada."
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr "Parece que a sessão anterior não terminou normalmente. Quer restaurar os dados disponíveis?"
+msgstr "Parece que a sessão anterior não terminou normalmente. Pretende restaurar os dados disponíveis?"
 
 #: mousepad/mousepad-dialogs.c:660
 msgid "If not, all this data will be lost."
@@ -247,7 +247,7 @@ msgstr "Caso contrário, todos estes dados serão perdidos."
 
 #: mousepad/mousepad-dialogs.c:863
 msgid "Please select a file"
-msgstr "Seleccione um ficheiro"
+msgstr "Selecione um ficheiro"
 
 #: mousepad/mousepad-dialogs.c:906
 msgid "Failed to prepare the temporary file for encoding tests"
@@ -285,7 +285,7 @@ msgstr "Todos os ficheiros"
 #. create the dialog
 #: mousepad/mousepad-dialogs.c:1151
 msgid "Save As"
-msgstr "Gravar como"
+msgstr "Guardar como"
 
 #. create new file chooser dialog
 #: mousepad/mousepad-dialogs.c:1214
@@ -456,11 +456,11 @@ msgstr "Árabe"
 #: mousepad/mousepad-encoding.c:68 mousepad/mousepad-encoding.c:69
 #: mousepad/mousepad-encoding.c:70
 msgid "Hebrew"
-msgstr "Hebreu"
+msgstr "Hebraico"
 
 #: mousepad/mousepad-encoding.c:71
 msgid "Hebrew Visual"
-msgstr "Hebreu visual"
+msgstr "Hebraico visual"
 
 #. asian
 #: mousepad/mousepad-encoding.c:74
@@ -469,7 +469,7 @@ msgstr "Arménio"
 
 #: mousepad/mousepad-encoding.c:75
 msgid "Georgian"
-msgstr "Geórgio"
+msgstr "Georgiano"
 
 #: mousepad/mousepad-encoding.c:76
 msgid "Thai"
@@ -533,7 +533,7 @@ msgstr "Sequência inválida na entrada de conversão"
 
 #: mousepad/mousepad-history.c:347
 msgid "Failed to clear the recent history"
-msgstr "Ocorreu um erro ao apagar o histórico"
+msgstr "Ocorreu um erro ao limpar o histórico"
 
 #: mousepad/mousepad-history.c:1345
 msgid "No clipboard data"
@@ -547,7 +547,7 @@ msgstr "Preferências do Mousepad"
 #. set a custom tab label
 #: mousepad/mousepad-print.c:120
 msgid "Document Settings"
-msgstr "Definições dos docmentos"
+msgstr "Definições de documentos"
 
 #: mousepad/mousepad-print.c:568
 msgid "Appearance"
@@ -555,11 +555,11 @@ msgstr "Aspeto"
 
 #: mousepad/mousepad-print.c:582
 msgid "Print page _headers"
-msgstr "Imprimir cabeçal_ho"
+msgstr "Mostrar _cabeçalhos de página"
 
 #: mousepad/mousepad-print.c:589
 msgid "Print _line numbers"
-msgstr "Imprimir número das _linhas"
+msgstr "Mostrar número das _linhas"
 
 #: mousepad/mousepad-print.c:606
 msgid "Numbering interval:"
@@ -570,7 +570,7 @@ msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
-msgstr "O intervalo para imprimir números de linha. Por exemplo, um valor de 1 imprime um número em cada linha, um valor de 2 vai imprimir um número de linha de todas as outras linhas, e assim por diante."
+msgstr "O intervalo para mostrar números de linhas. Por exemplo, um valor de 1 mostra um número em cada linha, um valor de 2 vai mostrar um número de linha de todas as outras linhas, e assim por diante."
 
 #: mousepad/mousepad-print.c:626
 msgid "Enable text _wrapping"
@@ -578,7 +578,7 @@ msgstr "Ativar _translineação de texto"
 
 #: mousepad/mousepad-print.c:633
 msgid "Enable _syntax highlighting"
-msgstr "Ativar realce de _sintaxe"
+msgstr "Ativar o realce de _sintaxe"
 
 #: mousepad/mousepad-print.c:645
 msgid "Fonts"
@@ -622,7 +622,7 @@ msgstr "Fe_char"
 
 #: mousepad/mousepad-replace-dialog.c:289
 msgid "_Search for:"
-msgstr "_Procurar:"
+msgstr "_Pesquisar por:"
 
 #: mousepad/mousepad-replace-dialog.c:323
 msgid "Replace _with:"
@@ -630,7 +630,7 @@ msgstr "Substituir p_or:"
 
 #: mousepad/mousepad-replace-dialog.c:345
 msgid "Search _direction:"
-msgstr "_Direção de procura:"
+msgstr "_Direção da pesquisa:"
 
 #: mousepad/mousepad-replace-dialog.c:354
 msgid "Up"
@@ -650,7 +650,7 @@ msgstr "Tra_nslinear"
 #: mousepad/mousepad-replace-dialog.c:371 mousepad/mousepad-search-bar.c:286
 #: mousepad/mousepad-search-bar.c:294
 msgid "Match _case"
-msgstr "_Caso de compatibilidade"
+msgstr "Diferenciar _maiúsculas e minúsculas "
 
 #. match whole word
 #. check button for matching whole words, including the proxy menu item
@@ -668,7 +668,7 @@ msgstr "E_xpressão regular"
 
 #: mousepad/mousepad-replace-dialog.c:403
 msgid "Replace _all in:"
-msgstr "Substituir tod_as:"
+msgstr "Substituir _tudo em:"
 
 #: mousepad/mousepad-replace-dialog.c:408
 msgid "Selection"
@@ -738,7 +738,7 @@ msgstr "Aviso: está a usar a conta root. Pode prejudicar o seu sistema."
 
 #: mousepad/mousepad-window.c:2489
 msgid "Read Only"
-msgstr "Só leitura"
+msgstr "Apenas leitura"
 
 #: mousepad/mousepad-window.c:2493
 msgid "Viewer Mode"
@@ -775,7 +775,7 @@ msgstr "Out_ro..."
 
 #: mousepad/mousepad-window.c:3804
 msgid "Revert to the saved version of the file"
-msgstr "Reverter para a versão gravada"
+msgstr "Reverter para a versão guardada do ficheiro"
 
 #: mousepad/mousepad-window.c:3810 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
@@ -854,11 +854,11 @@ msgstr "Criar um novo documento a partir de um modelo"
 
 #: mousepad/resources/gtk/menus.ui:43
 msgid "Op_en Recent"
-msgstr "Abrir r_ecente"
+msgstr "Abrir r_ecentes"
 
 #: mousepad/resources/gtk/menus.ui:44
 msgid "Open a recently used file"
-msgstr "Abrir um ficheiro recentemente utilizado"
+msgstr "Abrir um ficheiro recentemente usado"
 
 #: mousepad/resources/gtk/menus.ui:50
 msgid "Clear _History"
@@ -866,11 +866,11 @@ msgstr "Apagar _histórico"
 
 #: mousepad/resources/gtk/menus.ui:51
 msgid "Clear the recently used files history"
-msgstr "Apagar o histórico de documentos recentes"
+msgstr "Limpar o histórico de ficheiros usados recentemente"
 
 #: mousepad/resources/gtk/menus.ui:68
 msgid "Save A_ll"
-msgstr "Guardar to_dos"
+msgstr "Guardar tu_do"
 
 #: mousepad/resources/gtk/menus.ui:69
 msgid "Save all document in this window"
@@ -918,7 +918,7 @@ msgstr "Mostrar a informação de preferências"
 
 #: mousepad/resources/gtk/menus.ui:139
 msgid "_Search"
-msgstr "Pesqui_sa"
+msgstr "Pesqui_sar"
 
 #: mousepad/resources/gtk/menus.ui:140
 msgid "Search menu"
@@ -930,7 +930,7 @@ msgstr "Localizar segui_nte"
 
 #: mousepad/resources/gtk/menus.ui:148
 msgid "Search forwards for the same text"
-msgstr "Avançar na procura do mesmo texto"
+msgstr "Pesquisar o mesmo texto para frente"
 
 #: mousepad/resources/gtk/menus.ui:152
 msgid "Find _Previous"
@@ -938,11 +938,11 @@ msgstr "Localizar _anterior"
 
 #: mousepad/resources/gtk/menus.ui:153
 msgid "Search backwards for the same text"
-msgstr "Recuar na procura do mesmo texto"
+msgstr "Pesquisar o mesmo texto para trás"
 
 #: mousepad/resources/gtk/menus.ui:163
 msgid "_Incremental Search"
-msgstr "Pesqu_isa adicional"
+msgstr "Pesquisa _incremental"
 
 #: mousepad/resources/gtk/menus.ui:164
 msgid "Automatically select the search result and scroll the view"
@@ -950,11 +950,11 @@ msgstr "Selecionar automaticamente o resultado da pesquisa e percorrer a vista"
 
 #: mousepad/resources/gtk/menus.ui:168
 msgid "Highlight _All"
-msgstr "Realçar tod_as"
+msgstr "Realçar _tudo"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr "Destacar os resultados da pesquisa"
+msgstr "Realçar os resultados da pesquisa"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -983,7 +983,7 @@ msgstr "Esquema de cores a utilizar para a visualização do texto"
 #: mousepad/resources/gtk/menus.ui:199
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:120
 msgid "None"
-msgstr "Nada"
+msgstr "Nenhum"
 
 #: mousepad/resources/gtk/menus.ui:200
 msgid "No style scheme"
@@ -1092,7 +1092,7 @@ msgstr "Tipo de _ficheiro"
 
 #: mousepad/resources/gtk/menus.ui:301
 msgid "Language to use for syntax highlighting"
-msgstr "Linguagem a utilizar para destacar a sintaxe"
+msgstr "Linguagem a utilizar para realce de sintaxe"
 
 #: mousepad/resources/gtk/menus.ui:304
 msgid "Plain Text"
@@ -1136,7 +1136,7 @@ msgstr "Modo de _visualização"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
-msgstr "Proibir modificações via teclado / rato"
+msgstr "Não permitir modificações através do teclado / rato"
 
 #: mousepad/resources/gtk/menus.ui:350
 msgid "_Previous Tab"
@@ -1272,7 +1272,7 @@ msgstr "Selecione o texto em todo o documento"
 
 #: mousepad/resources/gtk/menus-common.ui:158
 msgid "Search for text"
-msgstr "Procurar texto"
+msgstr "Pesquisar por texto"
 
 #: mousepad/resources/gtk/menus-common.ui:166
 msgid "Find and Rep_lace..."
@@ -1280,7 +1280,7 @@ msgstr "_Localizar e substituir..."
 
 #: mousepad/resources/gtk/menus-common.ui:167
 msgid "Search for and replace text"
-msgstr "Procurar e substituir o texto"
+msgstr "Pesquisar e substituir texto"
 
 #: mousepad/resources/gtk/menus-common.ui:175
 msgid "_Go to..."
@@ -1449,7 +1449,7 @@ msgstr "Mover palavras uma palavra para a direita"
 
 #: mousepad/resources/gtk/menus-common.ui:339
 msgid "Dup_licate Line / Selection"
-msgstr "Dup_licar linha / selecção"
+msgstr "Dup_licar linha / seleção"
 
 #: mousepad/resources/gtk/menus-common.ui:340
 msgid "Duplicate the current line or selection"
@@ -1584,11 +1584,11 @@ msgstr "Margem de linha comprida na coluna:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:351
 msgid "Highlight current line"
-msgstr "Destacar linha atual"
+msgstr "Realçar linha atual"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:366
 msgid "Highlight matching brackets"
-msgstr "Destacar parênteses correspondentes"
+msgstr "Realçar parênteses correspondentes"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:381
 msgid "Wrap long lines"
@@ -1747,7 +1747,7 @@ msgstr "Comprimento do menu de ficheiro recente:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1313
 msgid "'0' disables and wipes recent history"
-msgstr "'0' desativa e limpa a histórico recente"
+msgstr "'0' desativa e apaga a histórico recente"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1329
 msgid "Search history size:"
@@ -1814,7 +1814,7 @@ msgstr "Aplicação"
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:258
 msgid "Menubar"
-msgstr "Barra de menus"
+msgstr "Barra de menu"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Preferences Dialog"
@@ -1878,7 +1878,7 @@ msgstr "Por outro lado, tentamos utilizar as últimas funcionalidades GTK dispon
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr "Os programadores do Mousepad"
+msgstr "Os criadores do Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
@@ -1886,8 +1886,8 @@ msgstr "Os programadores do Mousepad"
 #. to. This isn't a good idea, but is common on single user systems.
 #: org.xfce.mousepad.policy.in.in:24
 msgid "Run Mousepad as root"
-msgstr "Executar mousepad como root"
+msgstr "Executar o Mousepad como root"
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
-msgstr "Autenticação necessária para executar mousepad como root."
+msgstr "A autenticação é necessária para executar o Mousepad como root."
