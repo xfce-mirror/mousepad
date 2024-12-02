@@ -575,7 +575,7 @@ msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
-msgstr "Określa odstęp, z jakim wyświetlane będą numery wierszy. Dla wartości 1 numery pojawią się w każdym wierszu, wartość 2 wyświetli numer w co drugim wierszu, itd."
+msgstr "Określa odstęp, z jakim wyświetlane będą numery wierszy. Dla wartości 1 numery pojawią się w każdym wierszu, wartość 2 wyświetli numer w co drugim wierszu, itd."
 
 #: mousepad/mousepad-print.c:626
 msgid "Enable text _wrapping"
@@ -813,7 +813,7 @@ msgstr "Historia wyłączona"
 #: mousepad/mousepad-window.c:4459
 #, c-format
 msgid "Templates should be %s valid"
-msgstr "Szablony powinny być zgodne z %s"
+msgstr "Szablony powinny być zgodne z %s"
 
 #. set error message
 #: mousepad/mousepad-window.c:4465
@@ -1135,7 +1135,7 @@ msgstr "Zapisywanie znacznika _BOM"
 
 #: mousepad/resources/gtk/menus.ui:339
 msgid "Store the byte-order mark in the file"
-msgstr "Przechowuje oznaczenie porządku bajtów w pliku"
+msgstr "Przechowuje oznaczenie porządku bajtów w pliku"
 
 #: mousepad/resources/gtk/menus.ui:343
 msgid "_Viewer Mode"
@@ -1396,7 +1396,7 @@ msgstr "_Odstępy początkowe na tabulatory"
 #: mousepad/resources/gtk/menus-common.ui:295
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr "Zamienia wszystkie odstępy początkowe na tabulatory w zaznaczonym fragmencie lub dokumencie"
+msgstr "Zamienia wszystkie odstępy początkowe na tabulatory w zaznaczonych wierszach lub dokumencie"
 
 #: mousepad/resources/gtk/menus-common.ui:301
 msgid "St_rip Trailing Spaces"
@@ -1404,7 +1404,7 @@ msgstr "_Usuń odstępy końcowe"
 
 #: mousepad/resources/gtk/menus-common.ui:302
 msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr "Usuwa wszystkie odstępy z końców zaznaczonych wierszy lub dokumentu"
+msgstr "Usuwa wszystkie odstępy z końców zaznaczonych wierszy lub dokumentu"
 
 #: mousepad/resources/gtk/menus-common.ui:308
 msgid "_Transpose"
@@ -1797,7 +1797,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr "Tutaj ustawia się domyślny język dla nowych dokumentów. Można go następnie zmienić w każdym dokumencie za pomocą menu kontekstowego, w którym znajdują się również sugestie dotyczące korekty pisowni podkreślonych słów."
+msgstr "Tutaj ustawia się domyślny język dla nowych dokumentów. Można go następnie zmienić w każdym dokumencie za pomocą menu kontekstowego, w którym znajdują się również sugestie dotyczące korekty pisowni podkreślonych słów."
 
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:164
@@ -1873,7 +1873,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr "Mousepad ma być łatwym w użyciu i szybkim edytorem. Naszym celem jest edytor do szybkiej edycji plików tekstowych, a nie środowisko programistyczne lub edytor z dużą liczbą wtyczek."
+msgstr "Mousepad ma być łatwym w użyciu i szybkim edytorem. Naszym celem jest edytor do szybkiej edycji plików tekstowych, a nie środowisko programistyczne lub edytor z dużą liczbą wtyczek."
 
 #: org.xfce.mousepad.appdata.xml.in:15
 msgid ""
@@ -1881,7 +1881,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "Z drugiej strony staramy się korzystać z najnowszych dostępnych funkcji GTK, co oznacza, że jeśli GTK doda coś nowego w głównym wydaniu, co będzie użyteczne dla edytora, prawdopodobnie podniesiemy zależność GTK i zintegrujemy tę nową funkcję z Mousepad."
+msgstr "Z drugiej strony staramy się korzystać z najnowszych dostępnych funkcji GTK, co oznacza, że jeśli GTK doda coś nowego w głównym wydaniu, co będzie użyteczne dla edytora, prawdopodobnie podniesiemy zależność GTK i zintegrujemy tę nową funkcję z programem Mousepad."
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
