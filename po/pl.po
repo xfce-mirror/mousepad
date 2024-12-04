@@ -117,7 +117,7 @@ msgstr "%s | Autorzy: %s | Nazwa pliku: %s"
 
 #: mousepad/mousepad-dialogs.c:69 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr "Umożliwia szybkie edytowanie tekstu w środowisku graficznym Xfce."
+msgstr "Umożliwia szybkie edytowanie tekstu w środowisku graficznym Xfce"
 
 #: mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
