@@ -71,13 +71,8 @@ mousepad_application_parse_encoding (const gchar *option_name,
 static GtkWidget *
 mousepad_application_create_window (MousepadApplication *application);
 static void
-mousepad_application_new_window_with_document (MousepadWindow *existing,
-                                               MousepadDocument *document,
-                                               gint x,
-                                               gint y,
-                                               MousepadApplication *application);
-static void
 mousepad_application_new_window (MousepadWindow *existing,
+                                 MousepadDocument *document,
                                  MousepadApplication *application);
 static void
 mousepad_application_active_window_changed (MousepadApplication *application);
@@ -137,9 +132,20 @@ struct _MousepadApplication
   gchar *default_font;
   GtkSourceSpaceLocationFlags space_location_flags;
 
+  /* accel map */
+  GArray *accel_map;
+
   /* plugins */
   GList *providers;
 };
+
+typedef struct _MousepadAccelMapEntry
+{
+  gchar *action;
+  gchar *accel;
+  gboolean changed;
+  gsize action_len;
+} MousepadAccelMapEntry;
 
 /* MousepadApplication properties */
 enum
@@ -205,6 +211,15 @@ enum
 
 
 
+/* globally available CSS classes */
+static const gchar *css_classes =
+  ".mousepad-close-button { outline-width: 0; outline-offset: 0; padding: 0; }"
+  ".entry-override-shape { border-top-right-radius: 0; border-bottom-right-radius: 0; }"
+  ".headerbar-slim { min-height: 0px; }"
+  ".root-warning { background-color: #b4254b; color: #fefefe; }";
+
+
+
 /* application actions */
 
 /* stateless actions */
@@ -240,7 +255,9 @@ static const GActionEntry dialog_actions[] = {
   { MOUSEPAD_SETTING_REMEMBER_SIZE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_POSITION, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_STATE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_MENUBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_TOOLBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_STATUSBAR_VISIBLE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_ALWAYS_SHOW_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_EXPAND_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_CYCLE_TABS, mousepad_application_toggle_activate, NULL, "false", NULL },
@@ -519,45 +536,179 @@ mousepad_application_handle_local_options (GApplication *gapplication,
 
 
 
-static void
-mousepad_application_update_accels (GtkApplication *application,
-                                    const gchar *accel_path,
-                                    guint accel_key,
-                                    GdkModifierType accel_mods,
-                                    GtkAccelMap *object)
+static gint
+mousepad_application_accel_map_compare (gconstpointer a,
+                                        gconstpointer b)
 {
-  GVariant *target;
-  gchar *action, *accel;
-  const gchar *accels[] = { NULL, NULL };
+  MousepadAccelMapEntry *entry_1 = (MousepadAccelMapEntry *) a;
+  MousepadAccelMapEntry *entry_2 = (MousepadAccelMapEntry *) b;
 
-  /* make sure to not crash because of corrupted data */
-  if (g_str_has_prefix (accel_path, "<Actions>/")
-      && g_action_parse_detailed_name (accel_path + 10, &action, &target, NULL)
-      && g_action_name_is_valid (action))
-    {
-      accel = gtk_accelerator_name (accel_key, accel_mods);
-      if (*accel != '\0')
-        accels[0] = accel;
-
-      gtk_application_set_accels_for_action (application, accel_path + 10, accels);
-
-      /* cleanup */
-      g_free (accel);
-      g_free (action);
-      if (target != NULL)
-        g_variant_unref (target);
-    }
+  return g_strcmp0 (entry_1->action, entry_2->action);
 }
 
 
 
 static void
-mousepad_application_complete_accel_map (GtkApplication *application)
+mousepad_application_accel_map_free (gpointer data)
 {
+  MousepadAccelMapEntry *entry = data;
+
+  g_free (entry->action);
+  g_free (entry->accel);
+}
+
+
+
+static void
+mousepad_application_load_accel_map (MousepadApplication *application)
+{
+  GtkApplication *kapplication = GTK_APPLICATION (application);
+  MousepadAccelMapEntry *p_map_entry;
+  MousepadAccelMapEntry map_entry;
   GtkWindow *window;
-  gchar *accel_path, *filename;
-  guint n;
-  gchar **action_names;
+  GdkModifierType accel_mods;
+  GError *error = NULL;
+  GFile *file;
+  GScanner *scanner;
+  GVariant *target;
+  gchar *filename, *contents, *action_desc, *accel, *action_name;
+  guint accel_key, index;
+  gsize file_size;
+  gboolean valid;
+
+  /* load accels file contents */
+  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, FALSE);
+  if (G_UNLIKELY (filename == NULL))
+    return;
+  else
+    {
+      file = g_file_new_for_path (filename);
+      if (!g_file_load_contents (file, NULL, &contents, &file_size, NULL, &error))
+        {
+          g_critical ("Failed to load accel map: %s", error->message);
+          g_error_free (error);
+          g_object_unref (file);
+
+          return;
+        }
+
+      g_object_unref (file);
+    }
+
+  /* get active window to test action validity */
+  window = gtk_application_get_active_window (kapplication);
+
+  /* create and setup scanner (use ';' as comment character to ease backward compatibility
+   * with Mousepad 0.5.x which used GtkAccelMap) */
+  scanner = g_scanner_new (NULL);
+  g_scanner_input_text (scanner, contents, file_size);
+  scanner->config->cpair_comment_single = ";\n";
+
+  /* parse accels file */
+  while (!g_scanner_eof (scanner))
+    {
+      /* silently skip non-string tokens before a pair of strings: normally unneeded, this
+       * is to ease backward compatibility */
+      while (g_scanner_get_next_token (scanner) != G_TOKEN_STRING && !g_scanner_eof (scanner))
+        ;
+      if (g_scanner_eof (scanner))
+        break;
+
+      /* the accel string should follow the action string: if not, stop here */
+      g_scanner_peek_next_token (scanner);
+      if (scanner->next_token != G_TOKEN_STRING)
+        {
+          g_critical ("Format error in file '%s' at line %d", filename, scanner->next_line);
+
+          break;
+        }
+
+      action_desc = g_strdup (scanner->value.v_string);
+      g_scanner_get_next_token (scanner);
+      accel = g_strdup (scanner->value.v_string);
+
+      /* make sure to not crash because of corrupted data and push the test a little further */
+      valid = g_action_parse_detailed_name (action_desc, &action_name, &target, NULL)
+              && g_action_name_is_valid (action_name) && strlen (action_name) > 4
+              && (g_action_map_lookup_action (G_ACTION_MAP (window), action_name + 4) != NULL
+                  || g_action_map_lookup_action (G_ACTION_MAP (application), action_name + 4) != NULL);
+
+      /* ensure backward compatibility */
+      if (!valid && g_str_has_prefix (action_desc, "<Actions>/"))
+        {
+          action_name = g_strdup (action_desc + 10);
+          g_free (action_desc);
+          action_desc = action_name;
+          valid = g_action_parse_detailed_name (action_desc, &action_name, &target, NULL)
+                  && g_action_name_is_valid (action_name) && strlen (action_name) > 4
+                  && (g_action_map_lookup_action (G_ACTION_MAP (window), action_name + 4) != NULL
+                      || g_action_map_lookup_action (G_ACTION_MAP (application), action_name + 4) != NULL);
+        }
+
+      /* add accel to the application and update accel map */
+      if (valid)
+        {
+          /* keep default accel in case of format error in accel name */
+          gtk_accelerator_parse (accel, &accel_key, &accel_mods);
+          if (accel_key != 0 || *accel == '\0')
+            {
+              gtk_application_set_accels_for_action (
+                kapplication, action_desc,
+                (const gchar *[2]){ accel_key != 0 ? accel : NULL, NULL });
+
+              /* update accel map */
+              map_entry.action = action_desc;
+              if (g_array_binary_search (application->accel_map, &map_entry,
+                                         mousepad_application_accel_map_compare, &index)
+                  && g_strcmp0 (g_array_index (application->accel_map, MousepadAccelMapEntry, index).accel, accel) != 0)
+                {
+                  p_map_entry = &(g_array_index (application->accel_map,
+                                                 MousepadAccelMapEntry, index));
+                  g_free (p_map_entry->accel);
+                  p_map_entry->accel = g_strdup (accel);
+                  p_map_entry->changed = TRUE;
+                }
+              else
+                {
+                  map_entry.action = g_strdup (action_desc);
+                  map_entry.accel = g_strdup (accel);
+                  map_entry.changed = TRUE;
+                  g_array_append_val (application->accel_map, map_entry);
+                  g_array_sort (application->accel_map, mousepad_application_accel_map_compare);
+                }
+            }
+          else
+            g_warning ("Format error in file '%s' at line %d: '%s' is not a valid accelerator name",
+                       filename, scanner->next_line, accel);
+        }
+      else
+        g_warning ("Format error in file '%s' at line %d: '%s' is not a valid action name",
+                   filename, scanner->next_line, action_desc);
+
+      /* cleanup */
+      g_free (action_desc);
+      g_free (accel);
+      g_free (action_name);
+      if (target != NULL)
+        g_variant_unref (target);
+    }
+
+  /* cleanup */
+  g_free (filename);
+  g_free (contents);
+  g_scanner_destroy (scanner);
+}
+
+
+
+static void
+mousepad_application_complete_accel_map (MousepadApplication *application)
+{
+  GtkApplication *kapplication = GTK_APPLICATION (application);
+  MousepadAccelMapEntry map_entry;
+  GtkWindow *window;
+  guint n, index;
+  gchar **action_names, **accels;
   const gchar *excluded_actions[] = { "win.insensitive", "win.file.new-from-template",
                                       "win.file.open-recent", "win.document" };
 
@@ -565,63 +716,60 @@ mousepad_application_complete_accel_map (GtkApplication *application)
   mousepad_disconnect_by_func (application, mousepad_application_complete_accel_map, NULL);
 
   /* complete the accel map with window actions that do not have a default accel */
-  window = gtk_application_get_active_window (application);
+  window = gtk_application_get_active_window (kapplication);
   action_names = g_action_group_list_actions (G_ACTION_GROUP (window));
   n = 0;
   while (action_names[n] != NULL)
     {
-      /* add accel map entry to fill the accels file at shutdown */
-      accel_path = g_strconcat ("<Actions>/win.", action_names[n], NULL);
-      if (!gtk_accel_map_lookup_entry (accel_path, NULL))
-        gtk_accel_map_add_entry (accel_path, 0, 0);
+      map_entry.action = g_strconcat ("win.", action_names[n], NULL);
+      accels = gtk_application_get_accels_for_action (kapplication, map_entry.action);
+      if (accels[0] == NULL)
+        {
+          map_entry.accel = g_strdup ("");
+          map_entry.changed = FALSE;
+          g_array_append_val (application->accel_map, map_entry);
+        }
+      else
+        g_free (map_entry.action);
 
-      g_free (accel_path);
+      g_strfreev (accels);
       n++;
     }
 
   g_strfreev (action_names);
 
-  /* prevent actions that should not have a (configurable) keybinding from being saved
-   * in the accels file at shutdown */
+  /* sort accel map for future searches */
+  g_array_sort (application->accel_map, mousepad_application_accel_map_compare);
+
+  /* exclude actions that should not have a (configurable) keybinding from accel map */
   for (n = 0; n < G_N_ELEMENTS (excluded_actions); n++)
     {
-      accel_path = g_strconcat ("<Actions>/", excluded_actions[n], NULL);
-      gtk_accel_map_add_filter (accel_path);
-      g_free (accel_path);
+      map_entry.action = (gchar *) excluded_actions[n];
+      if (g_array_binary_search (application->accel_map, &map_entry,
+                                 mousepad_application_accel_map_compare, &index))
+        g_array_remove_index (application->accel_map, index);
     }
 
-  /* connect a handler to update accels when reading the accels file */
-  g_signal_connect_swapped (gtk_accel_map_get (), "changed",
-                            G_CALLBACK (mousepad_application_update_accels), application);
-
-  /* read the accels file */
-  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, FALSE);
-  if (G_LIKELY (filename != NULL))
-    {
-      gtk_accel_map_load (filename);
-      g_free (filename);
-    }
+  /* load accel map from config file */
+  mousepad_application_load_accel_map (application);
 }
 
 
 
 static void
-mousepad_application_set_accels (MousepadApplication *application)
+mousepad_application_set_accel_map (MousepadApplication *application)
 {
-  GtkAccelMap *accel_map;
-  GdkModifierType accel_mods;
-  GTypeModule *provider;
+  MousepadAccelMapEntry map_entry;
+  GtkApplication *kapplication = GTK_APPLICATION (application);
   GList *item;
-  guint n, accel_key;
-  gchar *accel_path;
-  gchar **action_names;
+  guint n;
   const gchar *accel;
-  const gchar *accels[] = { NULL, NULL };
-  const gchar *accel_maps[][2] = {
+  gchar **action_names, **accels;
+  const gchar *accel_map[][2] = {
     /* increase/decrease font size from keyboard/mouse */
-    { "win.increase-font-size", "<Control>plus" },
-    { "win.decrease-font-size", "<Control>minus" },
-    { "win.reset-font-size", "<Control>0" },
+    { "win.font-size-increase", "<Control>plus" },
+    { "win.font-size-decrease", "<Control>minus" },
+    { "win.font-size-reset", "<Control>0" },
 
     /* "File" menu */
     { "win.file.new", "<Control>N" },
@@ -681,24 +829,20 @@ mousepad_application_set_accels (MousepadApplication *application)
     { "win.help.contents", "F1" }
   };
 
+  /* initialize application accel map */
+  application->accel_map = g_array_new (TRUE, FALSE, sizeof (MousepadAccelMapEntry));
+  g_array_set_clear_func (application->accel_map, mousepad_application_accel_map_free);
+
   /* actions that have a default accel */
-  accel_map = gtk_accel_map_get ();
-  for (n = 0; n < G_N_ELEMENTS (accel_maps); n++)
+  for (n = 0; n < G_N_ELEMENTS (accel_map); n++)
     {
-      /* add accel map entry to fill the accels file at shutdown */
-      accel_path = g_strconcat ("<Actions>/", accel_maps[n][0], NULL);
-      gtk_accelerator_parse (accel_maps[n][1], &accel_key, &accel_mods);
-      gtk_accel_map_add_entry (accel_path, accel_key, accel_mods);
-      g_free (accel_path);
+      map_entry.action = g_strdup (accel_map[n][0]);
+      map_entry.accel = g_strdup (accel_map[n][1]);
+      map_entry.changed = FALSE;
+      g_array_append_val (application->accel_map, map_entry);
 
-      /* add accel to the application */
-      accels[0] = accel_maps[n][1];
-      gtk_application_set_accels_for_action (GTK_APPLICATION (application),
-                                             accel_maps[n][0], accels);
-
-      /* store default accel for future reference */
-      mousepad_object_set_data_full (accel_map, g_intern_string (accel_maps[n][0]),
-                                     g_strdup (accel_maps[n][1]), g_free);
+      gtk_application_set_accels_for_action (kapplication, map_entry.action,
+                                             (const gchar *[2]){ map_entry.accel, NULL });
     }
 
   /* plugin enabling actions */
@@ -707,36 +851,38 @@ mousepad_application_set_accels (MousepadApplication *application)
       if ((accel = mousepad_plugin_provider_get_accel (item->data)) == NULL)
         continue;
 
-      /* add accel map entry to fill the accels file at shutdown */
-      provider = item->data;
-      accel_path = g_strconcat ("<Actions>/app.", provider->name, NULL);
-      gtk_accelerator_parse (accel, &accel_key, &accel_mods);
-      gtk_accel_map_add_entry (accel_path, accel_key, accel_mods);
+      map_entry.action = g_strconcat ("app.", G_TYPE_MODULE (item->data)->name, NULL);
+      map_entry.accel = g_strdup (accel);
+      map_entry.changed = FALSE;
+      g_array_append_val (application->accel_map, map_entry);
 
-      /* add accel to the application */
-      accels[0] = accel;
-      gtk_application_set_accels_for_action (GTK_APPLICATION (application),
-                                             accel_path + 10, accels);
-      g_free (accel_path);
+      gtk_application_set_accels_for_action (kapplication, map_entry.action,
+                                             (const gchar *[2]){ map_entry.accel, NULL });
     }
 
-  /* actions that do not have a default accel */
+  /* application actions that do not have a default accel */
   action_names = g_action_group_list_actions (G_ACTION_GROUP (application));
   n = 0;
   while (action_names[n] != NULL)
     {
-      /* add accel map entry to fill the accels file at shutdown */
-      accel_path = g_strconcat ("<Actions>/app.", action_names[n], NULL);
-      if (!gtk_accel_map_lookup_entry (accel_path, NULL))
-        gtk_accel_map_add_entry (accel_path, 0, 0);
+      map_entry.action = g_strconcat ("app.", action_names[n], NULL);
+      accels = gtk_application_get_accels_for_action (kapplication, map_entry.action);
+      if (accels[0] == NULL)
+        {
+          map_entry.accel = g_strdup ("");
+          map_entry.changed = FALSE;
+          g_array_append_val (application->accel_map, map_entry);
+        }
+      else
+        g_free (map_entry.action);
 
-      g_free (accel_path);
+      g_strfreev (accels);
       n++;
     }
 
   g_strfreev (action_names);
 
-  /* we will complete the accel map with window actions when the first window is set */
+  /* we will complete the accel map when the first window (and therefore its actions) is set */
   g_signal_connect (application, "notify::active-window",
                     G_CALLBACK (mousepad_application_complete_accel_map), NULL);
 }
@@ -881,6 +1027,8 @@ mousepad_application_startup (GApplication *gapplication)
   static GSettings *settings;
 
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
+  GtkApplication *kapplication = GTK_APPLICATION (gapplication);
+  GtkCssProvider *provider;
   GSettingsSchema *schema;
   GVariant *state;
   GAction *action;
@@ -889,6 +1037,14 @@ mousepad_application_startup (GApplication *gapplication)
 
   /* chain up to parent */
   G_APPLICATION_CLASS (mousepad_application_parent_class)->startup (gapplication);
+
+  /* add our CSS classes */
+  provider = gtk_css_provider_new ();
+  gtk_css_provider_load_from_data (provider, css_classes, -1);
+  gtk_style_context_add_provider_for_display (gdk_display_get_default (),
+                                              GTK_STYLE_PROVIDER (provider),
+                                              GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  g_object_unref (provider);
 
   /* load plugins */
   mousepad_application_load_plugins (application);
@@ -942,23 +1098,23 @@ mousepad_application_startup (GApplication *gapplication)
       }
 
   /* set shared menu parts in the application menus */
-  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "shared-sections");
+  menu = gtk_application_get_menu_by_id (kapplication, "shared-sections");
   mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
 
-  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "tab-menu");
+  menu = gtk_application_get_menu_by_id (kapplication, "tab-menu");
   mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
 
-  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "textview-menu");
+  menu = gtk_application_get_menu_by_id (kapplication, "textview-menu");
   mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
 
-  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "toolbar");
+  menu = gtk_application_get_menu_by_id (kapplication, "toolbar");
   mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
 
-  menu = gtk_application_get_menu_by_id (GTK_APPLICATION (application), "menubar");
+  menu = gtk_application_get_menu_by_id (kapplication, "menubar");
   mousepad_application_set_shared_menu_parts (application, G_MENU_MODEL (menu));
 
-  /* set accels for actions */
-  mousepad_application_set_accels (application);
+  /* set application accel map */
+  mousepad_application_set_accel_map (application);
 
   /* add some static submenus to the application menubar */
   mousepad_application_create_languages_menu (application);
@@ -1162,7 +1318,7 @@ mousepad_application_open (GApplication *gapplication,
         gtk_window_present (GTK_WINDOW (window));
       /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
       else if (G_LIKELY (mousepad_is_application_window (window)) && opened < 0)
-        gtk_widget_destroy (window);
+        gtk_window_destroy (GTK_WINDOW (window));
     }
   /* open the files in windows */
   else
@@ -1179,12 +1335,73 @@ mousepad_application_open (GApplication *gapplication,
 
           /* if the file was finally opened, show the window */
           if (opened > 0)
-            gtk_widget_show (window);
+            gtk_widget_set_visible (window, TRUE);
           /* destroy the window if it was not already destroyed, e.g. by "app.quit" */
           else if (G_LIKELY (mousepad_is_application_window (window)))
-            gtk_widget_destroy (window);
+            gtk_window_destroy (GTK_WINDOW (window));
         }
     }
+}
+
+
+
+static void
+mousepad_application_save_accel_map (MousepadApplication *application)
+{
+  MousepadAccelMapEntry *map_entry;
+  GString *contents;
+  GFile *file;
+  GError *error = NULL;
+  gchar *filename;
+  guint index = 0;
+  gsize max_len = 0;
+  const gchar *format;
+
+  /* file header */
+  contents = g_string_new ("; Mousepad accel map rc-file      -*- scheme -*-\n"
+                           "; This file is an automated accelerator map dump\n"
+                           ";\n");
+
+  /* for alignment */
+  map_entry = &(g_array_index (application->accel_map, MousepadAccelMapEntry, index++));
+  while (map_entry->action != NULL)
+    {
+      map_entry->action_len = strlen (map_entry->action);
+      max_len = MAX (max_len, map_entry->action_len);
+      map_entry = &(g_array_index (application->accel_map, MousepadAccelMapEntry, index++));
+    }
+
+  /* accel map */
+  index = 0;
+  map_entry = &(g_array_index (application->accel_map, MousepadAccelMapEntry, index++));
+  while (map_entry->action != NULL)
+    {
+      /* comment line if accel is unchanged and align for readability */
+      format = map_entry->changed ? "  \"%s%-*s \"%s\"\n" : "; \"%s%-*s \"%s\"\n";
+      g_string_append_printf (contents, format, map_entry->action,
+                              max_len - map_entry->action_len + 1, "\"", map_entry->accel);
+      map_entry = &(g_array_index (application->accel_map, MousepadAccelMapEntry, index++));
+    }
+
+  /* write contents */
+  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, TRUE);
+  if (G_UNLIKELY (filename == NULL))
+    return;
+  else
+    {
+      file = g_file_new_for_path (filename);
+      if (!g_file_replace_contents (file, contents->str, contents->len, NULL, FALSE,
+                                    G_FILE_CREATE_NONE, NULL, NULL, &error))
+        {
+          g_critical ("Failed to save accel map: %s", error->message);
+          g_error_free (error);
+        }
+
+      g_free (filename);
+      g_object_unref (file);
+    }
+
+  g_string_free (contents, TRUE);
 }
 
 
@@ -1194,19 +1411,18 @@ mousepad_application_shutdown (GApplication *gapplication)
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GList *windows, *window;
-  gchar *filename;
 
   /* finalize history management */
   mousepad_history_finalize ();
 
   /* destroy the preferences dialog */
   if (application->prefs_dialog != NULL)
-    gtk_widget_destroy (application->prefs_dialog);
+    gtk_window_destroy (GTK_WINDOW (application->prefs_dialog));
 
   /* destroy the windows if they are still opened */
   windows = g_list_copy (gtk_application_get_windows (GTK_APPLICATION (application)));
   for (window = windows; window != NULL; window = window->next)
-    gtk_widget_destroy (window->data);
+    gtk_window_destroy (window->data);
 
   g_list_free (windows);
 
@@ -1217,12 +1433,8 @@ mousepad_application_shutdown (GApplication *gapplication)
   g_free (application->default_font);
 
   /* save the current accel map */
-  filename = mousepad_util_get_save_location (MOUSEPAD_ACCELS_RELPATH, TRUE);
-  if (G_LIKELY (filename != NULL))
-    {
-      gtk_accel_map_save (filename);
-      g_free (filename);
-    }
+  mousepad_application_save_accel_map (application);
+  g_array_free (application->accel_map, TRUE);
 
   /* finalize mousepad settings */
   mousepad_settings_finalize ();
@@ -1247,12 +1459,10 @@ mousepad_application_create_window (MousepadApplication *application)
   gtk_window_group_add_window (window_group, GTK_WINDOW (window));
   g_object_unref (window_group);
 
-  /* place the window on the right screen */
-  gtk_window_set_screen (GTK_WINDOW (window), gdk_screen_get_default ());
+  /* place the window on the right display */
+  gtk_window_set_display (GTK_WINDOW (window), gdk_display_get_default ());
 
   /* connect signals */
-  g_signal_connect (window, "new-window-with-document",
-                    G_CALLBACK (mousepad_application_new_window_with_document), application);
   g_signal_connect (window, "new-window",
                     G_CALLBACK (mousepad_application_new_window), application);
   notebook = mousepad_window_get_notebook (MOUSEPAD_WINDOW (window));
@@ -1267,14 +1477,12 @@ mousepad_application_create_window (MousepadApplication *application)
 
 
 static void
-mousepad_application_new_window_with_document (MousepadWindow *existing,
-                                               MousepadDocument *document,
-                                               gint x,
-                                               gint y,
-                                               MousepadApplication *application)
+mousepad_application_new_window (MousepadWindow *existing,
+                                 MousepadDocument *document,
+                                 MousepadApplication *application)
 {
   GtkWidget *window;
-  GdkScreen *screen;
+  GdkDisplay *display;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (existing));
   g_return_if_fail (document == NULL || MOUSEPAD_IS_DOCUMENT (document));
@@ -1283,14 +1491,10 @@ mousepad_application_new_window_with_document (MousepadWindow *existing,
   /* create a new window (signals added and already hooked up) */
   window = mousepad_application_create_window (application);
 
-  /* place the new window on the same screen as the existing window */
-  screen = gtk_window_get_screen (GTK_WINDOW (existing));
-  if (G_LIKELY (screen != NULL))
-    gtk_window_set_screen (GTK_WINDOW (window), screen);
-
-  /* move the window on valid cooridinates */
-  if (x > -1 && y > -1)
-    gtk_window_move (GTK_WINDOW (window), x, y);
+  /* place the new window on the same display as the existing window */
+  display = gtk_widget_get_display (GTK_WIDGET (existing));
+  if (G_LIKELY (display != NULL))
+    gtk_window_set_display (GTK_WINDOW (window), display);
 
   /* create an empty document if no document was send */
   if (document == NULL)
@@ -1300,17 +1504,7 @@ mousepad_application_new_window_with_document (MousepadWindow *existing,
   mousepad_window_add (MOUSEPAD_WINDOW (window), document);
 
   /* show the window */
-  gtk_widget_show (window);
-}
-
-
-
-static void
-mousepad_application_new_window (MousepadWindow *existing,
-                                 MousepadApplication *application)
-{
-  /* trigger new document function */
-  mousepad_application_new_window_with_document (existing, NULL, -1, -1, application);
+  gtk_widget_set_visible (window, TRUE);
 }
 
 
@@ -1601,7 +1795,7 @@ mousepad_application_prefs_dialog_response (MousepadApplication *application,
                                             gint response_id,
                                             MousepadPrefsDialog *dialog)
 {
-  gtk_widget_destroy (application->prefs_dialog);
+  gtk_window_destroy (GTK_WINDOW (application->prefs_dialog));
   application->prefs_dialog = NULL;
 
   /* decrease application use count, if needed */
