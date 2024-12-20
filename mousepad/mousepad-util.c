@@ -450,54 +450,9 @@ mousepad_util_dialog_update_header (GtkDialog *dialog,
 
 
 
-static void
-mousepad_util_decoration_layout_changed (GObject *settings,
-                                         GParamSpec *pspec,
-                                         gpointer bar)
-{
-  gchar *layout, *p, *str;
-
-  g_object_get (settings, "gtk-decoration-layout", &layout, NULL);
-
-  /* add the icon on the right of the left buttons if not already present */
-  if (g_strstr_len (layout, -1, "icon") == NULL)
-    {
-      p = g_strstr_len (layout, -1, ":");
-      if (p == NULL)
-        {
-          g_warn_if_reached ();
-          g_free (layout);
-
-          return;
-        }
-
-      /* whether or not there are buttons on the left */
-      if (p != layout)
-        {
-          str = g_strndup (layout, p - layout);
-          p = g_strconcat (str, ",icon", p, NULL);
-          g_free (str);
-          str = p;
-        }
-      else
-        str = g_strconcat ("icon", layout, NULL);
-
-      g_free (layout);
-      layout = str;
-    }
-
-  gtk_header_bar_set_decoration_layout (bar, layout);
-
-  g_free (layout);
-}
-
-
-
 void
 mousepad_util_set_titlebar (GtkWindow *window)
 {
-  static GtkSettings *settings = NULL;
-
   GtkWidget *bar;
   GtkStyleContext *context;
   GtkCssProvider *provider;
@@ -537,22 +492,6 @@ mousepad_util_set_titlebar (GtkWindow *window)
   gtk_header_bar_set_title (GTK_HEADER_BAR (bar), gtk_window_get_title (window));
   gtk_header_bar_set_has_subtitle (GTK_HEADER_BAR (bar), FALSE);
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (bar), show_close);
-
-  /* stay in sync with the window manager for the decoration layout */
-  if (settings == NULL)
-    {
-      settings = gtk_settings_get_default ();
-      if (settings != NULL)
-        {
-          mousepad_util_decoration_layout_changed (G_OBJECT (settings), NULL, bar);
-          g_signal_connect_object (settings, "notify::gtk-decoration-layout",
-                                   G_CALLBACK (mousepad_util_decoration_layout_changed), bar, 0);
-        }
-      else
-        gtk_header_bar_set_decoration_layout (GTK_HEADER_BAR (bar), "menu,icon:minimize,maximize,close");
-    }
-  else
-    mousepad_util_decoration_layout_changed (G_OBJECT (settings), NULL, bar);
 
   /* make the header bar slim */
   context = gtk_widget_get_style_context (bar);
