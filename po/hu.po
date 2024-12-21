@@ -239,7 +239,7 @@ msgstr "A file úgy tűnik hogy %s-val van kódolva, de a(z) %s kódolást vála
 
 #: mousepad/mousepad-dialogs.c:586
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "Ha nem, akkor a kitalált kódolást fogja használni."
 
 #: mousepad/mousepad-dialogs.c:641
 msgid ""
@@ -261,7 +261,7 @@ msgstr "hiba az átmeneti fájl előkészítése közben az enkódolási teszthe
 
 #: mousepad/mousepad-dialogs.c:969 mousepad/mousepad-dialogs.c:1042
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Kódolási dialógus megnyitása"
 
 #: mousepad/mousepad-dialogs.c:971
 msgid "Go back to shorten list"
@@ -278,7 +278,7 @@ msgstr "jelenlegi"
 
 #: mousepad/mousepad-dialogs.c:1088
 msgid "Show all encodings"
-msgstr ""
+msgstr "Az összes kódolás megjelenítése"
 
 #: mousepad/mousepad-dialogs.c:1126
 msgid "Text Files"
@@ -381,15 +381,15 @@ msgstr "egyéb (részben):"
 
 #: mousepad/mousepad-encoding-dialog.c:438
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "Más érvényes kódolás található, kérjük válasszon közülük."
 
 #: mousepad/mousepad-encoding-dialog.c:440
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "Más, részben érvényes kódolást is találtunk, kérjük, válasszon."
 
 #: mousepad/mousepad-encoding-dialog.c:476
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "Nem található más érvényes kódolás."
 
 #. dialog title
 #: mousepad/mousepad-encoding-dialog.c:683
@@ -751,7 +751,7 @@ msgstr "megtekintő mód"
 #: mousepad/mousepad-window.c:3552
 #, c-format
 msgid "Use '%s' as template"
-msgstr ""
+msgstr "Hazsnálja '%s' mintaként"
 
 #: mousepad/mousepad-window.c:3578
 #, c-format
@@ -1136,11 +1136,11 @@ msgstr "Bájtsorrendjelzés tárolása a fájlban"
 
 #: mousepad/resources/gtk/menus.ui:343
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "_Nézői mód"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Tiltsa le a módosításokat billentyűzettel / egérrel"
 
 #: mousepad/resources/gtk/menus.ui:350
 msgid "_Previous Tab"
@@ -1344,7 +1344,7 @@ msgstr "Konve_rtálás"
 
 #: mousepad/resources/gtk/menus-common.ui:264
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Szöveg különböző módon történő átalakítása"
 
 #: mousepad/resources/gtk/menus-common.ui:267
 msgid "To _Lowercase"
@@ -1388,7 +1388,7 @@ msgstr "Az összes tabulátor szóközökké konvertálása a kiválasztott szö
 
 #: mousepad/resources/gtk/menus-common.ui:294
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "_Vezető szóközök a tabulátorokhoz"
 
 #: mousepad/resources/gtk/menus-common.ui:295
 msgid ""
@@ -1417,7 +1417,7 @@ msgstr "_mozgatás"
 
 #: mousepad/resources/gtk/menus-common.ui:316
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Kontextus mozgatása különböző módokon"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "One Line _Up"
