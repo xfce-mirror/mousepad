@@ -1005,7 +1005,7 @@ msgstr ""
 
 #: mousepad/resources/gtk/menus.ui:221
 msgid "_Toolbar"
-msgstr ""
+msgstr "_Bară de unelte"
 
 #: mousepad/resources/gtk/menus.ui:222
 msgid "Change the visibility of the toolbar"
