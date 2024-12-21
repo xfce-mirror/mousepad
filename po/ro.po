@@ -1819,7 +1819,7 @@ msgstr ""
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:585
 msgid "Mousepad Shortcuts"
