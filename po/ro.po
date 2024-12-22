@@ -1609,7 +1609,7 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:529
 msgid "View"
-msgstr ""
+msgstr "Vizualizare"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:565
 msgid "Tab width:"
@@ -1776,7 +1776,7 @@ msgstr "Fișier"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1547
 msgid "Plugins"
-msgstr ""
+msgstr "Module"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Spell Checking"
