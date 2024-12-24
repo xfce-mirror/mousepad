@@ -4,6 +4,9 @@
 # 
 # Translators:
 # Marius Ghita, 2022
+# Marius Ghita, 2022
+# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024
+# vyper <xvirusxx@gmail.com>, 2016
 # vyper <xvirusxx@gmail.com>, 2016
 msgid ""
 msgstr ""
@@ -11,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2024-10-15 00:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Marius Ghita, 2022\n"
+"Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024\n"
 "Language-Team: Romanian (http://app.transifex.com/xfce/xfce-apps/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,21 +26,21 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "Codificarea care urmează să fie utilizată pentru deschiderea fișierelor (lăsați gol pentru a deschide fișierele în dialogul de codificare)"
 
 #: mousepad/mousepad-application.c:159
 msgid "ENCODING"
-msgstr ""
+msgstr "CODIFICAREA"
 
 #: mousepad/mousepad-application.c:163
 msgid "Display a list of possible encodings to open files"
-msgstr ""
+msgstr "Afișează o listă de codificări posibile pentru deschiderea fișierelor"
 
 #: mousepad/mousepad-application.c:167
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr ""
+msgstr "Numărul liniei pe care trebuie să se poziționeze cursorul (LINIA > 0 de sus, LINIA < 0 de jos)"
 
 #: mousepad/mousepad-application.c:168
 msgid "LINE"
@@ -47,7 +50,7 @@ msgstr "LINIA"
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr ""
+msgstr "Numărul coloanei la care se poziționează cursorul (COLOANA >= 0 de la început, COLOANA < 0 de la sfârșit)"
 
 #: mousepad/mousepad-application.c:173
 msgid "COLUMN"
@@ -59,15 +62,15 @@ msgstr "Deschide fereastra cu preferințe"
 
 #: mousepad/mousepad-application.c:181
 msgid "Do not register with the D-BUS session message bus"
-msgstr "Fără înregistrare în sesiunea de mesaje D-BUS"
+msgstr "Nu se înregistrează cu magistrala de mesaje de sesiune D-BUS"
 
 #: mousepad/mousepad-application.c:185
 msgid "Quit a running Mousepad primary instance"
-msgstr ""
+msgstr "Închide o instanță principală Mousepad care rulează"
 
 #: mousepad/mousepad-application.c:189
 msgid "Print version information and exit"
-msgstr "Arată detalii despre versiune și ieși"
+msgstr "Afișează informațiile despre versiune și iese"
 
 #: mousepad/mousepad-application.c:193
 msgid "[FILES...]"
@@ -87,7 +90,7 @@ msgstr "Mousepad"
 #: mousepad/mousepad-application.c:405
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "Modul de deschidere a fișierelor: „%s”, „%s” sau „%s” (deschide file într-o fereastră nouă)"
 
 #: mousepad/mousepad-application.c:408
 msgid "MODE"
@@ -105,35 +108,35 @@ msgstr "Raportați problemele la <%s>."
 #: mousepad/mousepad-application.c:1566
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
-msgstr ""
+msgstr "%s | Autori: %s | Numele fișierului: %s"
 
 #: mousepad/mousepad-dialogs.c:69 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad este un editor de text simplu pentru mediul grafic de birou Xfce"
 
 #: mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
-msgstr "Mișu Moldovan <dumol@xfce.org>"
+msgstr "Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024"
 
 #. display an error message to the user
 #: mousepad/mousepad-dialogs.c:123
 msgid "Failed to open the documentation browser"
-msgstr "Nu s-a putut deschide documentația"
+msgstr "Nu s-a putut deschide navigatorul web pentru documentație"
 
 #. build dialog
 #: mousepad/mousepad-dialogs.c:139
 msgid "Select Tab Size"
-msgstr "Selectați mărimea taburilor"
+msgstr "Selectează dimensiunea tabulatorului"
 
 #. build the dialog
 #: mousepad/mousepad-dialogs.c:231
 msgid "Go To"
-msgstr "Salt la"
+msgstr "Mergi la"
 
 #. add button
 #: mousepad/mousepad-dialogs.c:239
 msgid "_Jump to"
-msgstr ""
+msgstr "_Salt la"
 
 #: mousepad/mousepad-dialogs.c:259
 msgid "_Line number:"
@@ -156,11 +159,11 @@ msgstr "Șterge istoricul documentelor"
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
-msgstr "Ștergerea istoricului documentelor va elimina toate intrările listate curent"
+msgstr "Ștergerea istoricului documentelor va elimina definitiv toate intrările listate în prezent."
 
 #: mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
-msgstr ""
+msgstr "Ște_rge"
 
 #: mousepad/mousepad-dialogs.c:382
 msgid "Do you want to save the changes before closing?"
@@ -168,12 +171,12 @@ msgstr "Doriți să salvați modificările înainte de a închide?"
 
 #: mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "Documentul este numai-pentru-citire, doriți să îl salvați ca alt fișier?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:392 mousepad/mousepad-dialogs.c:532
 msgid "Save Changes"
-msgstr "Salvare modificări"
+msgstr "Salvează modificările"
 
 #: mousepad/mousepad-dialogs.c:402
 msgid "_Don't Save"
@@ -183,7 +186,7 @@ msgstr "_Nu salva"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Dacă nu salvați acest document numai-pentru-citire ca un alt fișier, toate modificările vor fi pierdute."
 
 #: mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -202,16 +205,16 @@ msgstr "Dacă nu salvați documentul, toate modificările externe vor fi pierdut
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "Documentul a fost modificat de un alt program. Doriți să îl reîncărcați de pe disc?"
 
 #: mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr ""
+msgstr "Aveți modificări nesalvate. Dacă restaurați fișierul, acestea vor fi pierdute."
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:487
 msgid "Externally Modified"
-msgstr "Modificare externă"
+msgstr "Modificat extern\n(de un alt program)"
 
 #: mousepad/mousepad-dialogs.c:528
 msgid "Do you want to save your changes before reloading?"
@@ -219,28 +222,28 @@ msgstr "Doriți să vă salvați modificările înainte de reîncărcare?"
 
 #: mousepad/mousepad-dialogs.c:538
 msgid "If you revert the file, all unsaved changes will be lost."
-msgstr "Dacă reveniți la fișierul de pe disc, toate modificările nesalvate vor fi pierdute."
+msgstr "Dacă restaurați fișierul de pe disc, toate modificările nesalvate vor fi pierdute."
 
 #: mousepad/mousepad-dialogs.c:576
 #, c-format
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "Fișierul pare să fie codificat în %s, dar ați ales codificarea %s. Confirmați această alegere?"
 
 #: mousepad/mousepad-dialogs.c:586
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "Dacă nu, va fi utilizată codificarea identificată."
 
 #: mousepad/mousepad-dialogs.c:641
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "Se pare că sesiunea anterioară nu s-a încheiat normal. Doriți să restaurați datele disponibile?"
 
 #: mousepad/mousepad-dialogs.c:660
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "Dacă nu, toate aceste date vor fi pierdute."
 
 #: mousepad/mousepad-dialogs.c:863
 msgid "Please select a file"
@@ -248,32 +251,32 @@ msgstr "Selectați un fișier"
 
 #: mousepad/mousepad-dialogs.c:906
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "Nu s-a reușit pregătirea fișierului temporar pentru testele de codificare"
 
 #: mousepad/mousepad-dialogs.c:969 mousepad/mousepad-dialogs.c:1042
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Deschide fereastra de dialog pentru codificare"
 
 #: mousepad/mousepad-dialogs.c:971
 msgid "Go back to shorten list"
-msgstr ""
+msgstr "Înapoi pentru a scurta lista"
 
 #. combo box label
 #: mousepad/mousepad-dialogs.c:1035
 msgid "_Encoding:"
-msgstr ""
+msgstr "_Codificarea:"
 
 #: mousepad/mousepad-dialogs.c:1070
 msgid "Current"
-msgstr ""
+msgstr "Actuală"
 
 #: mousepad/mousepad-dialogs.c:1088
 msgid "Show all encodings"
-msgstr ""
+msgstr "Afișează toate codificările"
 
 #: mousepad/mousepad-dialogs.c:1126
 msgid "Text Files"
-msgstr "Fișiere Text"
+msgstr "Fișiere text"
 
 #: mousepad/mousepad-dialogs.c:1132
 msgid "All Files"
@@ -287,7 +290,7 @@ msgstr "Salvează ca"
 #. create new file chooser dialog
 #: mousepad/mousepad-dialogs.c:1214
 msgid "Open File"
-msgstr "Deschidere fișier"
+msgstr "Deschide fișier"
 
 #. add button
 #: mousepad/mousepad-dialogs.c:1222
@@ -310,7 +313,7 @@ msgstr "Nu s-a putut salva documentul"
 
 #: mousepad/mousepad-dialogs.h:30
 msgid "Unsupported character set"
-msgstr ""
+msgstr "Set de caractere neacceptat"
 
 #. button labels
 #: mousepad/mousepad-dialogs.h:33
@@ -319,7 +322,7 @@ msgstr "_Renunță"
 
 #: mousepad/mousepad-dialogs.h:34
 msgid "_OK"
-msgstr "_OK"
+msgstr "_Ok"
 
 #: mousepad/mousepad-dialogs.h:35 mousepad/resources/gtk/menus-common.ui:54
 msgid "_Save"
@@ -327,20 +330,20 @@ msgstr "_Salvează"
 
 #: mousepad/mousepad-dialogs.h:36
 msgid "Save _As"
-msgstr ""
+msgstr "Salvează c_a"
 
 #: mousepad/mousepad-dialogs.h:37
 msgid "Re_vert"
-msgstr "Re_venire"
+msgstr "Re_staurare"
 
 #: mousepad/mousepad-dialogs.h:38 mousepad/resources/gtk/menus-common.ui:72
 msgid "Re_load"
-msgstr ""
+msgstr "Re_încărcare"
 
 #. pack button, add signal and tooltip
 #: mousepad/mousepad-document.c:603
 msgid "Close this tab"
-msgstr "Închide acest tab"
+msgstr "Închide această filă"
 
 #. create an unique untitled document name
 #: mousepad/mousepad-document.c:633
@@ -353,45 +356,45 @@ msgstr "Alta:"
 
 #: mousepad/mousepad-encoding-dialog.c:193
 msgid "Checking encodings..."
-msgstr "Se verifică codarea..."
+msgstr "Se verifică codificarea..."
 
 #: mousepad/mousepad-encoding-dialog.c:297
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s (%s, a eșuat)"
 
 #: mousepad/mousepad-encoding-dialog.c:299
 #: mousepad/mousepad-encoding-dialog.c:353
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s (%s, parțial)"
 
 #: mousepad/mousepad-encoding-dialog.c:427
 msgid "Other (partial):"
-msgstr ""
+msgstr "Alta (partial):"
 
 #: mousepad/mousepad-encoding-dialog.c:438
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "Au fost găsite alte codificări valide, vă rugăm să alegeți mai jos."
 
 #: mousepad/mousepad-encoding-dialog.c:440
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "Au fost găsite alte codificări parțial valide, vă rugăm să alegeți mai jos."
 
 #: mousepad/mousepad-encoding-dialog.c:476
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "Nu a fost găsită nicio altă codificare validă."
 
 #. dialog title
 #: mousepad/mousepad-encoding-dialog.c:683
 #, c-format
 msgid "The document is %s valid."
-msgstr ""
+msgstr "Documentul este %s valid."
 
 #: mousepad/mousepad-encoding-dialog.c:684
 #, c-format
 msgid "The document is not %s valid."
-msgstr ""
+msgstr "Documentul nu este %s valid."
 
 #. west european
 #: mousepad/mousepad-encoding.c:38
@@ -457,7 +460,7 @@ msgstr "Ebraică"
 
 #: mousepad/mousepad-encoding.c:71
 msgid "Hebrew Visual"
-msgstr "Ebraică Vizuală"
+msgstr "Ebraică vizuală"
 
 #. asian
 #: mousepad/mousepad-encoding.c:74
@@ -470,7 +473,7 @@ msgstr "Georgiană"
 
 #: mousepad/mousepad-encoding.c:76
 msgid "Thai"
-msgstr "Thailandeză"
+msgstr "Tailandeză"
 
 #: mousepad/mousepad-encoding.c:77 mousepad/mousepad-encoding.c:78
 #: mousepad/mousepad-encoding.c:79
@@ -494,7 +497,7 @@ msgstr "Unicode"
 #: mousepad/mousepad-encoding.c:95 mousepad/mousepad-encoding.c:96
 #: mousepad/mousepad-encoding.c:97 mousepad/mousepad-encoding.c:98
 msgid "Chinese Simplified"
-msgstr "Chineză Simplificată"
+msgstr "Chineză simplificată"
 
 #: mousepad/mousepad-encoding.c:99 mousepad/mousepad-encoding.c:100
 #: mousepad/mousepad-encoding.c:101
@@ -514,11 +517,11 @@ msgstr "Coreeană"
 #. button labels
 #: mousepad/mousepad-encoding.h:23
 msgid "Default"
-msgstr ""
+msgstr "Implicită"
 
 #: mousepad/mousepad-encoding.h:24
 msgid "System"
-msgstr "De sistem"
+msgstr "A sistemului"
 
 #: mousepad/mousepad-encoding.h:25
 msgid "History"
@@ -526,7 +529,7 @@ msgstr "Istoric"
 
 #: mousepad/mousepad-file.c:1000
 msgid "Invalid byte sequence in conversion input"
-msgstr "Secvență nevalidă de octeți la conversia inputului"
+msgstr "Secvență nevalidă de octeți la conversia intrării"
 
 #: mousepad/mousepad-history.c:347
 msgid "Failed to clear the recent history"
@@ -539,7 +542,7 @@ msgstr "Nu există date în clipboard"
 #. setup the window properties
 #: mousepad/mousepad-prefs-dialog.c:642 org.xfce.mousepad.desktop.in.in:18
 msgid "Mousepad Preferences"
-msgstr "Preferințe Mousepad"
+msgstr "Preferințe pentru Mousepad"
 
 #. set a custom tab label
 #: mousepad/mousepad-print.c:120
@@ -552,11 +555,11 @@ msgstr "Aspect"
 
 #: mousepad/mousepad-print.c:582
 msgid "Print page _headers"
-msgstr "_Tipărește antetele paginii"
+msgstr "Imprimă _antetele paginii"
 
 #: mousepad/mousepad-print.c:589
 msgid "Print _line numbers"
-msgstr "Tipărește numerele _rândurilor: "
+msgstr "Imprimă numerele _rândurilor"
 
 #: mousepad/mousepad-print.c:606
 msgid "Numbering interval:"
@@ -567,15 +570,15 @@ msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
-msgstr ""
+msgstr "Intervalul la care se imprimă numerele de linie. De exemplu, o valoare de 1 va imprima un număr de linie pe fiecare linie, o valoare de 2 va imprima un număr de linie pe fiecare altă linie și așa mai departe."
 
 #: mousepad/mousepad-print.c:626
 msgid "Enable text _wrapping"
-msgstr "_Rupe rândurile"
+msgstr "Activează ajustarea textului pentru _încadrare"
 
 #: mousepad/mousepad-print.c:633
 msgid "Enable _syntax highlighting"
-msgstr "Evidențiază _sintaxa"
+msgstr "Activează evidențierea _sintaxei"
 
 #: mousepad/mousepad-print.c:645
 msgid "Fonts"
@@ -591,7 +594,7 @@ msgstr "Corp:"
 
 #: mousepad/mousepad-print.c:689
 msgid "Line numbers:"
-msgstr "Numerotare rânduri: "
+msgstr "Numere rânduri:"
 
 #: mousepad/mousepad-replace-dialog.c:169
 msgid "_Replace All"
@@ -605,13 +608,13 @@ msgstr "Î_nlocuiește"
 #. set dialog properties
 #: mousepad/mousepad-replace-dialog.c:256
 msgid "Find and Replace"
-msgstr ""
+msgstr "Găsește și înlocuiește"
 
 #. dialog buttons
 #: mousepad/mousepad-replace-dialog.c:262
 #: mousepad/resources/gtk/menus-common.ui:157
 msgid "_Find"
-msgstr ""
+msgstr "_Caută"
 
 #: mousepad/mousepad-replace-dialog.c:271
 msgid "_Close"
@@ -623,11 +626,11 @@ msgstr "_Caută:"
 
 #: mousepad/mousepad-replace-dialog.c:323
 msgid "Replace _with:"
-msgstr "Înlocuiește c_u: "
+msgstr "Înlocuiește c_u:"
 
 #: mousepad/mousepad-replace-dialog.c:345
 msgid "Search _direction:"
-msgstr "Direcția căutării:"
+msgstr "_Direcția căutării:"
 
 #: mousepad/mousepad-replace-dialog.c:354
 msgid "Up"
@@ -647,7 +650,7 @@ msgstr "_Reia de la început"
 #: mousepad/mousepad-replace-dialog.c:371 mousepad/mousepad-search-bar.c:286
 #: mousepad/mousepad-search-bar.c:294
 msgid "Match _case"
-msgstr ""
+msgstr "_Distinge majuscule/minuscule"
 
 #. match whole word
 #. check button for matching whole words, including the proxy menu item
@@ -661,7 +664,7 @@ msgstr "_Potrivește întregul cuvânt"
 #: mousepad/mousepad-replace-dialog.c:389 mousepad/mousepad-search-bar.c:314
 #: mousepad/mousepad-search-bar.c:322
 msgid "Regular e_xpression"
-msgstr ""
+msgstr "E_xpresie regulată"
 
 #: mousepad/mousepad-replace-dialog.c:403
 msgid "Replace _all in:"
@@ -683,17 +686,17 @@ msgstr "Toate documentele"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d din %d se potrivește"
+msgstr[1] "%d din %d se potrivesc"
+msgstr[2] "%d din %d se potrivesc"
 
 #: mousepad/mousepad-replace-dialog.c:618 mousepad/mousepad-search-bar.c:473
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d potrivire"
+msgstr[1] "%d potriviri"
+msgstr[2] "%d de potriviri"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -702,11 +705,11 @@ msgstr "Alegeți un tip de fișier"
 #. language/filetype
 #: mousepad/mousepad-statusbar.c:127 mousepad/mousepad-statusbar.c:275
 msgid "Filetype: None"
-msgstr "Tip de fișier: Niciunul"
+msgstr "Tip de fișier: niciunul"
 
 #: mousepad/mousepad-statusbar.c:160
 msgid "Toggle the overwrite mode"
-msgstr "Comută suprascrierea"
+msgstr "Activează/dezactivează modul de suprascriere"
 
 #. overwrite label
 #: mousepad/mousepad-statusbar.c:166
@@ -731,7 +734,7 @@ msgstr "Tip de fișier: %s"
 #. add the label with the root warning
 #: mousepad/mousepad-window.c:1163
 msgid "Warning: you are using the root account. You may harm your system."
-msgstr ""
+msgstr "Atenție: utilizați contul de administrator (root). Vă puteți deteriora sistemul."
 
 #: mousepad/mousepad-window.c:2489
 msgid "Read Only"
@@ -739,52 +742,52 @@ msgstr "Doar citire"
 
 #: mousepad/mousepad-window.c:2493
 msgid "Viewer Mode"
-msgstr ""
+msgstr "Modul de vizualizare"
 
 #: mousepad/mousepad-window.c:3552
 #, c-format
 msgid "Use '%s' as template"
-msgstr ""
+msgstr "Utilizați „%s” ca șablon"
 
 #: mousepad/mousepad-window.c:3578
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
-msgstr ""
+msgstr "Nu s-au găsit fișiere șablon în\n„%s”"
 
 #: mousepad/mousepad-window.c:3643
 #, c-format
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr ""
+msgstr "Lipsește directorul de șabloane\n„%s”"
 
 #. create suitable text label for the "Other" menu
 #: mousepad/mousepad-window.c:3695
 #, c-format
 msgid "Ot_her (%d)..."
-msgstr "Altce_va (%d)..."
+msgstr "_Altul (%d)..."
 
 #: mousepad/mousepad-window.c:3705
 msgid "Ot_her..."
-msgstr "Altce_va..."
+msgstr "_Altul..."
 
 #: mousepad/mousepad-window.c:3804
 msgid "Revert to the saved version of the file"
-msgstr "Revenire la versiunea salvată a fișierului"
+msgstr "Restaurează versiunea salvată a fișierului"
 
 #: mousepad/mousepad-window.c:3810 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
-msgstr ""
+msgstr "Reîncarcă fișierul de pe disc"
 
 #: mousepad/mousepad-window.c:3816
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "Ieșire din modul de ecran complet"
 
 #: mousepad/mousepad-window.c:3821 mousepad/resources/gtk/menus-common.ui:187
 msgid "Make the window fullscreen"
-msgstr ""
+msgstr "Afișează fereastra în ecran complet"
 
 #: mousepad/mousepad-window.c:4062
 #, c-format
@@ -797,18 +800,18 @@ msgstr "Nu s-a găsit niciun element"
 
 #: mousepad/mousepad-window.c:4093
 msgid "History disabled"
-msgstr ""
+msgstr "Istoric dezactivat"
 
 #. set error message
 #: mousepad/mousepad-window.c:4459
 #, c-format
 msgid "Templates should be %s valid"
-msgstr ""
+msgstr "Șabloanele trebuie să fie %s valide"
 
 #. set error message
 #: mousepad/mousepad-window.c:4465
 msgid "Reading the template failed"
-msgstr ""
+msgstr "Citirea șablonului a eșuat"
 
 #. set error message
 #: mousepad/mousepad-window.c:4470
@@ -823,7 +826,7 @@ msgstr "Nu s-a putut reîncărca documentul"
 #. show the error
 #: mousepad/mousepad-window.c:4951
 msgid "Failed to print the document"
-msgstr "Nu s-a putut tipări documentul"
+msgstr "Nu s-a putut imprima documentul"
 
 #: mousepad/resources/gtk/menus.ui:19
 msgid "_File"
@@ -831,7 +834,7 @@ msgstr "_Fișier"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
-msgstr ""
+msgstr "Meniul de fișier"
 
 #: mousepad/resources/gtk/menus.ui:27
 msgid "New _Window"
@@ -839,7 +842,7 @@ msgstr "_Fereastră nouă"
 
 #: mousepad/resources/gtk/menus.ui:28
 msgid "Create a new document in a new window"
-msgstr "Creați un nou document într-o fereastră nouă"
+msgstr "Creează un nou document într-o fereastră nouă"
 
 #: mousepad/resources/gtk/menus.ui:32
 msgid "New From Te_mplate"
@@ -847,15 +850,15 @@ msgstr "N_ou din șablon"
 
 #: mousepad/resources/gtk/menus.ui:33
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "Creează un document nou pe baza unui șablon"
 
 #: mousepad/resources/gtk/menus.ui:43
 msgid "Op_en Recent"
-msgstr "Fișiere _recente"
+msgstr "Deschide _recente"
 
 #: mousepad/resources/gtk/menus.ui:44
 msgid "Open a recently used file"
-msgstr ""
+msgstr "Deschide un fișier utilizat recent"
 
 #: mousepad/resources/gtk/menus.ui:50
 msgid "Clear _History"
@@ -875,19 +878,19 @@ msgstr "Salvează toate documentele din această fereastră"
 
 #: mousepad/resources/gtk/menus.ui:79
 msgid "_Print..."
-msgstr "_Tipărire..."
+msgstr "Im_primare..."
 
 #: mousepad/resources/gtk/menus.ui:80
 msgid "Print the current document"
-msgstr "Tipărește documentul curent"
+msgstr "Imprimă documentul curent"
 
 #: mousepad/resources/gtk/menus.ui:97
 msgid "_Close Window"
-msgstr "În_chidere fereastră"
+msgstr "_Închide fereastra"
 
 #: mousepad/resources/gtk/menus.ui:98
 msgid "Close this window"
-msgstr "Închideți aceastră fereastră"
+msgstr "Închide această fereastră."
 
 #: mousepad/resources/gtk/menus.ui:102
 msgid "_Quit"
@@ -895,7 +898,7 @@ msgstr "_Ieșire"
 
 #: mousepad/resources/gtk/menus.ui:103
 msgid "Quit Mousepad"
-msgstr ""
+msgstr "Ieșire din Mousepad"
 
 #: mousepad/resources/gtk/menus.ui:111
 msgid "_Edit"
@@ -903,23 +906,23 @@ msgstr "_Editare"
 
 #: mousepad/resources/gtk/menus.ui:112
 msgid "Edit menu"
-msgstr ""
+msgstr "Meniul de editare"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
-msgstr ""
+msgstr "Preferințe..."
 
 #: mousepad/resources/gtk/menus.ui:131
 msgid "Show the preferences dialog"
-msgstr ""
+msgstr "Afișează fereastra de dialog a preferințelor"
 
 #: mousepad/resources/gtk/menus.ui:139
 msgid "_Search"
-msgstr ""
+msgstr "_Caută"
 
 #: mousepad/resources/gtk/menus.ui:140
 msgid "Search menu"
-msgstr ""
+msgstr "Meniul de căutare"
 
 #: mousepad/resources/gtk/menus.ui:147
 msgid "Find _Next"
@@ -939,11 +942,11 @@ msgstr "Caută înapoi pentru același text"
 
 #: mousepad/resources/gtk/menus.ui:163
 msgid "_Incremental Search"
-msgstr ""
+msgstr "Căutare _incrementală"
 
 #: mousepad/resources/gtk/menus.ui:164
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Selectează automat rezultatul căutării și derulează vizualizarea"
 
 #: mousepad/resources/gtk/menus.ui:168
 msgid "Highlight _All"
@@ -951,7 +954,7 @@ msgstr "E_vidențiază tot"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Evidențiază rezultatele căutării"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -959,7 +962,7 @@ msgstr "_Vizualizare"
 
 #: mousepad/resources/gtk/menus.ui:184
 msgid "View menu"
-msgstr ""
+msgstr "Meniul de vizualizare"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
@@ -975,16 +978,16 @@ msgstr "_Schema de culori"
 
 #: mousepad/resources/gtk/menus.ui:196
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Schema de culori de utilizat pentru vizualizarea textului"
 
 #: mousepad/resources/gtk/menus.ui:199
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:120
 msgid "None"
-msgstr "Niciunul"
+msgstr "Niciuna"
 
 #: mousepad/resources/gtk/menus.ui:200
 msgid "No style scheme"
-msgstr ""
+msgstr "Nicio schemă de stil"
 
 #: mousepad/resources/gtk/menus.ui:209
 msgid "Line N_umbers"
@@ -993,15 +996,15 @@ msgstr "N_umerotare de rânduri"
 #: mousepad/resources/gtk/menus.ui:210
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:248
 msgid "Show line numbers"
-msgstr "Arată numerele rândurilor"
+msgstr "Afișează numerele rândurilor"
 
 #: mousepad/resources/gtk/menus.ui:216 mousepad/resources/gtk/menus.ui:445
 msgid "_Menubar"
-msgstr ""
+msgstr "Bar- de _meniu"
 
 #: mousepad/resources/gtk/menus.ui:217 mousepad/resources/gtk/menus.ui:446
 msgid "Change the visibility of the main menubar"
-msgstr ""
+msgstr "Afișează/ascunde bara de meniu principală"
 
 #: mousepad/resources/gtk/menus.ui:221
 msgid "_Toolbar"
@@ -1009,7 +1012,7 @@ msgstr "_Bară de unelte"
 
 #: mousepad/resources/gtk/menus.ui:222
 msgid "Change the visibility of the toolbar"
-msgstr ""
+msgstr "Afișează/ascunde bara de unelte"
 
 #: mousepad/resources/gtk/menus.ui:226
 msgid "St_atusbar"
@@ -1017,7 +1020,7 @@ msgstr "Bară de _stare"
 
 #: mousepad/resources/gtk/menus.ui:227
 msgid "Change the visibility of the statusbar"
-msgstr "Schimbă vizibilitatea barei de stare"
+msgstr "Afișează/ascunde bara de stare"
 
 #: mousepad/resources/gtk/menus.ui:240
 msgid "_Document"
@@ -1025,15 +1028,15 @@ msgstr "_Document"
 
 #: mousepad/resources/gtk/menus.ui:241
 msgid "Document menu"
-msgstr ""
+msgstr "Meniul de document"
 
 #: mousepad/resources/gtk/menus.ui:245
 msgid "_Word Wrap"
-msgstr "_Rupere de rânduri"
+msgstr "Ajustare de rând (încadrare la cuvânt)"
 
 #: mousepad/resources/gtk/menus.ui:246
 msgid "Toggle breaking lines in between words"
-msgstr "Comută ruperea rândurilor"
+msgstr "Activează/dezactivează întreruperea de rând efectuată între cuvinte"
 
 #: mousepad/resources/gtk/menus.ui:250
 msgid "_Auto Indent"
@@ -1045,35 +1048,35 @@ msgstr "Indentează automat un nou rând"
 
 #: mousepad/resources/gtk/menus.ui:255
 msgid "Tab _Size"
-msgstr "Mărime _tab"
+msgstr "_Dimensiune tabulator"
 
 #: mousepad/resources/gtk/menus.ui:256
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "Numărul de caractere de spațiu pentru o tabulare"
 
 #: mousepad/resources/gtk/menus.ui:260
 msgid "Two spaces"
-msgstr ""
+msgstr "Două spații"
 
 #: mousepad/resources/gtk/menus.ui:266
 msgid "Three spaces"
-msgstr ""
+msgstr "Trei spații"
 
 #: mousepad/resources/gtk/menus.ui:272
 msgid "Four spaces"
-msgstr ""
+msgstr "Patru spații"
 
 #: mousepad/resources/gtk/menus.ui:278
 msgid "Eight spaces"
-msgstr ""
+msgstr "Opt spații"
 
 #: mousepad/resources/gtk/menus.ui:283
 msgid "Other..."
-msgstr ""
+msgstr "Altul..."
 
 #: mousepad/resources/gtk/menus.ui:284
 msgid "Set custom tab size"
-msgstr "Mărime personalizată pentru taburi"
+msgstr "Definiți dimensiunea personalizată pentru tabulator"
 
 #: mousepad/resources/gtk/menus.ui:291
 msgid "Insert _Spaces"
@@ -1081,7 +1084,7 @@ msgstr "Inserează _spații"
 
 #: mousepad/resources/gtk/menus.ui:292
 msgid "Insert spaces when the tab button is pressed"
-msgstr "Inserează spații la apăsarea tastei Tab"
+msgstr "Inserează spații la apăsarea tastei «Tab»"
 
 #: mousepad/resources/gtk/menus.ui:300
 msgid "_Filetype"
@@ -1089,11 +1092,11 @@ msgstr "Tip de _fișier"
 
 #: mousepad/resources/gtk/menus.ui:301
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "Limbajul ce se utilizează pentru evidențierea sintaxei"
 
 #: mousepad/resources/gtk/menus.ui:304
 msgid "Plain Text"
-msgstr ""
+msgstr "Text simplu"
 
 #: mousepad/resources/gtk/menus.ui:305
 msgid "No filetype"
@@ -1101,23 +1104,23 @@ msgstr "Niciun tip de fișier"
 
 #: mousepad/resources/gtk/menus.ui:314
 msgid "Line E_nding"
-msgstr "_Terminatori de rând"
+msgstr "Fi_nal de rând"
 
 #: mousepad/resources/gtk/menus.ui:315
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "Caracter(e) de utilizat ca final de rând"
 
 #: mousepad/resources/gtk/menus.ui:318
 msgid "Set the line ending of the document to Unix (LF)"
-msgstr "Documentul va avea terminatori de rând în stil Unix (LF)"
+msgstr "Stabilește sfârșitul de rând al documentului la Unix (LF)"
 
 #: mousepad/resources/gtk/menus.ui:324
 msgid "Set the line ending of the document to Mac (CR)"
-msgstr "Documentul va avea terminatori de rând în stil Mac (CR)"
+msgstr "Stabilește sfârșitul de rând al documentului la Mac (CR)"
 
 #: mousepad/resources/gtk/menus.ui:330
 msgid "Set the line ending of the document to DOS / Windows (CR LF)"
-msgstr "Documentul va avea terminatori de rând în stil DOS / Windows (CR LF)"
+msgstr "Stabilește sfârșitul de rând al documentului la DOS / Windows (CR LF)"
 
 #: mousepad/resources/gtk/menus.ui:338
 msgid "Write Unicode _BOM"
@@ -1125,31 +1128,31 @@ msgstr "Scrie un _BOM Unicode"
 
 #: mousepad/resources/gtk/menus.ui:339
 msgid "Store the byte-order mark in the file"
-msgstr "Stochează un marcaj byte-order în fișier"
+msgstr "Stochează un marcaj de ordine a octeților în fișier"
 
 #: mousepad/resources/gtk/menus.ui:343
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "Modul de _vizualizare"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Dezactivează modificările via tastatură / maus"
 
 #: mousepad/resources/gtk/menus.ui:350
 msgid "_Previous Tab"
-msgstr "Tabul a_nterior"
+msgstr "Fila _precedentă"
 
 #: mousepad/resources/gtk/menus.ui:351
 msgid "Select the previous tab"
-msgstr "Comută la tabul anterior"
+msgstr "Selectează fila anterioară"
 
 #: mousepad/resources/gtk/menus.ui:356
 msgid "_Next Tab"
-msgstr "Tabul ur_mător"
+msgstr "Fila _următoare"
 
 #: mousepad/resources/gtk/menus.ui:357
 msgid "Select the next tab"
-msgstr "Comută la tabul următor"
+msgstr "Selectează fila următoare"
 
 #: mousepad/resources/gtk/menus.ui:367
 msgid "_Help"
@@ -1157,7 +1160,7 @@ msgstr "_Ajutor"
 
 #: mousepad/resources/gtk/menus.ui:368
 msgid "Help menu"
-msgstr ""
+msgstr "Meniul de ajutor"
 
 #: mousepad/resources/gtk/menus.ui:370
 msgid "_Contents"
@@ -1165,7 +1168,7 @@ msgstr "_Conținut"
 
 #: mousepad/resources/gtk/menus.ui:371
 msgid "Display the Mousepad user manual"
-msgstr "Arată manualul utilizatorului Mousepad"
+msgstr "Afișează manualul utilizatorului Mousepad"
 
 #: mousepad/resources/gtk/menus.ui:376
 msgid "_About"
@@ -1173,7 +1176,7 @@ msgstr "_Despre"
 
 #: mousepad/resources/gtk/menus.ui:377
 msgid "About this application"
-msgstr "Despre acest program"
+msgstr "Despre această aplicație"
 
 #: mousepad/resources/gtk/menus-common.ui:36
 msgid "_New"
@@ -1181,7 +1184,7 @@ msgstr "_Nou"
 
 #: mousepad/resources/gtk/menus-common.ui:37
 msgid "Create a new document"
-msgstr "Creați un nou document"
+msgstr "Creează un nou document"
 
 #: mousepad/resources/gtk/menus-common.ui:45
 msgid "_Open..."
@@ -1205,23 +1208,23 @@ msgstr "Salvează documentul curent ca un alt fișier"
 
 #: mousepad/resources/gtk/menus-common.ui:82
 msgid "_Detach Tab"
-msgstr "_Desprinde tabul"
+msgstr "_Detașează fila"
 
 #: mousepad/resources/gtk/menus-common.ui:83
 msgid "Move the current document to a new window"
-msgstr "Mutați documentul curent într-o nouă fereastră"
+msgstr "Mută documentul curent într-o nouă fereastră"
 
 #: mousepad/resources/gtk/menus-common.ui:90
 msgid "Close _Tab"
-msgstr "Închidere _tab"
+msgstr "Închide _fila"
 
 #: mousepad/resources/gtk/menus-common.ui:91
 msgid "Close the current document"
-msgstr "Închideți documentul curent"
+msgstr "Închide documentul curent"
 
 #: mousepad/resources/gtk/menus-common.ui:101
 msgid "_Undo"
-msgstr ""
+msgstr "_Anulează"
 
 #: mousepad/resources/gtk/menus-common.ui:102
 msgid "Undo the last action"
@@ -1229,15 +1232,15 @@ msgstr "Anulează ultima acțiune"
 
 #: mousepad/resources/gtk/menus-common.ui:110
 msgid "_Redo"
-msgstr ""
+msgstr "_Refă"
 
 #: mousepad/resources/gtk/menus-common.ui:111
 msgid "Redo the last undone action"
-msgstr "Refă ultima acțiune anulată"
+msgstr "Reface ultima acțiune anulată"
 
 #: mousepad/resources/gtk/menus-common.ui:119
 msgid "Cu_t"
-msgstr ""
+msgstr "_Taie"
 
 #: mousepad/resources/gtk/menus-common.ui:120
 msgid "Cut the selection"
@@ -1281,7 +1284,7 @@ msgstr "Caută și înlocuiește un text"
 
 #: mousepad/resources/gtk/menus-common.ui:175
 msgid "_Go to..."
-msgstr "_Salt la..."
+msgstr "_Mergi la..."
 
 #: mousepad/resources/gtk/menus-common.ui:176
 msgid "Go to a specific location in the document"
@@ -1289,7 +1292,7 @@ msgstr "Salt la o anumită locație din document"
 
 #: mousepad/resources/gtk/menus-common.ui:186
 msgid "_Fullscreen"
-msgstr "Pe t_ot ecranul"
+msgstr "_Ecran complet"
 
 #: mousepad/resources/gtk/menus-common.ui:235
 msgid "Paste _Special"
@@ -1297,7 +1300,7 @@ msgstr "Lipire _specială"
 
 #: mousepad/resources/gtk/menus-common.ui:236
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "Lipește conținutul clipboard-ului într-un mod special"
 
 #: mousepad/resources/gtk/menus-common.ui:238
 msgid "Paste from _History"
@@ -1317,7 +1320,7 @@ msgstr "Lipește textul din clipboard ca o coloană"
 
 #: mousepad/resources/gtk/menus-common.ui:249
 msgid "_Delete Selection"
-msgstr ""
+msgstr "_Șterge selecția"
 
 #: mousepad/resources/gtk/menus-common.ui:250
 msgid "Delete the current selection"
@@ -1325,23 +1328,23 @@ msgstr "Șterge selecția curentă"
 
 #: mousepad/resources/gtk/menus-common.ui:255
 msgid "Delete _Line"
-msgstr ""
+msgstr "Șterge _rândul"
 
 #: mousepad/resources/gtk/menus-common.ui:256
 msgid "Delete the current line"
-msgstr ""
+msgstr "Șterge rândul curent"
 
 #: mousepad/resources/gtk/menus-common.ui:263
 msgid "Conve_rt"
-msgstr ""
+msgstr "Conve_rtește"
 
 #: mousepad/resources/gtk/menus-common.ui:264
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Convertește textul în diferite moduri"
 
 #: mousepad/resources/gtk/menus-common.ui:267
 msgid "To _Lowercase"
-msgstr ""
+msgstr "În minuscu_le"
 
 #: mousepad/resources/gtk/menus-common.ui:268
 msgid "Change the case of the selection to lowercase"
@@ -1349,7 +1352,7 @@ msgstr "Schimbă literele selecției în minuscule"
 
 #: mousepad/resources/gtk/menus-common.ui:272
 msgid "To _Uppercase"
-msgstr ""
+msgstr "În maj_uscule"
 
 #: mousepad/resources/gtk/menus-common.ui:273
 msgid "Change the case of the selection to uppercase"
@@ -1357,7 +1360,7 @@ msgstr "Schimbă literele selecției în majuscule"
 
 #: mousepad/resources/gtk/menus-common.ui:277
 msgid "To _Title Case"
-msgstr ""
+msgstr "Prima literă a fiecărui cuvânt, în majusculă"
 
 #: mousepad/resources/gtk/menus-common.ui:278
 msgid "Change the case of the selection to title case"
@@ -1365,28 +1368,28 @@ msgstr "Schimbă literele selecției în litere de titlu"
 
 #: mousepad/resources/gtk/menus-common.ui:282
 msgid "To _Opposite Case"
-msgstr ""
+msgstr "În tipul _invers de litere (Maj. -> min. / min. -> Maj.)"
 
 #: mousepad/resources/gtk/menus-common.ui:283
 msgid "Change the case of the selection opposite case"
-msgstr "Schimbă mărimea tuturor literelor selecției"
+msgstr "Inversează tipul tuturor literelor selecției"
 
 #: mousepad/resources/gtk/menus-common.ui:289
 msgid "_Tabs to Spaces"
-msgstr "_Taburi -> Spații"
+msgstr "_Tabulatoare -> Spații"
 
 #: mousepad/resources/gtk/menus-common.ui:290
 msgid "Convert all tabs to spaces in the selection or document"
-msgstr "Convertește toate taburile în spații în selecție ori în tot documentul"
+msgstr "Convertește toate tabulatoarele în spații în selecție ori în tot documentul"
 
 #: mousepad/resources/gtk/menus-common.ui:294
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "Spațiile de _început de rând în tabulatoare"
 
 #: mousepad/resources/gtk/menus-common.ui:295
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr "Convertește toate spațiile de început de rând în taburi în selecție ori în tot documentul"
+msgstr "Convertește toate spațiile de început de rând în tabulatoare în selecție ori în tot documentul"
 
 #: mousepad/resources/gtk/menus-common.ui:301
 msgid "St_rip Trailing Spaces"
@@ -1406,47 +1409,47 @@ msgstr "Inversează ordinea pentru un anumit conținut"
 
 #: mousepad/resources/gtk/menus-common.ui:315
 msgid "_Move"
-msgstr ""
+msgstr "_Mută"
 
 #: mousepad/resources/gtk/menus-common.ui:316
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Mută conținutul în diferite moduri"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "One Line _Up"
-msgstr ""
+msgstr "O linie în _sus"
 
 #: mousepad/resources/gtk/menus-common.ui:319
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Mută liniile cu o linie mai sus"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "One Line _Down"
-msgstr ""
+msgstr "O linie în _jos"
 
 #: mousepad/resources/gtk/menus-common.ui:324
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Mută liniile cu o linie mai jos"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "One Word _Left"
-msgstr ""
+msgstr "Un cuvânt la _stânga"
 
 #: mousepad/resources/gtk/menus-common.ui:329
 msgid "Move words one word left"
-msgstr ""
+msgstr "Mută cuvintele cu un cuvânt la stânga"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "One Word _Right"
-msgstr ""
+msgstr "Un cuvânt la _dreapta"
 
 #: mousepad/resources/gtk/menus-common.ui:334
 msgid "Move words one word right"
-msgstr ""
+msgstr "Mută cuvintele cu un cuvânt la dreapta"
 
 #: mousepad/resources/gtk/menus-common.ui:339
 msgid "Dup_licate Line / Selection"
-msgstr ""
+msgstr "Dup_lică linia / selecția"
 
 #: mousepad/resources/gtk/menus-common.ui:340
 msgid "Duplicate the current line or selection"
@@ -1470,11 +1473,11 @@ msgstr "Micșorează indentarea selecției ori a rândului curent"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:13
 msgid "Insert Tabs"
-msgstr ""
+msgstr "Inserează tabulatoare"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:16
 msgid "Insert Spaces"
-msgstr ""
+msgstr "Inserează spații"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:39
 msgid "Never"
@@ -1482,31 +1485,31 @@ msgstr "Niciodată"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:43
 msgid "First key press"
-msgstr ""
+msgstr "Prima apăsare a tastei"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:47
 msgid "Second key press"
-msgstr ""
+msgstr "A doua apăsare a tastei"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:51
 msgid "Always"
-msgstr "Mereu"
+msgstr "Întotdeauna"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:89
 msgid "never"
-msgstr ""
+msgstr "niciodată"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:93
 msgid "after a crash"
-msgstr ""
+msgstr "după o prăbușire"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:97
 msgid "unsaved documents"
-msgstr ""
+msgstr "documente nesalvate"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:101
 msgid "saved documents"
-msgstr ""
+msgstr "documente salvate"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:105
 msgid "always"
@@ -1515,17 +1518,17 @@ msgstr "întotdeauna"
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:141
 msgid "new tabs"
-msgstr ""
+msgstr "file noi"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:145
 msgid "new windows"
-msgstr ""
+msgstr "ferestre noi"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:149
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "file noi într-o fereastră nouă"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:164
 msgid "Menu"
@@ -1533,11 +1536,11 @@ msgstr "Meniu"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:168
 msgid "Small Toolbar"
-msgstr ""
+msgstr "Bară de unelte mică"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:172
 msgid "Large Toolbar"
-msgstr ""
+msgstr "Bară de unelte mare"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:176
 msgid "Button"
@@ -1545,15 +1548,15 @@ msgstr "Buton"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:180
 msgid "Drag & Drop"
-msgstr ""
+msgstr "Glisare și plasare"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:184
 msgid "Dialog"
-msgstr ""
+msgstr "Dialog"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:199
 msgid "Icons Only"
-msgstr "Doar iconițe"
+msgstr "Doar pictograme"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:203
 msgid "Text Only"
@@ -1561,35 +1564,35 @@ msgstr "Doar text"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:207
 msgid "Text Below Icons"
-msgstr ""
+msgstr "Text sub pictograme"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:211
 msgid "Text Beside Icons"
-msgstr ""
+msgstr "Text lângă pictograme"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:263
 msgid "Display whitespace"
-msgstr ""
+msgstr "Afișează spațiile albe"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:278
 msgid "Display line endings"
-msgstr ""
+msgstr "Afișează finalurile de rând"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:298
 msgid "Long line margin at column:"
-msgstr ""
+msgstr "Lungimea până la linia din margine a coloanei:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:351
 msgid "Highlight current line"
-msgstr ""
+msgstr "Evidențiază linia curentă"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:366
 msgid "Highlight matching brackets"
-msgstr ""
+msgstr "Evidențiază parantezele pereche"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:381
 msgid "Wrap long lines"
-msgstr ""
+msgstr "Încadrează „înfășoară” liniile lungi"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:400
 msgid "<b>Display</b>"
@@ -1597,15 +1600,15 @@ msgstr "<b>Afișare</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:430
 msgid "Use system monospace font"
-msgstr ""
+msgstr "Utilizează fontul mono-spațial al sistemului"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:461
 msgid "<b>Font</b>"
-msgstr ""
+msgstr "<b>Font</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:512
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Schema de culori</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:529
 msgid "View"
@@ -1613,72 +1616,72 @@ msgstr "Vizualizare"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:565
 msgid "Tab width:"
-msgstr ""
+msgstr "Lățimea tabulatorului:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:577
 msgid "Tab mode:"
-msgstr ""
+msgstr "Modul de tabulare:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:620
 msgid "Enable automatic indentation"
-msgstr ""
+msgstr "Activează indentarea automată"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:639
 msgid "<b>Indentation</b>"
-msgstr ""
+msgstr "<b>Indentarea</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:668
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tab: indentează selecția (Shift+Tab: anulează indentarea)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:672
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Indentarea/eliminarea indentării textului selectat în prezent sau a liniei curente"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:693
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Backspace: șterge spațiile de indentare ca tabulații"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:709
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Home/End: detectează spațiile albe inițiale/finale:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:754
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>Tastele inteligente</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:774
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:50
 msgid "Editor"
-msgstr ""
+msgstr "Editor"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:808
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Decorațiuni pe partea clientului (este necesară repornirea)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:823
 msgid "Show full filename in title bar"
-msgstr ""
+msgstr "Afișează numele complet al fișierului în bara de titlu"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:838
 msgid "Remember window size"
-msgstr ""
+msgstr "Reține dimensiunea ferestrei"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:853
 msgid "Remember window position"
-msgstr ""
+msgstr "Reține poziția ferestrei"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:868
 msgid "Remember window state"
-msgstr ""
+msgstr "Reține starea ferestrei"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:887
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>Generale</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:917
 msgid "Show toolbar"
-msgstr ""
+msgstr "Afișează bara de unelte"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:935
 msgid "Style:"
@@ -1686,31 +1689,31 @@ msgstr "Stil:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:948
 msgid "Icon Size:"
-msgstr ""
+msgstr "Dimensiunea pictogramei:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1000
 msgid "<b>Toolbar</b>"
-msgstr ""
+msgstr "<b>Bara de unelte</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1029
 msgid "Always show tabs even with one file"
-msgstr ""
+msgstr "Afișează întotdeauna filele chiar și cu un singur fișier"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1044
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Extinde filele pentru a umple spațiul disponibil"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1059
 msgid "Cycled notebook tab switching"
-msgstr ""
+msgstr "Schimbare ciclică a filelor de notebook"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1082
 msgid "Open files in:"
-msgstr ""
+msgstr "Deschide fișierele în:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1128
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>File de notebook</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1148
 msgid "Window"
@@ -1718,53 +1721,53 @@ msgstr "Fereastră"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1182
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "Asigură o linie nouă la sfârșitul fișierului"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1197
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Face o copie cu sufixul „~”"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1216
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>Salvare fișier</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1253
 msgid "Session restore:"
-msgstr ""
+msgstr "Restaurează sesiunea:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1266
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Atunci când se selectează „documente nesalvate” sau „întotdeauna”, Mousepad nu va solicita salvarea documentelor modificate la închidere"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1301
 msgid "Recent file menu length:"
-msgstr ""
+msgstr "Lungimea meniului de fișiere recente:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1313
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "„0” dezactivează și șterge istoricul recent"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1329
 msgid "Search history size:"
-msgstr ""
+msgstr "Dimensiunea istoricului de căutare:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1365
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>Istoric</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1416
 msgid "File monitoring"
-msgstr ""
+msgstr "Monitorizează fișierele"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1426
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Reîncărcare automată"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1456
 msgid "Default encoding:"
-msgstr ""
+msgstr "Codificarea implicită:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1497
 msgid "<b>Miscellaneous</b>"
@@ -1780,42 +1783,42 @@ msgstr "Module"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Spell Checking"
-msgstr ""
+msgstr "Verificarea ortografiei"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:47
 msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Limba implicită pentru documentele noi este definită aici. Aceasta poate fi apoi modificată pentru fiecare document prin meniul contextual, unde există și sugestii de corectare a ortografiei pentru cuvintele subliniate."
 
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:164
 msgid "Default language:"
-msgstr ""
+msgstr "Limba implicită:"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:46
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Editorul de comenzi rapide"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "Editorul de comenzi rapide este disponibil aici ca o fereastră emergentă sau ca un dialog sub preferințele din bara de meniu."
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Aplicație"
 
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:258
 msgid "Menubar"
-msgstr ""
+msgstr "Bara de meniu"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Fereastra de dialog pentru preferințe"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Miscellaneous"
@@ -1823,16 +1826,16 @@ msgstr "Diverse"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:585
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Comenzi rapide pentru Mousepad"
 
 #. add the shortcuts menu entry
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:634
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Taste de comenzi rapide..."
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Afișeazǎ dialogul de comenzi rapide"
 
 #: org.xfce.mousepad.desktop.in.in:5
 msgid "Simple Text Editor"
@@ -1844,26 +1847,26 @@ msgstr "Editor de text"
 
 #: org.xfce.mousepad.desktop.in.in:15
 msgid "Edit;Text;Simple;XFCE;Lightweight;Fast;"
-msgstr ""
+msgstr "Editare;Text;Simplu;XFCE;Ușor;Rapid;"
 
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "Opțiuni editor de text"
 
 #: org.xfce.mousepad-settings.desktop.in.in:5
 msgid "Configure the Mousepad text editor"
-msgstr ""
+msgstr "Configurează editorul de text Mousepad"
 
 #: org.xfce.mousepad-settings.desktop.in.in:11
 msgid "Text;Editor;Mousepad;Preferences;Settings;Configure;"
-msgstr ""
+msgstr "Text;Editor;Mousepad;Preferințe; Configurări;Opțiuni;Configurare;"
 
 #: org.xfce.mousepad.appdata.xml.in:11
 msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr ""
+msgstr "Mousepad își propune să fie un editor ușor de utilizat și rapid. Obiectivul nostru este un editor pentru editarea rapidă a fișierelor text, nu un mediu de dezvoltare sau un editor cu o mulțime de module suplimentare."
 
 #: org.xfce.mousepad.appdata.xml.in:15
 msgid ""
@@ -1871,11 +1874,11 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "Pe de altă parte, încercăm să folosim cele mai recente caracteristici GTK disponibile, ceea ce înseamnă că, dacă GTK adaugă ceva nou într-o versiune majoră care este util pentru editor, probabil că vom modifica dependența GTK și vom integra această nouă caracteristică în Mousepad."
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Dezvoltatorii de Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
@@ -1883,8 +1886,8 @@ msgstr ""
 #. to. This isn't a good idea, but is common on single user systems.
 #: org.xfce.mousepad.policy.in.in:24
 msgid "Run Mousepad as root"
-msgstr ""
+msgstr "Rulați Mousepad ca root"
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
-msgstr ""
+msgstr "Autentificarea este necesară pentru a rula Mousepad ca root."
