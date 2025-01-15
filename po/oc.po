@@ -6,14 +6,14 @@
 # Cédric Valmary <cvalmary@yahoo.fr>, 2013,2016
 # Cédric Valmary <cvalmary@yahoo.fr>, 2013
 # Quentin PAGÈS, 2022
-# Quentin PAGÈS, 2022,2024
+# Quentin PAGÈS, 2022,2024-2025
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2024-10-15 00:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Quentin PAGÈS, 2022,2024\n"
+"Last-Translator: Quentin PAGÈS, 2022,2024-2025\n"
 "Language-Team: Occitan (post 1500) (http://app.transifex.com/xfce/xfce-apps/language/oc/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,7 +135,7 @@ msgstr "Anar a"
 #. add button
 #: mousepad/mousepad-dialogs.c:239
 msgid "_Jump to"
-msgstr ""
+msgstr "_Saltar a"
 
 #: mousepad/mousepad-dialogs.c:259
 msgid "_Line number:"
@@ -685,15 +685,15 @@ msgstr "Totes los documents"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ocurréncia %d de %d"
+msgstr[1] "ocurréncia %d de %d"
 
 #: mousepad/mousepad-replace-dialog.c:618 mousepad/mousepad-search-bar.c:473
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ocurréncia"
+msgstr[1] "%d ocurréncias"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -739,12 +739,12 @@ msgstr "Lectura sola"
 
 #: mousepad/mousepad-window.c:2493
 msgid "Viewer Mode"
-msgstr ""
+msgstr "Mòde visualizador"
 
 #: mousepad/mousepad-window.c:3552
 #, c-format
 msgid "Use '%s' as template"
-msgstr ""
+msgstr "Utilizar « %s » coma modèl"
 
 #: mousepad/mousepad-window.c:3578
 #, c-format
@@ -797,7 +797,7 @@ msgstr "Cap d'article pas trobat"
 
 #: mousepad/mousepad-window.c:4093
 msgid "History disabled"
-msgstr ""
+msgstr "Istoric desactivat"
 
 #. set error message
 #: mousepad/mousepad-window.c:4459
@@ -911,7 +911,7 @@ msgstr "Preferéncias..."
 
 #: mousepad/resources/gtk/menus.ui:131
 msgid "Show the preferences dialog"
-msgstr ""
+msgstr "Afichar la fenèstra de preferéncias"
 
 #: mousepad/resources/gtk/menus.ui:139
 msgid "_Search"
@@ -919,7 +919,7 @@ msgstr "_Recercar"
 
 #: mousepad/resources/gtk/menus.ui:140
 msgid "Search menu"
-msgstr ""
+msgstr "Menú recèrca"
 
 #: mousepad/resources/gtk/menus.ui:147
 msgid "Find _Next"
@@ -959,7 +959,7 @@ msgstr "Afichat_ge"
 
 #: mousepad/resources/gtk/menus.ui:184
 msgid "View menu"
-msgstr ""
+msgstr "Menú vista"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
@@ -1025,7 +1025,7 @@ msgstr "_Document"
 
 #: mousepad/resources/gtk/menus.ui:241
 msgid "Document menu"
-msgstr ""
+msgstr "Menú document"
 
 #: mousepad/resources/gtk/menus.ui:245
 msgid "_Word Wrap"
@@ -1093,7 +1093,7 @@ msgstr ""
 
 #: mousepad/resources/gtk/menus.ui:304
 msgid "Plain Text"
-msgstr ""
+msgstr "Tèxte brut"
 
 #: mousepad/resources/gtk/menus.ui:305
 msgid "No filetype"
@@ -1129,7 +1129,7 @@ msgstr "Recaptar la marca d'òrdre d'octet dins lo fichièr"
 
 #: mousepad/resources/gtk/menus.ui:343
 msgid "_Viewer Mode"
-msgstr ""
+msgstr "Mòde _visualizador"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
@@ -1515,12 +1515,12 @@ msgstr "totjorn"
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:141
 msgid "new tabs"
-msgstr ""
+msgstr "onglets novèls"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:145
 msgid "new windows"
-msgstr ""
+msgstr "fenèstras novèlas"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:149
@@ -1726,7 +1726,7 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1216
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>Enregistrament fichièr</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1253
 msgid "Session restore:"
@@ -1752,19 +1752,19 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1365
 msgid "<b>History</b>"
-msgstr ""
+msgstr "<b>Istoric</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1416
 msgid "File monitoring"
-msgstr ""
+msgstr "Susvelhança de fichièr"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1426
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Recargament automatic"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1456
 msgid "Default encoding:"
-msgstr ""
+msgstr "Encodatge per defaut :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1497
 msgid "<b>Miscellaneous</b>"
@@ -1780,7 +1780,7 @@ msgstr "Empeutons"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Spell Checking"
-msgstr ""
+msgstr "Verificacion ortografica"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:47
 msgid ""
@@ -1792,7 +1792,7 @@ msgstr ""
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:164
 msgid "Default language:"
-msgstr ""
+msgstr "Lenga per defaut :"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:46
 msgid "Shortcuts Editor"
@@ -1806,16 +1806,16 @@ msgstr ""
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Aplicacion"
 
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:258
 msgid "Menubar"
-msgstr ""
+msgstr "Barra de menú"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Fenèstra de preferéncias"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Miscellaneous"
@@ -1848,15 +1848,15 @@ msgstr ""
 
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
-msgstr ""
+msgstr "Paramètres de l’editor de tèxte"
 
 #: org.xfce.mousepad-settings.desktop.in.in:5
 msgid "Configure the Mousepad text editor"
-msgstr ""
+msgstr "Configurar l’editor de tèxte Mousepad"
 
 #: org.xfce.mousepad-settings.desktop.in.in:11
 msgid "Text;Editor;Mousepad;Preferences;Settings;Configure;"
-msgstr ""
+msgstr "Tèxt;Editor;Mousepad;Preferéncias;Paramètres;Configuracion;"
 
 #: org.xfce.mousepad.appdata.xml.in:11
 msgid ""
