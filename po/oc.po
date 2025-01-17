@@ -1730,7 +1730,7 @@ msgstr "<b>Enregistrament fichièr</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1253
 msgid "Session restore:"
-msgstr ""
+msgstr "Restaurar session :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1266
 msgid ""
@@ -1740,15 +1740,15 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1301
 msgid "Recent file menu length:"
-msgstr ""
+msgstr "Longor del menú fichièrs recents :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1313
 msgid "'0' disables and wipes recent history"
-msgstr ""
+msgstr "« 0 » desactiva e escafa l’istoric recent"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1329
 msgid "Search history size:"
-msgstr ""
+msgstr "Talha recèrca istoric :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1365
 msgid "<b>History</b>"
@@ -1796,7 +1796,7 @@ msgstr "Lenga per defaut :"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:46
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Editor d’acorchis"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
@@ -1823,16 +1823,16 @@ msgstr "Divèrs"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:585
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Acorchis Mousepad"
 
 #. add the shortcuts menu entry
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:634
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Acorchis..."
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:638
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Afichar la fenèstra d’acorchis"
 
 #: org.xfce.mousepad.desktop.in.in:5
 msgid "Simple Text Editor"
@@ -1844,7 +1844,7 @@ msgstr "Editor de tèxte"
 
 #: org.xfce.mousepad.desktop.in.in:15
 msgid "Edit;Text;Simple;XFCE;Lightweight;Fast;"
-msgstr ""
+msgstr "Edicion;Tèxte;Simple;XFCE;Leugièr;Rapid;"
 
 #: org.xfce.mousepad-settings.desktop.in.in:4
 msgid "Text Editor Settings"
@@ -1875,7 +1875,7 @@ msgstr ""
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Los desvolopaires de Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
@@ -1883,8 +1883,8 @@ msgstr ""
 #. to. This isn't a good idea, but is common on single user systems.
 #: org.xfce.mousepad.policy.in.in:24
 msgid "Run Mousepad as root"
-msgstr ""
+msgstr "Executar Mousepad coma root"
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
-msgstr ""
+msgstr "Autentificacion necessària per executar Mousepad coma root."
