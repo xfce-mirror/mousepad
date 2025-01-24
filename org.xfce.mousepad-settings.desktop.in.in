@@ -9,4 +9,5 @@ Type=Application
 Categories=XFCE;GTK;Settings;DesktopSettings;X-XFCE-SettingsDialog;X-XFCE-PersonalSettings;
 Keywords=Text;Editor;Mousepad;Preferences;Settings;Configure;
 StartupNotify=true
+NoDisplay=true
 NotShowIn=GNOME;
