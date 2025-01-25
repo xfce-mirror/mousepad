@@ -530,15 +530,21 @@ shortcuts_plugin_build_editor (ShortcutsPlugin *plugin)
   list = NULL;
   gtk_accel_map_foreach (&list, shortcuts_plugin_get_misc_paths);
   list = g_list_sort (list, (GCompareFunc) g_strcmp0);
-  for (lp = list, size = 0; lp != NULL; lp = lp->next, size++)
+  for (lp = list, size = 0; lp != NULL; lp = lp->next)
     {
       const gchar *path = lp->data, *detailed_name = path + 10, *accel;
+
+      /* skip actions requiring a parameter: it is not possible to automate their processing here,
+       * the value to be enclosed in brackets must be entered manually in accels.scm */
+      if (g_str_has_suffix (detailed_name, "()"))
+        continue;
 
       accel = mousepad_object_get_data (map, detailed_name);
       entries[size].menu_item_label_text = g_strdup (detailed_name);
       entries[size].accel_path = g_strdup (path);
       entries[size].default_accelerator = g_strdup (accel != NULL ? accel : "");
       entries[size].callback = shortcuts_plugin_fake_callback;
+      size++;
     }
 
   plugin->misc_entries = g_renew (XfceGtkActionEntry, entries, size);

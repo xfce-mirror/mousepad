@@ -571,7 +571,10 @@ mousepad_application_complete_accel_map (GtkApplication *application)
   while (action_names[n] != NULL)
     {
       /* add accel map entry to fill the accels file at shutdown */
-      accel_path = g_strconcat ("<Actions>/win.", action_names[n], NULL);
+      if (g_action_group_get_action_parameter_type (G_ACTION_GROUP (window), action_names[n]) == NULL)
+        accel_path = g_strconcat ("<Actions>/win.", action_names[n], NULL);
+      else
+        accel_path = g_strconcat ("<Actions>/win.", action_names[n], "()", NULL);
       if (!gtk_accel_map_lookup_entry (accel_path, NULL))
         gtk_accel_map_add_entry (accel_path, 0, 0);
 
@@ -727,7 +730,10 @@ mousepad_application_set_accels (MousepadApplication *application)
   while (action_names[n] != NULL)
     {
       /* add accel map entry to fill the accels file at shutdown */
-      accel_path = g_strconcat ("<Actions>/app.", action_names[n], NULL);
+      if (g_action_group_get_action_parameter_type (G_ACTION_GROUP (application), action_names[n]) == NULL)
+        accel_path = g_strconcat ("<Actions>/app.", action_names[n], NULL);
+      else
+        accel_path = g_strconcat ("<Actions>/app.", action_names[n], "()", NULL);
       if (!gtk_accel_map_lookup_entry (accel_path, NULL))
         gtk_accel_map_add_entry (accel_path, 0, 0);
 
