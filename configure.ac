@@ -4,10 +4,9 @@ dnl ***************************
 XDT_VERSION_INIT([0.6.3], [git])
 
 dnl minimum required versions
-m4_define([glib_min_version], [2.56.2])
-m4_define([gtk_min_version], [3.22.0])
-m4_define([gtksourceview3_min_version], [3.24.0])
-m4_define([gtksourceview4_min_version], [4.0.0])
+m4_define([glib_min_version], [2.66.0])
+m4_define([gtk_min_version], [4.6.0])
+m4_define([gtksourceview_min_version], [5.0.0])
 m4_define([polkit_min_version], [0.102])
 
 dnl ***************************
@@ -88,25 +87,12 @@ AC_SEARCH_LIBS([bind_textdomain_codeset], [intl],
 dnl ***********************************
 dnl *** Check for required packages ***
 dnl ***********************************
+AC_DEFINE(GDK_VERSION_MAX_ALLOWED, GDK_VERSION_4_6, Warn when using post 4_6 APIs)
+AC_DEFINE(GDK_VERSION_MIN_REQUIRED, GDK_VERSION_4_6, Do not warn about post 4_6 deprecations)
 XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [glib_min_version])
 XDT_CHECK_PACKAGE([GMODULE], [gmodule-2.0], [glib_min_version])
-XDT_CHECK_PACKAGE([GTK], [gtk+-3.0], [gtk_min_version])
-
-dnl *******************************
-dnl *** GtkSourceView 4 support ***
-dnl *******************************
-AC_ARG_ENABLE([gtksourceview4],
-              [AS_HELP_STRING([--enable-gtksourceview4],
-                              [Build against GtkSourceView 4 instead of GtkSourceView 3])],
-              [enable_gtksourceview4=$enableval],
-              [enable_gtksourceview4=auto])
-AS_IF([test "x$enable_gtksourceview4" = "xyes"],
-      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4 >= gtksourceview4_min_version])])
-AS_IF([test "x$enable_gtksourceview4" = "xauto"],
-      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-4 >= gtksourceview4_min_version],
-                         [enable_gtksourceview4=yes], [enable_gtksourceview4=no])])
-AS_IF([test "x$enable_gtksourceview4" = "xno"],
-      [PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0 >= gtksourceview3_min_version])])
+XDT_CHECK_PACKAGE([GTK], [gtk4], [gtk_min_version])
+XDT_CHECK_PACKAGE([GTKSOURCEVIEW], [gtksourceview-5], [gtksourceview_min_version])
 
 dnl **********************
 dnl *** Polkit support ***
@@ -185,7 +171,6 @@ echo "Build Configuration:"
 echo
 echo "* Debug Support:                 $enable_debug"
 echo "* Use keyfile backend:           $enable_keyfile_settings"
-echo "* Build against GtkSourceView 4: $enable_gtksourceview4"
 echo "* Polkit support:                ${POLKIT_FOUND:-no}"
 echo
 echo "Plugins:"
