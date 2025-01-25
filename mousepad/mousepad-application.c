@@ -629,6 +629,7 @@ mousepad_application_set_accels (MousepadApplication *application)
     { "win.file.open", "<Control>O" },
     { "win.file.save", "<Control>S" },
     { "win.file.save-as", "<Control><Shift>S" },
+    { "win.file.reload(false)", "F5" },
     { "win.file.print", "<Control>P" },
     { "win.file.detach-tab", "<Control>D" },
     { "win.file.close-tab", "<Control>W" },
