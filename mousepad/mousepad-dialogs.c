@@ -1174,8 +1174,20 @@ mousepad_dialogs_save_as (GtkWindow *parent,
 
   /* set the current location if there is one, or use the last save location */
   if (mousepad_file_location_is_set (current_file))
-    gtk_file_chooser_set_file (GTK_FILE_CHOOSER (dialog),
-                               mousepad_file_get_location (current_file), NULL);
+    {
+      GFile *location = mousepad_file_get_location (current_file);
+      if (mousepad_util_query_exists (location, FALSE))
+        {
+          gtk_file_chooser_set_file (GTK_FILE_CHOOSER (dialog), location, NULL);
+        }
+      else
+        {
+          gchar *basename = g_file_get_basename (location);
+          gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (dialog), location, NULL);
+          gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), basename);
+          g_free (basename);
+        }
+    }
   else if (last_save_location != NULL)
     gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (dialog),
                                               last_save_location, NULL);
