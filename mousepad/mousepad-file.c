@@ -504,8 +504,10 @@ mousepad_file_set_monitor (gpointer data)
       else
         file->monitor_location = g_object_ref (file->location);
 
+      /* don't use G_FILE_MONITOR_WATCH_HARD_LINKS: it's buggy, and the few cases where
+       * it's useful aren't worth the cost: https://gitlab.gnome.org/GNOME/glib/-/issues/3589 */
       file->monitor = g_file_monitor_file (file->monitor_location,
-                                           G_FILE_MONITOR_WATCH_HARD_LINKS | G_FILE_MONITOR_WATCH_MOVES,
+                                           G_FILE_MONITOR_WATCH_MOVES,
                                            NULL, &error);
 
       /* inform the user */
