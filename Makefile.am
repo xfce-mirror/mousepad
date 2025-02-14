@@ -56,7 +56,12 @@ dist-hook: ChangeLog
 EXTRA_DIST =									\
 	$(desktop_in_files)						\
 	$(appdata_in_files)							\
-	$(polkit_in_in_files)
+	$(polkit_in_in_files) \
+	po/meson.build \
+	meson_options.txt \
+	meson.build \
+	xfce-revision.h.in \
+	$(NULL)
 
 DISTCLEANFILES =								\
 	$(desktop_DATA)								\

@@ -1,0 +1,41 @@
+option(
+  'gtksourceview4',
+  type: 'feature',
+  value: 'auto',
+  description: 'Build against GtkSourceView 4 instead of GtkSourceView 3',
+)
+
+option(
+  'polkit',
+  type: 'feature',
+  value: 'auto',
+  description: 'Polkit support',
+)
+
+option(
+  'keyfile-settings',
+  type: 'boolean',
+  value: false,
+  description: 'Use the GSettings keyfile backend rather than the default',
+)
+
+option(
+  'gspell-plugin',
+  type: 'feature',
+  value: 'auto',
+  description: 'Spell checking support',
+)
+
+option(
+  'shortcuts-plugin',
+  type: 'feature',
+  value: 'auto',
+  description: 'Shortcut editor dialog support',
+)
+
+option(
+  'test-plugin',
+  type: 'feature',
+  value: 'disabled',
+  description: 'Integration testing support (for developers)',
+)
