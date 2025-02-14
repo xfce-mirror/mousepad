@@ -13,14 +13,10 @@ distuninstallcheck_listfiles = 						\
 	find . -type f \! -path ./share/icons/hicolor/icon-theme.cache
 
 desktopdir = $(datadir)/applications
-desktop_in_in_files = 								\
-	org.xfce.mousepad.desktop.in.in \
-	org.xfce.mousepad-settings.desktop.in.in
-desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in)
+desktop_in_files = 								\
+	org.xfce.mousepad.desktop.in \
+	org.xfce.mousepad-settings.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-
-%.desktop.in: %.desktop.in.in
-	$(SED) -e "s,\@libexecdir\@,$(libexecdir),g" < $< > $@
 
 %.desktop: %.desktop.in
 	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
@@ -58,12 +54,11 @@ ChangeLog: Makefile
 dist-hook: ChangeLog
 
 EXTRA_DIST =									\
-	$(desktop_in_in_files)						\
+	$(desktop_in_files)						\
 	$(appdata_in_files)							\
 	$(polkit_in_in_files)
 
 DISTCLEANFILES =								\
-	$(desktop_in_files)							\
 	$(desktop_DATA)								\
 	$(appdata_DATA)								\
 	$(polkit_in_files)							\
