@@ -1130,7 +1130,7 @@ mousepad_history_search_insert_text (const gchar *text,
 {
   GHashTableIter iter;
   gpointer key, value;
-  guint max_idx, idx;
+  guint max_idx = 0, idx;
   gboolean contains;
 
   /* history disabled */
