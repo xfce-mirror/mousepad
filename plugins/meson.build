@@ -28,10 +28,10 @@ foreach plugin : plugins
       install: true,
       install_dir: mousepad_plugin_directory,
     )
-  endif
 
-  gschema_file = plugin_dir / 'org.xfce.mousepad.plugins.@0@.gschema.xml'.format(plugin)
-  if fs.is_file(gschema_file)
-    install_data(gschema_file, install_dir: gio_schemasdir)
+    gschema_file = plugin_dir / 'org.xfce.mousepad.plugins.@0@.gschema.xml'.format(plugin)
+    if fs.is_file(gschema_file)
+      install_data(gschema_file, install_dir: gio_schemasdir)
+    endif
   endif
 endforeach
