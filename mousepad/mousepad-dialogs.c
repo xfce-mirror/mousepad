@@ -72,7 +72,7 @@ mousepad_dialogs_show_about (GtkWindow *parent)
                          "license-type", GTK_LICENSE_GPL_2_0,
                          "logo-icon-name", MOUSEPAD_ID,
                          "program-name", PACKAGE_NAME,
-                         "version", PACKAGE_VERSION,
+                         "version", VERSION_FULL,
                          "translator-credits", _("translator-credits"),
                          "website", "https://docs.xfce.org/apps/mousepad/start",
                          NULL);

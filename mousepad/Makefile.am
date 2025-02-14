@@ -134,7 +134,9 @@ EXTRA_DIST = \
 	$(mousepad_resource_deps) \
 	resources/mousepad.gresource.xml \
 	mousepad-marshal.list \
-	org.xfce.mousepad.gschema.xml
+	org.xfce.mousepad.gschema.xml \
+	meson.build \
+	$(NULL)
 
 gsettings_SCHEMAS = org.xfce.mousepad.gschema.xml
 @GSETTINGS_RULES@

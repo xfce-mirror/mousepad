@@ -461,7 +461,7 @@ mousepad_application_handle_local_options (GApplication *gapplication,
 
   if (g_variant_dict_contains (options, "version"))
     {
-      g_print ("%s %s\n\n", PACKAGE_NAME, PACKAGE_VERSION);
+      g_print ("%s %s\n\n", PACKAGE_NAME, VERSION_FULL);
       g_print ("%s\n", "Copyright (C) 2005-2024");
       g_print ("\t%s\n\n", _("The Mousepad developers. All rights reserved."));
       g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);
