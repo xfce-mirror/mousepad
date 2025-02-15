@@ -3,7 +3,7 @@ project(
   'c',
 version : '0.6.3-dev',
   license : 'GPL-2.0-or-later',
-  meson_version : '>= 0.54.0',
+  meson_version : '>= 0.57.0',
   default_options : ['c_std=gnu11', 'buildtype=debugoptimized', 'warning_level=2']
 )
 
@@ -231,3 +231,5 @@ subdir('icons')
 subdir('mousepad')
 subdir('plugins')
 subdir('po')
+
+gnome.post_install(glib_compile_schemas: true)
