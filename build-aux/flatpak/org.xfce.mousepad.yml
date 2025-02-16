@@ -1,6 +1,6 @@
 app-id: org.xfce.mousepad
 runtime: org.freedesktop.Platform
-runtime-version: '22.08'
+runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
 command: mousepad
 
@@ -24,19 +24,6 @@ cleanup:
   - /share/man
 
 modules:
-  # build-time dependencies
-  - name: intltool
-    cleanup:
-      - '*'
-    sources:
-      - type: archive
-        url: https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
-        sha256: 67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd
-        x-checker-data:
-          type: anitya
-          project-id: 1385
-          url-template: https://launchpad.net/intltool/trunk/$version/+download/intltool-$version.tar.gz
-
   # mandatory dependencies
   - name: gtksourceview
     cleanup:
@@ -62,20 +49,21 @@ modules:
           - /bin
         sources:
           - type: archive
-            url: https://github.com/AbiWord/enchant/releases/download/v2.3.3/enchant-2.3.3.tar.gz
-            sha256: 3da12103f11cf49c3cf2fd2ce3017575c5321a489e5b9bfa81dd91ec413f3891
+            url: https://github.com/AbiWord/enchant/releases/download/v2.8.2/enchant-2.8.2.tar.gz
+            sha256: 8f19535adb5577b83b00e02f330fe9b9eb40dd21f19e2899636fc4d3a7696375
             x-checker-data:
               type: anitya
               project-id: 6601
               url-template: https://github.com/AbiWord/enchant/releases/download/v$version/enchant-$version.tar.gz
     cleanup:
       - /bin
+    buildsystem: meson
     config-opts:
-      - --disable-vala
+      - -Dvapi=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gspell/1.12/gspell-1.12.0.tar.xz
-        sha256: 40d2850f1bb6e8775246fa1e39438b36caafbdbada1d28a19fa1ca07e1ff82ad
+        url: https://download.gnome.org/sources/gspell/1.14/gspell-1.14.0.tar.xz
+        sha256: 64ea1d8e9edc1c25b45a920e80daf67559d1866ffcd7f8432fecfea6d0fe8897
         x-checker-data:
           type: gnome
           name: gspell
@@ -89,8 +77,8 @@ modules:
           - --disable-debug
         sources:
           - type: archive
-            url: https://archive.xfce.org/src/xfce/libxfce4util/4.18/libxfce4util-4.18.0.tar.bz2
-            sha256: 1157ca717fd3dd1da7724a6432a4fb24af9cd922f738e971fd1fd36dfaeac3c9
+            url: https://archive.xfce.org/src/xfce/libxfce4util/4.20/libxfce4util-4.20.0.tar.bz2
+            sha256: 21493f9c9995a282823db93839f6b9f06ae31edb094191ba9acf04d932a2b592
             x-checker-data:
               type: anitya
               project-id: 232001
@@ -104,8 +92,8 @@ modules:
           - XFCONF_SERVICE_NAME_PREFIX=org.xfce.mousepad
         sources:
           - type: archive
-            url: https://archive.xfce.org/src/xfce/xfconf/4.18/xfconf-4.18.0.tar.bz2
-            sha256: 2e8c50160bf800a807aea094fc9dad81f9f361f42db56607508ed5b4855d2906
+            url: https://archive.xfce.org/src/xfce/xfconf/4.20/xfconf-4.20.0.tar.bz2
+            sha256: 8bc43c60f1716b13cf35fc899e2a36ea9c6cdc3478a8f051220eef0f53567efd
             x-checker-data:
               type: anitya
               project-id: 14854
@@ -119,8 +107,8 @@ modules:
       - --disable-debug
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.18/libxfce4ui-4.18.0.tar.bz2
-        sha256: 532247c4387c17bb9ef94a73147039b8d013c3131c95cdbd2fa85fbcc848d06b
+        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.20/libxfce4ui-4.20.0.tar.bz2
+        sha256: 75e8996984f20375aadecd5c16f5147c211ed0bd26d7861ab0257561eb76eaee
         x-checker-data:
           type: anitya
           project-id: 232000
@@ -133,10 +121,13 @@ modules:
           - '*'
         sources:
           - type: archive
-            url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.18/xfce4-dev-tools-4.18.0.tar.bz2
-            sha256: eedb4fc955f0e3459c46864ff98579295db2b900743e0ff69cad5970ba76be37
+            url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.20/xfce4-dev-tools-4.20.0.tar.bz2
+            sha256: 1fba39a08a0ecc771eaa3a3b6e4272a4f0b9e7c67d0f66e780cd6090cd4466aa
+    buildsystem: meson
     config-opts:
-      - --enable-maintainer-mode
+      - --buildtype=minsize
+      - --auto-features=enabled
+      - -Dpolkit=disabled
     sources:
       - type: git
         url: https://gitlab.xfce.org/apps/mousepad.git
