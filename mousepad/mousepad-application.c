@@ -394,7 +394,7 @@ mousepad_application_init (MousepadApplication *application)
   application->providers = NULL;
 
   /* default application name */
-  g_set_application_name (_("Mousepad"));
+  g_set_application_name (_(MOUSEPAD_NAME));
 
   /* use the Mousepad icon as default for new windows */
   gtk_window_set_default_icon_name (MOUSEPAD_ID);
@@ -461,7 +461,7 @@ mousepad_application_handle_local_options (GApplication *gapplication,
 
   if (g_variant_dict_contains (options, "version"))
     {
-      g_print ("%s %s\n\n", PACKAGE_NAME, VERSION_FULL);
+      g_print ("%s %s\n\n", MOUSEPAD_NAME, VERSION_FULL);
       g_print ("%s\n", "Copyright (C) 2005-2024");
       g_print ("\t%s\n\n", _("The Mousepad developers. All rights reserved."));
       g_print (_("Please report bugs to <%s>."), PACKAGE_BUGREPORT);

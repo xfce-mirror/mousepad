@@ -159,7 +159,7 @@ mousepad_history_recent_add (MousepadFile *file)
   gchar *uri, *description;
   const gchar *language = "", *charset;
   gchar *cursor;
-  static gchar *groups[] = { PACKAGE_NAME, NULL };
+  static gchar *groups[] = { MOUSEPAD_NAME, NULL };
 
   /* don't insert in the recent history if history disabled */
   if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
@@ -185,7 +185,7 @@ mousepad_history_recent_add (MousepadFile *file)
   info.display_name = NULL;
   info.description = description;
   info.mime_type = "text/plain";
-  info.app_name = PACKAGE_NAME;
+  info.app_name = MOUSEPAD_NAME;
   info.app_exec = PACKAGE " %u";
   info.groups = groups;
   info.is_private = FALSE;
@@ -326,7 +326,7 @@ mousepad_history_recent_clear (void)
   for (li = items; li != NULL; li = li->next)
     {
       /* check if the item is in the Mousepad group */
-      if (!gtk_recent_info_has_group (li->data, PACKAGE_NAME))
+      if (!gtk_recent_info_has_group (li->data, MOUSEPAD_NAME))
         continue;
 
       /* get the uri of the recent item */
@@ -803,7 +803,7 @@ mousepad_history_autosave_open_directory (void)
   GError *error = NULL;
   gchar *dirname;
 
-  dirname = g_build_filename (g_get_user_data_dir (), "Mousepad", NULL);
+  dirname = g_build_filename (g_get_user_data_dir (), MOUSEPAD_NAME, NULL);
   dir = g_dir_open (dirname, 0, &error);
   if (dir == NULL && !g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
     {
@@ -837,7 +837,7 @@ mousepad_history_autosave_cleanup_directory (GList *ids)
   if ((dir = mousepad_history_autosave_open_directory ()) == NULL)
     return;
 
-  dirname = g_build_filename (g_get_user_data_dir (), "Mousepad", NULL);
+  dirname = g_build_filename (g_get_user_data_dir (), MOUSEPAD_NAME, NULL);
   for (basename = g_dir_read_name (dir); basename != NULL; basename = g_dir_read_name (dir))
     if ((id = mousepad_history_autosave_check_basename (basename)) != (guint) -1
         && (ids == NULL || g_list_find (ids, GUINT_TO_POINTER (id))))
@@ -884,7 +884,7 @@ mousepad_history_autosave_enable (void)
   guint id;
 
   /* try to create Mousepad data dir if needed */
-  dirname = g_build_filename (g_get_user_data_dir (), "Mousepad", NULL);
+  dirname = g_build_filename (g_get_user_data_dir (), MOUSEPAD_NAME, NULL);
   if (g_mkdir_with_parents (dirname, 0700) == -1)
     {
       g_critical ("Failed to create directory '%s', autosave disabled", dirname);
@@ -966,7 +966,7 @@ mousepad_history_autosave_get_location (void)
 
   /* build location */
   basename = g_strdup_printf (AUTOSAVE_PREFIX "%d", autosave_id - 1);
-  filename = g_build_filename (g_get_user_data_dir (), "Mousepad", basename, NULL);
+  filename = g_build_filename (g_get_user_data_dir (), MOUSEPAD_NAME, basename, NULL);
   location = g_file_new_for_path (filename);
   g_free (basename);
   g_free (filename);

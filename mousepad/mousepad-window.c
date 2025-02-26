@@ -38,7 +38,6 @@
 #define MENUBAR MOUSEPAD_SETTING_MENUBAR_VISIBLE
 #define STATUSBAR MOUSEPAD_SETTING_STATUSBAR_VISIBLE
 #define TOOLBAR MOUSEPAD_SETTING_TOOLBAR_VISIBLE
-#define NOTEBOOK_GROUP "Mousepad"
 
 
 
@@ -1195,7 +1194,7 @@ mousepad_window_create_notebook (MousepadWindow *window)
                                    NULL);
 
   /* set the group id */
-  gtk_notebook_set_group_name (GTK_NOTEBOOK (window->notebook), NOTEBOOK_GROUP);
+  gtk_notebook_set_group_name (GTK_NOTEBOOK (window->notebook), MOUSEPAD_NAME);
 
   /* connect signals to the notebooks */
   g_signal_connect (window->notebook, "switch-page",
@@ -2486,15 +2485,15 @@ mousepad_window_set_title (MousepadWindow *window)
   if (G_UNLIKELY (mousepad_file_get_read_only (document->file)))
     string = g_strdup_printf ("%s%s [%s] - %s",
                               gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
-                              title, _("Read Only"), PACKAGE_NAME);
+                              title, _("Read Only"), MOUSEPAD_NAME);
   else if (G_UNLIKELY (!gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview))))
     string = g_strdup_printf ("%s%s [%s] - %s",
                               gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
-                              title, _("Viewer Mode"), PACKAGE_NAME);
+                              title, _("Viewer Mode"), MOUSEPAD_NAME);
   else
     string = g_strdup_printf ("%s%s - %s",
                               gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
-                              title, PACKAGE_NAME);
+                              title, MOUSEPAD_NAME);
 
   /* set the window title */
   gtk_window_set_title (GTK_WINDOW (window), string);
@@ -4025,7 +4024,7 @@ mousepad_window_recent_menu (GSimpleAction *action,
       for (li = items; li != NULL; li = li->next)
         {
           /* check if the item is in the Mousepad group */
-          if (!gtk_recent_info_has_group (li->data, PACKAGE_NAME))
+          if (!gtk_recent_info_has_group (li->data, MOUSEPAD_NAME))
             continue;
 
           /* insert the list, sorted by date */
