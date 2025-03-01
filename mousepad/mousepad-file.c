@@ -888,8 +888,8 @@ mousepad_file_open (MousepadFile *file,
   GtkTextIter start, end;
   GFile *location;
   GFileInfo *fileinfo;
-  const gchar *autosave_uri, *charset, *bom_charset, *endc, *n, *m;
-  gchar *contents = NULL, *etag, *temp;
+  const gchar *charset, *bom_charset, *endc, *n, *m;
+  gchar *contents = NULL, *etag, *temp, *autosave_uri;
   gsize file_size, written, bom_length;
   gint retval = ERROR_READING_FAILED;
 
@@ -900,7 +900,18 @@ mousepad_file_open (MousepadFile *file,
 
   /* autosave restore */
   if ((autosave_uri = mousepad_object_get_data (file->location, "autosave-uri")) != NULL)
-    location = g_file_new_for_uri (autosave_uri);
+    {
+      location = g_file_new_for_uri (autosave_uri);
+
+      /* if autosaved file as a reference file on disk, load it first to init 'saved_state' */
+      if (!g_file_equal (location, file->location))
+        {
+          autosave_uri = g_strdup (autosave_uri);
+          mousepad_object_set_data (file->location, "autosave-uri", NULL);
+          mousepad_file_open (file, line, column, must_exist, ignore_bom, make_valid, NULL);
+          mousepad_object_set_data (file->location, "autosave-uri", autosave_uri);
+        }
+    }
   else
     {
       location = g_object_ref (file->location);
@@ -1103,7 +1114,8 @@ failed:
       mousepad_file_set_language (file, NULL);
 
       /* this does not count as a modified buffer */
-      gtk_text_buffer_set_modified (file->buffer, FALSE);
+      if (autosave_uri == NULL)
+        gtk_text_buffer_set_modified (file->buffer, FALSE);
     }
 
   return retval;

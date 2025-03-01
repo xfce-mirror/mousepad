@@ -2247,13 +2247,11 @@ retry:
       if (g_strcmp0 (uri, autosave_uri) == 0)
         {
           mousepad_file_set_location (document->file, NULL, MOUSEPAD_LOCATION_REVERT);
-          gtk_text_buffer_set_modified (document->buffer, TRUE);
         }
       else
         {
           mousepad_object_set_data (file, "autosave-uri", NULL);
           mousepad_file_set_location (document->file, file, MOUSEPAD_LOCATION_REAL);
-          mousepad_file_invalidate_saved_state (document->file);
         }
 
       g_free (uri);
