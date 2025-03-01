@@ -2380,13 +2380,21 @@ mousepad_window_close_document (MousepadWindow *window,
 
       /* non-interactive saving */
       if (modified && autosave)
-        succeed = mousepad_file_autosave_save_sync (document->file);
+        {
+          /* switch to the tab we're closing in case there's an error dialog to show */
+          gtk_notebook_set_current_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
+
+          succeed = mousepad_file_autosave_save_sync (document->file);
+        }
       /* interactive procedure */
       else if (quitting != MOUSEPAD_SESSION_QUITTING_NON_INTERACTIVE)
         {
           /* mark the document as modified if it is not already so */
           if (!modified)
             mousepad_file_invalidate_saved_state (document->file);
+
+          /* switch to the tab we're closing before showing the save dialog */
+          gtk_notebook_set_current_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
 
           /* run save changes dialog */
           switch (mousepad_dialogs_save_changes (GTK_WINDOW (window), TRUE,
@@ -2446,14 +2454,8 @@ static void
 mousepad_window_button_close_tab (MousepadDocument *document,
                                   MousepadWindow *window)
 {
-  gint page_num;
-
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
-
-  /* switch to the tab we're going to close */
-  page_num = gtk_notebook_page_num (GTK_NOTEBOOK (window->notebook), GTK_WIDGET (document));
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), page_num);
 
   /* close the document */
   mousepad_window_close_document (window, document);
@@ -5025,12 +5027,6 @@ mousepad_window_action_close_window (GSimpleAction *action,
     {
       /* get the document */
       document = gtk_notebook_get_nth_page (GTK_NOTEBOOK (window->notebook), i);
-
-      /* check for debug builds */
-      g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
-
-      /* focus the tab we're going to close */
-      gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), i);
 
       /* close each document */
       if (!mousepad_window_close_document (window, MOUSEPAD_DOCUMENT (document)))
