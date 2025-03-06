@@ -1267,6 +1267,8 @@ mousepad_application_create_window (MousepadApplication *application)
                           G_CALLBACK (mousepad_history_session_save), NULL);
   g_signal_connect_after (notebook, "page-reordered",
                           G_CALLBACK (mousepad_history_session_save), NULL);
+  g_signal_connect_after (notebook, "page-removed",
+                          G_CALLBACK (mousepad_history_session_save), NULL);
 
   return window;
 }
