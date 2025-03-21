@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Balázs Meskó <meskobalazs@mailbox.org>, 2018
+# Balázs Meskó <meskobalazs@mailbox.org>, 2025
 # Benedek Imre, 2013
 # Benedek Imre <nucleo@indamail.hu>, 2014
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013
@@ -20,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2024-10-15 00:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: László Varga, 2024\n"
+"Last-Translator: Balázs Meskó <meskobalazs@mailbox.org>, 2025\n"
 "Language-Team: Hungarian (http://app.transifex.com/xfce/xfce-apps/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +33,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr "A fájlok megnyitásakor használt kódolás (hagyd üresen, ha ezt mindig párbeszédesen szeretnéd)"
+msgstr "A fájlok megnyitásakor használandó kódolás (hagyja üresen, ha a kódolási párbeszédablakkal akarja megnyitni)"
 
 #: mousepad/mousepad-application.c:159
 msgid "ENCODING"
@@ -40,13 +41,13 @@ msgstr "KÓDOLÁS"
 
 #: mousepad/mousepad-application.c:163
 msgid "Display a list of possible encodings to open files"
-msgstr "Megjeleníti a lehetséges kódolások listáját fájlok menyitásához"
+msgstr "Megjeleníti a fájlok megnyitásához használható kódolásokat"
 
 #: mousepad/mousepad-application.c:167
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr "Sorszám, ahova a kurzor álljon (SOR > 0 fentről, SOR < 0 lentről)"
+msgstr "A kurzorpozíció sorának száma (SOR > 0 fentről, SOR < 0 lentről)"
 
 #: mousepad/mousepad-application.c:168
 msgid "LINE"
@@ -56,7 +57,7 @@ msgstr "SOR"
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr "Oszlop, ahova a kurzor álljon (OSZLOP >= 0 elölről, OSZLOP < 0 hátulról)"
+msgstr "A kurzorpozíció oszlopának száma (OSZLOP >= 0 elölről, OSZLOP < 0 hátulról)"
 
 #: mousepad/mousepad-application.c:173
 msgid "COLUMN"
@@ -64,11 +65,11 @@ msgstr "OSZLOP"
 
 #: mousepad/mousepad-application.c:177
 msgid "Open the preferences dialog"
-msgstr "A Terminál beállítások megnyitása"
+msgstr "A beállítások párbeszédablak megnyitása"
 
 #: mousepad/mousepad-application.c:181
 msgid "Do not register with the D-BUS session message bus"
-msgstr "Ne regisztráljon a D-BUS munkamenet üzenetbuszra"
+msgstr "Ne regisztráljon a D-BUS munkamenet-üzenetbuszra"
 
 #: mousepad/mousepad-application.c:185
 msgid "Quit a running Mousepad primary instance"
@@ -80,7 +81,7 @@ msgstr "Verzióinformációk kiírása és kilépés"
 
 #: mousepad/mousepad-application.c:193
 msgid "[FILES...]"
-msgstr "[FÁJLOK...]"
+msgstr "[FÁJLOK…]"
 
 #. default application name
 #: mousepad/mousepad-application.c:397 org.xfce.mousepad.desktop.in.in:4
@@ -96,7 +97,7 @@ msgstr "Mousepad"
 #: mousepad/mousepad-application.c:405
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr "fájl megnyitásának módja: \"%s\", \"%s\" vagy \"%s\" (fülek megnyitása új ablakban)"
+msgstr "Fájl megnyitásának módja: „%s”, „%s” vagy „%s” (lapok megnyitása új ablakban)"
 
 #: mousepad/mousepad-application.c:408
 msgid "MODE"
@@ -122,7 +123,7 @@ msgstr "A Mousepad egy egyszerű szövegszerkesztő az Xfce asztali környezethe
 
 #: mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
-msgstr "Kelemen Gábor <kelemeng at gnome dot hu>"
+msgstr "Kelemen Gábor <kelemeng at gnome dot hu>\nMeskó Balázs <mesko dot balazs at fsf dot hu>"
 
 #. display an error message to the user
 #: mousepad/mousepad-dialogs.c:123
@@ -142,7 +143,7 @@ msgstr "Ugrás"
 #. add button
 #: mousepad/mousepad-dialogs.c:239
 msgid "_Jump to"
-msgstr "_ugrás"
+msgstr "_Ugrás"
 
 #: mousepad/mousepad-dialogs.c:259
 msgid "_Line number:"
@@ -154,22 +155,22 @@ msgstr "_Oszlop száma:"
 
 #: mousepad/mousepad-dialogs.c:339
 msgid "Remove all entries from the documents history?"
-msgstr "Törölni kívánja a dokumentumok listáját?"
+msgstr "Törli az összes dokumentumelőzményt?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:343
 msgid "Clear Documents History"
-msgstr "Dokumentumok listájának törlése"
+msgstr "Dokumentumelőzmények törlése"
 
 #: mousepad/mousepad-dialogs.c:349
 msgid ""
 "Clearing the documents history will permanently remove all currently listed "
 "entries."
-msgstr "A dokumentumok listájának törlése véglegesen eltávolítja az összes jelenleg listázott bejegyzést."
+msgstr "A dokumentumelőzmények törlése véglegesen eltávolítja az összes jelenlegi bejegyzést."
 
 #: mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
-msgstr "tiszta"
+msgstr "Tö_rlés"
 
 #: mousepad/mousepad-dialogs.c:382
 msgid "Do you want to save the changes before closing?"
@@ -177,7 +178,7 @@ msgstr "Menti a módosításokat bezárás előtt?"
 
 #: mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr "A dokumentum csak olvasható, szeretnéd más néven menteni?"
+msgstr "A dokumentum csak olvasható, más néven menti?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:392 mousepad/mousepad-dialogs.c:532
@@ -192,11 +193,11 @@ msgstr "_Ne legyen mentve"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr "Ha nem ment ezt az írásvédett dokumentumot, az összes változtatás elvész."
+msgstr "Ha nem menti ezt az írásvédett dokumentumot, az összes változtatás elvész."
 
 #: mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
-msgstr "Ha nem ment, az összes változtatás elvész."
+msgstr "Ha nem menti a dokumentumot, az összes változtatás elvész."
 
 #: mousepad/mousepad-dialogs.c:456
 msgid ""
@@ -211,11 +212,11 @@ msgstr "Ha menti a dokumentumot, minden külső változtatás elvész."
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr "A dokumentumot külső program módosította. Szeretné újratölteni a lemezről?"
+msgstr "A dokumentumot külső program módosította. Újratölti a lemezről?"
 
 #: mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr "Vannak el nem mentett változtatások. Ha visszaállítja a fájlt, azok elvesznek."
+msgstr "Mentetlen változtatásai vannak. Ha visszaállítja a fájlt, azok elvesznek."
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:487
@@ -235,7 +236,7 @@ msgstr "Ha visszaállítja a fájlt, az összes nem mentett változtatás elvés
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr "A file úgy tűnik hogy %s-val van kódolva, de a(z) %s kódolást választotta.  Megerősíti ezt a választást?"
+msgstr "Úgy tűnik, hogy a fájl %s kódolású, de %s kódolást választott.  Megerősíti ezt a választást?"
 
 #: mousepad/mousepad-dialogs.c:586
 msgid "If not, the guessed encoding will be used."
@@ -245,27 +246,27 @@ msgstr "Ha nem, akkor a kitalált kódolást fogja használni."
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr "Úgy tűnik, hogy az előző munkamenet nem fejeződött be rendesen. Vissza akarja állítani az elérhető adatokat? "
+msgstr "Úgy tűnik, hogy az előző munkamenet nem fejeződött be helyesen. Visszaállítja az elérhető adatokat? "
 
 #: mousepad/mousepad-dialogs.c:660
 msgid "If not, all this data will be lost."
-msgstr "ha mégsem, akkor az összes adat elveszik"
+msgstr "Ha nem, akkor az összes adat elvész."
 
 #: mousepad/mousepad-dialogs.c:863
 msgid "Please select a file"
-msgstr "válaszzon ki egy fájlt"
+msgstr "Válasszon egy fájlt"
 
 #: mousepad/mousepad-dialogs.c:906
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr "hiba az átmeneti fájl előkészítése közben az enkódolási teszthez"
+msgstr "Az átmeneti fájl előkészítése a kódolási teszthez sikertelen"
 
 #: mousepad/mousepad-dialogs.c:969 mousepad/mousepad-dialogs.c:1042
 msgid "Open encoding dialog"
-msgstr "Kódolási dialógus megnyitása"
+msgstr "Kódolási párbeszédablak megnyitása"
 
 #: mousepad/mousepad-dialogs.c:971
 msgid "Go back to shorten list"
-msgstr "vissza a rövidített listához"
+msgstr "Vissza a rövidített listához"
 
 #. combo box label
 #: mousepad/mousepad-dialogs.c:1035
@@ -274,19 +275,19 @@ msgstr "_Kódolás:"
 
 #: mousepad/mousepad-dialogs.c:1070
 msgid "Current"
-msgstr "jelenlegi"
+msgstr "Jelenlegi"
 
 #: mousepad/mousepad-dialogs.c:1088
 msgid "Show all encodings"
-msgstr "Az összes kódolás megjelenítése"
+msgstr "Összes kódolás megjelenítése"
 
 #: mousepad/mousepad-dialogs.c:1126
 msgid "Text Files"
-msgstr "szövegfájlok"
+msgstr "Szövegfájlok"
 
 #: mousepad/mousepad-dialogs.c:1132
 msgid "All Files"
-msgstr "Minden fájl"
+msgstr "Összes fájl"
 
 #. create the dialog
 #: mousepad/mousepad-dialogs.c:1151
@@ -319,7 +320,7 @@ msgstr "A dokumentum mentése sikertelen"
 
 #: mousepad/mousepad-dialogs.h:30
 msgid "Unsupported character set"
-msgstr "nem támogatott karakter beállítása"
+msgstr "Nem támogatott karakterkészlet"
 
 #. button labels
 #: mousepad/mousepad-dialogs.h:33
@@ -344,7 +345,7 @@ msgstr "Vissz_aállítás"
 
 #: mousepad/mousepad-dialogs.h:38 mousepad/resources/gtk/menus-common.ui:72
 msgid "Re_load"
-msgstr "újra_töltés"
+msgstr "Újra_töltés"
 
 #. pack button, add signal and tooltip
 #: mousepad/mousepad-document.c:603
@@ -362,30 +363,30 @@ msgstr "Egyéb:"
 
 #: mousepad/mousepad-encoding-dialog.c:193
 msgid "Checking encodings..."
-msgstr "Kódolások ellenőrzése..."
+msgstr "Kódolások ellenőrzése…"
 
 #: mousepad/mousepad-encoding-dialog.c:297
 #, c-format
 msgid "%s (%s, failed)"
-msgstr "%s (%s, hiba)"
+msgstr "%s (%s, sikertelen)"
 
 #: mousepad/mousepad-encoding-dialog.c:299
 #: mousepad/mousepad-encoding-dialog.c:353
 #, c-format
 msgid "%s (%s, partial)"
-msgstr "%s (%s, részben)"
+msgstr "%s (%s, részleges)"
 
 #: mousepad/mousepad-encoding-dialog.c:427
 msgid "Other (partial):"
-msgstr "egyéb (részben):"
+msgstr "Egyéb (részleges):"
 
 #: mousepad/mousepad-encoding-dialog.c:438
 msgid "Other valid encodings were found, please choose below."
-msgstr "Más érvényes kódolás található, kérjük válasszon közülük."
+msgstr "Más érvényes kódolások találhatóak, válasszon közülük."
 
 #: mousepad/mousepad-encoding-dialog.c:440
 msgid "Other partially valid encodings were found, please choose below."
-msgstr "Más, részben érvényes kódolást is találtunk, kérjük, válasszon."
+msgstr "Más, részben érvényes kódolások is találhatóak, válasszon közülük."
 
 #: mousepad/mousepad-encoding-dialog.c:476
 msgid "No other valid encoding was found."
@@ -395,12 +396,12 @@ msgstr "Nem található más érvényes kódolás."
 #: mousepad/mousepad-encoding-dialog.c:683
 #, c-format
 msgid "The document is %s valid."
-msgstr "a dokumentum %s érvényes"
+msgstr "A dokumentum %s kódolás szerint érvényes."
 
 #: mousepad/mousepad-encoding-dialog.c:684
 #, c-format
 msgid "The document is not %s valid."
-msgstr "a dokumentum %s érvénytelen"
+msgstr "A dokumentum %s kódolás szerint érvénytelen."
 
 #. west european
 #: mousepad/mousepad-encoding.c:38
@@ -489,7 +490,7 @@ msgstr "Török"
 #: mousepad/mousepad-encoding.c:80 mousepad/mousepad-encoding.c:81
 #: mousepad/mousepad-encoding.c:82
 msgid "Vietnamese"
-msgstr "Vietnami"
+msgstr "Vietnámi"
 
 #. unicode
 #: mousepad/mousepad-encoding.c:85 mousepad/mousepad-encoding.c:86
@@ -531,7 +532,7 @@ msgstr "Rendszer"
 
 #: mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr "előzmények"
+msgstr "Előzmények"
 
 #: mousepad/mousepad-file.c:1000
 msgid "Invalid byte sequence in conversion input"
@@ -543,12 +544,12 @@ msgstr "Az előzmények törlése sikertelen"
 
 #: mousepad/mousepad-history.c:1345
 msgid "No clipboard data"
-msgstr "Nincs vágólap adat"
+msgstr "Nincs vágólapadat"
 
 #. setup the window properties
 #: mousepad/mousepad-prefs-dialog.c:642 org.xfce.mousepad.desktop.in.in:18
 msgid "Mousepad Preferences"
-msgstr "érintőpad beállítások"
+msgstr "A Mousepad beállításai"
 
 #. set a custom tab label
 #: mousepad/mousepad-print.c:120
@@ -656,21 +657,21 @@ msgstr "_Körbe"
 #: mousepad/mousepad-replace-dialog.c:371 mousepad/mousepad-search-bar.c:286
 #: mousepad/mousepad-search-bar.c:294
 msgid "Match _case"
-msgstr "_Nagybetű-érzékeny"
+msgstr "Kis- és _nagybetűk megkülönböztetése"
 
 #. match whole word
 #. check button for matching whole words, including the proxy menu item
 #: mousepad/mousepad-replace-dialog.c:380 mousepad/mousepad-search-bar.c:300
 #: mousepad/mousepad-search-bar.c:308
 msgid "_Match whole word"
-msgstr "Teljes szó_egyezés"
+msgstr "Teljes szavas _egyezés"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
 #: mousepad/mousepad-replace-dialog.c:389 mousepad/mousepad-search-bar.c:314
 #: mousepad/mousepad-search-bar.c:322
 msgid "Regular e_xpression"
-msgstr "Szabályos _kifejezés (regex)"
+msgstr "Reguláris _kifejezés"
 
 #: mousepad/mousepad-replace-dialog.c:403
 msgid "Replace _all in:"
@@ -686,21 +687,21 @@ msgstr "Dokumentum"
 
 #: mousepad/mousepad-replace-dialog.c:410
 msgid "All Documents"
-msgstr "Minden dokumentum"
+msgstr "Összes dokumentum"
 
 #: mousepad/mousepad-replace-dialog.c:615 mousepad/mousepad-search-bar.c:470
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d. / %d találat"
+msgstr[1] "%d. / %d találat"
 
 #: mousepad/mousepad-replace-dialog.c:618 mousepad/mousepad-search-bar.c:473
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d találat"
+msgstr[1] "%d találat"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -746,26 +747,26 @@ msgstr "Csak olvasható"
 
 #: mousepad/mousepad-window.c:2493
 msgid "Viewer Mode"
-msgstr "megtekintő mód"
+msgstr "Megtekintési mód"
 
 #: mousepad/mousepad-window.c:3552
 #, c-format
 msgid "Use '%s' as template"
-msgstr "Hazsnálja '%s' mintaként"
+msgstr "A(z) „%s” használata sablonként"
 
 #: mousepad/mousepad-window.c:3578
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
-msgstr "Nem találhatóak sablonfájlok itt:\n'%s'"
+msgstr "Nem találhatóak sablonfájlok itt:\n„%s”"
 
 #: mousepad/mousepad-window.c:3643
 #, c-format
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr "Hiányzik a sablonok könyvtára\n'%s'"
+msgstr "Hiányzik a sablonok könyvtára\n„%s”"
 
 #. create suitable text label for the "Other" menu
 #: mousepad/mousepad-window.c:3695
@@ -783,7 +784,7 @@ msgstr "A fájl mentett állapotának visszaállítása"
 
 #: mousepad/mousepad-window.c:3810 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
-msgstr "Mentett fájl újratöltése"
+msgstr "Fájl újratöltése a lemezről"
 
 #: mousepad/mousepad-window.c:3816
 msgid "Leave fullscreen mode"
@@ -791,12 +792,12 @@ msgstr "Teljes képernyős mód elhagyása"
 
 #: mousepad/mousepad-window.c:3821 mousepad/resources/gtk/menus-common.ui:187
 msgid "Make the window fullscreen"
-msgstr "Legyen teljes képernyős az ablak"
+msgstr "Ablak teljes képernyőssé tétele"
 
 #: mousepad/mousepad-window.c:4062
 #, c-format
 msgid "Open '%s'"
-msgstr "'%s' megnyitása"
+msgstr "A(z) „%s” megnyitása"
 
 #: mousepad/mousepad-window.c:4093
 msgid "No items found"
@@ -804,18 +805,18 @@ msgstr "Nem találhatók elemek"
 
 #: mousepad/mousepad-window.c:4093
 msgid "History disabled"
-msgstr "előzmények letiltva"
+msgstr "Előzmények letiltva"
 
 #. set error message
 #: mousepad/mousepad-window.c:4459
 #, c-format
 msgid "Templates should be %s valid"
-msgstr "a sablonoknak %s érvényesnek kell lenniük"
+msgstr "A sablonoknak %s kódolás szerint érvényesnek kell lenniük"
 
 #. set error message
 #: mousepad/mousepad-window.c:4465
 msgid "Reading the template failed"
-msgstr "sablon olvasási hiba"
+msgstr "A sablon olvasása sikertelen"
 
 #. set error message
 #: mousepad/mousepad-window.c:4470
@@ -854,7 +855,7 @@ msgstr "Új létrehozása _sablonból"
 
 #: mousepad/resources/gtk/menus.ui:33
 msgid "Create a new document from a template"
-msgstr "új dokumentum létrehozása sablonból"
+msgstr "Új dokumentum létrehozása sablonból"
 
 #: mousepad/resources/gtk/menus.ui:43
 msgid "Op_en Recent"
@@ -862,7 +863,7 @@ msgstr "_Legutóbbi megnyitása"
 
 #: mousepad/resources/gtk/menus.ui:44
 msgid "Open a recently used file"
-msgstr "nemrég használt fájl megnyitása"
+msgstr "Nemrég használt fájl megnyitása"
 
 #: mousepad/resources/gtk/menus.ui:50
 msgid "Clear _History"
@@ -870,7 +871,7 @@ msgstr "Előzmények tö_rlése"
 
 #: mousepad/resources/gtk/menus.ui:51
 msgid "Clear the recently used files history"
-msgstr "A legutóbb használt fájlok listájának törlése"
+msgstr "A legutóbb használt fájlok előzményének törlése"
 
 #: mousepad/resources/gtk/menus.ui:68
 msgid "Save A_ll"
@@ -878,7 +879,7 @@ msgstr "Öss_zes mentése"
 
 #: mousepad/resources/gtk/menus.ui:69
 msgid "Save all document in this window"
-msgstr "Az összes dokumentum mentése ebben az ablakban"
+msgstr "Összes dokumentum mentése ebben az ablakban"
 
 #: mousepad/resources/gtk/menus.ui:79
 msgid "_Print..."
@@ -886,7 +887,7 @@ msgstr "_Nyomtatás…"
 
 #: mousepad/resources/gtk/menus.ui:80
 msgid "Print the current document"
-msgstr "A jelenlegi dokumentum nyomtatása"
+msgstr "Jelenlegi dokumentum nyomtatása"
 
 #: mousepad/resources/gtk/menus.ui:97
 msgid "_Close Window"
@@ -902,7 +903,7 @@ msgstr "_Kilépés"
 
 #: mousepad/resources/gtk/menus.ui:103
 msgid "Quit Mousepad"
-msgstr "kilépés az érintőpadból"
+msgstr "Kilépés a Mousepad programból"
 
 #: mousepad/resources/gtk/menus.ui:111
 msgid "_Edit"
@@ -914,11 +915,11 @@ msgstr "Szerkesztés menü"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
-msgstr "beállítások..."
+msgstr "Beállítások…"
 
 #: mousepad/resources/gtk/menus.ui:131
 msgid "Show the preferences dialog"
-msgstr "A Beállítások ablak megjelenítése"
+msgstr "Beállítások párbeszédablak megjelenítése"
 
 #: mousepad/resources/gtk/menus.ui:139
 msgid "_Search"
@@ -946,11 +947,11 @@ msgstr "Keresés visszafelé ugyanarra a szövegre"
 
 #: mousepad/resources/gtk/menus.ui:163
 msgid "_Incremental Search"
-msgstr "_növekvő keresés"
+msgstr "_Beírás közbeni keresés"
 
 #: mousepad/resources/gtk/menus.ui:164
 msgid "Automatically select the search result and scroll the view"
-msgstr "automatikusan válassza ki a keresés eredményét és görgesse a nézetet"
+msgstr "A találat automatikus kijelölése és a nézet görgetése"
 
 #: mousepad/resources/gtk/menus.ui:168
 msgid "Highlight _All"
@@ -958,7 +959,7 @@ msgstr "Összes k_iemelése"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr "keresési találatok kiemelése"
+msgstr "Keresési találatok kiemelése"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -970,11 +971,11 @@ msgstr "Nézet menü"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
-msgstr "_Betűkészlet kiválasztása..."
+msgstr "_Betűkészlet kiválasztása…"
 
 #: mousepad/resources/gtk/menus.ui:188
 msgid "Change the editor font"
-msgstr "A szerkesztő betűkészletének kiválasztása"
+msgstr "Szerkesztő betűkészletének megváltoztatása"
 
 #: mousepad/resources/gtk/menus.ui:195
 msgid "_Color Scheme"
@@ -1000,11 +1001,11 @@ msgstr "Sorok _száma"
 #: mousepad/resources/gtk/menus.ui:210
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:248
 msgid "Show line numbers"
-msgstr "Sorszámok megjelenítése"
+msgstr "Sorok számának megjelenítése"
 
 #: mousepad/resources/gtk/menus.ui:216 mousepad/resources/gtk/menus.ui:445
 msgid "_Menubar"
-msgstr "_Menü"
+msgstr "_Menüsáv"
 
 #: mousepad/resources/gtk/menus.ui:217 mousepad/resources/gtk/menus.ui:446
 msgid "Change the visibility of the main menubar"
@@ -1040,7 +1041,7 @@ msgstr "_Hosszú sorok tördelése"
 
 #: mousepad/resources/gtk/menus.ui:246
 msgid "Toggle breaking lines in between words"
-msgstr "Szavak közti sortörés ki- bekapcsolása"
+msgstr "Szavak közti sortörés be/ki"
 
 #: mousepad/resources/gtk/menus.ui:250
 msgid "_Auto Indent"
@@ -1052,11 +1053,11 @@ msgstr "Új sor automatikus behúzása"
 
 #: mousepad/resources/gtk/menus.ui:255
 msgid "Tab _Size"
-msgstr "Tabulátor _méret"
+msgstr "Tabulátor_méret"
 
 #: mousepad/resources/gtk/menus.ui:256
 msgid "The number of space characters for a tabulation"
-msgstr "Tabulálási szóközszám"
+msgstr "A behúzás mértéke szóköz karakterekben"
 
 #: mousepad/resources/gtk/menus.ui:260
 msgid "Two spaces"
@@ -1076,7 +1077,7 @@ msgstr "8 szóköz"
 
 #: mousepad/resources/gtk/menus.ui:283
 msgid "Other..."
-msgstr "Egyéb..."
+msgstr "Egyéb…"
 
 #: mousepad/resources/gtk/menus.ui:284
 msgid "Set custom tab size"
@@ -1096,7 +1097,7 @@ msgstr "_Fájltípus"
 
 #: mousepad/resources/gtk/menus.ui:301
 msgid "Language to use for syntax highlighting"
-msgstr "Nyelvtan-kiemelés nyelve"
+msgstr "Szintaxiskiemelés nyelve"
 
 #: mousepad/resources/gtk/menus.ui:304
 msgid "Plain Text"
@@ -1112,19 +1113,19 @@ msgstr "Sor_vég"
 
 #: mousepad/resources/gtk/menus.ui:315
 msgid "Character(s) to use as end of line"
-msgstr "Sorvég karakter(ek)"
+msgstr "Sorvégként használandó karakterek"
 
 #: mousepad/resources/gtk/menus.ui:318
 msgid "Set the line ending of the document to Unix (LF)"
-msgstr "A dokumentum sorvégének beállítása Unix-ra (LF)"
+msgstr "A dokumentum sorvégének beállítása unixosra (LF)"
 
 #: mousepad/resources/gtk/menus.ui:324
 msgid "Set the line ending of the document to Mac (CR)"
-msgstr "A dokumentum sorvégének beállítása Mac-re (CR)"
+msgstr "A dokumentum sorvégének beállítása macesre (CR)"
 
 #: mousepad/resources/gtk/menus.ui:330
 msgid "Set the line ending of the document to DOS / Windows (CR LF)"
-msgstr "A dokumentum sorvégének beállítása DOS / Windows-ra (CR LF)"
+msgstr "A dokumentum sorvégének beállítása DOS-osra/windowsosra (CR LF)"
 
 #: mousepad/resources/gtk/menus.ui:338
 msgid "Write Unicode _BOM"
@@ -1136,7 +1137,7 @@ msgstr "Bájtsorrendjelzés tárolása a fájlban"
 
 #: mousepad/resources/gtk/menus.ui:343
 msgid "_Viewer Mode"
-msgstr "_Nézői mód"
+msgstr "_Megtekintési mód"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
