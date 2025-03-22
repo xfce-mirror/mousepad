@@ -1456,10 +1456,12 @@ mousepad_file_autosave_delete_finish (GObject *source_object,
 {
   GError *error = NULL;
 
-  if (!g_file_delete_finish (G_FILE (source_object), res, &error)
-      && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+  if (!g_file_delete_finish (G_FILE (source_object), res, &error))
     {
-      g_warning ("Autoremove failed: %s", error->message);
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+        {
+          g_warning ("Autoremove failed: %s", error->message);
+        }
       g_error_free (error);
     }
 
