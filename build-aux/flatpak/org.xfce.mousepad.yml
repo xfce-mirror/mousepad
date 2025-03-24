@@ -39,7 +39,7 @@ modules:
           type: gnome
           name: gtksourceview
           versions:
-            <: 5.0.0
+            <: 4.99.0
 
   # optionnal dependencies (plugins)
   - name: gspell
@@ -49,7 +49,7 @@ modules:
           - /bin
         sources:
           - type: archive
-            url: https://github.com/AbiWord/enchant/releases/download/v2.8.2/enchant-2.8.2.tar.gz
+            url: https://github.com/rrthomas/enchant/releases/download/v2.8.2/enchant-2.8.2.tar.gz
             sha256: 8f19535adb5577b83b00e02f330fe9b9eb40dd21f19e2899636fc4d3a7696375
             x-checker-data:
               type: anitya
@@ -73,12 +73,15 @@ modules:
       - name: libxfce4util
         cleanup:
           - /sbin
+        buildsystem: meson
         config-opts:
-          - --disable-debug
+          - --buildtype=minsize
+          - --auto-features=enabled
+          - -Dvala=disabled
         sources:
           - type: archive
-            url: https://archive.xfce.org/src/xfce/libxfce4util/4.20/libxfce4util-4.20.0.tar.bz2
-            sha256: 21493f9c9995a282823db93839f6b9f06ae31edb094191ba9acf04d932a2b592
+            url: https://archive.xfce.org/src/xfce/libxfce4util/4.20/libxfce4util-4.20.1.tar.bz2
+            sha256: 84bfc4daab9e466193540c3665eee42b2cf4d24e3f38fc3e8d1e0a2bebe3b8f1
             x-checker-data:
               type: anitya
               project-id: 232001
@@ -87,15 +90,19 @@ modules:
         cleanup:
           - /bin
           - /share/bash-completion
+        buildsystem: meson
         config-opts:
-          - --disable-debug
-          - XFCONF_SERVICE_NAME_PREFIX=org.xfce.mousepad
+          - --auto-features=enabled
+          - --buildtype=minsize
+          - -Dvala=disabled
+          - -Dservice-name-prefix=org.xfce.mousepad
         sources:
           - type: archive
-            url: https://archive.xfce.org/src/xfce/xfconf/4.20/xfconf-4.20.0.tar.bz2
-            sha256: 8bc43c60f1716b13cf35fc899e2a36ea9c6cdc3478a8f051220eef0f53567efd
+            url: https://archive.xfce.org/src/xfce/xfconf/4.21/xfconf-4.21.0.tar.xz
+            sha256: 0c2d749cc9109e5c5f2b92687faa20b7136c38ff5873e3b5d3ee53fe4e7cf1d4
             x-checker-data:
               type: anitya
+              stable-only: false
               project-id: 14854
               url-template: https://archive.xfce.org/src/xfce/xfconf/$major.$minor/xfconf-$version.tar.bz2
     cleanup:
@@ -103,26 +110,31 @@ modules:
       - /etc
       - /share/icons
       - /share/applications
+    buildsystem: meson
     config-opts:
-      - --disable-debug
+      - --auto-features=enabled
+      - --buildtype=minsize
+      - -Dvala=disabled
+      - -Dstartup-notification=disabled
+      - -Dlibgtop=disabled
+      - -Dglade=disabled
     sources:
       - type: archive
-        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.20/libxfce4ui-4.20.0.tar.bz2
-        sha256: 75e8996984f20375aadecd5c16f5147c211ed0bd26d7861ab0257561eb76eaee
+        url: https://archive.xfce.org/src/xfce/libxfce4ui/4.21/libxfce4ui-4.21.0.tar.xz
+        sha256: dd75ff86b6ac814cf71c66004494394eeab962f5360e8e88fa724fa972b9da7b
+      - type: patch
+        path: patches/0001-meson-build-Define-missing-dependencies-when-libgtop.patch
+      - type: patch
+        path: patches/0001-build-Replace-xdt-csource-with-glib-compile-resource.patch
+      - type: patch
+        path: patches/0002-build-Add-xdt-gen-visibility-to-get-rid-of-autotools.patch
         x-checker-data:
           type: anitya
           project-id: 232000
-          url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.bz2
+          stable-only: false
+          url-template: https://archive.xfce.org/src/xfce/libxfce4ui/$major.$minor/libxfce4ui-$version.tar.xz
 
   - name: mousepad
-    modules:
-      - name: xfce4-dev-tools
-        cleanup:
-          - '*'
-        sources:
-          - type: archive
-            url: https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.20/xfce4-dev-tools-4.20.0.tar.bz2
-            sha256: 1fba39a08a0ecc771eaa3a3b6e4272a4f0b9e7c67d0f66e780cd6090cd4466aa
     buildsystem: meson
     config-opts:
       - --buildtype=minsize

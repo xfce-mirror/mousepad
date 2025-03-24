@@ -1,0 +1,297 @@
+From 06925588668abe91af101998b4252363fd64891a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ga=C3=ABl=20Bonithon?= <gael@xfce.org>
+Date: Fri, 21 Mar 2025 18:44:16 +0100
+Subject: [PATCH 1/2] build: Replace xdt-csource with glib-compile-resources
+
+---
+ .gitignore                                    |  3 +--
+ configure.ac                                  |  2 +-
+ libxfce4ui/Makefile.am                        | 14 ++++++--------
+ libxfce4ui/libxfce4ui.gresource.xml           |  6 ------
+ libxfce4ui/meson.build                        |  7 ++++---
+ .../{ => resources}/libxfce4ui-dialog-ui.ui   |  0
+ libxfce4ui/resources/libxfce4ui.gresource.xml |  7 +++++++
+ .../resources}/xfce4-about-dialog.glade       |  0
+ libxfce4ui/xfce-dialogs.c                     |  1 -
+ meson.build                                   |  1 -
+ po/POTFILES.in                                |  2 +-
+ xfce4-about/Makefile.am                       | 19 +------------------
+ xfce4-about/main.c                            |  4 +---
+ xfce4-about/meson.build                       |  8 +-------
+ 14 files changed, 23 insertions(+), 51 deletions(-)
+ delete mode 100644 libxfce4ui/libxfce4ui.gresource.xml
+ rename libxfce4ui/{ => resources}/libxfce4ui-dialog-ui.ui (100%)
+ create mode 100644 libxfce4ui/resources/libxfce4ui.gresource.xml
+ rename {xfce4-about => libxfce4ui/resources}/xfce4-about-dialog.glade (100%)
+
+diff --git a/.gitignore b/.gitignore
+index a3daf9d..1de20aa 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -19,7 +19,7 @@ libxfce4ui/libxfce4ui.h
+ libxfce4ui/libxfce4ui-2.pc
+ libxfce4ui/libxfce4ui-config.h
+ libxfce4ui/libxfce4ui-resources.c
+-libxfce4ui/libxfce4ui-resources.h
++libxfce4ui/.dirstamp
+ ltmain.sh
+ m4/*
+ !m4/introspection.m4
+@@ -89,7 +89,6 @@ libxfce4ui/stamp-libxfce4ui-marshal.h
+ libxfce4ui/Libxfce4ui-2.0.gir
+ libxfce4ui/Libxfce4ui-2.0.typelib
+ libxfce4ui/libxfce4ui-2.vapi
+-xfce4-about/about-dialog-ui.h
+ xfce4-about/xfce4-about
+ xfce4-about/xfce4-about.desktop
+ libxfce4ui-*.tar.bz2
+diff --git a/configure.ac b/configure.ac
+index 202c4be..36838f2 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -51,7 +51,7 @@ AC_SUBST([COPYRIGHT_YEAR])
+ dnl ***************************
+ dnl *** Initialize automake ***
+ dnl ***************************
+-AM_INIT_AUTOMAKE([1.11 dist-bzip2 tar-ustar no-dist-gzip foreign])
++AM_INIT_AUTOMAKE([1.11 dist-bzip2 tar-ustar no-dist-gzip foreign subdir-objects])
+ AC_CONFIG_HEADERS([config.h])
+ AM_MAINTAINER_MODE()
+ AM_SILENT_RULES([yes])
+diff --git a/libxfce4ui/Makefile.am b/libxfce4ui/Makefile.am
+index d3c793a..4b3bbd9 100644
+--- a/libxfce4ui/Makefile.am
++++ b/libxfce4ui/Makefile.am
+@@ -39,8 +39,7 @@ libxfce4ui_built_sources = \
+ 	libxfce4ui-enum-types.h \
+ 	libxfce4ui-marshal.c \
+ 	libxfce4ui-marshal.h \
+-	libxfce4ui-resources.c \
+-	libxfce4ui-resources.h
++	libxfce4ui-resources.c
+ 
+ libxfce4ui_private_sources = \
+ 	libxfce4ui-private.h \
+@@ -141,7 +140,8 @@ pkgconfig_DATA += \
+ 
+ 
+ LIBXFCE4UI_RESOURCE_FILES = \
+-	libxfce4ui-dialog-ui.ui \
++	resources/libxfce4ui-dialog-ui.ui \
++	resources/xfce4-about-dialog.glade \
+ 	$(NULL)
+ 
+ -include $(INTROSPECTION_MAKEFILE)
+@@ -273,10 +273,8 @@ libxfce4ui-enum-types.c: $(libxfce4ui_enum_headers) Makefile
+ 	cp xgen-letc libxfce4ui-enum-types.c
+ 	rm -f xgen-letc
+ 
+-libxfce4ui-resources.c: libxfce4ui.gresource.xml $(LIBXFCE4UI_RESOURCE_FILES)
+-	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate-source --internal --c-name libxfce4ui libxfce4ui.gresource.xml
+-libxfce4ui-resources.h: libxfce4ui.gresource.xml $(LIBXFCE4UI_RESOURCE_FILES)
+-	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate-header --internal --c-name libxfce4ui libxfce4ui.gresource.xml
++libxfce4ui-resources.c: resources/libxfce4ui.gresource.xml $(LIBXFCE4UI_RESOURCE_FILES)
++	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/resources --generate-source --internal --c-name libxfce4ui resources/libxfce4ui.gresource.xml
+ 
+ endif
+ 
+@@ -285,7 +283,7 @@ dist-hook: all
+ 
+ EXTRA_DIST = \
+ 	libxfce4ui.h.in \
+-	libxfce4ui.gresource.xml \
++	resources/libxfce4ui.gresource.xml \
+ 	$(LIBXFCE4UI_RESOURCE_FILES) \
+ 	libxfce4ui.symbols.in \
+ 	libxfce4ui-marshal.list \
+diff --git a/libxfce4ui/libxfce4ui.gresource.xml b/libxfce4ui/libxfce4ui.gresource.xml
+deleted file mode 100644
+index d26bf1b..0000000
+--- a/libxfce4ui/libxfce4ui.gresource.xml
++++ /dev/null
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<gresources>
+-  <gresource prefix="/org/xfce/libxfce4ui">
+-    <file>libxfce4ui-dialog-ui.ui</file>
+-  </gresource>
+-</gresources>
+diff --git a/libxfce4ui/meson.build b/libxfce4ui/meson.build
+index be25971..438106c 100644
+--- a/libxfce4ui/meson.build
++++ b/libxfce4ui/meson.build
+@@ -131,9 +131,10 @@ libxfce4ui_sources += custom_target(
+   command: [xdt_gen_visibility, '--kind=source', '@INPUT@', '@OUTPUT@'],
+ )
+ 
+-libxfce4ui_sources += gnome.compile_resources(
++libxfce4ui_resources_c = gnome.compile_resources(
+   'libxfce4ui-resources',
+-  'libxfce4ui.gresource.xml',
++  'resources' / 'libxfce4ui.gresource.xml',
++  source_dir: 'resources',
+   c_name: 'libxfce4ui',
+   extra_args: [
+     '--internal',
+@@ -180,7 +181,7 @@ libxfce4ui_version = '@0@.0.0'.format(libxfce4ui_so_version)
+ 
+ libxfce4ui = library(
+   libxfce4ui_pkgname.substring(3),
+-  sources: libxfce4ui_sources + libxfce4ui_enums,
++  sources: libxfce4ui_sources + libxfce4ui_enums + libxfce4ui_resources_c,
+   version: libxfce4ui_version,
+   soversion: libxfce4ui_so_version,
+   c_args: [
+diff --git a/libxfce4ui/libxfce4ui-dialog-ui.ui b/libxfce4ui/resources/libxfce4ui-dialog-ui.ui
+similarity index 100%
+rename from libxfce4ui/libxfce4ui-dialog-ui.ui
+rename to libxfce4ui/resources/libxfce4ui-dialog-ui.ui
+diff --git a/libxfce4ui/resources/libxfce4ui.gresource.xml b/libxfce4ui/resources/libxfce4ui.gresource.xml
+new file mode 100644
+index 0000000..6a3c6d0
+--- /dev/null
++++ b/libxfce4ui/resources/libxfce4ui.gresource.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<gresources>
++  <gresource prefix="/org/xfce/libxfce4ui">
++    <file preprocess="xml-stripblanks">libxfce4ui-dialog-ui.ui</file>
++    <file preprocess="xml-stripblanks">xfce4-about-dialog.glade</file>
++  </gresource>
++</gresources>
+diff --git a/xfce4-about/xfce4-about-dialog.glade b/libxfce4ui/resources/xfce4-about-dialog.glade
+similarity index 100%
+rename from xfce4-about/xfce4-about-dialog.glade
+rename to libxfce4ui/resources/xfce4-about-dialog.glade
+diff --git a/libxfce4ui/xfce-dialogs.c b/libxfce4ui/xfce-dialogs.c
+index 18379b9..847eb00 100644
+--- a/libxfce4ui/xfce-dialogs.c
++++ b/libxfce4ui/xfce-dialogs.c
+@@ -48,7 +48,6 @@
+ #include <libxfce4util/libxfce4util.h>
+ 
+ #include "libxfce4ui-private.h"
+-#include "libxfce4ui-resources.h"
+ #include "xfce-dialogs.h"
+ #include "xfce-gdk-extensions.h"
+ #include "xfce-gtk-extensions.h"
+diff --git a/meson.build b/meson.build
+index ba0a90b..8d1017e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -47,7 +47,6 @@ libxfce4util = dependency('libxfce4util-1.0', version: dependency_versions['libx
+ xfconf = dependency('libxfconf-0', version: dependency_versions['xfconf'])
+ 
+ xdt_gen_visibility = find_program('xdt-gen-visibility', required: true)
+-xdt_csource = find_program('xdt-csource', required: true)
+ sed = find_program('sed', required: true)
+ 
+ # Feature: 'x11'
+diff --git a/po/POTFILES.in b/po/POTFILES.in
+index 7170607..9deff39 100644
+--- a/po/POTFILES.in
++++ b/po/POTFILES.in
+@@ -1,6 +1,7 @@
+ #
+ # Libxfce4ui sources
+ #
++libxfce4ui/resources/xfce4-about-dialog.glade
+ libxfce4ui/libxfce4ui-config.c
+ libxfce4ui/xfce-dialogs.c
+ libxfce4ui/xfce-gdk-extensions.c
+@@ -35,7 +36,6 @@ glade/libxfce4ui-2.xml
+ xfce4-about/main.c
+ xfce4-about/contributors.h
+ xfce4-about/xfce4-about.desktop.in
+-xfce4-about/xfce4-about-dialog.glade
+ xfce4-about/system-info.c
+ 
+ #
+diff --git a/xfce4-about/Makefile.am b/xfce4-about/Makefile.am
+index 3ea8e75..6c88bc1 100644
+--- a/xfce4-about/Makefile.am
++++ b/xfce4-about/Makefile.am
+@@ -9,11 +9,8 @@ AM_CPPFLAGS = \
+ bin_PROGRAMS = \
+ 	xfce4-about
+ 
+-xfce4_about_built_sources = \
+-	about-dialog-ui.h
+-
+ xfce4_about_SOURCES = \
+-	$(xfce4_about_built_sources) \
++	$(top_srcdir)/libxfce4ui/libxfce4ui-resources.c \
+ 	contributors.h \
+ 	main.c
+ 
+@@ -54,21 +51,7 @@ xfce4-about.desktop: xfce4-about.desktop.in
+ DISTCLEANFILES = \
+ 	$(desktop_DATA)
+ 
+-if MAINTAINER_MODE
+-
+-about-dialog-ui.h: $(srcdir)/xfce4-about-dialog.glade Makefile
+-	$(AM_V_GEN) xdt-csource --static --strip-comments --strip-content --name=xfce_about_dialog_ui $< >$@
+-
+-BUILT_SOURCES = \
+-	$(xfce4_about_built_sources)
+-
+-DISTCLEANFILES += \
+-	$(xfce4_about_built_sources)
+-
+-endif
+-
+ EXTRA_DIST = \
+ 	$(desktop_in_files) \
+-	xfce4-about-dialog.glade \
+ 	meson.build \
+ 	$(NULL)
+diff --git a/xfce4-about/main.c b/xfce4-about/main.c
+index 2297d84..b42e8de 100644
+--- a/xfce4-about/main.c
++++ b/xfce4-about/main.c
+@@ -39,7 +39,6 @@
+ 
+ #include "libxfce4ui/libxfce4ui.h"
+ 
+-#include "about-dialog-ui.h"
+ #include "contributors.h"
+ 
+ #ifdef HAVE_GLIBTOP
+@@ -545,8 +544,7 @@ main (gint argc,
+     }
+ 
+   builder = gtk_builder_new ();
+-  if (!gtk_builder_add_from_string (builder, xfce_about_dialog_ui,
+-                                    xfce_about_dialog_ui_length, &error))
++  if (!gtk_builder_add_from_resource (builder, "/org/xfce/libxfce4ui/xfce4-about-dialog.glade", &error))
+     {
+       xfce_dialog_show_error (NULL, error, _("Failed to load interface"));
+       g_error_free (error);
+diff --git a/xfce4-about/meson.build b/xfce4-about/meson.build
+index 0c40804..dbb3be5 100644
+--- a/xfce4-about/meson.build
++++ b/xfce4-about/meson.build
+@@ -10,18 +10,12 @@ if libgtop.found()
+   ]
+ endif
+ 
+-xfce4_about_sources += custom_target(
+-  'about-dialog-ui.h',
+-  input: 'xfce4-about-dialog.glade',
+-  output: 'about-dialog-ui.h',
+-  command: [xdt_csource, '--static', '--strip-comments', '--strip-content', '--name=xfce_about_dialog_ui', '--output=@OUTPUT@', '@INPUT@'],
+-)
+-
+ executable(
+   'xfce4-about',
+   xfce4_about_sources,
+   sources: [
+     libxfce4ui_h,
++    libxfce4ui_resources_c,
+     xfce_revision_h,
+   ],
+   c_args: [
+-- 
+2.49.0
+
