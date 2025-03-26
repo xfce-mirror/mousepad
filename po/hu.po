@@ -1229,7 +1229,7 @@ msgstr "A jelenlegi dokumentum bezárása"
 
 #: mousepad/resources/gtk/menus-common.ui:101
 msgid "_Undo"
-msgstr "Visszavon"
+msgstr "_Visszavonás"
 
 #: mousepad/resources/gtk/menus-common.ui:102
 msgid "Undo the last action"
@@ -1237,7 +1237,7 @@ msgstr "Az utolsó művelet visszavonása"
 
 #: mousepad/resources/gtk/menus-common.ui:110
 msgid "_Redo"
-msgstr "Újra"
+msgstr "Új_ra"
 
 #: mousepad/resources/gtk/menus-common.ui:111
 msgid "Redo the last undone action"
@@ -1245,7 +1245,7 @@ msgstr "A visszavont művelet végrehajtása mégis"
 
 #: mousepad/resources/gtk/menus-common.ui:119
 msgid "Cu_t"
-msgstr "_Kivág"
+msgstr "_Kivágás"
 
 #: mousepad/resources/gtk/menus-common.ui:120
 msgid "Cut the selection"
