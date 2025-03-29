@@ -52,17 +52,17 @@ Mousepad optionally depends on the following packages:
 From source code repository: 
 
     % cd mousepad
-    % ./autogen.sh
-    % make
-    % make install
+    % meson setup build
+    % meson compile -C build
+    % meson install -C build
 
 From release tarball:
 
-    % tar xf mousepad-<version>.tar.bz2
+    % tar xf mousepad-<version>.tar.xz
     % cd mousepad-<version>
-    % ./configure
-    % make
-    % make install
+    % meson setup build
+    % meson compile -C build
+    % meson install -C build
 
 From [Flathub](https://flathub.org/apps/details/org.xfce.mousepad):
 
