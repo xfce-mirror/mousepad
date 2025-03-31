@@ -903,7 +903,7 @@ mousepad_file_open (MousepadFile *file,
     {
       location = g_file_new_for_uri (autosave_uri);
 
-      /* if autosaved file as a reference file on disk, load it first to init 'saved_state' */
+      /* if autosaved file has a reference file on disk, load it first to init 'saved_state' */
       if (!g_file_equal (location, file->location))
         {
           autosave_uri = g_strdup (autosave_uri);
@@ -925,8 +925,7 @@ mousepad_file_open (MousepadFile *file,
 
   /* if the file does not exist and this is allowed, no problem */
   if (!g_file_load_contents (location, NULL, &contents, &file_size, &etag, error)
-      && error != NULL
-      && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)
+      && (error == NULL || g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
       && !must_exist)
     {
       g_clear_error (error);
