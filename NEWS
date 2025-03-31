@@ -1,3 +1,11 @@
+0.6.5 (2025-03-31)
+=====
+- file: Fix broken conditional to exit on allowed error
+- Disconnect from buffer signals when data object is released
+- Update README after switchover to meson
+- Translation Updates:
+  Greek, Hungarian
+
 0.6.4 (2025-03-25)
 =====
 Meson has been added as a build system in this release, and the
