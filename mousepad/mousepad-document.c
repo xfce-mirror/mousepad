@@ -297,14 +297,16 @@ mousepad_document_init (MousepadDocument *document)
                             G_CALLBACK (mousepad_document_style_label), document);
 
   /* forward some document attribute signals more or less directly */
-  g_signal_connect_swapped (document->buffer, "notify::cursor-position",
-                            G_CALLBACK (mousepad_document_notify_cursor_position), document);
+  g_signal_connect_object (document->buffer, "notify::cursor-position",
+                           G_CALLBACK (mousepad_document_notify_cursor_position),
+                           document, G_CONNECT_SWAPPED);
   MOUSEPAD_SETTING_CONNECT_OBJECT (TAB_WIDTH, mousepad_document_notify_cursor_position,
                                    document, G_CONNECT_SWAPPED);
   g_signal_connect (document->file, "encoding-changed",
                     G_CALLBACK (mousepad_document_encoding_changed), document);
-  g_signal_connect (document->buffer, "notify::language",
-                    G_CALLBACK (mousepad_document_notify_language), document);
+  g_signal_connect_object (document->buffer, "notify::language",
+                           G_CALLBACK (mousepad_document_notify_language),
+                           document, 0);
   g_signal_connect (document->textview, "notify::overwrite",
                     G_CALLBACK (mousepad_document_notify_overwrite), document);
 }
@@ -985,10 +987,12 @@ mousepad_document_prevent_endless_scanning (MousepadDocument *document,
   if (visible && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_HIGHLIGHT_ALL)
       && MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_ENABLE_REGEX))
     {
-      g_signal_connect_swapped (document->buffer, "insert-text",
-                                G_CALLBACK (mousepad_document_scanning_started), document);
-      g_signal_connect_swapped (document->buffer, "delete-range",
-                                G_CALLBACK (mousepad_document_scanning_started), document);
+      g_signal_connect_object (document->buffer, "insert-text",
+                               G_CALLBACK (mousepad_document_scanning_started),
+                               document, G_CONNECT_SWAPPED);
+      g_signal_connect_object (document->buffer, "delete-range",
+                               G_CALLBACK (mousepad_document_scanning_started),
+                               document, G_CONNECT_SWAPPED);
       g_signal_connect_swapped (document->priv->search_context, "notify::occurrences-count",
                                 G_CALLBACK (mousepad_document_scanning_completed), document);
     }

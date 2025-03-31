@@ -1510,12 +1510,12 @@ mousepad_file_autosave_timer_changed (MousepadFile *file)
         mousepad_file_autosave_schedule (file->buffer, file);
 
       /* connect to required signals to monitor buffer state */
-      g_signal_connect (file->buffer, "changed",
-                        G_CALLBACK (mousepad_file_autosave_schedule), file);
-      g_signal_connect (file->buffer, "modified-changed",
-                        G_CALLBACK (mousepad_file_autosave_schedule), file);
-      g_signal_connect (file->buffer, "modified-changed",
-                        G_CALLBACK (mousepad_file_autosave_delete), file);
+      g_signal_connect_object (file->buffer, "changed",
+                               G_CALLBACK (mousepad_file_autosave_schedule), file, 0);
+      g_signal_connect_object (file->buffer, "modified-changed",
+                               G_CALLBACK (mousepad_file_autosave_schedule), file, 0);
+      g_signal_connect_object (file->buffer, "modified-changed",
+                               G_CALLBACK (mousepad_file_autosave_delete), file, 0);
       g_signal_connect (file->buffer, "modified-changed",
                         G_CALLBACK (mousepad_history_session_save), NULL);
     }
