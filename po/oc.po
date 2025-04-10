@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2024-10-15 00:49+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Quentin PAGÈS, 2022,2024-2025\n"
+"Last-Translator: Quentin PAGÈS, 2022\n"
 "Language-Team: Occitan (post 1500) (http://app.transifex.com/xfce/xfce-apps/language/oc/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -649,7 +649,7 @@ msgstr "Envolopar"
 #: mousepad/mousepad-replace-dialog.c:371 mousepad/mousepad-search-bar.c:286
 #: mousepad/mousepad-search-bar.c:294
 msgid "Match _case"
-msgstr ""
+msgstr "_Respectar la cassa"
 
 #. match whole word
 #. check button for matching whole words, including the proxy menu item
@@ -663,7 +663,7 @@ msgstr "Correspond al _mot entièr"
 #: mousepad/mousepad-replace-dialog.c:389 mousepad/mousepad-search-bar.c:314
 #: mousepad/mousepad-search-bar.c:322
 msgid "Regular e_xpression"
-msgstr ""
+msgstr "E_xpression racionala"
 
 #: mousepad/mousepad-replace-dialog.c:403
 msgid "Replace _all in:"
@@ -776,15 +776,15 @@ msgstr "Tornar a la version enregistrada del fichièr"
 
 #: mousepad/mousepad-window.c:3810 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
-msgstr ""
+msgstr "Recarga lo fichièr dempuèi lo disc"
 
 #: mousepad/mousepad-window.c:3816
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "Quitter lo mode ecran complèt"
 
 #: mousepad/mousepad-window.c:3821 mousepad/resources/gtk/menus-common.ui:187
 msgid "Make the window fullscreen"
-msgstr ""
+msgstr "Met la fenèstra en ecran complèt"
 
 #: mousepad/mousepad-window.c:4062
 #, c-format
@@ -895,7 +895,7 @@ msgstr "_Quitar"
 
 #: mousepad/resources/gtk/menus.ui:103
 msgid "Quit Mousepad"
-msgstr ""
+msgstr "Quitar Mousepad"
 
 #: mousepad/resources/gtk/menus.ui:111
 msgid "_Edit"
@@ -1053,27 +1053,27 @@ msgstr ""
 
 #: mousepad/resources/gtk/menus.ui:260
 msgid "Two spaces"
-msgstr ""
+msgstr "Dos espacis"
 
 #: mousepad/resources/gtk/menus.ui:266
 msgid "Three spaces"
-msgstr ""
+msgstr "Tres espacis"
 
 #: mousepad/resources/gtk/menus.ui:272
 msgid "Four spaces"
-msgstr ""
+msgstr "Quadre espacis"
 
 #: mousepad/resources/gtk/menus.ui:278
 msgid "Eight spaces"
-msgstr ""
+msgstr "Uèch espacis"
 
 #: mousepad/resources/gtk/menus.ui:283
 msgid "Other..."
-msgstr ""
+msgstr "Autre..."
 
 #: mousepad/resources/gtk/menus.ui:284
 msgid "Set custom tab size"
-msgstr "Personalizar la talha de l'onglet "
+msgstr "Personalizar la talha de l'onglet"
 
 #: mousepad/resources/gtk/menus.ui:291
 msgid "Insert _Spaces"
@@ -1221,7 +1221,7 @@ msgstr "Tampar lo document corrent"
 
 #: mousepad/resources/gtk/menus-common.ui:101
 msgid "_Undo"
-msgstr ""
+msgstr "_Anullar"
 
 #: mousepad/resources/gtk/menus-common.ui:102
 msgid "Undo the last action"
@@ -1229,7 +1229,7 @@ msgstr "Anullar la darrièra accion"
 
 #: mousepad/resources/gtk/menus-common.ui:110
 msgid "_Redo"
-msgstr ""
+msgstr "_Refar"
 
 #: mousepad/resources/gtk/menus-common.ui:111
 msgid "Redo the last undone action"
@@ -1237,7 +1237,7 @@ msgstr "Restablir la darrièra accion anullada"
 
 #: mousepad/resources/gtk/menus-common.ui:119
 msgid "Cu_t"
-msgstr ""
+msgstr "_Copar"
 
 #: mousepad/resources/gtk/menus-common.ui:120
 msgid "Cut the selection"
@@ -1289,7 +1289,7 @@ msgstr "Anar a un endrech especific dins lo document"
 
 #: mousepad/resources/gtk/menus-common.ui:186
 msgid "_Fullscreen"
-msgstr "_Ecran complet"
+msgstr "_Ecran complèt"
 
 #: mousepad/resources/gtk/menus-common.ui:235
 msgid "Paste _Special"
@@ -1317,7 +1317,7 @@ msgstr "Pegar lo tèxte del quichapapièrs dins una colomna"
 
 #: mousepad/resources/gtk/menus-common.ui:249
 msgid "_Delete Selection"
-msgstr ""
+msgstr "_Escafar la seleccion"
 
 #: mousepad/resources/gtk/menus-common.ui:250
 msgid "Delete the current selection"
@@ -1329,7 +1329,7 @@ msgstr ""
 
 #: mousepad/resources/gtk/menus-common.ui:256
 msgid "Delete the current line"
-msgstr ""
+msgstr "Suprimir la linha actuala"
 
 #: mousepad/resources/gtk/menus-common.ui:263
 msgid "Conve_rt"
@@ -1406,7 +1406,7 @@ msgstr "Inversar l'òrdre de las causas"
 
 #: mousepad/resources/gtk/menus-common.ui:315
 msgid "_Move"
-msgstr ""
+msgstr "_Desplaçar"
 
 #: mousepad/resources/gtk/menus-common.ui:316
 msgid "Move content in different ways"
@@ -1494,7 +1494,7 @@ msgstr "Totjorn"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:89
 msgid "never"
-msgstr ""
+msgstr "pas jamai"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:93
 msgid "after a crash"
@@ -1545,11 +1545,11 @@ msgstr "Boton"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:180
 msgid "Drag & Drop"
-msgstr ""
+msgstr "Lisar-depausar"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:184
 msgid "Dialog"
-msgstr ""
+msgstr "Bóstia de dialòg"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:199
 msgid "Icons Only"
@@ -1561,7 +1561,7 @@ msgstr "Tèxte solament"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:207
 msgid "Text Below Icons"
-msgstr ""
+msgstr "Tèxt jos las icònas"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:211
 msgid "Text Beside Icons"
@@ -1581,11 +1581,11 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:351
 msgid "Highlight current line"
-msgstr ""
+msgstr "Suslinhar la linha actuala"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:366
 msgid "Highlight matching brackets"
-msgstr ""
+msgstr "Metre en susbrilhança las acoladas correspondentas"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:381
 msgid "Wrap long lines"
@@ -1597,7 +1597,7 @@ msgstr "<b>Afichatge</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:430
 msgid "Use system monospace font"
-msgstr ""
+msgstr "Utilizar la polissa de chassa fixa del sistèma"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:461
 msgid "<b>Font</b>"
@@ -1613,15 +1613,15 @@ msgstr "Afichatge"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:565
 msgid "Tab width:"
-msgstr ""
+msgstr "Largor de tabulacion :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:577
 msgid "Tab mode:"
-msgstr ""
+msgstr "Mòde de tabulacion :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:620
 msgid "Enable automatic indentation"
-msgstr ""
+msgstr "Activar l'indentacion automatica"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:639
 msgid "<b>Indentation</b>"
@@ -1662,15 +1662,15 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:838
 msgid "Remember window size"
-msgstr ""
+msgstr "Memorizar la talha de la fenèstra"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:853
 msgid "Remember window position"
-msgstr ""
+msgstr "Memorizar la posicion de la fenèstra"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:868
 msgid "Remember window state"
-msgstr ""
+msgstr "Memorizar l’estat de la fenèstra"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:887
 msgid "<b>General</b>"
@@ -1706,7 +1706,7 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1082
 msgid "Open files in:"
-msgstr ""
+msgstr "Dobrir los fichièrs amb :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1128
 msgid "<b>Notebook Tabs</b>"
@@ -1863,7 +1863,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr ""
+msgstr "Mousepad a per tòca d'èsser un editor simple d'utilizar e rapid. Nòstre objectiu es un editor per modificar rapidament los fichièrs de tèxte, pas un environament de desvolopament o un editor amb una brava molonada d'extensions."
 
 #: org.xfce.mousepad.appdata.xml.in:15
 msgid ""
