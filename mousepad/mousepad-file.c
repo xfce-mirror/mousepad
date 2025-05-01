@@ -1049,27 +1049,34 @@ mousepad_file_open (MousepadFile *file,
           /* get the iter at the beginning of the document */
           gtk_text_buffer_get_start_iter (file->buffer, &start);
 
-          /* insert the file contents in the buffer (for documents with cr line ending) */
-          for (n = m = contents; n < endc; n = g_utf8_next_char (n))
+          /* insert the file contents in the buffer */
+          if (file->line_ending == MOUSEPAD_EOL_UNIX)
             {
-              if (G_UNLIKELY (*n == '\r'))
-                {
-                  /* insert the text in the buffer */
-                  if (G_LIKELY (n - m > 0))
-                    gtk_text_buffer_insert (file->buffer, &start, m, n - m);
-
-                  /* advance the offset */
-                  m = g_utf8_next_char (n);
-
-                  /* insert a new line when the document is not cr+lf */
-                  if (*m != '\n')
-                    gtk_text_buffer_insert (file->buffer, &start, "\n", 1);
-                }
+              gtk_text_buffer_insert (file->buffer, &start, contents, file_size);
             }
+          else
+            {
+              for (n = m = contents; n < endc; n = g_utf8_next_char (n))
+                {
+                  if (G_UNLIKELY (*n == '\r'))
+                    {
+                      /* insert the text in the buffer */
+                      if (G_LIKELY (n - m > 0))
+                        gtk_text_buffer_insert (file->buffer, &start, m, n - m);
 
-          /* insert the remaining part, or everything for lf line ending */
-          if (G_LIKELY (n - m > 0))
-            gtk_text_buffer_insert (file->buffer, &start, m, n - m);
+                      /* advance the offset */
+                      m = g_utf8_next_char (n);
+
+                      /* insert a new line when the document is not cr+lf */
+                      if (*m != '\n')
+                        gtk_text_buffer_insert (file->buffer, &start, "\n", 1);
+                    }
+                }
+
+              /* insert the remaining part */
+              if (G_LIKELY (n - m > 0))
+                gtk_text_buffer_insert (file->buffer, &start, m, n - m);
+            }
 
           /* place cursor at (line, column) */
           mousepad_util_place_cursor (file->buffer, line, column);
