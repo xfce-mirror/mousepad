@@ -833,7 +833,7 @@ msgstr "_Fitxer"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
-msgstr "Menú fitxer"
+msgstr "Menú de fitxer"
 
 #: mousepad/resources/gtk/menus.ui:27
 msgid "New _Window"
@@ -905,7 +905,7 @@ msgstr "_Edita"
 
 #: mousepad/resources/gtk/menus.ui:112
 msgid "Edit menu"
-msgstr "Menú edita"
+msgstr "Menú d'edició"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
@@ -921,7 +921,7 @@ msgstr "_Cerca"
 
 #: mousepad/resources/gtk/menus.ui:140
 msgid "Search menu"
-msgstr "Menú cerca"
+msgstr "Menú de cerca"
 
 #: mousepad/resources/gtk/menus.ui:147
 msgid "Find _Next"
@@ -961,7 +961,7 @@ msgstr "_Visualització"
 
 #: mousepad/resources/gtk/menus.ui:184
 msgid "View menu"
-msgstr "Menú visualitza"
+msgstr "Menú de visualització"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
@@ -1027,7 +1027,7 @@ msgstr "_Document"
 
 #: mousepad/resources/gtk/menus.ui:241
 msgid "Document menu"
-msgstr "Menú document"
+msgstr "Menú de document"
 
 #: mousepad/resources/gtk/menus.ui:245
 msgid "_Word Wrap"
@@ -1159,7 +1159,7 @@ msgstr "_Ajuda"
 
 #: mousepad/resources/gtk/menus.ui:368
 msgid "Help menu"
-msgstr "Menú ajuda"
+msgstr "Menú d'ajuda"
 
 #: mousepad/resources/gtk/menus.ui:370
 msgid "_Contents"
@@ -1813,7 +1813,7 @@ msgstr "Aplicació"
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:258
 msgid "Menubar"
-msgstr "Barra de menú"
+msgstr "Barra del menú"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Preferences Dialog"
