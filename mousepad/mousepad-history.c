@@ -165,6 +165,13 @@ mousepad_history_recent_add (MousepadFile *file)
   if (MOUSEPAD_SETTING_GET_UINT (RECENT_MENU_ITEMS) == 0)
     return;
 
+  if (mousepad_file_location_is_set (file))
+    uri = mousepad_file_get_uri (file);
+  else if (mousepad_file_autosave_location_is_set (file))
+    uri = mousepad_file_autosave_get_uri (file);
+  else
+    return;
+
   /* get the data */
   charset = mousepad_encoding_get_charset (mousepad_file_get_encoding (file));
   buffer = mousepad_file_get_buffer (file);
@@ -188,10 +195,9 @@ mousepad_history_recent_add (MousepadFile *file)
   info.app_name = MOUSEPAD_NAME;
   info.app_exec = PACKAGE " %u";
   info.groups = groups;
-  info.is_private = FALSE;
+  info.is_private = !mousepad_file_location_is_set (file);
 
   /* add the new recent info to the recent manager */
-  uri = mousepad_file_get_uri (file);
   gtk_recent_manager_add_full (gtk_recent_manager_get_default (), uri, &info);
 
   /* cleanup */

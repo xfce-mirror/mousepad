@@ -609,7 +609,7 @@ mousepad_file_location_is_set (MousepadFile *file)
 {
   g_return_val_if_fail (MOUSEPAD_IS_FILE (file), FALSE);
 
-  return file->location != NULL;
+  return file->location != NULL && !file->temporary;
 }
 
 

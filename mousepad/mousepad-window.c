@@ -2199,9 +2199,8 @@ retry:
             g_idle_add (mousepad_view_scroll_to_cursor,
                         mousepad_util_source_autoremove (window->active->textview));
 
-          /* insert in the recent history, don't pollute with autosave data */
-          if (autosave_uri == NULL)
-            mousepad_history_recent_add (document->file);
+          /* insert in the recent history */
+          mousepad_history_recent_add (document->file);
         }
       break;
 
@@ -2435,10 +2434,8 @@ mousepad_window_close_document (MousepadWindow *window,
   /* remove the document */
   if (succeed)
     {
-      /* store some data in the recent history if the file exists on disk */
-      if (mousepad_file_location_is_set (document->file)
-          && mousepad_util_query_exists (mousepad_file_get_location (document->file), TRUE))
-        mousepad_history_recent_add (document->file);
+      /* store some data in the recent history */
+      mousepad_history_recent_add (document->file);
 
       gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
     }
@@ -4023,8 +4020,9 @@ mousepad_window_recent_menu (GSimpleAction *action,
       /* walk through the items in the manager and pick the ones that are in the mousepad group */
       for (li = items; li != NULL; li = li->next)
         {
-          /* check if the item is in the Mousepad group */
-          if (!gtk_recent_info_has_group (li->data, MOUSEPAD_NAME))
+          /* check if the item is in the Mousepad group and isn't an autosaved note */
+          if (!gtk_recent_info_has_group (li->data, MOUSEPAD_NAME)
+              || gtk_recent_info_get_private_hint (li->data))
             continue;
 
           /* insert the list, sorted by date */
