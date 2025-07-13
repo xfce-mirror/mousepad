@@ -4173,12 +4173,6 @@ mousepad_window_drag_data_received (GtkWidget *widget,
       /* check */
       g_return_if_fail (MOUSEPAD_IS_DOCUMENT (*document));
 
-      /* take a reference on the document before we remove it */
-      g_object_ref (*document);
-
-      /* remove the document from the source window */
-      gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), *document);
-
       /* get the number of pages in the notebook */
       n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
 
@@ -4198,14 +4192,23 @@ mousepad_window_drag_data_received (GtkWidget *widget,
             break;
         }
 
-      /* add the document to the new window */
-      mousepad_window_add (window, MOUSEPAD_DOCUMENT (*document));
+      if (notebook != window->notebook)
+        {
+          /* take a reference on the document before we remove it */
+          g_object_ref (*document);
+
+          /* remove the document from the source window */
+          gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), *document);
+
+          /* add the document to the new window */
+          mousepad_window_add (window, MOUSEPAD_DOCUMENT (*document));
+
+          /* release our reference on the document */
+          g_object_unref (*document);
+        }
 
       /* move the tab to the correct position */
       gtk_notebook_reorder_child (GTK_NOTEBOOK (window->notebook), *document, i);
-
-      /* release our reference on the document */
-      g_object_unref (*document);
 
       /* finish the drag (move) */
       gtk_drag_finish (context, TRUE, TRUE, drag_time);
