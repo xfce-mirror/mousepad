@@ -21,9 +21,6 @@
 #define __MOUSEPAD_PRIVATE_H__
 
 /* Our configuration header from the build system */
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 #ifdef HAVE_XFCE_REVISION_H
 #include "xfce-revision.h"
 #endif
