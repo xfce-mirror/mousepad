@@ -1173,7 +1173,7 @@ msgstr "Wyświetla podręcznik programu"
 
 #: mousepad/resources/gtk/menus.ui:376
 msgid "_About"
-msgstr "O programi_e"
+msgstr "_O programie"
 
 #: mousepad/resources/gtk/menus.ui:377
 msgid "About this application"
