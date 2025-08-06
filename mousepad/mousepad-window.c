@@ -4590,7 +4590,8 @@ mousepad_window_action_save (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
-  if (!mousepad_file_location_is_set (document->file))
+  /* can be a temporary location: don't use mousepad_file_location_is_set() here */
+  if (mousepad_file_get_location (document->file) == NULL)
     {
       /* file has no filename yet, open the save as dialog */
       save_as = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");
