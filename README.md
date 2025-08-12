@@ -68,6 +68,12 @@ From [Flathub](https://flathub.org/apps/details/org.xfce.mousepad):
 
     % flatpak install flathub org.xfce.mousepad
 
+### Uninstallation
+
+From source code repository and release tarball:
+
+    % ninja uninstall -C build
+
 ### Reporting Bugs
 
 Visit the [reporting bugs](https://docs.xfce.org/apps/mousepad/bugs) page to view currently open bug reports and instructions on reporting new bugs or submitting bugfixes.
