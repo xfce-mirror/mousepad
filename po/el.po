@@ -46,7 +46,7 @@ msgstr "Εμφάνιση λίστας των πιθανών κωδικοποιή
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr "Αριθμός γραμμής για τοποθέτηση του κέρσορα (ΓΡΑΜΜΗ > 0 από την κορυφή, ΓΡΑΜΜΗ < 0 από κάτω)"
+msgstr "Αριθμός γραμμής για τοποθέτηση του δείκτη (ΓΡΑΜΜΗ > 0 από την κορυφή, ΓΡΑΜΜΗ < 0 από κάτω)"
 
 #: mousepad/mousepad-application.c:168
 msgid "LINE"
@@ -56,7 +56,7 @@ msgstr "ΓΡΑΜΜΗ"
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr "Αριθμός στήλης για τοποθέτηση του κέρσορα (ΣΤΗΛΗ >= 0 από την αρχή, ΣΤΗΛΗ < 0 από το τέλος)"
+msgstr "Αριθμός στήλης για τοποθέτηση του δείκτη (ΣΤΗΛΗ >= 0 από την αρχή, ΣΤΗΛΗ < 0 από το τέλος)"
 
 #: mousepad/mousepad-application.c:173
 msgid "COLUMN"
