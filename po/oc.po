@@ -101,15 +101,15 @@ msgstr "Se vos plai, raportatz los bugs a  <%s>."
 #: mousepad/mousepad-application.c:1575
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
-msgstr ""
+msgstr "%s | Autors : %s | Nom de fichièr : %s"
 
 #: mousepad/mousepad-dialogs.c:69 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad es un editor de tèxte simple per l'environament de burèu Xfce."
 
 #: mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
-msgstr "Crèdits traductor"
+msgstr "Cédric Valmary\nQuentin PAGÈS"
 
 #. display an error message to the user
 #: mousepad/mousepad-dialogs.c:123
@@ -164,7 +164,7 @@ msgstr "Volètz enregistrar las modificacions abans de tampar ?"
 
 #: mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "Lo document es en lectura sola, lo volètz enregistrar coma un autre fichièr ?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:392 mousepad/mousepad-dialogs.c:532
@@ -293,7 +293,7 @@ msgstr "_Dobrir"
 #. create new font chooser dialog
 #: mousepad/mousepad-dialogs.c:1288
 msgid "Choose Mousepad Font"
-msgstr "Causir la poliça de Mousepad"
+msgstr "Causir la polissa de Mousepad"
 
 #. error dialog messages
 #: mousepad/mousepad-dialogs.h:28
@@ -575,7 +575,7 @@ msgstr "Activar la coloracion _sintaxica"
 
 #: mousepad/mousepad-print.c:645
 msgid "Fonts"
-msgstr "Poliças"
+msgstr "Polissas"
 
 #: mousepad/mousepad-print.c:661
 msgid "Header:"
@@ -957,11 +957,11 @@ msgstr "Menú vista"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
-msgstr "Seleccionatz la poliça ..."
+msgstr "Seleccionatz la polissa ..."
 
 #: mousepad/resources/gtk/menus.ui:188
 msgid "Change the editor font"
-msgstr "Cambiar la poliça de l'editor"
+msgstr "Cambiar la polissa de l'editor"
 
 #: mousepad/resources/gtk/menus.ui:195
 msgid "_Color Scheme"
@@ -1496,11 +1496,11 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:97
 msgid "unsaved documents"
-msgstr ""
+msgstr "documents non enregistrats"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:101
 msgid "saved documents"
-msgstr ""
+msgstr "documents enregistrats"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:105
 msgid "always"
@@ -1591,15 +1591,15 @@ msgstr "<b>Afichatge</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:414
 msgid "Use system monospace font"
-msgstr "Utilizar la poliça de chassa fixa del sistèma"
+msgstr "Utilizar la polissa de chassa fixa del sistèma"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:442
 msgid "<b>Font</b>"
-msgstr "<b>Poliça</b>"
+msgstr "<b>Polissa</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:489
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Esquèma de colors</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:505
 msgid "View"
@@ -1716,7 +1716,7 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
 msgid "Make a copy with '~' suffix"
-msgstr ""
+msgstr "Crear una còpa amb lo sufix « ~ »"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1141
 msgid "<b>File Saving</b>"
