@@ -25,7 +25,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "Encodatge d'utilizar per dobrir de fichièrs (daissar void per dobrir los fichièrs dins la fenèstra d'encodatge)"
 
 #: mousepad/mousepad-application.c:159
 msgid "ENCODING"
@@ -33,7 +33,7 @@ msgstr "CODATGE"
 
 #: mousepad/mousepad-application.c:163
 msgid "Display a list of possible encodings to open files"
-msgstr ""
+msgstr "Afichar una lista d'encodatges possibles per dobrir de fichièrs"
 
 #: mousepad/mousepad-application.c:167
 msgid ""
@@ -65,7 +65,7 @@ msgstr "Enregistrar amb lo bus de messatge de la sesilha D-BUS "
 
 #: mousepad/mousepad-application.c:185
 msgid "Quit a running Mousepad primary instance"
-msgstr ""
+msgstr "Quitar una instància primària en cors d'execucion de Mousepad"
 
 #: mousepad/mousepad-application.c:189
 msgid "Print version information and exit"
@@ -91,7 +91,7 @@ msgstr "MÒDE"
 
 #: mousepad/mousepad-application.c:466
 msgid "The Mousepad developers. All rights reserved."
-msgstr ""
+msgstr "Los desvolopaires de Mousepad. Totes los dreches reservats."
 
 #: mousepad/mousepad-application.c:467
 #, c-format
@@ -179,7 +179,7 @@ msgstr "Enregistrar _pas"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "Se enregistratz pas lo document en lectura sola coma un autre fichièr, totas las modificacions seràn perdudas."
 
 #: mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -198,7 +198,7 @@ msgstr "Se enregistratz lo document, totes los cambiaments exteriors seràn perd
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "Lo document es estat modificat per l'exterior. Lo volètz recargar del disc ?"
 
 #: mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
@@ -236,7 +236,7 @@ msgstr ""
 
 #: mousepad/mousepad-dialogs.c:660
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "Autrament, totas las donadas seràn perdudas."
 
 #: mousepad/mousepad-dialogs.c:863
 msgid "Please select a file"
@@ -265,7 +265,7 @@ msgstr "Actual"
 
 #: mousepad/mousepad-dialogs.c:1088
 msgid "Show all encodings"
-msgstr ""
+msgstr "Afichar totes los encodatges"
 
 #: mousepad/mousepad-dialogs.c:1126
 msgid "Text Files"
@@ -306,7 +306,7 @@ msgstr "Impossible d'enregistrar lo document"
 
 #: mousepad/mousepad-dialogs.h:30
 msgid "Unsupported character set"
-msgstr ""
+msgstr "Jòc de caractèrs non pres en carga"
 
 #. button labels
 #: mousepad/mousepad-dialogs.h:33
@@ -969,7 +969,7 @@ msgstr "Esquèma de _colors"
 
 #: mousepad/resources/gtk/menus.ui:196
 msgid "Color scheme to use for the text view"
-msgstr ""
+msgstr "Esquèma de colors d'utilizar per la vista del tèxt"
 
 #: mousepad/resources/gtk/menus.ui:199
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:120
