@@ -1463,7 +1463,7 @@ msgstr "Aumentar o recuo do texto selecionado ou da linha atual"
 
 #: mousepad/resources/gtk/menus-common.ui:350
 msgid "_Decrease Indent"
-msgstr "_Diminuir Recuo"
+msgstr "_Diminuir recuo"
 
 #: mousepad/resources/gtk/menus-common.ui:351
 msgid "Decrease the indentation of the selection or current line"
@@ -1471,11 +1471,11 @@ msgstr "Diminuir o recuo do texto selecionado ou da linha atual"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:13
 msgid "Insert Tabs"
-msgstr "Inserir Tabs"
+msgstr "Inserir tabulações"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:16
 msgid "Insert Spaces"
-msgstr "Inserir Espaços"
+msgstr "Inserir espaços"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:39
 msgid "Never"
@@ -1499,7 +1499,7 @@ msgstr "nunca"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:93
 msgid "after a crash"
-msgstr "depois de um acidente"
+msgstr "após uma falha"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:97
 msgid "unsaved documents"
@@ -1546,7 +1546,7 @@ msgstr "Botão"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:180
 msgid "Drag & Drop"
-msgstr "Arrastar & Soltar"
+msgstr "Arrastar e soltar"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:184
 msgid "Dialog"
@@ -1554,27 +1554,27 @@ msgstr "Diálogo"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:199
 msgid "Icons Only"
-msgstr "Somente Ícones"
+msgstr "Apenas ícones"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:203
 msgid "Text Only"
-msgstr "Somente Texto"
+msgstr "Apenas texto"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:207
 msgid "Text Below Icons"
-msgstr "Texto Abaixo dos Ícones"
+msgstr "Texto abaixo dos ícones"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:211
 msgid "Text Beside Icons"
-msgstr "Texto ao lado dos Ícones"
+msgstr "Texto ao lado dos ícones"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:258
 msgid "Display whitespace"
-msgstr "Exibir espaço em branco"
+msgstr "Mostrar espaço em branco"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:272
 msgid "Display line endings"
-msgstr "Exibir caractere de fim de linha"
+msgstr "Mostrar caractere de fim de linha"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:290
 msgid "Long line margin at column:"
@@ -1586,7 +1586,7 @@ msgstr "Realçar linha atual"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:355
 msgid "Highlight matching brackets"
-msgstr "Realçar parênteses correspondentes"
+msgstr "Destacar parênteses correspondentes"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:369
 msgid "Wrap long lines"
@@ -1594,7 +1594,7 @@ msgstr "Quebrar linhas longas"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:386
 msgid "<b>Display</b>"
-msgstr "<b>Exibir</b>"
+msgstr "<b>Mostrar</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:414
 msgid "Use system monospace font"
@@ -1610,7 +1610,7 @@ msgstr "<b>Esquema de cores</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:505
 msgid "View"
-msgstr "Visualizar"
+msgstr "Ver"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:537
 msgid "Tab width:"
@@ -1638,15 +1638,15 @@ msgstr "Adiciona/remove recuo ao texto ou linha atualmente selecionada"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:656
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr "Backspace: Exclua espaços de recuo como tabulações"
+msgstr "Backspace: exclui espaços de recuo como tabulações"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:671
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr "Home/End: Detectar espaços em branco à esquerda/à direita:"
+msgstr "Home/End: Detecta espaços em branco à esquerda/à direita:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:713
 msgid "<b>Smart Keys</b>"
-msgstr "<b>Chaves Inteligentes</b>"
+msgstr "<b>Teclas inteligentes</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:732
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:50
@@ -1687,11 +1687,11 @@ msgstr "Estilo:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:892
 msgid "Icon Size:"
-msgstr "Tamanho do Ícones:"
+msgstr "Tamanho do ícones:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:941
 msgid "<b>Toolbar</b>"
-msgstr "<b>Barra de Ferramentas</b>"
+msgstr "<b>Barra de ferramentas</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:968
 msgid "Always show tabs even with one file"
@@ -1699,11 +1699,11 @@ msgstr "Sempre mostrar abas, mesmo com um único arquivo"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
 msgid "Expand tabs to fill available space"
-msgstr "Expanda as guias para preencher o espaço disponível"
+msgstr "Expandir as abas para preencher o espaço disponível"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Cycled notebook tab switching"
-msgstr "Alternação cíclica de abas"
+msgstr "Troca de abas do notebook em ciclo"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1016
 msgid "Open files in:"
@@ -1711,7 +1711,7 @@ msgstr "Abrir arquivos em:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1060
 msgid "<b>Notebook Tabs</b>"
-msgstr "<b>Abas</b>"
+msgstr "<b>Abas do notebook</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1079
 msgid "Window"
@@ -1719,15 +1719,15 @@ msgstr "Janela"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1110
 msgid "Ensure new line at file end"
-msgstr "Garanta uma nova linha no final do arquivo"
+msgstr "Garantir nova linha no final do arquivo"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
 msgid "Make a copy with '~' suffix"
-msgstr "Faça uma cópia com o sufixo '~'"
+msgstr "Fazer uma cópia com o sufixo '~'"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1141
 msgid "<b>File Saving</b>"
-msgstr "<b>Salvar arquivo</b>"
+msgstr "<b>Salvamento de arquivo</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1174
 msgid "Session restore:"
@@ -1745,7 +1745,7 @@ msgstr "Comprimento do menu de arquivo recente:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1231
 msgid "'0' disables and wipes recent history"
-msgstr "'0' desativa e limpa o histórico recente"
+msgstr "'0' desabilita e limpa o histórico recente"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1246
 msgid "Search history size:"
@@ -1769,7 +1769,7 @@ msgstr "Codificação padrão:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1403
 msgid "<b>Miscellaneous</b>"
-msgstr "<b>Miscelânea</b>"
+msgstr "<b>Diversos</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1422
 msgid "File"
@@ -1777,7 +1777,7 @@ msgstr "Arquivo"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1449
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "Plug-ins"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Spell Checking"
@@ -1841,11 +1841,11 @@ msgstr "Mousepad"
 
 #: org.xfce.mousepad.desktop.in:5
 msgid "Simple Text Editor"
-msgstr "Editor de Texto Simples"
+msgstr "Editor de texto simples"
 
 #: org.xfce.mousepad.desktop.in:6
 msgid "Text Editor"
-msgstr "Editor de Texto"
+msgstr "Editor de texto"
 
 #: org.xfce.mousepad.desktop.in:15
 msgid "Edit;Text;Simple;XFCE;Lightweight;Fast;"
@@ -1853,7 +1853,7 @@ msgstr "Editar;Texto;Simples;XFCE;Leve;Rápido;"
 
 #: org.xfce.mousepad-settings.desktop.in:4
 msgid "Text Editor Settings"
-msgstr "Configurações do Editor de Texto"
+msgstr "Configurações do editor de texto"
 
 #: org.xfce.mousepad-settings.desktop.in:5
 msgid "Configure the Mousepad text editor"
@@ -1868,7 +1868,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr "O Mousepad pretende ser um editor fácil de usar e rápido. Nosso alvo é um editor para editar rapidamente arquivos de texto, não um ambiente de desenvolvimento ou um editor com um monte de plugins."
+msgstr "O Mousepad pretende ser um editor rápido e fácil de usar. Nosso objetivo é um editor para edição rápida de arquivos de texto, não um ambiente de desenvolvimento ou um editor com um monte de plugins."
 
 #: org.xfce.mousepad.appdata.xml.in:15
 msgid ""
@@ -1876,7 +1876,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "Por outro lado, tentamos usar os recursos GTK mais recentes disponíveis, o que significa que se o GTK adicionar algo novo em uma versão principal que seja útil para o editor, provavelmente iremos superar a dependência do GTK e integrar esse novo recurso no Mousepad."
+msgstr "Por outro lado, tentamos usar os recursos mais recentes do GTK disponíveis, o que significa que se o GTK adicionar algo novo em uma versão principal que seja útil para o editor, provavelmente eliminaremos a dependência do GTK e integraremos esse novo recurso no Mousepad."
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
@@ -1888,8 +1888,8 @@ msgstr "Os desenvolvedores do Mousepad"
 #. to. This isn't a good idea, but is common on single user systems.
 #: org.xfce.mousepad.policy.in.in:24
 msgid "Run Mousepad as root"
-msgstr "Executar Mousepad como super usuário"
+msgstr "Executar o Mousepad como root"
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
-msgstr "Autenticação requerida para executar Mousepad como super usuário."
+msgstr "É necessária autenticação para executar o Mousepad como root."
