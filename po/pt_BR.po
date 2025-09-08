@@ -8,6 +8,7 @@
 # C. E., 2020,2022
 # Lucas Wilm <lucaswilm@gmail.com>, 2020-2021
 # Michael Martins, 2019-2024
+# Michael Martins, 2025
 # The Cat, 2023
 # The Cat, 2020-2021
 # Wellington Almeida <wsalmeida6@gmail.com>, 2020-2021
@@ -17,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-07-18 11:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Michael Martins, 2019-2024\n"
+"Last-Translator: Michael Martins, 2025\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/xfce/xfce-apps/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -831,11 +832,11 @@ msgstr "Ar_quivo"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
-msgstr "Menu de arquivo"
+msgstr "Menu Arquivo"
 
 #: mousepad/resources/gtk/menus.ui:27
 msgid "New _Window"
-msgstr "Nova _Janela"
+msgstr "Nova _janela"
 
 #: mousepad/resources/gtk/menus.ui:28
 msgid "Create a new document in a new window"
@@ -843,7 +844,7 @@ msgstr "Criar um documento em uma nova janela"
 
 #: mousepad/resources/gtk/menus.ui:32
 msgid "New From Te_mplate"
-msgstr "Novo a partir do _Modelo"
+msgstr "Novo a partir do _modelo"
 
 #: mousepad/resources/gtk/menus.ui:33
 msgid "Create a new document from a template"
@@ -851,7 +852,7 @@ msgstr "Criar um novo documento a partir de um modelo"
 
 #: mousepad/resources/gtk/menus.ui:43
 msgid "Op_en Recent"
-msgstr "Abrir Recente"
+msgstr "Abrir recentes"
 
 #: mousepad/resources/gtk/menus.ui:44
 msgid "Open a recently used file"
@@ -859,7 +860,7 @@ msgstr "Abrir um arquivo usado recentemente"
 
 #: mousepad/resources/gtk/menus.ui:50
 msgid "Clear _History"
-msgstr "Limpar Histórico"
+msgstr "Limpar histórico"
 
 #: mousepad/resources/gtk/menus.ui:51
 msgid "Clear the recently used files history"
@@ -867,7 +868,7 @@ msgstr "Limpar o histórico de arquivos usados recentemente"
 
 #: mousepad/resources/gtk/menus.ui:68
 msgid "Save A_ll"
-msgstr "Salvar _Tudo"
+msgstr "Salvar _tudo"
 
 #: mousepad/resources/gtk/menus.ui:69
 msgid "Save all document in this window"
@@ -883,7 +884,7 @@ msgstr "Imprimir o documento atual"
 
 #: mousepad/resources/gtk/menus.ui:97
 msgid "_Close Window"
-msgstr "Fecha_r Janela"
+msgstr "Fecha_r janela"
 
 #: mousepad/resources/gtk/menus.ui:98
 msgid "Close this window"
@@ -903,7 +904,7 @@ msgstr "_Editar"
 
 #: mousepad/resources/gtk/menus.ui:112
 msgid "Edit menu"
-msgstr "Menu editar"
+msgstr "Menu Editar"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
@@ -923,7 +924,7 @@ msgstr "Menu de pesquisa"
 
 #: mousepad/resources/gtk/menus.ui:147
 msgid "Find _Next"
-msgstr "Localizar Pró_ximo"
+msgstr "Localizar pró_ximo"
 
 #: mousepad/resources/gtk/menus.ui:148
 msgid "Search forwards for the same text"
@@ -931,7 +932,7 @@ msgstr "Pesquisar o mesmo texto para frente"
 
 #: mousepad/resources/gtk/menus.ui:152
 msgid "Find _Previous"
-msgstr "Localizar _Anterior"
+msgstr "Localizar _anterior"
 
 #: mousepad/resources/gtk/menus.ui:153
 msgid "Search backwards for the same text"
@@ -943,11 +944,11 @@ msgstr "Pesquisa _incremental"
 
 #: mousepad/resources/gtk/menus.ui:164
 msgid "Automatically select the search result and scroll the view"
-msgstr "Selecione automaticamente o resultado da pesquisa e role a visualização"
+msgstr "Selecione automaticamente o resultado da pesquisa e rolar a exibição"
 
 #: mousepad/resources/gtk/menus.ui:168
 msgid "Highlight _All"
-msgstr "Realçar _Tudo"
+msgstr "Realçar _tudo"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
@@ -959,11 +960,11 @@ msgstr "_Ver"
 
 #: mousepad/resources/gtk/menus.ui:184
 msgid "View menu"
-msgstr "Menu de visualização"
+msgstr "Menu Ver"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
-msgstr "Selecionar F_onte..."
+msgstr "Selecionar f_onte..."
 
 #: mousepad/resources/gtk/menus.ui:188
 msgid "Change the editor font"
@@ -971,11 +972,11 @@ msgstr "Alterar a fonte do editor"
 
 #: mousepad/resources/gtk/menus.ui:195
 msgid "_Color Scheme"
-msgstr "Esquema de _Cores"
+msgstr "Esquema de _cores"
 
 #: mousepad/resources/gtk/menus.ui:196
 msgid "Color scheme to use for the text view"
-msgstr "Esquema de cor para o editor de texto"
+msgstr "Esquema de cores para usar na exibição de texto"
 
 #: mousepad/resources/gtk/menus.ui:199
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:120
@@ -988,12 +989,12 @@ msgstr "Nenhum esquema de estilo"
 
 #: mousepad/resources/gtk/menus.ui:209
 msgid "Line N_umbers"
-msgstr "_Números das Linhas"
+msgstr "_Números das linhas"
 
 #: mousepad/resources/gtk/menus.ui:210
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:244
 msgid "Show line numbers"
-msgstr "Exibe os números das linhas"
+msgstr "Mostra os números das linhas"
 
 #: mousepad/resources/gtk/menus.ui:216 mousepad/resources/gtk/menus.ui:445
 msgid "_Menubar"
@@ -1013,11 +1014,11 @@ msgstr "Alterar a visibilidade da barra de ferramentas"
 
 #: mousepad/resources/gtk/menus.ui:226
 msgid "St_atusbar"
-msgstr "B_arra de Status"
+msgstr "B_arra de status"
 
 #: mousepad/resources/gtk/menus.ui:227
 msgid "Change the visibility of the statusbar"
-msgstr "Alterar a visibilidade da barra de estado"
+msgstr "Alterar a visibilidade da barra de status"
 
 #: mousepad/resources/gtk/menus.ui:240
 msgid "_Document"
@@ -1025,7 +1026,7 @@ msgstr "_Documento"
 
 #: mousepad/resources/gtk/menus.ui:241
 msgid "Document menu"
-msgstr "Menu de documento"
+msgstr "Menu Documento"
 
 #: mousepad/resources/gtk/menus.ui:245
 msgid "_Word Wrap"
@@ -1033,11 +1034,11 @@ msgstr "_Quebra de Linha"
 
 #: mousepad/resources/gtk/menus.ui:246
 msgid "Toggle breaking lines in between words"
-msgstr "Habilitar ou desabilitar a quebra de linhas entre palavras"
+msgstr "Alternar a quebra de linhas entre palavras"
 
 #: mousepad/resources/gtk/menus.ui:250
 msgid "_Auto Indent"
-msgstr "Recuo Automático"
+msgstr "Recuo automático"
 
 #: mousepad/resources/gtk/menus.ui:251
 msgid "Auto indent a new line"
@@ -1073,11 +1074,11 @@ msgstr "Outros..."
 
 #: mousepad/resources/gtk/menus.ui:284
 msgid "Set custom tab size"
-msgstr "Definir um tamanho de guia personalizado"
+msgstr "Definir um tamanho de aba personalizado"
 
 #: mousepad/resources/gtk/menus.ui:291
 msgid "Insert _Spaces"
-msgstr "Inserir E_spaços"
+msgstr "Inserir e_spaços"
 
 #: mousepad/resources/gtk/menus.ui:292
 msgid "Insert spaces when the tab button is pressed"
@@ -1085,15 +1086,15 @@ msgstr "Inserir espaços quando a tecla tab for pressionada"
 
 #: mousepad/resources/gtk/menus.ui:300
 msgid "_Filetype"
-msgstr "_Tipo de Arquivo"
+msgstr "_Tipo de arquivo"
 
 #: mousepad/resources/gtk/menus.ui:301
 msgid "Language to use for syntax highlighting"
-msgstr "Linguagem usada para realce de sintaxe"
+msgstr "Linguagem usada para realçar sintaxe"
 
 #: mousepad/resources/gtk/menus.ui:304
 msgid "Plain Text"
-msgstr "Texto Simples"
+msgstr "Texto simples"
 
 #: mousepad/resources/gtk/menus.ui:305
 msgid "No filetype"
@@ -1101,7 +1102,7 @@ msgstr "Nenhum tipo de arquivo"
 
 #: mousepad/resources/gtk/menus.ui:314
 msgid "Line E_nding"
-msgstr "Fim de Li_nha"
+msgstr "Fim de l_nha"
 
 #: mousepad/resources/gtk/menus.ui:315
 msgid "Character(s) to use as end of line"
@@ -1129,7 +1130,7 @@ msgstr "Armazenar a marca de ordem de byte no arquivo"
 
 #: mousepad/resources/gtk/menus.ui:343
 msgid "_Viewer Mode"
-msgstr "Modo _Visualizador"
+msgstr "Modo _exibição"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
@@ -1137,7 +1138,7 @@ msgstr "Proibir modificações via teclado / mouse"
 
 #: mousepad/resources/gtk/menus.ui:350
 msgid "_Previous Tab"
-msgstr "Aba _Anterior"
+msgstr "Aba _anterior"
 
 #: mousepad/resources/gtk/menus.ui:351
 msgid "Select the previous tab"
@@ -1145,7 +1146,7 @@ msgstr "Selecionar a aba anterior"
 
 #: mousepad/resources/gtk/menus.ui:356
 msgid "_Next Tab"
-msgstr "_Próxima Aba"
+msgstr "_Próxima aba"
 
 #: mousepad/resources/gtk/menus.ui:357
 msgid "Select the next tab"
@@ -1157,7 +1158,7 @@ msgstr "_Ajuda"
 
 #: mousepad/resources/gtk/menus.ui:368
 msgid "Help menu"
-msgstr "Menu de ajuda"
+msgstr "Menu Ajuda"
 
 #: mousepad/resources/gtk/menus.ui:370
 msgid "_Contents"
@@ -1165,7 +1166,7 @@ msgstr "_Conteúdo"
 
 #: mousepad/resources/gtk/menus.ui:371
 msgid "Display the Mousepad user manual"
-msgstr "Exibir o guia de usuário do Mousepad"
+msgstr "Mostrar o manual de usuário do Mousepad"
 
 #: mousepad/resources/gtk/menus.ui:376
 msgid "_About"
@@ -1197,7 +1198,7 @@ msgstr "Salvar o documento atual"
 
 #: mousepad/resources/gtk/menus-common.ui:63
 msgid "Save _As..."
-msgstr "Salvar _Como..."
+msgstr "Salvar _como..."
 
 #: mousepad/resources/gtk/menus-common.ui:64
 msgid "Save current document as another file"
@@ -1213,7 +1214,7 @@ msgstr "Mover o documento atual para um nova janela"
 
 #: mousepad/resources/gtk/menus-common.ui:90
 msgid "Close _Tab"
-msgstr "_Fechar Aba"
+msgstr "_Fechar aba"
 
 #: mousepad/resources/gtk/menus-common.ui:91
 msgid "Close the current document"
@@ -1273,7 +1274,7 @@ msgstr "Pesquisar por um texto"
 
 #: mousepad/resources/gtk/menus-common.ui:166
 msgid "Find and Rep_lace..."
-msgstr "Localizar e _Substituir"
+msgstr "Localizar e _substituir"
 
 #: mousepad/resources/gtk/menus-common.ui:167
 msgid "Search for and replace text"
@@ -1281,7 +1282,7 @@ msgstr "Pesquisar texto e substituir"
 
 #: mousepad/resources/gtk/menus-common.ui:175
 msgid "_Go to..."
-msgstr "_Ir Para..."
+msgstr "_Ir para..."
 
 #: mousepad/resources/gtk/menus-common.ui:176
 msgid "Go to a specific location in the document"
@@ -1293,7 +1294,7 @@ msgstr "Tela _cheia"
 
 #: mousepad/resources/gtk/menus-common.ui:235
 msgid "Paste _Special"
-msgstr "Colar _Especial"
+msgstr "Colar _especial"
 
 #: mousepad/resources/gtk/menus-common.ui:236
 msgid "Paste the clipboard in a special way"
@@ -1301,7 +1302,7 @@ msgstr "Colar da área de transferência de forma especial"
 
 #: mousepad/resources/gtk/menus-common.ui:238
 msgid "Paste from _History"
-msgstr "Colar a partir do _Histórico"
+msgstr "Colar a partir do _hstórico"
 
 #: mousepad/resources/gtk/menus-common.ui:239
 msgid "Paste from the clipboard history"
@@ -1309,7 +1310,7 @@ msgstr "Colar do histórico da área de transferência"
 
 #: mousepad/resources/gtk/menus-common.ui:243
 msgid "Paste as _Column"
-msgstr "Colar como _Coluna"
+msgstr "Colar como _coluna"
 
 #: mousepad/resources/gtk/menus-common.ui:244
 msgid "Paste the clipboard text into a column"
@@ -1317,7 +1318,7 @@ msgstr "Colar o texto da área de transferência para uma coluna"
 
 #: mousepad/resources/gtk/menus-common.ui:249
 msgid "_Delete Selection"
-msgstr "_Apagar Seleção"
+msgstr "_Excluir seleção"
 
 #: mousepad/resources/gtk/menus-common.ui:250
 msgid "Delete the current selection"
@@ -1325,11 +1326,11 @@ msgstr "Excluir o texto selecionado"
 
 #: mousepad/resources/gtk/menus-common.ui:255
 msgid "Delete _Line"
-msgstr "Apagar _Linha"
+msgstr "Excluir _linha"
 
 #: mousepad/resources/gtk/menus-common.ui:256
 msgid "Delete the current line"
-msgstr "Apaga a linha atual"
+msgstr "Excluir a linha atual"
 
 #: mousepad/resources/gtk/menus-common.ui:263
 msgid "Conve_rt"
@@ -1341,23 +1342,23 @@ msgstr "Converter texto de formas diferentes"
 
 #: mousepad/resources/gtk/menus-common.ui:267
 msgid "To _Lowercase"
-msgstr "para Caixa _Baixa"
+msgstr "Para _minúsculas"
 
 #: mousepad/resources/gtk/menus-common.ui:268
 msgid "Change the case of the selection to lowercase"
-msgstr "Alterar o texto selecionado para caixa baixa"
+msgstr "Alterar o texto selecionado para minúsculas"
 
 #: mousepad/resources/gtk/menus-common.ui:272
 msgid "To _Uppercase"
-msgstr "para Caixa _Alta"
+msgstr "Para _maiúsculas"
 
 #: mousepad/resources/gtk/menus-common.ui:273
 msgid "Change the case of the selection to uppercase"
-msgstr "Alterar o texto selecionado para caixa alta"
+msgstr "Alterar o texto selecionado para maiúsculas"
 
 #: mousepad/resources/gtk/menus-common.ui:277
 msgid "To _Title Case"
-msgstr "para Caixa Alta _e Baixa"
+msgstr "Para _maiúsculas"
 
 #: mousepad/resources/gtk/menus-common.ui:278
 msgid "Change the case of the selection to title case"
@@ -1365,40 +1366,40 @@ msgstr "Alterar as primeiras letras do texto selecionado para maiúsculas"
 
 #: mousepad/resources/gtk/menus-common.ui:282
 msgid "To _Opposite Case"
-msgstr "para _Inverso do Atual"
+msgstr "Para _inverso do atual"
 
 #: mousepad/resources/gtk/menus-common.ui:283
 msgid "Change the case of the selection opposite case"
-msgstr "Alterar palavras de caixa baixa para alta, e vice-versa"
+msgstr "Alterar palavras de minúsculas para maiúsculas, e vice-versa"
 
 #: mousepad/resources/gtk/menus-common.ui:289
 msgid "_Tabs to Spaces"
-msgstr "_Tabs para Espaços"
+msgstr "_Tabulações para espaços"
 
 #: mousepad/resources/gtk/menus-common.ui:290
 msgid "Convert all tabs to spaces in the selection or document"
-msgstr "Converter para espaços todos os tabs no texto selecionado ou no documento"
+msgstr "Converter todas as tabulações para espaços na seleção ou no documento"
 
 #: mousepad/resources/gtk/menus-common.ui:294
 msgid "_Leading Spaces to Tabs"
-msgstr "_Espaços à esquerda para guias"
+msgstr "Converter espaços iniciais em tabulações"
 
 #: mousepad/resources/gtk/menus-common.ui:295
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr "Converter todos os espaços iniciais na(s) linha(s) selecionada(s) ou no documento"
+msgstr "Converter todos os espaços iniciais para tabulações na(s) linha(s) selecionada(s) ou no documento"
 
 #: mousepad/resources/gtk/menus-common.ui:301
 msgid "St_rip Trailing Spaces"
-msgstr "Remover Espaços ao Final"
+msgstr "Remover espaços no final"
 
 #: mousepad/resources/gtk/menus-common.ui:302
 msgid "Remove all the trailing spaces from the selected line(s) or document"
-msgstr "Remover todos os espaços no final da(s) linha(s) selecionada(s) ou do documento"
+msgstr "Remover todos os espaços no final da(s) linha(s) selecionada(s) ou no documento"
 
 #: mousepad/resources/gtk/menus-common.ui:308
 msgid "_Transpose"
-msgstr "Transpor"
+msgstr "_Transpor"
 
 #: mousepad/resources/gtk/menus-common.ui:309
 msgid "Reverse the order of something"
@@ -1410,7 +1411,7 @@ msgstr "_Mover"
 
 #: mousepad/resources/gtk/menus-common.ui:316
 msgid "Move content in different ways"
-msgstr "Mover o conteúdo de formas diferentes"
+msgstr "Mover o conteúdo de diferentes maneiras"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "One Line _Up"
@@ -1418,7 +1419,7 @@ msgstr "Uma linha para _cima"
 
 #: mousepad/resources/gtk/menus-common.ui:319
 msgid "Move lines one line up"
-msgstr "Mover as linhas uma linha acima"
+msgstr "Mover linhas uma linha para cima"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "One Line _Down"
@@ -1426,7 +1427,7 @@ msgstr "Uma linha para _baixo"
 
 #: mousepad/resources/gtk/menus-common.ui:324
 msgid "Move lines one line down"
-msgstr "Mover as linhas uma linha abaixo"
+msgstr "Mover linhas uma linha para baixo"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "One Word _Left"
@@ -1446,7 +1447,7 @@ msgstr "Mover palavras uma palavra para a direita"
 
 #: mousepad/resources/gtk/menus-common.ui:339
 msgid "Dup_licate Line / Selection"
-msgstr "D_uplicar Linha / Seleção"
+msgstr "D_uplicar linha / seleção"
 
 #: mousepad/resources/gtk/menus-common.ui:340
 msgid "Duplicate the current line or selection"
@@ -1454,7 +1455,7 @@ msgstr "Duplicar a linha atual ou selecionada"
 
 #: mousepad/resources/gtk/menus-common.ui:344
 msgid "_Increase Indent"
-msgstr "_Aumentar Recuo"
+msgstr "_Aumentar recuo"
 
 #: mousepad/resources/gtk/menus-common.ui:345
 msgid "Increase the indentation of the selection or current line"
