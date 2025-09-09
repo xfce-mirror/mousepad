@@ -1777,7 +1777,7 @@ msgstr "Arquivo"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1449
 msgid "Plugins"
-msgstr "Plug-ins"
+msgstr "Plugins"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Spell Checking"
