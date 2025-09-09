@@ -311,7 +311,7 @@ msgstr "ۋاز كەچ(_C)"
 
 #: mousepad/mousepad-dialogs.h:34
 msgid "_OK"
-msgstr ""
+msgstr "جەزملە(_O)"
 
 #: mousepad/mousepad-dialogs.h:35 mousepad/resources/gtk/menus-common.ui:54
 msgid "_Save"
