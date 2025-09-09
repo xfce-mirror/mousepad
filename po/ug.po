@@ -307,7 +307,7 @@ msgstr ""
 #. button labels
 #: mousepad/mousepad-dialogs.h:33
 msgid "_Cancel"
-msgstr ""
+msgstr "ۋاز كەچ(_C)"
 
 #: mousepad/mousepad-dialogs.h:34
 msgid "_OK"
