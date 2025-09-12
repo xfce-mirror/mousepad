@@ -315,7 +315,7 @@ msgstr "جەزملە(_O)"
 
 #: mousepad/mousepad-dialogs.h:35 mousepad/resources/gtk/menus-common.ui:54
 msgid "_Save"
-msgstr ""
+msgstr "ساقلا(_S)"
 
 #: mousepad/mousepad-dialogs.h:36
 msgid "Save _As"
@@ -1809,7 +1809,7 @@ msgstr ""
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Miscellaneous"
-msgstr ""
+msgstr "باشقىلار"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:591
 msgid "Mousepad Shortcuts"
