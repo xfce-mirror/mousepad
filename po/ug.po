@@ -1500,7 +1500,7 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:105
 msgid "always"
-msgstr ""
+msgstr "ھەمىشە"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:141
@@ -1531,7 +1531,7 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:176
 msgid "Button"
-msgstr ""
+msgstr "توپچە"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:180
 msgid "Drag & Drop"
