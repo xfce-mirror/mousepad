@@ -39,7 +39,7 @@ msgstr "Afichar una lista d'encodatges possibles per dobrir de fichièrs"
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr ""
+msgstr "Numèro de la linha ont posicionar lo cursor (LINHA > 0 dempuèi naut, LINHA < 0 dempuèi bas)"
 
 #: mousepad/mousepad-application.c:168
 msgid "LINE"
@@ -49,7 +49,7 @@ msgstr "LINHA"
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr ""
+msgstr "Numèro de colomna ont posicionar lo cursor (COLOMNA >= 0 dempuèi lo començament, COLOMNA < 0 dempuèi la fin)"
 
 #: mousepad/mousepad-application.c:173
 msgid "COLUMN"
@@ -83,7 +83,7 @@ msgstr "[FICHIÈRS...]"
 #: mousepad/mousepad-application.c:405
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr ""
+msgstr "Mòde de dubertura de fichièr: « %s », « %s » o « %s » (dobrir los onglets dins una fenèstra novèla)"
 
 #: mousepad/mousepad-application.c:408
 msgid "MODE"
@@ -202,7 +202,7 @@ msgstr "Lo document es estat modificat per l'exterior. Lo volètz recargar del d
 
 #: mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
-msgstr ""
+msgstr "Avètz de modificacions non salvadas. Se tornatz a la version precedenta del fichièr, seràn perdudas."
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:487
@@ -222,17 +222,17 @@ msgstr "Se restablissètz lo fichièr, totas las modificacions pas enregistradas
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "Lo fichièr sembla encodat en %s, mas avètz causit l'encodatge %s. Confirmatz aquesta causida ?"
 
 #: mousepad/mousepad-dialogs.c:586
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "Senon, s'utilizarà l'encodatge devinat."
 
 #: mousepad/mousepad-dialogs.c:641
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "Sembla que la session precedenta s'es pas acabada normalament. Volètz restaurar las donadas disponiblas ?"
 
 #: mousepad/mousepad-dialogs.c:660
 msgid "If not, all this data will be lost."
@@ -725,7 +725,7 @@ msgstr "Tipe de fichièr : %s"
 #. add the label with the root warning
 #: mousepad/mousepad-window.c:1162
 msgid "Warning: you are using the root account. You may harm your system."
-msgstr ""
+msgstr "Atencion : sètz a utilizar lo compte root, podètz damatjar lo sistèma."
 
 #: mousepad/mousepad-window.c:2485
 msgid "Read Only"
