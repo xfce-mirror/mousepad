@@ -244,15 +244,15 @@ msgstr "Seleccionatz un fichièr"
 
 #: mousepad/mousepad-dialogs.c:906
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "Fracàs de la preparacion del fichièr temporari per las pròvas d'encodatge"
 
 #: mousepad/mousepad-dialogs.c:969 mousepad/mousepad-dialogs.c:1042
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "Dobrir la fenèstra per l'encodatge"
 
 #: mousepad/mousepad-dialogs.c:971
 msgid "Go back to shorten list"
-msgstr ""
+msgstr "Tornar a la lista acorchida"
 
 #. combo box label
 #: mousepad/mousepad-dialogs.c:1035
@@ -354,29 +354,29 @@ msgstr "Verificacion dels encodatges ..."
 #: mousepad/mousepad-encoding-dialog.c:297
 #, c-format
 msgid "%s (%s, failed)"
-msgstr ""
+msgstr "%s (%s, fracàs)"
 
 #: mousepad/mousepad-encoding-dialog.c:299
 #: mousepad/mousepad-encoding-dialog.c:353
 #, c-format
 msgid "%s (%s, partial)"
-msgstr ""
+msgstr "%s (%s, parcial)"
 
 #: mousepad/mousepad-encoding-dialog.c:427
 msgid "Other (partial):"
-msgstr ""
+msgstr "Autres (parcial) :"
 
 #: mousepad/mousepad-encoding-dialog.c:438
 msgid "Other valid encodings were found, please choose below."
-msgstr ""
+msgstr "D'autres encodatges valids son estats trobats, mercés de causir çaijós."
 
 #: mousepad/mousepad-encoding-dialog.c:440
 msgid "Other partially valid encodings were found, please choose below."
-msgstr ""
+msgstr "D'autres encodatges parcialament valids son estats trobats, mercés de causir çaijós."
 
 #: mousepad/mousepad-encoding-dialog.c:476
 msgid "No other valid encoding was found."
-msgstr ""
+msgstr "Cap d'autre encodatge valid es pas estat trobat."
 
 #. dialog title
 #: mousepad/mousepad-encoding-dialog.c:683
@@ -556,14 +556,14 @@ msgstr "Imprimir los numèros de _linha : "
 
 #: mousepad/mousepad-print.c:606
 msgid "Numbering interval:"
-msgstr ""
+msgstr "Interval de numerotacion :"
 
 #: mousepad/mousepad-print.c:615
 msgid ""
 "The interval at which to print line numbers. For example a value of 1 will "
 "print a line number on each line, a value of 2 will print a line number on "
 "every other line, and so on."
-msgstr ""
+msgstr "L'interval a lo qual s'imprimisson los numèros de linha. Per exemple, una valor de 1 imprimirà un numèro de linha sus cada linha, una valor de 2 imprimirà un numèro de linha sus cada doas linhas, e mai."
 
 #: mousepad/mousepad-print.c:626
 msgid "Enable text _wrapping"
@@ -745,14 +745,14 @@ msgstr "Utilizar « %s » coma modèl"
 msgid ""
 "No template files found in\n"
 "'%s'"
-msgstr ""
+msgstr "Cap de modèl pas trobat dins\n« %s »"
 
 #: mousepad/mousepad-window.c:3639
 #, c-format
 msgid ""
 "Missing Templates directory\n"
 "'%s'"
-msgstr ""
+msgstr "Repertòri de modèls mancant\n« %s »"
 
 #. create suitable text label for the "Other" menu
 #: mousepad/mousepad-window.c:3691
@@ -797,12 +797,12 @@ msgstr "Istoric desactivat"
 #: mousepad/mousepad-window.c:4459
 #, c-format
 msgid "Templates should be %s valid"
-msgstr ""
+msgstr "Los modèls deurián èsser en %s valid"
 
 #. set error message
 #: mousepad/mousepad-window.c:4465
 msgid "Reading the template failed"
-msgstr ""
+msgstr "La lectura del modèl a fracassat"
 
 #. set error message
 #: mousepad/mousepad-window.c:4470
@@ -933,11 +933,11 @@ msgstr "Recèrca cap a l'arrièr pel meteis tèxte"
 
 #: mousepad/resources/gtk/menus.ui:163
 msgid "_Incremental Search"
-msgstr ""
+msgstr "_Recèrca incrementala"
 
 #: mousepad/resources/gtk/menus.ui:164
 msgid "Automatically select the search result and scroll the view"
-msgstr ""
+msgstr "Seleccionar automaticament lo resultat de la recèrca e far defilar la vista"
 
 #: mousepad/resources/gtk/menus.ui:168
 msgid "Highlight _All"
@@ -945,7 +945,7 @@ msgstr "Metre en susbrilhança tot"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Metre en evidéncia las correspondéncias de la recèrca"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -978,7 +978,7 @@ msgstr "Pas cap"
 
 #: mousepad/resources/gtk/menus.ui:200
 msgid "No style scheme"
-msgstr ""
+msgstr "Cap de jòc d'estil"
 
 #: mousepad/resources/gtk/menus.ui:209
 msgid "Line N_umbers"
@@ -995,7 +995,7 @@ msgstr "Barra de _menús"
 
 #: mousepad/resources/gtk/menus.ui:217 mousepad/resources/gtk/menus.ui:446
 msgid "Change the visibility of the main menubar"
-msgstr ""
+msgstr "Modificar la visibilitat de la barra de menús principala"
 
 #: mousepad/resources/gtk/menus.ui:221
 msgid "_Toolbar"
@@ -1003,7 +1003,7 @@ msgstr "Barra d'ai_sinas"
 
 #: mousepad/resources/gtk/menus.ui:222
 msgid "Change the visibility of the toolbar"
-msgstr ""
+msgstr "Modificar la visibilitat de la barra d'estat"
 
 #: mousepad/resources/gtk/menus.ui:226
 msgid "St_atusbar"
@@ -1043,7 +1043,7 @@ msgstr "Talha onglet"
 
 #: mousepad/resources/gtk/menus.ui:256
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "Lo nombre de caractèrs espaci per una tabulacion"
 
 #: mousepad/resources/gtk/menus.ui:260
 msgid "Two spaces"
@@ -1083,7 +1083,7 @@ msgstr "Tipe de _fichièr"
 
 #: mousepad/resources/gtk/menus.ui:301
 msgid "Language to use for syntax highlighting"
-msgstr ""
+msgstr "Lengatge d'utilizar per la mesa en evidéncia sintaxica"
 
 #: mousepad/resources/gtk/menus.ui:304
 msgid "Plain Text"
@@ -1099,7 +1099,7 @@ msgstr "Fi_n de linha"
 
 #: mousepad/resources/gtk/menus.ui:315
 msgid "Character(s) to use as end of line"
-msgstr ""
+msgstr "Caractèr(s) d'utilizar coma fin de linha"
 
 #: mousepad/resources/gtk/menus.ui:318
 msgid "Set the line ending of the document to Unix (LF)"
@@ -1127,7 +1127,7 @@ msgstr "Mòde _visualizador"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
-msgstr ""
+msgstr "Interdire las modificacions via clavièr / mirga"
 
 #: mousepad/resources/gtk/menus.ui:350
 msgid "_Previous Tab"
@@ -1291,7 +1291,7 @@ msgstr "Pegatge e_special"
 
 #: mousepad/resources/gtk/menus-common.ui:236
 msgid "Paste the clipboard in a special way"
-msgstr ""
+msgstr "Pegar lo contengut del quichapapièrs d'un biais especial"
 
 #: mousepad/resources/gtk/menus-common.ui:238
 msgid "Paste from _History"
@@ -1319,7 +1319,7 @@ msgstr "Suprimir la seleccion en cors"
 
 #: mousepad/resources/gtk/menus-common.ui:255
 msgid "Delete _Line"
-msgstr ""
+msgstr "Suprimir la _linha"
 
 #: mousepad/resources/gtk/menus-common.ui:256
 msgid "Delete the current line"
@@ -1331,11 +1331,11 @@ msgstr "Conve_rtir"
 
 #: mousepad/resources/gtk/menus-common.ui:264
 msgid "Convert text in different ways"
-msgstr ""
+msgstr "Convertir lo tèxte de mantuna manièra"
 
 #: mousepad/resources/gtk/menus-common.ui:267
 msgid "To _Lowercase"
-msgstr ""
+msgstr "En minuscu_las"
 
 #: mousepad/resources/gtk/menus-common.ui:268
 msgid "Change the case of the selection to lowercase"
@@ -1343,7 +1343,7 @@ msgstr "Cambiar la cassa de la seleccion en minusculas"
 
 #: mousepad/resources/gtk/menus-common.ui:272
 msgid "To _Uppercase"
-msgstr ""
+msgstr "En majusc_ulas"
 
 #: mousepad/resources/gtk/menus-common.ui:273
 msgid "Change the case of the selection to uppercase"
@@ -1351,7 +1351,7 @@ msgstr "Cambiar la cassa de la seleccion en majusculas"
 
 #: mousepad/resources/gtk/menus-common.ui:277
 msgid "To _Title Case"
-msgstr ""
+msgstr "En majuscula de _títol"
 
 #: mousepad/resources/gtk/menus-common.ui:278
 msgid "Change the case of the selection to title case"
@@ -1359,7 +1359,7 @@ msgstr "Cambiar la cassa de la seleccion en cassa de títol"
 
 #: mousepad/resources/gtk/menus-common.ui:282
 msgid "To _Opposite Case"
-msgstr ""
+msgstr "Al _contrari"
 
 #: mousepad/resources/gtk/menus-common.ui:283
 msgid "Change the case of the selection opposite case"
@@ -1375,7 +1375,7 @@ msgstr "Convertir totas las tabulacions en espacis dins la seleccion o lo docume
 
 #: mousepad/resources/gtk/menus-common.ui:294
 msgid "_Leading Spaces to Tabs"
-msgstr ""
+msgstr "_Espacis inicials de tabulacions"
 
 #: mousepad/resources/gtk/menus-common.ui:295
 msgid ""
@@ -1404,43 +1404,43 @@ msgstr "_Desplaçar"
 
 #: mousepad/resources/gtk/menus-common.ui:316
 msgid "Move content in different ways"
-msgstr ""
+msgstr "Desplaçar lo contengut de mantuna manièra"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "One Line _Up"
-msgstr ""
+msgstr "Una linha del na_ut"
 
 #: mousepad/resources/gtk/menus-common.ui:319
 msgid "Move lines one line up"
-msgstr ""
+msgstr "Desplaçar las linhas d'una linha cap amont"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "One Line _Down"
-msgstr ""
+msgstr "Una linha _del bas"
 
 #: mousepad/resources/gtk/menus-common.ui:324
 msgid "Move lines one line down"
-msgstr ""
+msgstr "Desplaçar las linhas d'una linha cap aval"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "One Word _Left"
-msgstr ""
+msgstr "Un mot a _esquèrra"
 
 #: mousepad/resources/gtk/menus-common.ui:329
 msgid "Move words one word left"
-msgstr ""
+msgstr "Desplaçar un mot a man esquèrra"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "One Word _Right"
-msgstr ""
+msgstr "Un mot a _drecha"
 
 #: mousepad/resources/gtk/menus-common.ui:334
 msgid "Move words one word right"
-msgstr ""
+msgstr "Desplaçar un mot a man drecha"
 
 #: mousepad/resources/gtk/menus-common.ui:339
 msgid "Dup_licate Line / Selection"
-msgstr ""
+msgstr "Dup_licar linha / seleccion"
 
 #: mousepad/resources/gtk/menus-common.ui:340
 msgid "Duplicate the current line or selection"
@@ -1464,7 +1464,7 @@ msgstr "Demesir l'indentacion de la seleccion o de la linha correnta"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:13
 msgid "Insert Tabs"
-msgstr ""
+msgstr "Inserir tabulacions"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:16
 msgid "Insert Spaces"
@@ -1476,11 +1476,11 @@ msgstr "Pas jamai"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:43
 msgid "First key press"
-msgstr ""
+msgstr "Primièra tòca _quichada"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:47
 msgid "Second key press"
-msgstr ""
+msgstr "Segonda tòca _quichada"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:51
 msgid "Always"
@@ -1492,7 +1492,7 @@ msgstr "pas jamai"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:93
 msgid "after a crash"
-msgstr ""
+msgstr "aprèp un plantatge"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:97
 msgid "unsaved documents"
@@ -1519,7 +1519,7 @@ msgstr "fenèstras novèlas"
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:149
 msgid "new tabs in a new window"
-msgstr ""
+msgstr "onglets novèls dins una fenèstra novèla"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:164
 msgid "Menu"
@@ -1559,19 +1559,19 @@ msgstr "Tèxt jos las icònas"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:211
 msgid "Text Beside Icons"
-msgstr ""
+msgstr "Tèxt al costat de las icònas"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:258
 msgid "Display whitespace"
-msgstr ""
+msgstr "Afichar los espacis blancs"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:272
 msgid "Display line endings"
-msgstr ""
+msgstr "Afichar las fins de linha"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:290
 msgid "Long line margin at column:"
-msgstr ""
+msgstr "Marge de linha longa a la colomna :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:341
 msgid "Highlight current line"
@@ -1583,7 +1583,7 @@ msgstr "Metre en susbrilhança las acoladas correspondentas"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:369
 msgid "Wrap long lines"
-msgstr ""
+msgstr "Retorn a la linha automatic"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:386
 msgid "<b>Display</b>"
@@ -1639,7 +1639,7 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:713
 msgid "<b>Smart Keys</b>"
-msgstr ""
+msgstr "<b>Tòcas intelligentas</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:732
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:50
@@ -1652,7 +1652,7 @@ msgstr ""
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:777
 msgid "Show full filename in title bar"
-msgstr ""
+msgstr "Afichar lo nom de fichièr complèt dins la barra de títol"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:791
 msgid "Remember window size"
@@ -1688,11 +1688,11 @@ msgstr "<b>Barra d'aisinas</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:968
 msgid "Always show tabs even with one file"
-msgstr ""
+msgstr "Totjorn afichar los onglets quitament amb un sol fichièr"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
 msgid "Expand tabs to fill available space"
-msgstr ""
+msgstr "Espandir los onglets per emplenar l'espaci disponible"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Cycled notebook tab switching"
@@ -1712,7 +1712,7 @@ msgstr "Fenèstra"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1110
 msgid "Ensure new line at file end"
-msgstr ""
+msgstr "Assegura que i a una linha en blanc a la fin del fichièr"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
 msgid "Make a copy with '~' suffix"
