@@ -1623,19 +1623,19 @@ msgstr "<b>Indentacion</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:634
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tablulacion : indentar la seleccion (MaJ+Tab : desindentar)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:637
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Indentar/Desindentar lo tèxte actualament seleccionat o la linha seleccionat"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:656
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr ""
+msgstr "Retorn en rèire: suprimir los espacis d'indentacion coma de tabulacions"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:671
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr ""
+msgstr "Debuta / Fin : detectar los espacis blancs de debuta / fin :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:713
 msgid "<b>Smart Keys</b>"
@@ -1648,7 +1648,7 @@ msgstr "Editor"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:763
 msgid "Client-side decorations (restart required)"
-msgstr ""
+msgstr "Decoracions costat client (reaviament necessari)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:777
 msgid "Show full filename in title bar"
@@ -1696,7 +1696,7 @@ msgstr "Espandir los onglets per emplenar l'espaci disponible"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Cycled notebook tab switching"
-msgstr ""
+msgstr "Bascula de l’afichatge dels onglets"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1016
 msgid "Open files in:"
@@ -1704,7 +1704,7 @@ msgstr "Dobrir los fichièrs amb :"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1060
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>Afichatge dels onglets</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1079
 msgid "Window"
@@ -1730,7 +1730,7 @@ msgstr "Restaurar session :"
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr ""
+msgstr "Quand « documents pas enregistrats » o « totjorn » es seleccionat, Mousepad demandarà pas d'enregistrar los documents modificats en quitant"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1219
 msgid "Recent file menu length:"
@@ -1869,7 +1869,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "D'autre latz, ensajam d'utilizar las darrièras foncionalitats GTK disponiblas, çò que significa que se GTK apond quicòm de nòu dins una version màger qu'es util per l'editor, probablament aumentarem la dependéncia GTK e integrarem aquesta foncionalitat novèla dins Mousepad."
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
