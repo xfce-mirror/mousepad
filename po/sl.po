@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the xfce-apps.mousepad package.
 # 
 # Translators:
+# Dejweed, 2025
 # 8b03701f910565d01acaec9ce3f558ab_e9f0fee <b5b06e8f85fb8288fe43ad0bc2422d94_32848>, 2017
 # Arnold Marko <arnold.marko@gmail.com>, 2019-2021,2023
 # Martin Srebotnjak <miles@filmsi.net>, 2022
@@ -12,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-07-18 11:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Arnold Marko <arnold.marko@gmail.com>, 2019-2021,2023\n"
+"Last-Translator: Dejweed, 2025\n"
 "Language-Team: Slovenian (http://app.transifex.com/xfce/xfce-apps/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -590,12 +591,12 @@ msgstr "Številke vrstic:"
 
 #: mousepad/mousepad-replace-dialog.c:169
 msgid "_Replace All"
-msgstr "_Zamenjaj vse"
+msgstr "Za_menjaj vse"
 
 #: mousepad/mousepad-replace-dialog.c:169
 #: mousepad/mousepad-replace-dialog.c:267
 msgid "_Replace"
-msgstr "_Zamenjaj"
+msgstr "Za_menjaj"
 
 #. set dialog properties
 #: mousepad/mousepad-replace-dialog.c:256
@@ -618,7 +619,7 @@ msgstr "_Išči po:"
 
 #: mousepad/mousepad-replace-dialog.c:323
 msgid "Replace _with:"
-msgstr "_Zamenjaj z:"
+msgstr "Zam_enjaj z:"
 
 #: mousepad/mousepad-replace-dialog.c:345
 msgid "Search _direction:"
@@ -635,7 +636,7 @@ msgstr "Dol"
 #. wrap around
 #: mousepad/mousepad-replace-dialog.c:364
 msgid "_Wrap around"
-msgstr "Prelomi vrstice"
+msgstr "_Prelomi vrstice"
 
 #. case sensitive
 #. check button for case sensitive, including the proxy menu item
@@ -656,7 +657,7 @@ msgstr "Upoštevaj celo _besedo"
 #: mousepad/mousepad-replace-dialog.c:389 mousepad/mousepad-search-bar.c:314
 #: mousepad/mousepad-search-bar.c:322
 msgid "Regular e_xpression"
-msgstr "Regularen izra_z"
+msgstr "_Regularen izraz"
 
 #: mousepad/mousepad-replace-dialog.c:403
 msgid "Replace _all in:"
@@ -824,7 +825,7 @@ msgstr "Tiskanje dokumenta ni uspelo"
 
 #: mousepad/resources/gtk/menus.ui:19
 msgid "_File"
-msgstr "Datoteka"
+msgstr "_Datoteka"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
@@ -985,7 +986,7 @@ msgstr "ni slogovne sheme"
 
 #: mousepad/resources/gtk/menus.ui:209
 msgid "Line N_umbers"
-msgstr "številke _vrstic"
+msgstr "Številke _vrstic"
 
 #: mousepad/resources/gtk/menus.ui:210
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:244
@@ -1018,7 +1019,7 @@ msgstr "Spremeni vidnost statusne vrstice"
 
 #: mousepad/resources/gtk/menus.ui:240
 msgid "_Document"
-msgstr "_Dokument"
+msgstr "Do_kument"
 
 #: mousepad/resources/gtk/menus.ui:241
 msgid "Document menu"
@@ -1150,7 +1151,7 @@ msgstr "Izberi naslednji tabulator"
 
 #: mousepad/resources/gtk/menus.ui:367
 msgid "_Help"
-msgstr "Pomoč"
+msgstr "Po_moč"
 
 #: mousepad/resources/gtk/menus.ui:368
 msgid "Help menu"
@@ -1250,7 +1251,7 @@ msgstr "Kopiraj izbiro"
 
 #: mousepad/resources/gtk/menus-common.ui:137
 msgid "_Paste"
-msgstr "Prilepi"
+msgstr "Pr_ilepi"
 
 #: mousepad/resources/gtk/menus-common.ui:138
 msgid "Paste the clipboard"
@@ -1258,7 +1259,7 @@ msgstr "Prilepi v odložišče"
 
 #: mousepad/resources/gtk/menus-common.ui:146
 msgid "Select _All"
-msgstr "Izberi vse"
+msgstr "Izberi _vse"
 
 #: mousepad/resources/gtk/menus-common.ui:147
 msgid "Select the text in the entire document"
@@ -1322,7 +1323,7 @@ msgstr "Izbriši trenutno izbiro"
 
 #: mousepad/resources/gtk/menus-common.ui:255
 msgid "Delete _Line"
-msgstr "Odstrani vrstico"
+msgstr "Ods_trani vrstico"
 
 #: mousepad/resources/gtk/menus-common.ui:256
 msgid "Delete the current line"
