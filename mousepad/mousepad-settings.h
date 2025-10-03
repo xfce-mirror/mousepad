@@ -54,8 +54,6 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_MATCH_BRACES "preferences.view.match-braces"
 #define MOUSEPAD_SETTING_COLOR_SCHEME "preferences.view.color-scheme"
 
-#define MOUSEPAD_SETTING_TOOLBAR_STYLE "preferences.window.toolbar-style"
-#define MOUSEPAD_SETTING_TOOLBAR_ICON_SIZE "preferences.window.toolbar-icon-size"
 #define MOUSEPAD_SETTING_ALWAYS_SHOW_TABS "preferences.window.always-show-tabs"
 #define MOUSEPAD_SETTING_EXPAND_TABS "preferences.window.expand-tabs"
 #define MOUSEPAD_SETTING_CYCLE_TABS "preferences.window.cycle-tabs"
@@ -72,7 +70,6 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_MENUBAR_VISIBLE_FULLSCREEN "preferences.window.menubar-visible-in-fullscreen"
 #define MOUSEPAD_SETTING_TOOLBAR_VISIBLE_FULLSCREEN "preferences.window.toolbar-visible-in-fullscreen"
 #define MOUSEPAD_SETTING_STATUSBAR_VISIBLE_FULLSCREEN "preferences.window.statusbar-visible-in-fullscreen"
-#define MOUSEPAD_SETTING_OLD_STYLE_MENU "preferences.window.old-style-menu"
 #define MOUSEPAD_SETTING_CLIENT_SIDE_DECORATIONS "preferences.window.client-side-decorations"
 
 /* State setting names */
