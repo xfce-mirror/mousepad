@@ -7,13 +7,14 @@
 # Arthit Suriyawongkul, 2013
 # Theppitak Karoonboonyanan <theppitak@gmail.com>, 2013-2014,2021
 # Theppitak Karoonboonyanan <theppitak@gmail.com>, 2017,2019
+# Warut Bunprasert <warut.b@disroot.org>, 2025
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-07-18 11:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Arthit Suriyawongkul, 2013\n"
+"Last-Translator: Warut Bunprasert <warut.b@disroot.org>, 2025\n"
 "Language-Team: Thai (http://app.transifex.com/xfce/xfce-apps/language/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,7 +106,7 @@ msgstr "%s | ผู้เขียน: %s | ชื่อแฟ้ม: %s"
 
 #: mousepad/mousepad-dialogs.c:69 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "Mousepad เป็นเครื่องมือแก้ไขข้อความที่เรียบง่ายของเดสก์ท็อป Xfce"
 
 #: mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
@@ -306,7 +307,7 @@ msgstr "บันทึกเอกสารไม่สำเร็จ"
 
 #: mousepad/mousepad-dialogs.h:30
 msgid "Unsupported character set"
-msgstr ""
+msgstr "ไม่รองรับชุดอักขระ"
 
 #. button labels
 #: mousepad/mousepad-dialogs.h:33
@@ -323,7 +324,7 @@ msgstr "_บันทึก"
 
 #: mousepad/mousepad-dialogs.h:36
 msgid "Save _As"
-msgstr ""
+msgstr "บันทึกเป็_น"
 
 #: mousepad/mousepad-dialogs.h:37
 msgid "Re_vert"
@@ -518,7 +519,7 @@ msgstr "ระบบ"
 
 #: mousepad/mousepad-encoding.h:25
 msgid "History"
-msgstr ""
+msgstr "ประวัติ"
 
 #: mousepad/mousepad-file.c:1013
 msgid "Invalid byte sequence in conversion input"
@@ -679,13 +680,13 @@ msgstr "ทุกเอกสาร"
 #, c-format
 msgid "%d of %d match"
 msgid_plural "%d of %d matches"
-msgstr[0] ""
+msgstr[0] "พบ %d จาก %d"
 
 #: mousepad/mousepad-replace-dialog.c:618 mousepad/mousepad-search-bar.c:473
 #, c-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
+msgstr[0] "พบ %d"
 
 #: mousepad/mousepad-statusbar.c:121
 msgid "Choose a filetype"
@@ -899,7 +900,7 @@ msgstr "เมนูแก้ไข"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
-msgstr ""
+msgstr "ปรับแต่ง..."
 
 #: mousepad/resources/gtk/menus.ui:131
 msgid "Show the preferences dialog"
@@ -943,7 +944,7 @@ msgstr "เ_น้นทุกแห่ง"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "เน้นคำค้นที่ตรงกันทุกแห่ง"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1406,7 +1407,7 @@ msgstr "ย้ายเนื้อหาในแบบต่างๆ"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "One Line _Up"
-msgstr ""
+msgstr "ย้ายบรรทัด_ขึ้นหนึ่งบรรทัด"
 
 #: mousepad/resources/gtk/menus-common.ui:319
 msgid "Move lines one line up"
@@ -1414,7 +1415,7 @@ msgstr "ย้ายบรรทัดขึ้นหนึ่งบรรทั
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "One Line _Down"
-msgstr ""
+msgstr "ย้ายบรรทัด_ลงหนึ่งบรรทัด"
 
 #: mousepad/resources/gtk/menus-common.ui:324
 msgid "Move lines one line down"
@@ -1422,7 +1423,7 @@ msgstr "ย้ายบรรทัดลงหนึ่งบรรทัด"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "One Word _Left"
-msgstr ""
+msgstr "ย้ายหนึ่งคำไปทางซ้า_ย"
 
 #: mousepad/resources/gtk/menus-common.ui:329
 msgid "Move words one word left"
@@ -1430,7 +1431,7 @@ msgstr "ย้ายคำไปทางซ้ายหนึ่งคำ"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "One Word _Right"
-msgstr ""
+msgstr "ย้ายหนึ่งคำไปทาง_ขวา"
 
 #: mousepad/resources/gtk/menus-common.ui:334
 msgid "Move words one word right"
@@ -1597,7 +1598,7 @@ msgstr "<b>แบบอักษร</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:489
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>ชุดสี</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:505
 msgid "View"
@@ -1621,11 +1622,11 @@ msgstr "<b>การร่นย่อหน้า</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:634
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "แท็บ:การเลือกย่อหน้า (Shift+Tab: เลิกย่อหน้า)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:637
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "ย่อหน้า/เลิกย่อหน้าข้อความหรือบรรทัดปัจจุบัน"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:656
 msgid "Backspace: Delete indent spaces as tabs"
@@ -1702,7 +1703,7 @@ msgstr "เปิดแฟ้มใน:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1060
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>แท็บสมุดบันทึก</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1079
 msgid "Window"
@@ -1718,7 +1719,7 @@ msgstr "ทำสำเนาโดยเติม '~' ท้ายชื่อ�
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1141
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>การบันทึกแฟ้ม</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1174
 msgid "Session restore:"
@@ -1740,7 +1741,7 @@ msgstr "'0' จะปิดใช้งานและล้างรายก�
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1246
 msgid "Search history size:"
-msgstr ""
+msgstr "ค้นหาขนาดประวัติ:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1281
 msgid "<b>History</b>"
@@ -1752,7 +1753,7 @@ msgstr "เฝ้าสังเกตแฟ้ม"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1337
 msgid "Automatic reloading"
-msgstr ""
+msgstr "โหลดใหม่แบบอัตโนมัติ"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1364
 msgid "Default encoding:"
@@ -1779,7 +1780,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "ตั้งค่าภาษาปริยายของเอกสารใหม่ที่นี่ และสามารถเปลี่ยนได้จากเมนูที่แสดงคำแนะนำในการสะกดของคำที่ขีดเส้นใต้"
 
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:164
@@ -1788,26 +1789,26 @@ msgstr "ภาษาปริยาย:"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:46
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "เครื่องมือแก้ไขปุ่มลัด"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "เครื่องมือแก้ไขปุ่มลัดจะแสดงแบบหน้าต่างผุดขึ้นและมีข้อความแสดงการปรับแต่งในแทบเมนู"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "โปรแกรม"
 
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:258
 msgid "Menubar"
-msgstr ""
+msgstr "แถบเมนู"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "กล่องโต้ตอบปรับแต่ง"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Miscellaneous"
@@ -1815,16 +1816,16 @@ msgstr "เบ็ดเตล็ด"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:591
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "ปุ่มลัด Mousepad"
 
 #. add the shortcuts menu entry
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:640
 msgid "Shortcuts..."
-msgstr ""
+msgstr "ปุ่มลัด..."
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:644
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "แสดงกล่องโต้ตอบปุ่มลัด"
 
 #: org.xfce.mousepad.desktop.in:4 org.xfce.mousepad.appdata.xml.in:7
 msgid "Mousepad"
@@ -1840,7 +1841,7 @@ msgstr "เครื่องมือแก้ไขข้อความ"
 
 #: org.xfce.mousepad.desktop.in:15
 msgid "Edit;Text;Simple;XFCE;Lightweight;Fast;"
-msgstr ""
+msgstr "แก้ไข;ข้อความ;เรียบง่าย;XFCE;น้ำหนักเบา;รวดเร็ว;"
 
 #: org.xfce.mousepad-settings.desktop.in:4
 msgid "Text Editor Settings"
@@ -1852,7 +1853,7 @@ msgstr "ตั้งค่าเครื่องมือแก้ไขข้
 
 #: org.xfce.mousepad-settings.desktop.in:11
 msgid "Text;Editor;Mousepad;Preferences;Settings;Configure;"
-msgstr ""
+msgstr "ข้อความ;เครื่องมือแก้ไข;ปรับแต่ง;ตั้งค่า;ปรับแต่งตั้งค่า;"
 
 #: org.xfce.mousepad.appdata.xml.in:11
 msgid ""
@@ -1867,11 +1868,11 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr ""
+msgstr "ในทางกลับกันเราพยายามใช้คุณสมบัติ GTK ล่าสุดที่มีอยู่ซึ่งหมายความว่าหาก GTK เพิ่มสิ่งใหม่ ๆ ในรุ่นสำคัญที่มีประโยชน์สำหรับตัวแก้ไข เราจะรวมดีเพนเดนซี GTK และผสมผสานคุณสมบัติใหม่ใน Mousepad"
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "ทีมผู้พัฒนา Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
