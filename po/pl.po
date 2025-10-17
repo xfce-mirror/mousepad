@@ -1169,7 +1169,7 @@ msgstr "_Spis treści"
 
 #: mousepad/resources/gtk/menus.ui:371
 msgid "Display the Mousepad user manual"
-msgstr "Wyświetla podręcznik programu"
+msgstr "Wyświetla podręcznik programu"
 
 #: mousepad/resources/gtk/menus.ui:376
 msgid "_About"
