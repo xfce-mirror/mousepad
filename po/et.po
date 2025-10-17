@@ -88,7 +88,7 @@ msgstr "MOODUS"
 
 #: mousepad/mousepad-application.c:466
 msgid "The Mousepad developers. All rights reserved."
-msgstr "Mousepad'i arendusmeeskond. Kõik õigused kaitstud."
+msgstr "Mousepadi arendusmeeskond. Kõik õigused kaitstud."
 
 #: mousepad/mousepad-application.c:467
 #, c-format
@@ -290,7 +290,7 @@ msgstr "_Ava"
 #. create new font chooser dialog
 #: mousepad/mousepad-dialogs.c:1288
 msgid "Choose Mousepad Font"
-msgstr "Vali Mousepad'i font"
+msgstr "Vali Mousepadi font"
 
 #. error dialog messages
 #: mousepad/mousepad-dialogs.h:28
@@ -532,7 +532,7 @@ msgstr "Lõikepuhver on tühi"
 #. setup the window properties
 #: mousepad/mousepad-prefs-dialog.c:642 org.xfce.mousepad.desktop.in:18
 msgid "Mousepad Preferences"
-msgstr "Mousepad'i eelistused"
+msgstr "Mousepadi eelistused"
 
 #. set a custom tab label
 #: mousepad/mousepad-print.c:120
@@ -1156,7 +1156,7 @@ msgstr "_Sisukord"
 
 #: mousepad/resources/gtk/menus.ui:371
 msgid "Display the Mousepad user manual"
-msgstr "Näita Mousepad'i inglisekeelset kasutusjuhendit"
+msgstr "Näita Mousepadi ingliskeelset kasutusjuhendit"
 
 #: mousepad/resources/gtk/menus.ui:376
 msgid "_About"
@@ -1814,7 +1814,7 @@ msgstr "Mitmesugust"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:591
 msgid "Mousepad Shortcuts"
-msgstr "Mousepad'i kiirklahvid"
+msgstr "Mousepadi kiirklahvid"
 
 #. add the shortcuts menu entry
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:640
@@ -1866,11 +1866,11 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "Teisalt me proovime kasutada GTK teekide uusimad võimalusi. See tähendab, et kui järgmises GTK põhiversioonis on midagi asjalikku meie rakenduses kasutamiseks, siis me määrame kompileerimissõltuvuse uuele versioonile ja proovime lisandunud võimalust Mousepad'is kasutada."
+msgstr "Teisalt me proovime kasutada GTK teekide uusimad võimalusi. See tähendab, et kui järgmises GTK põhiversioonis on midagi asjalikku meie rakenduses kasutamiseks, siis me määrame kompileerimissõltuvuse uuele versioonile ja proovime lisandunud võimalust Mousepadis kasutada."
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr "Mousepad'i arendajad"
+msgstr "Mousepadi arendajad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
@@ -1882,4 +1882,4 @@ msgstr "Käivita Mousepad juurkasutaja õigustes"
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
-msgstr "Mousepad'i käivitamine juurkasutaja õigustes eeldab täiendavat autentimist."
+msgstr "Mousepadi käivitamine juurkasutaja õigustes eeldab täiendavat autentimist."
