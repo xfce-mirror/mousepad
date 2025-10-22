@@ -61,7 +61,7 @@ msgstr "Dobrís la fenèstra de las preferéncias"
 
 #: mousepad/mousepad-application.c:181
 msgid "Do not register with the D-BUS session message bus"
-msgstr "Enregistrar amb lo bus de messatge de la sesilha D-BUS "
+msgstr "Enregistrar pas amb lo bus de messatge de la session D-BUS"
 
 #: mousepad/mousepad-application.c:185
 msgid "Quit a running Mousepad primary instance"
@@ -91,7 +91,7 @@ msgstr "MÒDE"
 
 #: mousepad/mousepad-application.c:466
 msgid "The Mousepad developers. All rights reserved."
-msgstr "Los desvolopaires de Mousepad. Totes los dreches reservats."
+msgstr "Los desvolopaires de Mousepad. Totes los dreits reservats."
 
 #: mousepad/mousepad-application.c:467
 #, c-format
@@ -552,7 +552,7 @@ msgstr "Imprimir las entèstas de pagina"
 
 #: mousepad/mousepad-print.c:589
 msgid "Print _line numbers"
-msgstr "Imprimir los numèros de _linha :"
+msgstr "Imprimir los numèros de _linha"
 
 #: mousepad/mousepad-print.c:606
 msgid "Numbering interval:"
@@ -1279,7 +1279,7 @@ msgstr "Anar a ..."
 
 #: mousepad/resources/gtk/menus-common.ui:176
 msgid "Go to a specific location in the document"
-msgstr "Anar a un endrech especific dins lo document"
+msgstr "Anar a un endreit especific dins lo document"
 
 #: mousepad/resources/gtk/menus-common.ui:186
 msgid "_Fullscreen"
@@ -1432,11 +1432,11 @@ msgstr "Desplaçar un mot a man esquèrra"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "One Word _Right"
-msgstr "Un mot a _drecha"
+msgstr "Un mot a _dreita"
 
 #: mousepad/resources/gtk/menus-common.ui:334
 msgid "Move words one word right"
-msgstr "Desplaçar un mot a man drecha"
+msgstr "Desplaçar un mot a man dreita"
 
 #: mousepad/resources/gtk/menus-common.ui:339
 msgid "Dup_licate Line / Selection"
