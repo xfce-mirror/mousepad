@@ -911,7 +911,7 @@ mousepad_document_search (MousepadDocument *document,
           && (flags & MOUSEPAD_SEARCH_FLAGS_ENTIRE_AREA)
           && g_regex_check_replacement (replace, &has_references, NULL)
           && !has_references)
-        reference = "\\g<1>";
+        reference = "\\g<MousepadReservedName>";
     }
 
   /* attach some data for the second stage */
