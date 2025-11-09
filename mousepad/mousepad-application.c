@@ -395,6 +395,7 @@ mousepad_application_init (MousepadApplication *application)
 
   /* default application name */
   g_set_application_name (_(MOUSEPAD_NAME));
+  g_set_prgname (MOUSEPAD_ID);
 
   /* use the Mousepad icon as default for new windows */
   gtk_window_set_default_icon_name (MOUSEPAD_ID);
