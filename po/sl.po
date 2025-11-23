@@ -83,7 +83,7 @@ msgstr "[DATOTEKE...]"
 #: mousepad/mousepad-application.c:405
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr "Način odpiranja datotek: \"%s\",  \"%s\" ali \"%s\" (zavihke odpre v novem oknu)"
+msgstr "Način odpiranja datotek: \"%s\", \"%s\" ali \"%s\" (zavihke odpre v novem oknu)"
 
 #: mousepad/mousepad-application.c:408
 msgid "MODE"
@@ -682,7 +682,7 @@ msgid_plural "%d of %d matches"
 msgstr[0] "%d od %d zadetkov"
 msgstr[1] "%d od %d zadetkov"
 msgstr[2] "%d od %d zadetkov"
-msgstr[3] "%dod%d zadetkov"
+msgstr[3] "%d od %d zadetkov"
 
 #: mousepad/mousepad-replace-dialog.c:618 mousepad/mousepad-search-bar.c:473
 #, c-format
@@ -1480,7 +1480,7 @@ msgstr "Nikoli"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:43
 msgid "First key press"
-msgstr "Prva prtiisnjena tipka"
+msgstr "Prva pritisnjena tipka"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:47
 msgid "Second key press"
@@ -1488,7 +1488,7 @@ msgstr "Druga pritisnjena tipka"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:51
 msgid "Always"
-msgstr "vedno"
+msgstr "Vedno"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:89
 msgid "never"
