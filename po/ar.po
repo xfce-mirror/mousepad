@@ -4,6 +4,7 @@
 # 
 # Translators:
 # كريم أولاد الشلحة <herr.linux88@gmail.com>, 2012-2013
+# mohammadA <mohammadAbdulhadi1@gmail.com>, 2025
 # محمد الحرقان <malham1@gmail.com>, 2012
 # clmmbs <msreywel@hotmail.com>, 2019
 # كريم أولاد الشلحة <herr.linux88@gmail.com>, 2012-2013
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-07-18 11:00+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: clmmbs <msreywel@hotmail.com>, 2019\n"
+"Last-Translator: mohammadA <mohammadAbdulhadi1@gmail.com>, 2025\n"
 "Language-Team: Arabic (http://app.transifex.com/xfce/xfce-apps/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,7 +94,7 @@ msgstr ""
 
 #: mousepad/mousepad-application.c:466
 msgid "The Mousepad developers. All rights reserved."
-msgstr ""
+msgstr "مطورو ماوس باد. جميع الحقوق محفوظة."
 
 #: mousepad/mousepad-application.c:467
 #, c-format
@@ -107,7 +108,7 @@ msgstr "%s | المؤلفون: %s | اسم الملف: %s"
 
 #: mousepad/mousepad-dialogs.c:69 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr ""
+msgstr "ماوس باد هو محرر نصوص بسيط لبيئة سطح المكتب أكسفس"
 
 #: mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
@@ -158,7 +159,7 @@ msgstr "مسح محفوظات الوثائق سيزيل كافة الإدخال�
 
 #: mousepad/mousepad-dialogs.c:356
 msgid "Clea_r"
-msgstr ""
+msgstr "ا_مح"
 
 #: mousepad/mousepad-dialogs.c:382
 msgid "Do you want to save the changes before closing?"
@@ -166,7 +167,7 @@ msgstr "هل تريد حفظ التغييرات قبل الإغلاق؟"
 
 #: mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr ""
+msgstr "المستند للقراءة فقط، هل تريد حفظه في ملف آخر؟"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:392 mousepad/mousepad-dialogs.c:532
@@ -181,7 +182,7 @@ msgstr "لا تحفظ"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr ""
+msgstr "إن لم تحفظ هذا المستند الذي هو للقراءة فقط في ملف آخر، فإن كل التغييرات ستضيع."
 
 #: mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -200,7 +201,7 @@ msgstr "إذا قمت بحفظ المستند، ستفقد كافة التغيي
 msgid ""
 "The document has been externally modified. Do you want to reload it from "
 "disk?"
-msgstr ""
+msgstr "عُدل هذا المستند خارجيا، هل تريد إعادة تحميله من القرص؟"
 
 #: mousepad/mousepad-dialogs.c:469
 msgid "You have unsaved changes. If you revert the file, they will be lost."
@@ -224,11 +225,11 @@ msgstr "إذا قمت بإعادة الملف، سيتم فقدان كافة ا�
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr ""
+msgstr "يبدو أن الملف مرمز بالترميز %s، لكنك اخترت الترميز %s. هل تؤكد هذا الاختيار؟"
 
 #: mousepad/mousepad-dialogs.c:586
 msgid "If not, the guessed encoding will be used."
-msgstr ""
+msgstr "إن لم يكن، فإنه سيستعمل الترميز المخمَّن."
 
 #: mousepad/mousepad-dialogs.c:641
 msgid ""
@@ -271,7 +272,7 @@ msgstr ""
 
 #: mousepad/mousepad-dialogs.c:1126
 msgid "Text Files"
-msgstr ""
+msgstr "الملفات النصية"
 
 #: mousepad/mousepad-dialogs.c:1132
 msgid "All Files"
@@ -317,7 +318,7 @@ msgstr "_إلغاء"
 
 #: mousepad/mousepad-dialogs.h:34
 msgid "_OK"
-msgstr ""
+msgstr "_حسنا"
 
 #: mousepad/mousepad-dialogs.h:35 mousepad/resources/gtk/menus-common.ui:54
 msgid "_Save"
@@ -325,7 +326,7 @@ msgstr "_حفظ"
 
 #: mousepad/mousepad-dialogs.h:36
 msgid "Save _As"
-msgstr ""
+msgstr "احفظ _باسم"
 
 #: mousepad/mousepad-dialogs.h:37
 msgid "Re_vert"
@@ -333,7 +334,7 @@ msgstr "ا_سترجع"
 
 #: mousepad/mousepad-dialogs.h:38 mousepad/resources/gtk/menus-common.ui:72
 msgid "Re_load"
-msgstr ""
+msgstr "أ_عد التحميل"
 
 #. pack button, add signal and tooltip
 #: mousepad/mousepad-document.c:605
@@ -537,7 +538,7 @@ msgstr "لا توجد بيانات حافظة"
 #. setup the window properties
 #: mousepad/mousepad-prefs-dialog.c:642 org.xfce.mousepad.desktop.in:18
 msgid "Mousepad Preferences"
-msgstr ""
+msgstr "تفضيلات ماوس باد"
 
 #. set a custom tab label
 #: mousepad/mousepad-print.c:120
@@ -609,7 +610,7 @@ msgstr ""
 #: mousepad/mousepad-replace-dialog.c:262
 #: mousepad/resources/gtk/menus-common.ui:157
 msgid "_Find"
-msgstr ""
+msgstr "ا_بحث"
 
 #: mousepad/mousepad-replace-dialog.c:271
 msgid "_Close"
@@ -645,7 +646,7 @@ msgstr "_التفاف حول"
 #: mousepad/mousepad-replace-dialog.c:371 mousepad/mousepad-search-bar.c:286
 #: mousepad/mousepad-search-bar.c:294
 msgid "Match _case"
-msgstr ""
+msgstr "طابق _حالة الحرف"
 
 #. match whole word
 #. check button for matching whole words, including the proxy menu item
@@ -659,7 +660,7 @@ msgstr "_طابق كامل الكلمة"
 #: mousepad/mousepad-replace-dialog.c:389 mousepad/mousepad-search-bar.c:314
 #: mousepad/mousepad-search-bar.c:322
 msgid "Regular e_xpression"
-msgstr ""
+msgstr "_تعبير منتظم"
 
 #: mousepad/mousepad-replace-dialog.c:403
 msgid "Replace _all in:"
@@ -735,7 +736,7 @@ msgstr "نوع الملف: %s"
 #. add the label with the root warning
 #: mousepad/mousepad-window.c:1162
 msgid "Warning: you are using the root account. You may harm your system."
-msgstr ""
+msgstr "تحذير: أنت تستعمل الحساب الجذر، قد تضر نظامك."
 
 #: mousepad/mousepad-window.c:2485
 msgid "Read Only"
@@ -780,7 +781,7 @@ msgstr "العودة إلى إصدار محفوظ من الملف"
 
 #: mousepad/mousepad-window.c:3806 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
-msgstr ""
+msgstr "أعد تحميل الملف من القرص"
 
 #: mousepad/mousepad-window.c:3812
 msgid "Leave fullscreen mode"
@@ -835,7 +836,7 @@ msgstr "_الملف"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
-msgstr ""
+msgstr "قائمة ملف"
 
 #: mousepad/resources/gtk/menus.ui:27
 msgid "New _Window"
@@ -1053,27 +1054,27 @@ msgstr "حجم الشريط"
 
 #: mousepad/resources/gtk/menus.ui:256
 msgid "The number of space characters for a tabulation"
-msgstr ""
+msgstr "عدد محارف المسافة لعلامة الجدولة"
 
 #: mousepad/resources/gtk/menus.ui:260
 msgid "Two spaces"
-msgstr ""
+msgstr "مسافتان"
 
 #: mousepad/resources/gtk/menus.ui:266
 msgid "Three spaces"
-msgstr ""
+msgstr "ثلاث مسافات"
 
 #: mousepad/resources/gtk/menus.ui:272
 msgid "Four spaces"
-msgstr ""
+msgstr "أربع مسافات"
 
 #: mousepad/resources/gtk/menus.ui:278
 msgid "Eight spaces"
-msgstr ""
+msgstr "ثمان مسافات"
 
 #: mousepad/resources/gtk/menus.ui:283
 msgid "Other..."
-msgstr ""
+msgstr "أخرى..."
 
 #: mousepad/resources/gtk/menus.ui:284
 msgid "Set custom tab size"
@@ -1225,7 +1226,7 @@ msgstr "أغلق المستند الحالي"
 
 #: mousepad/resources/gtk/menus-common.ui:101
 msgid "_Undo"
-msgstr ""
+msgstr "_تراجع"
 
 #: mousepad/resources/gtk/menus-common.ui:102
 msgid "Undo the last action"
@@ -1233,7 +1234,7 @@ msgstr "تراجع عن الإجراء الأخير"
 
 #: mousepad/resources/gtk/menus-common.ui:110
 msgid "_Redo"
-msgstr ""
+msgstr "أ_عد"
 
 #: mousepad/resources/gtk/menus-common.ui:111
 msgid "Redo the last undone action"
@@ -1241,7 +1242,7 @@ msgstr "أعِد آخر عملية متراجع عنها"
 
 #: mousepad/resources/gtk/menus-common.ui:119
 msgid "Cu_t"
-msgstr ""
+msgstr "_قص"
 
 #: mousepad/resources/gtk/menus-common.ui:120
 msgid "Cut the selection"
@@ -1329,7 +1330,7 @@ msgstr "احذف التحديد الحالي"
 
 #: mousepad/resources/gtk/menus-common.ui:255
 msgid "Delete _Line"
-msgstr ""
+msgstr "احذف ال_سطر"
 
 #: mousepad/resources/gtk/menus-common.ui:256
 msgid "Delete the current line"
@@ -1796,11 +1797,11 @@ msgstr ""
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:164
 msgid "Default language:"
-msgstr ""
+msgstr "اللغة الافتراضية:"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:46
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "محرر الاختصارات"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
@@ -1883,7 +1884,7 @@ msgstr ""
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "مطورو ماوس باد"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
