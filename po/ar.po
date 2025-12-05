@@ -28,7 +28,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr ""
+msgstr "الترميز المستعمل لفتح الملفات (اتركه فارغا لفتح الملفات في مربع حوار الترميز)"
 
 #: mousepad/mousepad-application.c:159
 msgid "ENCODING"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: mousepad/mousepad-application.c:163
 msgid "Display a list of possible encodings to open files"
-msgstr ""
+msgstr "عرض قائمة بالترميزات الممكنة لفتح الملفات"
 
 #: mousepad/mousepad-application.c:167
 msgid ""
@@ -132,7 +132,7 @@ msgstr "اذهب إلى"
 #. add button
 #: mousepad/mousepad-dialogs.c:239
 msgid "_Jump to"
-msgstr ""
+msgstr "ا_قفز إلى"
 
 #: mousepad/mousepad-dialogs.c:259
 msgid "_Line number:"
@@ -235,27 +235,27 @@ msgstr "إن لم يكن، فإنه سيستعمل الترميز المخمَّ
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr ""
+msgstr "يبدو أن الجلسة السابقة لم تنته بشكل طبيعي. هل تريد استعادة البيانات المتاحة؟"
 
 #: mousepad/mousepad-dialogs.c:660
 msgid "If not, all this data will be lost."
-msgstr ""
+msgstr "إن لم يكن، فإن كل هذه البيانات ستضيع."
 
 #: mousepad/mousepad-dialogs.c:863
 msgid "Please select a file"
-msgstr ""
+msgstr "اختر ملفا رجاء"
 
 #: mousepad/mousepad-dialogs.c:906
 msgid "Failed to prepare the temporary file for encoding tests"
-msgstr ""
+msgstr "تعذر إعداد ملف مؤقت لاختبارات الترميز"
 
 #: mousepad/mousepad-dialogs.c:969 mousepad/mousepad-dialogs.c:1042
 msgid "Open encoding dialog"
-msgstr ""
+msgstr "افتح نافذة حوار الترميزات"
 
 #: mousepad/mousepad-dialogs.c:971
 msgid "Go back to shorten list"
-msgstr ""
+msgstr "ارجع إلى القائمة المقصَّرة"
 
 #. combo box label
 #: mousepad/mousepad-dialogs.c:1035
@@ -268,7 +268,7 @@ msgstr ""
 
 #: mousepad/mousepad-dialogs.c:1088
 msgid "Show all encodings"
-msgstr ""
+msgstr "اعرض كل الترميزات"
 
 #: mousepad/mousepad-dialogs.c:1126
 msgid "Text Files"
@@ -604,7 +604,7 @@ msgstr "_إستبدل"
 #. set dialog properties
 #: mousepad/mousepad-replace-dialog.c:256
 msgid "Find and Replace"
-msgstr ""
+msgstr "البحث والاستبدال"
 
 #. dialog buttons
 #: mousepad/mousepad-replace-dialog.c:262
@@ -852,7 +852,7 @@ msgstr "جديد من القالب"
 
 #: mousepad/resources/gtk/menus.ui:33
 msgid "Create a new document from a template"
-msgstr ""
+msgstr "أنشئ مستندا جديدا من قالب"
 
 #: mousepad/resources/gtk/menus.ui:43
 msgid "Op_en Recent"
@@ -900,7 +900,7 @@ msgstr "_خروج"
 
 #: mousepad/resources/gtk/menus.ui:103
 msgid "Quit Mousepad"
-msgstr ""
+msgstr "غادر ماوس باد"
 
 #: mousepad/resources/gtk/menus.ui:111
 msgid "_Edit"
@@ -944,7 +944,7 @@ msgstr "ابحث للخلف عن نفس النص"
 
 #: mousepad/resources/gtk/menus.ui:163
 msgid "_Incremental Search"
-msgstr ""
+msgstr "بحث _تزايدي"
 
 #: mousepad/resources/gtk/menus.ui:164
 msgid "Automatically select the search result and scroll the view"
@@ -1419,35 +1419,35 @@ msgstr ""
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "One Line _Up"
-msgstr ""
+msgstr "سطر واحد إلى أ_على"
 
 #: mousepad/resources/gtk/menus-common.ui:319
 msgid "Move lines one line up"
-msgstr ""
+msgstr "حرك الأسطر سطر واحدا إلى أعلى"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "One Line _Down"
-msgstr ""
+msgstr "سطر واحد إلى أ_سفل"
 
 #: mousepad/resources/gtk/menus-common.ui:324
 msgid "Move lines one line down"
-msgstr ""
+msgstr "حرك الأسطر سطرا واحدا إلى أسفل"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "One Word _Left"
-msgstr ""
+msgstr "كلمة واحدة إلى ال_يسار"
 
 #: mousepad/resources/gtk/menus-common.ui:329
 msgid "Move words one word left"
-msgstr ""
+msgstr "حرك الكلمات كلمة واحدة إلى اليسار"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "One Word _Right"
-msgstr ""
+msgstr "كلمة واحدة إلى الي_مين"
 
 #: mousepad/resources/gtk/menus-common.ui:334
 msgid "Move words one word right"
-msgstr ""
+msgstr "حرك الكلمات كلمة واحدة إلى اليمين"
 
 #: mousepad/resources/gtk/menus-common.ui:339
 msgid "Dup_licate Line / Selection"
@@ -1892,7 +1892,7 @@ msgstr "مطورو ماوس باد"
 #. to. This isn't a good idea, but is common on single user systems.
 #: org.xfce.mousepad.policy.in.in:24
 msgid "Run Mousepad as root"
-msgstr ""
+msgstr "شغل ماوس باد بحساب الجذر"
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
