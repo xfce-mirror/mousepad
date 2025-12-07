@@ -1131,23 +1131,23 @@ msgstr "Način prikazo_valnika"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
-msgstr "Ne dovoli spreminjanja preko tipkovnice/ miške"
+msgstr "Ne dovoli spreminjanja preko tipkovnice / miške"
 
 #: mousepad/resources/gtk/menus.ui:350
 msgid "_Previous Tab"
-msgstr "_Prejšnji tabulator"
+msgstr "_Prejšnji zavihek"
 
 #: mousepad/resources/gtk/menus.ui:351
 msgid "Select the previous tab"
-msgstr "Izberi prejšnji tabulator"
+msgstr "Izberi prejšnji zavihek"
 
 #: mousepad/resources/gtk/menus.ui:356
 msgid "_Next Tab"
-msgstr "_Naslednji tabulator"
+msgstr "_Naslednji zavihek"
 
 #: mousepad/resources/gtk/menus.ui:357
 msgid "Select the next tab"
-msgstr "Izberi naslednji tabulator"
+msgstr "Izberi naslednji zavihek"
 
 #: mousepad/resources/gtk/menus.ui:367
 msgid "_Help"
@@ -1513,17 +1513,17 @@ msgstr "vedno"
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:141
 msgid "new tabs"
-msgstr "novi zavihki"
+msgstr "novih zavihkih"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:145
 msgid "new windows"
-msgstr "nova okna"
+msgstr "novih oknih"
 
 #. Preceded by: "Open files in:"
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:149
 msgid "new tabs in a new window"
-msgstr "novi zavihki v novem oknu"
+msgstr "nove zavihke v novem oknu"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:164
 msgid "Menu"
@@ -1567,27 +1567,27 @@ msgstr "besedilo poleg ikon"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:258
 msgid "Display whitespace"
-msgstr "prikaži prazne znake"
+msgstr "Prikaži prazne znake"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:272
 msgid "Display line endings"
-msgstr "prikaži zaključke vrstic"
+msgstr "Prikaži zaključke vrstic"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:290
 msgid "Long line margin at column:"
-msgstr "dolg odmik vrstice ob stolpcu:"
+msgstr "Dolg odmik vrstice ob stolpcu:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:341
 msgid "Highlight current line"
-msgstr "označi trenutno vrstico"
+msgstr "Označi trenutno vrstico"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:355
 msgid "Highlight matching brackets"
-msgstr "označi ujemajoče oklepaje"
+msgstr "Označi ujemajoče oklepaje"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:369
 msgid "Wrap long lines"
-msgstr "ovij dolge vrstice"
+msgstr "Ovij dolge vrstice"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:386
 msgid "<b>Display</b>"
@@ -1696,7 +1696,7 @@ msgstr "Vedno pokaži zavihke, tudi pri eni datoteki"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
 msgid "Expand tabs to fill available space"
-msgstr "Razširi tabulatorje za zapolnitev prostora, ki je na voljo"
+msgstr "Razširi zavihke, da zapolnijo prostor, ki je na voljo"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Cycled notebook tab switching"
