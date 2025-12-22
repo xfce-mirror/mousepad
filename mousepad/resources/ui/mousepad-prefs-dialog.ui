@@ -788,10 +788,10 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton">
-                    <property name="label" translatable="yes">Disable title suffix</property>
+                    <property name="label" translatable="yes">Show application name in title bar</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
-                    <property name="action-name">app.preferences.window.disable-title-suffix</property>
+                    <property name="action-name">app.preferences.window.app-name-in-title</property>
                     <property name="draw-indicator">True</property>
                   </object>
                   <packing>

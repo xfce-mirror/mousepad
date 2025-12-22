@@ -237,7 +237,7 @@ static const GActionEntry dialog_actions[] = {
   /* "Window" tab */
   { MOUSEPAD_SETTING_CLIENT_SIDE_DECORATIONS, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_PATH_IN_TITLE, mousepad_application_toggle_activate, NULL, "false", NULL },
-  { MOUSEPAD_SETTING_DISABLE_TITLE_SUFFIX, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_APP_NAME_IN_TITLE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_SIZE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_POSITION, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_STATE, mousepad_application_toggle_activate, NULL, "false", NULL },

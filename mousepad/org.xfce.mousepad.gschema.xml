@@ -377,12 +377,12 @@
         titlebar, when false only the basename will be shown.
       </description>
     </key>
-    <key name="disable-title-suffix" type="b">
-      <default>false</default>
-      <summary>Disable title suffix</summary>
+    <key name="app-name-in-title" type="b">
+      <default>true</default>
+      <summary>Show app name in title</summary>
       <description>
-        When true only the name of the file will be used as window title,
-        when false the "- Mousepad" suffix will be append.
+        When checked, the "- Mousepad" suffix will be append to the file name
+        in the window title.
       </description>
     </key>
     <key name="recent-menu-items" type="u">
