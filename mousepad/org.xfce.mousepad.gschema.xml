@@ -381,7 +381,7 @@
       <default>true</default>
       <summary>Show app name in title</summary>
       <description>
-        When checked, the "- Mousepad" suffix will be append to the file name
+        When checked, the " - Mousepad" suffix will be appended to the file name
         in the window title.
       </description>
     </key>

@@ -2475,7 +2475,7 @@ mousepad_window_set_title (MousepadWindow *window)
   /* whether to show the full path */
   show_full_path = MOUSEPAD_SETTING_GET_BOOLEAN (PATH_IN_TITLE);
 
-  /* whether to show the mouspad application name */
+  /* whether to show the application name */
   if (MOUSEPAD_SETTING_GET_BOOLEAN (APP_NAME_IN_TITLE))
     suffix = " - " MOUSEPAD_NAME;
 
