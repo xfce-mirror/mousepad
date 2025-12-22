@@ -1346,6 +1346,10 @@ mousepad_window_init (MousepadWindow *window)
   /* update the tabs when 'always-show-tabs' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (ALWAYS_SHOW_TABS, mousepad_window_update_tabs_visibility,
                                    window, G_CONNECT_SWAPPED);
+
+  /* update the window title when 'disable-title-suffix' setting changes */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (DISABLE_TITLE_SUFFIX, mousepad_window_set_title,
+                                   window, G_CONNECT_SWAPPED);
 }
 
 
@@ -2464,6 +2468,7 @@ mousepad_window_set_title (MousepadWindow *window)
   gchar *string;
   const gchar *title;
   gboolean show_full_path;
+  gchar *application_name = " ";
   MousepadDocument *document = window->active;
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
@@ -2471,6 +2476,13 @@ mousepad_window_set_title (MousepadWindow *window)
 
   /* whether to show the full path */
   show_full_path = MOUSEPAD_SETTING_GET_BOOLEAN (PATH_IN_TITLE);
+
+  /* whether to show the mouspad application name */
+  if (!MOUSEPAD_SETTING_GET_BOOLEAN (DISABLE_TITLE_SUFFIX))
+    {
+      application_name = malloc (4 + strlen (MOUSEPAD_NAME));
+      sprintf (application_name, "%s%s", " - ", MOUSEPAD_NAME);
+    }
 
   /* name we display in the title */
   if (G_UNLIKELY (show_full_path && mousepad_document_get_filename (document)))
@@ -2480,17 +2492,17 @@ mousepad_window_set_title (MousepadWindow *window)
 
   /* build the title */
   if (G_UNLIKELY (mousepad_file_get_read_only (document->file)))
-    string = g_strdup_printf ("%s%s [%s] - %s",
+    string = g_strdup_printf ("%s%s [%s]%s",
                               gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
-                              title, _("Read Only"), MOUSEPAD_NAME);
+                              title, _("Read Only"), application_name);
   else if (G_UNLIKELY (!gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview))))
-    string = g_strdup_printf ("%s%s [%s] - %s",
+    string = g_strdup_printf ("%s%s [%s]%s",
                               gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
-                              title, _("Viewer Mode"), MOUSEPAD_NAME);
+                              title, _("Viewer Mode"), application_name);
   else
-    string = g_strdup_printf ("%s%s - %s",
+    string = g_strdup_printf ("%s%s%s",
                               gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
-                              title, MOUSEPAD_NAME);
+                              title, application_name);
 
   /* set the window title */
   gtk_window_set_title (GTK_WINDOW (window), string);

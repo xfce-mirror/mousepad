@@ -377,6 +377,14 @@
         titlebar, when false only the basename will be shown.
       </description>
     </key>
+    <key name="disable-title-suffix" type="b">
+      <default>false</default>
+      <summary>Disable title suffix</summary>
+      <description>
+        When true only the name of the file will be used as window title,
+        when false the "- Mousepad" suffix will be append.
+      </description>
+    </key>
     <key name="recent-menu-items" type="u">
       <range min="0" max="100"/>
       <default>10</default>

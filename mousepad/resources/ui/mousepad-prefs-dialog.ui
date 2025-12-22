@@ -788,6 +788,20 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton">
+                    <property name="label" translatable="yes">Disable title suffix</property>
+                    <property name="visible">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="action-name">app.preferences.window.disable-title-suffix</property>
+                    <property name="draw-indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton">
                     <property name="label" translatable="yes">Remember window size</property>
                     <property name="visible">True</property>
                     <property name="receives-default">False</property>
@@ -797,7 +811,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -811,7 +825,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
@@ -825,7 +839,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
               </object>
