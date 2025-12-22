@@ -2478,10 +2478,10 @@ mousepad_window_set_title (MousepadWindow *window)
   show_full_path = MOUSEPAD_SETTING_GET_BOOLEAN (PATH_IN_TITLE);
 
   /* whether to show the mouspad application name */
-  if (! MOUSEPAD_SETTING_GET_BOOLEAN (DISABLE_TITLE_SUFFIX))
+  if (!MOUSEPAD_SETTING_GET_BOOLEAN (DISABLE_TITLE_SUFFIX))
     {
-      application_name = malloc(4+strlen(MOUSEPAD_NAME));
-      sprintf(application_name, "%s%s", " - ", MOUSEPAD_NAME);
+      application_name = malloc (4 + strlen (MOUSEPAD_NAME));
+      sprintf (application_name, "%s%s", " - ", MOUSEPAD_NAME);
     }
 
   /* name we display in the title */
