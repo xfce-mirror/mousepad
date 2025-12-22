@@ -377,6 +377,14 @@
         titlebar, when false only the basename will be shown.
       </description>
     </key>
+    <key name="app-name-in-title" type="b">
+      <default>true</default>
+      <summary>Show app name in title</summary>
+      <description>
+        When checked, the " - Mousepad" suffix will be appended to the file name
+        in the window title.
+      </description>
+    </key>
     <key name="recent-menu-items" type="u">
       <range min="0" max="100"/>
       <default>10</default>

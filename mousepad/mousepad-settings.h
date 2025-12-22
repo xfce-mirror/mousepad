@@ -62,6 +62,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_OPENING_MODE "preferences.window.opening-mode"
 #define MOUSEPAD_SETTING_DEFAULT_TAB_SIZES "preferences.window.default-tab-sizes"
 #define MOUSEPAD_SETTING_PATH_IN_TITLE "preferences.window.path-in-title"
+#define MOUSEPAD_SETTING_APP_NAME_IN_TITLE "preferences.window.app-name-in-title"
 #define MOUSEPAD_SETTING_RECENT_MENU_ITEMS "preferences.window.recent-menu-items"
 #define MOUSEPAD_SETTING_REMEMBER_SIZE "preferences.window.remember-size"
 #define MOUSEPAD_SETTING_REMEMBER_POSITION "preferences.window.remember-position"
