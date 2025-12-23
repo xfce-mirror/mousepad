@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2025-07-18 11:00+0200\n"
+"POT-Creation-Date: 2025-12-23 00:56+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024\n"
+"Last-Translator: vyper <xvirusxx@gmail.com>, 2016\n"
 "Language-Team: Romanian (http://app.transifex.com/xfce/xfce-apps/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,25 +81,25 @@ msgstr "[FIȘIERE...]"
 #. * that opening modes will be excluded from the translation (experience
 #. shows that using a
 #. * translation context is not enough to ensure it)
-#: mousepad/mousepad-application.c:405
+#: mousepad/mousepad-application.c:407
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Modul de deschidere a fișierelor: „%s”, „%s” sau „%s” (deschide file într-o fereastră nouă)"
 
-#: mousepad/mousepad-application.c:408
+#: mousepad/mousepad-application.c:410
 msgid "MODE"
 msgstr "MOD"
 
-#: mousepad/mousepad-application.c:466
+#: mousepad/mousepad-application.c:468
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Dezvoltatorii Mousepad. Toate drepturile rezervate."
 
-#: mousepad/mousepad-application.c:467
+#: mousepad/mousepad-application.c:469
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Raportați problemele la <%s>."
 
-#: mousepad/mousepad-application.c:1575
+#: mousepad/mousepad-application.c:1577
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Autori: %s | Numele fișierului: %s"
@@ -110,7 +110,7 @@ msgstr "Mousepad este un editor de text simplu pentru mediul grafic de birou Xfc
 
 #: mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
-msgstr "Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024"
+msgstr "Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2024, 2025"
 
 #. display an error message to the user
 #: mousepad/mousepad-dialogs.c:123
@@ -730,27 +730,27 @@ msgstr "Tip de fișier: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Atenție: utilizați contul de administrator (root). Vă puteți deteriora sistemul."
 
-#: mousepad/mousepad-window.c:2485
+#: mousepad/mousepad-window.c:2492
 msgid "Read Only"
 msgstr "Doar citire"
 
-#: mousepad/mousepad-window.c:2489
+#: mousepad/mousepad-window.c:2496
 msgid "Viewer Mode"
 msgstr "Modul de vizualizare"
 
-#: mousepad/mousepad-window.c:3548
+#: mousepad/mousepad-window.c:3555
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Utilizați „%s” ca șablon"
 
-#: mousepad/mousepad-window.c:3574
+#: mousepad/mousepad-window.c:3581
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Nu s-au găsit fișiere șablon în\n„%s”"
 
-#: mousepad/mousepad-window.c:3639
+#: mousepad/mousepad-window.c:3646
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -758,67 +758,67 @@ msgid ""
 msgstr "Lipsește directorul de șabloane\n„%s”"
 
 #. create suitable text label for the "Other" menu
-#: mousepad/mousepad-window.c:3691
+#: mousepad/mousepad-window.c:3698
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "_Altul (%d)..."
 
-#: mousepad/mousepad-window.c:3701
+#: mousepad/mousepad-window.c:3708
 msgid "Ot_her..."
 msgstr "_Altul..."
 
-#: mousepad/mousepad-window.c:3800
+#: mousepad/mousepad-window.c:3807
 msgid "Revert to the saved version of the file"
 msgstr "Restaurează versiunea salvată a fișierului"
 
-#: mousepad/mousepad-window.c:3806 mousepad/resources/gtk/menus-common.ui:73
+#: mousepad/mousepad-window.c:3813 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
 msgstr "Reîncarcă fișierul de pe disc"
 
-#: mousepad/mousepad-window.c:3812
+#: mousepad/mousepad-window.c:3819
 msgid "Leave fullscreen mode"
 msgstr "Ieșire din modul de ecran complet"
 
-#: mousepad/mousepad-window.c:3817 mousepad/resources/gtk/menus-common.ui:187
+#: mousepad/mousepad-window.c:3824 mousepad/resources/gtk/menus-common.ui:187
 msgid "Make the window fullscreen"
 msgstr "Afișează fereastra în ecran complet"
 
-#: mousepad/mousepad-window.c:4059
+#: mousepad/mousepad-window.c:4066
 #, c-format
 msgid "Open '%s'"
 msgstr "Deschide „%s”"
 
-#: mousepad/mousepad-window.c:4090
+#: mousepad/mousepad-window.c:4097
 msgid "No items found"
 msgstr "Nu s-a găsit niciun element"
 
-#: mousepad/mousepad-window.c:4090
+#: mousepad/mousepad-window.c:4097
 msgid "History disabled"
 msgstr "Istoric dezactivat"
 
 #. set error message
-#: mousepad/mousepad-window.c:4459
+#: mousepad/mousepad-window.c:4466
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Șabloanele trebuie să fie %s valide"
 
 #. set error message
-#: mousepad/mousepad-window.c:4465
+#: mousepad/mousepad-window.c:4472
 msgid "Reading the template failed"
 msgstr "Citirea șablonului a eșuat"
 
 #. set error message
-#: mousepad/mousepad-window.c:4470
+#: mousepad/mousepad-window.c:4477
 msgid "Loading the template failed"
 msgstr "Încărcarea șablonului a eșuat"
 
 #. show the error
-#: mousepad/mousepad-window.c:4916
+#: mousepad/mousepad-window.c:4924
 msgid "Failed to reload the document"
 msgstr "Nu s-a putut reîncărca documentul"
 
 #. show the error
-#: mousepad/mousepad-window.c:4951
+#: mousepad/mousepad-window.c:4959
 msgid "Failed to print the document"
 msgstr "Nu s-a putut imprima documentul"
 
@@ -1658,120 +1658,124 @@ msgid "Show full filename in title bar"
 msgstr "Afișează numele complet al fișierului în bara de titlu"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:791
+msgid "Show application name in title bar"
+msgstr "Afișează numele aplicațieii în bara de titlu"
+
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:805
 msgid "Remember window size"
 msgstr "Reține dimensiunea ferestrei"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:805
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:819
 msgid "Remember window position"
 msgstr "Reține poziția ferestrei"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:819
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:833
 msgid "Remember window state"
 msgstr "Reține starea ferestrei"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:836
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:850
 msgid "<b>General</b>"
 msgstr "<b>Generale</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:864
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:878
 msgid "Show toolbar"
 msgstr "Afișează bara de unelte"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:880
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:894
 msgid "Style:"
 msgstr "Stil:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:892
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:906
 msgid "Icon Size:"
 msgstr "Dimensiunea pictogramei:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:941
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:955
 msgid "<b>Toolbar</b>"
 msgstr "<b>Bara de unelte</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:968
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
 msgid "Always show tabs even with one file"
 msgstr "Afișează întotdeauna filele chiar și cu un singur fișier"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Expand tabs to fill available space"
 msgstr "Extinde filele pentru a umple spațiul disponibil"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1010
 msgid "Cycled notebook tab switching"
 msgstr "Schimbare ciclică a filelor de notebook"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1016
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1030
 msgid "Open files in:"
 msgstr "Deschide fișierele în:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1060
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1074
 msgid "<b>Notebook Tabs</b>"
 msgstr "<b>File de notebook</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1079
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1093
 msgid "Window"
 msgstr "Fereastră"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1110
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
 msgid "Ensure new line at file end"
 msgstr "Asigură o linie nouă la sfârșitul fișierului"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1138
 msgid "Make a copy with '~' suffix"
 msgstr "Face o copie cu sufixul „~”"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1141
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1155
 msgid "<b>File Saving</b>"
 msgstr "<b>Salvare fișier</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1174
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1188
 msgid "Session restore:"
 msgstr "Restaurează sesiunea:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1186
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1200
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
 msgstr "Atunci când se selectează „documente nesalvate” sau „întotdeauna”, Mousepad nu va solicita salvarea documentelor modificate la închidere"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1219
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1233
 msgid "Recent file menu length:"
 msgstr "Lungimea meniului de fișiere recente:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1231
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1245
 msgid "'0' disables and wipes recent history"
 msgstr "„0” dezactivează și șterge istoricul recent"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1246
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1260
 msgid "Search history size:"
 msgstr "Dimensiunea istoricului de căutare:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1281
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1295
 msgid "<b>History</b>"
 msgstr "<b>Istoric</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1327
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1341
 msgid "File monitoring"
 msgstr "Monitorizează fișierele"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1337
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1351
 msgid "Automatic reloading"
 msgstr "Reîncărcare automată"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1364
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1378
 msgid "Default encoding:"
 msgstr "Codificarea implicită:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1403
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1417
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Diverse</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1422
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1436
 msgid "File"
 msgstr "Fișier"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1449
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1463
 msgid "Plugins"
 msgstr "Module"
 
