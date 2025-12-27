@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2025-07-18 11:00+0200\n"
+"POT-Creation-Date: 2025-12-23 00:56+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
 "Last-Translator: Dejweed, 2025\n"
 "Language-Team: Slovenian (http://app.transifex.com/xfce/xfce-apps/language/sl/)\n"
@@ -80,25 +80,25 @@ msgstr "[DATOTEKE...]"
 #. * that opening modes will be excluded from the translation (experience
 #. shows that using a
 #. * translation context is not enough to ensure it)
-#: mousepad/mousepad-application.c:405
+#: mousepad/mousepad-application.c:407
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Način odpiranja datotek: \"%s\", \"%s\" ali \"%s\" (zavihke odpre v novem oknu)"
 
-#: mousepad/mousepad-application.c:408
+#: mousepad/mousepad-application.c:410
 msgid "MODE"
 msgstr "NAČIN"
 
-#: mousepad/mousepad-application.c:466
+#: mousepad/mousepad-application.c:468
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Razvijalci Mousepad. Vse pravice pridržane."
 
-#: mousepad/mousepad-application.c:467
+#: mousepad/mousepad-application.c:469
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Prijavite hrošče na <%s>."
 
-#: mousepad/mousepad-application.c:1575
+#: mousepad/mousepad-application.c:1577
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Avtorji: %s | Ime datoteke: %s"
@@ -731,27 +731,27 @@ msgstr "Vrsta datoteke: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Opozorilo: uporabljate korenski root račun. S tem lahko poškudujete sistem."
 
-#: mousepad/mousepad-window.c:2485
+#: mousepad/mousepad-window.c:2492
 msgid "Read Only"
 msgstr "Samo za branje"
 
-#: mousepad/mousepad-window.c:2489
+#: mousepad/mousepad-window.c:2496
 msgid "Viewer Mode"
 msgstr "Način prikazovalnika"
 
-#: mousepad/mousepad-window.c:3548
+#: mousepad/mousepad-window.c:3555
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Uporabi '%s' kot predlogo"
 
-#: mousepad/mousepad-window.c:3574
+#: mousepad/mousepad-window.c:3581
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Ni najdenih predlog v:\n'%s'"
 
-#: mousepad/mousepad-window.c:3639
+#: mousepad/mousepad-window.c:3646
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -759,67 +759,67 @@ msgid ""
 msgstr "Manjka mapa Predloge\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: mousepad/mousepad-window.c:3691
+#: mousepad/mousepad-window.c:3698
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Os_talo (%d)..."
 
-#: mousepad/mousepad-window.c:3701
+#: mousepad/mousepad-window.c:3708
 msgid "Ot_her..."
 msgstr "Os_talo..."
 
-#: mousepad/mousepad-window.c:3800
+#: mousepad/mousepad-window.c:3807
 msgid "Revert to the saved version of the file"
 msgstr "Povrni na shranjeno različico datoteke"
 
-#: mousepad/mousepad-window.c:3806 mousepad/resources/gtk/menus-common.ui:73
+#: mousepad/mousepad-window.c:3813 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
 msgstr "Ponovno naloži datoteko z diska"
 
-#: mousepad/mousepad-window.c:3812
+#: mousepad/mousepad-window.c:3819
 msgid "Leave fullscreen mode"
 msgstr "Zapusti celozaslonski način"
 
-#: mousepad/mousepad-window.c:3817 mousepad/resources/gtk/menus-common.ui:187
+#: mousepad/mousepad-window.c:3824 mousepad/resources/gtk/menus-common.ui:187
 msgid "Make the window fullscreen"
 msgstr "Razširi okno čez celoten zaslon"
 
-#: mousepad/mousepad-window.c:4059
+#: mousepad/mousepad-window.c:4066
 #, c-format
 msgid "Open '%s'"
 msgstr "Odpri '%s'"
 
-#: mousepad/mousepad-window.c:4090
+#: mousepad/mousepad-window.c:4097
 msgid "No items found"
 msgstr "Ni najdenih predmetov"
 
-#: mousepad/mousepad-window.c:4090
+#: mousepad/mousepad-window.c:4097
 msgid "History disabled"
 msgstr "Zgodovina je izklopljena"
 
 #. set error message
-#: mousepad/mousepad-window.c:4459
+#: mousepad/mousepad-window.c:4466
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Predloge naj ustrezajo %s"
 
 #. set error message
-#: mousepad/mousepad-window.c:4465
+#: mousepad/mousepad-window.c:4472
 msgid "Reading the template failed"
 msgstr "Branje datotek s predlogo"
 
 #. set error message
-#: mousepad/mousepad-window.c:4470
+#: mousepad/mousepad-window.c:4477
 msgid "Loading the template failed"
 msgstr "Nalaganje predloge ni uspelo"
 
 #. show the error
-#: mousepad/mousepad-window.c:4916
+#: mousepad/mousepad-window.c:4924
 msgid "Failed to reload the document"
 msgstr "Ponovno nalaganje dokumenta ni uspelo"
 
 #. show the error
-#: mousepad/mousepad-window.c:4951
+#: mousepad/mousepad-window.c:4959
 msgid "Failed to print the document"
 msgstr "Tiskanje dokumenta ni uspelo"
 
@@ -945,7 +945,7 @@ msgstr "Samodejno izbere rezultat iskanja in pomakne prikaz"
 
 #: mousepad/resources/gtk/menus.ui:168
 msgid "Highlight _All"
-msgstr "Označi _vse:"
+msgstr "Označi _vse"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
@@ -1659,120 +1659,124 @@ msgid "Show full filename in title bar"
 msgstr "Pokaži celo ime datoteke v naslovni vrstici"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:791
+msgid "Show application name in title bar"
+msgstr "Pokaži ime programa v naslovni vrstici"
+
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:805
 msgid "Remember window size"
 msgstr "Zapomni si velikost okna"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:805
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:819
 msgid "Remember window position"
 msgstr "Zapomni si položaj okna"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:819
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:833
 msgid "Remember window state"
 msgstr "Zapomni si stanje okna"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:836
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:850
 msgid "<b>General</b>"
 msgstr "<b>Splošno</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:864
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:878
 msgid "Show toolbar"
 msgstr "Pokaži orodno vrstico"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:880
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:894
 msgid "Style:"
 msgstr "Slog:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:892
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:906
 msgid "Icon Size:"
 msgstr "Velikost ikon:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:941
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:955
 msgid "<b>Toolbar</b>"
 msgstr "<b>Orodna vrstica</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:968
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
 msgid "Always show tabs even with one file"
 msgstr "Vedno pokaži zavihke, tudi pri eni datoteki"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Expand tabs to fill available space"
 msgstr "Razširi zavihke, da zapolnijo prostor, ki je na voljo"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1010
 msgid "Cycled notebook tab switching"
 msgstr "Krožno preklapljanje med zavihki beležke"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1016
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1030
 msgid "Open files in:"
 msgstr "Odpri datoteke v:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1060
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1074
 msgid "<b>Notebook Tabs</b>"
 msgstr "<b>Zavihki beležke</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1079
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1093
 msgid "Window"
 msgstr "Okno"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1110
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
 msgid "Ensure new line at file end"
 msgstr "Zagotovi novo vrstico ob koncu datoteke"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1138
 msgid "Make a copy with '~' suffix"
 msgstr "Ustvari kopijo s pripono '~'"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1141
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1155
 msgid "<b>File Saving</b>"
 msgstr "<b>Shranjevanje datotek</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1174
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1188
 msgid "Session restore:"
 msgstr "Obnova seje:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1186
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1200
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
 msgstr "Če je izbrano \"neshranjeni dokumenti\" ali \"vedno\", Mousepad ob zapiranju programa ne bo vprašal ali naj shrani spremenjene dokumente"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1219
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1233
 msgid "Recent file menu length:"
 msgstr "Dolžina menija za zadnjimi datotekami:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1231
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1245
 msgid "'0' disables and wipes recent history"
 msgstr "'0' onemogoči in pobriše nedavno zgodovino"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1246
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1260
 msgid "Search history size:"
 msgstr "Velikost zgodovine iskanja:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1281
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1295
 msgid "<b>History</b>"
 msgstr "<b>Zgodovina</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1327
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1341
 msgid "File monitoring"
 msgstr "Nadzor datotek"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1337
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1351
 msgid "Automatic reloading"
 msgstr "Samodejno ponovno nalaganje"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1364
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1378
 msgid "Default encoding:"
 msgstr "Privzeto kodiranje:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1403
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1417
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Razno</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1422
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1436
 msgid "File"
 msgstr "Datoteka"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1449
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1463
 msgid "Plugins"
 msgstr "Vtičniki"
 
