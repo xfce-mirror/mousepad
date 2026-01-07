@@ -8,15 +8,15 @@
 # Arve Eriksson <031299870@telia.com>, 2020-2021
 # Carlos Dz <cls567@tuta.io>, 2020
 # Luna Jernberg <droidbittin@gmail.com>, 2020-2023
-# Luna Jernberg <droidbittin@gmail.com>, 2024
+# Luna Jernberg <droidbittin@gmail.com>, 2024,2026
 # Påvel Nicklasson <pavel@frimix.se>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2025-07-18 11:00+0200\n"
+"POT-Creation-Date: 2025-12-23 00:56+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Luna Jernberg <droidbittin@gmail.com>, 2024\n"
+"Last-Translator: Luna Jernberg <droidbittin@gmail.com>, 2024,2026\n"
 "Language-Team: Swedish (http://app.transifex.com/xfce/xfce-apps/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,25 +83,25 @@ msgstr "[FILER...]"
 #. * that opening modes will be excluded from the translation (experience
 #. shows that using a
 #. * translation context is not enough to ensure it)
-#: mousepad/mousepad-application.c:405
+#: mousepad/mousepad-application.c:407
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Filöppningsläge: \"%s\",\"%s \" eller \"%s\"(öppnar flikar i ett nytt fönster)"
 
-#: mousepad/mousepad-application.c:408
+#: mousepad/mousepad-application.c:410
 msgid "MODE"
 msgstr "LÄGE"
 
-#: mousepad/mousepad-application.c:466
+#: mousepad/mousepad-application.c:468
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Mousepad-utvecklarna. Alla rättigheter förbehållna."
 
-#: mousepad/mousepad-application.c:467
+#: mousepad/mousepad-application.c:469
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Rapportera buggar till <%s>."
 
-#: mousepad/mousepad-application.c:1575
+#: mousepad/mousepad-application.c:1577
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Upphovsmän: %s | Filnamn: %s"
@@ -730,27 +730,27 @@ msgstr "Filtyp: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Varning: du använder rootkontot. Du kan skada ditt ditt system."
 
-#: mousepad/mousepad-window.c:2485
+#: mousepad/mousepad-window.c:2492
 msgid "Read Only"
 msgstr "Skrivskyddat"
 
-#: mousepad/mousepad-window.c:2489
+#: mousepad/mousepad-window.c:2496
 msgid "Viewer Mode"
 msgstr "Visningsläge"
 
-#: mousepad/mousepad-window.c:3548
+#: mousepad/mousepad-window.c:3555
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Använd '%s' som mall "
 
-#: mousepad/mousepad-window.c:3574
+#: mousepad/mousepad-window.c:3581
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Inga malldokument hittades i\n'%s'"
 
-#: mousepad/mousepad-window.c:3639
+#: mousepad/mousepad-window.c:3646
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -758,67 +758,67 @@ msgid ""
 msgstr "Saknar mallmapp\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: mousepad/mousepad-window.c:3691
+#: mousepad/mousepad-window.c:3698
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Ann_at (%d)..."
 
-#: mousepad/mousepad-window.c:3701
+#: mousepad/mousepad-window.c:3708
 msgid "Ot_her..."
 msgstr "Ann_at..."
 
-#: mousepad/mousepad-window.c:3800
+#: mousepad/mousepad-window.c:3807
 msgid "Revert to the saved version of the file"
 msgstr "Återgå till sparad version av filen"
 
-#: mousepad/mousepad-window.c:3806 mousepad/resources/gtk/menus-common.ui:73
+#: mousepad/mousepad-window.c:3813 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
 msgstr "Ladda om fil från disk"
 
-#: mousepad/mousepad-window.c:3812
+#: mousepad/mousepad-window.c:3819
 msgid "Leave fullscreen mode"
 msgstr "Lämna fullskämsläge"
 
-#: mousepad/mousepad-window.c:3817 mousepad/resources/gtk/menus-common.ui:187
+#: mousepad/mousepad-window.c:3824 mousepad/resources/gtk/menus-common.ui:187
 msgid "Make the window fullscreen"
 msgstr "Visa fönstret i fullskärmsläge"
 
-#: mousepad/mousepad-window.c:4059
+#: mousepad/mousepad-window.c:4066
 #, c-format
 msgid "Open '%s'"
 msgstr "Öppna '%s'"
 
-#: mousepad/mousepad-window.c:4090
+#: mousepad/mousepad-window.c:4097
 msgid "No items found"
 msgstr "Inga objekt hittades"
 
-#: mousepad/mousepad-window.c:4090
+#: mousepad/mousepad-window.c:4097
 msgid "History disabled"
 msgstr "Historik avaktiverad"
 
 #. set error message
-#: mousepad/mousepad-window.c:4459
+#: mousepad/mousepad-window.c:4466
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Mallar bör vara %s giltiga"
 
 #. set error message
-#: mousepad/mousepad-window.c:4465
+#: mousepad/mousepad-window.c:4472
 msgid "Reading the template failed"
 msgstr "Läsning av mallen misslyckades"
 
 #. set error message
-#: mousepad/mousepad-window.c:4470
+#: mousepad/mousepad-window.c:4477
 msgid "Loading the template failed"
 msgstr "Läsning av mallen misslyckades"
 
 #. show the error
-#: mousepad/mousepad-window.c:4916
+#: mousepad/mousepad-window.c:4924
 msgid "Failed to reload the document"
 msgstr "Misslyckades med att läsa om dokumentet"
 
 #. show the error
-#: mousepad/mousepad-window.c:4951
+#: mousepad/mousepad-window.c:4959
 msgid "Failed to print the document"
 msgstr "Misslyckades med att skriva ut dokumentet"
 
@@ -1658,120 +1658,124 @@ msgid "Show full filename in title bar"
 msgstr "Visa helt filnamn i namnlisten"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:791
+msgid "Show application name in title bar"
+msgstr "Visa programnamn i namnlisten"
+
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:805
 msgid "Remember window size"
 msgstr "Kom ihåg fönsterstorlek"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:805
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:819
 msgid "Remember window position"
 msgstr "Kom ihåg fönsterposition"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:819
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:833
 msgid "Remember window state"
 msgstr "Kom ihåg fönsterinställningar"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:836
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:850
 msgid "<b>General</b>"
 msgstr "<b>Allmänt</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:864
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:878
 msgid "Show toolbar"
 msgstr "Visa verktygsrad"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:880
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:894
 msgid "Style:"
 msgstr "Stil:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:892
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:906
 msgid "Icon Size:"
 msgstr "Ikonstorlek:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:941
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:955
 msgid "<b>Toolbar</b>"
 msgstr "<b>Verktygsrad</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:968
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
 msgid "Always show tabs even with one file"
 msgstr "Visa alltid flikar även med en fil"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Expand tabs to fill available space"
 msgstr "Expandera flikar för att fylla tillgängligt utrymme"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1010
 msgid "Cycled notebook tab switching"
 msgstr "Cyklisk anteckningsboksflikväxling"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1016
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1030
 msgid "Open files in:"
 msgstr "Öppna filer i:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1060
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1074
 msgid "<b>Notebook Tabs</b>"
 msgstr "<b>Anteckningsboksflikar</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1079
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1093
 msgid "Window"
 msgstr "Fönster"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1110
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
 msgid "Ensure new line at file end"
 msgstr "Se till att en ny rad är i slutet av filen"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1138
 msgid "Make a copy with '~' suffix"
 msgstr "Gör en kopia med '~' suffix"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1141
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1155
 msgid "<b>File Saving</b>"
 msgstr "<b>Filsparande</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1174
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1188
 msgid "Session restore:"
 msgstr "Sessionsåterställning:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1186
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1200
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
 msgstr "När \"osparade dokument\" eller \"alltid\" är valt, Så kommer Mousepad inte att be om att spara modifierade dokument när du avslutar"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1219
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1233
 msgid "Recent file menu length:"
 msgstr "Senaste filmeny längd:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1231
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1245
 msgid "'0' disables and wipes recent history"
 msgstr "'0' inaktiverar och rensar senaste historik"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1246
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1260
 msgid "Search history size:"
 msgstr "Sökhistorikstorlek:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1281
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1295
 msgid "<b>History</b>"
 msgstr "<b>Historik</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1327
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1341
 msgid "File monitoring"
 msgstr "Filövervakning"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1337
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1351
 msgid "Automatic reloading"
 msgstr "Automatisk omladdning"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1364
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1378
 msgid "Default encoding:"
 msgstr "Standard teckenkodning:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1403
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1417
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Diverse</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1422
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1436
 msgid "File"
 msgstr "Fil"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1449
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1463
 msgid "Plugins"
 msgstr "Insticksprogram"
 
