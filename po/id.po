@@ -5,15 +5,16 @@
 # Translators:
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2012
 # Ardjuna <Asyura.x@gmail.com>, 2021
+# Arif Budiman <arifpedia@gmail.com>, 2026
 # Faisal Rachmadin <frachmadin@gmail.com>, 2021
 # Triyan W. Nugroho <triyan.wn@gmail.com>, 2020-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Xfce Apps\n"
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
-"POT-Creation-Date: 2025-07-18 11:00+0200\n"
+"POT-Creation-Date: 2025-12-23 00:56+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Faisal Rachmadin <frachmadin@gmail.com>, 2021\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>, 2026\n"
 "Language-Team: Indonesian (http://app.transifex.com/xfce/xfce-apps/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,25 +81,25 @@ msgstr "[BERKAS...]"
 #. * that opening modes will be excluded from the translation (experience
 #. shows that using a
 #. * translation context is not enough to ensure it)
-#: mousepad/mousepad-application.c:405
+#: mousepad/mousepad-application.c:407
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
 msgstr "Mode membuka berkas: \"%s\", \"%s\" atau \"%s\" (membuka tab di jendela baru)"
 
-#: mousepad/mousepad-application.c:408
+#: mousepad/mousepad-application.c:410
 msgid "MODE"
 msgstr "MODE"
 
-#: mousepad/mousepad-application.c:466
+#: mousepad/mousepad-application.c:468
 msgid "The Mousepad developers. All rights reserved."
 msgstr "Tim pengembang Mousepad. Hak cipta dilindungi undang-undang."
 
-#: mousepad/mousepad-application.c:467
+#: mousepad/mousepad-application.c:469
 #, c-format
 msgid "Please report bugs to <%s>."
 msgstr "Silakan laporkan masalah ke <%s>."
 
-#: mousepad/mousepad-application.c:1575
+#: mousepad/mousepad-application.c:1577
 #, c-format
 msgid "%s | Authors: %s | Filename: %s"
 msgstr "%s | Penulis: %s | Nama Berkas: %s"
@@ -725,27 +726,27 @@ msgstr "Tipe Berkas: %s"
 msgid "Warning: you are using the root account. You may harm your system."
 msgstr "Peringatan: Anda menggunakan akun root. Anda mungkin akan membahayakan sistem."
 
-#: mousepad/mousepad-window.c:2485
+#: mousepad/mousepad-window.c:2492
 msgid "Read Only"
 msgstr "Hanya Baca"
 
-#: mousepad/mousepad-window.c:2489
+#: mousepad/mousepad-window.c:2496
 msgid "Viewer Mode"
 msgstr "Mode Penampil"
 
-#: mousepad/mousepad-window.c:3548
+#: mousepad/mousepad-window.c:3555
 #, c-format
 msgid "Use '%s' as template"
 msgstr "Gunakan '%s' sebagai templat"
 
-#: mousepad/mousepad-window.c:3574
+#: mousepad/mousepad-window.c:3581
 #, c-format
 msgid ""
 "No template files found in\n"
 "'%s'"
 msgstr "Tidak ada berkas templat yang ditemukan dalam\n'%s'"
 
-#: mousepad/mousepad-window.c:3639
+#: mousepad/mousepad-window.c:3646
 #, c-format
 msgid ""
 "Missing Templates directory\n"
@@ -753,67 +754,67 @@ msgid ""
 msgstr "Direktori Templat tidak ditemukan\n'%s'"
 
 #. create suitable text label for the "Other" menu
-#: mousepad/mousepad-window.c:3691
+#: mousepad/mousepad-window.c:3698
 #, c-format
 msgid "Ot_her (%d)..."
 msgstr "Lai_nnya (%d)..."
 
-#: mousepad/mousepad-window.c:3701
+#: mousepad/mousepad-window.c:3708
 msgid "Ot_her..."
 msgstr "Lai_nnya..."
 
-#: mousepad/mousepad-window.c:3800
+#: mousepad/mousepad-window.c:3807
 msgid "Revert to the saved version of the file"
 msgstr "Kembalikan ke versi yang tersimpan di berkas"
 
-#: mousepad/mousepad-window.c:3806 mousepad/resources/gtk/menus-common.ui:73
+#: mousepad/mousepad-window.c:3813 mousepad/resources/gtk/menus-common.ui:73
 msgid "Reload file from disk"
 msgstr "Muat ulang berkas dari diska"
 
-#: mousepad/mousepad-window.c:3812
+#: mousepad/mousepad-window.c:3819
 msgid "Leave fullscreen mode"
 msgstr "Tinggalkan mode layar penuh"
 
-#: mousepad/mousepad-window.c:3817 mousepad/resources/gtk/menus-common.ui:187
+#: mousepad/mousepad-window.c:3824 mousepad/resources/gtk/menus-common.ui:187
 msgid "Make the window fullscreen"
 msgstr "Buat jendela layar penuh"
 
-#: mousepad/mousepad-window.c:4059
+#: mousepad/mousepad-window.c:4066
 #, c-format
 msgid "Open '%s'"
 msgstr "Buka '%s'"
 
-#: mousepad/mousepad-window.c:4090
+#: mousepad/mousepad-window.c:4097
 msgid "No items found"
 msgstr "Tak ada item ditemukan"
 
-#: mousepad/mousepad-window.c:4090
+#: mousepad/mousepad-window.c:4097
 msgid "History disabled"
 msgstr "Riwayat dinonaktifkan"
 
 #. set error message
-#: mousepad/mousepad-window.c:4459
+#: mousepad/mousepad-window.c:4466
 #, c-format
 msgid "Templates should be %s valid"
 msgstr "Templat harus %s valid"
 
 #. set error message
-#: mousepad/mousepad-window.c:4465
+#: mousepad/mousepad-window.c:4472
 msgid "Reading the template failed"
 msgstr "Gagal membaca templat"
 
 #. set error message
-#: mousepad/mousepad-window.c:4470
+#: mousepad/mousepad-window.c:4477
 msgid "Loading the template failed"
 msgstr "Gagal memuat templat"
 
 #. show the error
-#: mousepad/mousepad-window.c:4916
+#: mousepad/mousepad-window.c:4924
 msgid "Failed to reload the document"
 msgstr "Gagal memuat dokumen"
 
 #. show the error
-#: mousepad/mousepad-window.c:4951
+#: mousepad/mousepad-window.c:4959
 msgid "Failed to print the document"
 msgstr "Gagal mencetak dokumen"
 
@@ -899,7 +900,7 @@ msgstr "Menu sunting"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
-msgstr ""
+msgstr "Preferensi..."
 
 #: mousepad/resources/gtk/menus.ui:131
 msgid "Show the preferences dialog"
@@ -943,7 +944,7 @@ msgstr "Sorot _Semua"
 
 #: mousepad/resources/gtk/menus.ui:169
 msgid "Highlight the search matches"
-msgstr ""
+msgstr "Sorot kecocokan pencarian"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
@@ -1406,7 +1407,7 @@ msgstr "Pindahkan konten dengan berbagai cara"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "One Line _Up"
-msgstr ""
+msgstr "Satu Baris Naik"
 
 #: mousepad/resources/gtk/menus-common.ui:319
 msgid "Move lines one line up"
@@ -1414,7 +1415,7 @@ msgstr "Pindahkan baris ke atas sebanyak satu baris"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "One Line _Down"
-msgstr ""
+msgstr "Satu Baris Turun"
 
 #: mousepad/resources/gtk/menus-common.ui:324
 msgid "Move lines one line down"
@@ -1422,7 +1423,7 @@ msgstr "Pindahkan baris ke bawah sebanyak satu baris"
 
 #: mousepad/resources/gtk/menus-common.ui:328
 msgid "One Word _Left"
-msgstr ""
+msgstr "Satu Kata Kiri"
 
 #: mousepad/resources/gtk/menus-common.ui:329
 msgid "Move words one word left"
@@ -1430,7 +1431,7 @@ msgstr "Pindahkan beberapa kata ke kiri sebanyak satu kata"
 
 #: mousepad/resources/gtk/menus-common.ui:333
 msgid "One Word _Right"
-msgstr ""
+msgstr "Satu Kata Kanan"
 
 #: mousepad/resources/gtk/menus-common.ui:334
 msgid "Move words one word right"
@@ -1597,7 +1598,7 @@ msgstr "<b>Fonta</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:489
 msgid "<b>Color Scheme</b>"
-msgstr ""
+msgstr "<b>Skema Warna</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:505
 msgid "View"
@@ -1621,11 +1622,11 @@ msgstr "<b>Indentasi</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:634
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr ""
+msgstr "Tab: Indentasi pilihan (Shift+Tab: Batalkan indentasi)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:637
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr ""
+msgstr "Indentasi/batalkan indentasi teks yang sedang dipilih atau baris saat ini"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:656
 msgid "Backspace: Delete indent spaces as tabs"
@@ -1653,120 +1654,124 @@ msgid "Show full filename in title bar"
 msgstr "Tampilkan nama berkas lengkap pada bilah judul"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:791
+msgid "Show application name in title bar"
+msgstr "Tampilkan nama aplikasi di bilah judul"
+
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:805
 msgid "Remember window size"
 msgstr "Ingat ukuran jendela"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:805
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:819
 msgid "Remember window position"
 msgstr "Ingat posisi jendela"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:819
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:833
 msgid "Remember window state"
 msgstr "Ingat keadaan jendela"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:836
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:850
 msgid "<b>General</b>"
 msgstr "<b>Umum</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:864
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:878
 msgid "Show toolbar"
 msgstr "Tampilkan bilah alat"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:880
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:894
 msgid "Style:"
 msgstr "Gaya:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:892
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:906
 msgid "Icon Size:"
 msgstr "Ukuran Ikon:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:941
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:955
 msgid "<b>Toolbar</b>"
 msgstr "<b>Bilah Alat</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:968
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
 msgid "Always show tabs even with one file"
 msgstr "Selalu tampilkan tab bahkan dengan satu berkas"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:982
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Expand tabs to fill available space"
 msgstr "Ekspansi tab untuk mengisi ruang yang tersedia"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1010
 msgid "Cycled notebook tab switching"
 msgstr "Beralih tab notebook cycled"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1016
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1030
 msgid "Open files in:"
 msgstr "Buka berkas di:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1060
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1074
 msgid "<b>Notebook Tabs</b>"
-msgstr ""
+msgstr "<b>Tab Notebook</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1079
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1093
 msgid "Window"
 msgstr "Jendela"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1110
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
 msgid "Ensure new line at file end"
 msgstr "Pastikan baris baru pada akhir berkas"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1138
 msgid "Make a copy with '~' suffix"
 msgstr "Buat sebuah salinan dengan sufiks '~'"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1141
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1155
 msgid "<b>File Saving</b>"
-msgstr ""
+msgstr "<b>Penyimpanan File</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1174
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1188
 msgid "Session restore:"
 msgstr "Kembalikan sesi:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1186
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1200
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
 msgstr "Ketika dipilih \"dokumen belum disimpan\" atau \"selalu\", Mousepad tidak akan meminta untuk menyimpan dokumen yang dimodifikasi saat keluar"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1219
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1233
 msgid "Recent file menu length:"
 msgstr "Ukuran menu berkas baru-baru ini:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1231
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1245
 msgid "'0' disables and wipes recent history"
 msgstr "'0' menonaktifkan dan menghapus riwayat terkini"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1246
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1260
 msgid "Search history size:"
-msgstr ""
+msgstr "Ukuran riwayat pencarian:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1281
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1295
 msgid "<b>History</b>"
 msgstr "<b>Riwayat</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1327
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1341
 msgid "File monitoring"
 msgstr "Monitor berkas"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1337
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1351
 msgid "Automatic reloading"
-msgstr ""
+msgstr "Muat ulang otomatis"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1364
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1378
 msgid "Default encoding:"
 msgstr "Pengkodean baku:"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1403
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1417
 msgid "<b>Miscellaneous</b>"
 msgstr "<b>Lain-lain</b>"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1422
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1436
 msgid "File"
 msgstr "Berkas"
 
-#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1449
+#: mousepad/resources/ui/mousepad-prefs-dialog.ui:1463
 msgid "Plugins"
 msgstr "Plugin"
 
@@ -1779,7 +1784,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr ""
+msgstr "Bahasa default untuk dokumen baru diatur di sini. Selanjutnya dapat diubah per dokumen melalui menu konteks, di mana juga terdapat saran koreksi ejaan untuk kata yang digarisbawahi."
 
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:164
@@ -1788,26 +1793,26 @@ msgstr "Bahasa baku:"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:46
 msgid "Shortcuts Editor"
-msgstr ""
+msgstr "Editor Pintasan"
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:47
 msgid ""
 "The shortcuts editor is available here as a popover or as a dialog below the"
 " preferences in the menu bar."
-msgstr ""
+msgstr "Editor pintasan tersedia di sini sebagai popover atau sebagai dialog di bawah preferensi pada bilah menu."
 
 #: plugins/shortcuts-plugin/mousepad-plugin-shortcuts.c:49
 msgid "Application"
-msgstr ""
+msgstr "Aplikasi"
 
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:258
 msgid "Menubar"
-msgstr ""
+msgstr "Bilah menu"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Dialog Preferensi"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:260
 msgid "Miscellaneous"
@@ -1815,16 +1820,16 @@ msgstr "Lain-lain"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:591
 msgid "Mousepad Shortcuts"
-msgstr ""
+msgstr "Pintasan Mousepad"
 
 #. add the shortcuts menu entry
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:640
 msgid "Shortcuts..."
-msgstr ""
+msgstr "Pintasan..."
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:644
 msgid "Show the shortcuts dialog"
-msgstr ""
+msgstr "Tampilkan dialog pintasan"
 
 #: org.xfce.mousepad.desktop.in:4 org.xfce.mousepad.appdata.xml.in:7
 msgid "Mousepad"
@@ -1840,7 +1845,7 @@ msgstr "Penyunting Teks"
 
 #: org.xfce.mousepad.desktop.in:15
 msgid "Edit;Text;Simple;XFCE;Lightweight;Fast;"
-msgstr ""
+msgstr "Edit;Teks;Sederhana;XFCE;Ringan;Cepat;"
 
 #: org.xfce.mousepad-settings.desktop.in:4
 msgid "Text Editor Settings"
@@ -1852,7 +1857,7 @@ msgstr "Konfigurasikan penyunting teks Mousepad"
 
 #: org.xfce.mousepad-settings.desktop.in:11
 msgid "Text;Editor;Mousepad;Preferences;Settings;Configure;"
-msgstr ""
+msgstr "Teks;Editor;Mousepad;Preferensi;Pengaturan;Konfigurasi;"
 
 #: org.xfce.mousepad.appdata.xml.in:11
 msgid ""
@@ -1871,7 +1876,7 @@ msgstr "Di sisi lain kami mencoba untuk menggunakan fitur-fitur terbaru GTK, yan
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
-msgstr ""
+msgstr "Pengembang Mousepad"
 
 #. SECURITY:
 #. - A normal active user can run mousepad without elevated rights. They
