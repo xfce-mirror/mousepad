@@ -105,7 +105,7 @@ msgstr "%s | Avtorji: %s | Ime datoteke: %s"
 
 #: mousepad/mousepad-dialogs.c:69 org.xfce.mousepad.appdata.xml.in:8
 msgid "Mousepad is a simple text editor for the Xfce desktop environment"
-msgstr "Mousepad je preprost urejevalnik besedila za Xfce namizno okolje."
+msgstr "Mousepad je preprost urejevalnik besedila za Xfce namizno okolje"
 
 #: mousepad/mousepad-dialogs.c:76
 msgid "translator-credits"
@@ -953,7 +953,7 @@ msgstr "Osvetli iskalne zadetke"
 
 #: mousepad/resources/gtk/menus.ui:183
 msgid "_View"
-msgstr "_Pogled"
+msgstr "Po_gled"
 
 #: mousepad/resources/gtk/menus.ui:184
 msgid "View menu"
@@ -978,11 +978,11 @@ msgstr "Barvna shema za prikazovanje besedil"
 #: mousepad/resources/gtk/menus.ui:199
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:120
 msgid "None"
-msgstr "Noben"
+msgstr "Brez"
 
 #: mousepad/resources/gtk/menus.ui:200
 msgid "No style scheme"
-msgstr "ni slogovne sheme"
+msgstr "Brez slogovne sheme"
 
 #: mousepad/resources/gtk/menus.ui:209
 msgid "Line N_umbers"
@@ -1051,19 +1051,19 @@ msgstr "Število znakov za presledek v enem tabulatorju"
 
 #: mousepad/resources/gtk/menus.ui:260
 msgid "Two spaces"
-msgstr "dva presledka"
+msgstr "Dva presledka"
 
 #: mousepad/resources/gtk/menus.ui:266
 msgid "Three spaces"
-msgstr "trije presledki"
+msgstr "Trije presledki"
 
 #: mousepad/resources/gtk/menus.ui:272
 msgid "Four spaces"
-msgstr "štirje presledki"
+msgstr "Štirje presledki"
 
 #: mousepad/resources/gtk/menus.ui:278
 msgid "Eight spaces"
-msgstr "osem presledkov"
+msgstr "Osem presledkov"
 
 #: mousepad/resources/gtk/menus.ui:283
 msgid "Other..."
