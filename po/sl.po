@@ -737,7 +737,7 @@ msgstr "Samo za branje"
 
 #: mousepad/mousepad-window.c:2496
 msgid "Viewer Mode"
-msgstr "Način prikazovalnika"
+msgstr "Način bralca"
 
 #: mousepad/mousepad-window.c:3555
 #, c-format
@@ -1027,7 +1027,7 @@ msgstr "Meni dokumenta"
 
 #: mousepad/resources/gtk/menus.ui:245
 msgid "_Word Wrap"
-msgstr "Ovij _besedo"
+msgstr "_Ovij besede"
 
 #: mousepad/resources/gtk/menus.ui:246
 msgid "Toggle breaking lines in between words"
@@ -1043,7 +1043,7 @@ msgstr "Samodejno zamikanje novih vrstic"
 
 #: mousepad/resources/gtk/menus.ui:255
 msgid "Tab _Size"
-msgstr "_Velikost tabulatorja"
+msgstr "Velikost _tabulatorja"
 
 #: mousepad/resources/gtk/menus.ui:256
 msgid "The number of space characters for a tabulation"
@@ -1127,7 +1127,7 @@ msgstr "Shrani znak zaporedja bajtov v datoteki"
 
 #: mousepad/resources/gtk/menus.ui:343
 msgid "_Viewer Mode"
-msgstr "Način prikazo_valnika"
+msgstr "Način bra_lca"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
@@ -1379,12 +1379,12 @@ msgstr "Pretvori vse tabulatorje v izbiri ali dokumentu v presledke"
 
 #: mousepad/resources/gtk/menus-common.ui:294
 msgid "_Leading Spaces to Tabs"
-msgstr "_Presledki pred tabulatorjem"
+msgstr "Začetni _presledki v tabulatorje"
 
 #: mousepad/resources/gtk/menus-common.ui:295
 msgid ""
 "Convert all the leading spaces to tabs in the selected line(s) or document"
-msgstr "Pretvori vse vodilne presledke v izbranih vrstici (vrsticah) ali dokumentu v tabulatorje"
+msgstr "Pretvori vse presledke na začetku izbrane vrstice (vrstic) ali dokumenta v tabulatorje"
 
 #: mousepad/resources/gtk/menus-common.ui:301
 msgid "St_rip Trailing Spaces"
@@ -1412,7 +1412,7 @@ msgstr "Prmekane vsebino v različne smeri"
 
 #: mousepad/resources/gtk/menus-common.ui:318
 msgid "One Line _Up"
-msgstr "Vrstica _gor"
+msgstr "Vrstico _gor"
 
 #: mousepad/resources/gtk/menus-common.ui:319
 msgid "Move lines one line up"
@@ -1420,7 +1420,7 @@ msgstr "Premakni vrstice za eno navzgor"
 
 #: mousepad/resources/gtk/menus-common.ui:323
 msgid "One Line _Down"
-msgstr "Vrstica _dol"
+msgstr "Vrstico _dol"
 
 #: mousepad/resources/gtk/menus-common.ui:324
 msgid "Move lines one line down"
@@ -1652,7 +1652,7 @@ msgstr "Urejevalnik"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:763
 msgid "Client-side decorations (restart required)"
-msgstr "Okraski na strani odjemalca (zahteva ponovni zagon)"
+msgstr "Okraski s strani odjemalca (zahteva ponovni zagon)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:777
 msgid "Show full filename in title bar"
