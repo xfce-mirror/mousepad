@@ -480,6 +480,12 @@ mousepad_window_action_fullscreen (GSimpleAction *action,
                                    GVariant *value,
                                    gpointer data);
 static void
+mousepad_window_csd_update (MousepadWindow *window);
+static void
+mousepad_window_action_show_menu (GSimpleAction *action,
+                                  GVariant *value,
+                                  gpointer data);
+static void
 mousepad_window_action_line_ending (GSimpleAction *action,
                                     GVariant *value,
                                     gpointer data);
@@ -563,6 +569,9 @@ static const GActionEntry action_entries[] = {
 
   /* additional action for the "Textview" menu to show the menubar when hidden */
   { "textview.menubar", mousepad_window_action_textview, NULL, "false", NULL },
+
+  /* action for the menu button when menubar is hidden (CSD mode) */
+  { "view.show-menu", mousepad_window_action_show_menu, NULL, NULL, NULL },
 
   /* increase/decrease font size from keyboard/mouse */
   { "increase-font-size", mousepad_window_action_increase_font_size, NULL, NULL, NULL },
@@ -934,10 +943,29 @@ static void
 mousepad_window_toolbar_insert (MousepadWindow *window,
                                 GtkWidget *toolbar,
                                 GMenuModel *model,
-                                gint index)
+                                gint index,
+                                const gchar *const *hidden_items)
 {
   GtkToolItem *item;
   GtkWidget *child;
+  gchar *action = NULL, *share_id = NULL;
+
+  /* check if the item should be hidden */
+  if (g_menu_model_get_item_attribute (model, index, G_MENU_ATTRIBUTE_ACTION, "s", &action)
+      && action != NULL && g_strv_contains (hidden_items, action))
+    {
+      g_free (action);
+      return;
+    }
+  g_free (action);
+
+  if (g_menu_model_get_item_attribute (model, index, "item-share-id", "s", &share_id)
+      && share_id != NULL && g_strv_contains (hidden_items, share_id))
+    {
+      g_free (share_id);
+      return;
+    }
+  g_free (share_id);
 
   /* create an empty toolbar item */
   item = gtk_tool_button_new (NULL, NULL);
@@ -977,19 +1005,31 @@ mousepad_window_toolbar_insert (MousepadWindow *window,
 
 
 
-static GtkWidget *
-mousepad_window_toolbar_new_from_model (MousepadWindow *window,
-                                        GMenuModel *model)
+static gboolean
+mousepad_window_is_item_right_aligned (const gchar *action,
+                                       const gchar *share_id,
+                                       const gchar *const *right_items)
 {
-  GtkWidget *toolbar;
-  GtkToolItem *item = NULL;
+  if (action && g_strv_contains (right_items, action))
+    return TRUE;
+  if (share_id && g_strv_contains (right_items, share_id))
+    return TRUE;
+  return FALSE;
+}
+
+static void
+mousepad_window_toolbar_insert_group (MousepadWindow *window,
+                                      GtkWidget *toolbar,
+                                      GMenuModel *model,
+                                      const gchar *const *hidden_items,
+                                      const gchar *const *right_items,
+                                      gboolean align_right)
+{
+  GtkToolItem *item;
   GMenuModel *section;
   gint m, n, n_items;
-
-  /* create the toolbar and set the main properties */
-  toolbar = gtk_toolbar_new ();
-  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_ICONS);
-  gtk_toolbar_set_icon_size (GTK_TOOLBAR (toolbar), GTK_ICON_SIZE_SMALL_TOOLBAR);
+  gchar *action, *share_id;
+  gboolean is_right, has_items = FALSE;
 
   /* insert items */
   for (m = 0; m < g_menu_model_get_n_items (model); m++)
@@ -998,33 +1038,176 @@ mousepad_window_toolbar_new_from_model (MousepadWindow *window,
       if ((section = g_menu_model_get_item_link (model, m, G_MENU_LINK_SECTION))
           && (n_items = g_menu_model_get_n_items (section)))
         {
-          /* append a toolbar separator when needed */
-          if (m > 0)
-            {
-              item = gtk_separator_tool_item_new ();
-              gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
-            }
+          gboolean section_started = FALSE;
 
           /* walk through the section */
           for (n = 0; n < n_items; n++)
-            mousepad_window_toolbar_insert (window, toolbar, section, n);
+            {
+              /* check alignment of this item */
+              action = NULL;
+              share_id = NULL;
+              g_menu_model_get_item_attribute (section, n, G_MENU_ATTRIBUTE_ACTION, "s", &action);
+              g_menu_model_get_item_attribute (section, n, "item-share-id", "s", &share_id);
+              is_right = mousepad_window_is_item_right_aligned (action, share_id, right_items);
+              g_free (action);
+              g_free (share_id);
+
+              if (is_right == align_right)
+                {
+                  /* append a toolbar separator if this is a new section with content */
+                  if (!section_started && has_items)
+                    {
+                      item = gtk_separator_tool_item_new ();
+                      gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, -1);
+                      section_started = TRUE;
+                    }
+                  else if (!section_started)
+                    section_started = TRUE;
+
+                  mousepad_window_toolbar_insert (window, toolbar, section, n, hidden_items);
+                  has_items = TRUE;
+                }
+            }
         }
       /* real GMenuItem */
       else
-        mousepad_window_toolbar_insert (window, toolbar, model, m);
-    }
+        {
+          action = NULL;
+          share_id = NULL;
+          g_menu_model_get_item_attribute (model, m, G_MENU_ATTRIBUTE_ACTION, "s", &action);
+          g_menu_model_get_item_attribute (model, m, "item-share-id", "s", &share_id);
+          is_right = mousepad_window_is_item_right_aligned (action, share_id, right_items);
+          g_free (action);
+          g_free (share_id);
 
-  /* make the last toolbar separator so it expands properly */
-  if (item != NULL)
-    {
-      gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (item), FALSE);
-      gtk_tool_item_set_expand (item, TRUE);
+          if (is_right == align_right)
+            {
+              /* separator logic for loose items is tricky, assuming they are rare or don't need separators?
+                 Original code only separated sections. We stick to that. */
+              mousepad_window_toolbar_insert (window, toolbar, model, m, hidden_items);
+              has_items = TRUE;
+            }
+        }
     }
+}
+
+static GtkWidget *
+mousepad_window_toolbar_new_from_model (MousepadWindow *window,
+                                        GMenuModel *model)
+{
+  GtkWidget *toolbar;
+  GtkToolItem *sep;
+  gchar **hidden_items;
+  gchar **right_items;
+
+  /* create the toolbar and set the main properties */
+  toolbar = gtk_toolbar_new ();
+  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_ICONS);
+  gtk_toolbar_set_icon_size (GTK_TOOLBAR (toolbar), GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+  /* get toolbar settings */
+  hidden_items = MOUSEPAD_SETTING_GET_STRV (TOOLBAR_HIDDEN_ITEMS);
+  right_items = MOUSEPAD_SETTING_GET_STRV (TOOLBAR_RIGHT_ITEMS);
+
+  /* Create the menu button for CSD mode (shown when menubar is hidden) */
+  {
+    GtkToolItem *menu_item;
+    gboolean menu_btn_hidden = g_strv_contains ((const gchar *const *) hidden_items, "mousepad.menu-button");
+    gboolean menu_btn_right = mousepad_window_is_item_right_aligned ("mousepad.menu-button", NULL, (const gchar *const *) right_items);
+
+    /* skip if user hid the menu button */
+    if (!menu_btn_hidden)
+      {
+        menu_item = gtk_tool_button_new (NULL, NULL);
+        gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (menu_item), "open-menu-symbolic");
+        gtk_tool_item_set_tooltip_text (menu_item, _("Show the menu"));
+        gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_item), "win.view.show-menu");
+        gtk_widget_set_name (GTK_WIDGET (menu_item), "mousepad-menu-button");
+        gtk_widget_set_no_show_all (GTK_WIDGET (menu_item), TRUE);
+
+        if (!menu_btn_right)
+          gtk_toolbar_insert (GTK_TOOLBAR (toolbar), menu_item, 0);
+        else
+          g_object_set_data (G_OBJECT (toolbar), "pending-menu-btn", menu_item);
+      }
+  }
+
+  /* Insert LEFT items */
+  mousepad_window_toolbar_insert_group (window, toolbar, model, (const gchar *const *) hidden_items, (const gchar *const *) right_items, FALSE);
+
+  /* Insert Expanding Separator */
+  sep = gtk_separator_tool_item_new ();
+  gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (sep), FALSE);
+  gtk_tool_item_set_expand (sep, TRUE);
+  gtk_toolbar_insert (GTK_TOOLBAR (toolbar), sep, -1);
+
+  /* Insert Right-Aligned Menu Button if pending */
+  {
+    GtkToolItem *menu_item = g_object_get_data (G_OBJECT (toolbar), "pending-menu-btn");
+    if (menu_item)
+      gtk_toolbar_insert (GTK_TOOLBAR (toolbar), menu_item, -1);
+  }
+
+  /* Insert RIGHT items */
+  mousepad_window_toolbar_insert_group (window, toolbar, model, (const gchar *const *) hidden_items, (const gchar *const *) right_items, TRUE);
+
+  g_strfreev (hidden_items);
+  g_strfreev (right_items);
 
   /* show all widgets */
   gtk_widget_show_all (toolbar);
 
   return toolbar;
+}
+
+
+
+static void
+mousepad_window_recreate_toolbar (MousepadWindow *window)
+{
+  GtkApplication *application;
+  GMenuModel *model;
+  GtkWidget *old_toolbar = window->toolbar;
+  GtkWidget *parent;
+  GtkWidget *header_bar;
+
+  /* skip if window hasn't been realized yet (initial setup in progress) */
+  if (!gtk_widget_get_realized (GTK_WIDGET (window)))
+    return;
+
+  /* create the new toolbar */
+  application = gtk_window_get_application (GTK_WINDOW (window));
+  model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "toolbar"));
+  window->toolbar = mousepad_window_toolbar_new_from_model (window, model);
+  g_object_ref_sink (window->toolbar);
+
+  /* destroy the old toolbar */
+  if (old_toolbar != NULL)
+    {
+      /* if toolbar was set as custom_title of headerbar, clear it first */
+      header_bar = gtk_window_get_titlebar (GTK_WINDOW (window));
+      if (GTK_IS_HEADER_BAR (header_bar) && gtk_header_bar_get_custom_title (GTK_HEADER_BAR (header_bar)) == old_toolbar)
+        {
+          gtk_header_bar_set_custom_title (GTK_HEADER_BAR (header_bar), NULL);
+        }
+
+      parent = gtk_widget_get_parent (old_toolbar);
+      if (parent != NULL)
+        gtk_container_remove (GTK_CONTAINER (parent), old_toolbar);
+
+      gtk_widget_destroy (old_toolbar);
+      g_object_unref (old_toolbar);
+    }
+
+  /* insert the toolbar in its default space (it will be moved by csd_update if needed) */
+  gtk_box_pack_start (GTK_BOX (window->toolbar_box), window->toolbar, TRUE, TRUE, 0);
+
+  /* update the toolbar with the settings */
+  mousepad_window_update_toolbar_properties (window, NULL, NULL);
+
+  /* update the toolbar visibility and layout */
+  mousepad_window_update_bar_visibility (window, TOOLBAR);
+  mousepad_window_csd_update (window);
 }
 
 
@@ -1107,6 +1290,8 @@ mousepad_window_post_init (MousepadWindow *window)
   /* create the toolbar */
   model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "toolbar"));
   window->toolbar = mousepad_window_toolbar_new_from_model (window, model);
+  /* sink floating reference to ensure toolbar survives reparenting */
+  g_object_ref_sink (window->toolbar);
 
   /* insert the toolbar in its previously reserved space */
   gtk_box_pack_start (GTK_BOX (window->toolbar_box), window->toolbar, TRUE, TRUE, 0);
@@ -1129,6 +1314,19 @@ mousepad_window_post_init (MousepadWindow *window)
                                    window, G_CONNECT_SWAPPED);
 
   MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_ICON_SIZE, mousepad_window_update_toolbar_properties,
+                                   window, G_CONNECT_SWAPPED);
+
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_RIGHT_ITEMS, mousepad_window_recreate_toolbar,
+                                   window, G_CONNECT_SWAPPED);
+
+  MOUSEPAD_SETTING_CONNECT_OBJECT (TOOLBAR_HIDDEN_ITEMS, mousepad_window_recreate_toolbar,
+                                   window, G_CONNECT_SWAPPED);
+
+  /* update CSD layout if enabled (move toolbar/menubar to headerbar) */
+  mousepad_window_csd_update (window);
+
+  /* connect to menubar visibility changes to update CSD layout */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (MENUBAR_VISIBLE, mousepad_window_csd_update,
                                    window, G_CONNECT_SWAPPED);
 
   /* initialize the tab size menu and sync it with its setting */
@@ -1339,14 +1537,28 @@ mousepad_window_init (MousepadWindow *window)
   g_signal_connect (window, "drag-data-received",
                     G_CALLBACK (mousepad_window_drag_data_received), window);
 
-  /* update the window title when relevant settings change */
+  /* update the window title when 'path-in-title' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (PATH_IN_TITLE, mousepad_window_set_title,
                                    window, G_CONNECT_SWAPPED);
-  MOUSEPAD_SETTING_CONNECT_OBJECT (APP_NAME_IN_TITLE, mousepad_window_set_title,
+
+  /* update the window title when 'filename-in-statusbar' or 'statusbar-visible' setting changes */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (FILENAME_IN_STATUSBAR, mousepad_window_set_title,
+                                   window, G_CONNECT_SWAPPED);
+  MOUSEPAD_SETTING_CONNECT_OBJECT (FILENAME_IN_STATUSBAR, mousepad_window_csd_update,
+                                   window, G_CONNECT_SWAPPED);
+  MOUSEPAD_SETTING_CONNECT_OBJECT (STATUSBAR_VISIBLE, mousepad_window_set_title,
+                                   window, G_CONNECT_SWAPPED);
+
+  /* update the window title when 'menubar-visible' changes (affects CSD title display) */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (MENUBAR_VISIBLE, mousepad_window_set_title,
                                    window, G_CONNECT_SWAPPED);
 
   /* update the tabs when 'always-show-tabs' setting changes */
   MOUSEPAD_SETTING_CONNECT_OBJECT (ALWAYS_SHOW_TABS, mousepad_window_update_tabs_visibility,
+                                   window, G_CONNECT_SWAPPED);
+
+  /* CSD embedding preference change -> update CSD layout */
+  MOUSEPAD_SETTING_CONNECT_OBJECT (CLIENT_SIDE_DECORATIONS_EMBED, mousepad_window_csd_update,
                                    window, G_CONNECT_SWAPPED);
 }
 
@@ -2201,8 +2413,9 @@ retry:
             g_idle_add (mousepad_view_scroll_to_cursor,
                         mousepad_util_source_autoremove (window->active->textview));
 
-          /* insert in the recent history */
-          mousepad_history_recent_add (document->file);
+          /* insert in the recent history, don't pollute with autosave data */
+          if (autosave_uri == NULL)
+            mousepad_history_recent_add (document->file);
         }
       break;
 
@@ -2436,8 +2649,10 @@ mousepad_window_close_document (MousepadWindow *window,
   /* remove the document */
   if (succeed)
     {
-      /* store some data in the recent history */
-      mousepad_history_recent_add (document->file);
+      /* store some data in the recent history if the file exists on disk */
+      if (mousepad_file_location_is_set (document->file)
+          && mousepad_util_query_exists (mousepad_file_get_location (document->file), TRUE))
+        mousepad_history_recent_add (document->file);
 
       gtk_notebook_remove_page (notebook, gtk_notebook_page_num (notebook, GTK_WIDGET (document)));
     }
@@ -2463,10 +2678,12 @@ mousepad_window_button_close_tab (MousepadDocument *document,
 static void
 mousepad_window_set_title (MousepadWindow *window)
 {
-  gchar *string;
+  gchar *full_title;
+  gchar *filename_str;
   const gchar *title;
   gboolean show_full_path;
-  const gchar *suffix = "";
+  gboolean filename_in_statusbar;
+  gboolean statusbar_visible;
   MousepadDocument *document = window->active;
 
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
@@ -2474,10 +2691,8 @@ mousepad_window_set_title (MousepadWindow *window)
 
   /* whether to show the full path */
   show_full_path = MOUSEPAD_SETTING_GET_BOOLEAN (PATH_IN_TITLE);
-
-  /* whether to show the application name */
-  if (MOUSEPAD_SETTING_GET_BOOLEAN (APP_NAME_IN_TITLE))
-    suffix = " - " MOUSEPAD_NAME;
+  filename_in_statusbar = MOUSEPAD_SETTING_GET_BOOLEAN (FILENAME_IN_STATUSBAR);
+  statusbar_visible = MOUSEPAD_SETTING_GET_BOOLEAN (STATUSBAR_VISIBLE);
 
   /* name we display in the title */
   if (G_UNLIKELY (show_full_path && mousepad_document_get_filename (document)))
@@ -2485,25 +2700,81 @@ mousepad_window_set_title (MousepadWindow *window)
   else
     title = mousepad_document_get_basename (document);
 
-  /* build the title */
+  /* build the full title (always used for system taskbar) */
   if (G_UNLIKELY (mousepad_file_get_read_only (document->file)))
-    string = g_strdup_printf ("%s%s [%s]%s",
-                              gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
-                              title, _("Read Only"), suffix);
+    full_title = g_strdup_printf ("%s%s [%s] - %s",
+                                  gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
+                                  title, _("Read Only"), MOUSEPAD_NAME);
   else if (G_UNLIKELY (!gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview))))
-    string = g_strdup_printf ("%s%s [%s]%s",
-                              gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
-                              title, _("Viewer Mode"), suffix);
+    full_title = g_strdup_printf ("%s%s [%s] - %s",
+                                  gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
+                                  title, _("Viewer Mode"), MOUSEPAD_NAME);
   else
-    string = g_strdup_printf ("%s%s%s",
-                              gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
-                              title, suffix);
+    full_title = g_strdup_printf ("%s%s - %s",
+                                  gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
+                                  title, MOUSEPAD_NAME);
 
-  /* set the window title */
-  gtk_window_set_title (GTK_WINDOW (window), string);
+  /* set the window title (this is what the system taskbar sees) */
+  gtk_window_set_title (GTK_WINDOW (window), full_title);
+
+  /* handle filename in statusbar vs titlebar */
+  if (filename_in_statusbar && statusbar_visible && window->statusbar != NULL)
+    {
+      /* build the filename string for statusbar (without program name) */
+      if (G_UNLIKELY (mousepad_file_get_read_only (document->file)))
+        filename_str = g_strdup_printf ("%s%s [%s]",
+                                        gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
+                                        title, _("Read Only"));
+      else if (G_UNLIKELY (!gtk_text_view_get_editable (GTK_TEXT_VIEW (document->textview))))
+        filename_str = g_strdup_printf ("%s%s [%s]",
+                                        gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
+                                        title, _("Viewer Mode"));
+      else
+        filename_str = g_strdup_printf ("%s%s",
+                                        gtk_text_buffer_get_modified (document->buffer) ? "*" : "",
+                                        title);
+
+      /* show filename in statusbar */
+      mousepad_statusbar_set_filename (MOUSEPAD_STATUSBAR (window->statusbar), filename_str);
+      g_free (filename_str);
+    }
+  else if (window->statusbar != NULL)
+    {
+      /* hide filename from statusbar when setting is disabled or statusbar hidden */
+      mousepad_statusbar_set_filename (MOUSEPAD_STATUSBAR (window->statusbar), NULL);
+    }
+
+  /* handle CSD headerbar title:
+   * - in toolbar-only mode (CSD + menubar hidden): ALWAYS hide title for cleaner look
+   * - with menubar visible: hide title only if filename-in-statusbar is enabled */
+  if (MOUSEPAD_SETTING_GET_BOOLEAN (CLIENT_SIDE_DECORATIONS))
+    {
+      GtkWidget *header_bar = gtk_window_get_titlebar (GTK_WINDOW (window));
+      if (GTK_IS_HEADER_BAR (header_bar))
+        {
+          /* with menubar visible, hide title only if filename-in-statusbar is enabled */
+          if (filename_in_statusbar && statusbar_visible)
+            {
+              /* restore default title widget, set to empty */
+              if (gtk_header_bar_get_custom_title (GTK_HEADER_BAR (header_bar)) != window->toolbar)
+                gtk_header_bar_set_custom_title (GTK_HEADER_BAR (header_bar), NULL);
+              gtk_header_bar_set_title (GTK_HEADER_BAR (header_bar), NULL);
+              gtk_header_bar_set_subtitle (GTK_HEADER_BAR (header_bar), NULL);
+            }
+          /* otherwise restore the title */
+          else
+            {
+              /* restore default title widget with full title */
+              if (gtk_header_bar_get_custom_title (GTK_HEADER_BAR (header_bar)) != window->toolbar)
+                gtk_header_bar_set_custom_title (GTK_HEADER_BAR (header_bar), NULL);
+              gtk_header_bar_set_title (GTK_HEADER_BAR (header_bar), full_title);
+              gtk_header_bar_set_subtitle (GTK_HEADER_BAR (header_bar), NULL);
+            }
+        }
+    }
 
   /* cleanup */
-  g_free (string);
+  g_free (full_title);
 }
 
 
@@ -2685,6 +2956,30 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
   /* update the bar visibility */
   gtk_widget_set_visible (bar, visible);
 
+  /* update menu button visibility when menubar visibility changes */
+  if (g_strstr_len (MOUSEPAD_SETTING_MENUBAR_VISIBLE_FULLSCREEN, -1, hint)
+      && GTK_IS_TOOLBAR (window->toolbar))
+    {
+      GtkWidget *menu_btn = NULL;
+      GList *items = gtk_container_get_children (GTK_CONTAINER (window->toolbar));
+      GList *l;
+
+      for (l = items; l != NULL; l = l->next)
+        {
+          const gchar *name = gtk_widget_get_name (GTK_WIDGET (l->data));
+          if (name && g_strcmp0 (name, "mousepad-menu-button") == 0)
+            {
+              menu_btn = GTK_WIDGET (l->data);
+              break;
+            }
+        }
+      g_list_free (items);
+
+      /* show menu button when menubar is hidden, hide when menubar is visible */
+      if (menu_btn)
+        gtk_widget_set_visible (menu_btn, !visible);
+    }
+
   /* avoid menu actions */
   lock_menu_updates++;
 
@@ -2695,6 +2990,258 @@ mousepad_window_update_bar_visibility (MousepadWindow *window,
 
   /* allow menu actions again */
   lock_menu_updates--;
+}
+
+
+
+static void
+mousepad_window_csd_update (MousepadWindow *window)
+{
+  GtkHeaderBar *header_bar;
+  gboolean menubar_visible;
+  GList *children, *l;
+  GtkWidget *current_child;
+  static gboolean css_loaded = FALSE;
+  gboolean app_icon_visible = TRUE;
+  guint embed_bars = MOUSEPAD_SETTING_GET_BOOLEAN (CLIENT_SIDE_DECORATIONS_EMBED);
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* load CSS for in-headerbar toolbar styling once */
+  if (!css_loaded)
+    {
+      GtkCssProvider *provider;
+      const gchar *css_string;
+
+      provider = gtk_css_provider_new ();
+      css_string = "toolbar.in-headerbar { background: transparent; border: none; box-shadow: none; }";
+      gtk_css_provider_load_from_data (provider, css_string, -1, NULL);
+      gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+                                                 GTK_STYLE_PROVIDER (provider),
+                                                 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+      g_object_unref (provider);
+      css_loaded = TRUE;
+    }
+
+  /* only update if CSD is enabled */
+  if (!MOUSEPAD_SETTING_GET_BOOLEAN (CLIENT_SIDE_DECORATIONS))
+    return;
+
+  header_bar = GTK_HEADER_BAR (gtk_window_get_titlebar (GTK_WINDOW (window)));
+  if (!GTK_IS_HEADER_BAR (header_bar))
+    return;
+
+  /* Check App Icon Visibility */
+  {
+    gchar **h_items = MOUSEPAD_SETTING_GET_STRV (TOOLBAR_HIDDEN_ITEMS);
+    if (g_strv_contains ((const gchar *const *) h_items, "mousepad.app-icon"))
+      app_icon_visible = FALSE;
+    g_strfreev (h_items);
+
+    /* Update Decoration Layout */
+    {
+      gchar *layout_desc = NULL;
+      gchar *new_layout = NULL;
+
+      g_object_get (gtk_settings_get_default (), "gtk-decoration-layout", &layout_desc, NULL);
+      if (!layout_desc)
+        layout_desc = g_strdup ("menu:minimize,maximize,close");
+
+      if (!app_icon_visible)
+        {
+          /* We need to remove 'menu' and 'icon' from the layout string.
+             Format examples: "menu:minimize,maximize,close" or "icon:..." or "menu,minimize:..."
+           */
+          gchar **sides = g_strsplit (layout_desc, ":", 2);
+          GString *new_str = g_string_new ("");
+
+          if (sides[0])
+            {
+              gchar **buttons = g_strsplit (sides[0], ",", -1);
+              gboolean first = TRUE;
+              for (gint i = 0; buttons[i]; i++)
+                {
+                  if (g_strcmp0 (buttons[i], "menu") != 0 && g_strcmp0 (buttons[i], "icon") != 0)
+                    {
+                      if (!first)
+                        g_string_append_c (new_str, ',');
+                      g_string_append (new_str, buttons[i]);
+                      first = FALSE;
+                    }
+                }
+              g_strfreev (buttons);
+            }
+
+          g_string_append_c (new_str, ':');
+
+          if (g_strv_length (sides) > 1)
+            {
+              gchar **buttons = g_strsplit (sides[1], ",", -1);
+              gboolean first = TRUE;
+              for (gint i = 0; buttons[i]; i++)
+                {
+                  if (g_strcmp0 (buttons[i], "menu") != 0 && g_strcmp0 (buttons[i], "icon") != 0)
+                    {
+                      if (!first)
+                        g_string_append_c (new_str, ',');
+                      g_string_append (new_str, buttons[i]);
+                      first = FALSE;
+                    }
+                }
+              g_strfreev (buttons);
+            }
+
+          g_strfreev (sides);
+          new_layout = g_string_free (new_str, FALSE);
+        }
+
+      /* Apply only if we are hiding, or if we need to restore (null) */
+      if (!app_icon_visible)
+        gtk_header_bar_set_decoration_layout (header_bar, new_layout);
+      else
+        gtk_header_bar_set_decoration_layout (header_bar, NULL); /* Restore default */
+
+      g_free (layout_desc);
+      g_free (new_layout);
+    }
+  }
+
+  /* don't proceed if widgets aren't valid (handles destroyed but non-null pointers) */
+  if (!GTK_IS_TOOLBAR (window->toolbar) || !GTK_IS_MENU_BAR (window->menubar))
+    return;
+
+  menubar_visible = mousepad_setting_get_boolean (MENUBAR);
+
+  /* ref widgets before any reparenting operation */
+  g_object_ref (window->menubar);
+  g_object_ref (window->toolbar);
+
+  /* clear any custom title from headerbar first */
+  gtk_header_bar_set_custom_title (header_bar, NULL);
+
+  /* remove toolbar and menubar from their current parents */
+  if (gtk_widget_get_parent (window->toolbar))
+    gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->toolbar)), window->toolbar);
+  if (gtk_widget_get_parent (window->menubar))
+    gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (window->menubar)), window->menubar);
+
+  /* remove menubar/toolbar from headerbar's packed children if present */
+  children = gtk_container_get_children (GTK_CONTAINER (header_bar));
+  for (l = children; l != NULL; l = l->next)
+    {
+      current_child = GTK_WIDGET (l->data);
+      if (current_child == window->menubar || current_child == window->toolbar)
+        gtk_container_remove (GTK_CONTAINER (header_bar), current_child);
+    }
+  g_list_free (children);
+
+  if (!embed_bars)
+    {
+      /* Standard Layout inside CSD window */
+      gtk_box_pack_start (GTK_BOX (window->menubar_box), window->menubar, TRUE, TRUE, 0);
+      gtk_box_pack_start (GTK_BOX (window->toolbar_box), window->toolbar, TRUE, TRUE, 0);
+
+      /* Ensure proper toolbar styling (not transparent) */
+      gtk_style_context_remove_class (gtk_widget_get_style_context (window->toolbar), "in-headerbar");
+    }
+  else if (menubar_visible)
+    {
+      /* menubar visible: put menubar in headerbar, toolbar in toolbar_box */
+      gtk_widget_set_hexpand (window->menubar, TRUE);
+      gtk_widget_set_halign (window->menubar, GTK_ALIGN_FILL);
+      gtk_header_bar_pack_start (header_bar, window->menubar);
+      gtk_box_pack_start (GTK_BOX (window->toolbar_box), window->toolbar, TRUE, TRUE, 0);
+
+      gtk_style_context_remove_class (gtk_widget_get_style_context (window->toolbar), "in-headerbar");
+    }
+  else
+    {
+      /* menubar hidden: put toolbar in headerbar */
+      gtk_widget_set_hexpand (window->toolbar, TRUE);
+      gtk_widget_set_halign (window->toolbar, GTK_ALIGN_FILL);
+
+      /* if filename is in statusbar (title hidden), let toolbar expand to fill center */
+      if (MOUSEPAD_SETTING_GET_BOOLEAN (FILENAME_IN_STATUSBAR) && MOUSEPAD_SETTING_GET_BOOLEAN (STATUSBAR_VISIBLE))
+        gtk_header_bar_set_custom_title (header_bar, window->toolbar);
+      else
+        gtk_header_bar_pack_start (header_bar, window->toolbar);
+
+      gtk_box_pack_start (GTK_BOX (window->menubar_box), window->menubar, TRUE, TRUE, 0);
+
+      gtk_style_context_add_class (gtk_widget_get_style_context (window->toolbar), "in-headerbar");
+    }
+
+  /* show/hide menu button based on menubar visibility
+   * (visible when menubar is hidden, regardless of embed_bars) */
+  {
+    GtkWidget *menu_btn = NULL;
+    GList *items = gtk_container_get_children (GTK_CONTAINER (window->toolbar));
+    for (l = items; l != NULL; l = l->next)
+      {
+        const gchar *name = gtk_widget_get_name (GTK_WIDGET (l->data));
+        if (name && g_strcmp0 (name, "mousepad-menu-button") == 0)
+          {
+            menu_btn = GTK_WIDGET (l->data);
+            break;
+          }
+      }
+    g_list_free (items);
+
+    if (menu_btn)
+      gtk_widget_set_visible (menu_btn, !menubar_visible);
+  }
+
+  /* release the references acquired at the start of the function */
+  g_object_unref (window->menubar);
+  g_object_unref (window->toolbar);
+
+  /* update title visibility/content if we have an active document */
+  if (window->active != NULL)
+    mousepad_window_set_title (window);
+}
+
+
+
+static void
+mousepad_window_action_show_menu (GSimpleAction *action,
+                                  GVariant *value,
+                                  gpointer data)
+{
+  MousepadWindow *window = MOUSEPAD_WINDOW (data);
+  GtkWidget *menu, *menu_btn = NULL;
+  GtkApplication *application;
+  GMenuModel *model;
+  GList *items, *l;
+
+  g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
+
+  /* find the menu button in the toolbar */
+  if (GTK_IS_WIDGET (window->toolbar))
+    {
+      items = gtk_container_get_children (GTK_CONTAINER (window->toolbar));
+      for (l = items; l != NULL; l = l->next)
+        {
+          const gchar *name = gtk_widget_get_name (GTK_WIDGET (l->data));
+          if (name && g_strcmp0 (name, "mousepad-menu-button") == 0)
+            {
+              menu_btn = GTK_WIDGET (l->data);
+              break;
+            }
+        }
+      g_list_free (items);
+    }
+
+  /* create and show the menu */
+  application = gtk_window_get_application (GTK_WINDOW (window));
+  model = gtk_application_get_menubar (application);
+  menu = gtk_menu_new_from_model (model);
+  gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (window), NULL);
+
+  if (menu_btn)
+    gtk_menu_popup_at_widget (GTK_MENU (menu), menu_btn,
+                              GDK_GRAVITY_SOUTH_WEST, GDK_GRAVITY_NORTH_WEST, NULL);
+  else
+    gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
 }
 
 
@@ -4027,9 +4574,8 @@ mousepad_window_recent_menu (GSimpleAction *action,
       /* walk through the items in the manager and pick the ones that are in the mousepad group */
       for (li = items; li != NULL; li = li->next)
         {
-          /* check if the item is in the Mousepad group and isn't an autosaved note */
-          if (!gtk_recent_info_has_group (li->data, MOUSEPAD_NAME)
-              || gtk_recent_info_get_private_hint (li->data))
+          /* check if the item is in the Mousepad group */
+          if (!gtk_recent_info_has_group (li->data, MOUSEPAD_NAME))
             continue;
 
           /* insert the list, sorted by date */
@@ -4178,6 +4724,12 @@ mousepad_window_drag_data_received (GtkWidget *widget,
       /* check */
       g_return_if_fail (MOUSEPAD_IS_DOCUMENT (*document));
 
+      /* take a reference on the document before we remove it */
+      g_object_ref (*document);
+
+      /* remove the document from the source window */
+      gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), *document);
+
       /* get the number of pages in the notebook */
       n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (window->notebook));
 
@@ -4197,23 +4749,14 @@ mousepad_window_drag_data_received (GtkWidget *widget,
             break;
         }
 
-      if (notebook != window->notebook)
-        {
-          /* take a reference on the document before we remove it */
-          g_object_ref (*document);
-
-          /* remove the document from the source window */
-          gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), *document);
-
-          /* add the document to the new window */
-          mousepad_window_add (window, MOUSEPAD_DOCUMENT (*document));
-
-          /* release our reference on the document */
-          g_object_unref (*document);
-        }
+      /* add the document to the new window */
+      mousepad_window_add (window, MOUSEPAD_DOCUMENT (*document));
 
       /* move the tab to the correct position */
       gtk_notebook_reorder_child (GTK_NOTEBOOK (window->notebook), *document, i);
+
+      /* release our reference on the document */
+      g_object_unref (*document);
 
       /* finish the drag (move) */
       gtk_drag_finish (context, TRUE, TRUE, drag_time);
@@ -4597,8 +5140,7 @@ mousepad_window_action_save (GSimpleAction *action,
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (document));
 
-  /* can be a temporary location: don't use mousepad_file_location_is_set() here */
-  if (mousepad_file_get_location (document->file) == NULL)
+  if (!mousepad_file_location_is_set (document->file))
     {
       /* file has no filename yet, open the save as dialog */
       save_as = g_action_map_lookup_action (G_ACTION_MAP (window), "file.save-as");

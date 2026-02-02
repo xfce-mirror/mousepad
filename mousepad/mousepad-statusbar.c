@@ -50,6 +50,10 @@ struct _MousepadStatusbar
   GtkWidget *encoding;
   GtkWidget *position;
   GtkWidget *overwrite;
+
+  /* filename in statusbar */
+  GtkWidget *filename;
+  GtkWidget *filename_sep;
 };
 
 
@@ -113,6 +117,15 @@ mousepad_statusbar_init (MousepadStatusbar *statusbar)
   separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
   gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, 0);
   gtk_widget_show (separator);
+
+  /* filename */
+  statusbar->filename = gtk_label_new (NULL);
+  gtk_box_pack_start (GTK_BOX (box), statusbar->filename, FALSE, FALSE, 0);
+  gtk_label_set_ellipsize (GTK_LABEL (statusbar->filename), PANGO_ELLIPSIZE_END);
+
+  /* separator */
+  statusbar->filename_sep = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+  gtk_box_pack_start (GTK_BOX (box), statusbar->filename_sep, FALSE, FALSE, 0);
 
   /* language/filetype event box */
   ebox = gtk_event_box_new ();
@@ -278,6 +291,27 @@ mousepad_statusbar_set_language (MousepadStatusbar *statusbar,
       label = g_strdup_printf (_("Filetype: %s"), gtk_source_language_get_name (language));
       gtk_label_set_text (GTK_LABEL (statusbar->language), label);
       g_free (label);
+    }
+}
+
+
+
+void
+mousepad_statusbar_set_filename (MousepadStatusbar *statusbar,
+                                 const gchar *filename)
+{
+  g_return_if_fail (MOUSEPAD_IS_STATUSBAR (statusbar));
+
+  if (filename != NULL)
+    {
+      gtk_label_set_text (GTK_LABEL (statusbar->filename), filename);
+      gtk_widget_show (statusbar->filename);
+      gtk_widget_show (statusbar->filename_sep);
+    }
+  else
+    {
+      gtk_widget_hide (statusbar->filename);
+      gtk_widget_hide (statusbar->filename_sep);
     }
 }
 

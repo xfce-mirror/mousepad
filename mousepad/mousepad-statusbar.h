@@ -45,6 +45,10 @@ mousepad_statusbar_set_language (MousepadStatusbar *statusbar,
                                  GtkSourceLanguage *language);
 
 void
+mousepad_statusbar_set_filename (MousepadStatusbar *statusbar,
+                                 const gchar *filename);
+
+void
 mousepad_statusbar_set_overwrite (MousepadStatusbar *statusbar,
                                   gboolean overwrite);
 

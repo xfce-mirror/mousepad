@@ -56,13 +56,15 @@ G_BEGIN_DECLS
 
 #define MOUSEPAD_SETTING_TOOLBAR_STYLE "preferences.window.toolbar-style"
 #define MOUSEPAD_SETTING_TOOLBAR_ICON_SIZE "preferences.window.toolbar-icon-size"
+#define MOUSEPAD_SETTING_TOOLBAR_RIGHT_ITEMS "preferences.window.toolbar-right-items"
+#define MOUSEPAD_SETTING_TOOLBAR_HIDDEN_ITEMS "preferences.window.toolbar-hidden-items"
 #define MOUSEPAD_SETTING_ALWAYS_SHOW_TABS "preferences.window.always-show-tabs"
 #define MOUSEPAD_SETTING_EXPAND_TABS "preferences.window.expand-tabs"
 #define MOUSEPAD_SETTING_CYCLE_TABS "preferences.window.cycle-tabs"
 #define MOUSEPAD_SETTING_OPENING_MODE "preferences.window.opening-mode"
 #define MOUSEPAD_SETTING_DEFAULT_TAB_SIZES "preferences.window.default-tab-sizes"
 #define MOUSEPAD_SETTING_PATH_IN_TITLE "preferences.window.path-in-title"
-#define MOUSEPAD_SETTING_APP_NAME_IN_TITLE "preferences.window.app-name-in-title"
+#define MOUSEPAD_SETTING_FILENAME_IN_STATUSBAR "preferences.window.filename-in-statusbar"
 #define MOUSEPAD_SETTING_RECENT_MENU_ITEMS "preferences.window.recent-menu-items"
 #define MOUSEPAD_SETTING_REMEMBER_SIZE "preferences.window.remember-size"
 #define MOUSEPAD_SETTING_REMEMBER_POSITION "preferences.window.remember-position"
@@ -75,6 +77,7 @@ G_BEGIN_DECLS
 #define MOUSEPAD_SETTING_STATUSBAR_VISIBLE_FULLSCREEN "preferences.window.statusbar-visible-in-fullscreen"
 #define MOUSEPAD_SETTING_OLD_STYLE_MENU "preferences.window.old-style-menu"
 #define MOUSEPAD_SETTING_CLIENT_SIDE_DECORATIONS "preferences.window.client-side-decorations"
+#define MOUSEPAD_SETTING_CLIENT_SIDE_DECORATIONS_EMBED "preferences.window.client-side-decorations-embed"
 
 /* State setting names */
 #define MOUSEPAD_SETTING_ENABLED_PLUGINS "state.application.enabled-plugins"

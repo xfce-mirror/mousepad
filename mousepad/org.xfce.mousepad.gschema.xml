@@ -330,6 +330,20 @@
         Controls the size of the toolbar icons (if visible).
       </description>
     </key>
+    <key name="toolbar-right-items" type="as">
+      <default>[]</default>
+      <summary>Layer of toolbar items aligned to the right</summary>
+      <description>
+        List of item identifiers that should be displayed on the right side of the toolbar.
+      </description>
+    </key>
+    <key name="toolbar-hidden-items" type="as">
+      <default>[]</default>
+      <summary>Hidden toolbar items</summary>
+      <description>
+        List of toolbar items that are hidden.
+      </description>
+    </key>
     <key name="always-show-tabs" type="b">
       <default>false</default>
       <summary>Always show tabs</summary>
@@ -377,12 +391,12 @@
         titlebar, when false only the basename will be shown.
       </description>
     </key>
-    <key name="app-name-in-title" type="b">
-      <default>true</default>
-      <summary>Show app name in title</summary>
+    <key name="filename-in-statusbar" type="b">
+      <default>false</default>
+      <summary>Show filename in statusbar</summary>
       <description>
-        When checked, the " - Mousepad" suffix will be appended to the file name
-        in the window title.
+        When true, the filename is displayed in the statusbar instead of the
+        window title bar. The system window title still contains the full information.
       </description>
     </key>
     <key name="recent-menu-items" type="u">
@@ -485,6 +499,15 @@
       <description>
         When true, Mousepad draws its own window decorations, instead of the window manager.
         Restart Mousepad for this to take effect.
+      </description>
+    </key>
+    <key name="client-side-decorations-embed" type="b">
+      <default>true</default>
+      <summary>Embed menubar and toolbar in headerbar</summary>
+      <description>
+        When true, and client-side decorations are enabled, the menubar and toolbar
+        will be embedded in the headerbar. When false, they will be displayed
+        below the headerbar.
       </description>
     </key>
   </schema>

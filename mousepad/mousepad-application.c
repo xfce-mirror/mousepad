@@ -236,8 +236,9 @@ static const GActionEntry dialog_actions[] = {
 
   /* "Window" tab */
   { MOUSEPAD_SETTING_CLIENT_SIDE_DECORATIONS, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_CLIENT_SIDE_DECORATIONS_EMBED, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_PATH_IN_TITLE, mousepad_application_toggle_activate, NULL, "false", NULL },
-  { MOUSEPAD_SETTING_APP_NAME_IN_TITLE, mousepad_application_toggle_activate, NULL, "false", NULL },
+  { MOUSEPAD_SETTING_FILENAME_IN_STATUSBAR, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_SIZE, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_POSITION, mousepad_application_toggle_activate, NULL, "false", NULL },
   { MOUSEPAD_SETTING_REMEMBER_STATE, mousepad_application_toggle_activate, NULL, "false", NULL },
@@ -396,7 +397,6 @@ mousepad_application_init (MousepadApplication *application)
 
   /* default application name */
   g_set_application_name (_(MOUSEPAD_NAME));
-  g_set_prgname (MOUSEPAD_ID);
 
   /* use the Mousepad icon as default for new windows */
   gtk_window_set_default_icon_name (MOUSEPAD_ID);

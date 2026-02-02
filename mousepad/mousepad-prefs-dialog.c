@@ -45,6 +45,7 @@
 /* Window page */
 #define WID_TOOLBAR_STYLE_COMBO "/prefs/window/toolbar/style-combo"
 #define WID_TOOLBAR_ICON_SIZE_COMBO "/prefs/window/toolbar/icon-size-combo"
+#define WID_TOOLBAR_ITEMS_LIST "/prefs/window/toolbar/items-list"
 #define WID_OPENING_MODE_COMBO "/prefs/window/notebook/opening-mode-combo"
 
 /* File page */
@@ -604,6 +605,298 @@ mousepad_prefs_dialog_recent_spin_changed (MousepadPrefsDialog *self,
 
 
 
+static void
+mousepad_prefs_dialog_toolbar_item_toggled (GtkToggleButton *button,
+                                            MousepadPrefsDialog *self)
+{
+  gchar **hidden_items;
+  const gchar *action_name;
+  GPtrArray *new_list;
+  gboolean active;
+  gchar **iter;
+
+  action_name = g_object_get_data (G_OBJECT (button), "action-name");
+  active = gtk_toggle_button_get_active (button);
+
+  hidden_items = MOUSEPAD_SETTING_GET_STRV (TOOLBAR_HIDDEN_ITEMS);
+  new_list = g_ptr_array_new_with_free_func (g_free);
+
+  /* copy existing items, skipping action_name if present */
+  for (iter = hidden_items; *iter != NULL; iter++)
+    {
+      if (g_strcmp0 (*iter, action_name) != 0)
+        g_ptr_array_add (new_list, g_strdup (*iter));
+    }
+
+  /* if inactive (hidden), add to the list */
+  if (!active)
+    g_ptr_array_add (new_list, g_strdup (action_name));
+
+  g_ptr_array_add (new_list, NULL);
+
+  MOUSEPAD_SETTING_SET_STRV (TOOLBAR_HIDDEN_ITEMS, (const gchar *const *) new_list->pdata);
+
+  g_ptr_array_free (new_list, TRUE);
+  g_strfreev (hidden_items);
+}
+
+
+
+static void
+mousepad_prefs_dialog_toolbar_alignment_changed (GtkComboBox *combo,
+                                                 MousepadPrefsDialog *self)
+{
+  gchar **right_items;
+  const gchar *action_name;
+  GPtrArray *new_list;
+  gint alignment; /* 0=Left, 1=Right */
+  gchar **iter;
+  gboolean exists = FALSE;
+
+  action_name = g_object_get_data (G_OBJECT (combo), "action-name");
+  alignment = gtk_combo_box_get_active (combo);
+
+  right_items = MOUSEPAD_SETTING_GET_STRV (TOOLBAR_RIGHT_ITEMS);
+  new_list = g_ptr_array_new_with_free_func (g_free);
+
+  for (iter = right_items; *iter != NULL; iter++)
+    {
+      if (g_strcmp0 (*iter, action_name) == 0)
+        exists = TRUE;
+
+      if (alignment == 0 && g_strcmp0 (*iter, action_name) == 0)
+        continue; /* Remove from right items (move to left) */
+
+      g_ptr_array_add (new_list, g_strdup (*iter));
+    }
+
+  if (alignment == 1 && !exists)
+    g_ptr_array_add (new_list, g_strdup (action_name));
+
+  g_ptr_array_add (new_list, NULL);
+
+  MOUSEPAD_SETTING_SET_STRV (TOOLBAR_RIGHT_ITEMS, (const gchar *const *) new_list->pdata);
+
+  g_ptr_array_free (new_list, TRUE);
+  g_strfreev (right_items);
+}
+
+static gchar *
+mousepad_prefs_dialog_strip_mnemonic (const gchar *label)
+{
+  GString *str;
+  const gchar *p;
+
+  if (label == NULL)
+    return NULL;
+
+  str = g_string_sized_new (strlen (label));
+
+  for (p = label; *p != '\0'; p++)
+    {
+      if (*p == '_')
+        {
+          if (p[1] == '_')
+            {
+              p++;
+              g_string_append_c (str, '_');
+            }
+        }
+      else
+        g_string_append_c (str, *p);
+    }
+
+  return g_string_free (str, FALSE);
+}
+
+
+
+static void
+mousepad_prefs_dialog_toolbar_add_row (MousepadPrefsDialog *self,
+                                       GtkListBox *listbox,
+                                       const gchar *label,
+                                       const gchar *action_name,
+                                       gboolean alignable,
+                                       gboolean visible,
+                                       gboolean is_right)
+{
+  GtkBox *box;
+  GtkWidget *check, *combo, *row;
+
+  /* Create Row Layout */
+  box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6));
+
+  /* Visibility Check */
+  check = gtk_check_button_new_with_label (label);
+  gtk_widget_set_visible (check, TRUE);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), visible);
+  gtk_widget_set_hexpand (check, TRUE);
+  g_object_set_data_full (G_OBJECT (check), "action-name", g_strdup (action_name), g_free);
+  g_signal_connect (check, "toggled",
+                    G_CALLBACK (mousepad_prefs_dialog_toolbar_item_toggled), self);
+  gtk_box_pack_start (box, check, TRUE, TRUE, 0);
+
+  /* Alignment Combo (only if alignable) */
+  if (alignable)
+    {
+      combo = gtk_combo_box_text_new ();
+      gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("Left"));
+      gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("Right"));
+      gtk_combo_box_set_active (GTK_COMBO_BOX (combo), is_right ? 1 : 0);
+      gtk_widget_set_visible (combo, TRUE);
+      g_object_set_data_full (G_OBJECT (combo), "action-name", g_strdup (action_name), g_free);
+      g_signal_connect (combo, "changed",
+                        G_CALLBACK (mousepad_prefs_dialog_toolbar_alignment_changed), self);
+      gtk_box_pack_start (box, combo, FALSE, FALSE, 0);
+    }
+
+  /* Add to listbox */
+  gtk_widget_set_visible (GTK_WIDGET (box), TRUE);
+  gtk_list_box_insert (listbox, GTK_WIDGET (box), -1);
+
+  /* Allow row activation */
+  row = gtk_widget_get_parent (GTK_WIDGET (box));
+  if (row)
+    gtk_list_box_row_set_activatable (GTK_LIST_BOX_ROW (row), FALSE);
+}
+
+
+
+static void
+mousepad_prefs_dialog_toolbar_add_item (MousepadPrefsDialog *self,
+                                        GtkListBox *listbox,
+                                        GMenuModel *model,
+                                        gint index,
+                                        const gchar *const *hidden_items)
+{
+  gchar *label = NULL, *tooltip = NULL, *action = NULL, *share_id = NULL;
+  gchar *clean_label;
+  const gchar *display_label;
+  const gchar *id_key;
+  gboolean visible;
+  gchar **right_items;
+  gboolean is_right = FALSE;
+
+  /* get attributes */
+  if (g_menu_model_get_item_attribute (model, index, G_MENU_ATTRIBUTE_LABEL, "s", &label)
+      && label != NULL && *label == '\0')
+    {
+      g_free (label);
+      label = NULL;
+    }
+
+  g_menu_model_get_item_attribute (model, index, "tooltip", "s", &tooltip);
+  g_menu_model_get_item_attribute (model, index, G_MENU_ATTRIBUTE_ACTION, "s", &action);
+  g_menu_model_get_item_attribute (model, index, "item-share-id", "s", &share_id);
+
+  /* determine display label */
+  display_label = label ? label : (tooltip ? tooltip : (action ? action : share_id));
+  if (display_label == NULL) /* should not happen */
+    display_label = "???";
+
+  /* clean the label */
+  clean_label = mousepad_prefs_dialog_strip_mnemonic (display_label);
+
+  /* determine ID key (prefer action, fallback to share-id) */
+  id_key = action ? action : share_id;
+
+  if (id_key != NULL)
+    {
+      /* determine visibility state */
+      visible = !g_strv_contains (hidden_items, id_key);
+
+      /* determine alignment state */
+      right_items = MOUSEPAD_SETTING_GET_STRV (TOOLBAR_RIGHT_ITEMS);
+      if (g_strv_contains ((const gchar *const *) right_items, id_key))
+        is_right = TRUE;
+      g_strfreev (right_items);
+
+      /* Add row using helper */
+      mousepad_prefs_dialog_toolbar_add_row (self, listbox, clean_label, id_key, TRUE, visible, is_right);
+    }
+
+  g_free (clean_label);
+  g_free (label);
+  g_free (tooltip);
+  g_free (action);
+  g_free (share_id);
+}
+
+
+
+/* Helper to create a pseudo-item row */
+static void
+mousepad_prefs_dialog_toolbar_add_pseudo_item (MousepadPrefsDialog *self,
+                                               GtkListBox *listbox,
+                                               const gchar *label,
+                                               const gchar *action_name,
+                                               gboolean alignable,
+                                               const gchar *const *hidden_items,
+                                               const gchar *const *right_items)
+{
+  gboolean visible, is_right = FALSE;
+
+  /* determine visibility state */
+  visible = !g_strv_contains (hidden_items, action_name);
+
+  /* determine alignment state */
+  if (alignable && g_strv_contains ((const gchar *const *) right_items, action_name))
+    is_right = TRUE;
+
+  /* Add row using helper */
+  mousepad_prefs_dialog_toolbar_add_row (self, listbox, label, action_name, alignable, visible, is_right);
+}
+
+static void
+mousepad_prefs_dialog_setup_toolbar_items (MousepadPrefsDialog *self)
+{
+  GtkListBox *listbox;
+  GtkApplication *application;
+  GMenuModel *model;
+  GMenuModel *section;
+  gchar **hidden_items;
+  gint m, n, n_items;
+
+  listbox = GTK_LIST_BOX (gtk_builder_get_object (self->builder, WID_TOOLBAR_ITEMS_LIST));
+  application = GTK_APPLICATION (g_application_get_default ());
+  model = G_MENU_MODEL (gtk_application_get_menu_by_id (application, "toolbar"));
+  hidden_items = MOUSEPAD_SETTING_GET_STRV (TOOLBAR_HIDDEN_ITEMS);
+
+  /* Add pseudo-items for Menu Button and App Icon */
+  {
+    gchar **right_items = MOUSEPAD_SETTING_GET_STRV (TOOLBAR_RIGHT_ITEMS);
+
+    /* App Icon (not alignable - position is controlled by window decoration layout) */
+    mousepad_prefs_dialog_toolbar_add_pseudo_item (self, listbox, _("Icon"), "mousepad.app-icon", FALSE,
+                                                   (const gchar *const *) hidden_items, (const gchar *const *) right_items);
+
+    /* Menu Button (alignable) */
+    mousepad_prefs_dialog_toolbar_add_pseudo_item (self, listbox, _("Menu"), "mousepad.menu-button", TRUE,
+                                                   (const gchar *const *) hidden_items, (const gchar *const *) right_items);
+
+    g_strfreev (right_items);
+  }
+
+  /* iterate toolbar model */
+  for (m = 0; m < g_menu_model_get_n_items (model); m++)
+    {
+      if ((section = g_menu_model_get_item_link (model, m, G_MENU_LINK_SECTION))
+          && (n_items = g_menu_model_get_n_items (section)))
+        {
+          for (n = 0; n < n_items; n++)
+            mousepad_prefs_dialog_toolbar_add_item (self, listbox, section, n, (const gchar *const *) hidden_items);
+        }
+      else
+        {
+          mousepad_prefs_dialog_toolbar_add_item (self, listbox, model, m, (const gchar *const *) hidden_items);
+        }
+    }
+
+  g_strfreev (hidden_items);
+}
+
+
+
 #define mousepad_builder_get_widget(builder, name) \
   GTK_WIDGET (gtk_builder_get_object (builder, name))
 
@@ -688,6 +981,8 @@ mousepad_prefs_dialog_init (MousepadPrefsDialog *self)
   MOUSEPAD_SETTING_BIND (TOOLBAR_ICON_SIZE,
                          gtk_builder_get_object (self->builder, WID_TOOLBAR_ICON_SIZE_COMBO),
                          "active-id", G_SETTINGS_BIND_DEFAULT);
+
+  mousepad_prefs_dialog_setup_toolbar_items (self);
   MOUSEPAD_SETTING_BIND (OPENING_MODE,
                          gtk_builder_get_object (self->builder, WID_OPENING_MODE_COMBO),
                          "active-id", G_SETTINGS_BIND_DEFAULT);
