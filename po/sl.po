@@ -623,7 +623,7 @@ msgstr "Zam_enjaj z:"
 
 #: mousepad/mousepad-replace-dialog.c:345
 msgid "Search _direction:"
-msgstr "_Smer iskanje:"
+msgstr "_Smer iskanja:"
 
 #: mousepad/mousepad-replace-dialog.c:354
 msgid "Up"
@@ -665,15 +665,15 @@ msgstr "Z_amenjaj vse v:"
 
 #: mousepad/mousepad-replace-dialog.c:408
 msgid "Selection"
-msgstr "Izbor"
+msgstr "Izboru"
 
 #: mousepad/mousepad-replace-dialog.c:409
 msgid "Document"
-msgstr "Dokument"
+msgstr "Dokumentu"
 
 #: mousepad/mousepad-replace-dialog.c:410
 msgid "All Documents"
-msgstr "Vsi dokumenti"
+msgstr "Vseh dokumentih"
 
 #: mousepad/mousepad-replace-dialog.c:615 mousepad/mousepad-search-bar.c:470
 #, c-format
@@ -897,7 +897,7 @@ msgstr "Zapri Mousepad"
 
 #: mousepad/resources/gtk/menus.ui:111
 msgid "_Edit"
-msgstr "_Uredi"
+msgstr "Ur_edi"
 
 #: mousepad/resources/gtk/menus.ui:112
 msgid "Edit menu"
