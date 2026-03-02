@@ -1,3 +1,30 @@
+0.7.0 (2026-03-02)
+=====
+- build: Rename POTFILES.in to POTFILES
+- metadata: Add vcs-browser URL
+- Adding 'app-name-in-title' setting
+- I18n: Update po/LINGUAS list
+- build: Fix typo in optimization level
+- Set prgname to application ID
+- search: Use a reserved name for the fake back reference
+- README.md: Add uninstall info
+- Consider temporary location as valid when saving
+- Remove also m4 folder
+- Remove autotools build
+- history: Extend recent history to autosaved notes
+- window: Do not detach/re-attach tab when dnding it in the same window
+- file: Avoid unnecessary file browsing during loading for UNIX EOL
+- Translation Updates:
+  Albanian, Arabic, Armenian (Armenia), Basque, Belarusian, Bulgarian,
+  Catalan, Chinese (China), Chinese (Taiwan), Croatian, Czech, Danish,
+  Dutch, Eastern Armenian, English (Australia), English (United
+  Kingdom), Estonian, Finnish, French, Galician, German, Greek, Hebrew,
+  Hungarian, Icelandic, Indonesian, Interlingue, Italian, Japanese,
+  Kazakh, Korean, Lithuanian, Malay, Norwegian Bokmål, Occitan (post
+  1500), Persian (Iran), Polish, Portuguese, Portuguese (Brazil),
+  Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish,
+  Telugu, Thai, Turkish, Ukrainian, Uyghur, Vietnamese
+
 0.6.5 (2025-03-31)
 =====
 - file: Fix broken conditional to exit on allowed error
