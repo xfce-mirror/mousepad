@@ -1385,7 +1385,12 @@ mousepad_view_duplicate (MousepadView *view)
         gtk_text_iter_set_line_offset (&start_iter, 0);
 
       /* move the other iter to the start of the next line */
-      insert_eol = !gtk_text_iter_forward_line (&end_iter);
+      if (!gtk_text_iter_forward_line (&end_iter))
+        {
+          gchar *line = gtk_text_iter_get_text (&start_iter, &end_iter);
+          insert_eol = !g_str_has_suffix (line, "\n");
+          g_free (line);
+        }
     }
 
   /* insert a dupplicate of the text before the iter */
