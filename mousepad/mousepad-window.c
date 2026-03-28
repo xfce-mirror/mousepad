@@ -5580,6 +5580,11 @@ mousepad_window_action_find (GSimpleAction *action,
   selection = mousepad_util_get_selection (window->active->buffer);
   if (selection != NULL)
     {
+      /* start the search after the currently selected text */
+      GtkTextIter iter;
+      gtk_text_buffer_get_selection_bounds (window->active->buffer, NULL, &iter);
+      gtk_text_buffer_place_cursor (window->active->buffer, &iter);
+
       mousepad_search_bar_set_text (MOUSEPAD_SEARCH_BAR (window->search_bar), selection);
       g_free (selection);
     }
@@ -5718,6 +5723,11 @@ mousepad_window_action_replace (GSimpleAction *action,
   selection = mousepad_util_get_selection (window->active->buffer);
   if (selection != NULL)
     {
+      /* start the search after the currently selected text */
+      GtkTextIter iter;
+      gtk_text_buffer_get_selection_bounds (window->active->buffer, NULL, &iter);
+      gtk_text_buffer_place_cursor (window->active->buffer, &iter);
+
       mousepad_replace_dialog_set_text (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog),
                                         selection);
       g_free (selection);
