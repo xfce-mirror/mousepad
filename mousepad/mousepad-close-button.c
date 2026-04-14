@@ -20,7 +20,7 @@
 
 
 #define ICON_NAME_MODIFIED "media-record-symbolic"
-#define ICON_NAME_UNMODIFIED "window-close"
+#define ICON_NAME_UNMODIFIED "window-close-symbolic"
 
 #define mousepad_close_button_set_icon_name(button, icon_name) \
   gtk_image_set_from_icon_name (GTK_IMAGE (gtk_button_get_image (GTK_BUTTON (button))), \
