@@ -8,6 +8,7 @@
 # Emanuele Petriglia <inbox@emanuelepetriglia.com>, 2025
 # Emanuele Petriglia <inbox@emanuelepetriglia.com>, 2018
 # Emanuele Petriglia <inbox@emanuelepetriglia.com>, 2019-2024
+# underpass <underpass_bugzilla@outlook.it>, 2026
 # Vincenzo Reale <vinx.reale@gmail.com>, 2020
 msgid ""
 msgstr ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-12-23 00:56+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Emanuele Petriglia <inbox@emanuelepetriglia.com>, 2025\n"
+"Last-Translator: underpass <underpass_bugzilla@outlook.it>, 2026\n"
 "Language-Team: Italian (http://app.transifex.com/xfce/xfce-apps/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +36,7 @@ msgstr "CODIFICA"
 
 #: mousepad/mousepad-application.c:163
 msgid "Display a list of possible encodings to open files"
-msgstr "Visualizza la lista delle possibile codifiche per aprire i file"
+msgstr "Visualizza la lista delle possibili codifiche per aprire i file"
 
 #: mousepad/mousepad-application.c:167
 msgid ""
@@ -166,7 +167,7 @@ msgstr "Salvare le modifiche prima di uscire?"
 
 #: mousepad/mousepad-dialogs.c:384
 msgid "The document is read-only, do you want to save it as another file?"
-msgstr "Il documento è a sola lettura, salvarlo su un altro file?"
+msgstr "Il documento è di sola lettura, salvarlo su un altro file?"
 
 #. setup CSD titlebar
 #: mousepad/mousepad-dialogs.c:392 mousepad/mousepad-dialogs.c:532
@@ -181,7 +182,7 @@ msgstr "_Non salvare"
 msgid ""
 "If you don't save this read-only document as another file, all the changes "
 "will be lost."
-msgstr "Se non si salva questo documento a sola lettura su un altro file, tutte le modifiche andranno perse."
+msgstr "Se non si salva questo documento di sola lettura su un altro file, tutte le modifiche andranno perse."
 
 #: mousepad/mousepad-dialogs.c:415
 msgid "If you don't save the document, all the changes will be lost."
@@ -190,7 +191,7 @@ msgstr "Se non si salva il documento, tutte le modifiche andranno perse"
 #: mousepad/mousepad-dialogs.c:456
 msgid ""
 "The document has been externally modified. Do you want to continue saving?"
-msgstr "Il documento è stato modificato esternamente. Continuare a salvare?"
+msgstr "Il documento è stato modificato esternamente. Continuare il salvataggio?"
 
 #: mousepad/mousepad-dialogs.c:457
 msgid "If you save the document, all of the external changes will be lost."
@@ -224,21 +225,21 @@ msgstr "Se si ripristina il file, tutte le modifiche non salvate andranno perse.
 msgid ""
 "The file seems to be encoded in %s, but you have chosen %s encoding. Do you "
 "confirm this choice?"
-msgstr "Il file sempre codificato in %s, ma si è scelta la codifica %s. Confermare la scelta?"
+msgstr "Il file sembra codificato in %s, ma si è scelta la codifica %s. Confermare la scelta?"
 
 #: mousepad/mousepad-dialogs.c:586
 msgid "If not, the guessed encoding will be used."
-msgstr "Se no, verrà usata la codifica ipotizzata."
+msgstr "In caso contrario verrà usata la codifica ipotizzata."
 
 #: mousepad/mousepad-dialogs.c:641
 msgid ""
 "It seems that the previous session did not end normally. Do you want to "
 "restore the available data?"
-msgstr "Pare che la sessione precedente non sia stata terminata correttamente. Ripristinare i dati disponibili?"
+msgstr "Sembra che la sessione precedente non sia stata terminata in maniera corretta. Ripristinare i dati disponibili?"
 
 #: mousepad/mousepad-dialogs.c:660
 msgid "If not, all this data will be lost."
-msgstr "Se no, tutti i dati saranno persi."
+msgstr "In caso contrario tutti i dati saranno persi."
 
 #: mousepad/mousepad-dialogs.c:863
 msgid "Please select a file"
@@ -254,7 +255,7 @@ msgstr "Apri la finestra delle codifiche"
 
 #: mousepad/mousepad-dialogs.c:971
 msgid "Go back to shorten list"
-msgstr "Indietro a una lista più corta"
+msgstr "Tornare indietro per abbreviare l'elenco"
 
 #. combo box label
 #: mousepad/mousepad-dialogs.c:1035
@@ -263,7 +264,7 @@ msgstr "_Codifica:"
 
 #: mousepad/mousepad-dialogs.c:1070
 msgid "Current"
-msgstr "Corrente"
+msgstr "Attuale"
 
 #: mousepad/mousepad-dialogs.c:1088
 msgid "Show all encodings"
@@ -370,11 +371,11 @@ msgstr "Altro (parziale):"
 
 #: mousepad/mousepad-encoding-dialog.c:438
 msgid "Other valid encodings were found, please choose below."
-msgstr "Sono state trovate altre codifiche valide, sceglierne una di sotto."
+msgstr "Sono state trovate altre codifiche valide, scegliere tra le seguenti:"
 
 #: mousepad/mousepad-encoding-dialog.c:440
 msgid "Other partially valid encodings were found, please choose below."
-msgstr "Sono state trovate altre codifiche parzialmente valide, sceglierne una di sotto."
+msgstr "Sono state trovate altre codifiche parzialmente valide, scegliere tra le seguenti:"
 
 #: mousepad/mousepad-encoding-dialog.c:476
 msgid "No other valid encoding was found."
@@ -524,15 +525,15 @@ msgstr "Cronologia"
 
 #: mousepad/mousepad-file.c:1013
 msgid "Invalid byte sequence in conversion input"
-msgstr "Sequenza byte invalida nell'input di conversione"
+msgstr "Sequenza byte non valida nell'input di conversione"
 
 #: mousepad/mousepad-history.c:353
 msgid "Failed to clear the recent history"
-msgstr "Impossibile pulire la cronologia recente"
+msgstr "Impossibile cancellare la cronologia recente"
 
 #: mousepad/mousepad-history.c:1351
 msgid "No clipboard data"
-msgstr "Nessun appunto"
+msgstr "Nessun contenuto negli appunti"
 
 #. setup the window properties
 #: mousepad/mousepad-prefs-dialog.c:642 org.xfce.mousepad.desktop.in:18
@@ -569,11 +570,11 @@ msgstr "L'intervallo con cui stampare i numeri delle righe; per esempio con il v
 
 #: mousepad/mousepad-print.c:626
 msgid "Enable text _wrapping"
-msgstr "Abilita a _capo automatico"
+msgstr "Attiva a _capo automatico"
 
 #: mousepad/mousepad-print.c:633
 msgid "Enable _syntax highlighting"
-msgstr "Abilita _sintassi evidenziata"
+msgstr "Attiva _sintassi evidenziata"
 
 #: mousepad/mousepad-print.c:645
 msgid "Fonts"
@@ -617,7 +618,7 @@ msgstr "_Chiudi"
 
 #: mousepad/mousepad-replace-dialog.c:289
 msgid "_Search for:"
-msgstr "_Cerca per:"
+msgstr "_Cerca:"
 
 #: mousepad/mousepad-replace-dialog.c:323
 msgid "Replace _with:"
@@ -645,14 +646,14 @@ msgstr "Ricerca contin_ua"
 #: mousepad/mousepad-replace-dialog.c:371 mousepad/mousepad-search-bar.c:286
 #: mousepad/mousepad-search-bar.c:294
 msgid "Match _case"
-msgstr "Maiuscole / Minuscole"
+msgstr "Maiuscole / minuscole"
 
 #. match whole word
 #. check button for matching whole words, including the proxy menu item
 #: mousepad/mousepad-replace-dialog.c:380 mousepad/mousepad-search-bar.c:300
 #: mousepad/mousepad-search-bar.c:308
 msgid "_Match whole word"
-msgstr "_Corrisponde all'intera parola"
+msgstr "_Corrispondenza parola intera"
 
 #. enable regex search
 #. check button for enabling regex, including the proxy menu item
@@ -729,7 +730,7 @@ msgstr "Formato file: %s"
 #. add the label with the root warning
 #: mousepad/mousepad-window.c:1162
 msgid "Warning: you are using the root account. You may harm your system."
-msgstr "Attenzione, si sta usando l'account amministratore, si potrebbe danneggiare il sistema."
+msgstr "Attenzione, si sta usando l'account root. Un utilizzo incauto potrebbe danneggiare il sistema."
 
 #: mousepad/mousepad-window.c:2492
 msgid "Read Only"
@@ -778,7 +779,7 @@ msgstr "Ricarica file dal disco"
 
 #: mousepad/mousepad-window.c:3819
 msgid "Leave fullscreen mode"
-msgstr "Lascia in modalità a schermo intero"
+msgstr "Esci dalla modalità a schermo intero"
 
 #: mousepad/mousepad-window.c:3824 mousepad/resources/gtk/menus-common.ui:187
 msgid "Make the window fullscreen"
@@ -795,7 +796,7 @@ msgstr "Nessun elemento trovato"
 
 #: mousepad/mousepad-window.c:4097
 msgid "History disabled"
-msgstr "Cronologia disabilitata"
+msgstr "Cronologia disattivata"
 
 #. set error message
 #: mousepad/mousepad-window.c:4466
@@ -853,11 +854,11 @@ msgstr "Ap_ri recente"
 
 #: mousepad/resources/gtk/menus.ui:44
 msgid "Open a recently used file"
-msgstr "Apri un file recentemente usato"
+msgstr "Apri un file usato recentemente"
 
 #: mousepad/resources/gtk/menus.ui:50
 msgid "Clear _History"
-msgstr "Pulisci _cronologia"
+msgstr "Cancella _cronologia"
 
 #: mousepad/resources/gtk/menus.ui:51
 msgid "Clear the recently used files history"
@@ -1103,19 +1104,19 @@ msgstr "Riga f_inale"
 
 #: mousepad/resources/gtk/menus.ui:315
 msgid "Character(s) to use as end of line"
-msgstr "Caratteri da usare per la fine del file"
+msgstr "Caratteri da usare come fine riga"
 
 #: mousepad/resources/gtk/menus.ui:318
 msgid "Set the line ending of the document to Unix (LF)"
-msgstr "Imposta la riga finale del documento a Unix (LF)"
+msgstr "Imposta il fine riga del documento come Unix (LF)"
 
 #: mousepad/resources/gtk/menus.ui:324
 msgid "Set the line ending of the document to Mac (CR)"
-msgstr "Imposta la riga finale del documento a Mac (CR)"
+msgstr "Imposta il fine riga del documento come Mac (CR)"
 
 #: mousepad/resources/gtk/menus.ui:330
 msgid "Set the line ending of the document to DOS / Windows (CR LF)"
-msgstr "Imposta la riga finale del documento a DOS / Windows (CR LF)"
+msgstr "Imposta il fine riga del documento come DOS / Windows (CR LF)"
 
 #: mousepad/resources/gtk/menus.ui:338
 msgid "Write Unicode _BOM"
@@ -1327,7 +1328,7 @@ msgstr "Elimina _linea"
 
 #: mousepad/resources/gtk/menus-common.ui:256
 msgid "Delete the current line"
-msgstr "Elimina la linea attuale"
+msgstr "Elimina la riga attuale"
 
 #: mousepad/resources/gtk/menus-common.ui:263
 msgid "Conve_rt"
@@ -1363,7 +1364,7 @@ msgstr "Cambia lo stile della selezione in stile titolo (iniziale maiuscola)"
 
 #: mousepad/resources/gtk/menus-common.ui:282
 msgid "To _Opposite Case"
-msgstr "I_nverti"
+msgstr "I_nverti maiuscole/minuscole"
 
 #: mousepad/resources/gtk/menus-common.ui:283
 msgid "Change the case of the selection opposite case"
@@ -1619,7 +1620,7 @@ msgstr "Modalità di tabulazione:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:590
 msgid "Enable automatic indentation"
-msgstr "Abilita indentazione automatica"
+msgstr "Attiva indentazione automatica"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:607
 msgid "<b>Indentation</b>"
@@ -1700,7 +1701,7 @@ msgstr "Mostra sempre le schede anche con un solo file"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Expand tabs to fill available space"
-msgstr "Espandi tabulazioni per riempire lo spazio disponibile"
+msgstr "Espandi le schede su tutto lo spazio disponibile"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1010
 msgid "Cycled notebook tab switching"
@@ -1720,7 +1721,7 @@ msgstr "Finestra"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1124
 msgid "Ensure new line at file end"
-msgstr "Aggiungi una nuova linea alla fine del file"
+msgstr "Aggiungi una riga vuota alla fine del file"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1138
 msgid "Make a copy with '~' suffix"
@@ -1728,7 +1729,7 @@ msgstr "Crea una copia con il suffisso '~'"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1155
 msgid "<b>File Saving</b>"
-msgstr "<b>Salvataggio Dei File</b>"
+msgstr "<b>Salvataggio dei file</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1188
 msgid "Session restore:"
@@ -1738,7 +1739,7 @@ msgstr "Ripristino della sessione:"
 msgid ""
 "When \"unsaved documents\" or \"always\" is selected, Mousepad won't ask for"
 " saving modified documents when quitting"
-msgstr "Quando \"documenti non salvati\" o \"sempre\" sono selezionati, Mousepad non chiederà di salvare i documenti modificati quando termina"
+msgstr "Quando si seleziona \"documenti non salvati\" o \"sempre\", Mousepad non chiederà di salvare i documenti modificati quando all'uscita"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1233
 msgid "Recent file menu length:"
@@ -1789,7 +1790,7 @@ msgid ""
 "The default language for new documents is set here. It can then be changed "
 "per document via the context menu, where there are also spelling correction "
 "suggestions for underlined words."
-msgstr "La lingua predefinita per un nuovo documento viene scelta qui. Può essere cambiate per singolo documento attraverso il menù contestuale, lo stesso menù con i suggerimenti di correzione per le parole evidenziate."
+msgstr "Con questa impostazione si può scegliere la lingua predefinita per un nuovo documento. Può essere cambiata per singolo documento tramite il menu contestuale, da cui è anche possibile accedere ai suggerimenti di correzione per le parole evidenziate."
 
 #. combo box label
 #: plugins/gspell-plugin/gspell-plugin.c:164
@@ -1813,7 +1814,7 @@ msgstr "Applicazione"
 #. pack frames
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:258
 msgid "Menubar"
-msgstr "Barra del menù"
+msgstr "Barra del menu"
 
 #: plugins/shortcuts-plugin/shortcuts-plugin.c:259
 msgid "Preferences Dialog"
@@ -1869,7 +1870,7 @@ msgid ""
 "Mousepad aims to be an easy-to-use and fast editor. Our target is an editor "
 "for quickly editing text files, not a development environment or an editor "
 "with a huge bunch of plugins."
-msgstr "Mousepad mira ad essere un editor facile da usare e veloce. L'obiettivo è quello di permettere di modificare rapidamente file di testo, non vuole essere un ambiente di sviluppo o un editor pieno di componenti aggiuntivi."
+msgstr "Mousepad mira ad essere un editor facile da usare e veloce. L'obiettivo è quello di consentire una rapida modifica dei file di testo, non di essere un ambiente di sviluppo o un editor pieno di componenti aggiuntivi."
 
 #: org.xfce.mousepad.appdata.xml.in:15
 msgid ""
@@ -1877,7 +1878,7 @@ msgid ""
 "means that if GTK adds something new in a major release that is useful for "
 "the editor, we will likely bump the GTK dependency and integrate this new "
 "feature in Mousepad."
-msgstr "Dall'altra parte Mousepad cerca di utilizzare le ultime funzionalità disponibili di GTK, significa però che, quando GTK aggiunge qualcosa di nuovo che può tornare utile per l'editor, Mousepad integra le nuove funzionalità utilizzando la nuova versione di GTK."
+msgstr "D'altra parte Mousepad cerca di utilizzare le ultime funzionalità disponibili in GTK. Di conseguenza, quando in un nuovo rilascio di GTK viene aggiunta una nuova caratteristica che può tornare utile per l'editor, è probabile che verrà utilizzata questa nuova versione di GTK per integrarla in Mousepad."
 
 #: org.xfce.mousepad.appdata.xml.in:36
 msgid "The Mousepad developers"
@@ -1889,8 +1890,8 @@ msgstr "Gli sviluppatori di Mousepad"
 #. to. This isn't a good idea, but is common on single user systems.
 #: org.xfce.mousepad.policy.in.in:24
 msgid "Run Mousepad as root"
-msgstr "Esegui Mousepad con i permessi di amministratore"
+msgstr "Esegui Mousepad con i permessi di root"
 
 #: org.xfce.mousepad.policy.in.in:25
 msgid "Authentication is required to run Mousepad as root."
-msgstr "È necessaria l'autenticazione per eseguire Mousepad con i permessi di amministratore."
+msgstr "È necessaria l'autenticazione per eseguire Mousepad con i permessi di root."
