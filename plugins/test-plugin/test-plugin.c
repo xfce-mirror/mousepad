@@ -315,6 +315,7 @@ test_plugin_activate_action (GActionGroup *group,
   if (!g_action_parse_detailed_name (detailed_name, &name, &parameter, &error))
     {
       LOG_WARNING (error->message);
+      g_error_free (error);
       return;
     }
 

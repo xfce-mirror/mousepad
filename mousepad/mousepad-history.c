@@ -903,7 +903,10 @@ mousepad_history_autosave_enable (void)
     }
   /* try to open the directory */
   else if ((dir = mousepad_history_autosave_open_directory ()) == NULL)
-    return FALSE;
+    {
+      g_free (dirname);
+      return FALSE;
+    }
 
   /* get current file list, store taken ids */
   for (basename = g_dir_read_name (dir); basename != NULL; basename = g_dir_read_name (dir))

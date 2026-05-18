@@ -806,6 +806,7 @@ mousepad_application_load_plugins (MousepadApplication *application)
       else
         g_warning ("Failed to open plugin directory '%s': %s",
                    MOUSEPAD_PLUGIN_DIRECTORY, error->message);
+      g_error_free (error);
 
       return;
     }
