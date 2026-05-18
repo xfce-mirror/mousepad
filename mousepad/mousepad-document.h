@@ -93,9 +93,6 @@ mousepad_document_get_basename (MousepadDocument *document);
 const gchar *
 mousepad_document_get_filename (MousepadDocument *document);
 
-gboolean
-mousepad_document_get_word_wrap (MousepadDocument *document);
-
 void
 mousepad_document_search (MousepadDocument *document,
                           const gchar *string,

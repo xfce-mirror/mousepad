@@ -43,11 +43,6 @@ typedef struct _MousepadPluginData
 MousepadPluginProvider *
 mousepad_plugin_provider_new (const gchar *name);
 
-void
-mousepad_plugin_provider_get_types (MousepadPluginProvider *plugin,
-                                    const GType **types,
-                                    gint *n_types);
-
 gboolean
 mousepad_plugin_provider_is_destroyable (MousepadPluginProvider *provider);
 

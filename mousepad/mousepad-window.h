@@ -56,9 +56,6 @@ mousepad_window_open_files (MousepadWindow *window,
                             gint column,
                             gboolean must_exist);
 
-void
-mousepad_window_show_preferences (MousepadWindow *window);
-
 GtkWidget *
 mousepad_window_get_languages_menu (MousepadWindow *window);
 

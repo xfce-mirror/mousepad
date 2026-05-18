@@ -1770,7 +1770,7 @@ mousepad_application_action_update (MousepadApplication *application,
   gchar *schema_id, *action_name;
 
   /* retrieve the action name from the setting schema id */
-  g_object_get (settings, "schema_id", &schema_id, NULL);
+  g_object_get (settings, "schema-id", &schema_id, NULL);
   action_name = g_strdup_printf ("%s.%s", schema_id + MOUSEPAD_ID_LEN + 1, key);
 
   /* request for the action state to be changed according to the setting */
