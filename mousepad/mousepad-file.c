@@ -243,11 +243,7 @@ mousepad_file_buffer_changed (MousepadFile *file)
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
-  if (file->saved_state.id != 0)
-    {
-      g_source_remove (file->saved_state.id);
-      file->saved_state.id = 0;
-    }
+  g_clear_handle_id (&file->saved_state.id, g_source_remove);
 
   if (file->saved_state.text == NULL
       || file->line_ending != file->saved_state.line_ending
@@ -380,8 +376,7 @@ mousepad_file_monitor_changed (GFileMonitor *monitor,
     {
       if (event_type != G_FILE_MONITOR_EVENT_CHANGED && file->deleted_id != 0)
         {
-          g_source_remove (file->deleted_id);
-          file->deleted_id = 0;
+          g_clear_handle_id (&file->deleted_id, g_source_remove);
           deleted_pending = TRUE;
 
           return;
@@ -415,11 +410,7 @@ mousepad_file_monitor_changed (GFileMonitor *monitor,
            || (event_type == G_FILE_MONITOR_EVENT_RENAMED
                && g_file_equal (file->monitor_location, location)))
     {
-      if (file->modified_id != 0)
-        {
-          g_source_remove (file->modified_id);
-          file->modified_id = 0;
-        }
+      g_clear_handle_id (&file->modified_id, g_source_remove);
       if (file->deleted_id != 0)
         g_source_remove (file->deleted_id);
 
@@ -441,17 +432,8 @@ mousepad_file_set_monitor (gpointer data)
   GError *error = NULL;
   gchar *path, *dir, *str;
 
-  if (file->monitor != NULL)
-    {
-      g_object_unref (file->monitor);
-      file->monitor = NULL;
-    }
-
-  if (file->monitor_location != NULL)
-    {
-      g_object_unref (file->monitor_location);
-      file->monitor_location = NULL;
-    }
+  g_clear_object (&file->monitor);
+  g_clear_object (&file->monitor_location);
 
   if (file->location != NULL && MOUSEPAD_SETTING_GET_BOOLEAN (MONITOR_CHANGES))
     {
@@ -482,8 +464,7 @@ mousepad_file_set_monitor (gpointer data)
               /* readlink() encountered a real error */
               if (!g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
                 {
-                  g_free (path);
-                  path = NULL;
+                  g_clear_pointer (&path, g_free);
                 }
 
               /* cleanup (error is reused for file monitoring below) */
@@ -554,8 +535,7 @@ mousepad_file_set_location (MousepadFile *file,
   /* reset location */
   else if (file->location != NULL && location == NULL)
     {
-      g_object_unref (file->location);
-      file->location = NULL;
+      g_clear_object (&file->location);
     }
   /* update location */
   else if (file->location != NULL && location != NULL
@@ -667,8 +647,7 @@ mousepad_file_invalidate_saved_state (MousepadFile *file)
 {
   g_return_if_fail (MOUSEPAD_IS_FILE (file));
 
-  g_free (file->saved_state.text);
-  file->saved_state.text = NULL;
+  g_clear_pointer (&file->saved_state.text, g_free);
   gtk_text_buffer_set_modified (file->buffer, TRUE);
 }
 
@@ -1100,8 +1079,7 @@ mousepad_file_open (MousepadFile *file,
       /* this is a new document with content from a template */
       else
         {
-          g_free (file->etag);
-          file->etag = NULL;
+          g_clear_pointer (&file->etag, g_free);
         }
 
 failed:
@@ -1529,8 +1507,7 @@ mousepad_file_autosave_timer_changed (MousepadFile *file)
   else if (file->autosave_location != NULL && MOUSEPAD_SETTING_GET_UINT (AUTOSAVE_TIMER) == 0)
     {
       /* reset autosave location */
-      g_object_unref (file->autosave_location);
-      file->autosave_location = NULL;
+      g_clear_object (&file->autosave_location);
 
       /* disconnect handlers */
       mousepad_disconnect_by_func (file->buffer, mousepad_file_autosave_schedule, file);

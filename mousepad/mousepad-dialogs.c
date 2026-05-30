@@ -910,8 +910,7 @@ mousepad_dialogs_combo_changed (GtkComboBox *combo,
               if (file != NULL)
                 {
                   g_file_delete (mousepad_file_get_location (file), NULL, NULL);
-                  g_object_unref (file);
-                  file = NULL;
+                  g_clear_object (&file);
                 }
             }
         }

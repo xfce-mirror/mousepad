@@ -37,12 +37,7 @@ void
 mousepad_settings_finalize (void)
 {
   g_settings_sync ();
-
-  if (settings_store != NULL)
-    {
-      g_object_unref (settings_store);
-      settings_store = NULL;
-    }
+  g_clear_object (&settings_store);
 }
 
 

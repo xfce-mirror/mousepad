@@ -360,15 +360,9 @@ mousepad_history_recent_clear (void)
 static void
 mousepad_history_session_external_disconnect (GApplication *application)
 {
-  gint n;
-
   mousepad_disconnect_by_func (application, mousepad_history_session_external_signal, NULL);
-  for (n = 0; n < SESSION_N_SIGNALS; n++)
-    if (session_source_ids[n] != 0)
-      {
-        g_source_remove (session_source_ids[n]);
-        session_source_ids[n] = 0;
-      }
+  for (gint n = 0; n < SESSION_N_SIGNALS; n++)
+    g_clear_handle_id (&session_source_ids[n], g_source_remove);
 }
 
 
