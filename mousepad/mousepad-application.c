@@ -824,8 +824,7 @@ mousepad_application_load_plugins (MousepadApplication *application)
       /* remove suffix */
       strs = g_strsplit (provider_name, ".", -1);
       n_strs = g_strv_length (strs);
-      g_free (strs[n_strs - 1]);
-      strs[n_strs - 1] = NULL;
+      g_clear_pointer (&strs[n_strs - 1], g_free);
       provider_name = g_strjoinv (".", strs);
       g_strfreev (strs);
 
