@@ -77,7 +77,7 @@ mousepad_plugin_class_init (MousepadPluginClass *klass)
                                                         "Provider",
                                                         "The plugin provider",
                                                         MOUSEPAD_TYPE_PLUGIN_PROVIDER,
-                                                        G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+                                                        G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS));
 }
 
 

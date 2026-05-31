@@ -734,7 +734,7 @@ mousepad_window_class_init (MousepadWindowClass *klass)
                                                          "SearchWidgetVisible",
                                                          "At least one search widget is visible or not",
                                                          FALSE,
-                                                         G_PARAM_READWRITE));
+                                                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 

@@ -313,7 +313,7 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
                                                         "DefaultFont",
                                                         "The default font to use in text views",
                                                         DEFAULT_FONT,
-                                                        G_PARAM_READWRITE));
+                                                        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class,
                                    PROP_SPACE_LOCATION,
                                    g_param_spec_flags ("space-location",
@@ -321,7 +321,7 @@ mousepad_application_class_init (MousepadApplicationClass *klass)
                                                        "The space location setting",
                                                        GTK_SOURCE_TYPE_SPACE_LOCATION_FLAGS,
                                                        GTK_SOURCE_SPACE_LOCATION_ALL,
-                                                       G_PARAM_READWRITE));
+                                                       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 

@@ -171,14 +171,14 @@ mousepad_view_class_init (MousepadViewClass *klass)
                                                         "Font",
                                                         "The font to use in the view",
                                                         NULL,
-                                                        G_PARAM_WRITABLE));
+                                                        G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class,
                                    PROP_SHOW_WHITESPACE,
                                    g_param_spec_boolean ("show-whitespace",
                                                          "ShowWhitespace",
                                                          "Whether whitespace is visualized in the view",
                                                          FALSE,
-                                                         G_PARAM_WRITABLE));
+                                                         G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class,
                                    PROP_SPACE_LOCATION,
                                    g_param_spec_flags ("space-location",
@@ -186,35 +186,35 @@ mousepad_view_class_init (MousepadViewClass *klass)
                                                        "The space locations to show in the view",
                                                        GTK_SOURCE_TYPE_SPACE_LOCATION_FLAGS,
                                                        GTK_SOURCE_SPACE_LOCATION_ALL,
-                                                       G_PARAM_WRITABLE));
+                                                       G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class,
                                    PROP_SHOW_LINE_ENDINGS,
                                    g_param_spec_boolean ("show-line-endings",
                                                          "ShowLineEndings",
                                                          "Whether line-endings are visualized in the view",
                                                          FALSE,
-                                                         G_PARAM_WRITABLE));
+                                                         G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class,
                                    PROP_COLOR_SCHEME,
                                    g_param_spec_string ("color-scheme",
                                                         "ColorScheme",
                                                         "The id of the syntax highlighting color scheme to use",
                                                         NULL,
-                                                        G_PARAM_WRITABLE));
+                                                        G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class,
                                    PROP_WORD_WRAP,
                                    g_param_spec_boolean ("word-wrap",
                                                          "WordWrap",
                                                          "Whether to virtually wrap long lines in the view",
                                                          FALSE,
-                                                         G_PARAM_WRITABLE));
+                                                         G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class,
                                    PROP_MATCH_BRACES,
                                    g_param_spec_boolean ("match-braces",
                                                          "MatchBraces",
                                                          "Whether to highlight matching braces, parens, brackets, etc.",
                                                          FALSE,
-                                                         G_PARAM_WRITABLE));
+                                                         G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 }
 
 
