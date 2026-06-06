@@ -968,7 +968,7 @@ mousepad_history_autosave_get_location (void)
     ;
 
   /* build location */
-  basename = g_strdup_printf (AUTOSAVE_PREFIX "%d", autosave_id - 1);
+  basename = g_strdup_printf (AUTOSAVE_PREFIX "%u", autosave_id - 1);
   filename = g_build_filename (g_get_user_data_dir (), MOUSEPAD_NAME, basename, NULL);
   location = g_file_new_for_path (filename);
   g_free (basename);
