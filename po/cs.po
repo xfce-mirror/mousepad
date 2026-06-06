@@ -6,7 +6,7 @@
 # Alois Nešpor <info@aloisnespor.info>, 2014
 # k3dar, 2022
 # Martin Šiška <martin-siska@email.cz>, 2024
-# Michal Várady <miko.vaji@gmail.com>, 2014,2018-2021,2024-2025
+# Michal Várady <miko.vaji@gmail.com>, 2014,2018-2021,2024-2026
 # Pavel Borecki <pavel.borecki@gmail.com>, 2018-2019
 # Pavel Pernička <pernicka.pa@gmail.com>, 2019
 # Stanislav Horáček <stanislav.horacek@gmail.com>, 2021
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-12-23 00:56+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Michal Várady <miko.vaji@gmail.com>, 2014,2018-2021,2024-2025\n"
+"Last-Translator: Michal Várady <miko.vaji@gmail.com>, 2014,2018-2021,2024-2026\n"
 "Language-Team: Czech (http://app.transifex.com/xfce/xfce-apps/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +52,7 @@ msgstr "ŘÁDEK"
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr "Číslo sloupce na nějž se přemístí kurzor (SLOUPEC > 0 od začátku, SLOUPEC < 0 od konce)"
+msgstr "Číslo sloupce, na který se má kurzor přesunout (SLOUPEC >= 0 od začátku, SLOUPEC < 0 od konce)"
 
 #: mousepad/mousepad-application.c:173
 msgid "COLUMN"
@@ -60,11 +60,11 @@ msgstr "SLOUPEC"
 
 #: mousepad/mousepad-application.c:177
 msgid "Open the preferences dialog"
-msgstr "Otevřít dialogové okno předvolby"
+msgstr "Otevřít dialogové okno předvoleb"
 
 #: mousepad/mousepad-application.c:181
 msgid "Do not register with the D-BUS session message bus"
-msgstr "Neregistrovat se sběrnicí zpráv relace D-BUS"
+msgstr "Neregistrovat se u sběrnice zpráv relace D-Bus"
 
 #: mousepad/mousepad-application.c:185
 msgid "Quit a running Mousepad primary instance"
@@ -72,7 +72,7 @@ msgstr "Ukončí primární instanci aplikace Mousepad"
 
 #: mousepad/mousepad-application.c:189
 msgid "Print version information and exit"
-msgstr "Vytiskne informace o verzi a ukončí se"
+msgstr "Vypsat informace o verzi a skončit"
 
 #: mousepad/mousepad-application.c:193
 msgid "[FILES...]"
@@ -622,7 +622,7 @@ msgstr "_Hledaný výraz:"
 
 #: mousepad/mousepad-replace-dialog.c:323
 msgid "Replace _with:"
-msgstr "Nahra_dit pomocí:"
+msgstr "Nahra_dit za:"
 
 #: mousepad/mousepad-replace-dialog.c:345
 msgid "Search _direction:"
@@ -920,7 +920,7 @@ msgstr "_Hledat"
 
 #: mousepad/resources/gtk/menus.ui:140
 msgid "Search menu"
-msgstr "Nabídka hledat"
+msgstr "Nabídka Hledat"
 
 #: mousepad/resources/gtk/menus.ui:147
 msgid "Find _Next"
@@ -960,7 +960,7 @@ msgstr "_Zobrazit"
 
 #: mousepad/resources/gtk/menus.ui:184
 msgid "View menu"
-msgstr "Nabídka zobrazit"
+msgstr "Nabídka Zobrazení"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
@@ -1010,7 +1010,7 @@ msgstr "_Panel nástrojů"
 
 #: mousepad/resources/gtk/menus.ui:222
 msgid "Change the visibility of the toolbar"
-msgstr "Změnit viditelnost stavového řádku"
+msgstr "Změnit viditelnost panelu nástrojů"
 
 #: mousepad/resources/gtk/menus.ui:226
 msgid "St_atusbar"
@@ -1026,7 +1026,7 @@ msgstr "_Dokument"
 
 #: mousepad/resources/gtk/menus.ui:241
 msgid "Document menu"
-msgstr "Nabídka dokument"
+msgstr "Nabídka Dokument"
 
 #: mousepad/resources/gtk/menus.ui:245
 msgid "_Word Wrap"
@@ -1471,11 +1471,11 @@ msgstr "Sníží odsazení výběru nebo aktuálního řádku"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:13
 msgid "Insert Tabs"
-msgstr "Vložit tabulátory"
+msgstr "Vkládat tabulátory"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:16
 msgid "Insert Spaces"
-msgstr "Vložit mezery"
+msgstr "Vkládat mezery"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:39
 msgid "Never"
@@ -1570,15 +1570,15 @@ msgstr "Text vedle ikon"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:258
 msgid "Display whitespace"
-msgstr "Zobrazit prázdné znaky"
+msgstr "Zobrazit bílé znaky"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:272
 msgid "Display line endings"
-msgstr "Zobrazit ukončení řádku"
+msgstr "Zobrazit konce řádků"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:290
 msgid "Long line margin at column:"
-msgstr "Zalmit dlouhé řádky na sloupci:"
+msgstr "Okraj dlouhého řádku ve sloupci:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:341
 msgid "Highlight current line"
@@ -1586,7 +1586,7 @@ msgstr "Zvýraznit aktuální řádek"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:355
 msgid "Highlight matching brackets"
-msgstr "Zvýraznit závorky na shodné úrovni"
+msgstr "Zvýraznit odpovídající závorky"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:369
 msgid "Wrap long lines"
@@ -1594,15 +1594,15 @@ msgstr "Zalamovat dlouhé řádky"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:386
 msgid "<b>Display</b>"
-msgstr "<b>Displej</b>"
+msgstr "<b>Zobrazení</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:414
 msgid "Use system monospace font"
-msgstr "Použít pevnou šířku fontu dle systému"
+msgstr "Použít systémové písmo s pevnou šířkou"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:442
 msgid "<b>Font</b>"
-msgstr "<b>Font</b>"
+msgstr "<b>Písmo</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:489
 msgid "<b>Color Scheme</b>"
@@ -1610,7 +1610,7 @@ msgstr "<b>Barevné schéma</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:505
 msgid "View"
-msgstr "Pohled"
+msgstr "Zobrazení"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:537
 msgid "Tab width:"
@@ -1630,19 +1630,19 @@ msgstr "<b>Odsazování</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:634
 msgid "Tab: Indent selection (Shift+Tab: Unindent)"
-msgstr "Tab: Odsadí výběr (Shift+Tab: Předsadí)"
+msgstr "Tab: odsadit výběr (Shift+Tab: zmenšit odsazení)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:637
 msgid "Indent/unindent the currently selected text or the current line"
-msgstr "Odsadí/Předsadí aktuálně vybraný text nebo aktuální řádek"
+msgstr "Odsadí nebo zmenší odsazení aktuálně vybraného textu nebo aktuálního řádku"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:656
 msgid "Backspace: Delete indent spaces as tabs"
-msgstr "Backspace: Smaže odsazené mezery, např. tabulátory"
+msgstr "Backspace: mazat odsazovací mezery jako tabulátory"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:671
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr "Home/End: Rozpozná úvodní a koncové mezery:"
+msgstr "Home/End: Rozpoznávat počáteční a koncové bílé znaky:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:713
 msgid "<b>Smart Keys</b>"
@@ -1691,7 +1691,7 @@ msgstr "Styl:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:906
 msgid "Icon Size:"
-msgstr "Velikost písma:"
+msgstr "Velikost ikon:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:955
 msgid "<b>Toolbar</b>"
@@ -1703,19 +1703,19 @@ msgstr "Vždy zobrazovat karty i při jednom souboru"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:996
 msgid "Expand tabs to fill available space"
-msgstr "Rozšířit karty a vyplnit tak dostupné místo"
+msgstr "Roztáhnout karty tak, aby vyplnily dostupné místo"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1010
 msgid "Cycled notebook tab switching"
-msgstr "Přepínat karty poznámkového bloku dokola"
+msgstr "Cyklické přepínání karet"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1030
 msgid "Open files in:"
-msgstr "Otevřít soubory v:"
+msgstr "Otevírat soubory v:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1074
 msgid "<b>Notebook Tabs</b>"
-msgstr "<b>Karty poznámkového bloku</b>"
+msgstr "<b>Karty dokumentů</b>"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1093
 msgid "Window"
@@ -1745,11 +1745,11 @@ msgstr "Pokud je vybráno \"neuložené dokumenty\" nebo \"vždy\", Mousepad se 
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1233
 msgid "Recent file menu length:"
-msgstr "Počet nedávných souborů:"
+msgstr "Počet nedávných souborů v nabídce:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1245
 msgid "'0' disables and wipes recent history"
-msgstr "'0' zakáže a vymaže historii nedávných"
+msgstr "Hodnota „0“ zakáže a vymaže historii nedávných souborů"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1260
 msgid "Search history size:"
@@ -1765,7 +1765,7 @@ msgstr "Sledovat změny souborů"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1351
 msgid "Automatic reloading"
-msgstr "Automaticky znovu načíst"
+msgstr "Automatické opětovné načítání"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1378
 msgid "Default encoding:"
@@ -1781,7 +1781,7 @@ msgstr "Soubor"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1463
 msgid "Plugins"
-msgstr "Pluginy"
+msgstr "Zásuvné moduly"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Spell Checking"
@@ -1853,7 +1853,7 @@ msgstr "Textový editor"
 
 #: org.xfce.mousepad.desktop.in:15
 msgid "Edit;Text;Simple;XFCE;Lightweight;Fast;"
-msgstr "editace;editor;upravit;úpravy;text;jednoduchý;snadný;XFCE;odlehčený;rychlý"
+msgstr "editace;editor;upravit;úpravy;text;jednoduchý;snadný;Xfce;odlehčený;rychlý;"
 
 #: org.xfce.mousepad-settings.desktop.in:4
 msgid "Text Editor Settings"
