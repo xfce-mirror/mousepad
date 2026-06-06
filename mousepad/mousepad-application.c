@@ -1152,7 +1152,7 @@ mousepad_application_open (GApplication *gapplication,
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GtkWidget *window;
-  gint n, opened = 0;
+  gint n, opened;
 
   /* open the files in tabs */
   if (application->opening_mode != WINDOW)
