@@ -65,7 +65,6 @@ struct _MousepadPrint
 
   /* print dialog widgets */
   GtkWidget *widget_page_headers;
-  GtkWidget *widget_page_footers;
   GtkWidget *widget_line_numbers;
   GtkWidget *widget_text_wrapping;
   GtkWidget *widget_syntax_highlighting;
