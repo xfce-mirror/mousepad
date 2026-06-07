@@ -28,7 +28,7 @@ msgstr ""
 msgid ""
 "Encoding to be used to open files (leave empty to open files in the encoding"
 " dialog)"
-msgstr "Kódování použité při otevírání souborů (pro otevření souborů v dialogovém okně kódování ponechte prázdné)"
+msgstr "Použije zadané kódování pro otevírání souborů (ponecháte-li prázdné, otevře se dialogové okno kódování)"
 
 #: mousepad/mousepad-application.c:159
 msgid "ENCODING"
@@ -42,7 +42,7 @@ msgstr "Zobrazí seznam možných kódování pro otevírání souborů"
 msgid ""
 "Line number the cursor to position to (LINE > 0 from top, LINE < 0 from "
 "bottom)"
-msgstr "Číslo řádku na nějž se přemístí kurzor (ŘÁDEK > 0 shora, ŘÁDEK < 0 zdola)"
+msgstr "Přesune kurzor na zadané číslo řádku (ŘÁDEK > 0 shora, ŘÁDEK < 0 zdola)"
 
 #: mousepad/mousepad-application.c:168
 msgid "LINE"
@@ -52,7 +52,7 @@ msgstr "ŘÁDEK"
 msgid ""
 "Column number the cursor to position to (COLUMN >= 0 from start, COLUMN < 0 "
 "from end)"
-msgstr "Číslo sloupce, na který se má kurzor přesunout (SLOUPEC >= 0 od začátku, SLOUPEC < 0 od konce)"
+msgstr "Přesune kurzor na zadané číslo sloupce (SLOUPEC >= 0 od začátku, SLOUPEC < 0 od konce)"
 
 #: mousepad/mousepad-application.c:173
 msgid "COLUMN"
@@ -60,11 +60,11 @@ msgstr "SLOUPEC"
 
 #: mousepad/mousepad-application.c:177
 msgid "Open the preferences dialog"
-msgstr "Otevřít dialogové okno předvoleb"
+msgstr "Otevře dialogové okno předvoleb"
 
 #: mousepad/mousepad-application.c:181
 msgid "Do not register with the D-BUS session message bus"
-msgstr "Neregistrovat se u sběrnice zpráv relace D-Bus"
+msgstr "Neregistruje se u sběrnice zpráv relace D-Bus"
 
 #: mousepad/mousepad-application.c:185
 msgid "Quit a running Mousepad primary instance"
@@ -72,7 +72,7 @@ msgstr "Ukončí primární instanci aplikace Mousepad"
 
 #: mousepad/mousepad-application.c:189
 msgid "Print version information and exit"
-msgstr "Vypsat informace o verzi a skončit"
+msgstr "Vypíše informace o verzi a ukončí se"
 
 #: mousepad/mousepad-application.c:193
 msgid "[FILES...]"
@@ -86,7 +86,7 @@ msgstr "[SOUBORY...]"
 #: mousepad/mousepad-application.c:407
 #, c-format
 msgid "File opening mode: \"%s\", \"%s\" or \"%s\" (open tabs in a new window)"
-msgstr "Režim otevírání souboru: \"%s\", \"%s\" nebo \"%s\" (otevře karty v novém okně)"
+msgstr "Nastaví režim otevírání souborů: \"%s\", \"%s\" nebo \"%s\" (karty v novém okně)"
 
 #: mousepad/mousepad-application.c:410
 msgid "MODE"
@@ -832,7 +832,7 @@ msgstr "_Soubor"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
-msgstr "Nabídka soubor"
+msgstr "Nabídka Soubor"
 
 #: mousepad/resources/gtk/menus.ui:27
 msgid "New _Window"
@@ -904,7 +904,7 @@ msgstr "Ú_pravy"
 
 #: mousepad/resources/gtk/menus.ui:112
 msgid "Edit menu"
-msgstr "Nabídka úpravy"
+msgstr "Nabídka Úpravy"
 
 #: mousepad/resources/gtk/menus.ui:130
 msgid "Preferences..."
@@ -1158,7 +1158,7 @@ msgstr "_Nápověda"
 
 #: mousepad/resources/gtk/menus.ui:368
 msgid "Help menu"
-msgstr "Nabídka nápověda"
+msgstr "Nabídka Nápověda"
 
 #: mousepad/resources/gtk/menus.ui:370
 msgid "_Contents"
