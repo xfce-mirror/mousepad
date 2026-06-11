@@ -84,7 +84,7 @@ static guint session_source_ids[SESSION_N_SIGNALS] = { 0 };
 /* autosave data */
 #define AUTOSAVE_PREFIX "autosave-"
 #define AUTOSAVE_PREFIX_LEN G_N_ELEMENTS (AUTOSAVE_PREFIX) - 1
-#define AUTOSAVE_ORPHANS "Some '%s*' files in directory '%s/Mousepad' do not correspond to " \
+#define AUTOSAVE_ORPHANS "'%s*' files for ids %s in directory '%s/Mousepad' do not correspond to " \
                          "any session backup anymore. They will not be deleted automatically: " \
                          "please do it manually to remove this warning."
 
@@ -575,7 +575,15 @@ mousepad_history_session_restore (MousepadApplication *application)
 
       /* warn if there are orphans in Mousepad data dir */
       if (autosave_ids != NULL)
-        g_warning (AUTOSAVE_ORPHANS, AUTOSAVE_PREFIX, g_get_user_data_dir ());
+        {
+          GString *string = g_string_new (NULL);
+          g_string_append_printf (string, "%u", GPOINTER_TO_UINT (autosave_ids->data));
+          for (GList *lp = autosave_ids->next; lp != NULL; lp = lp->next)
+            g_string_append_printf (string, ", %u", GPOINTER_TO_UINT (lp->data));
+
+          g_warning (AUTOSAVE_ORPHANS, AUTOSAVE_PREFIX, string->str, g_get_user_data_dir ());
+          g_string_free (string, TRUE);
+        }
 
       return FALSE;
     }
@@ -756,8 +764,14 @@ mousepad_history_session_restore (MousepadApplication *application)
   /* warn if there are orphans in Mousepad data dir */
   if (remaining_ids != NULL)
     {
-      g_warning (AUTOSAVE_ORPHANS, AUTOSAVE_PREFIX, g_get_user_data_dir ());
+      GString *string = g_string_new (NULL);
+      g_string_append_printf (string, "%u", GPOINTER_TO_UINT (remaining_ids->data));
+      for (GList *lp = remaining_ids->next; lp != NULL; lp = lp->next)
+        g_string_append_printf (string, ", %u", GPOINTER_TO_UINT (lp->data));
+
+      g_warning (AUTOSAVE_ORPHANS, AUTOSAVE_PREFIX, string->str, g_get_user_data_dir ());
       g_list_free (remaining_ids);
+      g_string_free (string, TRUE);
     }
 
   /* cleanup */
