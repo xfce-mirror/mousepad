@@ -8,3 +8,4 @@ knownConditionTrueFalse:mousepad/mousepad-file.c:448
 knownConditionTrueFalse:mousepad/mousepad-dialogs.c:982
 deallocuse:mousepad/mousepad-document.c:820
 deallocuse:mousepad/mousepad-document.c:824
+clarifyCondition:mousepad/mousepad-dialogs.c:763
