@@ -9,3 +9,4 @@ knownConditionTrueFalse:mousepad/mousepad-dialogs.c:982
 deallocuse:mousepad/mousepad-document.c:820
 deallocuse:mousepad/mousepad-document.c:824
 clarifyCondition:mousepad/mousepad-dialogs.c:763
+leakNoVarFunctionCall:mousepad/mousepad-window.c:4525
