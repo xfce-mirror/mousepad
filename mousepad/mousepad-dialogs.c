@@ -706,7 +706,6 @@ mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
   GSList *files;
   gchar *label = NULL;
   gint row_type, row = 1;
-  gboolean replace = FALSE;
 
   /* do nothing if no file or several files are selected */
   files = gtk_file_chooser_get_files (chooser);
@@ -750,6 +749,8 @@ mousepad_dialogs_open_selection_changed (GtkFileChooser *chooser,
       /* not in the list, add it */
       else
         {
+          gboolean replace = FALSE;
+
           /* insert after all predefined encodings */
           do
             {

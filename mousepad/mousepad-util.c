@@ -769,7 +769,7 @@ mousepad_util_style_schemes_name_compare (gconstpointer a,
   if (G_UNLIKELY (a == NULL))
     return -(a != b);
   if (G_UNLIKELY (b == NULL))
-    return a != b;
+    return 1;
 
   name_a = gtk_source_style_scheme_get_name (GTK_SOURCE_STYLE_SCHEME (a));
   name_b = gtk_source_style_scheme_get_name (GTK_SOURCE_STYLE_SCHEME (b));
@@ -865,7 +865,7 @@ mousepad_util_languages_name_compare (gconstpointer a,
   if (G_UNLIKELY (a == NULL))
     return -(a != b);
   if (G_UNLIKELY (b == NULL))
-    return a != b;
+    return 1;
 
   name_a = gtk_source_language_get_name (GTK_SOURCE_LANGUAGE (a));
   name_b = gtk_source_language_get_name (GTK_SOURCE_LANGUAGE (b));

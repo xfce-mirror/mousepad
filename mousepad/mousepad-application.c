@@ -1152,7 +1152,7 @@ mousepad_application_open (GApplication *gapplication,
 {
   MousepadApplication *application = MOUSEPAD_APPLICATION (gapplication);
   GtkWidget *window;
-  gint n, opened = 0;
+  gint n, opened;
 
   /* open the files in tabs */
   if (application->opening_mode != WINDOW)
@@ -1612,8 +1612,7 @@ mousepad_application_prefs_dialog_response (MousepadApplication *application,
                                             gint response_id,
                                             MousepadPrefsDialog *dialog)
 {
-  gtk_widget_destroy (application->prefs_dialog);
-  application->prefs_dialog = NULL;
+  g_clear_pointer (&application->prefs_dialog, gtk_widget_destroy);
 
   /* decrease application use count, if needed */
   mousepad_application_prefs_dialog_standalone (application);
