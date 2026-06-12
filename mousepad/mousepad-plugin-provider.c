@@ -152,8 +152,7 @@ mousepad_plugin_provider_unload (GTypeModule *type_module)
   MousepadPluginProvider *provider = MOUSEPAD_PLUGIN_PROVIDER (type_module);
 
   /* destroy the plugin */
-  g_list_free_full (provider->instances, g_object_unref);
-  provider->instances = NULL;
+  g_clear_list (&provider->instances, g_object_unref);
   if (provider->setting_box != NULL)
     gtk_widget_destroy (provider->setting_box);
 

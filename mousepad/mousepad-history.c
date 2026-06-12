@@ -880,8 +880,7 @@ static void
 mousepad_history_autosave_disable (void)
 {
   /* reset autosave ids */
-  g_list_free (autosave_ids);
-  autosave_ids = NULL;
+  g_clear_list (&autosave_ids, NULL);
 
   /* clear the directory */
   mousepad_history_autosave_cleanup_directory (NULL);
@@ -963,8 +962,7 @@ mousepad_history_autosave_init (void)
 static void
 mousepad_history_autosave_finalize (void)
 {
-  g_list_free (autosave_ids);
-  autosave_ids = NULL;
+  g_clear_list (&autosave_ids, NULL);
 }
 
 
