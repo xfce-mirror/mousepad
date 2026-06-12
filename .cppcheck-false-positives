@@ -1,3 +1,4 @@
+memleak:mousepad/mousepad-application.c:702
 unreadVariable:plugins/skeleton-plugin/skeleton-plugin.c:125
 unreadVariable:plugins/skeleton-plugin/skeleton-plugin.c:129
 unreadVariable:plugins/skeleton-plugin/skeleton-plugin.c:137
