@@ -52,7 +52,7 @@ typedef enum
 } MousepadSearchFlags;
 
 GType
-mousepad_document_search_flags_get_type (void) G_GNUC_CONST;
+mousepad_document_search_flags_get_type (void);
 
 struct _MousepadDocument
 {
