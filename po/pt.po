@@ -6,7 +6,7 @@
 # Alexandre Fidalgo <alexandremagnos15@gmail.com>, 2014
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2019-2025
 # José Vieira <jvieira33@sapo.pt>, 2019-2021
-# Nuno Miguel <nunomgue@gmail.com>, 2013,2018-2019
+# Nuno Miguel <nunomgue@gmail.com>, 2013,2018-2019,2026
 # Sérgio Marques <smarquespt@gmail.com>, 2012
 msgid ""
 msgstr ""
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-12-23 00:56+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2019-2025\n"
+"Last-Translator: Nuno Miguel <nunomgue@gmail.com>, 2013,2018-2019,2026\n"
 "Language-Team: Portuguese (http://app.transifex.com/xfce/xfce-apps/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -824,7 +824,7 @@ msgstr "Ocorreu um erro ao imprimir o documento"
 
 #: mousepad/resources/gtk/menus.ui:19
 msgid "_File"
-msgstr "Fich_eiro"
+msgstr "_Ficheiro"
 
 #: mousepad/resources/gtk/menus.ui:20
 msgid "File menu"
