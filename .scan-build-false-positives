@@ -1,0 +1,3 @@
+# it thinks not all files are initialized in mousepad_window_drag_data_received()
+# but 'n_files == g_slist_length (list)' so 'lp == NULL' iff 'n == n_files'
+mousepad-window.c:[0-9]+:[0-9]+: warning: 2nd function call argument is an uninitialized value \[core.CallAndMessage\]
