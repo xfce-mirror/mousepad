@@ -1250,7 +1250,7 @@ msgstr "Copiar a seleção"
 
 #: mousepad/resources/gtk/menus-common.ui:137
 msgid "_Paste"
-msgstr "Colar"
+msgstr "C_olar"
 
 #: mousepad/resources/gtk/menus-common.ui:138
 msgid "Paste the clipboard"
