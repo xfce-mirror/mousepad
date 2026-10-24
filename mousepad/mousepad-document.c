@@ -881,10 +881,18 @@ mousepad_document_search (MousepadDocument *document,
         search_settings, gtk_source_search_settings_get_at_word_boundaries (search_settings_doc));
       gtk_source_search_settings_set_regex_enabled (
         search_settings, gtk_source_search_settings_get_regex_enabled (search_settings_doc));
+
+      /* disable highlight in the main search context, it doesn't makes sense here */
+      gtk_source_search_context_set_highlight (document->priv->search_context, FALSE);
     }
   /* search in the whole document */
   else
-    search_context = document->priv->search_context;
+    {
+      search_context = document->priv->search_context;
+
+      /* restore highlight state in the main search context, if previously disabled above */
+      gtk_source_search_context_set_highlight (search_context, MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_HIGHLIGHT_ALL));
+    }
 
   /* set the string to search for */
   search_settings = gtk_source_search_context_get_settings (search_context);
