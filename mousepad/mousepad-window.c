@@ -1436,8 +1436,7 @@ mousepad_window_configure_event (GtkWidget *widget,
       if (!g_source_is_destroyed (source))
         g_source_destroy (source);
 
-      g_source_unref (source);
-      source = NULL;
+      g_clear_pointer (&source, g_source_unref);
     }
 
   /* real event */
@@ -5687,7 +5686,6 @@ mousepad_window_action_replace (GSimpleAction *action,
                                 gpointer data)
 {
   MousepadWindow *window = data;
-  gchar *selection;
 
   g_return_if_fail (MOUSEPAD_IS_WINDOW (window));
   g_return_if_fail (MOUSEPAD_IS_DOCUMENT (window->active));
@@ -5718,18 +5716,22 @@ mousepad_window_action_replace (GSimpleAction *action,
       gtk_window_present (GTK_WINDOW (window->replace_dialog));
     }
 
-  /* set the search entry text */
-  selection = mousepad_util_get_selection (window->active->buffer);
-  if (selection != NULL)
+  /* do not clear current selection if search-in-selection is enabled */
+  if (!MOUSEPAD_SETTING_GET_BOOLEAN (SEARCH_REPLACE_ALL)
+      || MOUSEPAD_SETTING_GET_UINT (SEARCH_REPLACE_ALL_LOCATION) != 0)
     {
-      /* start the search after the currently selected text */
-      GtkTextIter iter;
-      gtk_text_buffer_get_selection_bounds (window->active->buffer, NULL, &iter);
-      gtk_text_buffer_place_cursor (window->active->buffer, &iter);
+      gchar *selection = mousepad_util_get_selection (window->active->buffer);
+      if (selection != NULL)
+        {
+          /* start the search after the currently selected text */
+          GtkTextIter iter;
+          gtk_text_buffer_get_selection_bounds (window->active->buffer, NULL, &iter);
+          gtk_text_buffer_place_cursor (window->active->buffer, &iter);
 
-      mousepad_replace_dialog_set_text (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog),
-                                        selection);
-      g_free (selection);
+          /* set the search entry text */
+          mousepad_replace_dialog_set_text (MOUSEPAD_REPLACE_DIALOG (window->replace_dialog), selection);
+          g_free (selection);
+        }
     }
 }
 
