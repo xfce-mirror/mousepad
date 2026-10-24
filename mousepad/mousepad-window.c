@@ -1436,8 +1436,7 @@ mousepad_window_configure_event (GtkWidget *widget,
       if (!g_source_is_destroyed (source))
         g_source_destroy (source);
 
-      g_source_unref (source);
-      source = NULL;
+      g_clear_pointer (&source, g_source_unref);
     }
 
   /* real event */

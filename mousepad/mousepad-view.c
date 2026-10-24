@@ -264,12 +264,7 @@ mousepad_view_use_default_font (MousepadView *view)
   /* default font is not used: unbind from application property, bind to GSettings */
   else
     {
-      if (view->font_binding != NULL)
-        {
-          g_binding_unbind (view->font_binding);
-          view->font_binding = NULL;
-        }
-
+      g_clear_pointer (&view->font_binding, g_binding_unbind);
       MOUSEPAD_SETTING_BIND (FONT, view, "font", G_SETTINGS_BIND_GET);
     }
 }
