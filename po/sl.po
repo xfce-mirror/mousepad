@@ -73,7 +73,7 @@ msgstr "Izpiši informacije o različici in končaj"
 
 #: mousepad/mousepad-application.c:193
 msgid "[FILES...]"
-msgstr "[DATOTEKE...]"
+msgstr "[DATOTEKE ...]"
 
 #. this option is added separately using g_strdup_printf() for the
 #. description, to be sure
@@ -349,7 +349,7 @@ msgstr "Drugo:"
 
 #: mousepad/mousepad-encoding-dialog.c:193
 msgid "Checking encodings..."
-msgstr "Preverjanje kodiranja..."
+msgstr "Preverjanje kodiranja ..."
 
 #: mousepad/mousepad-encoding-dialog.c:297
 #, c-format
@@ -762,11 +762,11 @@ msgstr "Manjka mapa Predloge\n'%s'"
 #: mousepad/mousepad-window.c:3698
 #, c-format
 msgid "Ot_her (%d)..."
-msgstr "Os_talo (%d)..."
+msgstr "Os_talo (%d) ..."
 
 #: mousepad/mousepad-window.c:3708
 msgid "Ot_her..."
-msgstr "Os_talo..."
+msgstr "Os_talo ..."
 
 #: mousepad/mousepad-window.c:3807
 msgid "Revert to the saved version of the file"
@@ -873,7 +873,7 @@ msgstr "Shrani vse dokumente v tem oknu"
 
 #: mousepad/resources/gtk/menus.ui:79
 msgid "_Print..."
-msgstr "_Natisni..."
+msgstr "_Natisni ..."
 
 #: mousepad/resources/gtk/menus.ui:80
 msgid "Print the current document"
@@ -921,7 +921,7 @@ msgstr "Iskalni meni"
 
 #: mousepad/resources/gtk/menus.ui:147
 msgid "Find _Next"
-msgstr "Najdi _naslednje"
+msgstr "Najdi n_aslednje"
 
 #: mousepad/resources/gtk/menus.ui:148
 msgid "Search forwards for the same text"
@@ -929,7 +929,7 @@ msgstr "Išči naprej enako besedilo"
 
 #: mousepad/resources/gtk/menus.ui:152
 msgid "Find _Previous"
-msgstr "Najdi _prejšnje"
+msgstr "Najdi p_rejšnje"
 
 #: mousepad/resources/gtk/menus.ui:153
 msgid "Search backwards for the same text"
@@ -961,7 +961,7 @@ msgstr "Prikazni meni"
 
 #: mousepad/resources/gtk/menus.ui:187
 msgid "Select F_ont..."
-msgstr "Izberi _pisavo..."
+msgstr "Izberi _pisavo ..."
 
 #: mousepad/resources/gtk/menus.ui:188
 msgid "Change the editor font"
@@ -1183,7 +1183,7 @@ msgstr "Ustvari nov dokument"
 
 #: mousepad/resources/gtk/menus-common.ui:45
 msgid "_Open..."
-msgstr "_Odpri..."
+msgstr "_Odpri ..."
 
 #: mousepad/resources/gtk/menus-common.ui:46
 msgid "Open a file"
@@ -1195,7 +1195,7 @@ msgstr "Shrani trenuten dokument"
 
 #: mousepad/resources/gtk/menus-common.ui:63
 msgid "Save _As..."
-msgstr "Shrani _kot..."
+msgstr "S_hrani kot ..."
 
 #: mousepad/resources/gtk/menus-common.ui:64
 msgid "Save current document as another file"
@@ -1271,7 +1271,7 @@ msgstr "Išči besedilo"
 
 #: mousepad/resources/gtk/menus-common.ui:166
 msgid "Find and Rep_lace..."
-msgstr "Poišči in _zamenjaj..."
+msgstr "Poišči in _zamenjaj ..."
 
 #: mousepad/resources/gtk/menus-common.ui:167
 msgid "Search for and replace text"
@@ -1279,7 +1279,7 @@ msgstr "Poišči in zamenjaj besedilo"
 
 #: mousepad/resources/gtk/menus-common.ui:175
 msgid "_Go to..."
-msgstr "_Pojdi na..."
+msgstr "_Pojdi na ..."
 
 #: mousepad/resources/gtk/menus-common.ui:176
 msgid "Go to a specific location in the document"
@@ -1850,7 +1850,7 @@ msgstr "Urejevalnik besedila"
 
 #: org.xfce.mousepad.desktop.in:15
 msgid "Edit;Text;Simple;XFCE;Lightweight;Fast;"
-msgstr ""
+msgstr "Uredi;Urejanje;Besedilo;Beležnica;Tekst;Preprosto;Enostavno;XFCE;Lahko;Hitro;Edit;Text;"
 
 #: org.xfce.mousepad-settings.desktop.in:4
 msgid "Text Editor Settings"
@@ -1862,7 +1862,7 @@ msgstr "Nastavitve urejevalnika besedil Mousepad"
 
 #: org.xfce.mousepad-settings.desktop.in:11
 msgid "Text;Editor;Mousepad;Preferences;Settings;Configure;"
-msgstr ""
+msgstr "Besedilo;Urejevalnik;Mousepad;Prilagoditve;Nastavitve;Koniguriraj;"
 
 #: org.xfce.mousepad.appdata.xml.in:11
 msgid ""
