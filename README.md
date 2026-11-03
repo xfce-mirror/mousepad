@@ -21,21 +21,9 @@ and integrate this new feature in Mousepad.
 
 See [NEWS](https://gitlab.xfce.org/apps/mousepad/-/blob/master/NEWS) for details on changes and fixes made in the current release.
 
+### Required Packages
 
-### Required Packages 
-
-Mousepad depends on the following packages:
-
-* [GLib](https://wiki.gnome.org/Projects/GLib) >= 2.52.0
-* [GTK](https://www.gtk.org) >= 3.22.0
-* [GtkSourceView](https://wiki.gnome.org/Projects/GtkSourceView) >= 3.24.0 or >= 4.0.0
-
-### Plugins
-
-Mousepad optionally depends on the following packages:
-
-* [gspell](https://wiki.gnome.org/Projects/gspell) >= 1.6.0
-* [libxfce4ui](https://gitlab.xfce.org/xfce/libxfce4ui) >= 4.17.5
+See [meson.build](https://gitlab.xfce.org/apps/mousepad/-/blob/master/meson.build) for the list of required and optional dependencies and their minimum versions.
 
 ### Source Code Repository
 
@@ -49,8 +37,9 @@ Mousepad optionally depends on the following packages:
 
 ### Installation
 
-From source code repository: 
+From source code repository:
 
+    % git clone https://gitlab.xfce.org/apps/mousepad.git
     % cd mousepad
     % meson setup build
     % meson compile -C build
@@ -64,7 +53,7 @@ From release tarball:
     % meson compile -C build
     % meson install -C build
 
-From [Flathub](https://flathub.org/apps/details/org.xfce.mousepad):
+From [Flathub](https://flathub.org/apps/org.xfce.mousepad):
 
     % flatpak install flathub org.xfce.mousepad
 
@@ -77,4 +66,3 @@ From source code repository and release tarball:
 ### Reporting Bugs
 
 Visit the [reporting bugs](https://docs.xfce.org/apps/mousepad/bugs) page to view currently open bug reports and instructions on reporting new bugs or submitting bugfixes.
-
