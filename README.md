@@ -25,17 +25,17 @@ See [NEWS](https://gitlab.xfce.org/apps/mousepad/-/blob/master/NEWS) for details
 
 Mousepad depends on the following packages:
 
-* [GLib](https://gitlab.gnome.org/GNOME/glib) >= 2.52.0 (including GIO and GModule)
-* [GTK](https://www.gtk.org) >= 3.22.0
-* [GtkSourceView](https://gitlab.gnome.org/GNOME/gtksourceview) >= 3.24.0 or >= 4.0.0
-* [polkit](https://gitlab.freedesktop.org/polkit/polkit)
+* [GLib](https://gitlab.gnome.org/GNOME/glib) >= 2.90.0 (including GIO and GModule)
+* [GTK](https://www.gtk.org) >= 3.24.52
+* [GtkSourceView](https://gitlab.gnome.org/GNOME/gtksourceview) >= 3.24.0 or >= 4.8.4
+* [polkit](https://gitlab.freedesktop.org/polkit/polkit) >= 127
 
 ### Plugins
 
 Mousepad optionally depends on the following packages:
 
-* [gspell](https://gitlab.gnome.org/GNOME/gspell) >= 1.6.0
-* [libxfce4ui](https://gitlab.xfce.org/xfce/libxfce4ui) >= 4.17.5
+* [gspell](https://gitlab.gnome.org/GNOME/gspell) >= 1.14.3
+* [libxfce4ui](https://gitlab.xfce.org/xfce/libxfce4ui) >= 4.20.2
 
 ### Build Requirements
 
