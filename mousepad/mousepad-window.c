@@ -2020,15 +2020,30 @@ mousepad_window_file_is_open (MousepadWindow *window,
           /* see if the file is already open */
           MousepadDocument *document = MOUSEPAD_DOCUMENT (gtk_notebook_get_nth_page (notebook, i));
           GFile *open_file = mousepad_file_get_location (document->file);
-          if (open_file != NULL && g_file_equal (file, open_file))
+          if (open_file != NULL)
             {
-              if (focus_tab)
+              gboolean equal = g_file_equal (file, open_file);
+              if (!equal
+                  && g_file_peek_path (file) != NULL
+                  && g_file_peek_path (open_file) != NULL)
                 {
-                  gtk_notebook_set_current_page (notebook, i);
-                  gtk_window_present (li->data);
+                  gchar *path = realpath (g_file_peek_path (file), NULL);
+                  gchar *open_path = realpath (g_file_peek_path (open_file), NULL);
+                  equal = path != NULL && open_path != NULL && g_strcmp0 (path, open_path) == 0;
+                  g_free (path);
+                  g_free (open_path);
                 }
 
-              return TRUE;
+              if (equal)
+                {
+                  if (focus_tab)
+                    {
+                      gtk_notebook_set_current_page (notebook, i);
+                      gtk_window_present (li->data);
+                    }
+
+                  return TRUE;
+                }
             }
         }
     }
