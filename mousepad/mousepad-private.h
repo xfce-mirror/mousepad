@@ -147,6 +147,10 @@ mousepad_disconnect_by_func_ (gpointer instance,
 #define mousepad_disconnect_by_func(instance, callback, data) \
   mousepad_disconnect_by_func_ (instance, G_CALLBACK (callback), data)
 
+#ifndef HAVE_REALPATH
+#define realpath(path, resolved_path) NULL
+#endif
+
 G_END_DECLS
 
 #endif /* !__MOUSEPAD_PRIVATE_H__ */
