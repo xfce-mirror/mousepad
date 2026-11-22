@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the xfce-apps.mousepad package.
 # 
 # Translators:
-# Pjotr <pjotrvertaalt@gmail.com>, 2014,2018-2025
+# Pjotr <pjotrvertaalt@gmail.com>, 2014,2018-2026
 # Pjotr <pjotrvertaalt@gmail.com>, 2013
 msgid ""
 msgstr ""
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-12-23 00:56+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Pjotr <pjotrvertaalt@gmail.com>, 2014,2018-2025\n"
+"Last-Translator: Pjotr <pjotrvertaalt@gmail.com>, 2014,2018-2026\n"
 "Language-Team: Dutch (http://app.transifex.com/xfce/xfce-apps/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +63,7 @@ msgstr "Registreer niet bij de D-BUS session message bus"
 
 #: mousepad/mousepad-application.c:185
 msgid "Quit a running Mousepad primary instance"
-msgstr "Sluit een draaiende primaire instantie van Mousepad af"
+msgstr "Sluit een draaiend primair exemplaar van Mousepad af"
 
 #: mousepad/mousepad-application.c:189
 msgid "Print version information and exit"
@@ -1650,7 +1650,7 @@ msgstr "Decoraties bij de cliënt (herstart vereist)"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:777
 msgid "Show full filename in title bar"
-msgstr "Toon volledige bestandnaam in titelbalk"
+msgstr "Toon volledige bestandsnaam in titelbalk"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:791
 msgid "Show application name in title bar"
