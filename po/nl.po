@@ -589,12 +589,12 @@ msgstr "Regelnummers:"
 
 #: mousepad/mousepad-replace-dialog.c:169
 msgid "_Replace All"
-msgstr "Vervang alles"
+msgstr "_Vervang alles"
 
 #: mousepad/mousepad-replace-dialog.c:169
 #: mousepad/mousepad-replace-dialog.c:267
 msgid "_Replace"
-msgstr "Vervangen"
+msgstr "_Vervangen"
 
 #. set dialog properties
 #: mousepad/mousepad-replace-dialog.c:256
@@ -613,11 +613,11 @@ msgstr "_Sluiten"
 
 #: mousepad/mousepad-replace-dialog.c:289
 msgid "_Search for:"
-msgstr "_Zoek naar:"
+msgstr "Zoek _naar:"
 
 #: mousepad/mousepad-replace-dialog.c:323
 msgid "Replace _with:"
-msgstr "Vervang door:"
+msgstr "Vervang _door:"
 
 #: mousepad/mousepad-replace-dialog.c:345
 msgid "Search _direction:"
@@ -800,7 +800,7 @@ msgstr "Sjablonen moeten geldige %s zijn"
 #. set error message
 #: mousepad/mousepad-window.c:4472
 msgid "Reading the template failed"
-msgstr "Het lezen van de sjabloon is mislukt"
+msgstr "Lezen van de sjabloon is mislukt"
 
 #. set error message
 #: mousepad/mousepad-window.c:4477
@@ -1121,7 +1121,7 @@ msgstr "Sla de markering voor byte-volgorde op in het bestand"
 
 #: mousepad/resources/gtk/menus.ui:343
 msgid "_Viewer Mode"
-msgstr "Weergavemodus"
+msgstr "_Weergavemodus"
 
 #: mousepad/resources/gtk/menus.ui:344
 msgid "Disallow modifications via keyboard / mouse"
@@ -1133,7 +1133,7 @@ msgstr "_Vorig tabblad"
 
 #: mousepad/resources/gtk/menus.ui:351
 msgid "Select the previous tab"
-msgstr "Selecteer de vorige tab"
+msgstr "Kies het vorige tabblad"
 
 #: mousepad/resources/gtk/menus.ui:356
 msgid "_Next Tab"
@@ -1141,7 +1141,7 @@ msgstr "Volge_nd tabblad"
 
 #: mousepad/resources/gtk/menus.ui:357
 msgid "Select the next tab"
-msgstr "Selecteer de volgende tab"
+msgstr "Kies het volgende tabblad"
 
 #: mousepad/resources/gtk/menus.ui:367
 msgid "_Help"
@@ -1205,7 +1205,7 @@ msgstr "Verplaats het huidige document naar een nieuw venster"
 
 #: mousepad/resources/gtk/menus-common.ui:90
 msgid "Close _Tab"
-msgstr "Sluit tabblad"
+msgstr "_Sluit tabblad"
 
 #: mousepad/resources/gtk/menus-common.ui:91
 msgid "Close the current document"
@@ -1257,7 +1257,7 @@ msgstr "Kies _alle"
 
 #: mousepad/resources/gtk/menus-common.ui:147
 msgid "Select the text in the entire document"
-msgstr "Selecteer alle tekst in het document"
+msgstr "Kies alle tekst in het document"
 
 #: mousepad/resources/gtk/menus-common.ui:158
 msgid "Search for text"
@@ -1273,7 +1273,7 @@ msgstr "Zoek naar tekst en vervang die"
 
 #: mousepad/resources/gtk/menus-common.ui:175
 msgid "_Go to..."
-msgstr "Ga naar..."
+msgstr "_Ga naar..."
 
 #: mousepad/resources/gtk/menus-common.ui:176
 msgid "Go to a specific location in the document"
@@ -1285,7 +1285,7 @@ msgstr "Scherm_vullend"
 
 #: mousepad/resources/gtk/menus-common.ui:235
 msgid "Paste _Special"
-msgstr "Plakken speciaal"
+msgstr "Plakken _speciaal"
 
 #: mousepad/resources/gtk/menus-common.ui:236
 msgid "Paste the clipboard in a special way"
@@ -1353,7 +1353,7 @@ msgstr "Naar titelgrootte"
 
 #: mousepad/resources/gtk/menus-common.ui:278
 msgid "Change the case of the selection to title case"
-msgstr "Zet de geselecteerde tekst op titelformaat"
+msgstr "Zet de gekozen tekst op titelformaat"
 
 #: mousepad/resources/gtk/menus-common.ui:282
 msgid "To _Opposite Case"
@@ -1361,7 +1361,7 @@ msgstr "Naar tegenovergestelde grootte"
 
 #: mousepad/resources/gtk/menus-common.ui:283
 msgid "Change the case of the selection opposite case"
-msgstr "Zet de geselecteerde tekst om in tegengestelde grootte"
+msgstr "Zet de gekozen tekst om in tegenovergestelde grootte"
 
 #: mousepad/resources/gtk/menus-common.ui:289
 msgid "_Tabs to Spaces"
@@ -1537,7 +1537,7 @@ msgstr "Knop"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:180
 msgid "Drag & Drop"
-msgstr "Sleuren & Neergooien"
+msgstr "Slepen en neerzetten"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:184
 msgid "Dialog"
@@ -1654,7 +1654,7 @@ msgstr "Toon volledige bestandsnaam in titelbalk"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:791
 msgid "Show application name in title bar"
-msgstr "Naam van toepassing tonen in titelbalk"
+msgstr "Toon naam van toepassing in titelbalk"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:805
 msgid "Remember window size"
@@ -1698,7 +1698,7 @@ msgstr "Vergroot tabbladen om de beschikbare ruimte te vullen"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1010
 msgid "Cycled notebook tab switching"
-msgstr "Cyclische afwisseling van notitieboektabs"
+msgstr "Cyclisch schuiven door tabbladen van notitieboek"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:1030
 msgid "Open files in:"
@@ -1776,7 +1776,7 @@ msgstr "Invoegsels"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:46
 msgid "Spell Checking"
-msgstr "Spellingscontrole"
+msgstr "Spellingcontrole"
 
 #: plugins/gspell-plugin/mousepad-plugin-gspell.c:47
 msgid ""
