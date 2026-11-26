@@ -13,7 +13,7 @@
 # Igor <f2404@yandex.ru>, 2018-2020
 # ivmazurenko <ivmazurenko@yandex.ru>, 2021
 # ivmazurenko <ivmazurenko@yandex.ru>, 2021
-# Olesya Gerasimenko <gammaray@basealt.ru>, 2022
+# Olesya Gerasimenko <gammaray@basealt.ru>, 2022,2026
 # Olesya Gerasimenko <translation-team@basealt.ru>, 2021
 # Sergey Alyoshin <alyoshin.s@gmail.com>, 2014,2020
 # Sergey Fedoseev <fedoseev.sergey@gmail.com>, 2006
@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.xfce.org/\n"
 "POT-Creation-Date: 2025-12-23 00:56+0100\n"
 "PO-Revision-Date: 2013-07-03 18:24+0000\n"
-"Last-Translator: Andrei Stepanov, 2022-2023,2026\n"
+"Last-Translator: Olesya Gerasimenko <gammaray@basealt.ru>, 2022,2026\n"
 "Language-Team: Russian (http://app.transifex.com/xfce/xfce-apps/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1578,7 +1578,7 @@ msgstr "Текст за значками"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:258
 msgid "Display whitespace"
-msgstr "Показывать непечатаемые символы"
+msgstr "Показывать пробельные символы"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:272
 msgid "Display line endings"
@@ -1650,7 +1650,7 @@ msgstr "Backspace: удалять пробелы отступа как табу�
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:671
 msgid "Home/End: Detect leading/trailing whitespace:"
-msgstr "Home/End: выявить начальные/конечные непечатаемые символы:"
+msgstr "Home/End: учитывать начальные/конечные пробельные символы:"
 
 #: mousepad/resources/ui/mousepad-prefs-dialog.ui:713
 msgid "<b>Smart Keys</b>"
